@@ -78,11 +78,8 @@
             this.Label3 = new System.Windows.Forms.Label();
             this.txtTempFolder = new System.Windows.Forms.TextBox();
             this.cmdAuto = new System.Windows.Forms.Button();
-            this.cmdBrowseOutputFolder = new System.Windows.Forms.Button();
             this.cmdBrowseTemp = new System.Windows.Forms.Button();
-            this.txtOutputFolder = new System.Windows.Forms.TextBox();
             this.Label6 = new System.Windows.Forms.Label();
-            this.Label2 = new System.Windows.Forms.Label();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartHeight)).BeginInit();
@@ -143,7 +140,7 @@
             this.GroupBox2.Controls.Add(this.chkClearTempWorkspace);
             this.GroupBox2.Controls.Add(this.cboRBTMode);
             this.GroupBox2.Controls.Add(this.Label7);
-            this.GroupBox2.Location = new System.Drawing.Point(3, 159);
+            this.GroupBox2.Location = new System.Drawing.Point(3, 125);
             this.GroupBox2.Name = "GroupBox2";
             this.GroupBox2.Size = new System.Drawing.Size(826, 373);
             this.GroupBox2.TabIndex = 2;
@@ -702,21 +699,18 @@
             this.GroupBox1.Controls.Add(this.Label3);
             this.GroupBox1.Controls.Add(this.txtTempFolder);
             this.GroupBox1.Controls.Add(this.cmdAuto);
-            this.GroupBox1.Controls.Add(this.cmdBrowseOutputFolder);
             this.GroupBox1.Controls.Add(this.cmdBrowseTemp);
-            this.GroupBox1.Controls.Add(this.txtOutputFolder);
             this.GroupBox1.Controls.Add(this.Label6);
-            this.GroupBox1.Controls.Add(this.Label2);
             this.GroupBox1.Location = new System.Drawing.Point(3, 3);
             this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(826, 149);
+            this.GroupBox1.Size = new System.Drawing.Size(826, 116);
             this.GroupBox1.TabIndex = 3;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "RBT Outputs";
             // 
             // txtLog
             // 
-            this.txtLog.Location = new System.Drawing.Point(129, 117);
+            this.txtLog.Location = new System.Drawing.Point(129, 84);
             this.txtLog.Name = "txtLog";
             this.txtLog.Size = new System.Drawing.Size(253, 20);
             this.txtLog.TabIndex = 10;
@@ -724,7 +718,7 @@
             // 
             // txtResults
             // 
-            this.txtResults.Location = new System.Drawing.Point(129, 85);
+            this.txtResults.Location = new System.Drawing.Point(129, 52);
             this.txtResults.Name = "txtResults";
             this.txtResults.Size = new System.Drawing.Size(253, 20);
             this.txtResults.TabIndex = 8;
@@ -733,7 +727,7 @@
             // Label4
             // 
             this.Label4.AutoSize = true;
-            this.Label4.Location = new System.Drawing.Point(78, 89);
+            this.Label4.Location = new System.Drawing.Point(78, 56);
             this.Label4.Name = "Label4";
             this.Label4.Size = new System.Drawing.Size(45, 13);
             this.Label4.TabIndex = 7;
@@ -742,7 +736,7 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(95, 121);
+            this.Label3.Location = new System.Drawing.Point(95, 88);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(28, 13);
             this.Label3.TabIndex = 9;
@@ -752,16 +746,15 @@
             // 
             this.txtTempFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTempFolder.Location = new System.Drawing.Point(129, 53);
+            this.txtTempFolder.Location = new System.Drawing.Point(129, 20);
             this.txtTempFolder.Name = "txtTempFolder";
             this.txtTempFolder.Size = new System.Drawing.Size(520, 20);
             this.txtTempFolder.TabIndex = 4;
-            this.txtTempFolder.Text = "D:\\CHaMP\\RBTTempFolder";
             // 
             // cmdAuto
             // 
             this.cmdAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAuto.Location = new System.Drawing.Point(655, 52);
+            this.cmdAuto.Location = new System.Drawing.Point(655, 19);
             this.cmdAuto.Name = "cmdAuto";
             this.cmdAuto.Size = new System.Drawing.Size(75, 23);
             this.cmdAuto.TabIndex = 5;
@@ -769,21 +762,10 @@
             this.cmdAuto.UseVisualStyleBackColor = true;
             this.cmdAuto.Click += new System.EventHandler(this.cmdAuto_Click);
             // 
-            // cmdBrowseOutputFolder
-            // 
-            this.cmdBrowseOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseOutputFolder.Location = new System.Drawing.Point(736, 20);
-            this.cmdBrowseOutputFolder.Name = "cmdBrowseOutputFolder";
-            this.cmdBrowseOutputFolder.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseOutputFolder.TabIndex = 2;
-            this.cmdBrowseOutputFolder.Text = "Browse";
-            this.cmdBrowseOutputFolder.UseVisualStyleBackColor = true;
-            this.cmdBrowseOutputFolder.Click += new System.EventHandler(this.cmdBrowseOutputFolder_Click);
-            // 
             // cmdBrowseTemp
             // 
             this.cmdBrowseTemp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseTemp.Location = new System.Drawing.Point(736, 52);
+            this.cmdBrowseTemp.Location = new System.Drawing.Point(736, 19);
             this.cmdBrowseTemp.Name = "cmdBrowseTemp";
             this.cmdBrowseTemp.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseTemp.TabIndex = 6;
@@ -791,32 +773,14 @@
             this.cmdBrowseTemp.UseVisualStyleBackColor = true;
             this.cmdBrowseTemp.Click += new System.EventHandler(this.cmdBrowseTemp_Click);
             // 
-            // txtOutputFolder
-            // 
-            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutputFolder.Location = new System.Drawing.Point(129, 21);
-            this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(601, 20);
-            this.txtOutputFolder.TabIndex = 1;
-            // 
             // Label6
             // 
             this.Label6.AutoSize = true;
-            this.Label6.Location = new System.Drawing.Point(57, 57);
+            this.Label6.Location = new System.Drawing.Point(57, 24);
             this.Label6.Name = "Label6";
             this.Label6.Size = new System.Drawing.Size(66, 13);
             this.Label6.TabIndex = 3;
             this.Label6.Text = "Temp folder:";
-            // 
-            // Label2
-            // 
-            this.Label2.AutoSize = true;
-            this.Label2.Location = new System.Drawing.Point(43, 25);
-            this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(80, 13);
-            this.Label2.TabIndex = 0;
-            this.Label2.Text = "Main out folder:";
             // 
             // RBTConfiguration
             // 
@@ -825,7 +789,7 @@
             this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.GroupBox2);
             this.Name = "RBTConfiguration";
-            this.Size = new System.Drawing.Size(835, 547);
+            this.Size = new System.Drawing.Size(835, 505);
             this.Load += new System.EventHandler(this.RBTConfiguration_Load);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
@@ -900,10 +864,7 @@
         internal System.Windows.Forms.Label Label3;
         internal System.Windows.Forms.TextBox txtTempFolder;
         internal System.Windows.Forms.Button cmdAuto;
-        internal System.Windows.Forms.Button cmdBrowseOutputFolder;
         internal System.Windows.Forms.Button cmdBrowseTemp;
-        internal System.Windows.Forms.TextBox txtOutputFolder;
         internal System.Windows.Forms.Label Label6;
-        internal System.Windows.Forms.Label Label2;
     }
 }

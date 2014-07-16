@@ -37,9 +37,37 @@ namespace CHaMPWorkbench.Classes
                 return m_sFolder; // System.IO.Path.Combine(m_sHitch, "topo");
             }
         }
+
+        public Boolean Primary
+        {
+            get { return m_bPrimary; }
+        }
+
+        public Boolean CalculateMetrics
+        {
+            get { return m_bCalculateMetrics; }
+            set { m_bCalculateMetrics = value; }
+        }
+
+        public Boolean ChangeDetection
+        {
+            get { return m_bChangeDetection; }
+            set { m_bChangeDetection = value; }
+        }
+
+        public Boolean MakeDEMsOrthogonal
+        {
+            get { return m_bMakeDEMsOrthogonal; }
+            set { m_bMakeDEMsOrthogonal = value; }
+        }
+
+        public override string ToString()
+        {
+            return FieldSeason.ToString() + " - " + m_sHitch + (m_bPrimary ? " - Primary" : "");
+        }
         
         public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary)
-            : base(nID, nFieldSeason.ToString() + " - " + sHitch + (bPrimary ? " - Primary" : ""))
+            : base(nID, sHitch)
         {
             m_sHitch = sHitch;
             m_sCrew = sCrew;
@@ -70,7 +98,7 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public void WriteToXML(ref XmlTextWriter xmlFile)
+        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder)
         {
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
@@ -78,14 +106,14 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteAttributeString("makedemorthogonal", m_bMakeDEMsOrthogonal.ToString());
             xmlFile.WriteAttributeString("primary", m_bPrimary.ToString());
 
-            xmlFile.WriteElementString("name", ToString());
+            xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
-            xmlFile.WriteElementString("filegdb", m_sFileGDB);
+            xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
 
             xmlFile.WriteElementString("dem", "DEM");
 
-            xmlFile.WriteElementString("topo_tin", ".//" + m_sTopoTIN);
-            xmlFile.WriteElementString("ws_tin", ".//" + m_sWSTIN);
+            xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
+            xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
             
             xmlFile.WriteElementString("topo_points", "Topo_Points");
             xmlFile.WriteElementString("control_points", "Control_Points");

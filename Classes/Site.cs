@@ -34,7 +34,7 @@ namespace CHaMPWorkbench.Classes
             m_dVisits.Add(aVisit.ID, aVisit);
         }
 
-        public void WriteToXML(XmlTextWriter xmlFile)
+        public void WriteToXML(XmlTextWriter xmlFile, String sSourceFolder)
         {
             xmlFile.WriteStartElement("site");
             xmlFile.WriteElementString("name", this.ToString());
@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("sitegdb", "");
 
             foreach (Visit aVisit in m_dVisits.Values)
-                aVisit.WriteToXML(ref xmlFile);
+                aVisit.WriteToXML(ref xmlFile, sSourceFolder);
 
             xmlFile.WriteEndElement(); // site
         }

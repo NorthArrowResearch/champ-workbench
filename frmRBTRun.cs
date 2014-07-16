@@ -22,13 +22,6 @@ namespace CHaMPWorkbench
 
         private void frmRBTRun_Load(object sender, EventArgs e)
         {
-            // Load the field seasons
-            for (int i = 2011; i <= DateTime.Now.Year; i++)
-            {
-                cboFieldSeason.Items.Add(new ListItem(i.ToString(), i));
-            }
-            cboFieldSeason.SelectedIndex = cboFieldSeason.Items.Count - 2;
-
             // Load the watersheds
             using (OleDbCommand dbCom = new OleDbCommand("SELECT WatershedID, WatershedName, FolderName FROM CHaMP_Watersheds ORDER BY WatershedName", m_dbCon))
             {
@@ -48,6 +41,8 @@ namespace CHaMPWorkbench
 
             if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder))
                 txtOutputFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder;
+
+            ucConfig.ManualInitialization();
 
         }
 
@@ -123,7 +118,7 @@ namespace CHaMPWorkbench
                     // Only add visit if the file GDB and TINs are defined in the DB
                     if (!System.Convert.IsDBNull(dbRead["SurveyGDB"]) && !System.Convert.IsDBNull(dbRead["TopoTIN"]) && !System.Convert.IsDBNull(dbRead["WSTIN"]))
                     {
-                        String sSiteFolder = System.IO.Path.Combine(txtSourceFolder.Text, cboFieldSeason.Text);
+                        String sSiteFolder = System.IO.Path.Combine(txtSourceFolder.Text, ((int) dbRead["VisitYear"]).ToString());
                         sSiteFolder  = System.IO.Path.Combine(sSiteFolder , ((Classes.Watershed)cboWatershed.SelectedItem).Folder);
                         sSiteFolder  = System.IO.Path.Combine(sSiteFolder , ((Classes.Site)cboSite.SelectedItem).Folder);
                         String sVisitFolder = System.IO.Path.Combine(sSiteFolder , (String)dbRead["Folder"]);
@@ -161,6 +156,33 @@ namespace CHaMPWorkbench
             }
         }
 
+        private String SourceDataFolder()
+        {
+            String sFolder =txtSourceFolder.Text;
+            if (cboVisit.SelectedItem is Classes.Visit)
+            {
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Visit)cboVisit.SelectedItem).FieldSeason.ToString());
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Watershed)cboWatershed.SelectedItem).Folder);
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Site)cboSite.SelectedItem).Folder);
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Visit)cboVisit.SelectedItem).Folder);
+            }
+
+            return sFolder;
+        }
+
+        private String OutputDataFolder()
+        {
+            String sFolder = txtOutputFolder.Text;
+            if (cboVisit.SelectedItem is Classes.Visit)
+            {
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Visit)cboVisit.SelectedItem).FieldSeason.ToString());
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Watershed)cboWatershed.SelectedItem).Folder);
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Site)cboSite.SelectedItem).Folder);
+                sFolder = System.IO.Path.Combine(sFolder, ((Classes.Visit)cboVisit.SelectedItem).Folder);
+            }
+            return sFolder;
+        }
+
         private void CreateFile()
         {
 
@@ -168,14 +190,20 @@ namespace CHaMPWorkbench
                 return;
 
             Classes.Site aSite = (Classes.Site) cboSite.SelectedItem;
-            aSite.AddVisit((Classes.Visit)cboVisit.SelectedItem);
 
-            if (chkAddAllVisits.Checked)
+            Classes.Visit theMainVisit = (Classes.Visit)cboVisit.SelectedItem;
+            theMainVisit.CalculateMetrics = chkCalculateMetrics.Checked;
+            theMainVisit.ChangeDetection = chkChangeDetection.Checked;
+            theMainVisit.MakeDEMsOrthogonal = chkOrthogonal.Checked;
+            aSite.AddVisit(theMainVisit);
+
+            if (!rdoSelectedOnly.Checked)
             {
                 foreach(Classes.Visit aVisit in cboVisit.Items)
                 {
-                    if (aVisit.ID != ((Classes.Visit)cboVisit.SelectedItem).ID)
-                        aSite.AddVisit(aVisit);
+                    if (rdoAll.Checked || aVisit.Primary)
+                        if (aVisit.ID != ((Classes.Visit)cboVisit.SelectedItem).ID)
+                            aSite.AddVisit(aVisit);
                 }
             }
 
@@ -196,10 +224,10 @@ namespace CHaMPWorkbench
                 xmlInput.WriteEndElement();
                 // metadata
 
-                aSite.WriteToXML(xmlInput);
+                aSite.WriteToXML(xmlInput, SourceDataFolder());
 
                 Classes.Outputs anOutput = new Classes.Outputs();
-                anOutput.OutputFolder = ucConfig.txtOutputFolder.Text;
+                anOutput.OutputFolder =OutputDataFolder();
                 System.IO.Directory.CreateDirectory(anOutput.OutputFolder);
                 anOutput.TempFolder = ucConfig.txtTempFolder.Text;
                 anOutput.ResultFile = ucConfig.txtResults.Text;

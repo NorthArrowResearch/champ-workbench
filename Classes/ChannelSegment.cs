@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.Classes
                 System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    ChannelUnit ch = new ChannelUnit((int) dbRead["ID"], (String) dbRead["Tier1"], (String) dbRead["Tier1"], (String) dbRead["Tier2"]);
+                    ChannelUnit ch = new ChannelUnit((int) dbRead["ID"], (int) dbRead["ChannelUnitNumber"], (String) dbRead["Tier1"], (String) dbRead["Tier1"], (String) dbRead["Tier2"]);
                     m_dChannelUnits.Add(ch.ID,ch);
                 }
             }

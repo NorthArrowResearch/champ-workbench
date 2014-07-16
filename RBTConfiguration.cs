@@ -16,19 +16,23 @@ namespace CHaMPWorkbench
             InitializeComponent();
         }
 
-        private void ManualInitialization()
+        public void ManualInitialization()
         {
             tTip.SetToolTip(txtTempFolder, "The RBT temporary workspace folder");
             tTip.SetToolTip(cmdBrowseTemp, "Sets the RBT temporary workspace folder to the system temp folder as specified by the TEMP environment variable.");
-            tTip.SetToolTip(cmdBrowseOutputFolder, "Opens a window to browse and set the RBT temporary workspace folder");
+            /*
+             * tTip.SetToolTip(cmdBrowseOutputFolder, "Opens a window to browse and set the RBT temporary workspace folder");
             tTip.SetToolTip(txtOutputFolder, "The output folder that will be used for the results, log and artifacts.");
             tTip.SetToolTip(cmdBrowseOutputFolder, "Opens a window to browse and set the output folder that will be used for results, log and artifacts folder.");
+            */
             tTip.SetToolTip(txtResults, "The name of the RBT results XML file");
             tTip.SetToolTip(txtLog, "The name of the RBT log XML file");
 
+            /*
             string sDefault = CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder;
             if (!String.IsNullOrWhiteSpace(sDefault) && System.IO.Directory.Exists(sDefault))
                 txtOutputFolder.Text = sDefault;
+            */
 
             txtResults.Text = CHaMPWorkbench.Properties.Settings.Default.LastResultsFile;
             txtLog.Text = CHaMPWorkbench.Properties.Settings.Default.LastLogfile;
@@ -53,6 +57,10 @@ namespace CHaMPWorkbench
             cboLicense.Items.Add(new ListItem("Engine", 10));
             cboLicense.Items.Add(new ListItem("Engine Geodatabase", 20));
             cboLicense.SelectedIndex = 2;
+
+            String sTemp = "C:\\CHaMP\\RBTTempFolder";
+            if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
+                txtTempFolder.Text = sTemp;
 
         }
 
@@ -96,6 +104,7 @@ namespace CHaMPWorkbench
                 }
             }
 
+            /*
             if (string.IsNullOrEmpty(txtOutputFolder.Text))
             {
                 MessageBox.Show("The output folder cannot be blank", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -113,6 +122,7 @@ namespace CHaMPWorkbench
                     return false;
                 }
             }
+             */
 
             if (string.IsNullOrEmpty(txtResults.Text))
             {
