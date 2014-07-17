@@ -20,7 +20,15 @@ namespace CHaMPWorkbench.Classes
             m_nChannelUnitNumber = nChannelUnitNumber;
         }
 
-         public void WriteToXML(ref XmlTextWriter xFile)
+        public ChannelUnit(RBTWorkbenchDataSet.CHAMP_ChannelUnitsRow rUnit)
+            : base(rUnit.ID, rUnit.Tier1 + " - " + rUnit.Tier2)
+        {
+            m_sTier1 = rUnit.Tier1;
+            m_sTier2 = rUnit.Tier2;
+            m_nChannelUnitNumber = rUnit.ChannelUnitNumber;
+        }
+
+        public void WriteToXML(ref XmlTextWriter xFile)
         {
             xFile.WriteStartElement("unit");
             xFile.WriteElementString("id", ID.ToString());

@@ -106,5 +106,27 @@ namespace CHaMPWorkbench.Properties {
                 this["LastSourceFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\CHaMP\\RBTWorkbench.mdb")]
+        public string RBTWorkbenchConnectionString {
+            get {
+                return ((string)(this["RBTWorkbenchConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Sublime Text 2\\sublime_text.exe")]
+        public string TextEditor {
+            get {
+                return ((string)(this["TextEditor"]));
+            }
+            set {
+                this["TextEditor"] = value;
+            }
+        }
     }
 }

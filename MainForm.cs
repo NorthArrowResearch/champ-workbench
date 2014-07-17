@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CHaMPWorkbench.RBTInputFile;
 
 namespace CHaMPWorkbench
 {
@@ -63,12 +64,20 @@ namespace CHaMPWorkbench
             GC.Collect();
         }
 
-        private void createInputFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void individualFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (m_dbCon != null)
             {
-                frmRBTRun frm = new frmRBTRun(m_dbCon);
+                frmRBTInputSingle frm = new frmRBTInputSingle(m_dbCon);
+                frm.ShowDialog();
+            }
+        }
+
+        private void batchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_dbCon != null)
+            {
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon);
                 frm.ShowDialog();
             }
         }

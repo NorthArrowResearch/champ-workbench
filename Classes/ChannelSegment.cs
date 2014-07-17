@@ -26,16 +26,11 @@ namespace CHaMPWorkbench.Classes
             m_dChannelUnits = new Dictionary<int,ChannelUnit>();
         }
 
-        public ChannelSegment(int nID, String sName , int nNumber, System.Data.OleDb.OleDbConnection dbCon) : this(nID, sName, nNumber)
+        public ChannelSegment(RBTWorkbenchDataSet.CHaMP_SegmentsRow rSegment) : this(rSegment.SegmentID, rSegment.SegmentName, rSegment.SegmentNumber)
         {
-            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT ID, ChannelUnitNumber, Tier1, Tier2 FROM CHAMP_ChannelUnits WHERE SegmentID = " + ID.ToString(), dbCon))
+            foreach (RBTWorkbenchDataSet.CHAMP_ChannelUnitsRow rUnit in rSegment.GetCHAMP_ChannelUnitsRows())
             {
-                System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                {
-                    ChannelUnit ch = new ChannelUnit((int) dbRead["ID"], (int) dbRead["ChannelUnitNumber"], (String) dbRead["Tier1"], (String) dbRead["Tier1"], (String) dbRead["Tier2"]);
-                    m_dChannelUnits.Add(ch.ID,ch);
-                }
+                m_dChannelUnits.Add(rUnit.ID, new ChannelUnit(rUnit));
             }
         }
 

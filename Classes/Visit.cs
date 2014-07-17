@@ -65,7 +65,7 @@ namespace CHaMPWorkbench.Classes
         {
             return FieldSeason.ToString() + " - " + m_sHitch + (m_bPrimary ? " - Primary" : "");
         }
-        
+
         public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary)
             : base(nID, sHitch)
         {
@@ -84,17 +84,35 @@ namespace CHaMPWorkbench.Classes
             m_bChangeDetection = false;
         }
 
-        public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary, System.Data.OleDb.OleDbConnection dbCon)
-            : this(nID, sFolder, sHitch, sCrew, nFieldSeason, sFileGDB, sTopoTIN, sWSTIN, bPrimary)
+        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal)
+            : base(rVisit.VisitID, rVisit.HitchName)
         {
-            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT SegmentID, SegmentNumber, SegmentName FROM CHAMP_Segments WHERE VisitID = " + ID.ToString(), dbCon))
+            if (!rVisit.IsHitchNameNull())
+                m_sHitch = rVisit.HitchName;
+
+            if (!rVisit.IsCrewNameNull())
+                m_sCrew = rVisit.CrewName;
+
+            if (!rVisit.IsSurveyGDBNull())
+                m_sFileGDB = rVisit.SurveyGDB;
+
+            if (!rVisit.IsTopoTINNull())
+                m_sTopoTIN = rVisit.TopoTIN;
+
+            if (!rVisit.IsWSTINNull())
+                m_sWSTIN = rVisit.WSTIN;
+
+            if (!rVisit.IsFolderNull())
+                m_sFolder = rVisit.Folder;
+
+            m_bCalculateMetrics = bCalculateMetrics;
+            m_bMakeDEMsOrthogonal = bDEMOrthogonal;
+            m_bChangeDetection = bChangeDetection;
+            m_dChannelSegments = new Dictionary<int, ChannelSegment>();
+        
+            foreach (RBTWorkbenchDataSet.CHaMP_SegmentsRow rSegment in rVisit.GetCHaMP_SegmentsRows())
             {
-                System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                {
-                    ChannelSegment sg = new ChannelSegment((int)dbRead["SegmentID"], (String)dbRead["SegmentName"], (int)dbRead["SegmentNumber"], dbCon);
-                    m_dChannelSegments.Add(sg.ID, sg);
-                }
+                m_dChannelSegments.Add(rSegment.SegmentID, new ChannelSegment(rSegment));
             }
         }
 
@@ -114,7 +132,7 @@ namespace CHaMPWorkbench.Classes
 
             xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
             xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
-            
+
             xmlFile.WriteElementString("topo_points", "Topo_Points");
             xmlFile.WriteElementString("control_points", "Control_Points");
             xmlFile.WriteElementString("thalweg", "Thalweg");

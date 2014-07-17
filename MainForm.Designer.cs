@@ -35,6 +35,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createInputFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.individualFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.batchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,15 +86,31 @@
             this.rBTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createInputFileToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
-            this.rBTToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.rBTToolStripMenuItem.Text = "RBT";
+            this.rBTToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.rBTToolStripMenuItem.Text = "Tools";
             // 
             // createInputFileToolStripMenuItem
             // 
+            this.createInputFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.individualFileToolStripMenuItem,
+            this.batchToolStripMenuItem});
             this.createInputFileToolStripMenuItem.Name = "createInputFileToolStripMenuItem";
-            this.createInputFileToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.createInputFileToolStripMenuItem.Text = "Create Input File";
-            this.createInputFileToolStripMenuItem.Click += new System.EventHandler(this.createInputFileToolStripMenuItem_Click);
+            this.createInputFileToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.createInputFileToolStripMenuItem.Text = "Create RBT Input XML File";
+            // 
+            // individualFileToolStripMenuItem
+            // 
+            this.individualFileToolStripMenuItem.Name = "individualFileToolStripMenuItem";
+            this.individualFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.individualFileToolStripMenuItem.Text = "Single";
+            this.individualFileToolStripMenuItem.Click += new System.EventHandler(this.individualFileToolStripMenuItem_Click);
+            // 
+            // batchToolStripMenuItem
+            // 
+            this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
+            this.batchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.batchToolStripMenuItem.Text = "Batch";
+            this.batchToolStripMenuItem.Click += new System.EventHandler(this.batchToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -119,6 +137,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rBTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createInputFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem individualFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem batchToolStripMenuItem;
     }
 }
 

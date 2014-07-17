@@ -61,12 +61,10 @@ namespace CHaMPWorkbench
             String sTemp = "C:\\CHaMP\\RBTTempFolder";
             if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
                 txtTempFolder.Text = sTemp;
-
         }
 
         public bool ValidateForm(string sStreamName, string sUTMZone, string sWatershed)
         {
-
             // If Not cboRBTMode.SelectedItem Is Nothing Then
             if (((ListItem)cboRBTMode.SelectedItem).Value == 30)
             {
@@ -187,7 +185,6 @@ namespace CHaMPWorkbench
             }
 
             return true;
-
         }
 
         private void cmdBrowseOutputFolder_Click(object sender, EventArgs e)
@@ -206,10 +203,44 @@ namespace CHaMPWorkbench
         {
 
         }
-
-        private void RBTConfiguration_Load(object sender, EventArgs e)
+        
+        public Classes.Config GetRBTConfig()
         {
-            ManualInitialization();
+            Classes.Config aConfig = new Classes.Config();
+            aConfig.Mode = ((ListItem)cboRBTMode.SelectedItem).Value;
+            aConfig.ESRIProduct = ((ListItem)cboESRIProduct.SelectedItem).Value;
+            aConfig.ArcGISLicense = ((ListItem)cboLicense.SelectedItem).Value;
+            aConfig.PrecisionFormatString = txtPrecisionFormatString.Text;
+            aConfig.ChartHeight = Convert.ToInt32(valChartHeight.Value);
+            aConfig.ChartWidth = Convert.ToInt32(valChartWidth.Value);
+            aConfig.ClearTempWorkspaceAfter = chkClearTempWorkspace.Checked;
+            aConfig.RequireOrthogDEMs = chkRequireOrthogonalRasters.Checked;
+            aConfig.PreserveArtifcats = chkPreserveArtifacts.Checked;
+            aConfig.CreateZip = chkZipChangeDetection.Checked;
+            aConfig.CellSize = (double) valCellSize.Value;
+            aConfig.Precision = Convert.ToInt32(valRasterPrecision.Value);
+            aConfig.RasterBuffer = Convert.ToInt32(valRasterBuffer.Value);
+            aConfig.CrossSectionSpacing = (double) valXSSpacing.Value;
+            aConfig.MaxRiverWidth = Convert.ToInt32(valMaxRiverWidth.Value);
+            aConfig.CrossSectionFiltering = Convert.ToInt32(valXSStdDevFiltering.Value);
+            aConfig.MinBarArea = Convert.ToInt32(valMinBarArea.Value);
+            aConfig.ThalwegPoolWeight = Convert.ToInt32(valThalwegPoolWeight.Value);
+            aConfig.ThalwegSmoothWeight = Convert.ToInt32(valThalwegSmoothingTolerance.Value);
+            aConfig.ErrorRasterKernal = Convert.ToInt32(valErrorKernel.Value);
+            aConfig.BankAngleBuffer = Convert.ToInt32(valBankAngleBuffer.Value);
+            aConfig.InitialCrossSectionLength = Convert.ToInt32(valInitialCrossSectionLength.Value);
+            return aConfig;
         }
+        
+        public Classes.Outputs GetRBTOutputs(string sRBTOutputFolder)
+        {
+            Classes.Outputs anOutput = new Classes.Outputs();
+            anOutput.OutputFolder = sRBTOutputFolder;
+            anOutput.TempFolder = txtTempFolder.Text;
+            anOutput.ResultFile = txtResults.Text;
+            anOutput.LogFile = txtLog.Text;
+            return anOutput;
+        }
+
     }
 }

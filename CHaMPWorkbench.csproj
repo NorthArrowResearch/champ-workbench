@@ -46,19 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BatchInputfileBuilder.cs" />
     <Compile Include="Classes\ChannelSegment.cs" />
     <Compile Include="Classes\ChannelUnit.cs" />
     <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\InputFileBuilder.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\Outputs.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\Watershed.cs" />
-    <Compile Include="frmRBTRun.cs">
+    <Compile Include="RBTInputFile\frmRBTInputBatch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRBTRun.Designer.cs">
-      <DependentUpon>frmRBTRun.cs</DependentUpon>
+    <Compile Include="RBTInputFile\frmRBTInputBatch.Designer.cs">
+      <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RBTInputFile\frmRBTInputSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RBTInputFile\frmRBTInputSingle.Designer.cs">
+      <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="ListItem.cs" />
     <Compile Include="MainForm.cs">
@@ -75,8 +83,20 @@
     <Compile Include="RBTConfiguration.Designer.cs">
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="frmRBTRun.resx">
-      <DependentUpon>frmRBTRun.cs</DependentUpon>
+    <Compile Include="RBTWorkbenchDataSet.cs">
+      <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RBTWorkbenchDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="RBTInputFile\frmRBTInputBatch.resx">
+      <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RBTInputFile\frmRBTInputSingle.resx">
+      <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -104,6 +124,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="RBTWorkbenchDataSet.xsc">
+      <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="RBTWorkbenchDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RBTWorkbenchDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="RBTWorkbenchDataSet.xss">
+      <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

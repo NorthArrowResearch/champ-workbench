@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace CHaMPWorkbench.Classes
 {
-    class Config
+    public class Config
     {
         #region "Members"
 

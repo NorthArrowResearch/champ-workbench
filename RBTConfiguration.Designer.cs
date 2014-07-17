@@ -790,7 +790,7 @@
             this.Controls.Add(this.GroupBox2);
             this.Name = "RBTConfiguration";
             this.Size = new System.Drawing.Size(835, 505);
-            this.Load += new System.EventHandler(this.RBTConfiguration_Load);
+            //this.Load += new System.EventHandler(this.RBTConfiguration_Load);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).EndInit();
