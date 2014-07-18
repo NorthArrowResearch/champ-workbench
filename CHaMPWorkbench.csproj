@@ -54,9 +54,16 @@
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\Outputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
+    <Compile Include="Classes\ResultScavenger.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\Watershed.cs" />
+    <Compile Include="frmRBTScavenger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRBTScavenger.Designer.cs">
+      <DependentUpon>frmRBTScavenger.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRunRBT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +112,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmRBTScavenger.resx">
+      <DependentUpon>frmRBTScavenger.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmRunRBT.resx">
       <DependentUpon>frmRunRBT.cs</DependentUpon>
     </EmbeddedResource>

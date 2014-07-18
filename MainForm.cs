@@ -93,5 +93,37 @@ namespace CHaMPWorkbench
             frmRunRBT frm = new frmRunRBT(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void runRBTConsoleBatchesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_dbCon.State == ConnectionState.Closed)
+                m_dbCon.Open();
+
+            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
+                " FROM RBT_Batches RIGHT JOIN RBT_BatchRuns ON RBT_Batches.ID = RBT_BatchRuns.BatchID" +
+                " WHERE (((RBT_BatchRuns.Run)=True)) OR (((RBT_Batches.Run)=True))", m_dbCon))
+            {
+                int nRuns = (int) dbCom.ExecuteScalar();
+
+                if (nRuns < 1)
+                {
+                    MessageBox.Show("There are no runs queued to run. Use the Select Batch Runs tool to queue batch runs for processing.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
+                {
+                    if (MessageBox.Show("Are you sure that you want to run the RBT on the " + nRuns.ToString("#,##0") + " RBT runs that are queued?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon);
+                        rbt.Run();
+                    }
+                }
+            }
+        }
+
+        private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
