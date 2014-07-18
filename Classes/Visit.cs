@@ -105,6 +105,7 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsFolderNull())
                 m_sFolder = rVisit.Folder;
 
+            m_nFieldSeason = rVisit.VisitYear;
             m_bCalculateMetrics = bCalculateMetrics;
             m_bMakeDEMsOrthogonal = bDEMOrthogonal;
             m_bChangeDetection = bChangeDetection;

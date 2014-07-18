@@ -81,5 +81,11 @@ namespace CHaMPWorkbench
                 frm.ShowDialog();
             }
         }
+
+        private void scavengeVisitInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmScavengeVisitInfo frm = new frmScavengeVisitInfo(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }

@@ -37,6 +37,7 @@
             this.createInputFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.individualFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.batchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scavengeVisitInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,7 +85,8 @@
             // rBTToolStripMenuItem
             // 
             this.rBTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createInputFileToolStripMenuItem});
+            this.createInputFileToolStripMenuItem,
+            this.scavengeVisitInfoToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
             this.rBTToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.rBTToolStripMenuItem.Text = "Tools";
@@ -101,16 +103,23 @@
             // individualFileToolStripMenuItem
             // 
             this.individualFileToolStripMenuItem.Name = "individualFileToolStripMenuItem";
-            this.individualFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.individualFileToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.individualFileToolStripMenuItem.Text = "Single";
             this.individualFileToolStripMenuItem.Click += new System.EventHandler(this.individualFileToolStripMenuItem_Click);
             // 
             // batchToolStripMenuItem
             // 
             this.batchToolStripMenuItem.Name = "batchToolStripMenuItem";
-            this.batchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.batchToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.batchToolStripMenuItem.Text = "Batch";
             this.batchToolStripMenuItem.Click += new System.EventHandler(this.batchToolStripMenuItem_Click);
+            // 
+            // scavengeVisitInfoToolStripMenuItem
+            // 
+            this.scavengeVisitInfoToolStripMenuItem.Name = "scavengeVisitInfoToolStripMenuItem";
+            this.scavengeVisitInfoToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.scavengeVisitInfoToolStripMenuItem.Text = "Scavenge Visit Info";
+            this.scavengeVisitInfoToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitInfoToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -139,6 +148,7 @@
         private System.Windows.Forms.ToolStripMenuItem createInputFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem individualFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem batchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scavengeVisitInfoToolStripMenuItem;
     }
 }
 

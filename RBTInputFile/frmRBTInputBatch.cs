@@ -17,15 +17,12 @@ namespace CHaMPWorkbench.RBTInputFile
         public frmRBTInputBatch(OleDbConnection dbCon)
         {
             m_dbCon = dbCon;
-        }
-
-        public frmRBTInputBatch()
-        {
             InitializeComponent();
         }
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
+            lstFieldSeasons.CheckOnClick = true;
 
             for (int i = 2011; i <= DateTime.Now.Year; i++)
             {
@@ -104,9 +101,11 @@ namespace CHaMPWorkbench.RBTInputFile
             else
             {
                 if (!System.IO.Directory.Exists(txtOutputFolder.Text))
+                {
                     MessageBox.Show("The output folder does not exist", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
             }
 
             string sMessage = string.Empty;

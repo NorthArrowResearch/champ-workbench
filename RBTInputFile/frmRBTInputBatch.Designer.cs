@@ -119,7 +119,7 @@
             this.txtOutputFolder.Name = "txtOutputFolder";
             this.txtOutputFolder.Size = new System.Drawing.Size(601, 20);
             this.txtOutputFolder.TabIndex = 6;
-            this.txtOutputFolder.Text = "C:\\CHaMP\\InputOutputfiles";
+            this.txtOutputFolder.Text = "C:\\CHaMP\\RBTInputOutputFiles";
             // 
             // button1
             // 

@@ -4118,12 +4118,23 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[2];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ID, VisitID, ChannelUnitID, ChannelUnitNumber, Tier1, Tier2, SegmentID FRO" +
                 "M CHAMP_ChannelUnits";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = @"SELECT        CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.VisitID, CHAMP_ChannelUnits.ChannelUnitID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, 
+                         CHAMP_ChannelUnits.SegmentID
+FROM            ((CHAMP_ChannelUnits INNER JOIN
+                         CHAMP_Visits ON CHAMP_ChannelUnits.VisitID = CHAMP_Visits.VisitID) INNER JOIN
+                         CHAMP_ChannelUnits CHAMP_ChannelUnits_1 ON CHAMP_ChannelUnits.ID = CHAMP_ChannelUnits_1.ID)
+WHERE        (CHAMP_Visits.VisitYear = ?)
+ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4148,6 +4159,20 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             RBTWorkbenchDataSet.CHAMP_ChannelUnitsDataTable dataTable = new RBTWorkbenchDataSet.CHAMP_ChannelUnitsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByVisitYear(RBTWorkbenchDataSet.CHAMP_ChannelUnitsDataTable dataTable, short VisitYear) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((short)(VisitYear));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4564,11 +4589,25 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
+            this._commandCollection = new global::System.Data.OleDb.OleDbCommand[3];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT SegmentID, VisitID, SegmentNumber, SegmentName FROM CHaMP_Segments";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT SegmentID, VisitID, SegmentNumber, SegmentName FROM CHaMP_Segments WHERE V" +
+                "isitID = ? ORDER BY SegmentNumber";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
+            this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = @"SELECT        CHaMP_Segments.SegmentID, CHaMP_Segments.VisitID, CHaMP_Segments.SegmentNumber, CHaMP_Segments.SegmentName
+FROM            (CHaMP_Segments INNER JOIN
+                         CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID)
+WHERE        (CHAMP_Visits.VisitYear = ?)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4593,6 +4632,34 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             RBTWorkbenchDataSet.CHaMP_SegmentsDataTable dataTable = new RBTWorkbenchDataSet.CHaMP_SegmentsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByVisitID(RBTWorkbenchDataSet.CHaMP_SegmentsDataTable dataTable, int VisitID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(VisitID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByVisitYear(RBTWorkbenchDataSet.CHaMP_SegmentsDataTable dataTable, short VisitYear) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((short)(VisitYear));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

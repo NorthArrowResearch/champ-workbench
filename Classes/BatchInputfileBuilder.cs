@@ -13,8 +13,6 @@ namespace CHaMPWorkbench.Classes
         private List<int> m_lFieldSeasons;
         private Boolean m_bCalculateMetrics;
         private Boolean m_bChangeDetection;
-        private Classes.Config m_rbtConfig;
-        private Classes.Outputs m_rbtOutputs;
         private String m_sBatchName;
         private String m_sDefaultInputFileName;
 
@@ -36,15 +34,18 @@ namespace CHaMPWorkbench.Classes
             {
                 RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daV = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
                 daV.Connection = dbCon;
+                daV.ClearBeforeFill = false;
                 daV.FillByVisitYear(m_ds.CHAMP_Visits, nVisitYear);
 
                 RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSeg = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
                 daSeg.Connection = dbCon;
-                daSeg.Fill(m_ds.CHaMP_Segments);
+                daSeg.ClearBeforeFill = false;
+                daSeg.FillByVisitYear(m_ds.CHaMP_Segments, nVisitYear);
 
                 RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daC = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
                 daC.Connection = dbCon;
-                daC.Fill(m_ds.CHAMP_ChannelUnits);               
+                daC.ClearBeforeFill = false;
+                daC.FillByVisitYear(m_ds.CHAMP_ChannelUnits, nVisitYear);
             }
             m_dbCon = dbCon;
         }
@@ -54,7 +55,7 @@ namespace CHaMPWorkbench.Classes
             foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_ds.CHAMP_Visits)
             {
                 string sVisitTopofolder = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, sParentTopoDataFolder);
-                string sInputFile =  m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, m_rbtOutputs.OutputFolder);
+                string sInputFile =  m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, this.m_Outputs.OutputFolder);
 
                 if (System.IO.Directory.Exists(sVisitTopofolder))
                 {

@@ -33,6 +33,15 @@ namespace CHaMPWorkbench
             this.cHAMP_WatershedsTableAdapter.Connection = m_dbCon;
             this.cHAMP_VisitsTableAdapter.Fill(this.rBTWorkbenchDataSet.CHAMP_Visits);
             cHAMPVisitsBindingSource.Filter = "SiteID = " + cboSite.SelectedValue;
+
+            RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSeg = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+            daSeg.Connection=m_dbCon;
+            daSeg.Fill(this.rBTWorkbenchDataSet.CHaMP_Segments);
+
+            RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daCU = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+            daCU.Connection = m_dbCon;
+            daCU.Fill(this.rBTWorkbenchDataSet.CHAMP_ChannelUnits);
+
             // Folders
             if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder))
                 txtSourceFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder;
@@ -104,8 +113,9 @@ namespace CHaMPWorkbench
             Classes.InputFileBuilder theBuilder = new Classes.InputFileBuilder(ucConfig.GetRBTConfig(), ucConfig.GetRBTOutputs(txtOutputFolder.Text));
             theBuilder.CreateFile(txtInputFile.Text, out xmlInput);
 
-            Classes.Visit mainvisit = new Classes.Visit((RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)cboVisit.SelectedItem).Row, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked);
-            mainvisit.WriteToXML(ref xmlInput, txtSourceFolder.Text);
+            RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
+            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked);
+            mainvisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit ,txtSourceFolder.Text));
 
             // other visits
             if (!rdoSelectedOnly.Checked)
@@ -118,9 +128,8 @@ namespace CHaMPWorkbench
                     {
                         if (rdoAll.Checked || aVisit.IsPrimary)
                         {
-
                             Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked);
-                            mainvisit.WriteToXML(ref xmlInput, txtSourceFolder.Text);
+                            anotherVisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(aVisit,txtSourceFolder.Text));
                         }
                     }
                 }
