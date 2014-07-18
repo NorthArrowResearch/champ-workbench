@@ -54,12 +54,13 @@ namespace CHaMPWorkbench
 
                     if (!String.IsNullOrWhiteSpace(sVisitTopo))
                     {
-                        sSiteFolder = Path.Combine(sSiteFolder, sVisitTopo);
-                        if (System.IO.Directory.Exists(sSiteFolder))
+                        String sHitchFolder = Path.Combine(sSiteFolder, sVisitTopo);
+                        if (System.IO.Directory.Exists(sHitchFolder))
                         {
-                            sSubfolders = System.IO.Directory.GetDirectories(sVisitTopo);
+                            sSubfolders = System.IO.Directory.GetDirectories(sHitchFolder);
                             if (sSubfolders.Count<String>() == 1)
                             {
+                                String sRelativeVisitTopoFolder = sSubfolders[0].Remove(0,sSiteFolder.Length+1);
                                 sVisitTopo = Path.Combine(sVisitTopo, sSubfolders[0]);
 
                                 String sVisitFileGDB = "";
@@ -106,7 +107,7 @@ namespace CHaMPWorkbench
                                 if (!String.IsNullOrWhiteSpace(sVisitFileGDB) && !String.IsNullOrWhiteSpace(sTopoTIN) && !String.IsNullOrWhiteSpace(sWSTIN))
                                 {
                                     OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHaMP_Visits SET Folder = @Folder, TopoTIN = @TopoTIN, WSTIN = @WSTIN, SurveyGDB = @SurveyGDB WHERE VisitID = " + ((int)dbRead["VisitID"]).ToString(), m_dbCon);
-                                    dbUpdate.Parameters.AddWithValue("Folder", sVisitTopo);
+                                    dbUpdate.Parameters.AddWithValue("Folder", sRelativeVisitTopoFolder);
                                     dbUpdate.Parameters.AddWithValue("TopoTIN", System.IO.Path.GetFileName(sTopoTIN));
                                     dbUpdate.Parameters.AddWithValue("WSTIN", System.IO.Path.GetFileName(sWSTIN));
                                     dbUpdate.Parameters.AddWithValue("SurveyGDB", System.IO.Path.GetFileName(sVisitFileGDB));

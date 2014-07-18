@@ -87,5 +87,11 @@ namespace CHaMPWorkbench
             frmScavengeVisitInfo frm = new frmScavengeVisitInfo(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void selectBatchesToRunToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmRunRBT frm = new frmRunRBT(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }

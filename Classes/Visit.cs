@@ -119,6 +119,9 @@ namespace CHaMPWorkbench.Classes
 
         public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder)
         {
+            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sWSTIN) || string.IsNullOrWhiteSpace(m_sFolder))
+                return;
+            
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
             xmlFile.WriteAttributeString("changedetection", m_bChangeDetection.ToString());
