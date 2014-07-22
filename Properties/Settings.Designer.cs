@@ -128,5 +128,17 @@ namespace CHaMPWorkbench.Properties {
                 this["TextEditor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\PhilipLocal\\Documents\\Code\\RBTConsole\\bin\\Debug\\AnyCPU\\RBTConsole.exe")]
+        public string RBTConsole {
+            get {
+                return ((string)(this["RBTConsole"]));
+            }
+            set {
+                this["RBTConsole"] = value;
+            }
+        }
     }
 }

@@ -39,9 +39,11 @@
             this.individualFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.batchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.runRBTConsoleBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectBatchesToRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runRBTConsoleBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeRBTResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,7 +93,9 @@
             this.rBTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scavengeVisitInfoToolStripMenuItem,
             this.createInputFileToolStripMenuItem,
-            this.rBTToolStripMenuItem1});
+            this.rBTToolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
             this.rBTToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.rBTToolStripMenuItem.Text = "Tools";
@@ -136,13 +140,6 @@
             this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(273, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
-            // runRBTConsoleBatchesToolStripMenuItem
-            // 
-            this.runRBTConsoleBatchesToolStripMenuItem.Name = "runRBTConsoleBatchesToolStripMenuItem";
-            this.runRBTConsoleBatchesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.runRBTConsoleBatchesToolStripMenuItem.Text = "Run RBT Console Batches";
-            this.runRBTConsoleBatchesToolStripMenuItem.Click += new System.EventHandler(this.runRBTConsoleBatchesToolStripMenuItem_Click);
-            // 
             // selectBatchesToRunToolStripMenuItem
             // 
             this.selectBatchesToRunToolStripMenuItem.Name = "selectBatchesToRunToolStripMenuItem";
@@ -150,12 +147,31 @@
             this.selectBatchesToRunToolStripMenuItem.Text = "Select Batches to Run";
             this.selectBatchesToRunToolStripMenuItem.Click += new System.EventHandler(this.selectBatchesToRunToolStripMenuItem_Click);
             // 
+            // runRBTConsoleBatchesToolStripMenuItem
+            // 
+            this.runRBTConsoleBatchesToolStripMenuItem.Name = "runRBTConsoleBatchesToolStripMenuItem";
+            this.runRBTConsoleBatchesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.runRBTConsoleBatchesToolStripMenuItem.Text = "Run RBT Console Batches";
+            this.runRBTConsoleBatchesToolStripMenuItem.Click += new System.EventHandler(this.runRBTConsoleBatchesToolStripMenuItem_Click);
+            // 
             // scavengeRBTResultsToolStripMenuItem
             // 
             this.scavengeRBTResultsToolStripMenuItem.Name = "scavengeRBTResultsToolStripMenuItem";
             this.scavengeRBTResultsToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.scavengeRBTResultsToolStripMenuItem.Text = "Scavenge RBT Results";
             this.scavengeRBTResultsToolStripMenuItem.Click += new System.EventHandler(this.scavengeRBTResultsToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(273, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(270, 6);
             // 
             // MainForm
             // 
@@ -189,6 +205,8 @@
         private System.Windows.Forms.ToolStripMenuItem runRBTConsoleBatchesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectBatchesToRunToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scavengeRBTResultsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
     }
 }
 

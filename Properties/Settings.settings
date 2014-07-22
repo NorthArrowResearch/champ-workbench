@@ -34,5 +34,8 @@
     <Setting Name="TextEditor" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\Sublime Text 2\sublime_text.exe</Value>
     </Setting>
+    <Setting Name="RBTConsole" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\PhilipLocal\Documents\Code\RBTConsole\bin\Debug\AnyCPU\RBTConsole.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

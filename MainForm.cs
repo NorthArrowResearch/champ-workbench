@@ -114,7 +114,7 @@ namespace CHaMPWorkbench
                 {
                     if (MessageBox.Show("Are you sure that you want to run the RBT on the " + nRuns.ToString("#,##0") + " RBT runs that are queued?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon);
+                        Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole);
                         rbt.Run();
                     }
                 }
@@ -124,6 +124,12 @@ namespace CHaMPWorkbench
         private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmOptions frm = new frmOptions();
+            frm.ShowDialog();
         }
     }
 }

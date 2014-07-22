@@ -66,8 +66,8 @@ namespace CHaMPWorkbench.Classes
                 foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_ds.CHAMP_Visits)
                 {
                     string sVisitTopofolder = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, sParentTopoDataFolder);
-                    string sInputFile = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, this.m_Outputs.OutputFolder);
-                    sInputFile = System.IO.Path.Combine(sInputFile, sDefaultInputFileName);
+                    string sOutputfolder = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, this.m_Outputs.OutputFolder);
+                    string sInputFile = System.IO.Path.Combine(sOutputfolder, sDefaultInputFileName);
                     sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
 
                     pSummary.Value = DBNull.Value; //rVisit.VisitYear.ToString() + ", " + rVisit.;
@@ -95,7 +95,7 @@ namespace CHaMPWorkbench.Classes
                         }
 
                         // Write the end of the file
-                        CloseFile(ref xmlInput);
+                        CloseFile(ref xmlInput, sOutputfolder);
 
                         dbInsert.ExecuteNonQuery();
                     }

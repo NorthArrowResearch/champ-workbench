@@ -135,7 +135,7 @@ namespace CHaMPWorkbench
                 }
             }
 
-            theBuilder.CloseFile(ref xmlInput);
+            theBuilder.CloseFile(ref xmlInput, txtOutputFolder.Text);
 
             if (chkOpenWhenComplete.Checked)
                 if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.TextEditor) && System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.TextEditor))

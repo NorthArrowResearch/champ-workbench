@@ -46,7 +46,7 @@ namespace CHaMPWorkbench.Classes
         #endregion
 
 
-        public void WriteToXML(System.Xml.XmlTextWriter xmlFile)
+        public void WriteToXML(System.Xml.XmlTextWriter xmlFile, String sOutputfolder)
         {
             if (string.IsNullOrEmpty(OutputFolder))
             {
@@ -54,10 +54,10 @@ namespace CHaMPWorkbench.Classes
             }
 
             xmlFile.WriteStartElement("outputs");
-            xmlFile.WriteElementString("results", System.IO.Path.Combine(OutputFolder, ResultFile));
-            xmlFile.WriteElementString("log", System.IO.Path.Combine(OutputFolder, LogFile));
+            xmlFile.WriteElementString("results", System.IO.Path.Combine(sOutputfolder, ResultFile));
+            xmlFile.WriteElementString("log", System.IO.Path.Combine(sOutputfolder, LogFile));
             xmlFile.WriteElementString("temp_workspace", TempFolder);
-            xmlFile.WriteElementString("artifacts_path", OutputFolder);
+            xmlFile.WriteElementString("artifacts_path", sOutputfolder);
             xmlFile.WriteEndElement();
             // outputs
         }

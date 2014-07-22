@@ -58,6 +58,12 @@
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\Watershed.cs" />
+    <Compile Include="frmOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOptions.Designer.cs">
+      <DependentUpon>frmOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRBTScavenger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmOptions.resx">
+      <DependentUpon>frmOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmRBTScavenger.resx">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
     </EmbeddedResource>

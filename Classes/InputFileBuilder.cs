@@ -34,9 +34,9 @@ namespace CHaMPWorkbench.Classes
             xmlInput.WriteEndElement(); // metadata
         }
 
-        public void CloseFile(ref XmlTextWriter xmlInput)
+        public void CloseFile(ref XmlTextWriter xmlInput, String sOutputFolder)
         {
-            m_Outputs.WriteToXML(xmlInput);
+            m_Outputs.WriteToXML(xmlInput, sOutputFolder);
             m_Config.WriteToXML(xmlInput);
 
             xmlInput.WriteEndElement(); // rbt
