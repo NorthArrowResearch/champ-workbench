@@ -58,40 +58,52 @@
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\Watershed.cs" />
+    <Compile Include="Data\frmDataUnPacker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmDataUnPacker.Designer.cs">
+      <DependentUpon>frmDataUnPacker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmOptions.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRBTScavenger.cs">
+    <Compile Include="RBT\Scavenger\frmRBTScavenger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRBTScavenger.Designer.cs">
+    <Compile Include="RBT\Scavenger\frmRBTScavenger.Designer.cs">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRunRBT.cs">
+    <Compile Include="RBT\Batches\frmSelectRBTBatches.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRunRBT.Designer.cs">
-      <DependentUpon>frmRunRBT.cs</DependentUpon>
+    <Compile Include="RBT\Batches\frmSelectRBTBatches.Designer.cs">
+      <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmScavengeVisitInfo.cs">
+    <Compile Include="RBT\Scavenger\frmScavengeVisitInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmScavengeVisitInfo.Designer.cs">
+    <Compile Include="RBT\Scavenger\frmScavengeVisitInfo.Designer.cs">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="RBTInputFile\frmRBTInputBatch.cs">
+    <Compile Include="RBT\InputFiles\frmRBTInputBatch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBTInputFile\frmRBTInputBatch.Designer.cs">
+    <Compile Include="RBT\InputFiles\frmRBTInputBatch.Designer.cs">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
     </Compile>
-    <Compile Include="RBTInputFile\frmRBTInputSingle.cs">
+    <Compile Include="RBT\InputFiles\frmRBTInputSingle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBTInputFile\frmRBTInputSingle.Designer.cs">
+    <Compile Include="RBT\InputFiles\frmRBTInputSingle.Designer.cs">
       <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="ListItem.cs" />
@@ -118,22 +130,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Data\frmDataUnPacker.resx">
+      <DependentUpon>frmDataUnPacker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRBTScavenger.resx">
+    <EmbeddedResource Include="RBT\Scavenger\frmRBTScavenger.resx">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRunRBT.resx">
-      <DependentUpon>frmRunRBT.cs</DependentUpon>
+    <EmbeddedResource Include="RBT\Batches\frmSelectRBTBatches.resx">
+      <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmScavengeVisitInfo.resx">
+    <EmbeddedResource Include="RBT\Scavenger\frmScavengeVisitInfo.resx">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBTInputFile\frmRBTInputBatch.resx">
+    <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBTInputFile\frmRBTInputSingle.resx">
+    <EmbeddedResource Include="RBT\InputFiles\frmRBTInputSingle.resx">
       <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -173,6 +191,25 @@
     <None Include="RBTWorkbenchDataSet.xss">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RBTInputFile\" />
+    <Folder Include="RBT\Console\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CHaMP_Logo_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RBT_Dark_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

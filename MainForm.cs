@@ -131,5 +131,35 @@ namespace CHaMPWorkbench
             frmOptions frm = new frmOptions();
             frm.ShowDialog();
         }
+
+        private void singleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmRBTInputSingle frm = new frmRBTInputSingle(m_dbCon);
+            frm.ShowDialog();
+        }
+
+        private void batchToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon);
+            frm.ShowDialog();
+        }
+
+        private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmScavengeVisitInfo frm = new frmScavengeVisitInfo(m_dbCon);
+            frm.ShowDialog();
+        }
+
+        private void unpackMonitoringData7ZipArchiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmDataUnPacker frm = new Data.frmDataUnPacker();
+            frm.ShowDialog();
+        }
+
+        private void aboutTheCHaMPWorkbenchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout frm = new frmAbout();
+            frm.ShowDialog();
+        }
     }
 }
