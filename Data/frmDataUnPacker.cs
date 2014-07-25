@@ -81,6 +81,7 @@ namespace CHaMPWorkbench.Data
             DialogResult eResult = DialogResult.Yes;
             foreach (string aFolder in Directory.GetDirectories(sTopLevelFolder, "*", SearchOption.AllDirectories))
             {
+                Debug.WriteLine("Folder: " + aFolder);
                 bool bFound = false;
                 string sSurveyZip = string.Empty;
                 string sTopoTINZip = string.Empty;
@@ -122,6 +123,7 @@ namespace CHaMPWorkbench.Data
                             // Got a folder with a survey GDB, topo TIN and WS TIN
                             // proceed and unzip all three into the current folder
                             //
+                            /*
 #if DEBUG
                             if (eResult == DialogResult.Yes)
                             {
@@ -132,6 +134,7 @@ namespace CHaMPWorkbench.Data
                                 }
                             }
 #endif
+                            */
                             UnZipArchive(sSurveyZip);
                             UnZipArchive(sTopoTINZip);
                             UnZipArchive(sWSTINZip);
@@ -144,43 +147,51 @@ namespace CHaMPWorkbench.Data
             return nUnpackedCount;
 
         }
-
-
+        
         private void UnZipArchive(string sFilePath)
         {
-            string s7Zip64 = "\"C:\\Program Files\\7-Zip\\7z.exe\"";
-            string s7Zip32 = "\"C:\\Program Files (x86)\\7-Zip\\7z.exe\"";
+            string s7Zip64 = "C:\\Program Files\\7-Zip\\7z.exe";
+            string s7Zip32 = "C:\\Program Files (x86)\\7-Zip\\7z.exe";
             string s7Zip = null;
+            string sOptions;
 
             if (File.Exists(s7Zip64))
             {
-                s7Zip = s7Zip64;
+                s7Zip = "\"" + s7Zip64 + "\"";
             }
             else
             {
-                s7Zip = s7Zip32;
+                s7Zip = "\"" + s7Zip32 + "\"";
             }
 
             if (sFilePath.Contains(" "))
             {
-                s7Zip += " x \"" + sFilePath + "\"";
+                sOptions = " x \"" + sFilePath + "\"";
             }
             else
             {
-                s7Zip += " x " + sFilePath;
+                sOptions = " x " + sFilePath;
             }
 
             if (Path.GetDirectoryName(sFilePath).Trim().Contains(" "))
             {
-                s7Zip += " -o\"" + Path.GetDirectoryName(sFilePath).Trim() + "\"";
+                sOptions += " -o\"" + Path.GetDirectoryName(sFilePath).Trim() + "\"";
             }
             else
             {
-                s7Zip += " -o" + Path.GetDirectoryName(sFilePath).Trim();
+                sOptions += " -o" + Path.GetDirectoryName(sFilePath).Trim();
             }
 
             Debug.WriteLine(s7Zip);
+
+
             System.Diagnostics.Process.Start(s7Zip);
+
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(s7Zip, sOptions);
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo = info;
+            p.Start();
+            p.WaitForExit();
         }
 
     }
