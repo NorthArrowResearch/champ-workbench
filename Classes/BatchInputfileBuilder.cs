@@ -79,8 +79,11 @@ namespace CHaMPWorkbench.Classes
                         XmlTextWriter xmlInput;
                         CreateFile(sInputFile, out xmlInput);
 
+                        Site theSite = new Site(rVisit.CHAMP_SitesRow);                    
+
                         Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bChangeDetection || bMakeDEMOrthogonal);
-                        v.WriteToXML(ref xmlInput, sVisitTopofolder);
+                        theSite.AddVisit(v);
+ //v.WriteToXML(ref xmlInput, sVisitTopofolder);
 
                         if (bIncludeOtherVisits)
                         {
@@ -89,10 +92,15 @@ namespace CHaMPWorkbench.Classes
                                 if (rOtherVisit.SiteID == rVisit.SiteID && rOtherVisit.VisitID != rVisit.VisitID)
                                 {
                                     Visit vOther = new Visit(rOtherVisit, false, bChangeDetection && rOtherVisit.IsPrimary, bChangeDetection || bMakeDEMOrthogonal);
-                                    vOther.WriteToXML(ref xmlInput, sVisitTopofolder);
+                                    theSite.AddVisit(vOther);
+                                    //vOther.WriteToXML(ref xmlInput, sVisitTopofolder);
                                 }
                             }
                         }
+
+                        xmlInput.WriteStartElement("sites");
+                        theSite.WriteToXML(xmlInput, sParentTopoDataFolder);
+                        xmlInput.WriteEndElement(); // sites
 
                         // Write the end of the file
                         CloseFile(ref xmlInput, sOutputfolder);

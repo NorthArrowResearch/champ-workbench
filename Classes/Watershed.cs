@@ -17,9 +17,17 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public Watershed(int nID, String sName, String sFolder) : base((int)nID, sName)
+        public Watershed(int nID, String sName, String sFolder)
+            : base((int)nID, sName)
         {
             m_sFolder = sFolder;
+        }
+
+        public Watershed(RBTWorkbenchDataSet.CHAMP_WatershedsRow rWatershed)
+            : base(rWatershed.WatershedID, rWatershed.WatershedName)
+        {
+            if (!rWatershed.IsFolderNull())
+                m_sFolder = rWatershed.Folder;
         }
     }
 }
