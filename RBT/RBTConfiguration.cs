@@ -27,6 +27,7 @@ namespace CHaMPWorkbench
             */
             tTip.SetToolTip(txtResults, "The name of the RBT results XML file");
             tTip.SetToolTip(txtLog, "The name of the RBT log XML file");
+            tTip.SetToolTip(chkOutputProfileValues, "Full listing of each cross section and longitudinal profiles will be written to the RBT result XML file when checked. When not checked, only summary statistics and metrics for each profile are written to the RBT result XML file.");
 
             /*
             string sDefault = CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder;
@@ -201,7 +202,14 @@ namespace CHaMPWorkbench
 
         private void cmdBrowseTemp_Click(object sender, EventArgs e)
         {
+           FolderBrowserDialog dlg = new FolderBrowserDialog();
+           dlg.Description = "Select the RBT Tempory Workspace Folder";
 
+           if (!String.IsNullOrWhiteSpace(txtTempFolder.Text) && System.IO.Directory.Exists(txtTempFolder.Text))
+               dlg.SelectedPath = txtTempFolder.Text;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+                txtTempFolder.Text = dlg.SelectedPath;
         }
         
         public Classes.Config GetRBTConfig()
@@ -229,6 +237,7 @@ namespace CHaMPWorkbench
             aConfig.ErrorRasterKernal = Convert.ToInt32(valErrorKernel.Value);
             aConfig.BankAngleBuffer = Convert.ToInt32(valBankAngleBuffer.Value);
             aConfig.InitialCrossSectionLength = Convert.ToInt32(valInitialCrossSectionLength.Value);
+            aConfig.OutputProfileValues = chkOutputProfileValues.Checked;
             return aConfig;
         }
         
@@ -240,6 +249,11 @@ namespace CHaMPWorkbench
             anOutput.ResultFile = txtResults.Text;
             anOutput.LogFile = txtLog.Text;
             return anOutput;
+        }
+
+        private void RBTConfiguration_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

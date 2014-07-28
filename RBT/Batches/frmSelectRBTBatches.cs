@@ -71,6 +71,8 @@ namespace CHaMPWorkbench
 
         private void LoadTree()
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
@@ -148,6 +150,7 @@ namespace CHaMPWorkbench
                  nodRoot.Expand();
              }
 
+             Cursor.Current = Cursors.Default;
         }
 
         private void treBatches_AfterCheck(object sender, TreeViewEventArgs e)

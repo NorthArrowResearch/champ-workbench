@@ -121,10 +121,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RBTConfiguration.cs">
+    <Compile Include="RBT\RBTConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RBTConfiguration.Designer.cs">
+    <Compile Include="RBT\RBTConfiguration.Designer.cs">
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.cs">
@@ -176,7 +176,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RBTConfiguration.resx">
+    <EmbeddedResource Include="RBT\RBTConfiguration.resx">
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

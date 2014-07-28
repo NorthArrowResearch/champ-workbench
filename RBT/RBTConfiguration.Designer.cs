@@ -80,6 +80,7 @@
             this.cmdAuto = new System.Windows.Forms.Button();
             this.cmdBrowseTemp = new System.Windows.Forms.Button();
             this.Label6 = new System.Windows.Forms.Label();
+            this.chkOutputProfileValues = new System.Windows.Forms.CheckBox();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartHeight)).BeginInit();
@@ -100,6 +101,7 @@
             // 
             // GroupBox2
             // 
+            this.GroupBox2.Controls.Add(this.chkOutputProfileValues);
             this.GroupBox2.Controls.Add(this.valInitialCrossSectionLength);
             this.GroupBox2.Controls.Add(this.Label1);
             this.GroupBox2.Controls.Add(this.cboLicense);
@@ -499,7 +501,7 @@
             // chkZipChangeDetection
             // 
             this.chkZipChangeDetection.AutoSize = true;
-            this.chkZipChangeDetection.Location = new System.Drawing.Point(129, 311);
+            this.chkZipChangeDetection.Location = new System.Drawing.Point(129, 287);
             this.chkZipChangeDetection.Name = "chkZipChangeDetection";
             this.chkZipChangeDetection.Size = new System.Drawing.Size(242, 17);
             this.chkZipChangeDetection.TabIndex = 15;
@@ -548,7 +550,7 @@
             this.chkPreserveArtifacts.AutoSize = true;
             this.chkPreserveArtifacts.Checked = true;
             this.chkPreserveArtifacts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPreserveArtifacts.Location = new System.Drawing.Point(129, 279);
+            this.chkPreserveArtifacts.Location = new System.Drawing.Point(129, 263);
             this.chkPreserveArtifacts.Name = "chkPreserveArtifacts";
             this.chkPreserveArtifacts.Size = new System.Drawing.Size(108, 17);
             this.chkPreserveArtifacts.TabIndex = 14;
@@ -654,7 +656,7 @@
             this.chkRequireOrthogonalRasters.AutoSize = true;
             this.chkRequireOrthogonalRasters.Checked = true;
             this.chkRequireOrthogonalRasters.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRequireOrthogonalRasters.Location = new System.Drawing.Point(129, 247);
+            this.chkRequireOrthogonalRasters.Location = new System.Drawing.Point(129, 239);
             this.chkRequireOrthogonalRasters.Name = "chkRequireOrthogonalRasters";
             this.chkRequireOrthogonalRasters.Size = new System.Drawing.Size(150, 17);
             this.chkRequireOrthogonalRasters.TabIndex = 13;
@@ -782,6 +784,18 @@
             this.Label6.TabIndex = 3;
             this.Label6.Text = "Temp folder:";
             // 
+            // chkOutputProfileValues
+            // 
+            this.chkOutputProfileValues.AutoSize = true;
+            this.chkOutputProfileValues.Checked = true;
+            this.chkOutputProfileValues.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkOutputProfileValues.Location = new System.Drawing.Point(129, 311);
+            this.chkOutputProfileValues.Name = "chkOutputProfileValues";
+            this.chkOutputProfileValues.Size = new System.Drawing.Size(139, 17);
+            this.chkOutputProfileValues.TabIndex = 40;
+            this.chkOutputProfileValues.Text = "Output full profile values";
+            this.chkOutputProfileValues.UseVisualStyleBackColor = true;
+            // 
             // RBTConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -790,7 +804,7 @@
             this.Controls.Add(this.GroupBox2);
             this.Name = "RBTConfiguration";
             this.Size = new System.Drawing.Size(835, 505);
-            //this.Load += new System.EventHandler(this.RBTConfiguration_Load);
+            this.Load += new System.EventHandler(this.RBTConfiguration_Load);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).EndInit();
@@ -866,5 +880,6 @@
         internal System.Windows.Forms.Button cmdAuto;
         internal System.Windows.Forms.Button cmdBrowseTemp;
         internal System.Windows.Forms.Label Label6;
+        internal System.Windows.Forms.CheckBox chkOutputProfileValues;
     }
 }

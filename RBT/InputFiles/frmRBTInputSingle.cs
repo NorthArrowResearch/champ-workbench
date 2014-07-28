@@ -57,7 +57,23 @@ namespace CHaMPWorkbench
 
         private void cmdBrowseInputFile_Click(object sender, EventArgs e)
         {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Title = "RBT Input XML File";
+            dlg.Filter = "RBT Input XML Files (*.xml)|*.xml;All Files (*.*);*.*";
+            dlg.CheckPathExists = true;
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "xml";
+            dlg.OverwritePrompt = true;
 
+            if (!String.IsNullOrWhiteSpace(txtInputFile.Text) && System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(txtInputFile.Text)))
+            {
+                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(txtInputFile.Text);
+                if (String.Compare(System.IO.Path.GetExtension(txtInputFile.Text), ".xml",true)==0)
+                    dlg.FileName = System.IO.Path.GetFileName(txtInputFile.Text);
+            }
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtInputFile.Text = dlg.FileName;
         }
 
         private void cboVisit_SelectedIndexChanged(object sender, EventArgs e)

@@ -61,6 +61,15 @@ namespace CHaMPWorkbench
                         }
                     }
                 }
+
+                // Now update the tool status strip
+                if (m_dbCon is System.Data.OleDb.OleDbConnection)
+                {
+                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+                    tssDatabasePath.Text = oCon.DataSource;
+                }
+                else
+                    tssDatabasePath.Text = string.Empty;
             }
         }
 
@@ -76,6 +85,15 @@ namespace CHaMPWorkbench
                 dlg.InitialDirectory =  System.IO.Path.GetDirectoryName( oCon.DataSource);
                 dlg.FileName = System.IO.Path.GetFileName(oCon.DataSource);
             }
+            else
+            {
+                if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.DBConnection))
+                {
+                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
+                    dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
+                    dlg.FileName = System.IO.Path.GetFileName(oCon.DataSource);
+                }
+            }
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -89,6 +107,7 @@ namespace CHaMPWorkbench
                 }
 
                 String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + dlg.FileName);
+
                 try
                 {
                     Console.WriteLine("Attempting to open database: " + sDB);

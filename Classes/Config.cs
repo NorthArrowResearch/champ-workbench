@@ -35,6 +35,7 @@ namespace CHaMPWorkbench.Classes
         private double m_nThalwegSmoothingTolerance = 2;
         private int m_nErrorRasterKernal = 5;
         private int m_nBankAngleBuffer = 5;
+        private bool m_bOutputProfileValues = true;
 
         private double m_fInitialCrossSectionLength = 50;
         #endregion
@@ -173,6 +174,12 @@ namespace CHaMPWorkbench.Classes
             set { m_fInitialCrossSectionLength = value; }
         }
 
+        public bool OutputProfileValues
+        {
+            get { return m_bOutputProfileValues; }
+            set { m_bOutputProfileValues = value; }
+        }
+
         public string TempFolder
         {
             get { return m_sTempFolder; }
@@ -223,6 +230,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("chart_width", ChartWidth.ToString("#"));
             xmlFile.WriteElementString("chart_height", ChartHeight.ToString("#"));
             xmlFile.WriteElementString("initial_cross_section_extension", InitialCrossSectionLength.ToString());
+            xmlFile.WriteElementString("output_profile_values", OutputProfileValues.ToString());
 
             xmlFile.WriteElementString("esri_product_code", ESRIProduct.ToString());
             xmlFile.WriteComment("Engine or Desktop = 100, ArcGIS Desktop = 1, Engine = 2, ArcGIS Reader = 3, ArcGIS Server = 5");
