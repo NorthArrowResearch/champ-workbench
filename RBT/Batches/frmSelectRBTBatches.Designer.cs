@@ -1,6 +1,6 @@
 ﻿namespace CHaMPWorkbench
 {
-    partial class frmRunRBT
+    partial class frmSelectRBTBatches
     {
         /// <summary>
         /// Required designer variable.

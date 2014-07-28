@@ -135,10 +135,20 @@ namespace CHaMPWorkbench.Data
                             }
 #endif
                             */
-                            UnZipArchive(sSurveyZip);
-                            UnZipArchive(sTopoTINZip);
-                            UnZipArchive(sWSTINZip);
-                            nUnpackedCount += 1;
+
+                            String sZipSoftware = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
+                            if (String.IsNullOrWhiteSpace(sZipSoftware) || !System.IO.File.Exists(sZipSoftware))
+                            {
+                                MessageBox.Show("The path to the 7 Zip software is not valid. You can specify the path to the 7 Zip software under Tools\\Options '" + sZipSoftware + ".", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return 0;
+                            }
+                            else
+                            {
+                                UnZipArchive(sSurveyZip, sZipSoftware);
+                                UnZipArchive(sTopoTINZip, sZipSoftware);
+                                UnZipArchive(sWSTINZip, sZipSoftware);
+                                nUnpackedCount += 1;
+                            }
                         }
                     }
                 }
@@ -148,21 +158,9 @@ namespace CHaMPWorkbench.Data
 
         }
         
-        private void UnZipArchive(string sFilePath)
+        private void UnZipArchive(string sZipSoftware , string sFilePath)
         {
-            string s7Zip64 = "C:\\Program Files\\7-Zip\\7z.exe";
-            string s7Zip32 = "C:\\Program Files (x86)\\7-Zip\\7z.exe";
-            string s7Zip = null;
             string sOptions;
-
-            if (File.Exists(s7Zip64))
-            {
-                s7Zip = "\"" + s7Zip64 + "\"";
-            }
-            else
-            {
-                s7Zip = "\"" + s7Zip32 + "\"";
-            }
 
             if (sFilePath.Contains(" "))
             {
@@ -182,12 +180,7 @@ namespace CHaMPWorkbench.Data
                 sOptions += " -o" + Path.GetDirectoryName(sFilePath).Trim();
             }
 
-            Debug.WriteLine(s7Zip);
-
-
-            System.Diagnostics.Process.Start(s7Zip);
-
-            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(s7Zip, sOptions);
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(sZipSoftware, sOptions);
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo = info;
             p.Start();

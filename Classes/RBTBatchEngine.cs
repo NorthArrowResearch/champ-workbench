@@ -30,7 +30,7 @@ public class RBTBatchEngine
     }
 
 
-	public void Run()
+	public void Run(bool bScavengeResults, bool bScavengeLog)
 	{
 		string sInputFile = null;
 
@@ -89,7 +89,13 @@ public class RBTBatchEngine
 			if (System.Convert.IsDBNull(dbRdr["InputFile"]))
 				Console.WriteLine("Warning: empty input file record in database");
 			else
-				dFiles.Add((int) dbRdr["ID"], new RBTRun((int) dbRdr["ID"], (string) dbRdr["InputFile"], (bool) dbRdr["ClearTempPrior"], (bool) dbRdr["ClearTempAfter"]));
+            {
+                int nVisitID = 0;
+                if (!Convert.IsDBNull((int) dbRdr["PrimaryVisitID"]))
+                    nVisitID = (int) dbRdr["PrimaryVisitID"];
+
+				dFiles.Add((int) dbRdr["ID"], new RBTRun((int) dbRdr["ID"], (string) dbRdr["InputFile"], (bool) dbRdr["ClearTempPrior"], (bool) dbRdr["ClearTempAfter"],nVisitID ));
+            }
 		}
 		dbRdr.Close();
 
@@ -123,9 +129,29 @@ public class RBTBatchEngine
 
                 if (aRun.ClearTempWorkspaceAfter && dFiles.Count > 0)
                     ClearTempWorkspace();
+
+                if (bScavengeLog)
+                    ScavengeLogFile(sInputFile, aRun.PrimaryVisitID);
             }	    
 		}
 	}
+
+    private void ScavengeLogFile(String sInputFile, int nVisitID)
+    {
+        if (System.IO.File.Exists(sInputFile))
+        {
+            XmlDocument xmlR = new XmlDocument();
+            xmlR.Load(sInputFile);
+            XmlNode logNode = xmlR.SelectSingleNode("rbt/outputs/log");
+
+            if (!String.IsNullOrWhiteSpace(logNode.InnerText))
+            {
+                String sLogFile = logNode.InnerText;
+                if (System.IO.File.Exists(sLogFile))
+                    ResultScavenger.ScavengeLogFile(ref m_dbCon, nVisitID, sLogFile, "");
+            }
+        }
+    }
     
 	private void ClearTempWorkspace()
 	{
@@ -151,8 +177,9 @@ class RBTRun
     private string m_sInputFile;
     private bool m_bClearTempWorkspacePrior;
     private bool m_bClearTempWorkspaceAfter;
+    private int m_nVisitID;
 
-    public RBTRun(int nID, string sInputFile, bool bClearTempWorkspacePrior, bool bClearTempWorkspaceAfter)
+    public RBTRun(int nID, string sInputFile, bool bClearTempWorkspacePrior, bool bClearTempWorkspaceAfter, int nVisitID)
 	{
 		if (nID < 1) {
 			throw new ArgumentOutOfRangeException("nID", "The ID is invalid");
@@ -166,6 +193,7 @@ class RBTRun
         m_sInputFile = sInputFile.Replace("\"", "");
 		m_bClearTempWorkspacePrior = bClearTempWorkspacePrior;
 		m_bClearTempWorkspaceAfter = bClearTempWorkspaceAfter;
+        m_nVisitID = nVisitID;
 	}
 
     public int ID
@@ -186,6 +214,11 @@ class RBTRun
     public bool ClearTempWorkspaceAfter
     {
         get { return m_bClearTempWorkspaceAfter; }
+    }
+
+    public int PrimaryVisitID
+    {
+        get { return m_nVisitID; }
     }
 }
 

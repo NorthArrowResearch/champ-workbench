@@ -51,6 +51,8 @@ namespace CHaMPWorkbench
 
             ucConfig.ManualInitialization();
             UpdateInputfilePath();
+            UpdateBatchControlStatus();
+            txtBatchName.Text = DateTime.Now.ToShortDateString();
         }
 
         private void cmdBrowseInputFile_Click(object sender, EventArgs e)
@@ -98,6 +100,13 @@ namespace CHaMPWorkbench
                 }
             }
 
+            if (chkBatch.Checked)
+                if (String.IsNullOrWhiteSpace(txtBatchName.Text))
+                {
+                    MessageBox.Show("You have chosen to create a batch for this input file and therefore you must provide a name for the batch.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+
             return true;
         }
 
@@ -112,10 +121,14 @@ namespace CHaMPWorkbench
             XmlTextWriter xmlInput;
             Classes.InputFileBuilder theBuilder = new Classes.InputFileBuilder(ucConfig.GetRBTConfig(), ucConfig.GetRBTOutputs(txtOutputFolder.Text));
             theBuilder.CreateFile(txtInputFile.Text, out xmlInput);
+                   
 
             RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
             Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked);
-            mainvisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit ,txtSourceFolder.Text));
+            Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
+            theSite.AddVisit(mainvisit);
+
+            //mainvisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit ,txtSourceFolder.Text));
 
             // other visits
             if (!rdoSelectedOnly.Checked)
@@ -129,13 +142,50 @@ namespace CHaMPWorkbench
                         if (rdoAll.Checked || aVisit.IsPrimary)
                         {
                             Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked);
-                            anotherVisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(aVisit,txtSourceFolder.Text));
+                            theSite.AddVisit(anotherVisit);
                         }
                     }
                 }
             }
 
-            theBuilder.CloseFile(ref xmlInput, txtOutputFolder.Text);
+            xmlInput.WriteStartElement("sites");
+            theSite.WriteToXML(xmlInput, txtSourceFolder.Text);
+            xmlInput.WriteEndElement(); // sites
+
+            theBuilder.CloseFile(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit, txtSourceFolder.Text));
+
+            // Create the Batch
+            if (chkBatch.Checked)
+            {
+                OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+                try
+                {
+                    OleDbCommand dbCom = new OleDbCommand("INSERT INTO RBT_Batches (BatchName, Run) VALUES (?, 1)", m_dbCon, dbTrans);
+
+                    dbCom.Parameters.AddWithValue("BatchName", txtBatchName.Text);
+                    dbCom.ExecuteNonQuery();
+
+                    dbCom = new OleDbCommand("SELECT @@IDENTITY", m_dbCon, dbTrans);
+                    int nBatchID = (int) dbCom.ExecuteScalar();
+
+
+
+                    dbCom = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, Run, InputFile, PrimaryVisitID) VALUES (?, ?, 1, ?, ?)", m_dbCon, dbTrans);
+                    dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+                    dbCom.Parameters.AddWithValue("Summary", cboWatershed.Text + ", " + cboSite.Text + ", " + cboVisit.Text);
+                    dbCom.Parameters.AddWithValue("InputFile", txtInputFile.Text);
+                    dbCom.Parameters.AddWithValue("PrimaryVisitID", mainvisit.ID);
+                    dbCom.ExecuteNonQuery();
+                    
+                    dbTrans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbTrans.Rollback();
+                    MessageBox.Show("Failed to create batch.");
+                }
+            }
+
 
             if (chkOpenWhenComplete.Checked)
                 if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.TextEditor) && System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.TextEditor))
@@ -181,6 +231,17 @@ namespace CHaMPWorkbench
 
             if (dlgFolder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtOutputFolder.Text = dlgFolder.SelectedPath;
+        }
+
+        private void chkBatch_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateBatchControlStatus();
+        }
+
+        private void UpdateBatchControlStatus()
+        {
+            txtBatchName.Enabled = chkBatch.Checked;
+            lblBatchName.Enabled = chkBatch.Checked;
         }
     }
 }

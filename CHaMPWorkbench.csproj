@@ -76,6 +76,12 @@
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="RBT\frmRunBatches.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RBT\frmRunBatches.Designer.cs">
+      <DependentUpon>frmRunBatches.cs</DependentUpon>
+    </Compile>
     <Compile Include="RBT\Scavenger\frmRBTScavenger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RBT\frmRunBatches.resx">
+      <DependentUpon>frmRunBatches.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\Scavenger\frmRBTScavenger.resx">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
@@ -210,6 +219,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NA_Logo_SM.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WebSite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CheckControlNetwork.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xml_batch.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

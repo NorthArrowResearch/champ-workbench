@@ -73,6 +73,16 @@ namespace CHaMPWorkbench.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CheckControlNetwork {
+            get {
+                object obj = ResourceManager.GetObject("CheckControlNetwork", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap database {
             get {
                 object obj = ResourceManager.GetObject("database", resourceCulture);
@@ -90,11 +100,31 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap import {
+            get {
+                object obj = ResourceManager.GetObject("import", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CHaMP Workbench.
         /// </summary>
         internal static string MyApplicationNameLong {
             get {
                 return ResourceManager.GetString("MyApplicationNameLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NA_Logo_SM {
+            get {
+                object obj = ResourceManager.GetObject("NA_Logo_SM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -114,6 +144,45 @@ namespace CHaMPWorkbench.Properties {
         internal static System.Drawing.Bitmap Settings {
             get {
                 object obj = ResourceManager.GetObject("Settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WebSite {
+            get {
+                object obj = ResourceManager.GetObject("WebSite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://sites.google.com/a/northarrowresearch.com/workbench.
+        /// </summary>
+        internal static string WebSiteURL {
+            get {
+                return ResourceManager.GetString("WebSiteURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xml {
+            get {
+                object obj = ResourceManager.GetObject("xml", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xml_batch {
+            get {
+                object obj = ResourceManager.GetObject("xml_batch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

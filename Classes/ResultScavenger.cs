@@ -875,15 +875,21 @@ namespace CHaMPWorkbench.Classes
 
         }
 
-        private void PopulateTable_Log(ref OleDbConnection dbcon, int nVisitID, string sDirectory, string sLogFile, string sResultFilePath)
+        public void PopulateTable_Log(ref OleDbConnection dbcon, int nVisitID, string sDirectory, string sLogFile, string sResultFilePath)
         {
 
             foreach (string sLog in Directory.GetFiles(sDirectory, sLogFile, SearchOption.TopDirectoryOnly))
             {
-                XmlDocument xmlR = new XmlDocument();
-                xmlR.Load(sLog);
+               ScavengeLogFile(ref dbcon, nVisitID, sLog, sResultFilePath);
+            }
+        }
 
-                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (VisitID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbcon);
+        public static void ScavengeLogFile(ref OleDbConnection dbCon, int nVisitID, String sLogFile, String sResultFilePath)
+        {
+             XmlDocument xmlR = new XmlDocument();
+                xmlR.Load(sLogFile);
+
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (VisitID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbCon);
                 if (nVisitID > 0)
                 {
                     dbCom.Parameters.AddWithValue("VisitID", nVisitID);
@@ -892,7 +898,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     dbCom.Parameters.AddWithValue("VisitID", DBNull.Value);
                 }
-                dbCom.Parameters.AddWithValue("LogFilePath", sLog);
+                dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
 
                 OleDbParameter pResultFile = dbCom.Parameters.Add("ResultFilePath", OleDbType.VarChar);
                 if (string.IsNullOrEmpty(sResultFilePath))
@@ -920,14 +926,14 @@ namespace CHaMPWorkbench.Classes
                 //
                 // Get the ID of this log file entry
                 //
-                dbCom = new OleDbCommand("SELECT @@Identity FROM LogFiles", dbcon);
-                int nLogID = (int) dbCom.ExecuteScalar();
+                dbCom = new OleDbCommand("SELECT @@Identity FROM LogFiles", dbCon);
+                int nLogID = (int)dbCom.ExecuteScalar();
                 if (nLogID > 0)
                 {
                     //
                     // Now insert all the status messages and errors/warnings
                     //
-                    dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogDateTime, LogMessage, LogException, LogSolution) VALUES (@LogID, @MessageType, @LogDateTime, @LogMessage, @LogException, @LogSolution)", dbcon);
+                    dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogDateTime, LogMessage, LogException, LogSolution) VALUES (@LogID, @MessageType, @LogDateTime, @LogMessage, @LogException, @LogSolution)", dbCon);
                     dbCom.Parameters.AddWithValue("LogID", nLogID);
                     OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
                     OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
@@ -1038,9 +1044,7 @@ namespace CHaMPWorkbench.Classes
                         dbCom.ExecuteNonQuery();
                     }
                 }
-            }
         }
-
 
         private void PopulateTable_ChangeDetection(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID)
         {

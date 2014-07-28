@@ -10,11 +10,11 @@ using System.Data.OleDb;
 
 namespace CHaMPWorkbench
 {
-    public partial class frmRunRBT : Form
+    public partial class frmSelectRBTBatches : Form
     {
         private OleDbConnection m_dbCon;
 
-        public frmRunRBT(OleDbConnection dbCon)
+        public frmSelectRBTBatches(OleDbConnection dbCon)
         {
             m_dbCon = dbCon;
             InitializeComponent();
@@ -22,6 +22,8 @@ namespace CHaMPWorkbench
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             using (OleDbCommand dbUpdateBatch = new OleDbCommand("UPDATE RBT_Batches SET Run = ? WHERE ID = ?", m_dbCon))
             {
                 OleDbParameter pBatchRun = dbUpdateBatch.Parameters.Add("BatchRun", OleDbType.Boolean);
@@ -58,6 +60,7 @@ namespace CHaMPWorkbench
                     }
                 }
             }
+            Cursor.Current = Cursors.Default;
         }
 
         private void frmRunRBT_Load(object sender, EventArgs e)
