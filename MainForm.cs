@@ -26,20 +26,68 @@ namespace CHaMPWorkbench
             }
         }
 
+        private void UpdateMenuItemStatus(ToolStripItemCollection aMenu)
+        {
+            foreach (ToolStripItem subMenu in aMenu)
+            {
+                if (subMenu is ToolStripMenuItem)
+                //if we get the desired object type.
+                {
+                    if (((ToolStripMenuItem) subMenu).HasDropDownItems) // if subMenu has children
+                    {
+                        if (subMenu.Name != "aboutToolStripMenuItem")
+                            UpdateMenuItemStatus(((ToolStripMenuItem)subMenu).DropDownItems); // Call recursive Method.
+                    }
+                    else // Do the desired operations here.
+                    {
+                        switch (subMenu.Name)
+                            {
+                            case "optionsToolStripMenuItem":
+                                    break; // do nothing. Always enabled.
+
+                            case "openDatabaseToolStripMenuItem":
+                                    break; // do nothing. Always enabled.
+
+                            case "exitToolStripMenuItem":
+                                    break; // do nothing. Always enabled.
+                            
+                            case "closeDatabaseToolStripMenuItem":
+                                    subMenu.Enabled = m_dbCon != null;
+                                break;
+
+                            default:
+                                subMenu.Enabled = m_dbCon is System.Data.OleDb.OleDbConnection;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
         private void openDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select " + CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " Database";
             dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb|All Files (*.*)|*.*";
 
-            if (CHaMPWorkbench.Properties.Settings.Default.DBConnection != null)
+            if (m_dbCon is System.Data.OleDb.OleDbConnection)
             {
-                //System. DBConnection dbCon = new DBConnection(CHaMPWorkbench.Properties.Settings.Default.DBConnection );
-                //dlg.InitialDirectory =  
+                System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+                dlg.InitialDirectory =  System.IO.Path.GetDirectoryName( oCon.DataSource);
+                dlg.FileName = System.IO.Path.GetFileName(oCon.DataSource);
             }
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+                if (m_dbCon is System.Data.OleDb.OleDbConnection)
+                {
+                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+                    if (string.Compare(dlg.FileName, oCon.DataSource, true) == 0)
+                        return;
+                    else
+                        m_dbCon.Close();
+                }
+
                 String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + dlg.FileName);
                 try
                 {
@@ -48,6 +96,7 @@ namespace CHaMPWorkbench
                     m_dbCon.Open();
                     CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
                     CHaMPWorkbench.Properties.Settings.Default.Save();
+                    UpdateMenuItemStatus(menuStrip1.Items);
                 }
                 catch (Exception ex)
                 {
@@ -55,13 +104,13 @@ namespace CHaMPWorkbench
                     MessageBox.Show("Error opening database: " + sDB, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-
         }
 
         private void closeDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_dbCon = null;
             GC.Collect();
+            UpdateMenuItemStatus(menuStrip1.Items);
         }
 
         private void individualFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -90,35 +139,14 @@ namespace CHaMPWorkbench
 
         private void selectBatchesToRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmRunRBT frm = new frmRunRBT(m_dbCon);
+            frmSelectRBTBatches frm = new frmSelectRBTBatches(m_dbCon);
             frm.ShowDialog();
         }
 
         private void runRBTConsoleBatchesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (m_dbCon.State == ConnectionState.Closed)
-                m_dbCon.Open();
-
-            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
-                " FROM RBT_Batches RIGHT JOIN RBT_BatchRuns ON RBT_Batches.ID = RBT_BatchRuns.BatchID" +
-                " WHERE (((RBT_BatchRuns.Run)=True)) OR (((RBT_Batches.Run)=True))", m_dbCon))
-            {
-                int nRuns = (int) dbCom.ExecuteScalar();
-
-                if (nRuns < 1)
-                {
-                    MessageBox.Show("There are no runs queued to run. Use the Select Batch Runs tool to queue batch runs for processing.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                else
-                {
-                    if (MessageBox.Show("Are you sure that you want to run the RBT on the " + nRuns.ToString("#,##0") + " RBT runs that are queued?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole);
-                        rbt.Run();
-                    }
-                }
-            }
+            RBT.frmRunBatches frm = new RBT.frmRunBatches(m_dbCon);
+            frm.ShowDialog();
         }
 
         private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -158,8 +186,35 @@ namespace CHaMPWorkbench
 
         private void aboutTheCHaMPWorkbenchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAbout frm = new frmAbout();
+            frmAbout frm = new frmAbout(m_dbCon);
             frm.ShowDialog();
+        }
+
+        private void cHaMPWorkbenchWebSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(CHaMPWorkbench.Properties.Resources.WebSiteURL);
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (m_dbCon is System.Data.OleDb.OleDbConnection)
+                    if (m_dbCon.State == ConnectionState.Open)
+                        m_dbCon.Close();
+            }
+            catch (Exception ex)
+            {
+                // Do nothing. Let the application quitting try to release DB connection & resoures.
+            }
+
+            this.Close();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            UpdateMenuItemStatus(menuStrip1.Items);
         }
     }
 }
