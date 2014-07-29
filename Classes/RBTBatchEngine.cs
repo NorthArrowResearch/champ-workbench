@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Xml;
+using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace CHaMPWorkbench.Classes
 {
@@ -117,7 +119,20 @@ public class RBTBatchEngine
 
                     //Console.WriteLine("Running RBT with input file: " & sOutputPath)
                     Console.WriteLine("\n******************************************************************************");
-                    System.Diagnostics.Process.Start(m_sRBTPath, sInputFile); //, AppWinStyle.NormalFocus, true, nRBTTimeout);
+
+                    // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
+                    ProcessStartInfo psi = new ProcessStartInfo(m_sRBTPath);
+                    if (CHaMPWorkbench.Properties.Settings.Default.RBTPathVariableActive)
+                    {
+                        if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.RBTPathVariable))
+                        {
+                            StringDictionary dictionary = psi.EnvironmentVariables;
+                            psi.EnvironmentVariables["PATH"] = "C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs";
+                            psi.UseShellExecute = false;
+                            psi.Arguments = sInputFile;
+                        }
+                    }
+                    System.Diagnostics.Process.Start(psi);
                 }
                 catch (Exception ex)
                 {

@@ -40,5 +40,11 @@
     <Setting Name="ZipPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\7-Zip\7z.exe</Value>
     </Setting>
+    <Setting Name="RBTPathVariableActive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RBTPathVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

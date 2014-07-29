@@ -152,5 +152,29 @@ namespace CHaMPWorkbench.Properties {
                 this["ZipPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RBTPathVariableActive {
+            get {
+                return ((bool)(this["RBTPathVariableActive"]));
+            }
+            set {
+                this["RBTPathVariableActive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Python27\\\\ArcGISx6410.1;C:\\\\Python27\\\\ArcGISx6410.1\\\\DLLs")]
+        public string RBTPathVariable {
+            get {
+                return ((string)(this["RBTPathVariable"]));
+            }
+            set {
+                this["RBTPathVariable"] = value;
+            }
+        }
     }
 }

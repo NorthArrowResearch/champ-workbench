@@ -168,7 +168,7 @@ namespace CHaMPWorkbench
             theSite.WriteToXML(xmlInput, txtSourceFolder.Text);
             xmlInput.WriteEndElement(); // sites
 
-            theBuilder.CloseFile(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit, txtSourceFolder.Text));
+            theBuilder.CloseFile(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit, txtOutputFolder.Text));
 
             // Create the Batch
             if (chkBatch.Checked)
