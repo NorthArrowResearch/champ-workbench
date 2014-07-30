@@ -4027,7 +4027,12 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, CHAMP_ChannelUnits.SegmentID FROM ((CHAMP_ChannelUnits INNER JOIN CHAMP_Visits ON CHAMP_ChannelUnits.VisitID = CHAMP_Visits.VisitID) INNER JOIN CHAMP_ChannelUnits CHAMP_ChannelUnits_1 ON CHAMP_ChannelUnits.ID = CHAMP_ChannelUnits_1.ID) WHERE (CHAMP_Visits.VisitYear = ?) ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
+            this._commandCollection[1].CommandText = @"SELECT        CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, CHAMP_ChannelUnits.SegmentID
+FROM            ((CHAMP_ChannelUnits INNER JOIN
+                         CHaMP_Segments ON CHAMP_ChannelUnits.SegmentID = CHaMP_Segments.SegmentID) INNER JOIN
+                         CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID)
+WHERE        (CHAMP_Visits.VisitYear = ?)
+ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
