@@ -35,7 +35,7 @@ namespace CHaMPWorkbench.Classes
         private double m_nThalwegSmoothingTolerance = 2;
         private int m_nErrorRasterKernal = 5;
         private int m_nBankAngleBuffer = 5;
-        private bool m_bOutputProfileValues = true;
+        private bool m_bOutputProfileValues = false;
 
         private double m_fInitialCrossSectionLength = 50;
         #endregion

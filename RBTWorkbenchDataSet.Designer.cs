@@ -474,10 +474,6 @@ namespace CHaMPWorkbench {
             
             private global::System.Data.DataColumn columnID;
             
-            private global::System.Data.DataColumn columnVisitID;
-            
-            private global::System.Data.DataColumn columnChannelUnitID;
-            
             private global::System.Data.DataColumn columnChannelUnitNumber;
             
             private global::System.Data.DataColumn columnTier1;
@@ -524,22 +520,6 @@ namespace CHaMPWorkbench {
             public global::System.Data.DataColumn IDColumn {
                 get {
                     return this.columnID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn VisitIDColumn {
-                get {
-                    return this.columnVisitID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ChannelUnitIDColumn {
-                get {
-                    return this.columnChannelUnitID;
                 }
             }
             
@@ -612,18 +592,16 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CHAMP_ChannelUnitsRow AddCHAMP_ChannelUnitsRow(int VisitID, int ChannelUnitID, int ChannelUnitNumber, string Tier1, string Tier2, CHaMP_SegmentsRow parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits) {
+            public CHAMP_ChannelUnitsRow AddCHAMP_ChannelUnitsRow(int ChannelUnitNumber, string Tier1, string Tier2, CHaMP_SegmentsRow parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits) {
                 CHAMP_ChannelUnitsRow rowCHAMP_ChannelUnitsRow = ((CHAMP_ChannelUnitsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        VisitID,
-                        ChannelUnitID,
                         ChannelUnitNumber,
                         Tier1,
                         Tier2,
                         null};
                 if ((parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits != null)) {
-                    columnValuesArray[6] = parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits[0];
+                    columnValuesArray[4] = parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits[0];
                 }
                 rowCHAMP_ChannelUnitsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCHAMP_ChannelUnitsRow);
@@ -655,8 +633,6 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
                 this.columnID = base.Columns["ID"];
-                this.columnVisitID = base.Columns["VisitID"];
-                this.columnChannelUnitID = base.Columns["ChannelUnitID"];
                 this.columnChannelUnitNumber = base.Columns["ChannelUnitNumber"];
                 this.columnTier1 = base.Columns["Tier1"];
                 this.columnTier2 = base.Columns["Tier2"];
@@ -668,10 +644,6 @@ namespace CHaMPWorkbench {
             private void InitClass() {
                 this.columnID = new global::System.Data.DataColumn("ID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID);
-                this.columnVisitID = new global::System.Data.DataColumn("VisitID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnVisitID);
-                this.columnChannelUnitID = new global::System.Data.DataColumn("ChannelUnitID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnChannelUnitID);
                 this.columnChannelUnitNumber = new global::System.Data.DataColumn("ChannelUnitNumber", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnChannelUnitNumber);
                 this.columnTier1 = new global::System.Data.DataColumn("Tier1", typeof(string), null, global::System.Data.MappingType.Element);
@@ -2412,38 +2384,6 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int VisitID {
-                get {
-                    try {
-                        return ((int)(this[this.tableCHAMP_ChannelUnits.VisitIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'VisitID\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableCHAMP_ChannelUnits.VisitIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ChannelUnitID {
-                get {
-                    try {
-                        return ((int)(this[this.tableCHAMP_ChannelUnits.ChannelUnitIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ChannelUnitID\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableCHAMP_ChannelUnits.ChannelUnitIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ChannelUnitNumber {
                 get {
                     try {
@@ -2516,30 +2456,6 @@ namespace CHaMPWorkbench {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["CHaMP_SegmentsCHAMP_ChannelUnits"]);
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsVisitIDNull() {
-                return this.IsNull(this.tableCHAMP_ChannelUnits.VisitIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetVisitIDNull() {
-                this[this.tableCHAMP_ChannelUnits.VisitIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsChannelUnitIDNull() {
-                return this.IsNull(this.tableCHAMP_ChannelUnits.ChannelUnitIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetChannelUnitIDNull() {
-                this[this.tableCHAMP_ChannelUnits.ChannelUnitIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4048,8 +3964,6 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "CHAMP_ChannelUnits";
             tableMapping.ColumnMappings.Add("ID", "ID");
-            tableMapping.ColumnMappings.Add("VisitID", "VisitID");
-            tableMapping.ColumnMappings.Add("ChannelUnitID", "ChannelUnitID");
             tableMapping.ColumnMappings.Add("ChannelUnitNumber", "ChannelUnitNumber");
             tableMapping.ColumnMappings.Add("Tier1", "Tier1");
             tableMapping.ColumnMappings.Add("Tier2", "Tier2");
@@ -4057,13 +3971,9 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_ChannelUnits` WHERE ((`ID` = ?) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `ChannelUnitID` IS NULL) OR (`ChannelUnitID` = ?)) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_ChannelUnits` WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Tier1", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Original, true, null));
@@ -4074,30 +3984,22 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO `CHAMP_ChannelUnits` (`VisitID`, `ChannelUnitID`, `ChannelUnitNumber`" +
-                ", `Tier1`, `Tier2`, `SegmentID`) VALUES (?, ?, ?, ?, ?, ?)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO `CHAMP_ChannelUnits` (`ChannelUnitNumber`, `Tier1`, `Tier2`, `Segment" +
+                "ID`) VALUES (?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier1", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_ChannelUnits` SET `VisitID` = ?, `ChannelUnitID` = ?, `ChannelUnitNumber` = ?, `Tier1` = ?, `Tier2` = ?, `SegmentID` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `ChannelUnitID` IS NULL) OR (`ChannelUnitID` = ?)) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_ChannelUnits` SET `ChannelUnitNumber` = ?, `Tier1` = ?, `Tier2` = ?, `SegmentID` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier1", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ChannelUnitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Tier1", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Original, true, null));
@@ -4121,18 +4023,11 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[2];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, VisitID, ChannelUnitID, ChannelUnitNumber, Tier1, Tier2, SegmentID FRO" +
-                "M CHAMP_ChannelUnits";
+            this._commandCollection[0].CommandText = "SELECT ID, ChannelUnitNumber, Tier1, Tier2, SegmentID FROM CHAMP_ChannelUnits";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT        CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.VisitID, CHAMP_ChannelUnits.ChannelUnitID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, 
-                         CHAMP_ChannelUnits.SegmentID
-FROM            ((CHAMP_ChannelUnits INNER JOIN
-                         CHAMP_Visits ON CHAMP_ChannelUnits.VisitID = CHAMP_Visits.VisitID) INNER JOIN
-                         CHAMP_ChannelUnits CHAMP_ChannelUnits_1 ON CHAMP_ChannelUnits.ID = CHAMP_ChannelUnits_1.ID)
-WHERE        (CHAMP_Visits.VisitYear = ?)
-ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
+            this._commandCollection[1].CommandText = @"SELECT CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, CHAMP_ChannelUnits.SegmentID FROM ((CHAMP_ChannelUnits INNER JOIN CHAMP_Visits ON CHAMP_ChannelUnits.VisitID = CHAMP_Visits.VisitID) INNER JOIN CHAMP_ChannelUnits CHAMP_ChannelUnits_1 ON CHAMP_ChannelUnits.ID = CHAMP_ChannelUnits_1.ID) WHERE (CHAMP_Visits.VisitYear = ?) ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -4208,50 +4103,34 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, int Original_VisitID, global::System.Nullable<int> Original_ChannelUnitID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, global::System.Nullable<int> Original_SegmentID) {
+        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_VisitID));
-            if ((Original_ChannelUnitID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((int)(Original_ChannelUnitID.Value));
+            if ((Original_ChannelUnitNumber.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ChannelUnitNumber.Value));
             }
             else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Tier1 == null)) {
                 this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            if ((Original_ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_ChannelUnitNumber.Value));
-            }
             else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_Tier1));
+            }
+            if ((Original_Tier2 == null)) {
                 this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
-            if ((Original_Tier1 == null)) {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
             else {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_Tier1));
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((string)(Original_Tier2));
             }
-            if ((Original_Tier2 == null)) {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_Tier2));
-            }
-            if ((Original_SegmentID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((int)(Original_SegmentID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_SegmentID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4272,38 +4151,26 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int VisitID, global::System.Nullable<int> ChannelUnitID, global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, global::System.Nullable<int> SegmentID) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(VisitID));
-            if ((ChannelUnitID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ChannelUnitID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
+        public virtual int Insert(global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, int SegmentID) {
             if ((ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(ChannelUnitNumber.Value));
+                this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ChannelUnitNumber.Value));
             }
             else {
-                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
             if ((Tier1 == null)) {
-                this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(Tier1));
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Tier1));
             }
             if ((Tier2 == null)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(Tier2));
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Tier2));
             }
-            if ((SegmentID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((int)(SegmentID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.InsertCommand.Parameters[3].Value = ((int)(SegmentID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4324,81 +4191,53 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int VisitID, global::System.Nullable<int> ChannelUnitID, global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, global::System.Nullable<int> SegmentID, int Original_ID, int Original_VisitID, global::System.Nullable<int> Original_ChannelUnitID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, global::System.Nullable<int> Original_SegmentID) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(VisitID));
-            if ((ChannelUnitID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ChannelUnitID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
+        public virtual int Update(global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, int SegmentID, int Original_ID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
             if ((ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(ChannelUnitNumber.Value));
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ChannelUnitNumber.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
             if ((Tier1 == null)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Tier1));
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Tier1));
             }
             if ((Tier2 == null)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Tier2));
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Tier2));
             }
-            if ((SegmentID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(SegmentID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_VisitID));
-            if ((Original_ChannelUnitID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_ChannelUnitID.Value));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(SegmentID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
+            if ((Original_ChannelUnitNumber.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ChannelUnitNumber.Value));
             }
             else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Tier1 == null)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_Tier1));
+            }
+            if ((Original_Tier2 == null)) {
                 this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
-            if ((Original_ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_ChannelUnitNumber.Value));
-            }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Tier2));
             }
-            if ((Original_Tier1 == null)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_Tier1));
-            }
-            if ((Original_Tier2 == null)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_Tier2));
-            }
-            if ((Original_SegmentID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(Original_SegmentID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_SegmentID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {

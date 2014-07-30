@@ -1,6 +1,6 @@
 ﻿namespace CHaMPWorkbench
 {
-    partial class frmScavengeVisitInfo
+    partial class frmScavengeVisitTopoInfo
     {
         /// <summary>
         /// Required designer variable.
@@ -74,6 +74,7 @@
             this.cmdBrowseFolder.TabIndex = 7;
             this.cmdBrowseFolder.Text = "Browse";
             this.cmdBrowseFolder.UseVisualStyleBackColor = true;
+            this.cmdBrowseFolder.Click += new System.EventHandler(this.cmdBrowseFolder_Click);
             // 
             // cmdCancel
             // 

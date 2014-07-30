@@ -93,6 +93,12 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmScavengeVisitInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmScavengeVisitInfo.Designer.cs">
+      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,11 +129,11 @@
     <Compile Include="RBT\Batches\frmSelectRBTBatches.Designer.cs">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </Compile>
-    <Compile Include="RBT\Scavenger\frmScavengeVisitInfo.cs">
+    <Compile Include="RBT\Scavenger\frmScavengeVisitTopoInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBT\Scavenger\frmScavengeVisitInfo.Designer.cs">
-      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    <Compile Include="RBT\Scavenger\frmScavengeVisitTopoInfo.Designer.cs">
+      <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.cs">
       <SubType>Form</SubType>
@@ -168,6 +174,9 @@
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmScavengeVisitInfo.resx">
+      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,8 +192,8 @@
     <EmbeddedResource Include="RBT\Batches\frmSelectRBTBatches.resx">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBT\Scavenger\frmScavengeVisitInfo.resx">
-      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    <EmbeddedResource Include="RBT\Scavenger\frmScavengeVisitTopoInfo.resx">
+      <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>

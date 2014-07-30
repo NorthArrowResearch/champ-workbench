@@ -152,7 +152,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmScavengeVisitInfo frm = new frmScavengeVisitInfo(m_dbCon);
+            frmScavengeVisitTopoInfo frm = new frmScavengeVisitTopoInfo(m_dbCon);
             frm.ShowDialog();
         }
 
@@ -193,7 +193,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmScavengeVisitInfo frm = new frmScavengeVisitInfo(m_dbCon);
+            frmScavengeVisitTopoInfo frm = new frmScavengeVisitTopoInfo(m_dbCon);
             frm.ShowDialog();
         }
 
@@ -234,6 +234,12 @@ namespace CHaMPWorkbench
         private void MainForm_Load(object sender, EventArgs e)
         {
             UpdateMenuItemStatus(menuStrip1.Items);
+        }
+
+        private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+       Data.frmScavengeVisitInfo frm = new Data.frmScavengeVisitInfo(m_dbCon);
+            frm.ShowDialog();
         }
     }
 }

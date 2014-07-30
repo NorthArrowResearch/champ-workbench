@@ -54,6 +54,7 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -107,7 +108,8 @@
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
-            this.scavengeVisitTopoDataToolStripMenuItem});
+            this.scavengeVisitTopoDataToolStripMenuItem,
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -116,7 +118,7 @@
             // 
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring data 7Zip Archive...";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
@@ -124,7 +126,7 @@
             // 
             this.scavengeVisitTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitTopoDataToolStripMenuItem.Name = "scavengeVisitTopoDataToolStripMenuItem";
-            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.scavengeVisitTopoDataToolStripMenuItem.Text = "Scavenge Visit Topo Data...";
             this.scavengeVisitTopoDataToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitTopoDataToolStripMenuItem_Click);
             // 
@@ -149,7 +151,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -166,7 +168,7 @@
             // 
             this.singleToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.xml;
             this.singleToolStripMenuItem.Name = "singleToolStripMenuItem";
-            this.singleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.singleToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.singleToolStripMenuItem.Text = "Single...";
             this.singleToolStripMenuItem.Click += new System.EventHandler(this.singleToolStripMenuItem_Click);
             // 
@@ -174,7 +176,7 @@
             // 
             this.batchToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml_batch;
             this.batchToolStripMenuItem1.Name = "batchToolStripMenuItem1";
-            this.batchToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.batchToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
             this.batchToolStripMenuItem1.Text = "Batch...";
             this.batchToolStripMenuItem1.Click += new System.EventHandler(this.batchToolStripMenuItem1_Click);
             // 
@@ -214,13 +216,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -264,6 +266,13 @@
             this.tssDatabasePath.Name = "tssDatabasePath";
             this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
+            // 
+            // scavengeVisitDataFromCHaMPExportToolStripMenuItem
+            // 
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Name = "scavengeVisitDataFromCHaMPExportToolStripMenuItem";
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Scavenge Visit Data From CHaMP Export";
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -313,6 +322,7 @@
         private System.Windows.Forms.ToolStripMenuItem cHaMPWorkbenchWebSiteToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tssDatabasePath;
+        private System.Windows.Forms.ToolStripMenuItem scavengeVisitDataFromCHaMPExportToolStripMenuItem;
     }
 }
 
