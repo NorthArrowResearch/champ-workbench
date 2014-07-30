@@ -132,8 +132,12 @@ public class RBTBatchEngine
                             psi.Arguments = sInputFile;
                         }
                     }
-                    System.Diagnostics.Process.Start(psi);
-                }
+                    System.Diagnostics.Process proc = new Process();
+
+                    proc.StartInfo = psi;
+                    proc.Start();
+                     proc.WaitForExit();
+               }
                 catch (Exception ex)
                 {
                 }
