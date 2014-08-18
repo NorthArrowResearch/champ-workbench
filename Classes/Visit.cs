@@ -66,6 +66,16 @@ namespace CHaMPWorkbench.Classes
             return FieldSeason.ToString() + " - " + m_sHitch + (m_bPrimary ? " - Primary" : "");
         }
 
+        public string Hitch
+        {
+            get { return m_sHitch; }
+        }
+
+        public string Crew
+        {
+            get { return m_sCrew; }
+        }
+
         public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary)
             : base(nID, sHitch)
         {

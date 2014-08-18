@@ -47,7 +47,8 @@ namespace CHaMPWorkbench.Classes
         public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
-
+            int nSuccess = 0;
+            string sResult;
             try
             {
                 OleDbCommand dbInsert = new OleDbCommand("INSERT INTO RBT_Batches (BatchName, Run) Values (?, 1)", m_dbCon, dbTrans);
@@ -70,7 +71,7 @@ namespace CHaMPWorkbench.Classes
                     string sInputFile = System.IO.Path.Combine(sOutputfolder, sDefaultInputFileName);
                     sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
 
-                    pSummary.Value = DBNull.Value; //rVisit.VisitYear.ToString() + ", " + rVisit.;
+                    //pSummary.Value = DBNull.Value; //rVisit.VisitYear.ToString() + ", " + rVisit.;
                     pInputfile.Value = sInputFile;
                     pPrimaryVisitID.Value = rVisit.VisitID;
 
@@ -83,8 +84,7 @@ namespace CHaMPWorkbench.Classes
 
                         Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bChangeDetection || bMakeDEMOrthogonal);
                         theSite.AddVisit(v);
- //v.WriteToXML(ref xmlInput, sVisitTopofolder);
-
+                     
                         if (bIncludeOtherVisits)
                         {
                             foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rOtherVisit in m_ds.CHAMP_Visits)
@@ -97,6 +97,7 @@ namespace CHaMPWorkbench.Classes
                                 }
                             }
                         }
+                        pSummary.Value = theSite.NameForDatabaseBatch;
 
                         xmlInput.WriteStartElement("sites");
                         theSite.WriteToXML(xmlInput, sParentTopoDataFolder);
@@ -107,17 +108,20 @@ namespace CHaMPWorkbench.Classes
 
                         dbInsert.ExecuteNonQuery();
                     }
+                    nSuccess += 1;
                 }
 
                 dbTrans.Commit();
+                sResult = nSuccess.ToString("#,##0") + " input files generated successfully.";
+
             }
             catch (Exception ex)
             {
                 dbTrans.Rollback();
-                throw;
+                sResult = nSuccess.ToString("#,##0") + " input files were generated successfully, but then an error occurred and none of the records were stored in the workbench database. The error was: " + ex.Message;
             }
 
-            return "";
+            return sResult;
         }
     }
 }

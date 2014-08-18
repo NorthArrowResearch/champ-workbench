@@ -77,5 +77,42 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteEndElement(); // site
         }
 
+        public string NameForDatabaseBatch
+                {
+            get
+            {
+                Visit targetVisit = null;
+                foreach (Visit v in m_dVisits.Values)
+                    if (v.CalculateMetrics || v.ChangeDetection)
+                        targetVisit = v;
+
+                   string sName ="";
+                if (targetVisit is Visit)
+                    sName = targetVisit.FieldSeason.ToString() + ", ";
+
+                if (m_Watershed is Watershed)
+                    sName += m_Watershed.ToString() + ", ";
+
+                sName += this.ToString() + ", ";
+
+                if (targetVisit is Visit)
+                {
+                    if (!string.IsNullOrWhiteSpace(targetVisit.Hitch))
+                        sName += targetVisit.Hitch + ", ";
+
+                    if (!string.IsNullOrWhiteSpace(targetVisit.Crew))
+                        sName += targetVisit.Crew + ", ";
+
+                    if (targetVisit.Primary)
+                    {
+                        sName += " Primary";
+                        sName += ", ";
+                    }
+                }
+
+                sName += m_dVisits.Count.ToString() + " visits";
+                return sName;
+            }
+        }
     }
 }

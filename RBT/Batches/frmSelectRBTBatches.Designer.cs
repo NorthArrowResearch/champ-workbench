@@ -45,6 +45,9 @@
             // 
             // treBatches
             // 
+            this.treBatches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.treBatches.Location = new System.Drawing.Point(16, 38);
             this.treBatches.Name = "treBatches";
             this.treBatches.Size = new System.Drawing.Size(400, 387);
@@ -74,7 +77,7 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // frmRunRBT
+            // frmSelectRBTBatches
             // 
             this.AcceptButton = this.cmdOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -85,10 +88,10 @@
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.treBatches);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmRunRBT";
+            this.MinimumSize = new System.Drawing.Size(444, 510);
+            this.Name = "frmSelectRBTBatches";
             this.Text = "Run RBT Console";
             this.Load += new System.EventHandler(this.frmRunRBT_Load);
             this.ResumeLayout(false);
