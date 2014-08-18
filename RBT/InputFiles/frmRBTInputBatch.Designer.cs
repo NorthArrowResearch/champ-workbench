@@ -140,7 +140,7 @@
             this.GroupBox1.Size = new System.Drawing.Size(239, 68);
             this.GroupBox1.TabIndex = 12;
             this.GroupBox1.TabStop = false;
-            this.GroupBox1.Text = "Primary Visit Attributes";
+            this.GroupBox1.Text = "Target Visit Attributes";
             // 
             // chkChangeDetection
             // 
