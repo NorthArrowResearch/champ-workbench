@@ -38,6 +38,8 @@
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.buildInputFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,18 +52,20 @@
             this.scavengeRBTResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
-            this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutExperimentalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -117,7 +121,9 @@
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.scavengeVisitTopoDataToolStripMenuItem,
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem});
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -144,6 +150,18 @@
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Scavenge Visit Data From CHaMP Export";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(284, 6);
+            // 
+            // prepareDatabaseForDeploymentToolStripMenuItem
+            // 
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Prepare Database for Deployment...";
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
             // rBTToolStripMenuItem
             // 
@@ -241,6 +259,57 @@
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
+            // experimentalToolStripMenuItem
+            // 
+            this.experimentalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutExperimentalToolsToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.ericWallToolStripMenuItem,
+            this.jamesHensleighToolStripMenuItem,
+            this.kellyWhiteheadToolStripMenuItem,
+            this.konradHaffenToolStripMenuItem,
+            this.philipBaileyToolStripMenuItem,
+            this.saraBangenToolStripMenuItem});
+            this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
+            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.experimentalToolStripMenuItem.Text = "Experimental";
+            // 
+            // ericWallToolStripMenuItem
+            // 
+            this.ericWallToolStripMenuItem.Name = "ericWallToolStripMenuItem";
+            this.ericWallToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.ericWallToolStripMenuItem.Text = "Eric Wall";
+            // 
+            // jamesHensleighToolStripMenuItem
+            // 
+            this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
+            this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
+            // 
+            // kellyWhiteheadToolStripMenuItem
+            // 
+            this.kellyWhiteheadToolStripMenuItem.Name = "kellyWhiteheadToolStripMenuItem";
+            this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.kellyWhiteheadToolStripMenuItem.Text = "Kelly Whitehead";
+            // 
+            // konradHaffenToolStripMenuItem
+            // 
+            this.konradHaffenToolStripMenuItem.Name = "konradHaffenToolStripMenuItem";
+            this.konradHaffenToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.konradHaffenToolStripMenuItem.Text = "Konrad Hafen";
+            // 
+            // philipBaileyToolStripMenuItem
+            // 
+            this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
+            this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
+            // 
+            // saraBangenToolStripMenuItem
+            // 
+            this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
+            this.saraBangenToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.saraBangenToolStripMenuItem.Text = "Sara Bangen";
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -282,54 +351,18 @@
             this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
             // 
-            // experimentalToolStripMenuItem
+            // toolStripSeparator5
             // 
-            this.experimentalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ericWallToolStripMenuItem,
-            this.jamesHensleighToolStripMenuItem,
-            this.kellyWhiteheadToolStripMenuItem,
-            this.konradHaffenToolStripMenuItem,
-            this.philipBaileyToolStripMenuItem,
-            this.saraBangenToolStripMenuItem});
-            this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
-            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
-            this.experimentalToolStripMenuItem.Text = "Experimental";
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(216, 6);
             // 
-            // jamesHensleighToolStripMenuItem
+            // aboutExperimentalToolsToolStripMenuItem
             // 
-            this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
-            this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
-            // 
-            // kellyWhiteheadToolStripMenuItem
-            // 
-            this.kellyWhiteheadToolStripMenuItem.Name = "kellyWhiteheadToolStripMenuItem";
-            this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.kellyWhiteheadToolStripMenuItem.Text = "Kelly Whitehead";
-            // 
-            // philipBaileyToolStripMenuItem
-            // 
-            this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
-            this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
-            // 
-            // ericWallToolStripMenuItem
-            // 
-            this.ericWallToolStripMenuItem.Name = "ericWallToolStripMenuItem";
-            this.ericWallToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.ericWallToolStripMenuItem.Text = "Eric Wall";
-            // 
-            // saraBangenToolStripMenuItem
-            // 
-            this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
-            this.saraBangenToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.saraBangenToolStripMenuItem.Text = "Sara Bangen";
-            // 
-            // konradHaffenToolStripMenuItem
-            // 
-            this.konradHaffenToolStripMenuItem.Name = "konradHaffenToolStripMenuItem";
-            this.konradHaffenToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.konradHaffenToolStripMenuItem.Text = "Konrad Hafen";
+            this.aboutExperimentalToolsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Help;
+            this.aboutExperimentalToolsToolStripMenuItem.Name = "aboutExperimentalToolsToolStripMenuItem";
+            this.aboutExperimentalToolsToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.aboutExperimentalToolsToolStripMenuItem.Text = "About Experimental Tools...";
+            this.aboutExperimentalToolsToolStripMenuItem.Click += new System.EventHandler(this.aboutExperimentalToolsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -387,6 +420,10 @@
         private System.Windows.Forms.ToolStripMenuItem konradHaffenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem philipBaileyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saraBangenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem prepareDatabaseForDeploymentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutExperimentalToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

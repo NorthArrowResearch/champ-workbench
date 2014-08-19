@@ -241,5 +241,17 @@ namespace CHaMPWorkbench
        Data.frmScavengeVisitInfo frm = new Data.frmScavengeVisitInfo(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void prepareDatabaseForDeploymentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmClearDatabase frm = new Data.frmClearDatabase(m_dbCon);
+            frm.ShowDialog();
+        }
+
+        private void aboutExperimentalToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This menu contains tools that are still under development, or only intended for a select number of people. Developers should" +
+                " place experimental tools under their own name until they are robust and tested.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
