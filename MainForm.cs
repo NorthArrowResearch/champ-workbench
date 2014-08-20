@@ -253,5 +253,11 @@ namespace CHaMPWorkbench
             MessageBox.Show("This menu contains tools that are still under development, or only intended for a select number of people. Developers should" +
                 " place experimental tools under their own name until they are robust and tested.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void hydroModelInputGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.Kelly.frmHydroModelInputs frm = new Experimental.Kelly.frmHydroModelInputs(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }

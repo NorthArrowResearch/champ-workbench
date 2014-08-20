@@ -13,15 +13,18 @@ namespace CHaMPWorkbench.Experimental.Kelly
 {
     public partial class frmHydroModelInputs : Form
     {
+        private OleDbConnection m_dbCon;
 
-        public frmHydroModelInputs()
+        public frmHydroModelInputs(OleDbConnection dbCon)
         {
             InitializeComponent();
+            m_dbCon = dbCon;
         }
 
         private void frmHydroModelInputs_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'rBTWorkbenchDataSet.CHAMP_Visits' table. You can move, or remove it, as needed.
+            this.cHAMP_VisitsTableAdapter.Connection = m_dbCon;      
+                
             this.cHAMP_VisitsTableAdapter.Fill(this.rBTWorkbenchDataSet.CHAMP_Visits);
 
             optAllVisits.CheckedChanged += optRadioButtons_CheckChanged;

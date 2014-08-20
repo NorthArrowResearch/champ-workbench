@@ -30,7 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gbxInputParams = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.gbxInputData = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chkSaveNewBatch = new System.Windows.Forms.CheckBox();
             this.cHAMP_VisitsDataGridView = new System.Windows.Forms.DataGridView();
             this.cHAMP_VisitsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rBTWorkbenchDataSet = new CHaMPWorkbench.RBTWorkbenchDataSet();
@@ -40,8 +43,8 @@
             this.gbxOutput = new System.Windows.Forms.GroupBox();
             this.txtOutputWorkspace = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.cHAMP_VisitsTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
             this.tableAdapterManager = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.TableAdapterManager();
             this.Run = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -54,9 +57,6 @@
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.chkSaveNewBatch = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.gbxInputParams.SuspendLayout();
             this.gbxInputData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cHAMP_VisitsDataGridView)).BeginInit();
@@ -67,13 +67,24 @@
             // 
             // gbxInputParams
             // 
+            this.gbxInputParams.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxInputParams.Controls.Add(this.label2);
-            this.gbxInputParams.Location = new System.Drawing.Point(12, 12);
+            this.gbxInputParams.Location = new System.Drawing.Point(2, 2);
             this.gbxInputParams.Name = "gbxInputParams";
-            this.gbxInputParams.Size = new System.Drawing.Size(886, 118);
+            this.gbxInputParams.Size = new System.Drawing.Size(884, 63);
             this.gbxInputParams.TabIndex = 0;
             this.gbxInputParams.TabStop = false;
             this.gbxInputParams.Text = "Input Parameters";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(27, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(193, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "No Parameters to Change";
             // 
             // gbxInputData
             // 
@@ -85,12 +96,31 @@
             this.gbxInputData.Controls.Add(this.optBatches);
             this.gbxInputData.Controls.Add(this.optSelectVisits);
             this.gbxInputData.Controls.Add(this.optAllVisits);
-            this.gbxInputData.Location = new System.Drawing.Point(12, 136);
+            this.gbxInputData.Location = new System.Drawing.Point(3, 71);
             this.gbxInputData.Name = "gbxInputData";
-            this.gbxInputData.Size = new System.Drawing.Size(886, 448);
+            this.gbxInputData.Size = new System.Drawing.Size(883, 448);
             this.gbxInputData.TabIndex = 1;
             this.gbxInputData.TabStop = false;
             this.gbxInputData.Text = "Input Datasets";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(194, 370);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(338, 26);
+            this.textBox1.TabIndex = 5;
+            // 
+            // chkSaveNewBatch
+            // 
+            this.chkSaveNewBatch.AutoSize = true;
+            this.chkSaveNewBatch.Enabled = false;
+            this.chkSaveNewBatch.Location = new System.Drawing.Point(11, 370);
+            this.chkSaveNewBatch.Name = "chkSaveNewBatch";
+            this.chkSaveNewBatch.Size = new System.Drawing.Size(177, 24);
+            this.chkSaveNewBatch.TabIndex = 4;
+            this.chkSaveNewBatch.Text = "Save as New Batch:";
+            this.chkSaveNewBatch.UseVisualStyleBackColor = true;
             // 
             // cHAMP_VisitsDataGridView
             // 
@@ -114,8 +144,9 @@
             this.cHAMP_VisitsDataGridView.DataSource = this.cHAMP_VisitsBindingSource;
             this.cHAMP_VisitsDataGridView.Location = new System.Drawing.Point(11, 86);
             this.cHAMP_VisitsDataGridView.Name = "cHAMP_VisitsDataGridView";
+            this.cHAMP_VisitsDataGridView.RowHeadersVisible = false;
             this.cHAMP_VisitsDataGridView.RowTemplate.Height = 28;
-            this.cHAMP_VisitsDataGridView.Size = new System.Drawing.Size(868, 277);
+            this.cHAMP_VisitsDataGridView.Size = new System.Drawing.Size(865, 277);
             this.cHAMP_VisitsDataGridView.TabIndex = 3;
             // 
             // cHAMP_VisitsBindingSource
@@ -169,9 +200,9 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxOutput.Controls.Add(this.txtOutputWorkspace);
             this.gbxOutput.Controls.Add(this.label1);
-            this.gbxOutput.Location = new System.Drawing.Point(12, 590);
+            this.gbxOutput.Location = new System.Drawing.Point(2, 525);
             this.gbxOutput.Name = "gbxOutput";
-            this.gbxOutput.Size = new System.Drawing.Size(886, 86);
+            this.gbxOutput.Size = new System.Drawing.Size(883, 86);
             this.gbxOutput.TabIndex = 2;
             this.gbxOutput.TabStop = false;
             this.gbxOutput.Text = "Outputs";
@@ -182,7 +213,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutputWorkspace.Location = new System.Drawing.Point(102, 38);
             this.txtOutputWorkspace.Name = "txtOutputWorkspace";
-            this.txtOutputWorkspace.Size = new System.Drawing.Size(777, 26);
+            this.txtOutputWorkspace.Size = new System.Drawing.Size(774, 26);
             this.txtOutputWorkspace.TabIndex = 1;
             // 
             // label1
@@ -194,25 +225,26 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Workspace";
             // 
-            // button1
+            // btnCancel
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(831, 689);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Cancel";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(802, 637);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(84, 30);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnOK
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(750, 689);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "OK";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(701, 637);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(95, 30);
+            this.btnOK.TabIndex = 4;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
             // 
             // cHAMP_VisitsTableAdapter
             // 
@@ -233,6 +265,7 @@
             this.Run.Frozen = true;
             this.Run.HeaderText = "Run";
             this.Run.Name = "Run";
+            this.Run.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Run.Width = 25;
             // 
             // dataGridViewTextBoxColumn4
@@ -286,6 +319,7 @@
             this.dataGridViewCheckBoxColumn1.HeaderText = "IsPrimary";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             this.dataGridViewCheckBoxColumn1.ReadOnly = true;
+            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.dataGridViewCheckBoxColumn1.Width = 25;
             // 
             // dataGridViewTextBoxColumn1
@@ -303,41 +337,14 @@
             this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
             this.dataGridViewTextBoxColumn19.ReadOnly = true;
             // 
-            // chkSaveNewBatch
-            // 
-            this.chkSaveNewBatch.AutoSize = true;
-            this.chkSaveNewBatch.Enabled = false;
-            this.chkSaveNewBatch.Location = new System.Drawing.Point(11, 370);
-            this.chkSaveNewBatch.Name = "chkSaveNewBatch";
-            this.chkSaveNewBatch.Size = new System.Drawing.Size(177, 24);
-            this.chkSaveNewBatch.TabIndex = 4;
-            this.chkSaveNewBatch.Text = "Save as New Batch:";
-            this.chkSaveNewBatch.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(194, 370);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(338, 26);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(325, 60);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(193, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "No Parameters to Change";
-            // 
             // frmHydroModelInputs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(910, 724);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(907, 743);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gbxOutput);
             this.Controls.Add(this.gbxInputData);
             this.Controls.Add(this.gbxInputParams);
@@ -369,8 +376,8 @@
         private System.Windows.Forms.RadioButton optBatches;
         private System.Windows.Forms.RadioButton optAllVisits;
         private System.Windows.Forms.GroupBox gbxOutput;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.TextBox txtOutputWorkspace;
         private System.Windows.Forms.Label label1;
         private RBTWorkbenchDataSet rBTWorkbenchDataSet;
@@ -378,6 +385,9 @@
         private RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter cHAMP_VisitsTableAdapter;
         private RBTWorkbenchDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.DataGridView cHAMP_VisitsDataGridView;
+        private System.Windows.Forms.CheckBox chkSaveNewBatch;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Run;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -388,8 +398,5 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
-        private System.Windows.Forms.CheckBox chkSaveNewBatch;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
