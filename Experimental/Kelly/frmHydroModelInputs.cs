@@ -27,7 +27,7 @@ namespace CHaMPWorkbench.Experimental.Kelly
             optAllVisits.CheckedChanged += optRadioButtons_CheckChanged;
             optSelectVisits.CheckedChanged += optRadioButtons_CheckChanged;
             optBatches.CheckedChanged += optRadioButtons_CheckChanged;
-            chkSaveNewBatch.CheckedChanged +=
+            //chkSaveNewBatch.CheckedChanged += 
         
         }
 
@@ -47,7 +47,7 @@ namespace CHaMPWorkbench.Experimental.Kelly
             }
         }
 
-        private void chkSaveBatch_CheckChanged(object sender, EventArgs e)
+        //private void chkSaveBatch_CheckChanged(object sender, EventArgs e);
             
     }
 }
