@@ -17,9 +17,7 @@ namespace CHaMPWorkbench.Classes
 {
     class ResultScavenger
     {
-
         private string m_sTopLevelFolder;
-        private string m_sAccessPath;
         private string m_sFileSearch;
         private bool m_bEmptyDatabaseBefore;
         private SearchOption m_SearchOption;
@@ -27,7 +25,7 @@ namespace CHaMPWorkbench.Classes
 
         private string m_sLogFilePattern;
 
-        public ResultScavenger(OleDbConnection dbCon, string sTopLevelFolder, string sAccessPath, string sFileSearch, bool bRecursive, bool bEmptyDatabaseBefore, string sLogFilePattern)
+        public ResultScavenger(OleDbConnection dbCon, string sTopLevelFolder, string sFileSearch, bool bRecursive, bool bEmptyDatabaseBefore, string sLogFilePattern)
         {
             m_dbCon = dbCon;
 
@@ -45,30 +43,6 @@ namespace CHaMPWorkbench.Classes
                 }
             }
             m_sTopLevelFolder = sTopLevelFolder;
-
-            if (string.IsNullOrEmpty(sAccessPath))
-            {
-                throw new ArgumentNullException("sAccessPath", "The database path cannot be null or empty");
-            }
-            else
-            {
-                if (File.Exists(sAccessPath))
-                {
-                    if (string.Compare(Path.GetExtension(sAccessPath), ".mdb", true) != 0)
-                    {
-                        ArgumentException ex = new ArgumentException("sAccessPath", "The access path does not appear to be an Access database");
-                        ex.Data.Add("sAccessPath", sAccessPath);
-                        throw ex;
-                    }
-                }
-                else
-                {
-                    ArgumentException ex = new ArgumentException("sAccessPath", "The access database path does not exist");
-                    ex.Data.Add("Access Path", sAccessPath);
-                    throw ex;
-                }
-            }
-            m_sAccessPath = sAccessPath;
 
             if (bRecursive)
             {
@@ -100,9 +74,9 @@ namespace CHaMPWorkbench.Classes
             int nProcessed = 0;
             List<Exception> eErrors = new List<Exception>();
             string[] sFiles = Directory.GetFiles(m_sTopLevelFolder, m_sFileSearch, m_SearchOption);
-            using (OleDbConnection dbCon = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + m_sAccessPath + ";Persist Security Info=False"))
-            {
-                dbCon.Open();
+  
+            if (m_dbCon.State == ConnectionState.Closed)
+                m_dbCon.Open();
 
                 if (m_bEmptyDatabaseBefore)
                 {
@@ -123,7 +97,7 @@ namespace CHaMPWorkbench.Classes
                             try
                             {
                                 Debug.Print("Processing file: " + sFiles[i].ToString());
-                                nVisitID = PopulateTable_Visit(dbCon, metricNode, sFiles[i]);
+                                nVisitID = PopulateTable_Visit(m_dbCon, metricNode, sFiles[i]);
                                 nProcessed += 1;
                             }
                             catch (Exception ex)
@@ -151,11 +125,7 @@ namespace CHaMPWorkbench.Classes
                         // XML files. e.g. miscellaneous XML files that have badly formed XML.
                         //
                     }
-                }
-
-                dbCon.Close();
             }
-            GC.Collect();
 
             if (eErrors.Count > 0)
             {
@@ -171,7 +141,7 @@ namespace CHaMPWorkbench.Classes
         {
 
             string sSQL = null;
-            sSQL = "INSERT INTO Visits (" + "ResultFile" + ", VisitName" + ", FieldSeason" + ", SiteName" + ", RBTRunDateTime" + ", RBTInputFile" + ", Artifacts" + ", LinearUnits" + ", ReachLengthThalweg" + ", ThalwegIncrementDistance" + ", ReachWidthWetted" + ", CoordAProjected" + ", CoordAGeographic" + ", CoordKProjected" + ", CoordKGeographic" + ", SiteWaterSurfaceSlope" + ", AreaSum" + ", RP100" + ", PoolTailCrestDepthAvg" + ", PoolMaxDepthAvg" + ", XBFHeight" + ", XBFWidth" + ", BnkFullChCap" + ", AvgXSecArea" + ", AcgXSecAreaRect" + ", AvgChCap" + ", DEM_Left" + ", DEM_Right" + ", DEM_Top" + ", DEM_Bottom" + ", SiteGradient" + ", SiteWaterSurfaceGradient" + ", SiteSinuosity" + ", SiteSinuosityCL" + ", SiteArea" + ", SiteAreaWetted" + ", SiteAreaBankfull" + ", WettedVolume" + ", SiteLengthWetted" + ", SiteLengthBankfull" + ", SiteLengthThalweg" + ", ThalwegCLLengthRatio" + ", IntegratedWettedWidth" + ", IntegratedBankfullWidth" + ", SiteBankAngleMean" + ", SiteBankAngleDeviation" + ", DetrendedDEMStDev" + ", BankfullVolume" + ", WaterDepthStDev";
+            sSQL = "INSERT INTO Metric_SiteMetrics (" + "ResultFile" + ", VisitName" + ", FieldSeason" + ", SiteName" + ", RBTRunDateTime" + ", RBTInputFile" + ", Artifacts" + ", LinearUnits" + ", ReachLengthThalweg" + ", ThalwegIncrementDistance" + ", ReachWidthWetted" + ", CoordAProjected" + ", CoordAGeographic" + ", CoordKProjected" + ", CoordKGeographic" + ", SiteWaterSurfaceSlope" + ", AreaSum" + ", RP100" + ", PoolTailCrestDepthAvg" + ", PoolMaxDepthAvg" + ", XBFHeight" + ", XBFWidth" + ", BnkFullChCap" + ", AvgXSecArea" + ", AcgXSecAreaRect" + ", AvgChCap" + ", DEM_Left" + ", DEM_Right" + ", DEM_Top" + ", DEM_Bottom" + ", SiteGradient" + ", SiteWaterSurfaceGradient" + ", SiteSinuosity" + ", SiteSinuosityCL" + ", SiteArea" + ", SiteAreaWetted" + ", SiteAreaBankfull" + ", WettedVolume" + ", SiteLengthWetted" + ", SiteLengthBankfull" + ", SiteLengthThalweg" + ", ThalwegCLLengthRatio" + ", IntegratedWettedWidth" + ", IntegratedBankfullWidth" + ", SiteBankAngleMean" + ", SiteBankAngleDeviation" + ", DetrendedDEMStDev" + ", BankfullVolume" + ", WaterDepthStDev";
 
             sSQL += ") VALUES (";
             sSQL += "@RBTResultFile";
@@ -263,7 +233,7 @@ namespace CHaMPWorkbench.Classes
 
                 dbCom.ExecuteNonQuery();
 
-                dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Visits", m_dbCon);
+                dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_SiteMetrics", m_dbCon);
                 OleDbDataReader dbRdr = dbCom.ExecuteReader();
                 if (dbRdr.Read())
                 {
@@ -288,7 +258,9 @@ namespace CHaMPWorkbench.Classes
             //
             if (nVisitID > 0)
             {
-                PopulateTable_ChannelUnits(dbCon, xmlTopNode, nVisitID);
+                PopulateTable_ChannelSegments(dbCon, xmlTopNode, nVisitID);
+
+                //PopulateTable_ChannelUnits(dbCon, xmlTopNode, nVisitID);
                 PopulateTable_ChannelUnitSummary(dbCon, xmlTopNode, nVisitID, "tier1");
                 PopulateTable_ChannelUnitSummary(dbCon, xmlTopNode, nVisitID, "tier2");
                 PopulateTable_FlowPoints(dbCon, xmlTopNode, nVisitID, "in_flow_point");
@@ -305,13 +277,60 @@ namespace CHaMPWorkbench.Classes
 
         }
 
-
-        private void PopulateTable_ChannelUnits(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID)
+        private void PopulateTable_ChannelSegments(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID)
         {
             string sSQL = null;
-            sSQL = "INSERT INTO ChannelUnits (" + "VisitID" + ", UnitNumber" + ", Tier1" + ", Tier2" + ", Area" + ", Volume" + ", PC" + ", MaxDepth" + ", DepthThalwegExit" + ", ResidualDepth";
+            sSQL = "INSERT INTO Metric_ChannelSegments (SegmentNumber, VisitID, MaxDepth, Area, Volume, UnitCount) VALUES (";
+            sSQL += "@SegmentNumber, " + nVisitID.ToString() + ", @MaxDepth, @Area, @Volume, @UnitCount)";
+            
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                OleDbParameter pSegmentNumber = dbCom.Parameters.Add("SegmentNumber", OleDbType.BigInt);
+                OleDbParameter pMaxDepth = dbCom.Parameters.Add("MaxDepth", OleDbType.Single);
+                OleDbParameter pArea = dbCom.Parameters.Add("Area", OleDbType.Single);
+                OleDbParameter pVolume = dbCom.Parameters.Add("Volume", OleDbType.Single);
+                OleDbParameter pUnitCount = dbCom.Parameters.Add("UnitCount", OleDbType.Integer);
+                                
+                foreach (XmlNode aNode in xmlTopNode.SelectNodes("./channel_segments/segment"))
+                {
+                    GetIntegerValueFromNode(pSegmentNumber, aNode, "./segment_number");
+                    GetStringValueFromNode(pMaxDepth, aNode, "./max_depth");
+                    GetDoubleValueFromNode(pArea, aNode, "./area");
+                    GetDoubleValueFromNode(pVolume, aNode, "./volume");
+                    GetDoubleValueFromNode(pUnitCount, aNode, "./unit_count");
+                   dbCom.ExecuteNonQuery();
 
-            sSQL += ") VALUES (" + nVisitID.ToString() + ", @UnitNumber" + ", @Tier1" + ", @Tier2" + ", @Area" + ", @Volume" + ", @Percent" + ", @MaxDepth" + ", @DepthThalwegExit" + ", @ResidualDepth" + ")";
+                   int nSegmentID=0;
+
+                   dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_ChannelSegments", m_dbCon);
+                   OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                   if (dbRdr.Read())
+                   {
+                       if (!System.Convert.IsDBNull(dbRdr[0]))
+                       {
+                           nSegmentID = (int)dbRdr[0];
+                       }
+                   }
+                   dbRdr.Close();
+                    
+                    PopulateTable_ChannelUnits(dbCon, aNode, (int) nSegmentID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error generating channel segments", ex);
+                ex2.Data.Add("Visit", nVisitID.ToString());
+                throw ex2;
+            }
+        }
+
+        private void PopulateTable_ChannelUnits(OleDbConnection dbCon, XmlNode xmlSegmentNode, int nSegmentID)
+        {
+            string sSQL = null;
+            sSQL = "INSERT INTO Metric_ChannelUnits (SegmentID, UnitNumber, Tier1, Tier2, Area, Volume, PC, MaxDepth, DepthThalwegExit, ResidualDepth) VALUES (";
+
+            sSQL +=  nSegmentID.ToString() + ", @UnitNumber, @Tier1, @Tier2, @Area, @Volume, @Percent, @MaxDepth, @DepthThalwegExit, @ResidualDepth)";
             try
             {
                 OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
@@ -325,7 +344,7 @@ namespace CHaMPWorkbench.Classes
                 OleDbParameter pDepthThalwegExit = dbCom.Parameters.Add("DepthThalwegExit", OleDbType.Double);
                 OleDbParameter pResidualDepth = dbCom.Parameters.Add("ResidualDepth", OleDbType.Double);
 
-                foreach (XmlNode aNode in xmlTopNode.SelectNodes("./habitat_units/unit"))
+                foreach (XmlNode aNode in xmlSegmentNode.SelectNodes("./channel_units/unit"))
                 {
                     GetIntegerValueFromNode(pUnitNumber, aNode, "./unit_number");
                     GetStringValueFromNode(pTier1, aNode, "./tier1");
@@ -339,21 +358,19 @@ namespace CHaMPWorkbench.Classes
 
                     dbCom.ExecuteNonQuery();
                 }
-
             }
             catch (Exception ex)
             {
                 Exception ex2 = new Exception("Error generating channel units", ex);
-                ex2.Data.Add("Visit", nVisitID.ToString());
+                ex2.Data.Add("Segment ID", nSegmentID.ToString());
                 throw ex2;
             }
         }
 
-
         private void PopulateTable_ChannelUnitSummary(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID, string sType)
         {
             string sSQL = null;
-            sSQL = "INSERT INTO ChannelUnitSummary (VisitID,Tier,Title,Area,Volume,UnitCount,Frequency,Spacing,PC,AvgMaxDepth,AvgDepthThalwegExit,AvgResidualDepth) VALUES (";
+            sSQL = "INSERT INTO Metric_ChannelUnitSummary (VisitID,Tier,Title,Area,Volume,UnitCount,Frequency,Spacing,PC,AvgMaxDepth,AvgDepthThalwegExit,AvgResidualDepth) VALUES (";
             sSQL += nVisitID.ToString() + ", '" + sType + "'" + ", @Title" + ", @Area" + ", @Volume" + ", @Count" + ", @Frequency" + ", @Spacing" + ", @Percent" + ", @MaxDepth" + ", @DepthThalwegExit" + ", @ResidualDepth" + ")";
             try
             {
@@ -395,11 +412,7 @@ namespace CHaMPWorkbench.Classes
 
         private void PopulateTable_FlowPoints(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID, string sType)
         {
-            string sSQL = null;
-            sSQL = "INSERT INTO FlowPoints (" + "VisitID" + ", Type" + ", X" + ", Y" + ", Latitude" + ", Longitude";
-
-            sSQL += ") VALUES (";
-
+            string sSQL = "INSERT INTO Metric_FlowPoints (VisitID, Type, X, Y, Latitude, Longitude) VALUES (";
             sSQL += nVisitID.ToString();
             sSQL += ", '" + sType + "'";
             AddNumericValue(ref sSQL, xmlTopNode, "./" + sType + "/x");
@@ -428,7 +441,7 @@ namespace CHaMPWorkbench.Classes
         private void PopulateTable_ThalwegEmap(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID)
         {
             string sSQL = null;
-            sSQL = "INSERT INTO ThalwegEmap (" + "VisitID" + ", Distance" + ", X" + ", Y" + ", Latitude" + ", Longitude" + ", Elevation" + ", Depth" + ", ResidualDepth" + ", DepthToResidualSurface";
+            sSQL = "INSERT INTO Metric_ThalwegEmap (" + "VisitID" + ", Distance" + ", X" + ", Y" + ", Latitude" + ", Longitude" + ", Elevation" + ", Depth" + ", ResidualDepth" + ", DepthToResidualSurface";
 
             sSQL += ") VALUES (" + nVisitID.ToString() + ", @Distance" + ", @X" + ", @Y" + ", @Latitude" + ", @Longitude" + ", @Elevation" + ", @Depth" + ", @ResidualDepth" + ", @DepthToResidualSurface" + ")";
 
@@ -498,7 +511,7 @@ namespace CHaMPWorkbench.Classes
         private void PopulateTable_Thalweg(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID)
         {
             string sSQL = null;
-            sSQL = "INSERT INTO Thalweg (" + "VisitID" + ", FromX" + ", FromY" + ", FromLat" + ", FromLng" + ", ToX" + ", ToY" + ", ToLat" + ", ToLng" + ", FromBedElevation" + ", ToBedElevation" + ", FromWSElevation" + ", ToWSElevation" + ", Length" + ", Depth";
+            sSQL = "INSERT INTO Metric_Thalweg (" + "VisitID" + ", FromX" + ", FromY" + ", FromLat" + ", FromLng" + ", ToX" + ", ToY" + ", ToLat" + ", ToLng" + ", FromBedElevation" + ", ToBedElevation" + ", FromWSElevation" + ", ToWSElevation" + ", Length" + ", Depth";
 
             sSQL += ") VALUES (" + nVisitID.ToString();
 
@@ -537,7 +550,7 @@ namespace CHaMPWorkbench.Classes
         private void PopulateTable_Centerlines(OleDbConnection dbCon, XmlNode xmlTopNode, string sType, int nVisitID)
         {
             string sSQL = null;
-            sSQL = "INSERT INTO Centerlines (" + "VisitID" + ", Type" + ", CountMain" + ", CountSide" + ", CountTotal" + ", LengthMain" + ", LengthSide" + ", LengthTotal";
+            sSQL = "INSERT INTO Metric_Centerlines (" + "VisitID" + ", Type" + ", CountMain" + ", CountSide" + ", CountTotal" + ", LengthMain" + ", LengthSide" + ", LengthTotal";
 
             sSQL += ") VALUES (" + nVisitID.ToString() + ", '" + sType.Replace("'", "") + "'";
 
@@ -556,7 +569,7 @@ namespace CHaMPWorkbench.Classes
                 dbCom.ExecuteNonQuery();
 
                 int nCenterlineID = 0;
-                dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Centerlines", dbCon);
+                dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_Centerlines", dbCon);
                 OleDbDataReader dbRdr = dbCom.ExecuteReader();
                 if (dbRdr.Read())
                 {
@@ -657,49 +670,58 @@ namespace CHaMPWorkbench.Classes
 
         private void AddProfile(OleDbConnection dbCon, XmlNode xmlTopNode, int nVisitID, string sProfileName)
         {
-            string sSQL = null;
-            sSQL = "INSERT INTO Profiles (" + "VisitID" + ", ProfileName" + ", ProfileMean" + ", ProfileStDev" + ", ProfileCV" + ", ProfileCount" + ", FilteredMean" + ", FilteredStDev" + ", FilteredCV" + ", FilteredCount";
+            string sSQLBase = "INSERT INTO Metric_Profiles (VisitID, ProfileName, Filtering, ProfileMean, ProfileStDev, ProfileCV, ProfileCount, ProfileMin, ProfileMax) VALUES (";
+            sSQLBase += nVisitID.ToString() + ", '" + sProfileName.Replace("'", "''") + "'";
 
-            sSQL += ") VALUES (" + nVisitID.ToString() + ", '" + sProfileName.Replace("'", "''") + "'";
+            List<string> sFiltering = new List<string>();
+            sFiltering.Add("none");
+            sFiltering.Add("crew");
+            sFiltering.Add("best");
+            sFiltering.Add("auto");
 
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_mean");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_standard_deviation");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_coefficient_of_variation");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_item_count");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_filtered_mean");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_filtered_standard_deviation");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_filtered_coefficient_of_variation");
-            AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "_profile_filtered_item_count");
-
-            sSQL += ")";
-
-            try
+            foreach (string sFilter in sFiltering)
             {
-                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-                dbCom.ExecuteNonQuery();
+                string sSQL = sSQLBase + ",'"+sFilter+"'";
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/mean");
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/standard_deviation");
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/coefficient_of_variation");
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/count");
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/minimum");
+                AddNumericValue(ref sSQL, xmlTopNode, "./" + sProfileName + "/statistics[@filtering='" + sFilter + "']/maximum");
 
-                int nProfileID = 0;
-                dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Profiles", dbCon);
-                OleDbDataReader dbRdr = dbCom.ExecuteReader();
-                if (dbRdr.Read())
+                sSQL += ");";
+
+                try
                 {
-                    if (!System.Convert.IsDBNull(dbRdr[0]))
+                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                    dbCom.ExecuteNonQuery();
+                    /*
+                    int nProfileID = 0;
+                    dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Profiles", dbCon);
+                    OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                    if (dbRdr.Read())
                     {
-                        nProfileID = (int) dbRdr[0];
+                        if (!System.Convert.IsDBNull(dbRdr[0]))
+                        {
+                            nProfileID = (int)dbRdr[0];
+                        }
                     }
+                    dbRdr.Close();
+
+                    PopulateTable_ProfileValues(dbCon, xmlTopNode, sProfileName, nProfileID);
+                    */
+
                 }
-                dbRdr.Close();
-
-                PopulateTable_ProfileValues(dbCon, xmlTopNode, sProfileName, nProfileID);
-
+                catch (Exception ex)
+                {
+                    Exception ex2 = new Exception("Error generating profile", ex);
+                    ex2.Data.Add("Visit", nVisitID.ToString());
+                    ex2.Data.Add("Profile", sProfileName);
+                    throw ex2;
+                }
             }
-            catch (Exception ex)
-            {
-                Exception ex2 = new Exception("Error generating profile", ex);
-                ex2.Data.Add("Visit", nVisitID.ToString());
-                ex2.Data.Add("Profile", sProfileName);
-                throw ex2;
-            }
+
+
         }
 
         private void PopulateTable_ProfileValues(OleDbConnection dbCon, XmlNode xmlTopNode, string sProfileName, int nProfileID)
@@ -1052,7 +1074,7 @@ namespace CHaMPWorkbench.Classes
             foreach (XmlNode dodNode in xmlTopNode.SelectNodes("./change_detection_results/dod"))
             {
                 string sSQL = null;
-                sSQL = "INSERT INTO ChangeDetection (" + "VisitID" + ", NewVisit" + ", NewfieldSeason" + ", OldVisit" + ", OldFieldSeason" + ", Epoch" + ", ThresholdType" + ", Threshold" + ", SpatialCoherence";
+                sSQL = "INSERT INTO Metric_ChangeDetection (" + "VisitID" + ", NewVisit" + ", NewfieldSeason" + ", OldVisit" + ", OldFieldSeason" + ", Epoch" + ", ThresholdType" + ", Threshold" + ", SpatialCoherence";
 
                 sSQL += ") VALUES (" + nVisitID.ToString();
 

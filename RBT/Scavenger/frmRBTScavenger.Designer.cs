@@ -63,6 +63,7 @@
             this.chkLogs.TabIndex = 6;
             this.chkLogs.Text = "Attempt to parse log files";
             this.chkLogs.UseVisualStyleBackColor = true;
+            this.chkLogs.CheckedChanged += new System.EventHandler(this.chkLogs_CheckedChanged);
             // 
             // txtMatch
             // 
@@ -83,6 +84,7 @@
             this.radMatch.TabStop = true;
             this.radMatch.Text = "Just those that match the following pattern:";
             this.radMatch.UseVisualStyleBackColor = true;
+            this.radMatch.CheckedChanged += new System.EventHandler(this.radMatch_CheckedChanged);
             // 
             // radAllFiles
             // 
@@ -99,9 +101,9 @@
             this.chkEmptyDB.AutoSize = true;
             this.chkEmptyDB.Location = new System.Drawing.Point(12, 205);
             this.chkEmptyDB.Name = "chkEmptyDB";
-            this.chkEmptyDB.Size = new System.Drawing.Size(189, 17);
+            this.chkEmptyDB.Size = new System.Drawing.Size(251, 17);
             this.chkEmptyDB.TabIndex = 3;
-            this.chkEmptyDB.Text = "Empty database before processing";
+            this.chkEmptyDB.Text = "Empty metric database tables before processing";
             this.chkEmptyDB.UseVisualStyleBackColor = true;
             // 
             // chkRecursive
@@ -134,6 +136,12 @@
             this.cmdStop.TabIndex = 16;
             this.cmdStop.Text = "Stop";
             this.cmdStop.UseVisualStyleBackColor = true;
+            // 
+            // BackgroundWorker1
+            // 
+            this.BackgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.BackgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.BackgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // txtLog
             // 
@@ -207,6 +215,7 @@
             this.cmdOK.TabIndex = 15;
             this.cmdOK.Text = "Run";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // cmdCancel
             // 
@@ -247,6 +256,7 @@
             this.MinimizeBox = false;
             this.Name = "frmRBTScavenger";
             this.Text = "RBT Result Scavenger";
+            this.Load += new System.EventHandler(this.frmRBTScavenger_Load);
             this.grpFolder.ResumeLayout(false);
             this.grpFolder.PerformLayout();
             this.ResumeLayout(false);

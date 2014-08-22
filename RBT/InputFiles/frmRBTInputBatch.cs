@@ -108,6 +108,25 @@ namespace CHaMPWorkbench.RBTInputFile
                 }
             }
 
+            if (chkChangeDetection.Checked && !chkIncludeOtherVisits.Checked)
+            {
+                DialogResult eResult = MessageBox.Show("You must choose to include other visits if you want to perform change detection. Do you want to invlude all other visits?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                switch (eResult)
+                {
+                    case System.Windows.Forms.DialogResult.Yes:
+                        chkIncludeOtherVisits.Checked = true;
+                        break;
+
+                    case System.Windows.Forms.DialogResult.No:
+                        this.DialogResult = System.Windows.Forms.DialogResult.None;
+                        return;
+
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+                        return;
+                }
+            }
+
             string sMessage = string.Empty;
 
             try
