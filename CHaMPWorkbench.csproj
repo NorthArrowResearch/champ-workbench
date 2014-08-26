@@ -87,7 +87,8 @@
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\Outputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
-    <Compile Include="Classes\ResultScavenger.cs" />
+    <Compile Include="Classes\ResultScavengerBatch.cs" />
+    <Compile Include="Classes\ResultScavengerSingle.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\Watershed.cs" />
@@ -254,6 +255,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GCD\" />
     <Folder Include="RBTInputFile\" />
     <Folder Include="RBT\Console\" />
   </ItemGroup>
@@ -314,6 +316,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CHaMP.ico" />
+    <None Include="Resources\gcd_icon.png" />
     <None Include="Resources\Help.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
