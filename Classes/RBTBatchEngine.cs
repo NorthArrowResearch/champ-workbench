@@ -136,8 +136,8 @@ public class RBTBatchEngine
 
                     proc.StartInfo = psi;
                     proc.Start();
-                     proc.WaitForExit();
-               }
+                    proc.WaitForExit();
+                }
                 catch (Exception ex)
                 {
                 }
@@ -149,28 +149,53 @@ public class RBTBatchEngine
                 if (aRun.ClearTempWorkspaceAfter && dFiles.Count > 0)
                     ClearTempWorkspace();
 
-                if (bScavengeLog)
-                    ScavengeLogFile(sInputFile, aRun.PrimaryVisitID);
-            }	    
+
+                if (bScavengeResults || bScavengeLog)
+                {
+                    XmlDocument xmlR = new XmlDocument();
+                    xmlR.Load(sInputFile);
+
+                    ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+                    int nResultID = 0;
+                    string sResultFile = "";
+
+                    if (bScavengeResults)
+                    {
+                        XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/results");
+                        if (aNode is XmlNode)
+                        {
+                            sResultFile = aNode.InnerText;
+                            nResultID = scavenger.ScavengeResultFile(sResultFile);
+                        }
+                    }
+
+                    if (bScavengeLog)
+                    {
+                        XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
+                        if (aNode is XmlNode)
+                            scavenger.ScavengeLogFile(0, nResultID, aNode.InnerText, sResultFile);
+                    }
+                }
+            }
 		}
 	}
 
-    private void ScavengeLogFile(String sInputFile, int nVisitID)
-    {
-        if (System.IO.File.Exists(sInputFile))
-        {
-            XmlDocument xmlR = new XmlDocument();
-            xmlR.Load(sInputFile);
-            XmlNode logNode = xmlR.SelectSingleNode("rbt/outputs/log");
+    //private void ScavengeLogFile(String sInputFile, int nVisitID)
+    //{
+    //    if (System.IO.File.Exists(sInputFile))
+    //    {
+    //        XmlDocument xmlR = new XmlDocument();
+    //        xmlR.Load(sInputFile);
+    //        XmlNode logNode = xmlR.SelectSingleNode("rbt/outputs/log");
 
-            if (!String.IsNullOrWhiteSpace(logNode.InnerText))
-            {
-                String sLogFile = logNode.InnerText;
-                if (System.IO.File.Exists(sLogFile))
-                    ResultScavenger.ScavengeLogFile(ref m_dbCon, nVisitID, sLogFile, "");
-            }
-        }
-    }
+    //        if (!String.IsNullOrWhiteSpace(logNode.InnerText))
+    //        {
+    //            String sLogFile = logNode.InnerText;
+    //            if (System.IO.File.Exists(sLogFile))
+    //                ResultScavengerSingle.ScavengeLogFile(ref m_dbCon, nVisitID, sLogFile, "");
+    //        }
+    //    }
+    //}
     
 	private void ClearTempWorkspace()
 	{

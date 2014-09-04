@@ -170,6 +170,8 @@ namespace CHaMPWorkbench
 
         private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
+                        rbt.ShowDialog();
 
         }
 
