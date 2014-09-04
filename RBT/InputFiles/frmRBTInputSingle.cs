@@ -23,14 +23,14 @@ namespace CHaMPWorkbench
 
         private void frmRBTRun_Load(object sender, EventArgs e)
         {
-            this.cHAMP_VisitsTableAdapter.Connection = m_dbCon;
+            this.cHAMP_WatershedsTableAdapter.Connection = m_dbCon;
             this.cHAMP_WatershedsTableAdapter.Fill(this.rBTWorkbenchDataSet.CHAMP_Watersheds);
 
             this.cHAMP_SitesTableAdapter.Connection = m_dbCon;
             this.cHAMP_SitesTableAdapter.Fill(this.rBTWorkbenchDataSet.CHAMP_Sites); //, ((RBTWorkbenchDataSet.CHAMP_WatershedsRow) ((DataRowView) cboWatershed.SelectedItem).Row).WatershedID);
             cHAMPSitesBindingSource.Filter = "WatershedID = " + cboWatershed.SelectedValue;
 
-            this.cHAMP_WatershedsTableAdapter.Connection = m_dbCon;
+            this.cHAMP_VisitsTableAdapter.Connection = m_dbCon;
             this.cHAMP_VisitsTableAdapter.Fill(this.rBTWorkbenchDataSet.CHAMP_Visits);
             cHAMPVisitsBindingSource.Filter = "SiteID = " + cboSite.SelectedValue;
 
