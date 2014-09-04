@@ -110,6 +110,12 @@
     <Compile Include="Data\frmScavengeVisitInfo.Designer.cs">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\Kelly\frmHydroModelInputs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
+      <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,9 @@
     <EmbeddedResource Include="Data\frmScavengeVisitInfo.resx">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Kelly\frmHydroModelInputs.resx">
+      <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,6 +242,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
+    <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -316,6 +326,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CHaMP.ico" />
+    <Content Include="Experimental\Kelly\Scripts\CHaMP.py" />
+    <Content Include="Experimental\Kelly\Scripts\HydroModelInputBatchProcesser.py" />
+    <Content Include="Experimental\Kelly\Scripts\HydroModelInputGenerator.py" />
+    <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
+    <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
+    <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
     <None Include="Resources\gcd_icon.png" />
     <None Include="Resources\Help.png" />
   </ItemGroup>
