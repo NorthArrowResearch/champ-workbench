@@ -67,11 +67,9 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
-<<<<<<< HEAD
             this.hydroModelInputGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-=======
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -192,11 +190,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-<<<<<<< HEAD
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(160, 30);
-=======
             this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -270,21 +264,14 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-<<<<<<< HEAD
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
-=======
             this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-<<<<<<< HEAD
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
-=======
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -307,22 +294,16 @@
             // 
             this.aboutExperimentalToolsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Help;
             this.aboutExperimentalToolsToolStripMenuItem.Name = "aboutExperimentalToolsToolStripMenuItem";
-<<<<<<< HEAD
-            this.aboutExperimentalToolsToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
-=======
             this.aboutExperimentalToolsToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
             this.aboutExperimentalToolsToolStripMenuItem.Text = "About Experimental Tools...";
             this.aboutExperimentalToolsToolStripMenuItem.Click += new System.EventHandler(this.aboutExperimentalToolsToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-<<<<<<< HEAD
-            this.toolStripSeparator5.Size = new System.Drawing.Size(297, 6);
-=======
             this.toolStripSeparator5.Size = new System.Drawing.Size(216, 6);
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
             // 
             // ericWallToolStripMenuItem
             // 
@@ -404,20 +385,19 @@
             this.tssDatabasePath.Size = new System.Drawing.Size(181, 25);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
             // 
-<<<<<<< HEAD
             // hydroModelInputGeneratorToolStripMenuItem
             // 
             this.hydroModelInputGeneratorToolStripMenuItem.Name = "hydroModelInputGeneratorToolStripMenuItem";
             this.hydroModelInputGeneratorToolStripMenuItem.Size = new System.Drawing.Size(320, 30);
             this.hydroModelInputGeneratorToolStripMenuItem.Text = "Hydro Model Input Generator";
             this.hydroModelInputGeneratorToolStripMenuItem.Click += new System.EventHandler(this.hydroModelInputGeneratorToolStripMenuItem_Click);
-=======
+
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
             // 
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Name = "generateGCDProjectFromCHaMPSiteToolStripMenuItem";
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Text = "Generate GCD Project for CHaMP Site";
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
             // 
             // MainForm
             // 
@@ -480,12 +460,10 @@
         private System.Windows.Forms.ToolStripMenuItem prepareDatabaseForDeploymentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutExperimentalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-<<<<<<< HEAD
         private System.Windows.Forms.ToolStripMenuItem hydroModelInputGeneratorToolStripMenuItem;
-=======
         private System.Windows.Forms.ToolStripMenuItem gCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateGCDProjectFromCHaMPSiteToolStripMenuItem;
->>>>>>> 85f61ae56cf8fc9150e0a69992c7bb36bd1269e3
+
     }
 }
 
