@@ -110,7 +110,9 @@
     <Compile Include="Data\frmScavengeVisitInfo.Designer.cs">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Experimental\Kelly\frmHydroModelInputs.cs" />
+    <Compile Include="Experimental\Kelly\frmHydroModelInputs.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </Compile>
