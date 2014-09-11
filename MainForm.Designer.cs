@@ -33,6 +33,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.openDatabaseInAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +96,9 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDatabaseToolStripMenuItem,
             this.closeDatabaseToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.openDatabaseInAccessToolStripMenuItem,
+            this.toolStripSeparator7,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -102,21 +108,39 @@
             // 
             this.openDatabaseToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.openDatabaseToolStripMenuItem.Text = "Open Database...";
             this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseToolStripMenuItem_Click);
             // 
             // closeDatabaseToolStripMenuItem
             // 
             this.closeDatabaseToolStripMenuItem.Name = "closeDatabaseToolStripMenuItem";
-            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.closeDatabaseToolStripMenuItem.Text = "Close Database";
             this.closeDatabaseToolStripMenuItem.Click += new System.EventHandler(this.closeDatabaseToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(212, 6);
+            // 
+            // openDatabaseInAccessToolStripMenuItem
+            // 
+            this.openDatabaseInAccessToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Access1;
+            this.openDatabaseInAccessToolStripMenuItem.Name = "openDatabaseInAccessToolStripMenuItem";
+            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.openDatabaseInAccessToolStripMenuItem.Text = "Open Database in Access...";
+            this.openDatabaseInAccessToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseInAccessToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(212, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -466,6 +490,9 @@
         private System.Windows.Forms.ToolStripMenuItem gCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateGCDProjectFromCHaMPSiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem openDatabaseInAccessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 
     }
 }

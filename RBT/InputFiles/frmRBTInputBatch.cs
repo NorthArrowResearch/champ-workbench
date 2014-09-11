@@ -46,14 +46,24 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
         {
-
             FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Select top level Monitoring folder in local cloud";
-            if (!string.IsNullOrEmpty(txtMonitoringDataFolder.Text))
+            TextBox txt = null;
+            if (string.Compare(Name, cmdBrowseFolder.Name, true) == 0)
             {
-                if (System.IO.Directory.Exists(txtMonitoringDataFolder.Text))
+                frm.Description = "Select top level Monitoring folder that contains the topo data.";
+                txt = txtMonitoringDataFolder;
+            }
+            else
+            {
+                frm.Description = "Select top level output folder where the input XML files will be generated.";
+                txt = txtOutputFolder;
+            }
+
+            if (!string.IsNullOrEmpty(txt.Text))
+            {
+                if (System.IO.Directory.Exists(txt.Text))
                 {
-                    frm.SelectedPath = txtMonitoringDataFolder.Text;
+                    frm.SelectedPath = txt.Text;
                 }
             }
 
@@ -61,7 +71,7 @@ namespace CHaMPWorkbench.RBTInputFile
             {
                 if (System.IO.Directory.Exists(frm.SelectedPath))
                 {
-                    txtMonitoringDataFolder.Text = frm.SelectedPath;
+                    txt.Text = frm.SelectedPath;
                 }
             }
         }

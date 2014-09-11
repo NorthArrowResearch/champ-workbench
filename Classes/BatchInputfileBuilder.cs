@@ -107,8 +107,8 @@ namespace CHaMPWorkbench.Classes
                         CloseFile(ref xmlInput, sOutputfolder);
 
                         dbInsert.ExecuteNonQuery();
+                        nSuccess += 1;
                     }
-                    nSuccess += 1;
                 }
 
                 dbTrans.Commit();

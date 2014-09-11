@@ -20,11 +20,37 @@ namespace CHaMPWorkbench
         {
             InitializeComponent();
 
-            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.DBConnection))
+            string sPath = GetDatabasePathFromConnectionString(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
+            if (!String.IsNullOrWhiteSpace(sPath))
             {
-                m_dbCon = new System.Data.OleDb.OleDbConnection(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
-                m_dbCon.Open();
+                if (System.IO.File.Exists(sPath))
+                {
+                    m_dbCon = new System.Data.OleDb.OleDbConnection(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
+                    m_dbCon.Open();
+                }
             }
+        }
+
+        private string GetDatabasePathFromConnectionString(string sConnectionString)
+        {
+            string sPath = "";
+            if (!String.IsNullOrWhiteSpace(sConnectionString))
+            {
+                string sKey = "Source=";
+                int nStart = sConnectionString.IndexOf(sKey);
+                if (nStart > 0)
+                {
+                    int nEnd = sConnectionString.IndexOf(";", nStart);
+                    if (nEnd > nStart)
+                    {
+                        sPath = sConnectionString.Substring(nStart + sKey.Length, nEnd - nStart - sKey.Length);
+                        if (!System.IO.File.Exists(sPath))
+                            sPath = string.Empty;
+                    }
+                }
+
+            }
+            return sPath;
         }
 
         private void UpdateMenuItemStatus(ToolStripItemCollection aMenu)
@@ -221,7 +247,6 @@ namespace CHaMPWorkbench
         {
             try
             {
-
                 if (m_dbCon is System.Data.OleDb.OleDbConnection)
                     if (m_dbCon.State == ConnectionState.Open)
                         m_dbCon.Close();
@@ -328,6 +353,16 @@ namespace CHaMPWorkbench
 
                 Cursor.Current = Cursors.Default;
             }
+
+        private void openDatabaseInAccessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_dbCon is System.Data.OleDb.OleDbConnection)
+            {
+                string sPath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
+                if (!string.IsNullOrWhiteSpace(sPath))
+                    System.Diagnostics.Process.Start(sPath);
+            }
+        }
 
     }
 }

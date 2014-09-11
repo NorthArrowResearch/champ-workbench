@@ -63,6 +63,26 @@ namespace CHaMPWorkbench.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Access {
+            get {
+                object obj = ResourceManager.GetObject("Access", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Access1 {
+            get {
+                object obj = ResourceManager.GetObject("Access1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CHaMP_Logo_32 {
             get {
                 object obj = ResourceManager.GetObject("CHaMP_Logo_32", resourceCulture);

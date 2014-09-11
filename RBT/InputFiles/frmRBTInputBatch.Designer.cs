@@ -95,7 +95,7 @@
             this.chkIncludeOtherVisits.AutoSize = true;
             this.chkIncludeOtherVisits.Checked = true;
             this.chkIncludeOtherVisits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(166, 316);
+            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 316);
             this.chkIncludeOtherVisits.Name = "chkIncludeOtherVisits";
             this.chkIncludeOtherVisits.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeOtherVisits.TabIndex = 13;
@@ -107,17 +107,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 77);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 13);
+            this.label1.Size = new System.Drawing.Size(167, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Parent folder (\"Monitoring\"):";
+            this.label1.Text = "Output folder (\"InputOutputFiles\"):";
             // 
             // txtOutputFolder
             // 
             this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutputFolder.Location = new System.Drawing.Point(155, 73);
+            this.txtOutputFolder.Location = new System.Drawing.Point(184, 73);
             this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(601, 20);
+            this.txtOutputFolder.Size = new System.Drawing.Size(572, 20);
             this.txtOutputFolder.TabIndex = 6;
             this.txtOutputFolder.Text = "C:\\CHaMP\\RBTInputOutputFiles";
             // 
@@ -130,12 +130,13 @@
             this.button1.TabIndex = 7;
             this.button1.Text = "Browse";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.cmdBrowseFolder_Click);
             // 
             // GroupBox1
             // 
             this.GroupBox1.Controls.Add(this.chkChangeDetection);
             this.GroupBox1.Controls.Add(this.chkCalculateMetrics);
-            this.GroupBox1.Location = new System.Drawing.Point(155, 241);
+            this.GroupBox1.Location = new System.Drawing.Point(184, 241);
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.Size = new System.Drawing.Size(239, 68);
             this.GroupBox1.TabIndex = 12;
@@ -169,7 +170,7 @@
             // Label2
             // 
             this.Label2.AutoSize = true;
-            this.Label2.Location = new System.Drawing.Point(11, 46);
+            this.Label2.Location = new System.Drawing.Point(40, 46);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(138, 13);
             this.Label2.TabIndex = 2;
@@ -179,9 +180,9 @@
             // 
             this.txtMonitoringDataFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMonitoringDataFolder.Location = new System.Drawing.Point(155, 42);
+            this.txtMonitoringDataFolder.Location = new System.Drawing.Point(184, 42);
             this.txtMonitoringDataFolder.Name = "txtMonitoringDataFolder";
-            this.txtMonitoringDataFolder.Size = new System.Drawing.Size(601, 20);
+            this.txtMonitoringDataFolder.Size = new System.Drawing.Size(572, 20);
             this.txtMonitoringDataFolder.TabIndex = 3;
             this.txtMonitoringDataFolder.Text = "E:\\Local Cloud\\Shared\\CHaMP\\MonitoringData";
             // 
@@ -198,7 +199,7 @@
             // 
             // txtInputFileRoot
             // 
-            this.txtInputFileRoot.Location = new System.Drawing.Point(155, 109);
+            this.txtInputFileRoot.Location = new System.Drawing.Point(184, 109);
             this.txtInputFileRoot.Name = "txtInputFileRoot";
             this.txtInputFileRoot.Size = new System.Drawing.Size(239, 20);
             this.txtInputFileRoot.TabIndex = 9;
@@ -207,7 +208,7 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(75, 141);
+            this.Label3.Location = new System.Drawing.Point(104, 141);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(74, 13);
             this.Label3.TabIndex = 10;
@@ -216,7 +217,7 @@
             // Label5
             // 
             this.Label5.AutoSize = true;
-            this.Label5.Location = new System.Drawing.Point(49, 113);
+            this.Label5.Location = new System.Drawing.Point(78, 113);
             this.Label5.Name = "Label5";
             this.Label5.Size = new System.Drawing.Size(100, 13);
             this.Label5.TabIndex = 8;
@@ -225,7 +226,7 @@
             // lstFieldSeasons
             // 
             this.lstFieldSeasons.FormattingEnabled = true;
-            this.lstFieldSeasons.Location = new System.Drawing.Point(155, 141);
+            this.lstFieldSeasons.Location = new System.Drawing.Point(184, 141);
             this.lstFieldSeasons.Name = "lstFieldSeasons";
             this.lstFieldSeasons.Size = new System.Drawing.Size(239, 94);
             this.lstFieldSeasons.TabIndex = 11;
@@ -233,7 +234,7 @@
             // lblBatchName
             // 
             this.lblBatchName.AutoSize = true;
-            this.lblBatchName.Location = new System.Drawing.Point(82, 17);
+            this.lblBatchName.Location = new System.Drawing.Point(111, 17);
             this.lblBatchName.Name = "lblBatchName";
             this.lblBatchName.Size = new System.Drawing.Size(67, 13);
             this.lblBatchName.TabIndex = 0;
@@ -243,7 +244,7 @@
             // 
             this.txtBatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBatch.Location = new System.Drawing.Point(155, 13);
+            this.txtBatch.Location = new System.Drawing.Point(184, 13);
             this.txtBatch.MaxLength = 255;
             this.txtBatch.Name = "txtBatch";
             this.txtBatch.Size = new System.Drawing.Size(181, 20);
