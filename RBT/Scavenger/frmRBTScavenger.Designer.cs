@@ -183,13 +183,13 @@
             // cmdBrowseFolder
             // 
             this.cmdBrowseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseFolder.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdBrowseFolder.Location = new System.Drawing.Point(567, 17);
             this.cmdBrowseFolder.Name = "cmdBrowseFolder";
             this.cmdBrowseFolder.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseFolder.TabIndex = 1;
             this.cmdBrowseFolder.Text = "Browse";
             this.cmdBrowseFolder.UseVisualStyleBackColor = true;
+            this.cmdBrowseFolder.Click += new System.EventHandler(this.cmdBrowseFolder_Click);
             // 
             // cmdHelp
             // 
@@ -241,8 +241,10 @@
             // 
             // frmRBTScavenger
             // 
+            this.AcceptButton = this.cmdCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(672, 308);
             this.Controls.Add(this.cmdStop);
             this.Controls.Add(this.chkEmptyDB);

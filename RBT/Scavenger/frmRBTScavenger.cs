@@ -152,5 +152,21 @@ namespace CHaMPWorkbench
             cmdStop.Enabled = false;
         }
 
+        private void cmdBrowseFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Select the top level folder that you want to search for RBT results and log files.";
+           
+            if (!string.IsNullOrWhiteSpace(txtFolder.Text))
+                if (System.IO.Directory.Exists(txtFolder.Text))
+                    frm.SelectedPath = txtFolder.Text;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (System.IO.Directory.Exists(frm.SelectedPath))
+                    txtFolder.Text = frm.SelectedPath;
+            }
+        }
+
     }
 }
