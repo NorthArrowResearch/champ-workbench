@@ -92,6 +92,7 @@ public class RBTBatchEngine
 				Console.WriteLine("Warning: empty input file record in database");
 			else
             {
+                Debug.WriteLine("RBT input file: " + (string)dbRdr["InputFile"]);
                 int nVisitID = 0;
                 if (!Convert.IsDBNull((int) dbRdr["PrimaryVisitID"]))
                     nVisitID = (int) dbRdr["PrimaryVisitID"];

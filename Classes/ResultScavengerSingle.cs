@@ -215,6 +215,58 @@ namespace CHaMPWorkbench.Classes
 
                     dbCom.ExecuteNonQuery();
                 }
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // Now do the hard errors
+                //
+
+                foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/error"))
+                {
+                    XmlAttribute att; // = MessageNode.Attributes["severity"];
+                    //pMessageType.Value = DBNull.Value;
+                    //if (att is XmlAttribute)
+                    //{
+                    //    if (!string.IsNullOrEmpty(att.InnerText))
+                    //    {
+                    //        if (!string.IsNullOrEmpty(att.InnerText))
+                    //        {
+                    //            pMessageType.Value = att.InnerText;
+                    //            pMessageType.Size = att.InnerText.Length;
+                    //        }
+                    //    }
+                    //}
+
+                    pMessageType.Value = "error";
+                    pMessageType.Size = "error".Length;
+
+                    att = MessageNode.Attributes["time"];
+                    pLogDateTime.Value = DBNull.Value;
+                    if (att is XmlAttribute)
+                    {
+                        if (!string.IsNullOrEmpty(att.InnerText))
+                        {
+                            DateTime aTime = default(DateTime);
+                            if (DateTime.TryParse(att.InnerText, out aTime))
+                            {
+                                pLogDateTime.Value = aTime;
+                            }
+                        }
+                    }
+
+                    XmlNode aChildNode = MessageNode.SelectSingleNode("error_message");
+                    pLogMessage.Value = DBNull.Value;
+                    if (aChildNode is XmlNode)
+                    {
+                        if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                        {
+                            string sError = aChildNode.InnerText.Trim();
+                            pLogMessage.Value = sError;
+                            pLogMessage.Size = sError.Length;
+                        }
+                    }
+
+                    dbCom.ExecuteNonQuery();
+                }
             }
         }
 
