@@ -45,6 +45,9 @@
             this.cboWatershed = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtBatchName = new System.Windows.Forms.TextBox();
+            this.lblBatchName = new System.Windows.Forms.Label();
+            this.chkBatch = new System.Windows.Forms.CheckBox();
             this.chkOpenWhenComplete = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rdoSelectedOnly = new System.Windows.Forms.RadioButton();
@@ -52,6 +55,7 @@
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmdBrowseInputFile = new System.Windows.Forms.Button();
             this.txtInputFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -67,9 +71,7 @@
             this.cHAMP_SitesTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
             this.cHAMP_VisitsTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
             this.dlgFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkBatch = new System.Windows.Forms.CheckBox();
-            this.lblBatchName = new System.Windows.Forms.Label();
-            this.txtBatchName = new System.Windows.Forms.TextBox();
+            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cHAMPVisitsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rBTWorkbenchDataSet)).BeginInit();
@@ -79,6 +81,7 @@
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -219,6 +222,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 104);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -244,6 +248,35 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // txtBatchName
+            // 
+            this.txtBatchName.Location = new System.Drawing.Point(119, 338);
+            this.txtBatchName.Name = "txtBatchName";
+            this.txtBatchName.Size = new System.Drawing.Size(408, 20);
+            this.txtBatchName.TabIndex = 9;
+            // 
+            // lblBatchName
+            // 
+            this.lblBatchName.AutoSize = true;
+            this.lblBatchName.Location = new System.Drawing.Point(46, 342);
+            this.lblBatchName.Name = "lblBatchName";
+            this.lblBatchName.Size = new System.Drawing.Size(67, 13);
+            this.lblBatchName.TabIndex = 8;
+            this.lblBatchName.Text = "Batch name:";
+            // 
+            // chkBatch
+            // 
+            this.chkBatch.AutoSize = true;
+            this.chkBatch.Checked = true;
+            this.chkBatch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBatch.Location = new System.Drawing.Point(17, 318);
+            this.chkBatch.Name = "chkBatch";
+            this.chkBatch.Size = new System.Drawing.Size(188, 17);
+            this.chkBatch.TabIndex = 7;
+            this.chkBatch.Text = "Create RBT batch for this input file";
+            this.chkBatch.UseVisualStyleBackColor = true;
+            this.chkBatch.CheckedChanged += new System.EventHandler(this.chkBatch_CheckedChanged);
             // 
             // chkOpenWhenComplete
             // 
@@ -318,6 +351,17 @@
             this.ucConfig.Name = "ucConfig";
             this.ucConfig.Size = new System.Drawing.Size(835, 541);
             this.ucConfig.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(851, 517);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Change Detection";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // cmdBrowseInputFile
             // 
@@ -441,34 +485,13 @@
             // 
             this.cHAMP_VisitsTableAdapter.ClearBeforeFill = true;
             // 
-            // chkBatch
+            // ucRBTChangeDetection1
             // 
-            this.chkBatch.AutoSize = true;
-            this.chkBatch.Checked = true;
-            this.chkBatch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBatch.Location = new System.Drawing.Point(17, 318);
-            this.chkBatch.Name = "chkBatch";
-            this.chkBatch.Size = new System.Drawing.Size(188, 17);
-            this.chkBatch.TabIndex = 7;
-            this.chkBatch.Text = "Create RBT batch for this input file";
-            this.chkBatch.UseVisualStyleBackColor = true;
-            this.chkBatch.CheckedChanged += new System.EventHandler(this.chkBatch_CheckedChanged);
-            // 
-            // lblBatchName
-            // 
-            this.lblBatchName.AutoSize = true;
-            this.lblBatchName.Location = new System.Drawing.Point(46, 342);
-            this.lblBatchName.Name = "lblBatchName";
-            this.lblBatchName.Size = new System.Drawing.Size(67, 13);
-            this.lblBatchName.TabIndex = 8;
-            this.lblBatchName.Text = "Batch name:";
-            // 
-            // txtBatchName
-            // 
-            this.txtBatchName.Location = new System.Drawing.Point(119, 338);
-            this.txtBatchName.Name = "txtBatchName";
-            this.txtBatchName.Size = new System.Drawing.Size(408, 20);
-            this.txtBatchName.TabIndex = 9;
+            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
+            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(845, 511);
+            this.ucRBTChangeDetection1.TabIndex = 0;
             // 
             // frmRBTInputSingle
             // 
@@ -507,6 +530,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -555,5 +579,7 @@
         private System.Windows.Forms.TextBox txtBatchName;
         private System.Windows.Forms.Label lblBatchName;
         private System.Windows.Forms.CheckBox chkBatch;
+        private System.Windows.Forms.TabPage tabPage3;
+        private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
     }
 }

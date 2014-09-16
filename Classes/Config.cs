@@ -38,8 +38,11 @@ namespace CHaMPWorkbench.Classes
         private bool m_bOutputProfileValues = false;
 
         private double m_fInitialCrossSectionLength = 50;
-        #endregion
 
+        private RBTConfig_ChangeDetection m_ChangeDetection;
+
+        #endregion
+        
         #region "Properties"
 
         public int Mode
@@ -198,7 +201,17 @@ namespace CHaMPWorkbench.Classes
             set { m_sLogFile = value; }
         }
 
+        public RBTConfig_ChangeDetection ChangeDetectionConfig
+        {
+            get { return m_ChangeDetection; }
+        }
+        
         #endregion
+
+        public Config()
+        {
+            m_ChangeDetection = new RBTConfig_ChangeDetection();
+        }
 
         /// <summary>
         /// Write the current settings to an RBT input XML file
@@ -256,55 +269,8 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteEndElement();
             // intervals
 
-            xmlFile.WriteStartElement("change_detection");
-            xmlFile.WriteAttributeString("calculate", "true");
+            m_ChangeDetection.WriteToXML(xmlFile);
 
-            xmlFile.WriteStartElement("error");
-            xmlFile.WriteAttributeString("fis", "CHaMP_2013.fis");
-
-            xmlFile.WriteStartElement("input");
-            xmlFile.WriteAttributeString("type", "slope");
-            xmlFile.WriteEndElement();
-
-            xmlFile.WriteStartElement("input");
-            xmlFile.WriteAttributeString("type", "pointdensity");
-            xmlFile.WriteEndElement();
-
-            xmlFile.WriteEndElement();
-            //error
-
-            xmlFile.WriteStartElement("dod");
-            xmlFile.WriteAttributeString("type", "probabilistic");
-            xmlFile.WriteAttributeString("threshold", "0.95");
-            xmlFile.WriteAttributeString("spatialcoherence", "0");
-            xmlFile.WriteEndElement();
-            //Dod
-
-            xmlFile.WriteStartElement("budget_segregations");
-            xmlFile.WriteStartElement("budget_segregation");
-            xmlFile.WriteAttributeString("mask", "tier1channelunits");
-            xmlFile.WriteEndElement();
-            //budget_segregation
-
-            xmlFile.WriteStartElement("budget_segregation");
-            xmlFile.WriteAttributeString("mask", "tier2channelunits");
-            xmlFile.WriteEndElement();
-            //budget_segregation
-
-            xmlFile.WriteStartElement("budget_segregation");
-            xmlFile.WriteAttributeString("mask", "channel");
-            xmlFile.WriteEndElement();
-            //budget_segregation
-
-            xmlFile.WriteStartElement("budget_segregation");
-            xmlFile.WriteAttributeString("mask", "bankfull_union");
-            xmlFile.WriteEndElement();
-            //budget_segregation
-
-            xmlFile.WriteEndElement();
-            //budget_segregations
-            xmlFile.WriteEndElement();
-            //change_detection
             xmlFile.WriteEndElement();
             // parameters
 

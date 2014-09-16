@@ -50,16 +50,20 @@
             this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -289,6 +293,25 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(848, 511);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Change Detection";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ucRBTChangeDetection1
+            // 
+            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
+            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 505);
+            this.ucRBTChangeDetection1.TabIndex = 0;
+            // 
             // frmRBTInputBatch
             // 
             this.AcceptButton = this.cmdOK;
@@ -311,6 +334,7 @@
             this.GroupBox1.ResumeLayout(false);
             this.GroupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -339,5 +363,7 @@
         internal System.Windows.Forms.TextBox txtOutputFolder;
         internal System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox chkIncludeOtherVisits;
+        private System.Windows.Forms.TabPage tabPage3;
+        private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
     }
 }

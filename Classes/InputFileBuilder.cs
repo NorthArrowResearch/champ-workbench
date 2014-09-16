@@ -17,6 +17,11 @@ namespace CHaMPWorkbench.Classes
             m_Outputs = theOutputs;
         }
 
+        public Config Config
+        {
+            get { return m_Config; }
+        }
+
         public void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)
         {
             // Ensure that the directory exists

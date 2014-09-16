@@ -168,6 +168,13 @@ namespace CHaMPWorkbench
             theSite.WriteToXML(xmlInput, txtSourceFolder.Text);
             xmlInput.WriteEndElement(); // sites
 
+            theBuilder.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
+            theBuilder.Config.ChangeDetectionConfig.ClearMasks();
+            foreach (Classes.BudgetSegregation aMask in ucRBTChangeDetection1.BudgetMasks.CheckedItems)
+            {
+                theBuilder.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
+            }
+            
             theBuilder.CloseFile(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit, txtOutputFolder.Text));
 
             // Create the Batch

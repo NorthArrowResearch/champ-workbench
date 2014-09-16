@@ -143,6 +143,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
 
             xmlFile.WriteElementString("dem", "DEM");
+            xmlFile.WriteElementString("error_surface", "ElevationError");
 
             xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
             xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));

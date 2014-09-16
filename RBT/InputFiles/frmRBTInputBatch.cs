@@ -152,6 +152,14 @@ namespace CHaMPWorkbench.RBTInputFile
                 }
 
                 Classes.BatchInputfileBuilder theBatch = new Classes.BatchInputfileBuilder(m_dbCon, lFieldSeasons, rbtConfig, rbtOutputs);
+
+                theBatch.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
+                theBatch.Config.ChangeDetectionConfig.ClearMasks();
+                foreach (Classes.BudgetSegregation aMask in ucRBTChangeDetection1.BudgetMasks.CheckedItems)
+                {
+                    theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
+                }
+
                 sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true, chkIncludeOtherVisits.Checked);
             }
             catch (Exception ex)
