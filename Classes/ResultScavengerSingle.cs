@@ -402,12 +402,17 @@ namespace CHaMPWorkbench.Classes
                 PopulateTable_Thalweg(dbCon, xmlTopNode, nVisitID);
                 PopulateTable_Centerlines(dbCon, xmlTopNode, "wetted", nVisitID);
                 PopulateTable_Centerlines(dbCon, xmlTopNode, "bankfull", nVisitID);
+
+                PopulateTable_Islands(dbCon, xmlTopNode, "wetted", nVisitID);
+                PopulateTable_Islands(dbCon, xmlTopNode, "bankfull", nVisitID);
+                PopulateTable_IslandSummary(dbCon, xmlTopNode, "wetted", nVisitID);
+                PopulateTable_IslandSummary(dbCon, xmlTopNode, "bankfull", nVisitID);
+
                 PopulateTable_Profiles(dbCon, xmlTopNode, nVisitID);
                 PopulateTable_ChangeDetection(dbCon, xmlTopNode, nVisitID);
             }
 
             return nVisitID;
-
         }
 
 
@@ -752,6 +757,75 @@ namespace CHaMPWorkbench.Classes
             {
                 Exception ex2 = new Exception("Error generating channel unit summary", ex);
                 ex2.Data.Add("Visit", nVisitID.ToString());
+                throw ex2;
+            }
+        }
+
+        private void PopulateTable_Islands(OleDbConnection dbCon, XmlNode xmlTopNode, string sWaterExtent, int nResultID)
+        {
+            string sSQL = null;
+            sSQL = "INSERT INTO Metric_Islands (ResultID, WaterExtent, Type, Area, Circumference) VALUES (";
+            sSQL += nResultID.ToString() + ", @WaterExtent, @Type, @Area, @Circumference)";
+
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                dbCom.Parameters.AddWithValue("WaterExtent", sWaterExtent);
+                
+                OleDbParameter pType = dbCom.Parameters.Add("Type", OleDbType.VarChar, 255);
+                OleDbParameter pArea = dbCom.Parameters.Add("Area", OleDbType.Double);
+                OleDbParameter pCircumference = dbCom.Parameters.Add("Circumference", OleDbType.Double);
+
+                string sXPathRoot = "./" + sWaterExtent.ToLower() + "_channel/islands/islands";    
+
+                foreach (XmlNode aNode in xmlTopNode.SelectNodes(sXPathRoot + "/island"))
+                {
+                    GetStringValueFromNode(pType,aNode, "./type");
+                    GetDoubleValueFromNode(pArea, aNode, "./area");
+                    GetDoubleValueFromNode(pCircumference, aNode, "./circumference");
+                    dbCom.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error generating channel units", ex);
+                ex2.Data.Add("Result ID", nResultID.ToString());
+                throw ex2;
+            }
+        }
+
+        private void PopulateTable_IslandSummary(OleDbConnection dbCon, XmlNode xmlTopNode, string sWaterExtent, int nResultID)
+        {
+            string sSQL = null;
+            sSQL = "INSERT INTO Metric_IslandSummary (ResultID, WaterExtent, TotalCount, QualifyingCount, NonQualifyingCount, QualifyingArea, NonQualifyingArea) VALUES (";
+            sSQL += nResultID.ToString() + ", @WaterExtent, @TotalCount, @QualifyingCount, @NonQualifyingCount, @QualifyingArea, @NonQualifyingArea)";
+
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                dbCom.Parameters.AddWithValue("WaterExtent", sWaterExtent);
+
+                OleDbParameter pTotalCount = dbCom.Parameters.Add("TotalCount", OleDbType.Integer);
+                OleDbParameter pQualifyingCount = dbCom.Parameters.Add("QualifyingCount", OleDbType.Integer);
+                OleDbParameter pNonQualifyingCount = dbCom.Parameters.Add("NonQualifyingCount", OleDbType.Integer);
+                OleDbParameter pQualifyingArea = dbCom.Parameters.Add("QualifyingArea", OleDbType.Double);
+                OleDbParameter pNonQualifyingArea = dbCom.Parameters.Add("NonQualifyingArea", OleDbType.Double);
+
+                string sXPathRoot = "./" + sWaterExtent.ToLower() + "_channel/islands/islands";
+                foreach (XmlNode aNode in xmlTopNode.SelectNodes(sXPathRoot + "/summary"))
+                {
+                    GetIntegerValueFromNode(pTotalCount, aNode, "./island_count");
+                    GetIntegerValueFromNode(pQualifyingCount, aNode, "./qualifying_count");
+                    GetIntegerValueFromNode(pNonQualifyingCount, aNode, "./nonqualifying_count");
+                    GetDoubleValueFromNode(pQualifyingArea, aNode, "./qualifying_area");
+                    GetDoubleValueFromNode(pNonQualifyingArea, aNode, "./nonqualifying_area");
+                    dbCom.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error generating channel units", ex);
+                ex2.Data.Add("Result ID", nResultID.ToString());
                 throw ex2;
             }
         }
