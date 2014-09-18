@@ -22,6 +22,12 @@ namespace CHaMPWorkbench.RBT
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.RBTConsole) || !System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.RBTConsole))
+            {
+                MessageBox.Show("The RBT Console path is not valid. Go to Tools\\Options to set the correct path to the RBT Console executable (rbtconsole.exe).", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                return;
+            }
 
             Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole);
             rbt.Run(chkScavengeResults.Checked, chkScavengeLog.Checked);
