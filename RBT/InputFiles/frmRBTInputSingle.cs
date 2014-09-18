@@ -223,6 +223,7 @@ namespace CHaMPWorkbench
             if (cboSite.SelectedValue != null)
                 cHAMPVisitsBindingSource.Filter = "SiteID = " + cboSite.SelectedValue.ToString();
 
+            UpdateInputfilePath();
             //this.cHAMP_VisitsTableAdapter.FillBySiteID(this.rBTWorkbenchDataSet.CHAMP_Visits, (int)cboSite.SelectedValue);
         }
 
