@@ -73,6 +73,7 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
+            this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -366,6 +367,8 @@
             // 
             // philipBaileyToolStripMenuItem
             // 
+            this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testXPathReferencesToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -425,6 +428,13 @@
             this.tssDatabasePath.Name = "tssDatabasePath";
             this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
+            // 
+            // testXPathReferencesToolStripMenuItem
+            // 
+            this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
+            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
+            this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -493,6 +503,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem openDatabaseInAccessToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem testXPathReferencesToolStripMenuItem;
 
     }
 }

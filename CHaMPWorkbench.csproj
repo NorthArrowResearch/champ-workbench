@@ -118,6 +118,7 @@
     <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\Philip\TestXPath.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
