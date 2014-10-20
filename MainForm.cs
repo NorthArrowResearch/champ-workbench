@@ -388,7 +388,7 @@ namespace CHaMPWorkbench
 
                     Experimental.Philip.TestXPath theTester = new Experimental.Philip.TestXPath(m_dbCon, dlg.FileName);
                     int nProcessed = theTester.RunTest(ref lExceptions);
-                    if (lExceptions.Count < 0)
+                    if (lExceptions.Count < 1)
                         MessageBox.Show("All active metrics possess valid XPath values.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                     {

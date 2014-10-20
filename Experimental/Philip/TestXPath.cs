@@ -37,9 +37,18 @@ namespace CHaMPWorkbench.Experimental.Philip
                 if (DBNull.Value != dbRead["RBTResultXMLTag"])
                 {
                     string sXPath = (string)dbRead["RBTResultXMLTag"];
-                    XmlNode aNode = m_xml.SelectSingleNode(sXPath);
-                    if (aNode == null)
-                        lInvalidXPaths.Add(((int) dbRead["MetricID"]).ToString() + "," + (string)dbRead["Title"]);
+                    sXPath = "rbt_results//metric_results//" + sXPath;
+
+                    try
+                    {
+                        XmlNode aNode = m_xml.SelectSingleNode(sXPath);
+                        if (aNode == null)
+                            lInvalidXPaths.Add(((int)dbRead["MetricID"]).ToString() + "," + (string)dbRead["Title"] + "\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        lInvalidXPaths.Add(((int)dbRead["MetricID"]).ToString() + "," + (string)dbRead["Title"]+"\n");
+                    }
                 }
                 nProcessed++;
             }
