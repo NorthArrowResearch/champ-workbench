@@ -30,20 +30,22 @@ namespace CHaMPWorkbench.Experimental.Philip
             lInvalidXPaths = new List<string>();
             int nProcessed = 0;
 
-            OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, RBTResultXMLTag FROM Metric_Definitions WHERE IsCHaMP <> 0", m_dbCon);
+            OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, RBTResultXMLTag FROM Metric_Definitions WHERE CMMetricID IS NOT NULL", m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
             {
                 if (DBNull.Value != dbRead["RBTResultXMLTag"])
                 {
                     string sXPath = (string)dbRead["RBTResultXMLTag"];
-                    sXPath = "rbt_results//metric_results//" + sXPath;
+                    sXPath = "rbt_results/metric_results/" + sXPath;
 
                     try
                     {
                         XmlNode aNode = m_xml.SelectSingleNode(sXPath);
                         if (aNode == null)
                             lInvalidXPaths.Add(((int)dbRead["MetricID"]).ToString() + "," + (string)dbRead["Title"] + "\n");
+                        else
+                           System.Diagnostics.Debug.WriteLine(aNode.Name);
                     }
                     catch (Exception ex)
                     {
