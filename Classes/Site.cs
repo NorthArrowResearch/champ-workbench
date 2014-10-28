@@ -31,8 +31,7 @@ namespace CHaMPWorkbench.Classes
             m_dVisits = new Dictionary<int, Visit>();
 
             if (!rSite.IsWatershedIDNull())
-                if (!rSite.CHAMP_WatershedsRow.IsWatershedNameNull())
-                    m_Watershed = new Watershed(rSite.CHAMP_WatershedsRow);
+                m_Watershed = new Watershed(rSite.CHAMP_WatershedsRow);
 
             if (!rSite.IsUTMZoneNull())
                 m_sUTMZone = rSite.UTMZone;

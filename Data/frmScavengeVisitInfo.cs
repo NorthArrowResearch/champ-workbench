@@ -125,8 +125,11 @@ namespace CHaMPWorkbench.Data
                     RBTWorkbenchDataSet.CHAMP_WatershedsRow r = dtWorkbench.FindByWatershedID((int)dbRead["WatershedID"]);
                     if (r == null)
                     {
-                        String sFolder = "NULL";
-                        r = dtWorkbench.AddCHAMP_WatershedsRow((int)dbRead["WatershedID"], (string)dbRead["WatershedName"], sFolder);
+                        r = dtWorkbench.NewCHAMP_WatershedsRow();
+                        r.WatershedID= (int)dbRead["WatershedID"];
+                        r.WatershedName = (string)dbRead["WatershedName"];
+                        r.SetFolderNull();
+                        dtWorkbench.AddCHAMP_WatershedsRow(r);
                     }
                     else
                     {

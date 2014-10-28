@@ -2236,6 +2236,7 @@ namespace CHaMPWorkbench {
                                 this.columnWatershedID}, true));
                 this.columnWatershedID.AllowDBNull = false;
                 this.columnWatershedID.Unique = true;
+                this.columnWatershedName.AllowDBNull = false;
                 this.columnWatershedName.MaxLength = 255;
                 this.columnFolder.MaxLength = 255;
             }
@@ -3611,12 +3612,7 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string WatershedName {
                 get {
-                    try {
-                        return ((string)(this[this.tableCHAMP_Watersheds.WatershedNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'WatershedName\' in table \'CHAMP_Watersheds\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableCHAMP_Watersheds.WatershedNameColumn]));
                 }
                 set {
                     this[this.tableCHAMP_Watersheds.WatershedNameColumn] = value;
@@ -3637,18 +3633,6 @@ namespace CHaMPWorkbench {
                 set {
                     this[this.tableCHAMP_Watersheds.FolderColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsWatershedNameNull() {
-                return this.IsNull(this.tableCHAMP_Watersheds.WatershedNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetWatershedNameNull() {
-                this[this.tableCHAMP_Watersheds.WatershedNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
