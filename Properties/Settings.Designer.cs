@@ -110,7 +110,7 @@ namespace CHaMPWorkbench.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\CHaMP\\RBTWorkbench.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\CHaMP\\Workbench\\RBTWorkbench.mdb")]
         public string RBTWorkbenchConnectionString {
             get {
                 return ((string)(this["RBTWorkbenchConnectionString"]));

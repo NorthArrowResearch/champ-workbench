@@ -34,13 +34,13 @@ namespace CHaMPWorkbench {
         
         private CHAMP_WatershedsDataTable tableCHAMP_Watersheds;
         
+        private global::System.Data.DataRelation relationCHaMP_SegmentsCHAMP_ChannelUnits;
+        
         private global::System.Data.DataRelation _relation_B537A104_BBA9_4F91_8960_3BCF54A0D38C_;
         
         private global::System.Data.DataRelation _relation_3B234512_3334_4E20_B9DB_CDA24E289DC9_;
         
         private global::System.Data.DataRelation relationCHAMP_VisitsCHaMP_Segments;
-        
-        private global::System.Data.DataRelation relationCHaMP_SegmentsCHAMP_ChannelUnits;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -298,10 +298,10 @@ namespace CHaMPWorkbench {
                     this.tableCHAMP_Watersheds.InitVars();
                 }
             }
+            this.relationCHaMP_SegmentsCHAMP_ChannelUnits = this.Relations["CHaMP_SegmentsCHAMP_ChannelUnits"];
             this._relation_B537A104_BBA9_4F91_8960_3BCF54A0D38C_ = this.Relations["{B537A104-BBA9-4F91-8960-3BCF54A0D38C}"];
             this._relation_3B234512_3334_4E20_B9DB_CDA24E289DC9_ = this.Relations["{3B234512-3334-4E20-B9DB-CDA24E289DC9}"];
             this.relationCHAMP_VisitsCHaMP_Segments = this.Relations["CHAMP_VisitsCHaMP_Segments"];
-            this.relationCHaMP_SegmentsCHAMP_ChannelUnits = this.Relations["CHaMP_SegmentsCHAMP_ChannelUnits"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -323,6 +323,13 @@ namespace CHaMPWorkbench {
             this.tableCHAMP_Watersheds = new CHAMP_WatershedsDataTable();
             base.Tables.Add(this.tableCHAMP_Watersheds);
             global::System.Data.ForeignKeyConstraint fkc;
+            fkc = new global::System.Data.ForeignKeyConstraint("CHaMP_SegmentsCHAMP_ChannelUnits", new global::System.Data.DataColumn[] {
+                        this.tableCHaMP_Segments.SegmentIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCHAMP_ChannelUnits.SegmentIDColumn});
+            this.tableCHAMP_ChannelUnits.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.None;
             fkc = new global::System.Data.ForeignKeyConstraint("CHAMP_VisitsCHaMP_Segments", new global::System.Data.DataColumn[] {
                         this.tableCHAMP_Visits.VisitIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCHaMP_Segments.VisitIDColumn});
@@ -344,6 +351,10 @@ namespace CHaMPWorkbench {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
+            this.relationCHaMP_SegmentsCHAMP_ChannelUnits = new global::System.Data.DataRelation("CHaMP_SegmentsCHAMP_ChannelUnits", new global::System.Data.DataColumn[] {
+                        this.tableCHaMP_Segments.SegmentIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCHAMP_ChannelUnits.SegmentIDColumn}, false);
+            this.Relations.Add(this.relationCHaMP_SegmentsCHAMP_ChannelUnits);
             this._relation_B537A104_BBA9_4F91_8960_3BCF54A0D38C_ = new global::System.Data.DataRelation("{B537A104-BBA9-4F91-8960-3BCF54A0D38C}", new global::System.Data.DataColumn[] {
                         this.tableCHAMP_Watersheds.WatershedIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCHAMP_Sites.WatershedIDColumn}, false);
@@ -359,10 +370,6 @@ namespace CHaMPWorkbench {
                         this.tableCHaMP_Segments.VisitIDColumn}, false);
             this.relationCHAMP_VisitsCHaMP_Segments.Nested = true;
             this.Relations.Add(this.relationCHAMP_VisitsCHaMP_Segments);
-            this.relationCHaMP_SegmentsCHAMP_ChannelUnits = new global::System.Data.DataRelation("CHaMP_SegmentsCHAMP_ChannelUnits", new global::System.Data.DataColumn[] {
-                        this.tableCHaMP_Segments.SegmentIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCHAMP_ChannelUnits.SegmentIDColumn}, false);
-            this.Relations.Add(this.relationCHaMP_SegmentsCHAMP_ChannelUnits);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4027,12 +4034,7 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT        CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2, CHAMP_ChannelUnits.SegmentID
-FROM            ((CHAMP_ChannelUnits INNER JOIN
-                         CHaMP_Segments ON CHAMP_ChannelUnits.SegmentID = CHaMP_Segments.SegmentID) INNER JOIN
-                         CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID)
-WHERE        (CHAMP_Visits.VisitYear = ?)
-ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
+            this._commandCollection[1].CommandText = @"SELECT CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.SegmentID, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2 FROM ((CHAMP_ChannelUnits INNER JOIN CHaMP_Segments ON CHAMP_ChannelUnits.SegmentID = CHaMP_Segments.SegmentID) INNER JOIN CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID) WHERE (CHAMP_Visits.VisitYear = ?) ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -4108,16 +4110,10 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
+        public virtual int Delete(int Original_ID, int Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
-            if ((Original_ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ChannelUnitNumber.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ChannelUnitNumber));
             if ((Original_Tier1 == null)) {
                 this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
@@ -4156,13 +4152,8 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, int SegmentID) {
-            if ((ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ChannelUnitNumber.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
+        public virtual int Insert(int ChannelUnitNumber, string Tier1, string Tier2, int SegmentID) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ChannelUnitNumber));
             if ((Tier1 == null)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
@@ -4196,13 +4187,8 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ChannelUnitNumber, string Tier1, string Tier2, int SegmentID, int Original_ID, global::System.Nullable<int> Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
-            if ((ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ChannelUnitNumber.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
+        public virtual int Update(int ChannelUnitNumber, string Tier1, string Tier2, int SegmentID, int Original_ID, int Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ChannelUnitNumber));
             if ((Tier1 == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
@@ -4217,14 +4203,8 @@ ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
             }
             this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(SegmentID));
             this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
-            if ((Original_ChannelUnitNumber.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ChannelUnitNumber.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ChannelUnitNumber));
             if ((Original_Tier1 == null)) {
                 this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
