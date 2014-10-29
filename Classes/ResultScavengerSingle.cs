@@ -274,7 +274,12 @@ namespace CHaMPWorkbench.Classes
         {
 
             string sSQL = null;
-            sSQL = "INSERT INTO Metric_SiteMetrics (" + "ResultFile" + ", VisitName" + ", FieldSeason" + ", SiteName" + ", RBTRunDateTime" + ", RBTInputFile" + ", Artifacts" + ", LinearUnits" + ", ReachLengthThalweg" + ", ThalwegIncrementDistance" + ", ReachWidthWetted" + ", CoordAProjected" + ", CoordAGeographic" + ", CoordKProjected" + ", CoordKGeographic" + ", SiteWaterSurfaceSlope" + ", AreaSum" + ", RP100" + ", PoolTailCrestDepthAvg" + ", PoolMaxDepthAvg" + ", XBFHeight" + ", XBFWidth" + ", BnkFullChCap" + ", AvgXSecArea" + ", AcgXSecAreaRect" + ", AvgChCap" + ", DEM_Left" + ", DEM_Right" + ", DEM_Top" + ", DEM_Bottom" + ", SiteGradient" + ", SiteWaterSurfaceGradient" + ", SiteSinuosity" + ", SiteSinuosityCL" + ", SiteArea" + ", SiteAreaWetted" + ", SiteAreaBankfull" + ", WettedVolume" + ", SiteLengthWetted" + ", SiteLengthBankfull" + ", SiteLengthThalweg" + ", ThalwegCLLengthRatio" + ", IntegratedWettedWidth" + ", IntegratedBankfullWidth" + ", SiteBankAngleMean" + ", SiteBankAngleDeviation" + ", DetrendedDEMStDev" + ", BankfullVolume" + ", WaterDepthStDev";
+            sSQL = "INSERT INTO Metric_SiteMetrics (ResultFile, VisitName, FieldSeason, SiteName, RBTRunDateTime, RBTInputFile, RBTVersion, Artifacts" + 
+                ", LinearUnits, ReachLengthThalweg, ThalwegIncrementDistance, ReachWidthWetted, CoordAProjected, CoordAGeographic, CoordKProjected, CoordKGeographic, " +
+                "SiteWaterSurfaceSlope, AreaSum, RP100, PoolTailCrestDepthAvg, PoolMaxDepthAvg, XBFHeight, XBFWidth, BnkFullChCap, AvgXSecArea, AcgXSecAreaRect, AvgChCap, " +
+                "DEM_Left, DEM_Right, DEM_Top, DEM_Bottom, SiteGradient, SiteWaterSurfaceGradient, SiteSinuosity, SiteSinuosityCL, SiteArea, SiteAreaWetted, SiteAreaBankfull, " +
+                "WettedVolume, SiteLengthWetted, SiteLengthBankfull, SiteLengthThalweg, ThalwegCLLengthRatio, IntegratedWettedWidth, IntegratedBankfullWidth, SiteBankAngleMean, " + 
+                "SiteBankAngleDeviation, DetrendedDEMStDev, BankfullVolume, WaterDepthStDev, BankfullMaxDepth, BankfullMeanDepth";
 
             sSQL += ") VALUES (";
             sSQL += "@RBTResultFile";
@@ -284,7 +289,7 @@ namespace CHaMPWorkbench.Classes
             AddStringValue(ref sSQL, xmlTopNode, "./site");
             sSQL += ", @RBTRunDateTime";
             sSQL += ", @RBTInputFile";
-            //AddStringValue(sSQL, xmlTopNode, "./meta_data/date_time_created") ' problem
+            AddStringValue(ref sSQL, xmlTopNode, "../meta_data/rbt_version"); // RBT Version
             AddStringValue(ref sSQL, xmlTopNode, "./meta_data/artifacts");
             AddStringValue(ref sSQL, xmlTopNode, "./linear_units");
             AddNumericValue(ref sSQL, xmlTopNode, "./reach_length_thalweg");
@@ -328,8 +333,11 @@ namespace CHaMPWorkbench.Classes
             AddNumericValue(ref sSQL, xmlTopNode, "./detrended_dem_standard_deviation");
             AddNumericValue(ref sSQL, xmlTopNode, "./bankfull_volume");
             AddNumericValue(ref sSQL, xmlTopNode, "./water_depth_standard_deviation");
+            AddNumericValue(ref sSQL, xmlTopNode, "./bankfull_max_depth");
+            AddNumericValue(ref sSQL, xmlTopNode, "./bankfull_mean_depth");
 
             sSQL += ")";
+            System.Diagnostics.Debug.WriteLine(sSQL);
 
             int nVisitID = 0;
             try
