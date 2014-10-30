@@ -128,7 +128,8 @@ namespace CHaMPWorkbench.Classes
             m_bMakeDEMsOrthogonal = bDEMOrthogonal;
             m_bChangeDetection = bChangeDetection;
             m_dChannelSegments = new Dictionary<int, ChannelSegment>();
-        
+            m_bGenerateCSVs = bGenerateCSVs;
+
             foreach (RBTWorkbenchDataSet.CHaMP_SegmentsRow rSegment in rVisit.GetCHaMP_SegmentsRows())
             {
                 m_dChannelSegments.Add(rSegment.SegmentID, new ChannelSegment(rSegment));
