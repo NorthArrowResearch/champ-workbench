@@ -140,7 +140,7 @@ namespace CHaMPWorkbench
                    
 
             RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
-            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked);
+            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, chkHydraulicCSVs.Checked);
             Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
             theSite.AddVisit(mainvisit);
 
@@ -157,7 +157,7 @@ namespace CHaMPWorkbench
                     {
                         if (rdoAll.Checked || aVisit.IsPrimary)
                         {
-                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked);
+                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked,false);
                             theSite.AddVisit(anotherVisit);
                         }
                     }

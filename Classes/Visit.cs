@@ -16,6 +16,7 @@ namespace CHaMPWorkbench.Classes
         private bool m_bCalculateMetrics;
         private bool m_bChangeDetection;
         private bool m_bMakeDEMsOrthogonal;
+        private bool m_bGenerateCSVs;
 
         private String m_sFolder;
         private String m_sFileGDB;
@@ -61,6 +62,12 @@ namespace CHaMPWorkbench.Classes
             set { m_bMakeDEMsOrthogonal = value; }
         }
 
+        public Boolean GenerateCSVs
+        {
+            get { return m_bGenerateCSVs; }
+            set { m_bGenerateCSVs = value; }
+        }
+
         public override string ToString()
         {
             return FieldSeason.ToString() + " - " + m_sHitch + (m_bPrimary ? " - Primary" : "");
@@ -92,9 +99,10 @@ namespace CHaMPWorkbench.Classes
             m_bCalculateMetrics = false;
             m_bMakeDEMsOrthogonal = false;
             m_bChangeDetection = false;
+            m_bGenerateCSVs = false;
         }
 
-        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal)
+        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs)
             : base(rVisit.VisitID, rVisit.HitchName)
         {
             if (!rVisit.IsHitchNameNull())
@@ -137,6 +145,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteAttributeString("changedetection", m_bChangeDetection.ToString());
             xmlFile.WriteAttributeString("makedemorthogonal", m_bMakeDEMsOrthogonal.ToString());
             xmlFile.WriteAttributeString("primary", m_bPrimary.ToString());
+            xmlFile.WriteAttributeString("generatecsv", m_bGenerateCSVs.ToString());
 
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());

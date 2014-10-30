@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Classes
             m_dbCon = dbCon;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits)
+        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, Boolean bGenerateCSVs)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
@@ -82,7 +82,7 @@ namespace CHaMPWorkbench.Classes
 
                         Site theSite = new Site(rVisit.CHAMP_SitesRow);                    
 
-                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bChangeDetection || bMakeDEMOrthogonal);
+                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bChangeDetection || bMakeDEMOrthogonal, bGenerateCSVs);
                         theSite.AddVisit(v);
                      
                         if (bIncludeOtherVisits)
@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes
                             {
                                 if (rOtherVisit.SiteID == rVisit.SiteID && rOtherVisit.VisitID != rVisit.VisitID)
                                 {
-                                    Visit vOther = new Visit(rOtherVisit, false, bChangeDetection && rOtherVisit.IsPrimary, bChangeDetection || bMakeDEMOrthogonal);
+                                    Visit vOther = new Visit(rOtherVisit, false, bChangeDetection && rOtherVisit.IsPrimary, bChangeDetection || bMakeDEMOrthogonal, false);
                                     theSite.AddVisit(vOther);
                                     //vOther.WriteToXML(ref xmlInput, sVisitTopofolder);
                                 }

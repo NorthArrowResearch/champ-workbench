@@ -160,7 +160,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true, chkIncludeOtherVisits.Checked);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true, chkIncludeOtherVisits.Checked, chkGenerateCSVs.Checked);
             }
             catch (Exception ex)
             {

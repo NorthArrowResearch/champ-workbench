@@ -48,10 +48,11 @@
             this.txtBatch = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
-            this.cmdCancel = new System.Windows.Forms.Button();
-            this.cmdOK = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
+            this.cmdCancel = new System.Windows.Forms.Button();
+            this.cmdOK = new System.Windows.Forms.Button();
+            this.chkGenerateCSVs = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
@@ -99,7 +100,7 @@
             this.chkIncludeOtherVisits.AutoSize = true;
             this.chkIncludeOtherVisits.Checked = true;
             this.chkIncludeOtherVisits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 316);
+            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 346);
             this.chkIncludeOtherVisits.Name = "chkIncludeOtherVisits";
             this.chkIncludeOtherVisits.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeOtherVisits.TabIndex = 13;
@@ -117,8 +118,8 @@
             // 
             // txtOutputFolder
             // 
-            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOutputFolder.Location = new System.Drawing.Point(184, 73);
             this.txtOutputFolder.Name = "txtOutputFolder";
             this.txtOutputFolder.Size = new System.Drawing.Size(572, 20);
@@ -138,11 +139,12 @@
             // 
             // GroupBox1
             // 
+            this.GroupBox1.Controls.Add(this.chkGenerateCSVs);
             this.GroupBox1.Controls.Add(this.chkChangeDetection);
             this.GroupBox1.Controls.Add(this.chkCalculateMetrics);
             this.GroupBox1.Location = new System.Drawing.Point(184, 241);
             this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(239, 68);
+            this.GroupBox1.Size = new System.Drawing.Size(239, 87);
             this.GroupBox1.TabIndex = 12;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Target Visit Attributes";
@@ -182,8 +184,8 @@
             // 
             // txtMonitoringDataFolder
             // 
-            this.txtMonitoringDataFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMonitoringDataFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMonitoringDataFolder.Location = new System.Drawing.Point(184, 42);
             this.txtMonitoringDataFolder.Name = "txtMonitoringDataFolder";
             this.txtMonitoringDataFolder.Size = new System.Drawing.Size(572, 20);
@@ -246,8 +248,8 @@
             // 
             // txtBatch
             // 
-            this.txtBatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatch.Location = new System.Drawing.Point(184, 13);
             this.txtBatch.MaxLength = 255;
             this.txtBatch.Name = "txtBatch";
@@ -272,6 +274,25 @@
             this.ucConfig.Size = new System.Drawing.Size(835, 505);
             this.ucConfig.TabIndex = 0;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(848, 511);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Change Detection";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ucRBTChangeDetection1
+            // 
+            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
+            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 505);
+            this.ucRBTChangeDetection1.TabIndex = 0;
+            // 
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -293,24 +314,15 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // tabPage3
+            // chkGenerateCSVs
             // 
-            this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(848, 511);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Change Detection";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // ucRBTChangeDetection1
-            // 
-            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
-            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
-            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 505);
-            this.ucRBTChangeDetection1.TabIndex = 0;
+            this.chkGenerateCSVs.AutoSize = true;
+            this.chkGenerateCSVs.Location = new System.Drawing.Point(11, 66);
+            this.chkGenerateCSVs.Name = "chkGenerateCSVs";
+            this.chkGenerateCSVs.Size = new System.Drawing.Size(201, 17);
+            this.chkGenerateCSVs.TabIndex = 2;
+            this.chkGenerateCSVs.Text = "Generate hydraulic model CSV inputs";
+            this.chkGenerateCSVs.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputBatch
             // 
@@ -365,5 +377,6 @@
         private System.Windows.Forms.CheckBox chkIncludeOtherVisits;
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
+        internal System.Windows.Forms.CheckBox chkGenerateCSVs;
     }
 }
