@@ -118,6 +118,12 @@
     <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\Philip\frmTestXPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Philip\frmTestXPath.Designer.cs">
+      <DependentUpon>frmTestXPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\Philip\TestXPath.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
@@ -208,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmHydroModelInputs.resx">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Philip\frmTestXPath.resx">
+      <DependentUpon>frmTestXPath.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>

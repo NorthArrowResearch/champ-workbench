@@ -366,45 +366,8 @@ namespace CHaMPWorkbench
 
         private void testXPathReferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string sFilePath = "";
-
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "RBT Result XML File";
-            dlg.Filter = "RBT Result XML Files (*.xml)|*.xml";
-
-            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile) && 
-                System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile))
-            {
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile);
-                dlg.FileName = System.IO.Path.GetFileNameWithoutExtension(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile);
-            }
-
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                List<string> lExceptions = new List<string>();
-
-                try
-                {
-
-                    Experimental.Philip.TestXPath theTester = new Experimental.Philip.TestXPath(m_dbCon, dlg.FileName);
-                    int nProcessed = theTester.RunTest(ref lExceptions);
-                    if (lExceptions.Count < 1)
-                        MessageBox.Show("All active metrics possess valid XPath values.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                    {
-                        string sErrors = "";
-                        foreach (string s in lExceptions)
-                            sErrors += s;
-
-                        Clipboard.SetText(sErrors);
-                        MessageBox.Show(nProcessed.ToString() + " metrics processed. " + lExceptions.Count.ToString() + " errors encountered and copied to the clipboard.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error During Processing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
+            Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
+            frm.ShowDialog();               
         }
     }
 }

@@ -25,12 +25,16 @@ namespace CHaMPWorkbench.Experimental.Philip
             m_dbCon = dbCon;
         }
 
-        public int RunTest(ref List<string> lInvalidXPaths)
+        public int RunTest(ref List<string> lInvalidXPaths, string sWhereClause)
         {
             lInvalidXPaths = new List<string>();
             int nProcessed = 0;
 
-            OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, RBTResultXMLTag FROM Metric_Definitions WHERE CMMetricID IS NOT NULL", m_dbCon);
+            string sSQL = "SELECT MetricID, Title, RBTResultXMLTag FROM Metric_Definitions";
+            if (!string.IsNullOrWhiteSpace(sWhereClause))
+                sSQL += " WHERE " + sWhereClause;
+
+            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
             {
