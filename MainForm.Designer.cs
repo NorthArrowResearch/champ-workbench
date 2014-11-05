@@ -66,6 +66,7 @@
             this.hydroModelInputGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,8 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
-            this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -197,6 +199,7 @@
             this.rBTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rBTToolStripMenuItem1,
             this.gCDToolStripMenuItem,
+            this.delft3DToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -214,7 +217,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -282,7 +285,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             // 
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
@@ -294,13 +297,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -373,6 +376,13 @@
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
             // 
+            // testXPathReferencesToolStripMenuItem
+            // 
+            this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
+            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
+            this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
+            // 
             // saraBangenToolStripMenuItem
             // 
             this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
@@ -429,12 +439,19 @@
             this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
             // 
-            // testXPathReferencesToolStripMenuItem
+            // delft3DToolStripMenuItem
             // 
-            this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
-            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
-            this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
+            this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cSVToRasterToolStripMenuItem});
+            this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.delft3DToolStripMenuItem.Text = "Delft 3D";
+            // 
+            // cSVToRasterToolStripMenuItem
+            // 
+            this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
+            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
             // 
             // MainForm
             // 
@@ -504,6 +521,8 @@
         private System.Windows.Forms.ToolStripMenuItem openDatabaseInAccessToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem testXPathReferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem delft3DToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cSVToRasterToolStripMenuItem;
 
     }
 }
