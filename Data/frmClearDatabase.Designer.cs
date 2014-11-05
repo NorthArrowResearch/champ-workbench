@@ -33,6 +33,7 @@
             this.chkRBTLogs = new System.Windows.Forms.CheckBox();
             this.chkRBTMetrics = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkManulMetrics = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkWatersheds = new System.Windows.Forms.CheckBox();
             this.cmdCancel = new System.Windows.Forms.Button();
@@ -82,22 +83,33 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkManulMetrics);
             this.groupBox1.Controls.Add(this.chkRBTBatches);
             this.groupBox1.Controls.Add(this.chkRBTMetrics);
             this.groupBox1.Controls.Add(this.chkRBTLogs);
             this.groupBox1.Location = new System.Drawing.Point(12, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(369, 90);
+            this.groupBox1.Size = new System.Drawing.Size(369, 128);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "RBT Related";
             // 
+            // chkManulMetrics
+            // 
+            this.chkManulMetrics.AutoSize = true;
+            this.chkManulMetrics.Location = new System.Drawing.Point(11, 102);
+            this.chkManulMetrics.Name = "chkManulMetrics";
+            this.chkManulMetrics.Size = new System.Drawing.Size(176, 17);
+            this.chkManulMetrics.TabIndex = 4;
+            this.chkManulMetrics.Text = "Manual, validation metric results";
+            this.chkManulMetrics.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.chkWatersheds);
-            this.groupBox2.Location = new System.Drawing.Point(12, 134);
+            this.groupBox2.Location = new System.Drawing.Point(12, 172);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(369, 89);
+            this.groupBox2.Size = new System.Drawing.Size(369, 51);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CHaMP";
@@ -172,5 +184,6 @@
         private System.Windows.Forms.CheckBox chkWatersheds;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdOK;
+        private System.Windows.Forms.CheckBox chkManulMetrics;
     }
 }

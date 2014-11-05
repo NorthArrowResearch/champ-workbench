@@ -9,25 +9,25 @@ namespace CHaMPWorkbench.Classes
     class ClearDatabase
     {
         private OleDbConnection m_dbCon;
-        private List<string> m_sTables;
+        private List<string> m_sSQLStatements;
 
         public ClearDatabase(OleDbConnection dbCon)
         {
             m_dbCon = dbCon;
-            m_sTables = new List<string>();
+            m_sSQLStatements = new List<string>();
         }
 
-        public void AddTableToClear(string sTable)
+        public void AddSQLStatementToClear(string sTable)
         {
             if (string.IsNullOrWhiteSpace(sTable))
-                throw new Exception("The table name cannot be null or empty.");
+                throw new Exception("The SQL statement cannot be null or empty.");
 
-            m_sTables.Add(sTable);
+            m_sSQLStatements.Add(sTable);
         }
 
         public int TableCount
         {
-            get { return m_sTables.Count; }
+            get { return m_sSQLStatements.Count; }
         }
 
         public void DoClear(ref string sSuccess, ref string sError)
@@ -36,17 +36,17 @@ namespace CHaMPWorkbench.Classes
                 m_dbCon.Open();
 
             OleDbCommand dbCom;
-            foreach (string sTable in m_sTables)
+            foreach (string sSQL in m_sSQLStatements)
             {
-                dbCom = new OleDbCommand("DELETE FROM " + sTable, m_dbCon);
+                dbCom = new OleDbCommand(sSQL, m_dbCon);
                 try
                 {
                     dbCom.ExecuteNonQuery();
-                    sSuccess += sTable +", ";
+                    sSuccess += sSQL +", ";
                 }
                 catch (Exception ex)
                 {
-                    sError += sTable + ", ";
+                    sError += sSQL + ", ";
                 }
             }
 
@@ -55,8 +55,6 @@ namespace CHaMPWorkbench.Classes
 
             if (!string.IsNullOrWhiteSpace(sError))
                 sError = sError.Substring(0, sError.Length-2);
-
-        }
-        
+        }        
     }
 }
