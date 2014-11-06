@@ -176,5 +176,29 @@ namespace CHaMPWorkbench.Properties {
                 this["RBTPathVariable"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\CHaMP\\MonitoringData")]
+        public string MonitoringDataFolder {
+            get {
+                return ((string)(this["MonitoringDataFolder"]));
+            }
+            set {
+                this["MonitoringDataFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\CHaMP\\RBTInputOutputFiles")]
+        public string InputOutputFolder {
+            get {
+                return ((string)(this["InputOutputFolder"]));
+            }
+            set {
+                this["InputOutputFolder"] = value;
+            }
+        }
     }
 }

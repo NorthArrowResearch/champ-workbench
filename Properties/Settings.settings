@@ -46,5 +46,11 @@
     <Setting Name="RBTPathVariable" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs</Value>
     </Setting>
+    <Setting Name="MonitoringDataFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CHaMP\MonitoringData</Value>
+    </Setting>
+    <Setting Name="InputOutputFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\CHaMP\RBTInputOutputFiles</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

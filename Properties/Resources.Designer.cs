@@ -83,6 +83,16 @@ namespace CHaMPWorkbench.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BrowseFolder {
+            get {
+                object obj = ResourceManager.GetObject("BrowseFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CHaMP_Logo_32 {
             get {
                 object obj = ResourceManager.GetObject("CHaMP_Logo_32", resourceCulture);
@@ -96,6 +106,16 @@ namespace CHaMPWorkbench.Properties {
         internal static System.Drawing.Bitmap CheckControlNetwork {
             get {
                 object obj = ResourceManager.GetObject("CheckControlNetwork", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Copy {
+            get {
+                object obj = ResourceManager.GetObject("Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

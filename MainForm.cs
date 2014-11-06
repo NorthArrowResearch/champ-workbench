@@ -375,5 +375,11 @@ namespace CHaMPWorkbench
             Experimental.Philip.frmBridgeBatchRuns frm = new Experimental.Philip.frmBridgeBatchRuns(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void findVisitByIDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmFindVisitByID frm = new Data.frmFindVisitByID(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }
