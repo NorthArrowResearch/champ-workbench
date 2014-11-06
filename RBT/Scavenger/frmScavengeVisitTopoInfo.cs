@@ -179,8 +179,10 @@ namespace CHaMPWorkbench
             if (System.IO.Directory.Exists(sCHaMPItemFolder))
                 return true;
 
-
-
+            sCHaMPItemFolder = System.IO.Path.Combine(sParentFolder,sChaMPItemName.Replace(":",""));
+                  if (System.IO.Directory.Exists(sCHaMPItemFolder))
+                return true;
+            
             return false;
         }
 
@@ -221,7 +223,7 @@ namespace CHaMPWorkbench
                        System.IO.DirectoryInfo dVisitYear = System.IO.Directory.CreateDirectory(sVisitYearFolder);
 
                         string sWatershedFolder;
-                        if (LookForFolder(sVisitYearFolder, rWatershed.WatershedName, out sWatershedFolder))
+                        if (LookForFolder(sVisitYearFolder, rWatershed.WatershedName.Trim(), out sWatershedFolder))
                         {
                             rWatershed.Folder = System.IO.Path.GetFileNameWithoutExtension(sWatershedFolder);
 
