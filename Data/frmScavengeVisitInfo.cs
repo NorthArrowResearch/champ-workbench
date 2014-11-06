@@ -247,22 +247,28 @@ namespace CHaMPWorkbench.Data
             // Reload the datasets
             daSegments.Fill(ds.CHaMP_Segments);
 
-
-
             daUnits.ClearBeforeFill = true;
             daUnits.Fill(ds.CHAMP_ChannelUnits);
 
             OleDbConnection conInsert = new OleDbConnection(m_dbCon.ConnectionString);
             conInsert.Open();
 
-            OleDbCommand comInsert = new OleDbCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (?, ?, ?, ?)", conInsert);
+            OleDbCommand comInsert = new OleDbCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2, BouldersGT256, Cobbles65255, CoarseGravel1764, FineGravel316, Sand0062, FinesLT006, SumSubstrateCover) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", conInsert);
             OleDbParameter pSegmentID = comInsert.Parameters.Add("SegmentID", OleDbType.Integer);
             OleDbParameter pCUNumber = comInsert.Parameters.Add("ChannelUnitNumber", OleDbType.Integer);
             OleDbParameter pTier1 = comInsert.Parameters.Add("Tier1", OleDbType.VarChar);
             OleDbParameter pTier2 = comInsert.Parameters.Add("Tier2", OleDbType.VarChar);
-                        
+
+            OleDbParameter pBouldersGT256 = comInsert.Parameters.Add("BouldersGT256", OleDbType.Integer);
+            OleDbParameter pCobbles65255 = comInsert.Parameters.Add("Cobbles65255", OleDbType.Integer);
+            OleDbParameter pCoarseGravel1764 = comInsert.Parameters.Add("CoarseGravel1764", OleDbType.Integer);
+            OleDbParameter pFineGravel316 = comInsert.Parameters.Add("FineGravel316", OleDbType.Integer);
+            OleDbParameter pSand0062 = comInsert.Parameters.Add("Sand0062", OleDbType.Integer);
+            OleDbParameter pFinesLT006 = comInsert.Parameters.Add("FinesLT006", OleDbType.Integer);
+            OleDbParameter pSumSubstrateCover = comInsert.Parameters.Add("SumSubstrateCover", OleDbType.Integer);
+                                    
             // Now process the Channel Units
-            sSQL = "SELECT VisitID, ChannelSegment, Tier1, Tier2, ChannelUnitNumber FROM ChannelUnit WHERE (VisitID IS NOT NULL) AND (ChannelSegment IS NOT NULL) AND (ChannelUnitNumber IS NOT NULL)";
+            sSQL = "SELECT ChannelUnit.VisitID, ChannelUnit.ChannelSegment, ChannelUnit.Tier1, ChannelUnit.Tier2, ChannelUnit.ChannelUnitNumber, SubstrateCover.BouldersGT256, SubstrateCover.Cobbles65255, SubstrateCover.CoarseGravel1764, SubstrateCover.FineGravel316, SubstrateCover.Sand0062, SubstrateCover.FinesLT006, SubstrateCover.SumSubstrateCover FROM ChannelUnit LEFT JOIN SubstrateCover ON (ChannelUnit.VisitID = SubstrateCover.VisitID) AND (ChannelUnit.ChannelUnitID = SubstrateCover.ChannelUnitID) WHERE (((ChannelUnit.[VisitID]) Is Not Null) AND ((ChannelUnit.[ChannelSegment]) Is Not Null) AND ((ChannelUnit.[ChannelUnitNumber]) Is Not Null))";
             dbCom = new OleDbCommand(sSQL, dbCHaMP);
             dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
@@ -284,19 +290,47 @@ namespace CHaMPWorkbench.Data
                             pTier2.Value = (string)dbRead["Tier2"];
                             pTier2.Size = ((string)dbRead["Tier2"]).Length;
 
+                            if (DBNull.Value == dbRead["BouldersGT256"])
+                                pBouldersGT256.Value = DBNull.Value;
+                            else
+                                pBouldersGT256.Value = (int) dbRead["BouldersGT256"];
+
+                            if (DBNull.Value == dbRead["Cobbles65255"])
+                                pCobbles65255.Value = DBNull.Value;
+                            else
+                                pCobbles65255.Value = (int)dbRead["Cobbles65255"];
+
+                            if (DBNull.Value == dbRead["CoarseGravel1764"])
+                                pCoarseGravel1764.Value = DBNull.Value;
+                            else
+                                pCoarseGravel1764.Value = (int)dbRead["CoarseGravel1764"];
+
+                            if (DBNull.Value == dbRead["FineGravel316"])
+                                pFineGravel316.Value = DBNull.Value;
+                            else
+                                pFineGravel316.Value = (int)dbRead["FineGravel316"];
+
+                            if (DBNull.Value == dbRead["Sand0062"])
+                                pSand0062.Value = DBNull.Value;
+                            else
+                                pSand0062.Value = (int)dbRead["Sand0062"];
+
+                            if (DBNull.Value == dbRead["FinesLT006"])
+                                pFinesLT006.Value = DBNull.Value;
+                            else
+                                pFinesLT006.Value = (int)dbRead["FinesLT006"];
+
+                            if (DBNull.Value == dbRead["SumSubstrateCover"])
+                                pSumSubstrateCover.Value = DBNull.Value;
+                            else
+                                pSumSubstrateCover.Value = (int)dbRead["SumSubstrateCover"];
+
                             comInsert.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
                             System.Diagnostics.Debug.WriteLine(ex.Message);
                         }
-                        //r.SegmentID = rSeg.SegmentID;
-                        //r.ChannelUnitNumber = (int)dbRead["ChannelUnitNumber"];
-                        //r.Tier1 = (string)dbRead["Tier1"];
-                        //r.Tier2 = (string)dbRead["Tier2"];
-                        //ds.CHAMP_ChannelUnits.AddCHAMP_ChannelUnitsRow(r);
-
-
                     }
                 }
             }
