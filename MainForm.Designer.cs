@@ -55,6 +55,8 @@
             this.scavengeRBTResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,8 +76,7 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
-            this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -217,7 +218,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -285,7 +286,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             // 
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
@@ -294,16 +295,30 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Text = "Generate GCD Project for CHaMP Site";
             // 
+            // delft3DToolStripMenuItem
+            // 
+            this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cSVToRasterToolStripMenuItem});
+            this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.delft3DToolStripMenuItem.Text = "Delft 3D";
+            // 
+            // cSVToRasterToolStripMenuItem
+            // 
+            this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
+            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -371,7 +386,8 @@
             // philipBaileyToolStripMenuItem
             // 
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testXPathReferencesToolStripMenuItem});
+            this.testXPathReferencesToolStripMenuItem,
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -379,7 +395,7 @@
             // testXPathReferencesToolStripMenuItem
             // 
             this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
-            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
             this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
             // 
@@ -439,19 +455,12 @@
             this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
             // 
-            // delft3DToolStripMenuItem
+            // queueBridgeCreekBatchesRBTRunsToolStripMenuItem
             // 
-            this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cSVToRasterToolStripMenuItem});
-            this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.delft3DToolStripMenuItem.Text = "Delft 3D";
-            // 
-            // cSVToRasterToolStripMenuItem
-            // 
-            this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
-            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Name = "queueBridgeCreekBatchesRBTRunsToolStripMenuItem";
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Click += new System.EventHandler(this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -523,6 +532,7 @@
         private System.Windows.Forms.ToolStripMenuItem testXPathReferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem delft3DToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToRasterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem queueBridgeCreekBatchesRBTRunsToolStripMenuItem;
 
     }
 }

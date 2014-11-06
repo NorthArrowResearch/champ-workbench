@@ -27,9 +27,28 @@ namespace CHaMPWorkbench.RBTInputFile
             for (int i = 2011; i <= DateTime.Now.Year; i++)
             {
                 int index = lstFieldSeasons.Items.Add(new ListItem(i.ToString(), i));
-                lstFieldSeasons.SetItemChecked(index, true);
+                //lstFieldSeasons.SetItemChecked(index, true);
             }
 
+            OleDbCommand dbCom = new OleDbCommand("SELECT DISTINCT VisitYear FROM CHAMP_Visits", m_dbCon);
+            OleDbDataReader dbRead = dbCom.ExecuteReader();
+            while (dbRead.Read())
+            {
+                if (dbRead[0] != DBNull.Value)
+                {
+                    Int16 nVisitYear = (Int16) dbRead[0];
+                    bool bAlreadyAdded = false;
+                    foreach (ListItem l in lstFieldSeasons.Items)
+                    {
+                        if (l.Value == nVisitYear)
+                            bAlreadyAdded = true;
+                    }
+
+                    if (!bAlreadyAdded)
+                        lstFieldSeasons.Items.Add(new ListItem(nVisitYear.ToString(), nVisitYear));
+                }
+            }
+                       
             ucConfig.ManualInitialization();
 
             txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");

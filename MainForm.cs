@@ -369,5 +369,11 @@ namespace CHaMPWorkbench
             Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
             frm.ShowDialog();               
         }
+
+        private void queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.Philip.frmBridgeBatchRuns frm = new Experimental.Philip.frmBridgeBatchRuns(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }
