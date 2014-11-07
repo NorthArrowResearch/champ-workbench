@@ -14,6 +14,7 @@ namespace CHaMPWorkbench.Data
     public partial class frmFindVisitByID : Form
     {
         private OleDbConnection m_dbCon;
+        private string m_sBatchName;
 
         public frmFindVisitByID(OleDbConnection dbCon)
         {
@@ -40,22 +41,26 @@ namespace CHaMPWorkbench.Data
         private void valVisitID_ValueChanged(object sender, EventArgs e)
         {
             txtResult.Text = string.Empty;
-
+            m_sBatchName = DateTime.Now.ToShortDateString();
 
             OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.WatershedID, CHAMP_Sites.SiteName, CHAMP_Sites.SiteID, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHAMP_Visits.HitchName, CHAMP_Visits.CrewName, CHAMP_Visits.IsPrimary, CHAMP_Watersheds.Folder AS WatershedFolder, CHAMP_Sites.Folder AS SiteFolder, CHAMP_Visits.Folder AS VisitFolder FROM (CHAMP_Watersheds INNER JOIN CHAMP_Sites ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID) INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID WHERE VisitID = ?", m_dbCon);
             dbCom.Parameters.AddWithValue("VisitID", valVisitID.Value);
             try
             {
-
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 if (dbRead.Read())
                 {
+                    string sVisitID =  GetSafeIntValue(dbRead, "VisitID");
+                    string sFieldSeason = GetSafeIntValue(dbRead, "VisitYear");
+
                     txtResult.Text = "Watershed: " + GetSafeIntValue(dbRead, "WatershedID") + ", " + GetSafeStringValue(dbRead, "WatershedName");
                     txtResult.Text += Environment.NewLine + "Site: " + GetSafeIntValue(dbRead, "SiteID") + ", " + GetSafeStringValue(dbRead, "SiteName");
-                    txtResult.Text += Environment.NewLine + "Visit: " + GetSafeIntValue(dbRead, "VisitID");
-                    txtResult.Text += Environment.NewLine + "Field Season: " + GetSafeIntValue(dbRead, "VisitYear");
+                    txtResult.Text += Environment.NewLine + "Visit: " + sVisitID;
+                    txtResult.Text += Environment.NewLine + "Field Season: " + sFieldSeason;
                     txtResult.Text += Environment.NewLine + "Hitch Name: " + GetSafeIntValue(dbRead, "HitchName");
                     txtResult.Text += Environment.NewLine + "Crew: " + GetSafeIntValue(dbRead, "CrewName");
+
+                    m_sBatchName += ", VisitID " + sVisitID + ", Field Season " + sFieldSeason;
 
                     txtSurveyPath.Text = GetPath(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, dbRead);
                     txtOutputPath.Text = GetPath(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder, dbRead);
@@ -106,7 +111,7 @@ namespace CHaMPWorkbench.Data
 
             cmdCopySurveyData.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
             cmdExploreSurveyData.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
-
+            cmdRBTBatch.Enabled = !string.IsNullOrEmpty(txtOutputPath.Text) && System.IO.Directory.Exists(txtOutputPath.Text) && System.IO.File.Exists(RBTInputFile);
         }
 
         private void frmFindVisitByID_Load(object sender, EventArgs e)
@@ -152,6 +157,58 @@ namespace CHaMPWorkbench.Data
             }
 
             return sFinalResult;
+        }
+
+        private string RBTInputFile
+        {
+            get
+            {
+                string sResult = "";
+                if (!string.IsNullOrEmpty(txtOutputPath.Text) && System.IO.Directory.Exists(txtOutputPath.Text))
+                {
+                    sResult = System.IO.Path.Combine(txtOutputPath.Text, "rbt_input.xml");
+                    if (!System.IO.File.Exists(sResult))
+                        sResult = "";
+                }
+                return sResult;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {          
+            OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO RBT_Batches (BatchName, Run) Values (?, 1)", m_dbCon, dbTrans);
+                dbCom.Parameters.AddWithValue("BatchName", m_sBatchName);
+                dbCom.ExecuteNonQuery();
+
+                dbCom = new OleDbCommand("SELECT @@Identity", m_dbCon, dbTrans);
+                int nBatchID = (int)dbCom.ExecuteScalar();
+
+                if (nBatchID > 0)
+                {
+                    dbCom = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, Run, InputFile) VALUES (?, ?, 1, ?)", m_dbCon, dbTrans);
+                    dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+
+                    OleDbParameter pSummary = dbCom.Parameters.AddWithValue("Summary", m_sBatchName);
+                    pSummary.Size = m_sBatchName.Length;
+
+                    OleDbParameter pInputFile = dbCom.Parameters.AddWithValue("InputFile", RBTInputFile);
+                  
+                    dbCom.ExecuteNonQuery();
+                    dbTrans.Commit();
+
+                    MessageBox.Show("RBT batch run created with the name '" + m_sBatchName + "'.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                    dbTrans.Rollback();
+            }
+            catch (Exception ex)
+            {
+                dbTrans.Rollback();
+                MessageBox.Show("Error creating RBT batch run: " + ex.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }

@@ -22,9 +22,15 @@ namespace CHaMPWorkbench
             txt7Zip.Text = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
             txtTextEditor.Text = CHaMPWorkbench.Properties.Settings.Default.TextEditor;
 
+            txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+            txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
+
             tTip.SetToolTip(txtOptions, "The path to the RBT console executable (rbtconsole.exe) that will be used when the RBT is run.");
             tTip.SetToolTip(txt7Zip, "The path to the 7-Zip (www.7-zip.org) compression software that will be used for unpacking CHaMP topo data.");
             tTip.SetToolTip(txtTextEditor, "The path to the text editor executable that will be used to view text files (e.g. NotePad, WordPad, TextPad++).");
+
+            tTip.SetToolTip(txtMonitoring, "The top level folder containing the CHaMP survey data. Under this folder there should be a folder for each field season, then watershed etc");
+            tTip.SetToolTip(txtOutput, "The top level folder containing the RBT input and output files and results. Under this folder there should be a folder for each field season, then watershed etc");
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -56,6 +62,16 @@ namespace CHaMPWorkbench
                 return;
             }
 
+            if (!String.IsNullOrWhiteSpace(txtMonitoring.Text) && System.IO.Directory.Exists(txtMonitoring.Text))
+                CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder = txtMonitoring.Text;
+            else
+                CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder = string.Empty;
+
+            if (!String.IsNullOrWhiteSpace(txtOutput.Text) && System.IO.Directory.Exists(txtOutput.Text))
+                CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder = txtOutput.Text;
+            else
+                CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder = string.Empty;
+          
             CHaMPWorkbench.Properties.Settings.Default.Save();
         }
 
@@ -85,6 +101,30 @@ namespace CHaMPWorkbench
         private void cmdBrowseTextEditor_Click(object sender, EventArgs e)
         {
             BrowseExecutable("Text Editor Software", ref txtTextEditor);
+        }
+
+        private void cmdBrowseMonitoring_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Choose top level CHaMP monitoring data folder";
+            
+            if (!string.IsNullOrEmpty(txtMonitoring.Text) && System.IO.Directory.Exists(txtMonitoring.Text))
+                frm.SelectedPath = txtMonitoring.Text;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtMonitoring.Text = frm.SelectedPath;
+        }
+
+        private void cmdBrowseOutput_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Choose top level input output data folder";
+
+            if (!string.IsNullOrEmpty(txtOutput.Text) && System.IO.Directory.Exists(txtOutput.Text))
+                frm.SelectedPath = txtOutput.Text;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtOutput.Text = frm.SelectedPath;
         }
     }
 }

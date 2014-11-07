@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://champworkbench.northarrowresearch.com/</InstallUrl>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -371,6 +371,8 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <None Include="Resources\rbt_16x16.png" />
+    <None Include="Resources\RBT_Dark_32x321.png" />
     <None Include="Resources\Copy.png" />
     <None Include="Resources\BrowseFolder.png" />
     <None Include="Resources\Access.png" />

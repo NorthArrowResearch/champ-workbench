@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmdRBTBatch = new System.Windows.Forms.Button();
             this.cmdCopyOutput = new System.Windows.Forms.Button();
             this.cmdExplorerOutput = new System.Windows.Forms.Button();
             this.txtOutputPath = new System.Windows.Forms.TextBox();
@@ -79,6 +80,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmdRBTBatch);
             this.groupBox1.Controls.Add(this.cmdCopyOutput);
             this.groupBox1.Controls.Add(this.cmdExplorerOutput);
             this.groupBox1.Controls.Add(this.txtOutputPath);
@@ -95,10 +97,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visit Info";
             // 
+            // cmdRBTBatch
+            // 
+            this.cmdRBTBatch.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
+            this.cmdRBTBatch.Location = new System.Drawing.Point(475, 164);
+            this.cmdRBTBatch.Name = "cmdRBTBatch";
+            this.cmdRBTBatch.Size = new System.Drawing.Size(23, 23);
+            this.cmdRBTBatch.TabIndex = 9;
+            this.cmdRBTBatch.UseVisualStyleBackColor = true;
+            this.cmdRBTBatch.Click += new System.EventHandler(this.button1_Click);
+            // 
             // cmdCopyOutput
             // 
             this.cmdCopyOutput.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.cmdCopyOutput.Location = new System.Drawing.Point(447, 164);
+            this.cmdCopyOutput.Location = new System.Drawing.Point(421, 164);
             this.cmdCopyOutput.Name = "cmdCopyOutput";
             this.cmdCopyOutput.Size = new System.Drawing.Size(23, 23);
             this.cmdCopyOutput.TabIndex = 8;
@@ -108,7 +120,7 @@
             // cmdExplorerOutput
             // 
             this.cmdExplorerOutput.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdExplorerOutput.Location = new System.Drawing.Point(476, 164);
+            this.cmdExplorerOutput.Location = new System.Drawing.Point(448, 164);
             this.cmdExplorerOutput.Name = "cmdExplorerOutput";
             this.cmdExplorerOutput.Size = new System.Drawing.Size(23, 23);
             this.cmdExplorerOutput.TabIndex = 7;
@@ -120,14 +132,14 @@
             this.txtOutputPath.Location = new System.Drawing.Point(74, 165);
             this.txtOutputPath.Name = "txtOutputPath";
             this.txtOutputPath.ReadOnly = true;
-            this.txtOutputPath.Size = new System.Drawing.Size(367, 20);
+            this.txtOutputPath.Size = new System.Drawing.Size(341, 20);
             this.txtOutputPath.TabIndex = 6;
             this.txtOutputPath.TextChanged += new System.EventHandler(this.txtOutputPath_TextChanged);
             // 
             // cmdCopySurveyData
             // 
             this.cmdCopySurveyData.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.cmdCopySurveyData.Location = new System.Drawing.Point(447, 138);
+            this.cmdCopySurveyData.Location = new System.Drawing.Point(421, 138);
             this.cmdCopySurveyData.Name = "cmdCopySurveyData";
             this.cmdCopySurveyData.Size = new System.Drawing.Size(23, 23);
             this.cmdCopySurveyData.TabIndex = 5;
@@ -137,7 +149,7 @@
             // cmdExploreSurveyData
             // 
             this.cmdExploreSurveyData.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdExploreSurveyData.Location = new System.Drawing.Point(476, 138);
+            this.cmdExploreSurveyData.Location = new System.Drawing.Point(448, 138);
             this.cmdExploreSurveyData.Name = "cmdExploreSurveyData";
             this.cmdExploreSurveyData.Size = new System.Drawing.Size(23, 23);
             this.cmdExploreSurveyData.TabIndex = 4;
@@ -149,7 +161,7 @@
             this.txtSurveyPath.Location = new System.Drawing.Point(74, 139);
             this.txtSurveyPath.Name = "txtSurveyPath";
             this.txtSurveyPath.ReadOnly = true;
-            this.txtSurveyPath.Size = new System.Drawing.Size(367, 20);
+            this.txtSurveyPath.Size = new System.Drawing.Size(341, 20);
             this.txtSurveyPath.TabIndex = 3;
             this.txtSurveyPath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -230,5 +242,6 @@
         private System.Windows.Forms.Button cmdCopyOutput;
         private System.Windows.Forms.Button cmdExplorerOutput;
         private System.Windows.Forms.TextBox txtOutputPath;
+        private System.Windows.Forms.Button cmdRBTBatch;
     }
 }
