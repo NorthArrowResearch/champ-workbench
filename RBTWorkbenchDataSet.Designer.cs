@@ -489,6 +489,20 @@ namespace CHaMPWorkbench {
             
             private global::System.Data.DataColumn columnSegmentID;
             
+            private global::System.Data.DataColumn columnBouldersGT256;
+            
+            private global::System.Data.DataColumn columnCobbles65255;
+            
+            private global::System.Data.DataColumn columnCoarseGravel1764;
+            
+            private global::System.Data.DataColumn columnFineGravel316;
+            
+            private global::System.Data.DataColumn columnSand0062;
+            
+            private global::System.Data.DataColumn columnFinesLT006;
+            
+            private global::System.Data.DataColumn columnSumSubstrateCover;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_ChannelUnitsDataTable() {
@@ -564,6 +578,62 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn BouldersGT256Column {
+                get {
+                    return this.columnBouldersGT256;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Cobbles65255Column {
+                get {
+                    return this.columnCobbles65255;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CoarseGravel1764Column {
+                get {
+                    return this.columnCoarseGravel1764;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FineGravel316Column {
+                get {
+                    return this.columnFineGravel316;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Sand0062Column {
+                get {
+                    return this.columnSand0062;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FinesLT006Column {
+                get {
+                    return this.columnFinesLT006;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn SumSubstrateCoverColumn {
+                get {
+                    return this.columnSumSubstrateCover;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -599,14 +669,21 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CHAMP_ChannelUnitsRow AddCHAMP_ChannelUnitsRow(int ChannelUnitNumber, string Tier1, string Tier2, CHaMP_SegmentsRow parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits) {
+            public CHAMP_ChannelUnitsRow AddCHAMP_ChannelUnitsRow(int ChannelUnitNumber, string Tier1, string Tier2, CHaMP_SegmentsRow parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits, int BouldersGT256, int Cobbles65255, int CoarseGravel1764, int FineGravel316, int Sand0062, int FinesLT006, int SumSubstrateCover) {
                 CHAMP_ChannelUnitsRow rowCHAMP_ChannelUnitsRow = ((CHAMP_ChannelUnitsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         ChannelUnitNumber,
                         Tier1,
                         Tier2,
-                        null};
+                        null,
+                        BouldersGT256,
+                        Cobbles65255,
+                        CoarseGravel1764,
+                        FineGravel316,
+                        Sand0062,
+                        FinesLT006,
+                        SumSubstrateCover};
                 if ((parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits != null)) {
                     columnValuesArray[4] = parentCHaMP_SegmentsRowByCHaMP_SegmentsCHAMP_ChannelUnits[0];
                 }
@@ -644,6 +721,13 @@ namespace CHaMPWorkbench {
                 this.columnTier1 = base.Columns["Tier1"];
                 this.columnTier2 = base.Columns["Tier2"];
                 this.columnSegmentID = base.Columns["SegmentID"];
+                this.columnBouldersGT256 = base.Columns["BouldersGT256"];
+                this.columnCobbles65255 = base.Columns["Cobbles65255"];
+                this.columnCoarseGravel1764 = base.Columns["CoarseGravel1764"];
+                this.columnFineGravel316 = base.Columns["FineGravel316"];
+                this.columnSand0062 = base.Columns["Sand0062"];
+                this.columnFinesLT006 = base.Columns["FinesLT006"];
+                this.columnSumSubstrateCover = base.Columns["SumSubstrateCover"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -659,6 +743,20 @@ namespace CHaMPWorkbench {
                 base.Columns.Add(this.columnTier2);
                 this.columnSegmentID = new global::System.Data.DataColumn("SegmentID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSegmentID);
+                this.columnBouldersGT256 = new global::System.Data.DataColumn("BouldersGT256", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBouldersGT256);
+                this.columnCobbles65255 = new global::System.Data.DataColumn("Cobbles65255", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCobbles65255);
+                this.columnCoarseGravel1764 = new global::System.Data.DataColumn("CoarseGravel1764", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCoarseGravel1764);
+                this.columnFineGravel316 = new global::System.Data.DataColumn("FineGravel316", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFineGravel316);
+                this.columnSand0062 = new global::System.Data.DataColumn("Sand0062", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSand0062);
+                this.columnFinesLT006 = new global::System.Data.DataColumn("FinesLT006", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFinesLT006);
+                this.columnSumSubstrateCover = new global::System.Data.DataColumn("SumSubstrateCover", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSumSubstrateCover);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -2457,6 +2555,119 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int BouldersGT256 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.BouldersGT256Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'BouldersGT256\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.BouldersGT256Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int Cobbles65255 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.Cobbles65255Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Cobbles65255\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.Cobbles65255Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int CoarseGravel1764 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.CoarseGravel1764Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CoarseGravel1764\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.CoarseGravel1764Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int FineGravel316 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.FineGravel316Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FineGravel316\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.FineGravel316Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int Sand0062 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.Sand0062Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Sand0062\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.Sand0062Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int FinesLT006 {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.FinesLT006Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FinesLT006\' in table \'CHAMP_ChannelUnits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.FinesLT006Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int SumSubstrateCover {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_ChannelUnits.SumSubstrateCoverColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SumSubstrateCover\' in table \'CHAMP_ChannelUnits\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_ChannelUnits.SumSubstrateCoverColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHaMP_SegmentsRow CHaMP_SegmentsRow {
                 get {
                     return ((CHaMP_SegmentsRow)(this.GetParentRow(this.Table.ParentRelations["CHaMP_SegmentsCHAMP_ChannelUnits"])));
@@ -2512,6 +2723,90 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSegmentIDNull() {
                 this[this.tableCHAMP_ChannelUnits.SegmentIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsBouldersGT256Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.BouldersGT256Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetBouldersGT256Null() {
+                this[this.tableCHAMP_ChannelUnits.BouldersGT256Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCobbles65255Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.Cobbles65255Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCobbles65255Null() {
+                this[this.tableCHAMP_ChannelUnits.Cobbles65255Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCoarseGravel1764Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.CoarseGravel1764Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCoarseGravel1764Null() {
+                this[this.tableCHAMP_ChannelUnits.CoarseGravel1764Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFineGravel316Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.FineGravel316Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFineGravel316Null() {
+                this[this.tableCHAMP_ChannelUnits.FineGravel316Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSand0062Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.Sand0062Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSand0062Null() {
+                this[this.tableCHAMP_ChannelUnits.Sand0062Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFinesLT006Null() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.FinesLT006Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFinesLT006Null() {
+                this[this.tableCHAMP_ChannelUnits.FinesLT006Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSumSubstrateCoverNull() {
+                return this.IsNull(this.tableCHAMP_ChannelUnits.SumSubstrateCoverColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSumSubstrateCoverNull() {
+                this[this.tableCHAMP_ChannelUnits.SumSubstrateCoverColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -3959,10 +4254,17 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Tier1", "Tier1");
             tableMapping.ColumnMappings.Add("Tier2", "Tier2");
             tableMapping.ColumnMappings.Add("SegmentID", "SegmentID");
+            tableMapping.ColumnMappings.Add("BouldersGT256", "BouldersGT256");
+            tableMapping.ColumnMappings.Add("Cobbles65255", "Cobbles65255");
+            tableMapping.ColumnMappings.Add("CoarseGravel1764", "CoarseGravel1764");
+            tableMapping.ColumnMappings.Add("FineGravel316", "FineGravel316");
+            tableMapping.ColumnMappings.Add("Sand0062", "Sand0062");
+            tableMapping.ColumnMappings.Add("FinesLT006", "FinesLT006");
+            tableMapping.ColumnMappings.Add("SumSubstrateCover", "SumSubstrateCover");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_ChannelUnits` WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_ChannelUnits` WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)) AND ((? = 1 AND `BouldersGT256` IS NULL) OR (`BouldersGT256` = ?)) AND ((? = 1 AND `Cobbles65255` IS NULL) OR (`Cobbles65255` = ?)) AND ((? = 1 AND `CoarseGravel1764` IS NULL) OR (`CoarseGravel1764` = ?)) AND ((? = 1 AND `FineGravel316` IS NULL) OR (`FineGravel316` = ?)) AND ((? = 1 AND `Sand0062` IS NULL) OR (`Sand0062` = ?)) AND ((? = 1 AND `FinesLT006` IS NULL) OR (`FinesLT006` = ?)) AND ((? = 1 AND `SumSubstrateCover` IS NULL) OR (`SumSubstrateCover` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, true, null));
@@ -3973,23 +4275,53 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO `CHAMP_ChannelUnits` (`ChannelUnitNumber`, `Tier1`, `Tier2`, `Segment" +
-                "ID`) VALUES (?, ?, ?, ?)";
+                "ID`, `BouldersGT256`, `Cobbles65255`, `CoarseGravel1764`, `FineGravel316`, `Sand" +
+                "0062`, `FinesLT006`, `SumSubstrateCover`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier1", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_ChannelUnits` SET `ChannelUnitNumber` = ?, `Tier1` = ?, `Tier2` = ?, `SegmentID` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_ChannelUnits` SET `ChannelUnitNumber` = ?, `Tier1` = ?, `Tier2` = ?, `SegmentID` = ?, `BouldersGT256` = ?, `Cobbles65255` = ?, `CoarseGravel1764` = ?, `FineGravel316` = ?, `Sand0062` = ?, `FinesLT006` = ?, `SumSubstrateCover` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `ChannelUnitNumber` IS NULL) OR (`ChannelUnitNumber` = ?)) AND ((? = 1 AND `Tier1` IS NULL) OR (`Tier1` = ?)) AND ((? = 1 AND `Tier2` IS NULL) OR (`Tier2` = ?)) AND ((? = 1 AND `SegmentID` IS NULL) OR (`SegmentID` = ?)) AND ((? = 1 AND `BouldersGT256` IS NULL) OR (`BouldersGT256` = ?)) AND ((? = 1 AND `Cobbles65255` IS NULL) OR (`Cobbles65255` = ?)) AND ((? = 1 AND `CoarseGravel1764` IS NULL) OR (`CoarseGravel1764` = ?)) AND ((? = 1 AND `FineGravel316` IS NULL) OR (`FineGravel316` = ?)) AND ((? = 1 AND `Sand0062` IS NULL) OR (`Sand0062` = ?)) AND ((? = 1 AND `FinesLT006` IS NULL) OR (`FinesLT006` = ?)) AND ((? = 1 AND `SumSubstrateCover` IS NULL) OR (`SumSubstrateCover` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier1", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier1", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ChannelUnitNumber", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ChannelUnitNumber", global::System.Data.DataRowVersion.Original, false, null));
@@ -3999,6 +4331,20 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Tier2", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Tier2", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SegmentID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SegmentID", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_BouldersGT256", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "BouldersGT256", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Cobbles65255", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Cobbles65255", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_CoarseGravel1764", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CoarseGravel1764", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_FineGravel316", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FineGravel316", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Sand0062", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Sand0062", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_FinesLT006", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "FinesLT006", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SumSubstrateCover", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SumSubstrateCover", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4014,11 +4360,13 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[2];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, ChannelUnitNumber, Tier1, Tier2, SegmentID FROM CHAMP_ChannelUnits";
+            this._commandCollection[0].CommandText = "SELECT        ID, ChannelUnitNumber, Tier1, Tier2, SegmentID, BouldersGT256, Cobb" +
+                "les65255, CoarseGravel1764, FineGravel316, Sand0062, FinesLT006, SumSubstrateCov" +
+                "er\r\nFROM            CHAMP_ChannelUnits";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.SegmentID, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2 FROM ((CHAMP_ChannelUnits INNER JOIN CHaMP_Segments ON CHAMP_ChannelUnits.SegmentID = CHaMP_Segments.SegmentID) INNER JOIN CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID) WHERE (CHAMP_Visits.VisitYear = ?) ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
+            this._commandCollection[1].CommandText = @"SELECT CHAMP_ChannelUnits.BouldersGT256, CHAMP_ChannelUnits.ChannelUnitNumber, CHAMP_ChannelUnits.CoarseGravel1764, CHAMP_ChannelUnits.Cobbles65255, CHAMP_ChannelUnits.FineGravel316, CHAMP_ChannelUnits.FinesLT006, CHAMP_ChannelUnits.ID, CHAMP_ChannelUnits.Sand0062, CHAMP_ChannelUnits.SegmentID, CHAMP_ChannelUnits.SumSubstrateCover, CHAMP_ChannelUnits.Tier1, CHAMP_ChannelUnits.Tier2 FROM ((CHAMP_ChannelUnits INNER JOIN CHaMP_Segments ON CHAMP_ChannelUnits.SegmentID = CHaMP_Segments.SegmentID) INNER JOIN CHAMP_Visits ON CHaMP_Segments.VisitID = CHAMP_Visits.VisitID) WHERE (CHAMP_Visits.VisitYear = ?) ORDER BY CHAMP_ChannelUnits.ChannelUnitNumber";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -4094,7 +4442,7 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, int Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
+        public virtual int Delete(int Original_ID, int Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID, global::System.Nullable<int> Original_BouldersGT256, global::System.Nullable<int> Original_Cobbles65255, global::System.Nullable<int> Original_CoarseGravel1764, global::System.Nullable<int> Original_FineGravel316, global::System.Nullable<int> Original_Sand0062, global::System.Nullable<int> Original_FinesLT006, global::System.Nullable<int> Original_SumSubstrateCover) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ChannelUnitNumber));
@@ -4116,6 +4464,62 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
             }
             this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_SegmentID));
+            if ((Original_BouldersGT256.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((int)(Original_BouldersGT256.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Cobbles65255.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[12].Value = ((int)(Original_Cobbles65255.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CoarseGravel1764.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[14].Value = ((int)(Original_CoarseGravel1764.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[14].Value = global::System.DBNull.Value;
+            }
+            if ((Original_FineGravel316.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((int)(Original_FineGravel316.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[16].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Sand0062.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[18].Value = ((int)(Original_Sand0062.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[18].Value = global::System.DBNull.Value;
+            }
+            if ((Original_FinesLT006.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[20].Value = ((int)(Original_FinesLT006.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[20].Value = global::System.DBNull.Value;
+            }
+            if ((Original_SumSubstrateCover.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[22].Value = ((int)(Original_SumSubstrateCover.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[22].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4136,7 +4540,7 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ChannelUnitNumber, string Tier1, string Tier2, int SegmentID) {
+        public virtual int Insert(int ChannelUnitNumber, string Tier1, string Tier2, int SegmentID, global::System.Nullable<int> BouldersGT256, global::System.Nullable<int> Cobbles65255, global::System.Nullable<int> CoarseGravel1764, global::System.Nullable<int> FineGravel316, global::System.Nullable<int> Sand0062, global::System.Nullable<int> FinesLT006, global::System.Nullable<int> SumSubstrateCover) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ChannelUnitNumber));
             if ((Tier1 == null)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -4151,6 +4555,48 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
                 this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Tier2));
             }
             this.Adapter.InsertCommand.Parameters[3].Value = ((int)(SegmentID));
+            if ((BouldersGT256.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((int)(BouldersGT256.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((Cobbles65255.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((int)(Cobbles65255.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            if ((CoarseGravel1764.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((int)(CoarseGravel1764.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((FineGravel316.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[7].Value = ((int)(FineGravel316.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((Sand0062.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[8].Value = ((int)(Sand0062.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            if ((FinesLT006.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[9].Value = ((int)(FinesLT006.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            if ((SumSubstrateCover.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[10].Value = ((int)(SumSubstrateCover.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -4171,7 +4617,30 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ChannelUnitNumber, string Tier1, string Tier2, int SegmentID, int Original_ID, int Original_ChannelUnitNumber, string Original_Tier1, string Original_Tier2, int Original_SegmentID) {
+        public virtual int Update(
+                    int ChannelUnitNumber, 
+                    string Tier1, 
+                    string Tier2, 
+                    int SegmentID, 
+                    global::System.Nullable<int> BouldersGT256, 
+                    global::System.Nullable<int> Cobbles65255, 
+                    global::System.Nullable<int> CoarseGravel1764, 
+                    global::System.Nullable<int> FineGravel316, 
+                    global::System.Nullable<int> Sand0062, 
+                    global::System.Nullable<int> FinesLT006, 
+                    global::System.Nullable<int> SumSubstrateCover, 
+                    int Original_ID, 
+                    int Original_ChannelUnitNumber, 
+                    string Original_Tier1, 
+                    string Original_Tier2, 
+                    int Original_SegmentID, 
+                    global::System.Nullable<int> Original_BouldersGT256, 
+                    global::System.Nullable<int> Original_Cobbles65255, 
+                    global::System.Nullable<int> Original_CoarseGravel1764, 
+                    global::System.Nullable<int> Original_FineGravel316, 
+                    global::System.Nullable<int> Original_Sand0062, 
+                    global::System.Nullable<int> Original_FinesLT006, 
+                    global::System.Nullable<int> Original_SumSubstrateCover) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ChannelUnitNumber));
             if ((Tier1 == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -4186,27 +4655,125 @@ namespace CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters {
                 this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Tier2));
             }
             this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(SegmentID));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ChannelUnitNumber));
-            if ((Original_Tier1 == null)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+            if ((BouldersGT256.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(BouldersGT256.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((Cobbles65255.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Cobbles65255.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            if ((CoarseGravel1764.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(CoarseGravel1764.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((FineGravel316.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(FineGravel316.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((Sand0062.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Sand0062.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_Tier1));
+            if ((FinesLT006.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(FinesLT006.Value));
             }
-            if ((Original_Tier2 == null)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
+            else {
+                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            if ((SumSubstrateCover.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(SumSubstrateCover.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Tier2));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_ID));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_ChannelUnitNumber));
+            if ((Original_Tier1 == null)) {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_SegmentID));
+            else {
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_Tier1));
+            }
+            if ((Original_Tier2 == null)) {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(Original_Tier2));
+            }
+            this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[19].Value = ((int)(Original_SegmentID));
+            if ((Original_BouldersGT256.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_BouldersGT256.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Cobbles65255.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(Original_Cobbles65255.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CoarseGravel1764.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(Original_CoarseGravel1764.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+            }
+            if ((Original_FineGravel316.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((int)(Original_FineGravel316.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
+            }
+            if ((Original_Sand0062.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((int)(Original_Sand0062.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[29].Value = global::System.DBNull.Value;
+            }
+            if ((Original_FinesLT006.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((int)(Original_FinesLT006.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[31].Value = global::System.DBNull.Value;
+            }
+            if ((Original_SumSubstrateCover.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((int)(Original_SumSubstrateCover.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[33].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {

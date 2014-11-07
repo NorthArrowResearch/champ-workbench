@@ -35,7 +35,7 @@
       <Value Profile="(Default)">C:\Program Files\Sublime Text 2\sublime_text.exe</Value>
     </Setting>
     <Setting Name="RBTConsole" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\PhilipLocal\Documents\Code\RBTConsole\bin\Debug\AnyCPU\RBTConsole.exe</Value>
+      <Value Profile="(Default)">C:\Users\PhilipLocal\Documents\Code\RBT\rbt-console\bin\Debug\x86\RBTConsole.exe</Value>
     </Setting>
     <Setting Name="ZipPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\7-Zip\7z.exe</Value>
