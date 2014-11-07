@@ -8,6 +8,8 @@ namespace CHaMPWorkbench.Classes
 {
     class Visit : NamedDBObject
     {
+        private int m_nVisitID;
+
         private String m_sHitch;
         private String m_sCrew;
         private int m_nFieldSeason;
@@ -83,9 +85,16 @@ namespace CHaMPWorkbench.Classes
             get { return m_sCrew; }
         }
 
+        public int VisitID
+        {
+            get { return m_nVisitID; }
+            set { m_nVisitID = value; }
+        }
+
         public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary)
             : base(nID, sHitch)
         {
+            m_nVisitID = nID;
             m_sHitch = sHitch;
             m_sCrew = sCrew;
             m_dChannelSegments = new Dictionary<int, ChannelSegment>();
@@ -123,6 +132,7 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsFolderNull())
                 m_sFolder = rVisit.Folder;
 
+            m_nVisitID = rVisit.VisitID;
             m_nFieldSeason = rVisit.VisitYear;
             m_bCalculateMetrics = bCalculateMetrics;
             m_bMakeDEMsOrthogonal = bDEMOrthogonal;
@@ -140,7 +150,7 @@ namespace CHaMPWorkbench.Classes
         {
             if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sWSTIN) || string.IsNullOrWhiteSpace(m_sFolder))
                 return;
-            
+
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
             xmlFile.WriteAttributeString("changedetection", m_bChangeDetection.ToString());
@@ -148,6 +158,11 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteAttributeString("primary", m_bPrimary.ToString());
             xmlFile.WriteAttributeString("generatecsv", m_bGenerateCSVs.ToString());
 
+            if (m_nVisitID > 0)
+                xmlFile.WriteElementString("visitid", m_nVisitID.ToString());
+            else
+                xmlFile.WriteElementString("visitid", "");
+         
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
             xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
