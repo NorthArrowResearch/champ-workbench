@@ -274,7 +274,7 @@ namespace CHaMPWorkbench.Classes
         {
 
             string sSQL = null;
-            sSQL = "INSERT INTO Metric_SiteMetrics (ResultFile, VisitName, FieldSeason, SiteName, RBTRunDateTime, RBTInputFile, RBTVersion, Artifacts" + 
+            sSQL = "INSERT INTO Metric_SiteMetrics (ResultFile, VisitName, VisitID, FieldSeason, SiteName, RBTRunDateTime, RBTInputFile, RBTVersion, Artifacts" + 
                 ", LinearUnits, ReachLengthThalweg, ThalwegIncrementDistance, ReachWidthWetted, CoordAProjected, CoordAGeographic, CoordKProjected, CoordKGeographic, " +
                 "SiteWaterSurfaceSlope, AreaSum, RP100, PoolTailCrestDepthAvg, PoolMaxDepthAvg, XBFHeight, XBFWidth, BnkFullChCap, AvgXSecArea, AcgXSecAreaRect, AvgChCap, " +
                 "DEM_Left, DEM_Right, DEM_Top, DEM_Bottom, SiteGradient, SiteWaterSurfaceGradient, SiteSinuosity, SiteSinuosityCL, SiteArea, SiteAreaWetted, SiteAreaBankfull, " +
@@ -285,6 +285,7 @@ namespace CHaMPWorkbench.Classes
             sSQL += "@RBTResultFile";
             // "'" & sRBTResultFilePath.Replace("'", "''") & "'"
             AddStringValue(ref sSQL, xmlTopNode, "./visit");
+            AddNumericValue(ref sSQL, xmlTopNode, "./visitid");
             AddNumericValue(ref sSQL, xmlTopNode, "./field_season");
             AddStringValue(ref sSQL, xmlTopNode, "./site");
             sSQL += ", @RBTRunDateTime";
@@ -430,14 +431,16 @@ namespace CHaMPWorkbench.Classes
             foreach (XmlNode dodNode in xmlTopNode.SelectNodes("./change_detection_results/dod"))
             {
                 string sSQL = null;
-                sSQL = "INSERT INTO Metric_ChangeDetection (" + "VisitID" + ", NewVisit" + ", NewfieldSeason" + ", OldVisit" + ", OldFieldSeason" + ", Epoch" + ", ThresholdType" + ", Threshold" + ", SpatialCoherence";
+                sSQL = "INSERT INTO Metric_ChangeDetection (ResultID, NewVisit, NewfieldSeason, NewVisitID, OldVisit, OldFieldSeason, OldVisitID, Epoch, ThresholdType, Threshold, SpatialCoherence";
 
                 sSQL += ") VALUES (" + nVisitID.ToString();
 
                 AddStringValue(ref sSQL, dodNode, "./new_visit_name");
                 AddNumericValue(ref sSQL, dodNode, "./new_visit_year");
+                AddNumericValue(ref sSQL, dodNode, "./new_visit_id");
                 AddStringValue(ref sSQL, dodNode, "./old_visit_name");
                 AddNumericValue(ref sSQL, dodNode, "./old_visit_year");
+                AddNumericValue(ref sSQL, dodNode, "./old_visit_id");
 
                 XmlAttribute xmlAtt = dodNode.Attributes["epoch"];
                 if (xmlAtt is XmlAttribute && !string.IsNullOrEmpty(xmlAtt.InnerText))
