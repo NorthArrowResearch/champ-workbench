@@ -12,6 +12,7 @@ namespace CHaMPWorkbench.Classes
         private String m_sTier2;
         private int m_nChannelUnitNumber;
 
+        private int m_nBedrock;
         private int m_nBouldersGT256;
         private int m_nCobbles65255;
         private int m_nCoarseGravel1764;
@@ -35,6 +36,9 @@ namespace CHaMPWorkbench.Classes
             m_sTier2 = rUnit.Tier2;
             m_nChannelUnitNumber = rUnit.ChannelUnitNumber;
 
+            if (!rUnit.IsBedrockNull())
+                m_nBedrock= rUnit.Bedrock;
+            
             if (!rUnit.IsBouldersGT256Null())
                 m_nBouldersGT256 = rUnit.BouldersGT256;
 
@@ -67,6 +71,7 @@ namespace CHaMPWorkbench.Classes
 
             if (m_nSumSubstrateCover > 0)
             {
+                xFile.WriteElementString("bedrock", m_nBedrock.ToString());
                 xFile.WriteElementString("bouldersgt256", m_nBouldersGT256.ToString());
                 xFile.WriteElementString("cobbles65255", m_nCobbles65255.ToString());
                 xFile.WriteElementString("coarsegravel1764", m_nCoarseGravel1764.ToString());
@@ -77,6 +82,7 @@ namespace CHaMPWorkbench.Classes
             }
             else
             {
+                xFile.WriteElementString("bedrock", "");
                 xFile.WriteElementString("bouldersgt256", "");
                 xFile.WriteElementString("cobbles65255", "");
                 xFile.WriteElementString("coarsegravel1764", "");
