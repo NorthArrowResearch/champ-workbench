@@ -50,6 +50,9 @@
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtTemp = new System.Windows.Forms.TextBox();
+            this.cmdBrowseTemp = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +60,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(489, 202);
+            this.cmdCancel.Location = new System.Drawing.Point(489, 224);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 11;
@@ -68,7 +71,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(408, 202);
+            this.cmdOK.Location = new System.Drawing.Point(408, 224);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 10;
@@ -199,7 +202,7 @@
             // cmdBrowseOutput
             // 
             this.cmdBrowseOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseOutput.Location = new System.Drawing.Point(463, 50);
+            this.cmdBrowseOutput.Location = new System.Drawing.Point(463, 51);
             this.cmdBrowseOutput.Name = "cmdBrowseOutput";
             this.cmdBrowseOutput.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseOutput.TabIndex = 5;
@@ -211,7 +214,7 @@
             // 
             this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutput.Location = new System.Drawing.Point(102, 51);
+            this.txtOutput.Location = new System.Drawing.Point(102, 52);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(355, 20);
             this.txtOutput.TabIndex = 4;
@@ -219,7 +222,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 55);
+            this.label5.Location = new System.Drawing.Point(9, 56);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 3;
@@ -227,6 +230,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtTemp);
+            this.groupBox1.Controls.Add(this.cmdBrowseTemp);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtOutput);
             this.groupBox1.Controls.Add(this.cmdBrowseOutput);
             this.groupBox1.Controls.Add(this.label4);
@@ -235,10 +241,39 @@
             this.groupBox1.Controls.Add(this.cmdBrowseMonitoring);
             this.groupBox1.Location = new System.Drawing.Point(13, 100);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(551, 87);
+            this.groupBox1.Size = new System.Drawing.Size(551, 115);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folders";
+            // 
+            // txtTemp
+            // 
+            this.txtTemp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTemp.Location = new System.Drawing.Point(102, 82);
+            this.txtTemp.Name = "txtTemp";
+            this.txtTemp.Size = new System.Drawing.Size(355, 20);
+            this.txtTemp.TabIndex = 7;
+            // 
+            // cmdBrowseTemp
+            // 
+            this.cmdBrowseTemp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseTemp.Location = new System.Drawing.Point(463, 81);
+            this.cmdBrowseTemp.Name = "cmdBrowseTemp";
+            this.cmdBrowseTemp.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseTemp.TabIndex = 8;
+            this.cmdBrowseTemp.Text = "Browse";
+            this.cmdBrowseTemp.UseVisualStyleBackColor = true;
+            this.cmdBrowseTemp.Click += new System.EventHandler(this.cmdBrowseTemp_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 86);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Temp workspace:";
             // 
             // frmOptions
             // 
@@ -246,7 +281,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(576, 237);
+            this.ClientSize = new System.Drawing.Size(576, 259);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdBrowseTextEditor);
             this.Controls.Add(this.txtTextEditor);
@@ -296,5 +331,8 @@
         private System.Windows.Forms.TextBox txtOutput;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txtTemp;
+        private System.Windows.Forms.Button cmdBrowseTemp;
+        private System.Windows.Forms.Label label6;
     }
 }

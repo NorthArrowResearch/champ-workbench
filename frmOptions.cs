@@ -24,6 +24,7 @@ namespace CHaMPWorkbench
 
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
+            txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
 
             tTip.SetToolTip(txtOptions, "The path to the RBT console executable (rbtconsole.exe) that will be used when the RBT is run.");
             tTip.SetToolTip(txt7Zip, "The path to the 7-Zip (www.7-zip.org) compression software that will be used for unpacking CHaMP topo data.");
@@ -71,7 +72,12 @@ namespace CHaMPWorkbench
                 CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder = txtOutput.Text;
             else
                 CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder = string.Empty;
-          
+
+            if (!String.IsNullOrWhiteSpace(txtTemp.Text) && System.IO.Directory.Exists(txtTemp.Text))
+                CHaMPWorkbench.Properties.Settings.Default.LastTempFolder= txtTemp.Text;
+            else
+                CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = string.Empty;
+
             CHaMPWorkbench.Properties.Settings.Default.Save();
         }
 
@@ -125,6 +131,18 @@ namespace CHaMPWorkbench
 
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtOutput.Text = frm.SelectedPath;
+        }
+
+        private void cmdBrowseTemp_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Choose temp workspace folder";
+
+            if (!string.IsNullOrEmpty(txtTemp.Text) && System.IO.Directory.Exists(txtTemp.Text))
+                frm.SelectedPath = txtTemp.Text;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtTemp.Text = frm.SelectedPath;   
         }
     }
 }
