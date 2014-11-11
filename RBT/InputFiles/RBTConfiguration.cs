@@ -59,7 +59,7 @@ namespace CHaMPWorkbench
             cboLicense.Items.Add(new ListItem("Engine Geodatabase", 20));
             cboLicense.SelectedIndex = 2;
 
-            String sTemp = "C:\\CHaMP\\RBTTempFolder";
+            String sTemp = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
             if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
                 txtTempFolder.Text = sTemp;
         }
