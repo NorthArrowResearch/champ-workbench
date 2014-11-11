@@ -27,119 +27,7 @@ namespace CHaMPWorkbench
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
-            ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text);
-
-     
-
-            //OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, S.SiteName, W.WatershedName, W.Folder AS WFolder, S.Folder AS SFolder, V.Folder AS VFolder, V.HitchName, V.CrewName, V.VisitYear" +
-            //    " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID", m_dbCon);
-
-            //OleDbDataReader dbRead = dbCom.ExecuteReader();
-            //while (dbRead.Read())
-            //{
-            //    String sSiteFolder = Path.Combine(txtMonitoringDataFolder.Text, dbRead["VisitYear"].ToString());
-            //    if (!System.IO.Directory.Exists(sSiteFolder))
-            //        throw new Exception("The field season folder does not exist: " + sSiteFolder);
-
-            //    if (System.Convert.IsDBNull(dbRead["WFolder"]))
-            //        throw new Exception("The " + dbRead["VisitYear"] + " watershed folder does not exist: " + dbRead["WatershedName"]);
-
-            //    sSiteFolder = Path.Combine(sSiteFolder, (String)dbRead["WFolder"]);
-
-            //    if (System.Convert.IsDBNull(dbRead["SFolder"]))
-            //    {
-            //        string sSiteName = (String)dbRead["SiteName"];
-            //        //sSiteFolder = GetSiteFolder(sSiteFolder, sSiteName);
-            //        continue;
-            //    }
-            //    else
-            //        sSiteFolder = System.IO.Path.Combine(sSiteFolder, (string)dbRead["SFolder"]);
-
-
-            //    if (System.IO.Directory.Exists(sSiteFolder))
-            //    {
-            //        String sVisitTopo = "";
-
-            //        String[] sSubfolders = System.IO.Directory.GetDirectories(sSiteFolder);
-            //        if (sSubfolders.Count<String>() > 0)
-            //        {
-            //            if (sSubfolders.Count<String>() > 1)
-            //            {
-            //                // ToDo get the folder that matches the hitch
-            //            }
-            //            else
-            //                sVisitTopo = sSubfolders[0];
-            //        }
-
-            //        if (!String.IsNullOrWhiteSpace(sVisitTopo))
-            //        {
-            //            String sHitchFolder = Path.Combine(sSiteFolder, sVisitTopo);
-            //            if (System.IO.Directory.Exists(sHitchFolder))
-            //            {
-            //                sSubfolders = System.IO.Directory.GetDirectories(sHitchFolder);
-            //                if (sSubfolders.Count<String>() == 1)
-            //                {
-            //                    String sRelativeVisitTopoFolder = sSubfolders[0].Remove(0,sSiteFolder.Length+1);
-            //                    sVisitTopo = Path.Combine(sVisitTopo, sSubfolders[0]);
-
-            //                    String sVisitFileGDB = "";
-            //                    String[] sGDBs = System.IO.Directory.GetDirectories(sVisitTopo, "*orthog*.gdb");
-            //                    if (sGDBs.Count<String>() > 0)
-            //                    {
-            //                        if (sGDBs.Count<String>() == 1)
-            //                            sVisitFileGDB = System.IO.Path.Combine(sVisitTopo, sGDBs[0]);
-            //                        else
-            //                        {
-            //                            // multiple orthog GDBs
-            //                        }
-            //                    }
-            //                    else
-            //                    {
-            //                        String[] sAnyGDBs = System.IO.Directory.GetDirectories(sVisitTopo, "*.gdb");
-            //                        if (sAnyGDBs.Count<String>() > 0)
-            //                        {
-            //                            if (sAnyGDBs.Count<String>() == 1)
-            //                                sVisitFileGDB = System.IO.Path.Combine(sVisitTopo, sAnyGDBs[0]);
-            //                            else
-            //                            {
-            //                                // multiple orthog GDBs
-            //                                System.Diagnostics.Debug.Print("Warning: Skipping multiple GDBs in " + sVisitTopo);
-            //                            }
-            //                        }
-            //                    }
-            //                    System.Diagnostics.Debug.Print(sVisitFileGDB);
-
-            //                    // Topo TIN
-            //                    String sTopoTIN = "";
-
-            //                    String[] sTopoDirs = System.IO.Directory.GetDirectories(sVisitTopo, "tin*");
-            //                    if (sTopoDirs.Count<String>() > 0)
-            //                        sTopoTIN = sTopoDirs[0];
-
-            //                    // WS TIN
-            //                    String sWSTIN = "";
-            //                    String[] sWSDirs = System.IO.Directory.GetDirectories(sVisitTopo, "ws*");
-            //                    if (sWSDirs.Count<String>() > 0)
-            //                        sWSTIN = sWSDirs[0];
-
-
-            //                    if (!String.IsNullOrWhiteSpace(sVisitFileGDB) && !String.IsNullOrWhiteSpace(sTopoTIN) && !String.IsNullOrWhiteSpace(sWSTIN))
-            //                    {
-            //                        OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHaMP_Visits SET Folder = @Folder, TopoTIN = @TopoTIN, WSTIN = @WSTIN, SurveyGDB = @SurveyGDB WHERE VisitID = " + ((int)dbRead["VisitID"]).ToString(), m_dbCon);
-            //                        dbUpdate.Parameters.AddWithValue("Folder", sRelativeVisitTopoFolder);
-            //                        dbUpdate.Parameters.AddWithValue("TopoTIN", System.IO.Path.GetFileName(sTopoTIN));
-            //                        dbUpdate.Parameters.AddWithValue("WSTIN", System.IO.Path.GetFileName(sWSTIN));
-            //                        dbUpdate.Parameters.AddWithValue("SurveyGDB", System.IO.Path.GetFileName(sVisitFileGDB));
-            //                        dbUpdate.ExecuteNonQuery();
-            //                    }
-            //                    else
-            //                        System.Diagnostics.Debug.Print("Warning: Not all folders found for " + sVisitTopo);
-
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
 
             CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder = txtMonitoringDataFolder.Text;
             CHaMPWorkbench.Properties.Settings.Default.Save();
@@ -186,7 +74,7 @@ namespace CHaMPWorkbench
             return false;
         }
 
-        private void ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder)
+        private void ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder, bool bSetMissingDataNULL)
         {
             if (dbCon.State == ConnectionState.Closed)
                 dbCon.Open();
@@ -254,18 +142,26 @@ namespace CHaMPWorkbench
 
                                 if (!bFoundTopoData)
                                 {
-                                    rVisit.SetFolderNull();
-                                    rVisit.SetTopoTINNull();
-                                    rVisit.SetWSTINNull();
-                                    rVisit.SetSurveyGDBNull();
+                                    if (bSetMissingDataNULL)
+                                    {
+                                        rVisit.SetFolderNull();
+                                        rVisit.SetTopoTINNull();
+                                        rVisit.SetWSTINNull();
+                                        rVisit.SetSurveyGDBNull();
+                                    }
                                 }
                             }
                             else
-                                rSite.SetFolderNull();
+                            {
+                                if (bSetMissingDataNULL)
+                                    rSite.SetFolderNull();
+                            }
                         }
                         else
-                            rWatershed.SetFolderNull();
-
+                        {
+                            if (bSetMissingDataNULL)
+                                rWatershed.SetFolderNull();
+                        }
                     }
                 }
             }
