@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\CHaMP\\RBTTempFolder")]
         public string LastTempFolder {
             get {
                 return ((string)(this["LastTempFolder"]));

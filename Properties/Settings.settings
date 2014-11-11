@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastTempFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\CHaMP\RBTTempFolder</Value>
     </Setting>
     <Setting Name="LastOutputFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\CHaMP\RBTInputOutputFiles</Value>
