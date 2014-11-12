@@ -43,11 +43,11 @@ namespace CHaMPWorkbench
             daCU.Fill(this.rBTWorkbenchDataSet.CHAMP_ChannelUnits);
 
             // Folders
-            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder))
-                txtSourceFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder;
+            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
+                txtSourceFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
 
-            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder))
-                txtOutputFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder;
+            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder))
+                txtOutputFolder.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
 
             ucConfig.ManualInitialization();
             UpdateInputfilePath();
