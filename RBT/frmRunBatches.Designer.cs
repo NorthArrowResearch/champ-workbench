@@ -35,6 +35,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkScavengeLog = new System.Windows.Forms.CheckBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboWindowStyle = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,10 +44,10 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(487, 134);
+            this.btnCancel.Location = new System.Drawing.Point(487, 175);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 0;
+            this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -53,10 +55,10 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(406, 134);
+            this.btnOK.Location = new System.Drawing.Point(406, 175);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
+            this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -77,7 +79,7 @@
             this.chkScavengeResults.Location = new System.Drawing.Point(15, 19);
             this.chkScavengeResults.Name = "chkScavengeResults";
             this.chkScavengeResults.Size = new System.Drawing.Size(88, 17);
-            this.chkScavengeResults.TabIndex = 3;
+            this.chkScavengeResults.TabIndex = 0;
             this.chkScavengeResults.Text = "Metric results";
             this.chkScavengeResults.UseVisualStyleBackColor = true;
             // 
@@ -88,7 +90,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 28);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(550, 65);
-            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scavenge Each Run During Processing";
             // 
@@ -100,23 +102,43 @@
             this.chkScavengeLog.Location = new System.Drawing.Point(15, 42);
             this.chkScavengeLog.Name = "chkScavengeLog";
             this.chkScavengeLog.Size = new System.Drawing.Size(65, 17);
-            this.chkScavengeLog.TabIndex = 4;
+            this.chkScavengeLog.TabIndex = 1;
             this.chkScavengeLog.Text = "Log files";
             this.chkScavengeLog.UseVisualStyleBackColor = true;
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 101);
+            this.progressBar1.Location = new System.Drawing.Point(12, 138);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(550, 23);
-            this.progressBar1.TabIndex = 5;
+            this.progressBar1.TabIndex = 6;
             this.progressBar1.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 108);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "RBT console window style";
+            // 
+            // cboWindowStyle
+            // 
+            this.cboWindowStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboWindowStyle.FormattingEnabled = true;
+            this.cboWindowStyle.Location = new System.Drawing.Point(150, 104);
+            this.cboWindowStyle.Name = "cboWindowStyle";
+            this.cboWindowStyle.Size = new System.Drawing.Size(412, 21);
+            this.cboWindowStyle.TabIndex = 5;
             // 
             // frmRunBatches
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 169);
+            this.ClientSize = new System.Drawing.Size(574, 210);
+            this.Controls.Add(this.cboWindowStyle);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblMessage);
@@ -131,6 +153,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -143,5 +166,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkScavengeLog;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cboWindowStyle;
     }
 }

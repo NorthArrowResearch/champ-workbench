@@ -14,12 +14,12 @@ public class RBTBatchEngine
     private OleDbConnection m_dbCon;
 	private string m_sTempRBTWorkspace = "C:\\CHaMP\\TempRBTWorkspace";
 	private string m_sRBTPath;
-	//private const string m_sDebugRBTPath = "D:\\Projects\\RBT\\RBTarc10\\RBTConsole\\bin\\Debug\\rbt.exe";
-	//private const string m_sReleaseRBTPath = "D:\\Projects\\RBT\\RBTarc10\\RBTConsole\\bin\\Release\\rbt.exe";
+    private System.Diagnostics.ProcessWindowStyle m_eWindowStyle;
     
-    public RBTBatchEngine(OleDbConnection dbCon, String sRBTConsolePath)
+    public RBTBatchEngine(OleDbConnection dbCon, String sRBTConsolePath, System.Diagnostics.ProcessWindowStyle eWindowStyle)
     {
         m_dbCon =dbCon;
+        m_eWindowStyle = eWindowStyle;
 
         if (!System.IO.File.Exists(sRBTConsolePath))
         {
@@ -131,11 +131,14 @@ public class RBTBatchEngine
                             psi.EnvironmentVariables["PATH"] = "C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs";
                             psi.UseShellExecute = false;
                             psi.Arguments = sInputFile;
+                            psi.WindowStyle = m_eWindowStyle;
                         }
                     }
                     System.Diagnostics.Process proc = new Process();
 
                     proc.StartInfo = psi;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.WindowStyle = m_eWindowStyle;
                     proc.Start();
                     proc.WaitForExit();
                 }
