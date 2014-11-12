@@ -132,6 +132,9 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsFolderNull())
                 m_sFolder = rVisit.Folder;
 
+            if (!rVisit.IsIsPrimaryNull())
+                m_bPrimary = rVisit.IsPrimary;
+
             m_nVisitID = rVisit.VisitID;
             m_nFieldSeason = rVisit.VisitYear;
             m_bCalculateMetrics = bCalculateMetrics;

@@ -42,6 +42,7 @@ namespace CHaMPWorkbench
             cboRBTMode.Items.Add(new ListItem("Calculate Metrics", 10));
             cboRBTMode.Items.Add(new ListItem("Fix Orthogonality", 20));
             cboRBTMode.Items.Add(new ListItem("Create Site Geodatabase", 30));
+            cboRBTMode.Items.Add(new ListItem("Fix Orthogonality with minimal validation", 40));
             cboRBTMode.SelectedIndex = 1;
 
             cboESRIProduct.Items.Add(new ListItem("Engine or Desktop", 100));
@@ -59,7 +60,7 @@ namespace CHaMPWorkbench
             cboLicense.Items.Add(new ListItem("Engine Geodatabase", 20));
             cboLicense.SelectedIndex = 2;
 
-            String sTemp = "C:\\CHaMP\\RBTTempFolder";
+            String sTemp = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
             if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
                 txtTempFolder.Text = sTemp;
         }

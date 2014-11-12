@@ -55,19 +55,26 @@ namespace CHaMPWorkbench.RBTInputFile
 #if DEBUG
             txtBatch.Text = txtBatch.Text + "_debug";
 #endif
-            string sDefault = "C:\\ChaMP\\MonitoringData";
-            if (!System.IO.Directory.Exists(sDefault))
+            string sDefault = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+            if (string.IsNullOrEmpty(sDefault) || !System.IO.Directory.Exists(sDefault))
             {
                 sDefault = string.Empty;
             }
             txtMonitoringDataFolder.Text = sDefault;
+
+            string sDefaultIO = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
+            if (string.IsNullOrEmpty(sDefaultIO) || !System.IO.Directory.Exists(sDefaultIO))
+            {
+                sDefault = string.Empty;
+            }
+            txtOutputFolder.Text = sDefaultIO;
         }
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
             TextBox txt = null;
-            if (string.Compare(Name, cmdBrowseFolder.Name, true) == 0)
+            if (string.Compare(((Control) sender).Name, cmdBrowseFolder.Name, true) == 0)
             {
                 frm.Description = "Select top level Monitoring folder that contains the topo data.";
                 txt = txtMonitoringDataFolder;

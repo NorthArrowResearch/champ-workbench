@@ -29,7 +29,9 @@ namespace CHaMPWorkbench.RBT
                 return;
             }
 
-            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole);
+            System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+
+            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole, eWindow);
             rbt.Run(chkScavengeResults.Checked, chkScavengeLog.Checked);
         }
 
@@ -37,6 +39,11 @@ namespace CHaMPWorkbench.RBT
         {
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
+
+            cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
+            cboWindowStyle.Items.Add(new ListItem("Minimized", (int)System.Diagnostics.ProcessWindowStyle.Minimized));
+            int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
+            cboWindowStyle.SelectedIndex = nNormal;
          
             int nRuns=0;
             using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
@@ -54,6 +61,8 @@ namespace CHaMPWorkbench.RBT
             }
             else
                 lblMessage.Text = "Are you sure that you want to run the RBT on the " + nRuns.ToString("#,##0") + " RBT runs that are queued?";
+
+
         }
     }
 }

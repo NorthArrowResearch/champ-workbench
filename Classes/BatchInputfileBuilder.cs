@@ -82,7 +82,7 @@ namespace CHaMPWorkbench.Classes
 
                         Site theSite = new Site(rVisit.CHAMP_SitesRow);                    
 
-                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bChangeDetection || bMakeDEMOrthogonal, bGenerateCSVs);
+                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bMakeDEMOrthogonal, bGenerateCSVs);
                         theSite.AddVisit(v);
                      
                         if (bIncludeOtherVisits)
@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes
                             {
                                 if (rOtherVisit.SiteID == rVisit.SiteID && rOtherVisit.VisitID != rVisit.VisitID)
                                 {
-                                    Visit vOther = new Visit(rOtherVisit, false, bChangeDetection && rOtherVisit.IsPrimary, bChangeDetection || bMakeDEMOrthogonal, false);
+                                    Visit vOther = new Visit(rOtherVisit, false, false, bMakeDEMOrthogonal, false);
                                     theSite.AddVisit(vOther);
                                     //vOther.WriteToXML(ref xmlInput, sVisitTopofolder);
                                 }
