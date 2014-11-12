@@ -223,7 +223,7 @@ namespace CHaMPWorkbench.Classes
         {
             xmlFile.WriteStartElement("parameters");
             xmlFile.WriteElementString("rbt_mode", Mode.ToString());
-            xmlFile.WriteComment("Validate Data = 1, Calculate Metrics = 10, Fix Orthogonality = 20, Create Site Geodatabase = 30");
+            xmlFile.WriteComment("Validate Data = 1, Calculate Metrics = 10, Fix Orthogonality = 20, Create Site Geodatabase = 30, Fix Orthogonality With Minimal Validation = 40");
             xmlFile.WriteElementString("clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
             xmlFile.WriteElementString("require_orthogonal_rasters", RequireOrthogDEMs.ToString());
             xmlFile.WriteElementString("raster_cell_size", CellSize.ToString("#0.00"));

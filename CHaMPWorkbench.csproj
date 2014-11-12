@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://champworkbench.northarrowresearch.com/</InstallUrl>
-    <ApplicationRevision>27</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -306,7 +306,6 @@
   <ItemGroup>
     <Folder Include="GCD\" />
     <Folder Include="RBTInputFile\" />
-    <Folder Include="RBT\Console\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CHaMP_Logo_32.png" />
