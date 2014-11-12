@@ -157,8 +157,8 @@ namespace CHaMPWorkbench.Data
             return nUnpackedCount;
 
         }
-        
-        private void UnZipArchive(string sZipSoftware , string sFilePath)
+
+        private void UnZipArchive(string sFilePath, string sZipSoftware)
         {
             string sOptions;
 
