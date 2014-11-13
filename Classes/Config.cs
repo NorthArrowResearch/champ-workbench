@@ -8,13 +8,21 @@ namespace CHaMPWorkbench.Classes
 {
     public class Config
     {
-        #region "Members"
+        public enum RBTModes
+        {
+            Validate_Data = 1,
+            Calculate_Metrics = 10,
+            Fix_Orthogonality = 20,
+            Create_Site_Geodatabase = 30,
+            Fix_Orthogonality_With_Minimal_Validation = 40,
+            Hydraulic_Model_Preparation = 50         
+        };
 
         private string m_sTempFolder = "C:\\CHaMP\\RBTTempFolder";
         private string m_sResultsFile = "Results.xml";
 
         private string m_sLogFile = "Log.xml";
-        private int m_nMode = 1;
+        private RBTModes m_nMode = RBTModes.Calculate_Metrics;
         private int m_nESRIProduct;
         private int m_nArcGISLicense;
         private string m_sPrecisionFormatString = "0.0####";
@@ -40,12 +48,10 @@ namespace CHaMPWorkbench.Classes
         private double m_fInitialCrossSectionLength = 50;
 
         private RBTConfig_ChangeDetection m_ChangeDetection;
-
-        #endregion
-        
+                
         #region "Properties"
 
-        public int Mode
+        public RBTModes Mode
         {
             get { return m_nMode; }
             set { m_nMode = value; }
@@ -223,7 +229,12 @@ namespace CHaMPWorkbench.Classes
         {
             xmlFile.WriteStartElement("parameters");
             xmlFile.WriteElementString("rbt_mode", Mode.ToString());
-            xmlFile.WriteComment("Validate Data = 1, Calculate Metrics = 10, Fix Orthogonality = 20, Create Site Geodatabase = 30, Fix Orthogonality With Minimal Validation = 40");
+
+            string sModes = "";
+            foreach (RBTModes eMode in Enum.GetValues(typeof (RBTModes)))
+                sModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
+            xmlFile.WriteComment(sModes);
+
             xmlFile.WriteElementString("clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
             xmlFile.WriteElementString("require_orthogonal_rasters", RequireOrthogDEMs.ToString());
             xmlFile.WriteElementString("raster_cell_size", CellSize.ToString("#0.00"));

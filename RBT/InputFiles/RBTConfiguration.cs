@@ -38,11 +38,9 @@ namespace CHaMPWorkbench
             txtResults.Text = CHaMPWorkbench.Properties.Settings.Default.LastResultsFile;
             txtLog.Text = CHaMPWorkbench.Properties.Settings.Default.LastLogfile;
 
-            cboRBTMode.Items.Add(new ListItem("Validate Data", 1));
-            cboRBTMode.Items.Add(new ListItem("Calculate Metrics", 10));
-            cboRBTMode.Items.Add(new ListItem("Fix Orthogonality", 20));
-            cboRBTMode.Items.Add(new ListItem("Create Site Geodatabase", 30));
-            cboRBTMode.Items.Add(new ListItem("Fix Orthogonality with minimal validation", 40));
+
+            foreach (Classes.Config.RBTModes eMode in Enum.GetValues(typeof(Classes.Config.RBTModes)))
+                cboRBTMode.Items.Add(new ListItem(eMode.ToString().Replace("_"," "), (int)eMode));
             cboRBTMode.SelectedIndex = 1;
 
             cboESRIProduct.Items.Add(new ListItem("Engine or Desktop", 100));
@@ -216,7 +214,7 @@ namespace CHaMPWorkbench
         public Classes.Config GetRBTConfig()
         {
             Classes.Config aConfig = new Classes.Config();
-            aConfig.Mode = ((ListItem)cboRBTMode.SelectedItem).Value;
+            aConfig.Mode = (Classes.Config.RBTModes) ((ListItem)cboRBTMode.SelectedItem).Value;
             aConfig.ESRIProduct = ((ListItem)cboESRIProduct.SelectedItem).Value;
             aConfig.ArcGISLicense = ((ListItem)cboLicense.SelectedItem).Value;
             aConfig.PrecisionFormatString = txtPrecisionFormatString.Text;
