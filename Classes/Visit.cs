@@ -13,6 +13,7 @@ namespace CHaMPWorkbench.Classes
         private String m_sHitch;
         private String m_sCrew;
         private int m_nFieldSeason;
+        private DateTime m_dSurveyDate;
         private Dictionary<int, ChannelSegment> m_dChannelSegments;
         private bool m_bPrimary;
         private bool m_bCalculateMetrics;
@@ -135,6 +136,11 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsIsPrimaryNull())
                 m_bPrimary = rVisit.IsPrimary;
 
+            if (!rVisit.IsSampleDateNull())
+                m_dSurveyDate = rVisit.SampleDate;
+            else
+                m_dSurveyDate = new DateTime(rVisit.VisitYear, 1, 1);
+
             m_nVisitID = rVisit.VisitID;
             m_nFieldSeason = rVisit.VisitYear;
             m_bCalculateMetrics = bCalculateMetrics;
@@ -168,6 +174,7 @@ namespace CHaMPWorkbench.Classes
          
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
+            xmlFile.WriteElementString("sample_date", m_dSurveyDate.ToString());
             xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
 
             xmlFile.WriteElementString("dem", "DEM");
