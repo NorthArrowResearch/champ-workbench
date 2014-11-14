@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkOutputProfileValues = new System.Windows.Forms.CheckBox();
             this.valInitialCrossSectionLength = new System.Windows.Forms.NumericUpDown();
             this.Label1 = new System.Windows.Forms.Label();
             this.cboLicense = new System.Windows.Forms.ComboBox();
@@ -80,7 +81,8 @@
             this.cmdAuto = new System.Windows.Forms.Button();
             this.cmdBrowseTemp = new System.Windows.Forms.Button();
             this.Label6 = new System.Windows.Forms.Label();
-            this.chkOutputProfileValues = new System.Windows.Forms.CheckBox();
+            this.lblHydroMode = new System.Windows.Forms.Label();
+            this.cboHydroMode = new System.Windows.Forms.ComboBox();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartHeight)).BeginInit();
@@ -101,6 +103,8 @@
             // 
             // GroupBox2
             // 
+            this.GroupBox2.Controls.Add(this.lblHydroMode);
+            this.GroupBox2.Controls.Add(this.cboHydroMode);
             this.GroupBox2.Controls.Add(this.chkOutputProfileValues);
             this.GroupBox2.Controls.Add(this.valInitialCrossSectionLength);
             this.GroupBox2.Controls.Add(this.Label1);
@@ -144,14 +148,26 @@
             this.GroupBox2.Controls.Add(this.Label7);
             this.GroupBox2.Location = new System.Drawing.Point(3, 125);
             this.GroupBox2.Name = "GroupBox2";
-            this.GroupBox2.Size = new System.Drawing.Size(826, 373);
+            this.GroupBox2.Size = new System.Drawing.Size(730, 405);
             this.GroupBox2.TabIndex = 2;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "RBT Configuration";
             // 
+            // chkOutputProfileValues
+            // 
+            this.chkOutputProfileValues.AutoSize = true;
+            this.chkOutputProfileValues.Checked = true;
+            this.chkOutputProfileValues.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkOutputProfileValues.Location = new System.Drawing.Point(129, 311);
+            this.chkOutputProfileValues.Name = "chkOutputProfileValues";
+            this.chkOutputProfileValues.Size = new System.Drawing.Size(139, 17);
+            this.chkOutputProfileValues.TabIndex = 40;
+            this.chkOutputProfileValues.Text = "Output full profile values";
+            this.chkOutputProfileValues.UseVisualStyleBackColor = true;
+            // 
             // valInitialCrossSectionLength
             // 
-            this.valInitialCrossSectionLength.Location = new System.Drawing.Point(691, 23);
+            this.valInitialCrossSectionLength.Location = new System.Drawing.Point(599, 23);
             this.valInitialCrossSectionLength.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -174,7 +190,7 @@
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(529, 27);
+            this.Label1.Location = new System.Drawing.Point(437, 27);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(155, 13);
             this.Label1.TabIndex = 18;
@@ -186,7 +202,7 @@
             this.cboLicense.FormattingEnabled = true;
             this.cboLicense.Location = new System.Drawing.Point(129, 85);
             this.cboLicense.Name = "cboLicense";
-            this.cboLicense.Size = new System.Drawing.Size(253, 21);
+            this.cboLicense.Size = new System.Drawing.Size(208, 21);
             this.cboLicense.TabIndex = 5;
             // 
             // Label23
@@ -204,7 +220,7 @@
             this.cboESRIProduct.FormattingEnabled = true;
             this.cboESRIProduct.Location = new System.Drawing.Point(129, 53);
             this.cboESRIProduct.Name = "cboESRIProduct";
-            this.cboESRIProduct.Size = new System.Drawing.Size(253, 21);
+            this.cboESRIProduct.Size = new System.Drawing.Size(208, 21);
             this.cboESRIProduct.TabIndex = 3;
             // 
             // Label22
@@ -290,7 +306,7 @@
             // 
             // valErrorKernel
             // 
-            this.valErrorKernel.Location = new System.Drawing.Point(691, 309);
+            this.valErrorKernel.Location = new System.Drawing.Point(599, 309);
             this.valErrorKernel.Minimum = new decimal(new int[] {
             1,
             0,
@@ -308,7 +324,7 @@
             // Label19
             // 
             this.Label19.AutoSize = true;
-            this.Label19.Location = new System.Drawing.Point(512, 313);
+            this.Label19.Location = new System.Drawing.Point(420, 313);
             this.Label19.Name = "Label19";
             this.Label19.Size = new System.Drawing.Size(172, 13);
             this.Label19.TabIndex = 36;
@@ -316,7 +332,7 @@
             // 
             // valBankAngleBuffer
             // 
-            this.valBankAngleBuffer.Location = new System.Drawing.Point(691, 341);
+            this.valBankAngleBuffer.Location = new System.Drawing.Point(599, 341);
             this.valBankAngleBuffer.Minimum = new decimal(new int[] {
             1,
             0,
@@ -334,7 +350,7 @@
             // Label18
             // 
             this.Label18.AutoSize = true;
-            this.Label18.Location = new System.Drawing.Point(552, 345);
+            this.Label18.Location = new System.Drawing.Point(460, 345);
             this.Label18.Name = "Label18";
             this.Label18.Size = new System.Drawing.Size(132, 13);
             this.Label18.TabIndex = 38;
@@ -348,7 +364,7 @@
             0,
             0,
             131072});
-            this.valThalwegSmoothingTolerance.Location = new System.Drawing.Point(691, 277);
+            this.valThalwegSmoothingTolerance.Location = new System.Drawing.Point(599, 277);
             this.valThalwegSmoothingTolerance.Name = "valThalwegSmoothingTolerance";
             this.valThalwegSmoothingTolerance.Size = new System.Drawing.Size(120, 20);
             this.valThalwegSmoothingTolerance.TabIndex = 35;
@@ -361,7 +377,7 @@
             // Label17
             // 
             this.Label17.AutoSize = true;
-            this.Label17.Location = new System.Drawing.Point(518, 281);
+            this.Label17.Location = new System.Drawing.Point(426, 281);
             this.Label17.Name = "Label17";
             this.Label17.Size = new System.Drawing.Size(166, 13);
             this.Label17.TabIndex = 34;
@@ -369,7 +385,7 @@
             // 
             // valThalwegPoolWeight
             // 
-            this.valThalwegPoolWeight.Location = new System.Drawing.Point(691, 245);
+            this.valThalwegPoolWeight.Location = new System.Drawing.Point(599, 245);
             this.valThalwegPoolWeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -392,7 +408,7 @@
             // Label16
             // 
             this.Label16.AutoSize = true;
-            this.Label16.Location = new System.Drawing.Point(576, 249);
+            this.Label16.Location = new System.Drawing.Point(484, 249);
             this.Label16.Name = "Label16";
             this.Label16.Size = new System.Drawing.Size(108, 13);
             this.Label16.TabIndex = 32;
@@ -400,7 +416,7 @@
             // 
             // valMinBarArea
             // 
-            this.valMinBarArea.Location = new System.Drawing.Point(691, 213);
+            this.valMinBarArea.Location = new System.Drawing.Point(599, 213);
             this.valMinBarArea.Minimum = new decimal(new int[] {
             1,
             0,
@@ -418,7 +434,7 @@
             // Label15
             // 
             this.Label15.AutoSize = true;
-            this.Label15.Location = new System.Drawing.Point(568, 217);
+            this.Label15.Location = new System.Drawing.Point(476, 217);
             this.Label15.Name = "Label15";
             this.Label15.Size = new System.Drawing.Size(116, 13);
             this.Label15.TabIndex = 30;
@@ -426,7 +442,7 @@
             // 
             // valXSStdDevFiltering
             // 
-            this.valXSStdDevFiltering.Location = new System.Drawing.Point(691, 181);
+            this.valXSStdDevFiltering.Location = new System.Drawing.Point(599, 181);
             this.valXSStdDevFiltering.Minimum = new decimal(new int[] {
             1,
             0,
@@ -444,7 +460,7 @@
             // Label14
             // 
             this.Label14.AutoSize = true;
-            this.Label14.Location = new System.Drawing.Point(522, 185);
+            this.Label14.Location = new System.Drawing.Point(430, 185);
             this.Label14.Name = "Label14";
             this.Label14.Size = new System.Drawing.Size(162, 13);
             this.Label14.TabIndex = 28;
@@ -452,7 +468,7 @@
             // 
             // valMaxRiverWidth
             // 
-            this.valMaxRiverWidth.Location = new System.Drawing.Point(691, 149);
+            this.valMaxRiverWidth.Location = new System.Drawing.Point(599, 149);
             this.valMaxRiverWidth.Maximum = new decimal(new int[] {
             500,
             0,
@@ -475,7 +491,7 @@
             // Label13
             // 
             this.Label13.AutoSize = true;
-            this.Label13.Location = new System.Drawing.Point(562, 153);
+            this.Label13.Location = new System.Drawing.Point(470, 153);
             this.Label13.Name = "Label13";
             this.Label13.Size = new System.Drawing.Size(122, 13);
             this.Label13.TabIndex = 26;
@@ -503,9 +519,9 @@
             this.chkZipChangeDetection.AutoSize = true;
             this.chkZipChangeDetection.Location = new System.Drawing.Point(129, 287);
             this.chkZipChangeDetection.Name = "chkZipChangeDetection";
-            this.chkZipChangeDetection.Size = new System.Drawing.Size(242, 17);
+            this.chkZipChangeDetection.Size = new System.Drawing.Size(210, 17);
             this.chkZipChangeDetection.TabIndex = 15;
-            this.chkZipChangeDetection.Text = "Create zip archive of change detection results";
+            this.chkZipChangeDetection.Text = "Zip archive of change detection results";
             this.chkZipChangeDetection.UseVisualStyleBackColor = true;
             // 
             // valXSSpacing
@@ -516,7 +532,7 @@
             0,
             0,
             131072});
-            this.valXSSpacing.Location = new System.Drawing.Point(691, 117);
+            this.valXSSpacing.Location = new System.Drawing.Point(599, 117);
             this.valXSSpacing.Maximum = new decimal(new int[] {
             500,
             0,
@@ -539,7 +555,7 @@
             // Label11
             // 
             this.Label11.AutoSize = true;
-            this.Label11.Location = new System.Drawing.Point(520, 121);
+            this.Label11.Location = new System.Drawing.Point(428, 121);
             this.Label11.Name = "Label11";
             this.Label11.Size = new System.Drawing.Size(164, 13);
             this.Label11.TabIndex = 24;
@@ -559,7 +575,7 @@
             // 
             // valRasterBuffer
             // 
-            this.valRasterBuffer.Location = new System.Drawing.Point(691, 85);
+            this.valRasterBuffer.Location = new System.Drawing.Point(599, 85);
             this.valRasterBuffer.Maximum = new decimal(new int[] {
             500,
             0,
@@ -582,7 +598,7 @@
             // Label10
             // 
             this.Label10.AutoSize = true;
-            this.Label10.Location = new System.Drawing.Point(596, 89);
+            this.Label10.Location = new System.Drawing.Point(504, 89);
             this.Label10.Name = "Label10";
             this.Label10.Size = new System.Drawing.Size(88, 13);
             this.Label10.TabIndex = 22;
@@ -590,7 +606,7 @@
             // 
             // valRasterPrecision
             // 
-            this.valRasterPrecision.Location = new System.Drawing.Point(691, 53);
+            this.valRasterPrecision.Location = new System.Drawing.Point(599, 53);
             this.valRasterPrecision.Minimum = new decimal(new int[] {
             1,
             0,
@@ -608,7 +624,7 @@
             // Label9
             // 
             this.Label9.AutoSize = true;
-            this.Label9.Location = new System.Drawing.Point(581, 57);
+            this.Label9.Location = new System.Drawing.Point(489, 57);
             this.Label9.Name = "Label9";
             this.Label9.Size = new System.Drawing.Size(103, 13);
             this.Label9.TabIndex = 20;
@@ -681,7 +697,7 @@
             this.cboRBTMode.FormattingEnabled = true;
             this.cboRBTMode.Location = new System.Drawing.Point(129, 21);
             this.cboRBTMode.Name = "cboRBTMode";
-            this.cboRBTMode.Size = new System.Drawing.Size(253, 21);
+            this.cboRBTMode.Size = new System.Drawing.Size(208, 21);
             this.cboRBTMode.TabIndex = 1;
             // 
             // Label7
@@ -705,7 +721,7 @@
             this.GroupBox1.Controls.Add(this.Label6);
             this.GroupBox1.Location = new System.Drawing.Point(3, 3);
             this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(826, 116);
+            this.GroupBox1.Size = new System.Drawing.Size(730, 116);
             this.GroupBox1.TabIndex = 3;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "RBT Outputs";
@@ -746,17 +762,17 @@
             // 
             // txtTempFolder
             // 
-            this.txtTempFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTempFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTempFolder.Location = new System.Drawing.Point(129, 20);
             this.txtTempFolder.Name = "txtTempFolder";
-            this.txtTempFolder.Size = new System.Drawing.Size(520, 20);
+            this.txtTempFolder.Size = new System.Drawing.Size(424, 20);
             this.txtTempFolder.TabIndex = 4;
             // 
             // cmdAuto
             // 
             this.cmdAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAuto.Location = new System.Drawing.Point(655, 19);
+            this.cmdAuto.Location = new System.Drawing.Point(559, 19);
             this.cmdAuto.Name = "cmdAuto";
             this.cmdAuto.Size = new System.Drawing.Size(75, 23);
             this.cmdAuto.TabIndex = 5;
@@ -767,7 +783,7 @@
             // cmdBrowseTemp
             // 
             this.cmdBrowseTemp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseTemp.Location = new System.Drawing.Point(736, 19);
+            this.cmdBrowseTemp.Location = new System.Drawing.Point(640, 19);
             this.cmdBrowseTemp.Name = "cmdBrowseTemp";
             this.cmdBrowseTemp.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseTemp.TabIndex = 6;
@@ -784,17 +800,25 @@
             this.Label6.TabIndex = 3;
             this.Label6.Text = "Temp folder:";
             // 
-            // chkOutputProfileValues
+            // lblHydroMode
             // 
-            this.chkOutputProfileValues.AutoSize = true;
-            this.chkOutputProfileValues.Checked = true;
-            this.chkOutputProfileValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkOutputProfileValues.Location = new System.Drawing.Point(129, 311);
-            this.chkOutputProfileValues.Name = "chkOutputProfileValues";
-            this.chkOutputProfileValues.Size = new System.Drawing.Size(139, 17);
-            this.chkOutputProfileValues.TabIndex = 40;
-            this.chkOutputProfileValues.Text = "Output full profile values";
-            this.chkOutputProfileValues.UseVisualStyleBackColor = true;
+            this.lblHydroMode.AutoSize = true;
+            this.lblHydroMode.Location = new System.Drawing.Point(29, 376);
+            this.lblHydroMode.Name = "lblHydroMode";
+            this.lblHydroMode.Size = new System.Drawing.Size(91, 13);
+            this.lblHydroMode.TabIndex = 42;
+            this.lblHydroMode.Text = "Hydro prep mode:";
+            // 
+            // cboHydroMode
+            // 
+            this.cboHydroMode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.cboHydroMode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboHydroMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboHydroMode.FormattingEnabled = true;
+            this.cboHydroMode.Location = new System.Drawing.Point(129, 372);
+            this.cboHydroMode.Name = "cboHydroMode";
+            this.cboHydroMode.Size = new System.Drawing.Size(208, 21);
+            this.cboHydroMode.TabIndex = 41;
             // 
             // RBTConfiguration
             // 
@@ -803,7 +827,7 @@
             this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.GroupBox2);
             this.Name = "RBTConfiguration";
-            this.Size = new System.Drawing.Size(835, 505);
+            this.Size = new System.Drawing.Size(741, 540);
             this.Load += new System.EventHandler(this.RBTConfiguration_Load);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
@@ -881,5 +905,7 @@
         internal System.Windows.Forms.Button cmdBrowseTemp;
         internal System.Windows.Forms.Label Label6;
         internal System.Windows.Forms.CheckBox chkOutputProfileValues;
+        private System.Windows.Forms.Label lblHydroMode;
+        private System.Windows.Forms.ComboBox cboHydroMode;
     }
 }

@@ -21,7 +21,8 @@ namespace CHaMPWorkbench.RBT.InputFiles
       
             for (int i = 0; i < lstSegregations.Items.Count; i++)
             {
-                lstSegregations.SetItemChecked(i, true);
+                if (!((Classes.BudgetSegregation) lstSegregations.Items[i]).ToString().Contains("Tier"))
+                    lstSegregations.SetItemChecked(i, true);
             }
         }
 

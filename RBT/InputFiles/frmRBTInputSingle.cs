@@ -140,7 +140,8 @@ namespace CHaMPWorkbench
                    
 
             RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
-            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, chkHydraulicCSVs.Checked);
+            bool bCSVs = ucConfig.GetRBTConfig().Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation;
+            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs );
             Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
             theSite.AddVisit(mainvisit);
 

@@ -18,6 +18,12 @@ namespace CHaMPWorkbench.Classes
             Hydraulic_Model_Preparation = 50         
         };
 
+        public enum HydroModelPrepModes
+        {
+            ArcGIS_Processing = 1,
+            NumPy = 2
+        };
+
         private string m_sTempFolder = "C:\\CHaMP\\RBTTempFolder";
         private string m_sResultsFile = "Results.xml";
 
@@ -44,6 +50,7 @@ namespace CHaMPWorkbench.Classes
         private int m_nErrorRasterKernal = 5;
         private int m_nBankAngleBuffer = 5;
         private bool m_bOutputProfileValues = false;
+        private HydroModelPrepModes m_eHydroPrepMode = HydroModelPrepModes.ArcGIS_Processing;
 
         private double m_fInitialCrossSectionLength = 50;
 
@@ -211,6 +218,12 @@ namespace CHaMPWorkbench.Classes
         {
             get { return m_ChangeDetection; }
         }
+
+        public HydroModelPrepModes HydroModelPrepMode
+        {
+            get { return m_eHydroPrepMode; }
+            set { m_eHydroPrepMode = value; }
+        }
         
         #endregion
 
@@ -231,9 +244,9 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("rbt_mode", ((int) Mode).ToString());
 
             string sModes = "";
-            foreach (RBTModes eMode in Enum.GetValues(typeof (RBTModes)))
+            foreach (RBTModes eMode in Enum.GetValues(typeof(RBTModes)))
                 sModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
-            xmlFile.WriteComment(sModes);
+            xmlFile.WriteComment(sModes.Substring(0, sModes.Length - 2));
 
             xmlFile.WriteElementString("clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
             xmlFile.WriteElementString("require_orthogonal_rasters", RequireOrthogDEMs.ToString());
@@ -261,6 +274,12 @@ namespace CHaMPWorkbench.Classes
 
             xmlFile.WriteElementString("esri_license_level", ArcGISLicense.ToString());
             xmlFile.WriteComment("Basic = 40, Standard = 50, Advanced = 60, Server = 30, Engine = 10, Engine Geodatabase = 20");
+
+            xmlFile.WriteElementString("hydro_prep_mode", ((int)m_eHydroPrepMode).ToString());
+            string sHydroPrepModes = "";
+            foreach (HydroModelPrepModes eMode in Enum.GetValues(typeof(HydroModelPrepModes)))
+                sHydroPrepModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
+            xmlFile.WriteComment(sHydroPrepModes.Substring(0, sHydroPrepModes.Length - 2));
 
             xmlFile.WriteStartElement("intervals");
 

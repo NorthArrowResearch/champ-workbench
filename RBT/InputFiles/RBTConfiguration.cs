@@ -61,6 +61,11 @@ namespace CHaMPWorkbench
             String sTemp = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
             if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
                 txtTempFolder.Text = sTemp;
+
+            foreach (Classes.Config.HydroModelPrepModes eMode in Enum.GetValues(typeof(Classes.Config.HydroModelPrepModes)))
+                cboHydroMode.Items.Add(new ListItem(eMode.ToString().Replace("_", " "), (int)eMode));
+
+            cboHydroMode.SelectedIndex = 0;
         }
 
         public bool ValidateForm(string sStreamName, string sUTMZone, string sWatershed)
@@ -237,6 +242,7 @@ namespace CHaMPWorkbench
             aConfig.BankAngleBuffer = Convert.ToInt32(valBankAngleBuffer.Value);
             aConfig.InitialCrossSectionLength = Convert.ToInt32(valInitialCrossSectionLength.Value);
             aConfig.OutputProfileValues = chkOutputProfileValues.Checked;
+            aConfig.HydroModelPrepMode = ((Classes.Config.HydroModelPrepModes)((ListItem)cboHydroMode.SelectedItem).Value);
             return aConfig;
         }
         
