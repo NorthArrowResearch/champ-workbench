@@ -207,7 +207,7 @@
             this.txtInputFileRoot.Name = "txtInputFileRoot";
             this.txtInputFileRoot.Size = new System.Drawing.Size(239, 20);
             this.txtInputFileRoot.TabIndex = 9;
-            this.txtInputFileRoot.Text = "rbt_input.xml";
+            this.txtInputFileRoot.Text = "";
             // 
             // Label3
             // 

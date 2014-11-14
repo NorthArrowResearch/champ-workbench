@@ -52,6 +52,7 @@ namespace CHaMPWorkbench.RBTInputFile
             ucConfig.ManualInitialization();
 
             txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
+            txtInputFileRoot.Text = Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName;
 #if DEBUG
             txtBatch.Text = txtBatch.Text + "_debug";
 #endif

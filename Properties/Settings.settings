@@ -17,9 +17,6 @@
     <Setting Name="LastLogfile" Type="System.String" Scope="User">
       <Value Profile="(Default)">Log.xml</Value>
     </Setting>
-    <Setting Name="DefaultRBTFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">input.xml</Value>
-    </Setting>
     <Setting Name="LastSourceFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\CHaMP\MonitoringData</Value>
     </Setting>

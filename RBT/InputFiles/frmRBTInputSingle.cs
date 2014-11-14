@@ -87,7 +87,7 @@ namespace CHaMPWorkbench
             {
                 DataRowView r = (DataRowView)cboVisit.SelectedItem;
                 RBTWorkbenchDataSet.CHAMP_VisitsRow v = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
-                txtInputFile.Text = System.IO.Path.Combine(this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(v, txtOutputFolder.Text), "input.xml");
+                txtInputFile.Text = System.IO.Path.Combine(this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(v, txtOutputFolder.Text), Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName);
             }
         }
 

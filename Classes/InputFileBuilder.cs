@@ -11,6 +11,8 @@ namespace CHaMPWorkbench.Classes
         protected Config m_Config;
         protected Outputs m_Outputs;
 
+        public const string m_sDefaultRBTInputXMLFileName = "rbt_input.xml";
+
         public InputFileBuilder(Config theConfig, Outputs theOutputs)
         {
             m_Config = theConfig;
