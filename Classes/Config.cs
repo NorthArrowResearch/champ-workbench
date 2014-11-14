@@ -228,7 +228,7 @@ namespace CHaMPWorkbench.Classes
         public void WriteToXML(System.Xml.XmlTextWriter xmlFile)
         {
             xmlFile.WriteStartElement("parameters");
-            xmlFile.WriteElementString("rbt_mode", Mode.ToString());
+            xmlFile.WriteElementString("rbt_mode", ((int) Mode).ToString());
 
             string sModes = "";
             foreach (RBTModes eMode in Enum.GetValues(typeof (RBTModes)))
