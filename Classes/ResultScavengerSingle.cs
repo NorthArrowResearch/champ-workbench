@@ -22,25 +22,29 @@ namespace CHaMPWorkbench.Classes
                 m_dbCon.Open();
 
             int nResultID = 0;
-            XmlDocument xmlR = new XmlDocument();
-            xmlR.Load(sResultFilePath);
 
-            XmlNode metricNode = xmlR.SelectSingleNode("rbt_results/metric_results");
-            if (metricNode is XmlNode && metricNode.HasChildNodes)
+            if (!string.IsNullOrEmpty(sResultFilePath) && System.IO.File.Exists(sResultFilePath))
             {
-                try
+                XmlDocument xmlR = new XmlDocument();
+                xmlR.Load(sResultFilePath);
+
+                XmlNode metricNode = xmlR.SelectSingleNode("rbt_results/metric_results");
+                if (metricNode is XmlNode && metricNode.HasChildNodes)
                 {
-                    System.Diagnostics.Debug.Print("Scavenging result file: " + sResultFilePath.ToString());
-                    nResultID = PopulateTable_Visit(m_dbCon, metricNode, sResultFilePath);
-                }
-                catch (Exception ex)
-                {
-                    //
-                    // these are legimitate RBT XML result files that have errors. Add them
-                    // to the running list of problems and continue with next file.
-                    //
-                    ex.Data["Result File"] = sResultFilePath;
-                    throw ex;
+                    try
+                    {
+                        System.Diagnostics.Debug.Print("Scavenging result file: " + sResultFilePath.ToString());
+                        nResultID = PopulateTable_Visit(m_dbCon, metricNode, sResultFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        //
+                        // these are legimitate RBT XML result files that have errors. Add them
+                        // to the running list of problems and continue with next file.
+                        //
+                        ex.Data["Result File"] = sResultFilePath;
+                        throw ex;
+                    }
                 }
             }
             return nResultID;
@@ -48,6 +52,9 @@ namespace CHaMPWorkbench.Classes
 
         public void ScavengeLogFile(int nVisitID, int nResultID, String sLogFile, String sResultFilePath)
         {
+            if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
+                return;
+
             XmlDocument xmlR = new XmlDocument();
             xmlR.Load(sLogFile);
 
