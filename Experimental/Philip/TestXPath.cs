@@ -41,7 +41,11 @@ namespace CHaMPWorkbench.Experimental.Philip
                 if (DBNull.Value != dbRead["RBTResultXMLTag"])
                 {
                     string sXPath = (string)dbRead["RBTResultXMLTag"];
-                    sXPath = "rbt_results/metric_results/" + sXPath;
+                    //sXPath = "rbt_results/metric_results/" + sXPath;
+
+                    sXPath = sXPath.Replace("%%CHANNEL_UNIT_NUMBER%%", "1")
+                                   .Replace("%%TIER1_NAME%%", "'Fast-Turbulent'")
+                                   .Replace("%%TIER2_NAME%%", "'Rapid'");
 
                     try
                     {
