@@ -45,6 +45,7 @@
             this.cboWatershed = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkCopyPath = new System.Windows.Forms.CheckBox();
             this.txtBatchName = new System.Windows.Forms.TextBox();
             this.lblBatchName = new System.Windows.Forms.Label();
             this.chkBatch = new System.Windows.Forms.CheckBox();
@@ -72,7 +73,7 @@
             this.cHAMP_SitesTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
             this.cHAMP_VisitsTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
             this.dlgFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkCopyPath = new System.Windows.Forms.CheckBox();
+            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cHAMPVisitsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rBTWorkbenchDataSet)).BeginInit();
@@ -180,7 +181,6 @@
             // 
             // rBTWorkbenchDataSet
             // 
-            this.rBTWorkbenchDataSet.DataSetName = "RBTWorkbenchDataSet";
             this.rBTWorkbenchDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // cHAMPSitesBindingSource
@@ -251,6 +251,18 @@
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // chkCopyPath
+            // 
+            this.chkCopyPath.AutoSize = true;
+            this.chkCopyPath.Checked = true;
+            this.chkCopyPath.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCopyPath.Location = new System.Drawing.Point(17, 396);
+            this.chkCopyPath.Name = "chkCopyPath";
+            this.chkCopyPath.Size = new System.Drawing.Size(290, 17);
+            this.chkCopyPath.TabIndex = 10;
+            this.chkCopyPath.Text = "Copy the path of the generated XML file to the clipbaord";
+            this.chkCopyPath.UseVisualStyleBackColor = true;
+            // 
             // txtBatchName
             // 
             this.txtBatchName.Location = new System.Drawing.Point(119, 338);
@@ -294,6 +306,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkRequireWSTIN);
             this.groupBox2.Controls.Add(this.rdoSelectedOnly);
             this.groupBox2.Controls.Add(this.rdoPrimaryOnly);
             this.groupBox2.Controls.Add(this.rdoAll);
@@ -495,17 +508,17 @@
             // 
             this.cHAMP_VisitsTableAdapter.ClearBeforeFill = true;
             // 
-            // chkCopyPath
+            // chkRequireWSTIN
             // 
-            this.chkCopyPath.AutoSize = true;
-            this.chkCopyPath.Checked = true;
-            this.chkCopyPath.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCopyPath.Location = new System.Drawing.Point(17, 396);
-            this.chkCopyPath.Name = "chkCopyPath";
-            this.chkCopyPath.Size = new System.Drawing.Size(290, 17);
-            this.chkCopyPath.TabIndex = 10;
-            this.chkCopyPath.Text = "Copy the path of the generated XML file to the clipbaord";
-            this.chkCopyPath.UseVisualStyleBackColor = true;
+            this.chkRequireWSTIN.AutoSize = true;
+            this.chkRequireWSTIN.Checked = true;
+            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(282, 64);
+            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
+            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
+            this.chkRequireWSTIN.TabIndex = 3;
+            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
+            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputSingle
             // 
@@ -596,5 +609,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
         private System.Windows.Forms.CheckBox chkCopyPath;
+        private System.Windows.Forms.CheckBox chkRequireWSTIN;
     }
 }

@@ -52,6 +52,7 @@
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
+            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkRequireWSTIN);
             this.tabPage1.Controls.Add(this.chkIncludeOtherVisits);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txtOutputFolder);
@@ -207,7 +209,6 @@
             this.txtInputFileRoot.Name = "txtInputFileRoot";
             this.txtInputFileRoot.Size = new System.Drawing.Size(239, 20);
             this.txtInputFileRoot.TabIndex = 9;
-            this.txtInputFileRoot.Text = "";
             // 
             // Label3
             // 
@@ -314,6 +315,18 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
+            // chkRequireWSTIN
+            // 
+            this.chkRequireWSTIN.AutoSize = true;
+            this.chkRequireWSTIN.Checked = true;
+            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 344);
+            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
+            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
+            this.chkRequireWSTIN.TabIndex = 14;
+            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
+            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
+            // 
             // frmRBTInputBatch
             // 
             this.AcceptButton = this.cmdOK;
@@ -367,5 +380,6 @@
         private System.Windows.Forms.CheckBox chkIncludeOtherVisits;
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
+        private System.Windows.Forms.CheckBox chkRequireWSTIN;
     }
 }

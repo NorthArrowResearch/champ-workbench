@@ -201,7 +201,7 @@ namespace CHaMPWorkbench
             }
 
             xmlInput.WriteStartElement("sites");
-            theSite.WriteToXML(xmlInput, txtSourceFolder.Text);
+            theSite.WriteToXML(xmlInput, txtSourceFolder.Text, chkRequireWSTIN.Checked);
             xmlInput.WriteEndElement(); // sites
 
             theBuilder.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;

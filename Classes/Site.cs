@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Classes
             m_dVisits.Add(aVisit.ID, aVisit);
         }
 
-        public void WriteToXML(XmlTextWriter xmlFile, String sSourceFolder)
+        public void WriteToXML(XmlTextWriter xmlFile, String sSourceFolder, Boolean bRequireWSTIN)
         {
             xmlFile.WriteStartElement("site");
             xmlFile.WriteElementString("name", this.ToString());
@@ -69,7 +69,7 @@ namespace CHaMPWorkbench.Classes
                     sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, m_Watershed.Folder);
                     sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, Folder);
                     sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, aVisit.Folder);
-                    aVisit.WriteToXML(ref xmlFile, sVisitTopoDatafolder);
+                    aVisit.WriteToXML(ref xmlFile, sVisitTopoDatafolder, bRequireWSTIN);
                 }
             }
 

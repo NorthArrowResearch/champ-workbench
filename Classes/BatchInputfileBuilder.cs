@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Classes
             m_dbCon = dbCon;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits)
+        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bRequireWSTIN)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
@@ -100,7 +100,7 @@ namespace CHaMPWorkbench.Classes
                         pSummary.Value = theSite.NameForDatabaseBatch;
 
                         xmlInput.WriteStartElement("sites");
-                        theSite.WriteToXML(xmlInput, sParentTopoDataFolder);
+                        theSite.WriteToXML(xmlInput, sParentTopoDataFolder, bRequireWSTIN);
                         xmlInput.WriteEndElement(); // sites
 
                         // Write the end of the file

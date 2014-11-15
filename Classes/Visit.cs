@@ -155,10 +155,19 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder)
+        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder, Boolean bRequireWSTIN)
         {
-            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sWSTIN) || string.IsNullOrWhiteSpace(m_sFolder))
+            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sFolder))
+            {
                 return;
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(m_sWSTIN) && bRequireWSTIN)
+                {
+                    return;
+                }
+            }
 
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
@@ -181,7 +190,11 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("error_surface", "ElevationError");
 
             xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
-            xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
+
+            if (string.IsNullOrEmpty(m_sWSTIN))
+                xmlFile.WriteElementString("ws_tin", "");
+            else
+                xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
 
             xmlFile.WriteElementString("topo_points", "Topo_Points");
             xmlFile.WriteElementString("control_points", "Control_Points");
