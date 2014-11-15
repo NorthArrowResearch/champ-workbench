@@ -135,9 +135,8 @@ namespace CHaMPWorkbench.Data
             tTip.SetToolTip(cmdExploreSurveyData, "Open Windows Explorer at the folder containing the visit survey data for the displayed visit.");
             tTip.SetToolTip(cmdExplorerOutput, "Open Windows Explorer at the input//output folder for the displayed visit.");
 
-            tTip.SetToolTip(cmdInputXML,"Open the RBT Input Builder at the form 
-
-
+            tTip.SetToolTip(cmdInputXML, "Open the RBT Input Builder with the current visit selected.");
+            tTip.SetToolTip(cmdRBTBatch, "Add the existing RBT input XML file to a new batch and queue it for running.");
         }
 
         private string GetPath(string sParent, OleDbDataReader dbRead)
