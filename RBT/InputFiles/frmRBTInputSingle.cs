@@ -14,11 +14,20 @@ namespace CHaMPWorkbench
     public partial class frmRBTInputSingle : Form
     {
         private System.Data.OleDb.OleDbConnection m_dbCon;
+        private int m_nInitialVisitIDToSelect;
 
         public frmRBTInputSingle(OleDbConnection dbCon)
         {
             InitializeComponent();
             m_dbCon = dbCon;
+            m_nInitialVisitIDToSelect = 0;
+        }
+
+        public frmRBTInputSingle(OleDbConnection dbCon, int nVisitID)
+        {
+            InitializeComponent();
+            m_dbCon = dbCon;
+            m_nInitialVisitIDToSelect = nVisitID;
         }
 
         private void frmRBTRun_Load(object sender, EventArgs e)
@@ -53,6 +62,32 @@ namespace CHaMPWorkbench
             UpdateInputfilePath();
             UpdateBatchControlStatus();
             txtBatchName.Text = DateTime.Now.ToShortDateString();
+
+            if (m_nInitialVisitIDToSelect > 0)
+                SelectVisit(m_nInitialVisitIDToSelect);   
+
+        }
+
+        private void SelectVisit(int nVisitID)
+        {
+            System.Data.OleDb.OleDbCommand dbCom = new OleDbCommand("SELECT WatershedID, CHAMP_Sites.SiteID, VisitID FROM CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID WHERE CHAMP_Visits.VisitID = ?", m_dbCon);
+            dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+            System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
+            if (dbRead.Read())
+            {
+                cHAMP_WatershedsBindingSource.Filter = "WatershedID = " + dbRead["WatershedID"];
+                cHAMPSitesBindingSource.Filter = "SiteID = " + dbRead["SiteID"];
+
+                foreach (DataRowView r in cboVisit.Items)
+                {
+                    RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
+                    if (rMainvisit.VisitID == nVisitID)
+                    {
+                        cboVisit.SelectedItem = r;
+                        return;
+                    }
+                }
+            }
         }
 
         private void cmdBrowseInputFile_Click(object sender, EventArgs e)

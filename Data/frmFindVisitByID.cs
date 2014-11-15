@@ -16,10 +16,18 @@ namespace CHaMPWorkbench.Data
         private OleDbConnection m_dbCon;
         private string m_sBatchName;
 
+        private int m_nVisitToCreateInputFile;
+
+        public int VisitToCreateInputFile
+        {
+            get { return m_nVisitToCreateInputFile; }
+        }
+
         public frmFindVisitByID(OleDbConnection dbCon)
         {
             InitializeComponent();
             m_dbCon = dbCon;
+            m_nVisitToCreateInputFile = 0;
         }
 
         private string GetSafeStringValue(OleDbDataReader dbRead, string sField)
@@ -112,11 +120,24 @@ namespace CHaMPWorkbench.Data
             cmdCopySurveyData.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
             cmdExploreSurveyData.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
             cmdRBTBatch.Enabled = !string.IsNullOrEmpty(txtOutputPath.Text) && System.IO.Directory.Exists(txtOutputPath.Text) && System.IO.File.Exists(RBTInputFile);
+            cmdInputXML.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
         }
 
         private void frmFindVisitByID_Load(object sender, EventArgs e)
         {
             UpdateControls();
+
+            tTip.SetToolTip(valVisitID, "Enter the official CHaMP program Visit ID and then click tab");
+            
+            tTip.SetToolTip(cmdCopySurveyData, "Copy to the clipboard the folder path to the visit survey data for the displayed visit.");
+            tTip.SetToolTip(cmdCopyOutput, "Copy to the clipboard the input//output folder path for the displayed visit.");
+
+            tTip.SetToolTip(cmdExploreSurveyData, "Open Windows Explorer at the folder containing the visit survey data for the displayed visit.");
+            tTip.SetToolTip(cmdExplorerOutput, "Open Windows Explorer at the input//output folder for the displayed visit.");
+
+            tTip.SetToolTip(cmdInputXML,"Open the RBT Input Builder at the form 
+
+
         }
 
         private string GetPath(string sParent, OleDbDataReader dbRead)
@@ -209,6 +230,14 @@ namespace CHaMPWorkbench.Data
                 dbTrans.Rollback();
                 MessageBox.Show("Error creating RBT batch run: " + ex.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+
+        private void cmdInputXML_Click(object sender, EventArgs e)
+        {
+            m_nVisitToCreateInputFile = (int) valVisitID.Value;
+            frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int) valVisitID.Value);
+            if (frmInput.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
     }
 }

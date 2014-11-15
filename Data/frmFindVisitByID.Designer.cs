@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmdInputXML = new System.Windows.Forms.Button();
             this.cmdRBTBatch = new System.Windows.Forms.Button();
             this.cmdCopyOutput = new System.Windows.Forms.Button();
             this.cmdExplorerOutput = new System.Windows.Forms.Button();
@@ -42,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtResult = new System.Windows.Forms.TextBox();
             this.cmdClose = new System.Windows.Forms.Button();
+            this.tTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +83,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmdInputXML);
             this.groupBox1.Controls.Add(this.cmdRBTBatch);
             this.groupBox1.Controls.Add(this.cmdCopyOutput);
             this.groupBox1.Controls.Add(this.cmdExplorerOutput);
@@ -97,10 +101,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visit Info";
             // 
+            // cmdInputXML
+            // 
+            this.cmdInputXML.Image = global::CHaMPWorkbench.Properties.Resources.icon_xml;
+            this.cmdInputXML.Location = new System.Drawing.Point(475, 139);
+            this.cmdInputXML.Name = "cmdInputXML";
+            this.cmdInputXML.Size = new System.Drawing.Size(23, 23);
+            this.cmdInputXML.TabIndex = 10;
+            this.cmdInputXML.UseVisualStyleBackColor = true;
+            this.cmdInputXML.Click += new System.EventHandler(this.cmdInputXML_Click);
+            // 
             // cmdRBTBatch
             // 
             this.cmdRBTBatch.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
-            this.cmdRBTBatch.Location = new System.Drawing.Point(475, 164);
+            this.cmdRBTBatch.Location = new System.Drawing.Point(475, 163);
             this.cmdRBTBatch.Name = "cmdRBTBatch";
             this.cmdRBTBatch.Size = new System.Drawing.Size(23, 23);
             this.cmdRBTBatch.TabIndex = 9;
@@ -243,5 +257,7 @@
         private System.Windows.Forms.Button cmdExplorerOutput;
         private System.Windows.Forms.TextBox txtOutputPath;
         private System.Windows.Forms.Button cmdRBTBatch;
+        private System.Windows.Forms.Button cmdInputXML;
+        private System.Windows.Forms.ToolTip tTip;
     }
 }
