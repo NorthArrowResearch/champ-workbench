@@ -193,7 +193,7 @@ namespace CHaMPWorkbench
                     {
                         if (rdoAll.Checked || aVisit.IsPrimary)
                         {
-                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked,false);
+                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, false, chkOrthogonal.Checked, false);
                             theSite.AddVisit(anotherVisit);
                         }
                     }
@@ -227,8 +227,6 @@ namespace CHaMPWorkbench
                     dbCom = new OleDbCommand("SELECT @@IDENTITY", m_dbCon, dbTrans);
                     int nBatchID = (int) dbCom.ExecuteScalar();
 
-
-
                     dbCom = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, Run, InputFile, PrimaryVisitID) VALUES (?, ?, 1, ?, ?)", m_dbCon, dbTrans);
                     dbCom.Parameters.AddWithValue("BatchID", nBatchID);
                     dbCom.Parameters.AddWithValue("Summary", cboWatershed.Text + ", " + cboSite.Text + ", " + cboVisit.Text);
@@ -245,6 +243,8 @@ namespace CHaMPWorkbench
                 }
             }
 
+            if (chkCopyPath.Checked)
+                Clipboard.SetText(txtInputFile.Text);
 
             if (chkOpenWhenComplete.Checked)
                 if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.TextEditor) && System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.TextEditor))

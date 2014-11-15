@@ -72,6 +72,7 @@
             this.cHAMP_SitesTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
             this.cHAMP_VisitsTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
             this.dlgFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.chkCopyPath = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cHAMPVisitsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rBTWorkbenchDataSet)).BeginInit();
@@ -231,6 +232,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkCopyPath);
             this.tabPage1.Controls.Add(this.txtBatchName);
             this.tabPage1.Controls.Add(this.lblBatchName);
             this.tabPage1.Controls.Add(this.chkBatch);
@@ -493,6 +495,18 @@
             // 
             this.cHAMP_VisitsTableAdapter.ClearBeforeFill = true;
             // 
+            // chkCopyPath
+            // 
+            this.chkCopyPath.AutoSize = true;
+            this.chkCopyPath.Checked = true;
+            this.chkCopyPath.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCopyPath.Location = new System.Drawing.Point(17, 396);
+            this.chkCopyPath.Name = "chkCopyPath";
+            this.chkCopyPath.Size = new System.Drawing.Size(290, 17);
+            this.chkCopyPath.TabIndex = 10;
+            this.chkCopyPath.Text = "Copy the path of the generated XML file to the clipbaord";
+            this.chkCopyPath.UseVisualStyleBackColor = true;
+            // 
             // frmRBTInputSingle
             // 
             this.AcceptButton = this.cmdOK;
@@ -581,5 +595,6 @@
         private System.Windows.Forms.CheckBox chkBatch;
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
+        private System.Windows.Forms.CheckBox chkCopyPath;
     }
 }
