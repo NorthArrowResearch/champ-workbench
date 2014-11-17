@@ -232,7 +232,8 @@ namespace CHaMPWorkbench
             aConfig.CellSize = (double) valCellSize.Value;
             aConfig.Precision = Convert.ToInt32(valRasterPrecision.Value);
             aConfig.RasterBuffer = Convert.ToInt32(valRasterBuffer.Value);
-            aConfig.CrossSectionSpacing = (double) valXSSpacing.Value;
+            aConfig.CrossSectionSpacing = (double)valCrossSectionSpacing.Value;
+            aConfig.CrossSectionStationSpacing = (double) valXSStationSpacing.Value;
             aConfig.MaxRiverWidth = Convert.ToInt32(valMaxRiverWidth.Value);
             aConfig.CrossSectionFiltering = Convert.ToInt32(valXSStdDevFiltering.Value);
             aConfig.MinBarArea = Convert.ToInt32(valMinBarArea.Value);
@@ -255,11 +256,5 @@ namespace CHaMPWorkbench
             anOutput.LogFile = txtLog.Text;
             return anOutput;
         }
-
-        private void RBTConfiguration_Load(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

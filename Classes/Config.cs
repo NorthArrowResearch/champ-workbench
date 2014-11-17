@@ -41,6 +41,7 @@ namespace CHaMPWorkbench.Classes
         private double m_fCellSize = 0.1;
         private int m_nPrecision = 1;
         private int m_nRasterBuffer = 10;
+        private double m_fCrossSectionSpacing = 0.5;
         private double m_fCrossSectionStation = 0.1;
         private int m_nMaxRiverWidth = 100;
         private int m_nCrossSectionFiltering = 4;
@@ -137,6 +138,12 @@ namespace CHaMPWorkbench.Classes
         }
 
         public double CrossSectionSpacing
+        {
+            get { return m_fCrossSectionSpacing; }
+            set { m_fCrossSectionSpacing = value; }
+        }
+
+        public double CrossSectionStationSpacing
         {
             get { return m_fCrossSectionStation; }
             set { m_fCrossSectionStation = value; }
@@ -254,7 +261,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("raster_precision", Precision.ToString("#0.00"));
             xmlFile.WriteElementString("raster_buffer", RasterBuffer.ToString("#"));
             xmlFile.WriteElementString("preserve_artifacts", PreserveArtifcats.ToString());
-            xmlFile.WriteElementString("xs_station_spacing", CrossSectionSpacing.ToString("#.00"));
+            xmlFile.WriteElementString("xs_station_spacing", CrossSectionStationSpacing.ToString("#.00"));
             xmlFile.WriteElementString("zip_change_detection_results", CreateZip.ToString());
             xmlFile.WriteElementString("precision_format_string", PrecisionFormatString);
             xmlFile.WriteElementString("max_river_width", MaxRiverWidth.ToString("#"));
@@ -285,7 +292,7 @@ namespace CHaMPWorkbench.Classes
 
             xmlFile.WriteStartElement("interval");
             xmlFile.WriteAttributeString("type", "distance");
-            xmlFile.WriteString("0.5");
+            xmlFile.WriteString(m_fCrossSectionSpacing.ToString());
             xmlFile.WriteEndElement();
             // interval
 

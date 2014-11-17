@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
+            this.valCrossSectionSpacing = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblHydroMode = new System.Windows.Forms.Label();
+            this.cboHydroMode = new System.Windows.Forms.ComboBox();
             this.chkOutputProfileValues = new System.Windows.Forms.CheckBox();
             this.valInitialCrossSectionLength = new System.Windows.Forms.NumericUpDown();
             this.Label1 = new System.Windows.Forms.Label();
@@ -58,7 +62,7 @@
             this.txtPrecisionFormatString = new System.Windows.Forms.TextBox();
             this.Label12 = new System.Windows.Forms.Label();
             this.chkZipChangeDetection = new System.Windows.Forms.CheckBox();
-            this.valXSSpacing = new System.Windows.Forms.NumericUpDown();
+            this.valXSStationSpacing = new System.Windows.Forms.NumericUpDown();
             this.Label11 = new System.Windows.Forms.Label();
             this.chkPreserveArtifacts = new System.Windows.Forms.CheckBox();
             this.valRasterBuffer = new System.Windows.Forms.NumericUpDown();
@@ -81,9 +85,8 @@
             this.cmdAuto = new System.Windows.Forms.Button();
             this.cmdBrowseTemp = new System.Windows.Forms.Button();
             this.Label6 = new System.Windows.Forms.Label();
-            this.lblHydroMode = new System.Windows.Forms.Label();
-            this.cboHydroMode = new System.Windows.Forms.ComboBox();
             this.GroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valCrossSectionSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartWidth)).BeginInit();
@@ -94,7 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.valMinBarArea)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valXSStdDevFiltering)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valMaxRiverWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.valXSSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valXSStationSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valRasterBuffer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valRasterPrecision)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valCellSize)).BeginInit();
@@ -103,6 +106,8 @@
             // 
             // GroupBox2
             // 
+            this.GroupBox2.Controls.Add(this.valCrossSectionSpacing);
+            this.GroupBox2.Controls.Add(this.label2);
             this.GroupBox2.Controls.Add(this.lblHydroMode);
             this.GroupBox2.Controls.Add(this.cboHydroMode);
             this.GroupBox2.Controls.Add(this.chkOutputProfileValues);
@@ -133,7 +138,7 @@
             this.GroupBox2.Controls.Add(this.txtPrecisionFormatString);
             this.GroupBox2.Controls.Add(this.Label12);
             this.GroupBox2.Controls.Add(this.chkZipChangeDetection);
-            this.GroupBox2.Controls.Add(this.valXSSpacing);
+            this.GroupBox2.Controls.Add(this.valXSStationSpacing);
             this.GroupBox2.Controls.Add(this.Label11);
             this.GroupBox2.Controls.Add(this.chkPreserveArtifacts);
             this.GroupBox2.Controls.Add(this.valRasterBuffer);
@@ -152,6 +157,53 @@
             this.GroupBox2.TabIndex = 2;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "RBT Configuration";
+            // 
+            // valCrossSectionSpacing
+            // 
+            this.valCrossSectionSpacing.DecimalPlaces = 2;
+            this.valCrossSectionSpacing.Location = new System.Drawing.Point(599, 114);
+            this.valCrossSectionSpacing.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.valCrossSectionSpacing.Name = "valCrossSectionSpacing";
+            this.valCrossSectionSpacing.Size = new System.Drawing.Size(120, 20);
+            this.valCrossSectionSpacing.TabIndex = 44;
+            this.valCrossSectionSpacing.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(460, 118);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 13);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "Cross section spacing (m):";
+            // 
+            // lblHydroMode
+            // 
+            this.lblHydroMode.AutoSize = true;
+            this.lblHydroMode.Location = new System.Drawing.Point(29, 376);
+            this.lblHydroMode.Name = "lblHydroMode";
+            this.lblHydroMode.Size = new System.Drawing.Size(91, 13);
+            this.lblHydroMode.TabIndex = 42;
+            this.lblHydroMode.Text = "Hydro prep mode:";
+            // 
+            // cboHydroMode
+            // 
+            this.cboHydroMode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.cboHydroMode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboHydroMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboHydroMode.FormattingEnabled = true;
+            this.cboHydroMode.Location = new System.Drawing.Point(129, 372);
+            this.cboHydroMode.Name = "cboHydroMode";
+            this.cboHydroMode.Size = new System.Drawing.Size(208, 21);
+            this.cboHydroMode.TabIndex = 41;
             // 
             // chkOutputProfileValues
             // 
@@ -306,7 +358,7 @@
             // 
             // valErrorKernel
             // 
-            this.valErrorKernel.Location = new System.Drawing.Point(599, 309);
+            this.valErrorKernel.Location = new System.Drawing.Point(599, 336);
             this.valErrorKernel.Minimum = new decimal(new int[] {
             1,
             0,
@@ -324,7 +376,7 @@
             // Label19
             // 
             this.Label19.AutoSize = true;
-            this.Label19.Location = new System.Drawing.Point(420, 313);
+            this.Label19.Location = new System.Drawing.Point(420, 340);
             this.Label19.Name = "Label19";
             this.Label19.Size = new System.Drawing.Size(172, 13);
             this.Label19.TabIndex = 36;
@@ -332,7 +384,7 @@
             // 
             // valBankAngleBuffer
             // 
-            this.valBankAngleBuffer.Location = new System.Drawing.Point(599, 341);
+            this.valBankAngleBuffer.Location = new System.Drawing.Point(599, 368);
             this.valBankAngleBuffer.Minimum = new decimal(new int[] {
             1,
             0,
@@ -350,7 +402,7 @@
             // Label18
             // 
             this.Label18.AutoSize = true;
-            this.Label18.Location = new System.Drawing.Point(460, 345);
+            this.Label18.Location = new System.Drawing.Point(460, 372);
             this.Label18.Name = "Label18";
             this.Label18.Size = new System.Drawing.Size(132, 13);
             this.Label18.TabIndex = 38;
@@ -364,7 +416,7 @@
             0,
             0,
             131072});
-            this.valThalwegSmoothingTolerance.Location = new System.Drawing.Point(599, 277);
+            this.valThalwegSmoothingTolerance.Location = new System.Drawing.Point(599, 304);
             this.valThalwegSmoothingTolerance.Name = "valThalwegSmoothingTolerance";
             this.valThalwegSmoothingTolerance.Size = new System.Drawing.Size(120, 20);
             this.valThalwegSmoothingTolerance.TabIndex = 35;
@@ -377,7 +429,7 @@
             // Label17
             // 
             this.Label17.AutoSize = true;
-            this.Label17.Location = new System.Drawing.Point(426, 281);
+            this.Label17.Location = new System.Drawing.Point(426, 308);
             this.Label17.Name = "Label17";
             this.Label17.Size = new System.Drawing.Size(166, 13);
             this.Label17.TabIndex = 34;
@@ -385,7 +437,7 @@
             // 
             // valThalwegPoolWeight
             // 
-            this.valThalwegPoolWeight.Location = new System.Drawing.Point(599, 245);
+            this.valThalwegPoolWeight.Location = new System.Drawing.Point(599, 272);
             this.valThalwegPoolWeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -408,7 +460,7 @@
             // Label16
             // 
             this.Label16.AutoSize = true;
-            this.Label16.Location = new System.Drawing.Point(484, 249);
+            this.Label16.Location = new System.Drawing.Point(484, 276);
             this.Label16.Name = "Label16";
             this.Label16.Size = new System.Drawing.Size(108, 13);
             this.Label16.TabIndex = 32;
@@ -416,7 +468,7 @@
             // 
             // valMinBarArea
             // 
-            this.valMinBarArea.Location = new System.Drawing.Point(599, 213);
+            this.valMinBarArea.Location = new System.Drawing.Point(599, 240);
             this.valMinBarArea.Minimum = new decimal(new int[] {
             1,
             0,
@@ -434,7 +486,7 @@
             // Label15
             // 
             this.Label15.AutoSize = true;
-            this.Label15.Location = new System.Drawing.Point(476, 217);
+            this.Label15.Location = new System.Drawing.Point(476, 244);
             this.Label15.Name = "Label15";
             this.Label15.Size = new System.Drawing.Size(116, 13);
             this.Label15.TabIndex = 30;
@@ -442,7 +494,7 @@
             // 
             // valXSStdDevFiltering
             // 
-            this.valXSStdDevFiltering.Location = new System.Drawing.Point(599, 181);
+            this.valXSStdDevFiltering.Location = new System.Drawing.Point(599, 208);
             this.valXSStdDevFiltering.Minimum = new decimal(new int[] {
             1,
             0,
@@ -460,7 +512,7 @@
             // Label14
             // 
             this.Label14.AutoSize = true;
-            this.Label14.Location = new System.Drawing.Point(430, 185);
+            this.Label14.Location = new System.Drawing.Point(430, 212);
             this.Label14.Name = "Label14";
             this.Label14.Size = new System.Drawing.Size(162, 13);
             this.Label14.TabIndex = 28;
@@ -468,7 +520,7 @@
             // 
             // valMaxRiverWidth
             // 
-            this.valMaxRiverWidth.Location = new System.Drawing.Point(599, 149);
+            this.valMaxRiverWidth.Location = new System.Drawing.Point(599, 176);
             this.valMaxRiverWidth.Maximum = new decimal(new int[] {
             500,
             0,
@@ -491,7 +543,7 @@
             // Label13
             // 
             this.Label13.AutoSize = true;
-            this.Label13.Location = new System.Drawing.Point(470, 153);
+            this.Label13.Location = new System.Drawing.Point(470, 180);
             this.Label13.Name = "Label13";
             this.Label13.Size = new System.Drawing.Size(122, 13);
             this.Label13.TabIndex = 26;
@@ -524,29 +576,29 @@
             this.chkZipChangeDetection.Text = "Zip archive of change detection results";
             this.chkZipChangeDetection.UseVisualStyleBackColor = true;
             // 
-            // valXSSpacing
+            // valXSStationSpacing
             // 
-            this.valXSSpacing.DecimalPlaces = 2;
-            this.valXSSpacing.Increment = new decimal(new int[] {
+            this.valXSStationSpacing.DecimalPlaces = 2;
+            this.valXSStationSpacing.Increment = new decimal(new int[] {
             10,
             0,
             0,
             131072});
-            this.valXSSpacing.Location = new System.Drawing.Point(599, 117);
-            this.valXSSpacing.Maximum = new decimal(new int[] {
+            this.valXSStationSpacing.Location = new System.Drawing.Point(599, 144);
+            this.valXSStationSpacing.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.valXSSpacing.Minimum = new decimal(new int[] {
+            this.valXSStationSpacing.Minimum = new decimal(new int[] {
             10,
             0,
             0,
             131072});
-            this.valXSSpacing.Name = "valXSSpacing";
-            this.valXSSpacing.Size = new System.Drawing.Size(120, 20);
-            this.valXSSpacing.TabIndex = 25;
-            this.valXSSpacing.Value = new decimal(new int[] {
+            this.valXSStationSpacing.Name = "valXSStationSpacing";
+            this.valXSStationSpacing.Size = new System.Drawing.Size(120, 20);
+            this.valXSStationSpacing.TabIndex = 25;
+            this.valXSStationSpacing.Value = new decimal(new int[] {
             10,
             0,
             0,
@@ -555,7 +607,7 @@
             // Label11
             // 
             this.Label11.AutoSize = true;
-            this.Label11.Location = new System.Drawing.Point(428, 121);
+            this.Label11.Location = new System.Drawing.Point(428, 148);
             this.Label11.Name = "Label11";
             this.Label11.Size = new System.Drawing.Size(164, 13);
             this.Label11.TabIndex = 24;
@@ -800,26 +852,6 @@
             this.Label6.TabIndex = 3;
             this.Label6.Text = "Temp folder:";
             // 
-            // lblHydroMode
-            // 
-            this.lblHydroMode.AutoSize = true;
-            this.lblHydroMode.Location = new System.Drawing.Point(29, 376);
-            this.lblHydroMode.Name = "lblHydroMode";
-            this.lblHydroMode.Size = new System.Drawing.Size(91, 13);
-            this.lblHydroMode.TabIndex = 42;
-            this.lblHydroMode.Text = "Hydro prep mode:";
-            // 
-            // cboHydroMode
-            // 
-            this.cboHydroMode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
-            this.cboHydroMode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboHydroMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboHydroMode.FormattingEnabled = true;
-            this.cboHydroMode.Location = new System.Drawing.Point(129, 372);
-            this.cboHydroMode.Name = "cboHydroMode";
-            this.cboHydroMode.Size = new System.Drawing.Size(208, 21);
-            this.cboHydroMode.TabIndex = 41;
-            // 
             // RBTConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -828,9 +860,9 @@
             this.Controls.Add(this.GroupBox2);
             this.Name = "RBTConfiguration";
             this.Size = new System.Drawing.Size(741, 540);
-            this.Load += new System.EventHandler(this.RBTConfiguration_Load);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valCrossSectionSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valInitialCrossSectionLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valChartWidth)).EndInit();
@@ -841,7 +873,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.valMinBarArea)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valXSStdDevFiltering)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valMaxRiverWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.valXSSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valXSStationSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valRasterBuffer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valRasterPrecision)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valCellSize)).EndInit();
@@ -881,7 +913,7 @@
         internal System.Windows.Forms.TextBox txtPrecisionFormatString;
         internal System.Windows.Forms.Label Label12;
         internal System.Windows.Forms.CheckBox chkZipChangeDetection;
-        internal System.Windows.Forms.NumericUpDown valXSSpacing;
+        internal System.Windows.Forms.NumericUpDown valXSStationSpacing;
         internal System.Windows.Forms.Label Label11;
         internal System.Windows.Forms.CheckBox chkPreserveArtifacts;
         internal System.Windows.Forms.NumericUpDown valRasterBuffer;
@@ -907,5 +939,7 @@
         internal System.Windows.Forms.CheckBox chkOutputProfileValues;
         private System.Windows.Forms.Label lblHydroMode;
         private System.Windows.Forms.ComboBox cboHydroMode;
+        internal System.Windows.Forms.NumericUpDown valCrossSectionSpacing;
+        internal System.Windows.Forms.Label label2;
     }
 }
