@@ -112,7 +112,7 @@ namespace CHaMPWorkbench.Classes
             m_bGenerateCSVs = false;
         }
 
-        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs)
+        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs, bool bForcePrimary)
             : base(rVisit.VisitID, rVisit.HitchName)
         {
             if (!rVisit.IsHitchNameNull())
@@ -134,7 +134,7 @@ namespace CHaMPWorkbench.Classes
                 m_sFolder = rVisit.Folder;
 
             if (!rVisit.IsIsPrimaryNull())
-                m_bPrimary = rVisit.IsPrimary;
+                m_bPrimary = rVisit.IsPrimary || bForcePrimary;
 
             if (!rVisit.IsSampleDateNull())
                 m_dSurveyDate = rVisit.SampleDate;
