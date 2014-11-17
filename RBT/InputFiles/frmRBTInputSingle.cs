@@ -176,7 +176,7 @@ namespace CHaMPWorkbench
 
             RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
             bool bCSVs = ucConfig.GetRBTConfig().Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation;
-            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs );
+            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs,chkForcePrimary.Checked);
             Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
             theSite.AddVisit(mainvisit);
 
@@ -187,13 +187,13 @@ namespace CHaMPWorkbench
             {
                 foreach (object obj in cboVisit.Items)
                 {
-                    RBTWorkbenchDataSet.CHAMP_VisitsRow aVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
+                    RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
 
-                    if (aVisit.VisitID != mainvisit.ID)
+                    if (rVisit.VisitID != mainvisit.ID)
                     {
-                        if (rdoAll.Checked || aVisit.IsPrimary)
+                        if (rdoAll.Checked || rVisit.IsPrimary)
                         {
-                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, false, chkOrthogonal.Checked, false);
+                            Classes.Visit anotherVisit = new Classes.Visit(rVisit, false, false, chkOrthogonal.Checked, false, chkForcePrimary.Checked);
                             theSite.AddVisit(anotherVisit);
                         }
                     }

@@ -51,6 +51,7 @@
             this.chkBatch = new System.Windows.Forms.CheckBox();
             this.chkOpenWhenComplete = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.rdoSelectedOnly = new System.Windows.Forms.RadioButton();
             this.rdoPrimaryOnly = new System.Windows.Forms.RadioButton();
             this.rdoAll = new System.Windows.Forms.RadioButton();
@@ -73,7 +74,7 @@
             this.cHAMP_SitesTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
             this.cHAMP_VisitsTableAdapter = new CHaMPWorkbench.RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
             this.dlgFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
+            this.chkForcePrimary = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cHAMPVisitsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rBTWorkbenchDataSet)).BeginInit();
@@ -181,6 +182,7 @@
             // 
             // rBTWorkbenchDataSet
             // 
+            this.rBTWorkbenchDataSet.DataSetName = "RBTWorkbenchDataSet";
             this.rBTWorkbenchDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // cHAMPSitesBindingSource
@@ -306,6 +308,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkForcePrimary);
             this.groupBox2.Controls.Add(this.chkRequireWSTIN);
             this.groupBox2.Controls.Add(this.rdoSelectedOnly);
             this.groupBox2.Controls.Add(this.rdoPrimaryOnly);
@@ -316,6 +319,18 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Include Other Visits To This Site";
+            // 
+            // chkRequireWSTIN
+            // 
+            this.chkRequireWSTIN.AutoSize = true;
+            this.chkRequireWSTIN.Checked = true;
+            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(282, 64);
+            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
+            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
+            this.chkRequireWSTIN.TabIndex = 3;
+            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
+            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
             // 
             // rdoSelectedOnly
             // 
@@ -508,17 +523,15 @@
             // 
             this.cHAMP_VisitsTableAdapter.ClearBeforeFill = true;
             // 
-            // chkRequireWSTIN
+            // chkForcePrimary
             // 
-            this.chkRequireWSTIN.AutoSize = true;
-            this.chkRequireWSTIN.Checked = true;
-            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRequireWSTIN.Location = new System.Drawing.Point(282, 64);
-            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
-            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
-            this.chkRequireWSTIN.TabIndex = 3;
-            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
-            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
+            this.chkForcePrimary.AutoSize = true;
+            this.chkForcePrimary.Location = new System.Drawing.Point(282, 41);
+            this.chkForcePrimary.Name = "chkForcePrimary";
+            this.chkForcePrimary.Size = new System.Drawing.Size(155, 17);
+            this.chkForcePrimary.TabIndex = 4;
+            this.chkForcePrimary.Text = "Force all visits to be primary";
+            this.chkForcePrimary.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputSingle
             // 
@@ -610,5 +623,6 @@
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
         private System.Windows.Forms.CheckBox chkCopyPath;
         private System.Windows.Forms.CheckBox chkRequireWSTIN;
+        private System.Windows.Forms.CheckBox chkForcePrimary;
     }
 }

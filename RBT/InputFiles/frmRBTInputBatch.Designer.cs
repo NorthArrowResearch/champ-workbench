@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.chkIncludeOtherVisits = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
@@ -52,7 +53,7 @@
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
+            this.chkForcePrimary = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
@@ -73,6 +74,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkForcePrimary);
             this.tabPage1.Controls.Add(this.chkRequireWSTIN);
             this.tabPage1.Controls.Add(this.chkIncludeOtherVisits);
             this.tabPage1.Controls.Add(this.label1);
@@ -95,6 +97,18 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chkRequireWSTIN
+            // 
+            this.chkRequireWSTIN.AutoSize = true;
+            this.chkRequireWSTIN.Checked = true;
+            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 374);
+            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
+            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
+            this.chkRequireWSTIN.TabIndex = 14;
+            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
+            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
             // 
             // chkIncludeOtherVisits
             // 
@@ -315,17 +329,15 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // chkRequireWSTIN
+            // chkForcePrimary
             // 
-            this.chkRequireWSTIN.AutoSize = true;
-            this.chkRequireWSTIN.Checked = true;
-            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 344);
-            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
-            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
-            this.chkRequireWSTIN.TabIndex = 14;
-            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
-            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
+            this.chkForcePrimary.AutoSize = true;
+            this.chkForcePrimary.Location = new System.Drawing.Point(204, 344);
+            this.chkForcePrimary.Name = "chkForcePrimary";
+            this.chkForcePrimary.Size = new System.Drawing.Size(155, 17);
+            this.chkForcePrimary.TabIndex = 15;
+            this.chkForcePrimary.Text = "Force all visits to be primary";
+            this.chkForcePrimary.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputBatch
             // 
@@ -381,5 +393,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
         private System.Windows.Forms.CheckBox chkRequireWSTIN;
+        private System.Windows.Forms.CheckBox chkForcePrimary;
     }
 }
