@@ -144,8 +144,9 @@ namespace CHaMPWorkbench.Classes
                     pLogMessage.Value = DBNull.Value;
                     if (!string.IsNullOrEmpty(statusNode.InnerText))
                     {
-                        pLogMessage.Value = statusNode.InnerText;
-                        pLogMessage.Size = statusNode.InnerText.Length;
+                        string sMessage = statusNode.InnerText.Trim();
+                        pLogMessage.Value = sMessage;
+                        pLogMessage.Size = sMessage.Length;
                     }
 
                     pLogException.Value = DBNull.Value;
@@ -193,8 +194,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogMessage.Value = aChildNode.InnerText;
-                            pLogMessage.Size = aChildNode.InnerText.Length;
+                            pLogMessage.Value = aChildNode.InnerText.Trim();
+                            //pLogMessage.Size = aChildNode.InnerText.Length;
                         }
                     }
 
@@ -204,8 +205,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogException.Value = aChildNode.InnerText;
-                            pLogException.Size = aChildNode.InnerText.Length;
+                            pLogException.Value = aChildNode.InnerText.Trim();
+                            //pLogException.Size = aChildNode.InnerText.Length;
                         }
                     }
 
@@ -215,8 +216,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogSolution.Value = aChildNode.InnerText;
-                            pLogSolution.Size = aChildNode.InnerText.Length;
+                            pLogSolution.Value = aChildNode.InnerText.Trim();
+                            //pLogSolution.Size = aChildNode.InnerText.Length;
                         }
                     }
 
