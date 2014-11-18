@@ -75,18 +75,35 @@ namespace CHaMPWorkbench
             System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
             if (dbRead.Read())
             {
-                cHAMP_WatershedsBindingSource.Filter = "WatershedID = " + dbRead["WatershedID"];
-                cHAMPSitesBindingSource.Filter = "SiteID = " + dbRead["SiteID"];
-
-                foreach (DataRowView r in cboVisit.Items)
+                foreach (DataRowView drwW in cboWatershed.Items)
                 {
-                    RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
-                    if (rMainvisit.VisitID == nVisitID)
+                    RBTWorkbenchDataSet.CHAMP_WatershedsRow rW = (RBTWorkbenchDataSet.CHAMP_WatershedsRow) drwW.Row;
+                    if (rW.WatershedID == (int) dbRead["WatershedID"])
                     {
-                        cboVisit.SelectedItem = r;
-                        return;
+                        cboWatershed.SelectedValue = rW.WatershedID;
+                        foreach (DataRowView drvS in cboSite.Items)
+                        {
+                            RBTWorkbenchDataSet.CHAMP_SitesRow rS = (RBTWorkbenchDataSet.CHAMP_SitesRow)drvS.Row;
+                            if (rS.SiteID == (int)dbRead["SiteID"])
+                            {
+                                cboSite.SelectedValue = rS.SiteID;
+                                foreach (DataRowView drvV in cboVisit.Items)
+                                {
+                                    RBTWorkbenchDataSet.CHAMP_VisitsRow rV = (RBTWorkbenchDataSet.CHAMP_VisitsRow) drvV.Row;
+                                    if (rV.VisitID == nVisitID)
+                                    {
+                                        cboVisit.SelectedValue = rV.VisitID;
+                                        return;
+                                    }
+                                }        
+                            }
+                        }
                     }
                 }
+
+
+               // cHAMP_WatershedsBindingSource.Filter = "WatershedID = " + dbRead["WatershedID"];
+               //cHAMPSitesBindingSource.Filter = "SiteID = " + dbRead["SiteID"];                
             }
         }
 
