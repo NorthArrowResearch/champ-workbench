@@ -74,6 +74,54 @@ namespace CHaMPWorkbench
             return false;
         }
 
+        private Boolean LookForHitchFolder(string sSiteFolder, string sHitchName, string sCrewName, out string sHitchFolder)
+        {
+            sHitchFolder = "";
+            DirectoryInfo dSiteFolder = new DirectoryInfo(sSiteFolder);
+            DirectoryInfo[] dHitchFolders = dSiteFolder.GetDirectories("*");
+            if (dHitchFolders.Count() == 1)
+            {
+                sHitchFolder = dHitchFolders[0].FullName;
+                return true;
+            }
+            else if (dHitchFolders.Count() > 1)
+            {
+                foreach (DirectoryInfo aDir in dHitchFolders)
+                {
+                    string sDirStripped = StripString(aDir.Name);
+                    string sCrewNameStripped = StripString(sCrewName);
+                    string sHitchNameStripped = StripString(sHitchName);
+
+                    if (string.Compare(sDirStripped, "Visit", true) == 0)
+                    {
+                        if (string.IsNullOrEmpty(sCrewName) || sCrewNameStripped.Contains("local"))
+                        {
+                            System.Diagnostics.Debug.WriteLine("Crew: " + sCrewName + " matched to " + aDir.FullName);
+                            sHitchFolder = aDir.FullName;
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (sDirStripped.Contains(sCrewNameStripped) || sDirStripped.Contains(sHitchNameStripped))
+                        {
+                            System.Diagnostics.Debug.WriteLine("Crew: " + sCrewName + " matched to " + aDir.FullName);
+                            sHitchFolder = aDir.FullName;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private string StripString(string sInput)
+        {
+            string sResult = sInput.Replace("_", "").Replace("-","").Replace(" ","").Replace(":","").Replace("#","").ToLower();
+            return sResult;
+        }
+
         private void ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder, bool bSetMissingDataNULL)
         {
             if (dbCon.State == ConnectionState.Closed)
@@ -120,9 +168,18 @@ namespace CHaMPWorkbench
                             {
                                 rSite.Folder = System.IO.Path.GetFileNameWithoutExtension(sSiteFolder);
 
+
+                                string sCrewName = "";
+                                if (!rVisit.IsCrewNameNull())
+                                    sCrewName = rVisit.CrewName;
+
+                                string sHitchName = "";
+                                if (!rVisit.IsHitchNameNull())
+                                    sHitchName = rVisit.HitchName;
+
                                 bool bFoundTopoData = false;
                                 string sHitchFolder;
-                                if (LookForFolder(sSiteFolder, rVisit.HitchName, out sHitchFolder))
+                                if (LookForHitchFolder(sSiteFolder, sHitchName, sCrewName, out sHitchFolder))
                                 {
                                     string sTopoFolder;
                                     if (LookForFolder(sHitchFolder, "Topo", out sTopoFolder))
@@ -138,6 +195,10 @@ namespace CHaMPWorkbench
                                             rVisit.WSTIN = System.IO.Path.GetFileName(sWSTIN);
                                         }
                                     }
+                                }
+                                else
+                                {
+                                    int i = 4;
                                 }
 
                                 if (!bFoundTopoData)
