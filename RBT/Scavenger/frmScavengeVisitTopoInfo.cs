@@ -81,6 +81,7 @@ namespace CHaMPWorkbench
             DirectoryInfo[] dHitchFolders = dSiteFolder.GetDirectories("*");
             if (dHitchFolders.Count() == 1)
             {
+                // there is only one sub folder in the site for this year. Use it.
                 sHitchFolder = dHitchFolders[0].FullName;
                 return true;
             }
@@ -94,6 +95,7 @@ namespace CHaMPWorkbench
 
                     if (string.Compare(sDirStripped, "Visit", true) == 0)
                     {
+                        // the visit folder is simple called "visit"
                         if (string.IsNullOrEmpty(sCrewName) || sCrewNameStripped.Contains("local"))
                         {
                             System.Diagnostics.Debug.WriteLine("Crew: " + sCrewName + " matched to " + aDir.FullName);
@@ -103,12 +105,38 @@ namespace CHaMPWorkbench
                     }
                     else
                     {
+                        // the visit folder is called something other than "visit"
                         if (sDirStripped.Contains(sCrewNameStripped) || sDirStripped.Contains(sHitchNameStripped))
                         {
+                            // this is part of a multi-visit site and the directory name contains either part
+                            // of the hitch name or part of the crew name
                             System.Diagnostics.Debug.WriteLine("Crew: " + sCrewName + " matched to " + aDir.FullName);
                             sHitchFolder = aDir.FullName;
                             return true;
                         }
+                        //
+                        // if got to here then this is multi visit site that has no match between the 
+                        // crew name and visit folder, the hitch name and visit folder and isn't just
+                        // called "visit" with a crew name containing local.
+                        //
+                        // roll back through the visit folder name and see if it matches either the crew
+                        // or hitch name. this is meant to tackle visit folders that start with names 
+                        // like "hitch6_" and also contain dates that don't quite match the hitch name.
+                        // ideally this will shortern the directory name and match "hitch6", while 
+                        // avoiding mis-matches with "hitch5" etc.
+                        //
+                        for (int i = sDirStripped.Length; i > "hitchx".Length; i--)
+                        {
+                            string sDirShortened = sDirStripped.Substring(0, i);
+                            if (sDirShortened.Contains(sCrewNameStripped) || sDirShortened.Contains(sHitchNameStripped))
+                            {
+                                // the beginning part of the directory matches
+                                System.Diagnostics.Debug.WriteLine("Crew: " + sCrewName + " matched to " + aDir.FullName);
+                                sHitchFolder = aDir.FullName;
+                                return true;
+                            }
+                        }
+
                     }
                 }
             }
