@@ -8,13 +8,27 @@ namespace CHaMPWorkbench.Classes
 {
     public class Config
     {
-        #region "Members"
+        public enum RBTModes
+        {
+            Validate_Data = 1,
+            Calculate_Metrics = 10,
+            Fix_Orthogonality = 20,
+            Create_Site_Geodatabase = 30,
+            Fix_Orthogonality_With_Minimal_Validation = 40,
+            Hydraulic_Model_Preparation = 50         
+        };
+
+        public enum HydroModelPrepModes
+        {
+            ArcGIS_Processing = 1,
+            NumPy = 2
+        };
 
         private string m_sTempFolder = "C:\\CHaMP\\RBTTempFolder";
         private string m_sResultsFile = "Results.xml";
 
         private string m_sLogFile = "Log.xml";
-        private int m_nMode = 1;
+        private RBTModes m_nMode = RBTModes.Calculate_Metrics;
         private int m_nESRIProduct;
         private int m_nArcGISLicense;
         private string m_sPrecisionFormatString = "0.0####";
@@ -27,6 +41,7 @@ namespace CHaMPWorkbench.Classes
         private double m_fCellSize = 0.1;
         private int m_nPrecision = 1;
         private int m_nRasterBuffer = 10;
+        private double m_fCrossSectionSpacing = 0.5;
         private double m_fCrossSectionStation = 0.1;
         private int m_nMaxRiverWidth = 100;
         private int m_nCrossSectionFiltering = 4;
@@ -36,16 +51,15 @@ namespace CHaMPWorkbench.Classes
         private int m_nErrorRasterKernal = 5;
         private int m_nBankAngleBuffer = 5;
         private bool m_bOutputProfileValues = false;
+        private HydroModelPrepModes m_eHydroPrepMode = HydroModelPrepModes.ArcGIS_Processing;
 
         private double m_fInitialCrossSectionLength = 50;
 
         private RBTConfig_ChangeDetection m_ChangeDetection;
-
-        #endregion
-        
+                
         #region "Properties"
 
-        public int Mode
+        public RBTModes Mode
         {
             get { return m_nMode; }
             set { m_nMode = value; }
@@ -124,6 +138,12 @@ namespace CHaMPWorkbench.Classes
         }
 
         public double CrossSectionSpacing
+        {
+            get { return m_fCrossSectionSpacing; }
+            set { m_fCrossSectionSpacing = value; }
+        }
+
+        public double CrossSectionStationSpacing
         {
             get { return m_fCrossSectionStation; }
             set { m_fCrossSectionStation = value; }
@@ -205,6 +225,12 @@ namespace CHaMPWorkbench.Classes
         {
             get { return m_ChangeDetection; }
         }
+
+        public HydroModelPrepModes HydroModelPrepMode
+        {
+            get { return m_eHydroPrepMode; }
+            set { m_eHydroPrepMode = value; }
+        }
         
         #endregion
 
@@ -222,15 +248,20 @@ namespace CHaMPWorkbench.Classes
         public void WriteToXML(System.Xml.XmlTextWriter xmlFile)
         {
             xmlFile.WriteStartElement("parameters");
-            xmlFile.WriteElementString("rbt_mode", Mode.ToString());
-            xmlFile.WriteComment("Validate Data = 1, Calculate Metrics = 10, Fix Orthogonality = 20, Create Site Geodatabase = 30, Fix Orthogonality With Minimal Validation = 40");
+            xmlFile.WriteElementString("rbt_mode", ((int) Mode).ToString());
+
+            string sModes = "";
+            foreach (RBTModes eMode in Enum.GetValues(typeof(RBTModes)))
+                sModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
+            xmlFile.WriteComment(sModes.Substring(0, sModes.Length - 2));
+
             xmlFile.WriteElementString("clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
             xmlFile.WriteElementString("require_orthogonal_rasters", RequireOrthogDEMs.ToString());
             xmlFile.WriteElementString("raster_cell_size", CellSize.ToString("#0.00"));
             xmlFile.WriteElementString("raster_precision", Precision.ToString("#0.00"));
             xmlFile.WriteElementString("raster_buffer", RasterBuffer.ToString("#"));
             xmlFile.WriteElementString("preserve_artifacts", PreserveArtifcats.ToString());
-            xmlFile.WriteElementString("xs_station_spacing", CrossSectionSpacing.ToString("#.00"));
+            xmlFile.WriteElementString("xs_station_spacing", CrossSectionStationSpacing.ToString("#.00"));
             xmlFile.WriteElementString("zip_change_detection_results", CreateZip.ToString());
             xmlFile.WriteElementString("precision_format_string", PrecisionFormatString);
             xmlFile.WriteElementString("max_river_width", MaxRiverWidth.ToString("#"));
@@ -251,11 +282,17 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("esri_license_level", ArcGISLicense.ToString());
             xmlFile.WriteComment("Basic = 40, Standard = 50, Advanced = 60, Server = 30, Engine = 10, Engine Geodatabase = 20");
 
+            xmlFile.WriteElementString("hydro_prep_mode", ((int)m_eHydroPrepMode).ToString());
+            string sHydroPrepModes = "";
+            foreach (HydroModelPrepModes eMode in Enum.GetValues(typeof(HydroModelPrepModes)))
+                sHydroPrepModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
+            xmlFile.WriteComment(sHydroPrepModes.Substring(0, sHydroPrepModes.Length - 2));
+
             xmlFile.WriteStartElement("intervals");
 
             xmlFile.WriteStartElement("interval");
             xmlFile.WriteAttributeString("type", "distance");
-            xmlFile.WriteString("0.5");
+            xmlFile.WriteString(m_fCrossSectionSpacing.ToString());
             xmlFile.WriteEndElement();
             // interval
 

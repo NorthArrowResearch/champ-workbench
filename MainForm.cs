@@ -164,7 +164,6 @@ namespace CHaMPWorkbench
             if (m_dbCon != null)
             {
                 frmRBTInputSingle frm = new frmRBTInputSingle(m_dbCon);
-                frm.ShowDialog();
             }
         }
 
@@ -379,7 +378,14 @@ namespace CHaMPWorkbench
         private void findVisitByIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.frmFindVisitByID frm = new Data.frmFindVisitByID(m_dbCon);
-            frm.ShowDialog();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (frm.VisitToCreateInputFile > 0)
+                {
+                    frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, frm.VisitToCreateInputFile);
+                    frm.ShowDialog();
+                }
+            }
         }
 
         private void extractRBTErrorsToolStripMenuItem_Click(object sender, EventArgs e)

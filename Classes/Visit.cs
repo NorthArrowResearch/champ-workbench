@@ -13,6 +13,7 @@ namespace CHaMPWorkbench.Classes
         private String m_sHitch;
         private String m_sCrew;
         private int m_nFieldSeason;
+        private DateTime m_dSurveyDate;
         private Dictionary<int, ChannelSegment> m_dChannelSegments;
         private bool m_bPrimary;
         private bool m_bCalculateMetrics;
@@ -111,7 +112,7 @@ namespace CHaMPWorkbench.Classes
             m_bGenerateCSVs = false;
         }
 
-        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs)
+        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs, bool bForcePrimary)
             : base(rVisit.VisitID, rVisit.HitchName)
         {
             if (!rVisit.IsHitchNameNull())
@@ -133,7 +134,12 @@ namespace CHaMPWorkbench.Classes
                 m_sFolder = rVisit.Folder;
 
             if (!rVisit.IsIsPrimaryNull())
-                m_bPrimary = rVisit.IsPrimary;
+                m_bPrimary = rVisit.IsPrimary || bForcePrimary;
+
+            if (!rVisit.IsSampleDateNull())
+                m_dSurveyDate = rVisit.SampleDate;
+            else
+                m_dSurveyDate = new DateTime(rVisit.VisitYear, 1, 1);
 
             m_nVisitID = rVisit.VisitID;
             m_nFieldSeason = rVisit.VisitYear;
@@ -149,10 +155,19 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder)
+        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder, Boolean bRequireWSTIN)
         {
-            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sWSTIN) || string.IsNullOrWhiteSpace(m_sFolder))
+            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sFolder))
+            {
                 return;
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(m_sWSTIN) && bRequireWSTIN)
+                {
+                    return;
+                }
+            }
 
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
@@ -168,13 +183,18 @@ namespace CHaMPWorkbench.Classes
          
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
+            xmlFile.WriteElementString("sample_date", m_dSurveyDate.ToString());
             xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
 
             xmlFile.WriteElementString("dem", "DEM");
             xmlFile.WriteElementString("error_surface", "ElevationError");
 
             xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
-            xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
+
+            if (string.IsNullOrEmpty(m_sWSTIN))
+                xmlFile.WriteElementString("ws_tin", "");
+            else
+                xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
 
             xmlFile.WriteElementString("topo_points", "Topo_Points");
             xmlFile.WriteElementString("control_points", "Control_Points");

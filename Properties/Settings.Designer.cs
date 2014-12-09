@@ -85,18 +85,6 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("input.xml")]
-        public string DefaultRBTFile {
-            get {
-                return ((string)(this["DefaultRBTFile"]));
-            }
-            set {
-                this["DefaultRBTFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\CHaMP\\MonitoringData")]
         public string LastSourceFolder {
             get {

@@ -36,7 +36,7 @@ namespace CHaMPWorkbench.RBTInputFile
             {
                 if (dbRead[0] != DBNull.Value)
                 {
-                    Int16 nVisitYear = (Int16) dbRead[0];
+                    Int16 nVisitYear = (Int16)dbRead[0];
                     bool bAlreadyAdded = false;
                     foreach (ListItem l in lstFieldSeasons.Items)
                     {
@@ -48,10 +48,11 @@ namespace CHaMPWorkbench.RBTInputFile
                         lstFieldSeasons.Items.Add(new ListItem(nVisitYear.ToString(), nVisitYear));
                 }
             }
-                       
+
             ucConfig.ManualInitialization();
 
             txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
+            txtInputFileRoot.Text = Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName;
 #if DEBUG
             txtBatch.Text = txtBatch.Text + "_debug";
 #endif
@@ -74,7 +75,7 @@ namespace CHaMPWorkbench.RBTInputFile
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
             TextBox txt = null;
-            if (string.Compare(((Control) sender).Name, cmdBrowseFolder.Name, true) == 0)
+            if (string.Compare(((Control)sender).Name, cmdBrowseFolder.Name, true) == 0)
             {
                 frm.Description = "Select top level Monitoring folder that contains the topo data.";
                 txt = txtMonitoringDataFolder;
@@ -186,7 +187,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true, chkIncludeOtherVisits.Checked, chkGenerateCSVs.Checked);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true,chkIncludeOtherVisits.Checked,chkForcePrimary.Checked,chkRequireWSTIN.Checked);
             }
             catch (Exception ex)
             {

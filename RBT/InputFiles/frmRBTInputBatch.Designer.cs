@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.chkIncludeOtherVisits = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
@@ -52,7 +53,7 @@
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.chkGenerateCSVs = new System.Windows.Forms.CheckBox();
+            this.chkForcePrimary = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
@@ -68,11 +69,13 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(856, 537);
+            this.tabControl1.Size = new System.Drawing.Size(856, 575);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkForcePrimary);
+            this.tabPage1.Controls.Add(this.chkRequireWSTIN);
             this.tabPage1.Controls.Add(this.chkIncludeOtherVisits);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txtOutputFolder);
@@ -90,17 +93,29 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(848, 511);
+            this.tabPage1.Size = new System.Drawing.Size(848, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chkRequireWSTIN
+            // 
+            this.chkRequireWSTIN.AutoSize = true;
+            this.chkRequireWSTIN.Checked = true;
+            this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 374);
+            this.chkRequireWSTIN.Name = "chkRequireWSTIN";
+            this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
+            this.chkRequireWSTIN.TabIndex = 14;
+            this.chkRequireWSTIN.Text = "Require visits to have a water surface TIN";
+            this.chkRequireWSTIN.UseVisualStyleBackColor = true;
             // 
             // chkIncludeOtherVisits
             // 
             this.chkIncludeOtherVisits.AutoSize = true;
             this.chkIncludeOtherVisits.Checked = true;
             this.chkIncludeOtherVisits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 346);
+            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 321);
             this.chkIncludeOtherVisits.Name = "chkIncludeOtherVisits";
             this.chkIncludeOtherVisits.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeOtherVisits.TabIndex = 13;
@@ -139,12 +154,11 @@
             // 
             // GroupBox1
             // 
-            this.GroupBox1.Controls.Add(this.chkGenerateCSVs);
             this.GroupBox1.Controls.Add(this.chkChangeDetection);
             this.GroupBox1.Controls.Add(this.chkCalculateMetrics);
             this.GroupBox1.Location = new System.Drawing.Point(184, 241);
             this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(239, 87);
+            this.GroupBox1.Size = new System.Drawing.Size(239, 68);
             this.GroupBox1.TabIndex = 12;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Target Visit Attributes";
@@ -209,7 +223,6 @@
             this.txtInputFileRoot.Name = "txtInputFileRoot";
             this.txtInputFileRoot.Size = new System.Drawing.Size(239, 20);
             this.txtInputFileRoot.TabIndex = 9;
-            this.txtInputFileRoot.Text = "rbt_input.xml";
             // 
             // Label3
             // 
@@ -262,7 +275,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(848, 511);
+            this.tabPage2.Size = new System.Drawing.Size(848, 549);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "RBT Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -271,7 +284,7 @@
             // 
             this.ucConfig.Location = new System.Drawing.Point(6, 6);
             this.ucConfig.Name = "ucConfig";
-            this.ucConfig.Size = new System.Drawing.Size(835, 505);
+            this.ucConfig.Size = new System.Drawing.Size(835, 547);
             this.ucConfig.TabIndex = 0;
             // 
             // tabPage3
@@ -280,7 +293,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(848, 511);
+            this.tabPage3.Size = new System.Drawing.Size(848, 549);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Change Detection";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -290,13 +303,14 @@
             this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
             this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
-            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 505);
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 543);
             this.ucRBTChangeDetection1.TabIndex = 0;
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(793, 555);
+            this.cmdCancel.Location = new System.Drawing.Point(789, 597);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -305,8 +319,9 @@
             // 
             // cmdOK
             // 
+            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(712, 555);
+            this.cmdOK.Location = new System.Drawing.Point(708, 597);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 1;
@@ -314,15 +329,15 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // chkGenerateCSVs
+            // chkForcePrimary
             // 
-            this.chkGenerateCSVs.AutoSize = true;
-            this.chkGenerateCSVs.Location = new System.Drawing.Point(11, 66);
-            this.chkGenerateCSVs.Name = "chkGenerateCSVs";
-            this.chkGenerateCSVs.Size = new System.Drawing.Size(201, 17);
-            this.chkGenerateCSVs.TabIndex = 2;
-            this.chkGenerateCSVs.Text = "Generate hydraulic model CSV inputs";
-            this.chkGenerateCSVs.UseVisualStyleBackColor = true;
+            this.chkForcePrimary.AutoSize = true;
+            this.chkForcePrimary.Location = new System.Drawing.Point(204, 344);
+            this.chkForcePrimary.Name = "chkForcePrimary";
+            this.chkForcePrimary.Size = new System.Drawing.Size(155, 17);
+            this.chkForcePrimary.TabIndex = 15;
+            this.chkForcePrimary.Text = "Force all visits to be primary";
+            this.chkForcePrimary.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputBatch
             // 
@@ -330,7 +345,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(876, 591);
+            this.ClientSize = new System.Drawing.Size(876, 632);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.tabControl1);
@@ -377,6 +392,7 @@
         private System.Windows.Forms.CheckBox chkIncludeOtherVisits;
         private System.Windows.Forms.TabPage tabPage3;
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
-        internal System.Windows.Forms.CheckBox chkGenerateCSVs;
+        private System.Windows.Forms.CheckBox chkRequireWSTIN;
+        private System.Windows.Forms.CheckBox chkForcePrimary;
     }
 }

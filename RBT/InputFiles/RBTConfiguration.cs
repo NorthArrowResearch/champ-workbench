@@ -38,11 +38,9 @@ namespace CHaMPWorkbench
             txtResults.Text = CHaMPWorkbench.Properties.Settings.Default.LastResultsFile;
             txtLog.Text = CHaMPWorkbench.Properties.Settings.Default.LastLogfile;
 
-            cboRBTMode.Items.Add(new ListItem("Validate Data", 1));
-            cboRBTMode.Items.Add(new ListItem("Calculate Metrics", 10));
-            cboRBTMode.Items.Add(new ListItem("Fix Orthogonality", 20));
-            cboRBTMode.Items.Add(new ListItem("Create Site Geodatabase", 30));
-            cboRBTMode.Items.Add(new ListItem("Fix Orthogonality with minimal validation", 40));
+
+            foreach (Classes.Config.RBTModes eMode in Enum.GetValues(typeof(Classes.Config.RBTModes)))
+                cboRBTMode.Items.Add(new ListItem(eMode.ToString().Replace("_"," "), (int)eMode));
             cboRBTMode.SelectedIndex = 1;
 
             cboESRIProduct.Items.Add(new ListItem("Engine or Desktop", 100));
@@ -63,6 +61,11 @@ namespace CHaMPWorkbench
             String sTemp = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
             if (! String.IsNullOrWhiteSpace(sTemp) && System.IO.Directory.Exists(sTemp))
                 txtTempFolder.Text = sTemp;
+
+            foreach (Classes.Config.HydroModelPrepModes eMode in Enum.GetValues(typeof(Classes.Config.HydroModelPrepModes)))
+                cboHydroMode.Items.Add(new ListItem(eMode.ToString().Replace("_", " "), (int)eMode));
+
+            cboHydroMode.SelectedIndex = 0;
         }
 
         public bool ValidateForm(string sStreamName, string sUTMZone, string sWatershed)
@@ -216,7 +219,7 @@ namespace CHaMPWorkbench
         public Classes.Config GetRBTConfig()
         {
             Classes.Config aConfig = new Classes.Config();
-            aConfig.Mode = ((ListItem)cboRBTMode.SelectedItem).Value;
+            aConfig.Mode = (Classes.Config.RBTModes) ((ListItem)cboRBTMode.SelectedItem).Value;
             aConfig.ESRIProduct = ((ListItem)cboESRIProduct.SelectedItem).Value;
             aConfig.ArcGISLicense = ((ListItem)cboLicense.SelectedItem).Value;
             aConfig.PrecisionFormatString = txtPrecisionFormatString.Text;
@@ -229,7 +232,8 @@ namespace CHaMPWorkbench
             aConfig.CellSize = (double) valCellSize.Value;
             aConfig.Precision = Convert.ToInt32(valRasterPrecision.Value);
             aConfig.RasterBuffer = Convert.ToInt32(valRasterBuffer.Value);
-            aConfig.CrossSectionSpacing = (double) valXSSpacing.Value;
+            aConfig.CrossSectionSpacing = (double)valCrossSectionSpacing.Value;
+            aConfig.CrossSectionStationSpacing = (double) valXSStationSpacing.Value;
             aConfig.MaxRiverWidth = Convert.ToInt32(valMaxRiverWidth.Value);
             aConfig.CrossSectionFiltering = Convert.ToInt32(valXSStdDevFiltering.Value);
             aConfig.MinBarArea = Convert.ToInt32(valMinBarArea.Value);
@@ -239,6 +243,7 @@ namespace CHaMPWorkbench
             aConfig.BankAngleBuffer = Convert.ToInt32(valBankAngleBuffer.Value);
             aConfig.InitialCrossSectionLength = Convert.ToInt32(valInitialCrossSectionLength.Value);
             aConfig.OutputProfileValues = chkOutputProfileValues.Checked;
+            aConfig.HydroModelPrepMode = ((Classes.Config.HydroModelPrepModes)((ListItem)cboHydroMode.SelectedItem).Value);
             return aConfig;
         }
         
@@ -251,11 +256,5 @@ namespace CHaMPWorkbench
             anOutput.LogFile = txtLog.Text;
             return anOutput;
         }
-
-        private void RBTConfiguration_Load(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

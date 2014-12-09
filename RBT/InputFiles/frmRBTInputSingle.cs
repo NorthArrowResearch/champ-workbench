@@ -14,11 +14,20 @@ namespace CHaMPWorkbench
     public partial class frmRBTInputSingle : Form
     {
         private System.Data.OleDb.OleDbConnection m_dbCon;
+        private int m_nInitialVisitIDToSelect;
 
         public frmRBTInputSingle(OleDbConnection dbCon)
         {
             InitializeComponent();
             m_dbCon = dbCon;
+            m_nInitialVisitIDToSelect = 0;
+        }
+
+        public frmRBTInputSingle(OleDbConnection dbCon, int nVisitID)
+        {
+            InitializeComponent();
+            m_dbCon = dbCon;
+            m_nInitialVisitIDToSelect = nVisitID;
         }
 
         private void frmRBTRun_Load(object sender, EventArgs e)
@@ -53,6 +62,49 @@ namespace CHaMPWorkbench
             UpdateInputfilePath();
             UpdateBatchControlStatus();
             txtBatchName.Text = DateTime.Now.ToShortDateString();
+
+            if (m_nInitialVisitIDToSelect > 0)
+                SelectVisit(m_nInitialVisitIDToSelect);   
+
+        }
+
+        private void SelectVisit(int nVisitID)
+        {
+            System.Data.OleDb.OleDbCommand dbCom = new OleDbCommand("SELECT WatershedID, CHAMP_Sites.SiteID, VisitID FROM CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID WHERE CHAMP_Visits.VisitID = ?", m_dbCon);
+            dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+            System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
+            if (dbRead.Read())
+            {
+                foreach (DataRowView drwW in cboWatershed.Items)
+                {
+                    RBTWorkbenchDataSet.CHAMP_WatershedsRow rW = (RBTWorkbenchDataSet.CHAMP_WatershedsRow) drwW.Row;
+                    if (rW.WatershedID == (int) dbRead["WatershedID"])
+                    {
+                        cboWatershed.SelectedValue = rW.WatershedID;
+                        foreach (DataRowView drvS in cboSite.Items)
+                        {
+                            RBTWorkbenchDataSet.CHAMP_SitesRow rS = (RBTWorkbenchDataSet.CHAMP_SitesRow)drvS.Row;
+                            if (rS.SiteID == (int)dbRead["SiteID"])
+                            {
+                                cboSite.SelectedValue = rS.SiteID;
+                                foreach (DataRowView drvV in cboVisit.Items)
+                                {
+                                    RBTWorkbenchDataSet.CHAMP_VisitsRow rV = (RBTWorkbenchDataSet.CHAMP_VisitsRow) drvV.Row;
+                                    if (rV.VisitID == nVisitID)
+                                    {
+                                        cboVisit.SelectedValue = rV.VisitID;
+                                        return;
+                                    }
+                                }        
+                            }
+                        }
+                    }
+                }
+
+
+               // cHAMP_WatershedsBindingSource.Filter = "WatershedID = " + dbRead["WatershedID"];
+               //cHAMPSitesBindingSource.Filter = "SiteID = " + dbRead["SiteID"];                
+            }
         }
 
         private void cmdBrowseInputFile_Click(object sender, EventArgs e)
@@ -87,7 +139,7 @@ namespace CHaMPWorkbench
             {
                 DataRowView r = (DataRowView)cboVisit.SelectedItem;
                 RBTWorkbenchDataSet.CHAMP_VisitsRow v = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
-                txtInputFile.Text = System.IO.Path.Combine(this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(v, txtOutputFolder.Text), "input.xml");
+                txtInputFile.Text = System.IO.Path.Combine(this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(v, txtOutputFolder.Text), Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName);
             }
         }
 
@@ -140,7 +192,8 @@ namespace CHaMPWorkbench
                    
 
             RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
-            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, chkHydraulicCSVs.Checked);
+            bool bCSVs = ucConfig.GetRBTConfig().Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation;
+            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs,chkForcePrimary.Checked);
             Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
             theSite.AddVisit(mainvisit);
 
@@ -151,13 +204,13 @@ namespace CHaMPWorkbench
             {
                 foreach (object obj in cboVisit.Items)
                 {
-                    RBTWorkbenchDataSet.CHAMP_VisitsRow aVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
+                    RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
 
-                    if (aVisit.VisitID != mainvisit.ID)
+                    if (rVisit.VisitID != mainvisit.ID)
                     {
-                        if (rdoAll.Checked || aVisit.IsPrimary)
+                        if (rdoAll.Checked || rVisit.IsPrimary)
                         {
-                            Classes.Visit anotherVisit = new Classes.Visit(aVisit, false, aVisit.IsPrimary, chkOrthogonal.Checked,false);
+                            Classes.Visit anotherVisit = new Classes.Visit(rVisit, false, false, chkOrthogonal.Checked, false, chkForcePrimary.Checked);
                             theSite.AddVisit(anotherVisit);
                         }
                     }
@@ -165,7 +218,7 @@ namespace CHaMPWorkbench
             }
 
             xmlInput.WriteStartElement("sites");
-            theSite.WriteToXML(xmlInput, txtSourceFolder.Text);
+            theSite.WriteToXML(xmlInput, txtSourceFolder.Text, chkRequireWSTIN.Checked);
             xmlInput.WriteEndElement(); // sites
 
             theBuilder.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
@@ -191,8 +244,6 @@ namespace CHaMPWorkbench
                     dbCom = new OleDbCommand("SELECT @@IDENTITY", m_dbCon, dbTrans);
                     int nBatchID = (int) dbCom.ExecuteScalar();
 
-
-
                     dbCom = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, Run, InputFile, PrimaryVisitID) VALUES (?, ?, 1, ?, ?)", m_dbCon, dbTrans);
                     dbCom.Parameters.AddWithValue("BatchID", nBatchID);
                     dbCom.Parameters.AddWithValue("Summary", cboWatershed.Text + ", " + cboSite.Text + ", " + cboVisit.Text);
@@ -209,6 +260,8 @@ namespace CHaMPWorkbench
                 }
             }
 
+            if (chkCopyPath.Checked)
+                Clipboard.SetText(txtInputFile.Text);
 
             if (chkOpenWhenComplete.Checked)
                 if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.TextEditor) && System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.TextEditor))

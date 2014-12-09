@@ -22,25 +22,29 @@ namespace CHaMPWorkbench.Classes
                 m_dbCon.Open();
 
             int nResultID = 0;
-            XmlDocument xmlR = new XmlDocument();
-            xmlR.Load(sResultFilePath);
 
-            XmlNode metricNode = xmlR.SelectSingleNode("rbt_results/metric_results");
-            if (metricNode is XmlNode && metricNode.HasChildNodes)
+            if (!string.IsNullOrEmpty(sResultFilePath) && System.IO.File.Exists(sResultFilePath))
             {
-                try
+                XmlDocument xmlR = new XmlDocument();
+                xmlR.Load(sResultFilePath);
+
+                XmlNode metricNode = xmlR.SelectSingleNode("rbt_results/metric_results");
+                if (metricNode is XmlNode && metricNode.HasChildNodes)
                 {
-                    System.Diagnostics.Debug.Print("Scavenging result file: " + sResultFilePath.ToString());
-                    nResultID = PopulateTable_Visit(m_dbCon, metricNode, sResultFilePath);
-                }
-                catch (Exception ex)
-                {
-                    //
-                    // these are legimitate RBT XML result files that have errors. Add them
-                    // to the running list of problems and continue with next file.
-                    //
-                    ex.Data["Result File"] = sResultFilePath;
-                    throw ex;
+                    try
+                    {
+                        System.Diagnostics.Debug.Print("Scavenging result file: " + sResultFilePath.ToString());
+                        nResultID = PopulateTable_Visit(m_dbCon, metricNode, sResultFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        //
+                        // these are legimitate RBT XML result files that have errors. Add them
+                        // to the running list of problems and continue with next file.
+                        //
+                        ex.Data["Result File"] = sResultFilePath;
+                        throw ex;
+                    }
                 }
             }
             return nResultID;
@@ -48,6 +52,9 @@ namespace CHaMPWorkbench.Classes
 
         public void ScavengeLogFile(int nVisitID, int nResultID, String sLogFile, String sResultFilePath)
         {
+            if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
+                return;
+
             XmlDocument xmlR = new XmlDocument();
             xmlR.Load(sLogFile);
 
@@ -137,8 +144,9 @@ namespace CHaMPWorkbench.Classes
                     pLogMessage.Value = DBNull.Value;
                     if (!string.IsNullOrEmpty(statusNode.InnerText))
                     {
-                        pLogMessage.Value = statusNode.InnerText;
-                        pLogMessage.Size = statusNode.InnerText.Length;
+                        string sMessage = statusNode.InnerText.Trim();
+                        pLogMessage.Value = sMessage;
+                        pLogMessage.Size = sMessage.Length;
                     }
 
                     pLogException.Value = DBNull.Value;
@@ -186,8 +194,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogMessage.Value = aChildNode.InnerText;
-                            pLogMessage.Size = aChildNode.InnerText.Length;
+                            pLogMessage.Value = aChildNode.InnerText.Trim();
+                            //pLogMessage.Size = aChildNode.InnerText.Length;
                         }
                     }
 
@@ -197,8 +205,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogException.Value = aChildNode.InnerText;
-                            pLogException.Size = aChildNode.InnerText.Length;
+                            pLogException.Value = aChildNode.InnerText.Trim();
+                            //pLogException.Size = aChildNode.InnerText.Length;
                         }
                     }
 
@@ -208,8 +216,8 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            pLogSolution.Value = aChildNode.InnerText;
-                            pLogSolution.Size = aChildNode.InnerText.Length;
+                            pLogSolution.Value = aChildNode.InnerText.Trim();
+                            //pLogSolution.Size = aChildNode.InnerText.Length;
                         }
                     }
 

@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Classes
             m_dbCon = dbCon;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, Boolean bGenerateCSVs)
+        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder , Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
@@ -82,7 +82,7 @@ namespace CHaMPWorkbench.Classes
 
                         Site theSite = new Site(rVisit.CHAMP_SitesRow);                    
 
-                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bMakeDEMOrthogonal, bGenerateCSVs);
+                        Visit v = new Visit(rVisit, bCalculateMetrics, bChangeDetection, bMakeDEMOrthogonal, m_Config.Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation,bForcePrimary);
                         theSite.AddVisit(v);
                      
                         if (bIncludeOtherVisits)
@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes
                             {
                                 if (rOtherVisit.SiteID == rVisit.SiteID && rOtherVisit.VisitID != rVisit.VisitID)
                                 {
-                                    Visit vOther = new Visit(rOtherVisit, false, false, bMakeDEMOrthogonal, false);
+                                    Visit vOther = new Visit(rOtherVisit, false, false, bMakeDEMOrthogonal,false,bForcePrimary);
                                     theSite.AddVisit(vOther);
                                     //vOther.WriteToXML(ref xmlInput, sVisitTopofolder);
                                 }
@@ -100,7 +100,7 @@ namespace CHaMPWorkbench.Classes
                         pSummary.Value = theSite.NameForDatabaseBatch;
 
                         xmlInput.WriteStartElement("sites");
-                        theSite.WriteToXML(xmlInput, sParentTopoDataFolder);
+                        theSite.WriteToXML(xmlInput, sParentTopoDataFolder, bRequireWSTIN);
                         xmlInput.WriteEndElement(); // sites
 
                         // Write the end of the file
