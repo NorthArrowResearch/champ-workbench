@@ -172,7 +172,7 @@ namespace CHaMPWorkbench.Data
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
         {
-            String sSQL = "SELECT VisitID AS ID, HitchName, CrewName, VisitDate, ProgramSiteID AS SiteID, [Primary Visit] FROM VisitInformation WHERE (VisitID IS NOT NULL) AND (ProgramSiteID IS NOT NULL)";
+            String sSQL = "SELECT VisitID AS ID, HitchName, CrewName, VisitDate, ProgramSiteID AS SiteID, [Primary Visit], PanelName FROM VisitInformation WHERE (VisitID IS NOT NULL) AND (ProgramSiteID IS NOT NULL)";
             using (OleDbCommand dbCom = new OleDbCommand(sSQL, dbCHaMP))
             {
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
@@ -205,6 +205,11 @@ namespace CHaMPWorkbench.Data
                     r.SampleDate = (DateTime)dbRead["VisitDate"];
                     r.VisitYear = (short)r.SampleDate.Year;
 
+                    if (System.Convert.IsDBNull(dbRead["PanelName"]))
+                        r.SetPanelNameNull();
+                    else
+                        r.PanelName = (string)dbRead["PanelName"];
+
                     if (r.RowState == DataRowState.Detached)
                         dtWorkbench.AddCHAMP_VisitsRow(r);
                 }
@@ -221,6 +226,7 @@ namespace CHaMPWorkbench.Data
             dbCom.ExecuteNonQuery();
 
             // Now force a clea by trying to refill the datasets
+            ds.CHAMP_ChannelUnits.Clear();
             daSegments.Fill(ds.CHaMP_Segments);
             //daUnits.Fill(ds.CHAMP_ChannelUnits);
   

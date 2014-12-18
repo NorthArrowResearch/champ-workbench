@@ -89,7 +89,14 @@ namespace CHaMPWorkbench.Data
 
         private void cmdExploreSurveyData_Click(object sender, EventArgs e)
         {
-            Process.Start(txtSurveyPath.Text);
+            if (cmdExploreSurveyData.Image == CHaMPWorkbench.Properties.Resources.new_folder)
+            {
+
+            }
+            else
+            {
+                Process.Start(txtSurveyPath.Text);
+            }
         }
 
         private void cmdCopyOutput_Click(object sender, EventArgs e)
@@ -143,6 +150,8 @@ namespace CHaMPWorkbench.Data
         {
             string sResult = string.Empty;
             string sFinalResult = string.Empty;
+            int nVisitID = (int)dbRead["VisitID"];
+            bool bTopoFolderExists = false;
 
             if (!string.IsNullOrEmpty(sParent))
             {
@@ -169,7 +178,16 @@ namespace CHaMPWorkbench.Data
                                 {
                                     sTemp = GetSafeStringValue(dbRead, "VisitFolder");
                                     sFinalResult = sResult;
+                                    bTopoFolderExists = true;
                                 }
+                                else
+                                {
+
+                                }
+                            }
+                            else
+                            {
+                                sFinalResult = System.IO.Path.Combine(sResult,"Visit","Topo");
                             }
                         }
                     }
@@ -237,6 +255,11 @@ namespace CHaMPWorkbench.Data
             frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int) valVisitID.Value);
             if (frmInput.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void cmdNewSurveyFolder_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

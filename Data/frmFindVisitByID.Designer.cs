@@ -55,7 +55,7 @@
             this.label1.Location = new System.Drawing.Point(13, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Visit ID";
             // 
             // valVisitID
@@ -97,7 +97,7 @@
             this.groupBox1.Location = new System.Drawing.Point(16, 42);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(507, 192);
-            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visit Info";
             // 
@@ -107,7 +107,7 @@
             this.cmdInputXML.Location = new System.Drawing.Point(475, 139);
             this.cmdInputXML.Name = "cmdInputXML";
             this.cmdInputXML.Size = new System.Drawing.Size(23, 23);
-            this.cmdInputXML.TabIndex = 10;
+            this.cmdInputXML.TabIndex = 6;
             this.cmdInputXML.UseVisualStyleBackColor = true;
             this.cmdInputXML.Click += new System.EventHandler(this.cmdInputXML_Click);
             // 
@@ -117,17 +117,17 @@
             this.cmdRBTBatch.Location = new System.Drawing.Point(475, 163);
             this.cmdRBTBatch.Name = "cmdRBTBatch";
             this.cmdRBTBatch.Size = new System.Drawing.Size(23, 23);
-            this.cmdRBTBatch.TabIndex = 9;
+            this.cmdRBTBatch.TabIndex = 12;
             this.cmdRBTBatch.UseVisualStyleBackColor = true;
             this.cmdRBTBatch.Click += new System.EventHandler(this.button1_Click);
             // 
             // cmdCopyOutput
             // 
             this.cmdCopyOutput.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.cmdCopyOutput.Location = new System.Drawing.Point(421, 164);
+            this.cmdCopyOutput.Location = new System.Drawing.Point(422, 164);
             this.cmdCopyOutput.Name = "cmdCopyOutput";
             this.cmdCopyOutput.Size = new System.Drawing.Size(23, 23);
-            this.cmdCopyOutput.TabIndex = 8;
+            this.cmdCopyOutput.TabIndex = 9;
             this.cmdCopyOutput.UseVisualStyleBackColor = true;
             this.cmdCopyOutput.Click += new System.EventHandler(this.cmdCopyOutput_Click);
             // 
@@ -137,7 +137,7 @@
             this.cmdExplorerOutput.Location = new System.Drawing.Point(448, 164);
             this.cmdExplorerOutput.Name = "cmdExplorerOutput";
             this.cmdExplorerOutput.Size = new System.Drawing.Size(23, 23);
-            this.cmdExplorerOutput.TabIndex = 7;
+            this.cmdExplorerOutput.TabIndex = 11;
             this.cmdExplorerOutput.UseVisualStyleBackColor = true;
             this.cmdExplorerOutput.Click += new System.EventHandler(this.cmdExplorerOutput_Click);
             // 
@@ -146,17 +146,17 @@
             this.txtOutputPath.Location = new System.Drawing.Point(74, 165);
             this.txtOutputPath.Name = "txtOutputPath";
             this.txtOutputPath.ReadOnly = true;
-            this.txtOutputPath.Size = new System.Drawing.Size(341, 20);
-            this.txtOutputPath.TabIndex = 6;
+            this.txtOutputPath.Size = new System.Drawing.Size(342, 20);
+            this.txtOutputPath.TabIndex = 8;
             this.txtOutputPath.TextChanged += new System.EventHandler(this.txtOutputPath_TextChanged);
             // 
             // cmdCopySurveyData
             // 
             this.cmdCopySurveyData.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.cmdCopySurveyData.Location = new System.Drawing.Point(421, 138);
+            this.cmdCopySurveyData.Location = new System.Drawing.Point(422, 138);
             this.cmdCopySurveyData.Name = "cmdCopySurveyData";
             this.cmdCopySurveyData.Size = new System.Drawing.Size(23, 23);
-            this.cmdCopySurveyData.TabIndex = 5;
+            this.cmdCopySurveyData.TabIndex = 3;
             this.cmdCopySurveyData.UseVisualStyleBackColor = true;
             this.cmdCopySurveyData.Click += new System.EventHandler(this.cmdCopySurveyData_Click);
             // 
@@ -166,7 +166,7 @@
             this.cmdExploreSurveyData.Location = new System.Drawing.Point(448, 138);
             this.cmdExploreSurveyData.Name = "cmdExploreSurveyData";
             this.cmdExploreSurveyData.Size = new System.Drawing.Size(23, 23);
-            this.cmdExploreSurveyData.TabIndex = 4;
+            this.cmdExploreSurveyData.TabIndex = 5;
             this.cmdExploreSurveyData.UseVisualStyleBackColor = true;
             this.cmdExploreSurveyData.Click += new System.EventHandler(this.cmdExploreSurveyData_Click);
             // 
@@ -175,8 +175,8 @@
             this.txtSurveyPath.Location = new System.Drawing.Point(74, 139);
             this.txtSurveyPath.Name = "txtSurveyPath";
             this.txtSurveyPath.ReadOnly = true;
-            this.txtSurveyPath.Size = new System.Drawing.Size(341, 20);
-            this.txtSurveyPath.TabIndex = 3;
+            this.txtSurveyPath.Size = new System.Drawing.Size(342, 20);
+            this.txtSurveyPath.TabIndex = 2;
             this.txtSurveyPath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
@@ -185,7 +185,7 @@
             this.label3.Location = new System.Drawing.Point(7, 169);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 2;
+            this.label3.TabIndex = 7;
             this.label3.Text = "Outputs";
             // 
             // label2
@@ -213,7 +213,7 @@
             this.cmdClose.Location = new System.Drawing.Point(448, 240);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
-            this.cmdClose.TabIndex = 4;
+            this.cmdClose.TabIndex = 3;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
             // 
