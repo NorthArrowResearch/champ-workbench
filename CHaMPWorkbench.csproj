@@ -68,6 +68,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -117,6 +120,13 @@
     </Compile>
     <Compile Include="Data\frmScavengeVisitInfo.Designer.cs">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
+    <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Kelly\frmExtractRBTErrors.Designer.cs">
+      <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\Kelly\frmHydroModelInputs.cs">
       <SubType>Form</SubType>
@@ -227,6 +237,9 @@
     <EmbeddedResource Include="Data\frmScavengeVisitInfo.resx">
       <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
+      <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmHydroModelInputs.resx">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </EmbeddedResource>
@@ -280,7 +293,6 @@
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

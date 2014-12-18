@@ -387,5 +387,11 @@ namespace CHaMPWorkbench
                 }
             }
         }
+
+        private void extractRBTErrorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }
