@@ -159,6 +159,12 @@
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Habitat\frmHabitatBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Habitat\frmHabitatBatch.Designer.cs">
+      <DependentUpon>frmHabitatBatch.cs</DependentUpon>
+    </Compile>
     <Compile Include="RBT\frmRunBatches.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
+      <DependentUpon>frmHabitatBatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\frmRunBatches.resx">
       <DependentUpon>frmRunBatches.cs</DependentUpon>

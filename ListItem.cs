@@ -16,25 +16,26 @@ namespace CHaMPWorkbench
             m_nValue = nValue;
         }
 
-        public string Text
-        {
-            get
-            { 
-                return m_sText; 
-            }
-        }
+        public string Text { get { return m_sText; } }
 
-        public int Value
-        {
-            get 
-            { 
-                return m_nValue; 
-            }
-        }
+        public int Value { get { return m_nValue; } }
 
         public override string ToString()
         {
             return m_sText;
+        }
+    }
+
+    public class CheckedListItem : ListItem
+    {
+        private Boolean m_bChecked;
+
+        public Boolean Checked { get; set; }
+
+        public CheckedListItem(string sText, int nValue, Boolean bChecked = true)
+            : base(sText, nValue)
+        {
+            m_bChecked = bChecked;
         }
     }
 }

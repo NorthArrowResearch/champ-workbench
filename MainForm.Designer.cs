@@ -68,6 +68,7 @@
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hydroModelInputGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +80,8 @@
             this.aboutTheCHaMPWorkbenchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
-            this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.habitatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateBatchHabitatProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -94,8 +96,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(858, 35);
+            this.menuStrip1.Size = new System.Drawing.Size(572, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -109,46 +110,46 @@
             this.toolStripSeparator7,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openDatabaseToolStripMenuItem
             // 
             this.openDatabaseToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(296, 30);
+            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.openDatabaseToolStripMenuItem.Text = "Open Database...";
             this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseToolStripMenuItem_Click);
             // 
             // closeDatabaseToolStripMenuItem
             // 
             this.closeDatabaseToolStripMenuItem.Name = "closeDatabaseToolStripMenuItem";
-            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(296, 30);
+            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.closeDatabaseToolStripMenuItem.Text = "Close Database";
             this.closeDatabaseToolStripMenuItem.Click += new System.EventHandler(this.closeDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(293, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(212, 6);
             // 
             // openDatabaseInAccessToolStripMenuItem
             // 
             this.openDatabaseInAccessToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Access1;
             this.openDatabaseInAccessToolStripMenuItem.Name = "openDatabaseInAccessToolStripMenuItem";
-            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(296, 30);
+            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.openDatabaseInAccessToolStripMenuItem.Text = "Open Database in Access...";
             this.openDatabaseInAccessToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseInAccessToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(293, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(212, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(296, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -163,14 +164,14 @@
             this.toolStripSeparator8,
             this.findVisitByIDToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
-            this.dataToolStripMenuItem.Size = new System.Drawing.Size(61, 29);
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
             // 
             // unpackMonitoringData7ZipArchiveToolStripMenuItem
             // 
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(406, 30);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring data 7Zip Archive...";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
@@ -178,38 +179,38 @@
             // 
             this.scavengeVisitTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitTopoDataToolStripMenuItem.Name = "scavengeVisitTopoDataToolStripMenuItem";
-            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(406, 30);
+            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.scavengeVisitTopoDataToolStripMenuItem.Text = "Scavenge Visit Topo Data...";
             this.scavengeVisitTopoDataToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitTopoDataToolStripMenuItem_Click);
             // 
             // scavengeVisitDataFromCHaMPExportToolStripMenuItem
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Name = "scavengeVisitDataFromCHaMPExportToolStripMenuItem";
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(406, 30);
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Scavenge Visit Data From CHaMP Export";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(403, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(284, 6);
             // 
             // prepareDatabaseForDeploymentToolStripMenuItem
             // 
             this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(406, 30);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Prepare Database for Deployment...";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(403, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(284, 6);
             // 
             // findVisitByIDToolStripMenuItem
             // 
             this.findVisitByIDToolStripMenuItem.Name = "findVisitByIDToolStripMenuItem";
-            this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(406, 30);
+            this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.findVisitByIDToolStripMenuItem.Text = "Find Visit By ID";
             this.findVisitByIDToolStripMenuItem.Click += new System.EventHandler(this.findVisitByIDToolStripMenuItem_Click);
             // 
@@ -218,11 +219,12 @@
             this.rBTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rBTToolStripMenuItem1,
             this.gCDToolStripMenuItem,
+            this.habitatToolStripMenuItem,
             this.delft3DToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
-            this.rBTToolStripMenuItem.Size = new System.Drawing.Size(67, 29);
+            this.rBTToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.rBTToolStripMenuItem.Text = "Tools";
             // 
             // rBTToolStripMenuItem1
@@ -236,7 +238,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(160, 30);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -246,14 +248,14 @@
             this.batchToolStripMenuItem1});
             this.buildInputFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.xml;
             this.buildInputFilesToolStripMenuItem.Name = "buildInputFilesToolStripMenuItem";
-            this.buildInputFilesToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.buildInputFilesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.buildInputFilesToolStripMenuItem.Text = "Build Input File(s)";
             // 
             // singleToolStripMenuItem
             // 
             this.singleToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.xml;
             this.singleToolStripMenuItem.Name = "singleToolStripMenuItem";
-            this.singleToolStripMenuItem.Size = new System.Drawing.Size(144, 30);
+            this.singleToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.singleToolStripMenuItem.Text = "Single...";
             this.singleToolStripMenuItem.Click += new System.EventHandler(this.singleToolStripMenuItem_Click);
             // 
@@ -261,20 +263,20 @@
             // 
             this.batchToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml_batch;
             this.batchToolStripMenuItem1.Name = "batchToolStripMenuItem1";
-            this.batchToolStripMenuItem1.Size = new System.Drawing.Size(144, 30);
+            this.batchToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
             this.batchToolStripMenuItem1.Text = "Batch...";
             this.batchToolStripMenuItem1.Click += new System.EventHandler(this.batchToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
             // 
             // selectBatchesToRunToolStripMenuItem
             // 
             this.selectBatchesToRunToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.CheckControlNetwork;
             this.selectBatchesToRunToolStripMenuItem.Name = "selectBatchesToRunToolStripMenuItem";
-            this.selectBatchesToRunToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.selectBatchesToRunToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.selectBatchesToRunToolStripMenuItem.Text = "Select Batches to Run...";
             this.selectBatchesToRunToolStripMenuItem.Click += new System.EventHandler(this.selectBatchesToRunToolStripMenuItem_Click);
             // 
@@ -282,19 +284,19 @@
             // 
             this.runRBTConsoleBatchesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.runRBTConsoleBatchesToolStripMenuItem.Name = "runRBTConsoleBatchesToolStripMenuItem";
-            this.runRBTConsoleBatchesToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.runRBTConsoleBatchesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.runRBTConsoleBatchesToolStripMenuItem.Text = "Run Selected Batch Runs...";
             this.runRBTConsoleBatchesToolStripMenuItem.Click += new System.EventHandler(this.runRBTConsoleBatchesToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(287, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(210, 6);
             // 
             // scavengeRBTResultsToolStripMenuItem
             // 
             this.scavengeRBTResultsToolStripMenuItem.Name = "scavengeRBTResultsToolStripMenuItem";
-            this.scavengeRBTResultsToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.scavengeRBTResultsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.scavengeRBTResultsToolStripMenuItem.Text = "Scavenge RBT Results...";
             this.scavengeRBTResultsToolStripMenuItem.Click += new System.EventHandler(this.scavengeRBTResultsToolStripMenuItem_Click);
             // 
@@ -304,13 +306,13 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             // 
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
             // 
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Name = "generateGCDProjectFromCHaMPSiteToolStripMenuItem";
-            this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Size = new System.Drawing.Size(380, 30);
+            this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Size = new System.Drawing.Size(272, 22);
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem.Text = "Generate GCD Project for CHaMP Site";
             // 
             // delft3DToolStripMenuItem
@@ -318,25 +320,25 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             // 
             // cSVToRasterToolStripMenuItem
             // 
             this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
-            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -352,32 +354,32 @@
             this.philipBaileyToolStripMenuItem,
             this.saraBangenToolStripMenuItem});
             this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
-            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(125, 29);
+            this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.experimentalToolStripMenuItem.Text = "Experimental";
             // 
             // aboutExperimentalToolsToolStripMenuItem
             // 
             this.aboutExperimentalToolsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Help;
             this.aboutExperimentalToolsToolStripMenuItem.Name = "aboutExperimentalToolsToolStripMenuItem";
-            this.aboutExperimentalToolsToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.aboutExperimentalToolsToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.aboutExperimentalToolsToolStripMenuItem.Text = "About Experimental Tools...";
             this.aboutExperimentalToolsToolStripMenuItem.Click += new System.EventHandler(this.aboutExperimentalToolsToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(297, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(216, 6);
             // 
             // ericWallToolStripMenuItem
             // 
             this.ericWallToolStripMenuItem.Name = "ericWallToolStripMenuItem";
-            this.ericWallToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.ericWallToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.ericWallToolStripMenuItem.Text = "Eric Wall";
             // 
             // jamesHensleighToolStripMenuItem
             // 
             this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
-            this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
             // 
             // kellyWhiteheadToolStripMenuItem
@@ -386,20 +388,27 @@
             this.hydroModelInputGeneratorToolStripMenuItem,
             this.extractRBTErrorsToolStripMenuItem});
             this.kellyWhiteheadToolStripMenuItem.Name = "kellyWhiteheadToolStripMenuItem";
-            this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.kellyWhiteheadToolStripMenuItem.Text = "Kelly Whitehead";
             // 
             // hydroModelInputGeneratorToolStripMenuItem
             // 
             this.hydroModelInputGeneratorToolStripMenuItem.Name = "hydroModelInputGeneratorToolStripMenuItem";
-            this.hydroModelInputGeneratorToolStripMenuItem.Size = new System.Drawing.Size(320, 30);
+            this.hydroModelInputGeneratorToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
             this.hydroModelInputGeneratorToolStripMenuItem.Text = "Hydro Model Input Generator";
             this.hydroModelInputGeneratorToolStripMenuItem.Click += new System.EventHandler(this.hydroModelInputGeneratorToolStripMenuItem_Click);
+            // 
+            // extractRBTErrorsToolStripMenuItem
+            // 
+            this.extractRBTErrorsToolStripMenuItem.Name = "extractRBTErrorsToolStripMenuItem";
+            this.extractRBTErrorsToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.extractRBTErrorsToolStripMenuItem.Text = "Extract RBT Errors";
+            this.extractRBTErrorsToolStripMenuItem.Click += new System.EventHandler(this.extractRBTErrorsToolStripMenuItem_Click);
             // 
             // konradHaffenToolStripMenuItem
             // 
             this.konradHaffenToolStripMenuItem.Name = "konradHaffenToolStripMenuItem";
-            this.konradHaffenToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.konradHaffenToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.konradHaffenToolStripMenuItem.Text = "Konrad Hafen";
             // 
             // philipBaileyToolStripMenuItem
@@ -408,27 +417,27 @@
             this.testXPathReferencesToolStripMenuItem,
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
-            this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
             // 
             // testXPathReferencesToolStripMenuItem
             // 
             this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
-            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(385, 30);
+            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
             this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
             // 
             // queueBridgeCreekBatchesRBTRunsToolStripMenuItem
             // 
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Name = "queueBridgeCreekBatchesRBTRunsToolStripMenuItem";
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(385, 30);
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Click += new System.EventHandler(this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click);
             // 
             // saraBangenToolStripMenuItem
             // 
             this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
-            this.saraBangenToolStripMenuItem.Size = new System.Drawing.Size(300, 30);
+            this.saraBangenToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.saraBangenToolStripMenuItem.Text = "Sara Bangen";
             // 
             // aboutToolStripMenuItem
@@ -438,14 +447,14 @@
             this.checkForUpdatesToolStripMenuItem,
             this.aboutTheCHaMPWorkbenchToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(74, 29);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // cHaMPWorkbenchWebSiteToolStripMenuItem
             // 
             this.cHaMPWorkbenchWebSiteToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.WebSite;
             this.cHaMPWorkbenchWebSiteToolStripMenuItem.Name = "cHaMPWorkbenchWebSiteToolStripMenuItem";
-            this.cHaMPWorkbenchWebSiteToolStripMenuItem.Size = new System.Drawing.Size(336, 30);
+            this.cHaMPWorkbenchWebSiteToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.cHaMPWorkbenchWebSiteToolStripMenuItem.Text = "CHaMP Workbench Web Site";
             this.cHaMPWorkbenchWebSiteToolStripMenuItem.Click += new System.EventHandler(this.cHaMPWorkbenchWebSiteToolStripMenuItem_Click);
             // 
@@ -453,7 +462,7 @@
             // 
             this.checkForUpdatesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.update;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(336, 30);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
@@ -461,7 +470,7 @@
             // 
             this.aboutTheCHaMPWorkbenchToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.CHaMP_Logo_32;
             this.aboutTheCHaMPWorkbenchToolStripMenuItem.Name = "aboutTheCHaMPWorkbenchToolStripMenuItem";
-            this.aboutTheCHaMPWorkbenchToolStripMenuItem.Size = new System.Drawing.Size(336, 30);
+            this.aboutTheCHaMPWorkbenchToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.aboutTheCHaMPWorkbenchToolStripMenuItem.Text = "About the CHaMP Workbench...";
             this.aboutTheCHaMPWorkbenchToolStripMenuItem.Click += new System.EventHandler(this.aboutTheCHaMPWorkbenchToolStripMenuItem_Click);
             // 
@@ -469,36 +478,42 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssDatabasePath});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 476);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 307);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(858, 30);
+            this.statusStrip1.Size = new System.Drawing.Size(572, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tssDatabasePath
             // 
             this.tssDatabasePath.Name = "tssDatabasePath";
-            this.tssDatabasePath.Size = new System.Drawing.Size(181, 25);
+            this.tssDatabasePath.Size = new System.Drawing.Size(118, 17);
             this.tssDatabasePath.Text = "toolStripStatusLabel1";
             // 
-            // extractRBTErrorsToolStripMenuItem
+            // habitatToolStripMenuItem
             // 
-            this.extractRBTErrorsToolStripMenuItem.Name = "extractRBTErrorsToolStripMenuItem";
-            this.extractRBTErrorsToolStripMenuItem.Size = new System.Drawing.Size(320, 30);
-            this.extractRBTErrorsToolStripMenuItem.Text = "Extract RBT Errors";
-            this.extractRBTErrorsToolStripMenuItem.Click += new System.EventHandler(this.extractRBTErrorsToolStripMenuItem_Click);
+            this.habitatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateBatchHabitatProjectToolStripMenuItem});
+            this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.habitatToolStripMenuItem.Text = "Habitat";
+            // 
+            // generateBatchHabitatProjectToolStripMenuItem
+            // 
+            this.generateBatchHabitatProjectToolStripMenuItem.Name = "generateBatchHabitatProjectToolStripMenuItem";
+            this.generateBatchHabitatProjectToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.generateBatchHabitatProjectToolStripMenuItem.Text = "Generate Batch Habitat Project...";
+            this.generateBatchHabitatProjectToolStripMenuItem.Click += new System.EventHandler(this.generateBatchHabitatProjectToolStripMenuItem_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 506);
+            this.ClientSize = new System.Drawing.Size(572, 329);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "CHaMP Workbench";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -564,6 +579,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem findVisitByIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extractRBTErrorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem habitatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateBatchHabitatProjectToolStripMenuItem;
 
     }
 }

@@ -393,5 +393,11 @@ namespace CHaMPWorkbench
             Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void generateBatchHabitatProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch(m_dbCon);
+            frm.ShowDialog();
+        }
     }
 }
