@@ -39,29 +39,29 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chkVisitTypes = new System.Windows.Forms.CheckedListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkPrimary = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.grdVisits = new System.Windows.Forms.DataGridView();
-            this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
             this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
-            this.cmdBrowseMonitoringDataFolder = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cboHabitatModel = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.cmdHabitatModelDB = new System.Windows.Forms.Button();
             this.txtHabitatModelDB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cboHabitatModel = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmdBrowseMonitoringDataFolder = new System.Windows.Forms.Button();
+            this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -69,10 +69,10 @@
             this.tabPage4.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            this.tabPage6.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,21 +100,25 @@
             // 
             // chkFieldSeasons
             // 
+            this.chkFieldSeasons.CheckOnClick = true;
             this.chkFieldSeasons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkFieldSeasons.FormattingEnabled = true;
             this.chkFieldSeasons.Location = new System.Drawing.Point(3, 3);
             this.chkFieldSeasons.Name = "chkFieldSeasons";
             this.chkFieldSeasons.Size = new System.Drawing.Size(573, 167);
             this.chkFieldSeasons.TabIndex = 2;
+            this.chkFieldSeasons.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
             // chkWatersheds
             // 
+            this.chkWatersheds.CheckOnClick = true;
             this.chkWatersheds.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkWatersheds.FormattingEnabled = true;
             this.chkWatersheds.Location = new System.Drawing.Point(3, 3);
             this.chkWatersheds.Name = "chkWatersheds";
-            this.chkWatersheds.Size = new System.Drawing.Size(449, 140);
+            this.chkWatersheds.Size = new System.Drawing.Size(573, 167);
             this.chkWatersheds.TabIndex = 5;
+            this.chkWatersheds.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
             // tabControl1
             // 
@@ -145,7 +149,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(455, 146);
+            this.tabPage2.Size = new System.Drawing.Size(579, 173);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Watersheds";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -156,23 +160,25 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(455, 146);
+            this.tabPage3.Size = new System.Drawing.Size(579, 173);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Visit Types";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // chkVisitTypes
             // 
+            this.chkVisitTypes.CheckOnClick = true;
             this.chkVisitTypes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkVisitTypes.FormattingEnabled = true;
             this.chkVisitTypes.Location = new System.Drawing.Point(3, 3);
             this.chkVisitTypes.Name = "chkVisitTypes";
-            this.chkVisitTypes.Size = new System.Drawing.Size(449, 140);
+            this.chkVisitTypes.Size = new System.Drawing.Size(573, 167);
             this.chkVisitTypes.TabIndex = 0;
+            this.chkVisitTypes.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.checkBox3);
+            this.tabPage4.Controls.Add(this.chkPrimary);
             this.tabPage4.Controls.Add(this.checkBox2);
             this.tabPage4.Controls.Add(this.checkBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -183,18 +189,18 @@
             this.tabPage4.Text = "Other Criteria";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // chkPrimary
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(7, 7);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(162, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Must have topo data defined";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkPrimary.AutoSize = true;
+            this.chkPrimary.Checked = true;
+            this.chkPrimary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkPrimary.Location = new System.Drawing.Point(7, 53);
+            this.chkPrimary.Name = "chkPrimary";
+            this.chkPrimary.Size = new System.Drawing.Size(130, 17);
+            this.chkPrimary.TabIndex = 2;
+            this.chkPrimary.Text = "Must be a primary visit";
+            this.chkPrimary.UseVisualStyleBackColor = true;
+            this.chkPrimary.CheckedChanged += new System.EventHandler(this.FilterVisits);
             // 
             // checkBox2
             // 
@@ -209,17 +215,18 @@
             this.checkBox2.Text = "Must have hydraulic model output CSV defined";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkBox1
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(7, 53);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(130, 17);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Must be a primary visit";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(7, 7);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(162, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Must have topo data defined";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -245,34 +252,6 @@
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Visits";
             this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.cmdHabitatModelDB);
-            this.tabPage6.Controls.Add(this.txtHabitatModelDB);
-            this.tabPage6.Controls.Add(this.label3);
-            this.tabPage6.Controls.Add(this.cboHabitatModel);
-            this.tabPage6.Controls.Add(this.label2);
-            this.tabPage6.Controls.Add(this.cmdBrowseMonitoringDataFolder);
-            this.tabPage6.Controls.Add(this.txtMonitoringFolder);
-            this.tabPage6.Controls.Add(this.label1);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(664, 521);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "Habitat Model";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tabControl1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(599, 224);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Visit Filters";
             // 
             // groupBox2
             // 
@@ -342,49 +321,33 @@
             this.colFolder.ReadOnly = true;
             this.colFolder.Width = 300;
             // 
-            // label1
+            // groupBox1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 54);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Top level monitoring data folder";
+            this.groupBox1.Controls.Add(this.tabControl1);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(599, 224);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Visit Filters";
             // 
-            // txtMonitoringFolder
+            // tabPage6
             // 
-            this.txtMonitoringFolder.Location = new System.Drawing.Point(168, 50);
-            this.txtMonitoringFolder.Name = "txtMonitoringFolder";
-            this.txtMonitoringFolder.Size = new System.Drawing.Size(452, 20);
-            this.txtMonitoringFolder.TabIndex = 1;
-            // 
-            // cmdBrowseMonitoringDataFolder
-            // 
-            this.cmdBrowseMonitoringDataFolder.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseMonitoringDataFolder.Location = new System.Drawing.Point(626, 49);
-            this.cmdBrowseMonitoringDataFolder.Name = "cmdBrowseMonitoringDataFolder";
-            this.cmdBrowseMonitoringDataFolder.Size = new System.Drawing.Size(23, 23);
-            this.cmdBrowseMonitoringDataFolder.TabIndex = 2;
-            this.cmdBrowseMonitoringDataFolder.UseVisualStyleBackColor = true;
-            this.cmdBrowseMonitoringDataFolder.Click += new System.EventHandler(this.cmdBrowseMonitoringDataFolder_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(90, 89);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Habitat model";
-            // 
-            // cboHabitatModel
-            // 
-            this.cboHabitatModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboHabitatModel.FormattingEnabled = true;
-            this.cboHabitatModel.Location = new System.Drawing.Point(168, 85);
-            this.cboHabitatModel.Name = "cboHabitatModel";
-            this.cboHabitatModel.Size = new System.Drawing.Size(452, 21);
-            this.cboHabitatModel.TabIndex = 4;
+            this.tabPage6.Controls.Add(this.cmdHabitatModelDB);
+            this.tabPage6.Controls.Add(this.txtHabitatModelDB);
+            this.tabPage6.Controls.Add(this.label3);
+            this.tabPage6.Controls.Add(this.cboHabitatModel);
+            this.tabPage6.Controls.Add(this.label2);
+            this.tabPage6.Controls.Add(this.cmdBrowseMonitoringDataFolder);
+            this.tabPage6.Controls.Add(this.txtMonitoringFolder);
+            this.tabPage6.Controls.Add(this.label1);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(664, 521);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "Habitat Model";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // cmdHabitatModelDB
             // 
@@ -413,6 +376,50 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Habitat project database";
             // 
+            // cboHabitatModel
+            // 
+            this.cboHabitatModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboHabitatModel.FormattingEnabled = true;
+            this.cboHabitatModel.Location = new System.Drawing.Point(168, 85);
+            this.cboHabitatModel.Name = "cboHabitatModel";
+            this.cboHabitatModel.Size = new System.Drawing.Size(452, 21);
+            this.cboHabitatModel.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(90, 89);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Habitat model";
+            // 
+            // cmdBrowseMonitoringDataFolder
+            // 
+            this.cmdBrowseMonitoringDataFolder.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
+            this.cmdBrowseMonitoringDataFolder.Location = new System.Drawing.Point(626, 49);
+            this.cmdBrowseMonitoringDataFolder.Name = "cmdBrowseMonitoringDataFolder";
+            this.cmdBrowseMonitoringDataFolder.Size = new System.Drawing.Size(23, 23);
+            this.cmdBrowseMonitoringDataFolder.TabIndex = 2;
+            this.cmdBrowseMonitoringDataFolder.UseVisualStyleBackColor = true;
+            this.cmdBrowseMonitoringDataFolder.Click += new System.EventHandler(this.cmdBrowseMonitoringDataFolder_Click);
+            // 
+            // txtMonitoringFolder
+            // 
+            this.txtMonitoringFolder.Location = new System.Drawing.Point(168, 50);
+            this.txtMonitoringFolder.Name = "txtMonitoringFolder";
+            this.txtMonitoringFolder.Size = new System.Drawing.Size(452, 20);
+            this.txtMonitoringFolder.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(155, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Top level monitoring data folder";
+            // 
             // frmHabitatBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -432,11 +439,11 @@
             this.tabPage4.PerformLayout();
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
-            this.tabPage6.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).EndInit();
             this.ResumeLayout(false);
 
@@ -454,7 +461,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckedListBox chkVisitTypes;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox chkPrimary;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TabControl tabControl2;

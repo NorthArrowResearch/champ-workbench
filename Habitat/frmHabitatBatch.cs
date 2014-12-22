@@ -27,7 +27,7 @@ namespace CHaMPWorkbench.Habitat
             LoadFieldSeasons();
             LoadWatersheds();
             LoadVisitTypes();
-            LoadAllSites(sender, e);
+            LoadAllVisits();
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
                 txtMonitoringFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
@@ -62,7 +62,7 @@ namespace CHaMPWorkbench.Habitat
             }
         }
 
-        private void LoadAllSites(object sender, EventArgs e)
+        private void LoadAllVisits()
         {
 
             OleDbCommand dbCom = new OleDbCommand("SELECT VisitID, VisitYear, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS TopoFolder, HydraulicModelCSV, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder" +
@@ -92,9 +92,106 @@ namespace CHaMPWorkbench.Habitat
                 lVisits.Add(v);
             }
 
-            grdVisits.DataSource = null;
-            bindingSourceSelectedVisits.DataSource = lVisits;
-            grdVisits.DataSource = lVisits;
+            DataTable dt = ConvertListToDataTable(lVisits);
+            DataView dv = dt.AsDataView();
+            //grdVisits.DataSource = null;
+            //bindingSourceSelectedVisits.DataSource = dt;
+            grdVisits.DataSource = dv; // lVisits;
+        }
+
+        static DataTable ConvertListToDataTable(List<ViewVisit> list)
+        {
+            // New table.
+            DataTable table = new DataTable();
+
+            // Get max columns.
+            //int columns = 0;
+            //foreach (var array in list)
+            //{
+            //    if (array.Length > columns)
+            //    {
+            //        columns = array.Length;
+            //    }
+            //}
+
+            // Add columns.
+            //for (int i = 0; i < list.Count; i++)
+            //{
+            //    table.Columns.Add();
+            //}
+
+            table.Columns.Add(new DataColumn("VisitID", typeof(int)));
+            table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
+            table.Columns.Add(new DataColumn("SiteName", typeof(string)));
+            table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
+            table.Columns.Add(new DataColumn("PanelName", typeof(string)));
+            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
+
+            // Add rows.
+            object[] rowArray = new object[6];
+            foreach (ViewVisit v in list)
+            {
+                rowArray[0] = v.VisitID;
+                rowArray[1] =  v.FieldSeason;
+                rowArray[2] =  v.Site; 
+                rowArray[3] =  v.IsPrimary;
+                rowArray[4] =  v.Panel;
+                rowArray[5] = v.WatershedID;
+                table.Rows.Add(rowArray);
+            }
+
+            return table;
+        }
+
+        private void FilterVisits(object sender, EventArgs e)
+        {
+            // Filter the binding source.
+
+            bindingSourceSelectedVisits.Filter = "";
+
+            string sFilter = "";
+            string sValueList = "";
+
+            // Field Season Filter
+            foreach (ListItem l in chkFieldSeasons.CheckedItems)
+                sValueList += l.Value.ToString() + ", ";
+
+            if (!string.IsNullOrWhiteSpace(sValueList))
+                sFilter += String.Format(" FieldSeason IN ({0})", sValueList.Substring(0, sValueList.Length - 2));
+
+            // Watershed Filter
+            foreach (ListItem l in chkWatersheds.CheckedItems)
+                sValueList += l.Value.ToString() + ", ";
+
+            if (!string.IsNullOrWhiteSpace(sValueList))
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+
+                sFilter += String.Format(" WatershedID IN ({0})", sValueList.Substring(0, sValueList.Length - 2));
+            }
+
+            foreach (ListItem l in chkVisitTypes.CheckedItems)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += " PanelName = '" + l.ToString() + "' ";
+            }
+
+            if (chkPrimary.Checked)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += "IsPrimary = true";
+            }
+
+            if (grdVisits.DataSource is DataView)
+            {
+                // bindingSourceSelectedVisits.Filter = sFilter;
+                DataView dv = (DataView)grdVisits.DataSource;
+                dv.RowFilter = sFilter;
+                //grdVisits.Refresh();
+            }
         }
 
         private class ViewVisit
@@ -119,7 +216,7 @@ namespace CHaMPWorkbench.Habitat
             private string m_sSurveyGDB;
             private string m_sCSVFile;
 
-            public Int16 FieldSeason { get { return m_nFieldSeason; } }
+            public int FieldSeason { get { return (int)m_nFieldSeason; } }
             public string TopoFolder { get { return System.IO.Path.Combine(m_nFieldSeason.ToString(), m_sWatershedFolder, m_sSiteFolder, m_sTopoFolder); } }
             public string SurveyGDB { get { return System.IO.Path.Combine(TopoFolder, m_sSurveyGDB); } }
             public string HydraulicCSV { get { return System.IO.Path.Combine(TopoFolder, m_sCSVFile); } }
