@@ -13,6 +13,7 @@ namespace CHaMPWorkbench.Habitat
     public partial class frmHabitatBatch : Form
     {
         private OleDbConnection m_dbCon;
+        private const int m_nSelectionColumnIndex = 0;
 
         public frmHabitatBatch(OleDbConnection dbCon)
         {
@@ -64,83 +65,57 @@ namespace CHaMPWorkbench.Habitat
 
         private void LoadAllVisits()
         {
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("VisitID", typeof(int)));
+            table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
+            table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
+            table.Columns.Add(new DataColumn("PanelName", typeof(string)));
+            table.Columns.Add(new DataColumn("SurveyGDB", typeof(string)));
+            table.Columns.Add(new DataColumn("VisitFolder", typeof(string)));
+            table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
 
-            OleDbCommand dbCom = new OleDbCommand("SELECT VisitID, VisitYear, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS TopoFolder, HydraulicModelCSV, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder" +
+            table.Columns.Add(new DataColumn("SiteID", typeof(int)));
+            table.Columns.Add(new DataColumn("SiteName", typeof(string)));
+            table.Columns.Add(new DataColumn("SiteFolder", typeof(string)));
+
+            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
+            table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
+            table.Columns.Add(new DataColumn("WatershedFolder", typeof(string)));
+
+            table.Columns.Add(new DataColumn("TopoFolder", typeof(string)));
+
+            OleDbCommand dbCom = new OleDbCommand("SELECT" +
+            " VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
+            " CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, " +
+            "CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder" +
                 " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
                 " WHERE (((CHAMP_Visits.SurveyGDB) Is Not Null) AND ((CHAMP_Visits.Folder) Is Not Null) AND ((CHAMP_Visits.HydraulicModelCSV) Is Not Null) AND ((CHAMP_Sites.Folder) Is Not Null) AND ((CHAMP_Watersheds.Folder) Is Not Null))" +
                 " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName", m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
-            List<ViewVisit> lVisits = new List<ViewVisit>();
+
+            object[] rowArray = new object[table.Columns.Count];
             while (dbRead.Read())
             {
-                ViewVisit v = new ViewVisit(
-                    (int)dbRead["VisitID"],
-                    (string)dbRead["TopoFolder"],
-                    (string)dbRead["SurveyGDB"],
-                    (string)dbRead["HydraulicModelCSV"],
-                    (Int16)dbRead["VisitYear"],
-                    (int)dbRead["WatershedID"],
-                    (string)dbRead["WatershedFolder"],
-                    (string)dbRead["WatershedName"],
-                    (int)dbRead["SiteID"],
-                    (string)dbRead["SiteFolder"],
-                    (string)dbRead["SiteName"],
-                    (string)dbRead["PanelName"],
-                    (bool)dbRead["IsPrimary"]
-              );
-
-                lVisits.Add(v);
-            }
-
-            DataTable dt = ConvertListToDataTable(lVisits);
-            DataView dv = dt.AsDataView();
-            //grdVisits.DataSource = null;
-            //bindingSourceSelectedVisits.DataSource = dt;
-            grdVisits.DataSource = dv; // lVisits;
-        }
-
-        static DataTable ConvertListToDataTable(List<ViewVisit> list)
-        {
-            // New table.
-            DataTable table = new DataTable();
-
-            // Get max columns.
-            //int columns = 0;
-            //foreach (var array in list)
-            //{
-            //    if (array.Length > columns)
-            //    {
-            //        columns = array.Length;
-            //    }
-            //}
-
-            // Add columns.
-            //for (int i = 0; i < list.Count; i++)
-            //{
-            //    table.Columns.Add();
-            //}
-
-            table.Columns.Add(new DataColumn("VisitID", typeof(int)));
-            table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
-            table.Columns.Add(new DataColumn("SiteName", typeof(string)));
-            table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
-            table.Columns.Add(new DataColumn("PanelName", typeof(string)));
-            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
-
-            // Add rows.
-            object[] rowArray = new object[6];
-            foreach (ViewVisit v in list)
-            {
-                rowArray[0] = v.VisitID;
-                rowArray[1] =  v.FieldSeason;
-                rowArray[2] =  v.Site; 
-                rowArray[3] =  v.IsPrimary;
-                rowArray[4] =  v.Panel;
-                rowArray[5] = v.WatershedID;
+                rowArray[0] = false;
+                rowArray[1] = (int)(Int16)dbRead["FieldSeason"];
+                rowArray[2] = (bool)dbRead["IsPrimary"];
+                rowArray[3] = (string)dbRead["PanelName"];
+                rowArray[4] = (string)dbRead["SurveyGDB"];
+                rowArray[5] = (string)dbRead["VisitFolder"];
+                rowArray[6] = (string)dbRead["HydraulicModelCSV"];
+                rowArray[7] = (int)dbRead["SiteID"];
+                rowArray[8] = (string)dbRead["SiteName"];
+                rowArray[9] = (string)dbRead["SiteFolder"];
+                rowArray[10] = (int)dbRead["WatershedID"];
+                rowArray[11] = (string)dbRead["WatershedName"];
+                rowArray[12] = (string)dbRead["WatershedFolder"];
+                rowArray[13] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
                 table.Rows.Add(rowArray);
             }
 
-            return table;
+            //grdVisits.DataSource = null;
+            //bindingSourceSelectedVisits.DataSource = dt;
+            grdVisits.DataSource = table.AsDataView(); // lVisits;
         }
 
         private void FilterVisits(object sender, EventArgs e)
@@ -150,34 +125,10 @@ namespace CHaMPWorkbench.Habitat
             bindingSourceSelectedVisits.Filter = "";
 
             string sFilter = "";
-            string sValueList = "";
-
-            // Field Season Filter
-            foreach (ListItem l in chkFieldSeasons.CheckedItems)
-                sValueList += l.Value.ToString() + ", ";
-
-            if (!string.IsNullOrWhiteSpace(sValueList))
-                sFilter += String.Format(" FieldSeason IN ({0})", sValueList.Substring(0, sValueList.Length - 2));
-
-            // Watershed Filter
-            foreach (ListItem l in chkWatersheds.CheckedItems)
-                sValueList += l.Value.ToString() + ", ";
-
-            if (!string.IsNullOrWhiteSpace(sValueList))
-            {
-                if (!string.IsNullOrWhiteSpace(sFilter))
-                    sFilter += " AND ";
-
-                sFilter += String.Format(" WatershedID IN ({0})", sValueList.Substring(0, sValueList.Length - 2));
-            }
-
-            foreach (ListItem l in chkVisitTypes.CheckedItems)
-            {
-                if (!string.IsNullOrWhiteSpace(sFilter))
-                    sFilter += " AND ";
-                sFilter += " PanelName = '" + l.ToString() + "' ";
-            }
-
+            AddCheckedListboxFilter(ref chkFieldSeasons, ref sFilter, "FieldSeason");
+            AddCheckedListboxFilter(ref chkWatersheds, ref sFilter, "WatershedID");
+            AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
+            
             if (chkPrimary.Checked)
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
@@ -194,67 +145,87 @@ namespace CHaMPWorkbench.Habitat
             }
         }
 
-        private class ViewVisit
+        private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
         {
-            private int m_nVisitID;
-            private Int16 m_nFieldSeason;
-            private string m_sPanel;
-            private Boolean m_bIsPrimary;
-
-            private string m_sWatershed;
-            private int m_nWatershedID;
-            private string m_sWatershedFolder;
-
-            private int m_nSiteID;
-            private string m_sSite;
-            private string m_sSiteFolder;
-
-            private bool m_bSelected;
-
-            public int VisitID { get { return m_nVisitID; } }
-            private string m_sTopoFolder;
-            private string m_sSurveyGDB;
-            private string m_sCSVFile;
-
-            public int FieldSeason { get { return (int)m_nFieldSeason; } }
-            public string TopoFolder { get { return System.IO.Path.Combine(m_nFieldSeason.ToString(), m_sWatershedFolder, m_sSiteFolder, m_sTopoFolder); } }
-            public string SurveyGDB { get { return System.IO.Path.Combine(TopoFolder, m_sSurveyGDB); } }
-            public string HydraulicCSV { get { return System.IO.Path.Combine(TopoFolder, m_sCSVFile); } }
-
-            public string Watershed { get { return m_sWatershed; } }
-            public int WatershedID { get { return m_nWatershedID; } }
-
-            public string Site { get { return m_sSite; } }
-            public int SiteID { get { return m_nSiteID; } }
-
-            public bool Selected { get { return m_bSelected; } set { m_bSelected = value; } }
-            public string Panel { get { return m_sPanel; } }
-            public bool IsPrimary { get { return m_bIsPrimary; } }
-
-            public ViewVisit(int nVisitID, string sVisitTopoFolder, string sSurveyGDB, string sCSVFile, Int16 nFieldSeason,
-                int nWatershedID, string sWatershedFolder, string sWatershed,
-                int nSiteID, string sSite, string sSiteFolder,
-                string sPanel, Boolean bIsPrimary)
+            string sValueList = "";
+            foreach (ListItem l in lst.CheckedItems)
             {
-                m_nVisitID = nVisitID;
-                m_sTopoFolder = sVisitTopoFolder;
-                m_sSurveyGDB = sSurveyGDB;
-                m_sCSVFile = sCSVFile;
-                m_nFieldSeason = nFieldSeason;
+                if (bUseNameInsteadOfValue)
+                      sValueList += "'" + l.ToString() + "', ";
+                else
+                    sValueList += l.Value.ToString() + ", ";
+          }
 
-                m_nWatershedID = nWatershedID;
-                m_sWatershed = sWatershed;
-                m_sWatershedFolder = sWatershedFolder;
+            if (!string.IsNullOrWhiteSpace(sValueList))
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
 
-                m_nSiteID = nSiteID;
-                m_sSite = sSite;
-                m_sSiteFolder = sSiteFolder;
-
-                m_sPanel = sPanel;
-                m_bIsPrimary = bIsPrimary;
-                m_bSelected = true;
+                sFilter += String.Format(" {0} IN ({1})", sPropertyName, sValueList.Substring(0, sValueList.Length - 2));
             }
         }
+
+        //private class ViewVisit
+        //{
+        //    private int m_nVisitID;
+        //    private Int16 m_nFieldSeason;
+        //    private string m_sPanel;
+        //    private Boolean m_bIsPrimary;
+
+        //    private string m_sWatershed;
+        //    private int m_nWatershedID;
+        //    private string m_sWatershedFolder;
+
+        //    private int m_nSiteID;
+        //    private string m_sSite;
+        //    private string m_sSiteFolder;
+
+        //    private bool m_bSelected;
+
+        //    public int VisitID { get { return m_nVisitID; } }
+        //    private string m_sTopoFolder;
+        //    private string m_sSurveyGDB;
+        //    private string m_sCSVFile;
+
+        //    public int FieldSeason { get { return (int)m_nFieldSeason; } }
+        //    public string TopoFolder { get { return System.IO.Path.Combine(m_nFieldSeason.ToString(), m_sWatershedFolder, m_sSiteFolder, m_sTopoFolder); } }
+        //    public string SurveyGDB { get { return System.IO.Path.Combine(TopoFolder, m_sSurveyGDB); } }
+        //    public string HydraulicCSV { get { return System.IO.Path.Combine(TopoFolder, m_sCSVFile); } }
+
+        //    public string Watershed { get { return m_sWatershed; } }
+        //    public int WatershedID { get { return m_nWatershedID; } }
+
+        //    public string Site { get { return m_sSite; } }
+        //    public int SiteID { get { return m_nSiteID; } }
+
+        //    public bool Selected { get { return m_bSelected; } set { m_bSelected = value; } }
+        //    public string Panel { get { return m_sPanel; } }
+        //    public bool IsPrimary { get { return m_bIsPrimary; } }
+
+        //    public ViewVisit(int nVisitID, string sVisitTopoFolder, string sSurveyGDB, string sCSVFile, Int16 nFieldSeason,
+        //        int nWatershedID, string sWatershedFolder, string sWatershed,
+        //        int nSiteID, string sSite, string sSiteFolder,
+        //        string sPanel, Boolean bIsPrimary)
+        //    {
+        //        m_nVisitID = nVisitID;
+        //        m_sTopoFolder = sVisitTopoFolder;
+        //        m_sSurveyGDB = sSurveyGDB;
+        //        m_sCSVFile = sCSVFile;
+        //        m_nFieldSeason = nFieldSeason;
+
+        //        m_nWatershedID = nWatershedID;
+        //        m_sWatershed = sWatershed;
+        //        m_sWatershedFolder = sWatershedFolder;
+
+        //        m_nSiteID = nSiteID;
+        //        m_sSite = sSite;
+        //        m_sSiteFolder = sSiteFolder;
+
+        //        m_sPanel = sPanel;
+        //        m_bIsPrimary = bIsPrimary;
+        //        m_bSelected = true;
+        //    }
+        //}
 
         private void cmdHabitatModelDB_Click(object sender, EventArgs e)
         {
@@ -301,6 +272,27 @@ namespace CHaMPWorkbench.Habitat
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     cboHabitatModel.Items.Add(new ListItem((string)dbRead["Title"], (int)dbRead["HSIID"]));
+            }
+        }
+
+        private void cmdSelectAll_Click(object sender, EventArgs e)
+        {
+            ChangeSelection(true);
+        }
+
+        private void cmdSelectNone_Click(object sender, EventArgs e)
+        {
+            ChangeSelection(false);
+        }
+
+        private void ChangeSelection(bool bSelect)
+        {
+            foreach (DataGridViewRow r in grdVisits.Rows)
+            {
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell ) r.Cells[m_nSelectionColumnIndex];
+                chk.Value = bSelect;
+                //DataRow dr = (DataRow)r.DataBoundItem;
+                //dr.ItemArray[m_nSelectionColumnIndex] = bSelect;
             }
         }
     }
