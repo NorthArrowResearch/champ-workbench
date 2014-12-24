@@ -117,19 +117,20 @@ namespace CHaMPWorkbench.Habitat
             while (dbRead.Read())
             {
                 rowArray[0] = false;
-                rowArray[1] = (int)(Int16)dbRead["FieldSeason"];
-                rowArray[2] = (bool)dbRead["IsPrimary"];
-                rowArray[3] = (string)dbRead["PanelName"];
-                rowArray[4] = (string)dbRead["SurveyGDB"];
-                rowArray[5] = (string)dbRead["VisitFolder"];
-                rowArray[6] = (string)dbRead["HydraulicModelCSV"];
-                rowArray[7] = (int)dbRead["SiteID"];
-                rowArray[8] = (string)dbRead["SiteName"];
-                rowArray[9] = (string)dbRead["SiteFolder"];
-                rowArray[10] = (int)dbRead["WatershedID"];
-                rowArray[11] = (string)dbRead["WatershedName"];
-                rowArray[12] = (string)dbRead["WatershedFolder"];
-                rowArray[13] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
+                rowArray[1] = (int)dbRead["VisitID"];
+                rowArray[2] = (int)(Int16)dbRead["FieldSeason"];
+                rowArray[3] = (bool)dbRead["IsPrimary"];
+                rowArray[4] = (string)dbRead["PanelName"];
+                rowArray[5] = (string)dbRead["SurveyGDB"];
+                rowArray[6] = (string)dbRead["VisitFolder"];
+                rowArray[7] = (string)dbRead["HydraulicModelCSV"];
+                rowArray[8] = (int)dbRead["SiteID"];
+                rowArray[9] = (string)dbRead["SiteName"];
+                rowArray[10] = (string)dbRead["SiteFolder"];
+                rowArray[11] = (int)dbRead["WatershedID"];
+                rowArray[12] = (string)dbRead["WatershedName"];
+                rowArray[13] = (string)dbRead["WatershedFolder"];
+                rowArray[14] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
 
                 // TODO: load the species presence absence attributes into the table
 
@@ -318,7 +319,7 @@ namespace CHaMPWorkbench.Habitat
                 DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
                 chk.Value = bSelect;
                 //DataRow dr = (DataRow)r.DataBoundItem;
-                //dr.ItemArray[m_nSelectionColumnIndex] = bSelect;
+                //dr.ItemArray["VisitID"] = bSelect;
             }
         }
 
@@ -333,6 +334,47 @@ namespace CHaMPWorkbench.Habitat
             {
                 m_sFieldName = sFieldName;
             }
+        }
+
+        private void cmdOK_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm())
+            {
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                return;
+            }
+
+            int nSuccess = 0;
+            int nError = 0;
+            try
+            {
+                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text);
+                List<int> lVisitIDs = new List<int>();
+                foreach (DataGridViewRow r in grdVisits.Rows)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
+                    if ((bool)chk.Value)
+                    {
+                        DataRow dr = (DataRow) r.DataBoundItem;
+                        lVisitIDs.Add((int) dr["VisitID"]);
+                    }
+                }
+
+                theBuilder.BuildBatch(lVisitIDs, ((ListItem)cboHabitatModel.SelectedItem).Value, ref nSuccess, ref nError);
+
+                MessageBox.Show(String.Format("Complete. {0} successful simulations added, and {1} simulations encountered errors.", nSuccess, nError), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private bool ValidateForm()
+        {
+
+
+            return true;
         }
     }
 }
