@@ -142,7 +142,7 @@ namespace HMUI.Classes
                 return;
             }
 
-            string sConString = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sProjectPath);
+            string sConString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + sProjectPath;
             System.Diagnostics.Debug.WriteLine("Opening project database at: " + sProjectPath);
             m_dbCon = new OleDbConnection(sConString);
             m_dbCon.Open();

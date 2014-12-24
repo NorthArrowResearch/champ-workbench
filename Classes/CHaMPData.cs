@@ -21,6 +21,8 @@ namespace CHaMPWorkbench.Classes
 
         public CHaMPData(ref System.Data.OleDb.OleDbConnection dbCon)
         {
+            m_dsWorkbench = new RBTWorkbenchDataSet();
+
             // Load the CHaMP Workbench information about visits
             taWatersheds.Connection = dbCon;
             taSites.Connection = dbCon;

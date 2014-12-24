@@ -32,12 +32,12 @@ namespace CHaMPWorkbench.Habitat
             LoadVisitTypes();
 
             // Load all the species into the checked listbox BEFORE loading all the visit data
-            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1));
-            chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2));
-            chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3));
-            chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4));
-            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5));
-            chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6));
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1),true);
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2), true);
+            chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3), true);
+            chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4), true);
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5), true);
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6), true);
 
             LoadAllVisits();
 
@@ -77,6 +77,7 @@ namespace CHaMPWorkbench.Habitat
         private void LoadAllVisits()
         {
             DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("Selected", typeof(bool)));
             table.Columns.Add(new DataColumn("VisitID", typeof(int)));
             table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
             table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
@@ -84,20 +85,15 @@ namespace CHaMPWorkbench.Habitat
             table.Columns.Add(new DataColumn("SurveyGDB", typeof(string)));
             table.Columns.Add(new DataColumn("VisitFolder", typeof(string)));
             table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
-
-            table.Columns.Add(new DataColumn("SiteID", typeof(int)));
             table.Columns.Add(new DataColumn("SiteName", typeof(string)));
             table.Columns.Add(new DataColumn("SiteFolder", typeof(string)));
-
-            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
+            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));     
             table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
             table.Columns.Add(new DataColumn("WatershedFolder", typeof(string)));
-
             table.Columns.Add(new DataColumn("TopoFolder", typeof(string)));
 
             string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
-             " CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, " +
-             "CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder";
+             " CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder";
 
             // Add the species to the SQL query and also to the receiving database table
             foreach (SpeciesListItem sli in chkSpecies.Items)
@@ -124,13 +120,12 @@ namespace CHaMPWorkbench.Habitat
                 rowArray[5] = (string)dbRead["SurveyGDB"];
                 rowArray[6] = (string)dbRead["VisitFolder"];
                 rowArray[7] = (string)dbRead["HydraulicModelCSV"];
-                rowArray[8] = (int)dbRead["SiteID"];
-                rowArray[9] = (string)dbRead["SiteName"];
-                rowArray[10] = (string)dbRead["SiteFolder"];
-                rowArray[11] = (int)dbRead["WatershedID"];
-                rowArray[12] = (string)dbRead["WatershedName"];
-                rowArray[13] = (string)dbRead["WatershedFolder"];
-                rowArray[14] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
+                rowArray[8] = (string)dbRead["SiteName"];
+                rowArray[9] = (string)dbRead["SiteFolder"];
+                rowArray[10] = (int)dbRead["WatershedID"];
+                rowArray[11] = (string)dbRead["WatershedName"];
+                rowArray[12] = (string)dbRead["WatershedFolder"];
+                rowArray[13] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
 
                 // TODO: load the species presence absence attributes into the table
 
@@ -154,7 +149,7 @@ namespace CHaMPWorkbench.Habitat
             AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
 
             for (int i = 0; i < chkSpecies.Items.Count; i++)
-                sFilter += string.Format(" AND {0} = {1}", ((SpeciesListItem)chkSpecies.Items[i]).FieldName, chkSpecies.GetItemChecked(i).ToString());
+               // sFilter += string.Format(" AND {0} = {1}", ((SpeciesListItem)chkSpecies.Items[i]).FieldName, chkSpecies.GetItemChecked(i).ToString());
 
             if (chkPrimary.Checked)
             {
@@ -355,8 +350,8 @@ namespace CHaMPWorkbench.Habitat
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
                     if ((bool)chk.Value)
                     {
-                        DataRow dr = (DataRow) r.DataBoundItem;
-                        lVisitIDs.Add((int) dr["VisitID"]);
+                        DataRowView dr = (DataRowView)r.DataBoundItem;
+                        lVisitIDs.Add((int)dr["VisitID"]);
                     }
                 }
 
