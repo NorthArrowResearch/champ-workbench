@@ -10,11 +10,11 @@ using System.Data.OleDb;
 
 namespace CHaMPWorkbench.Data
 {
-    public partial class frmScavengeVisitInfo : Form
+    public partial class frmImportCHaMPInfo : Form
     {
         private OleDbConnection m_dbCon;
 
-        public frmScavengeVisitInfo(OleDbConnection dbCon)
+        public frmImportCHaMPInfo(OleDbConnection dbCon)
         {
             InitializeComponent();
             m_dbCon = dbCon;
@@ -22,23 +22,7 @@ namespace CHaMPWorkbench.Data
 
         private void cmdBrowse_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select CHaMP All Measurements Access Database";
-            dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb";
-
-            if (!String.IsNullOrWhiteSpace(txtDatabase.Text) && System.IO.File.Exists(txtDatabase.Text))
-            {
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(txtDatabase.Text);
-                dlg.FileName = System.IO.Path.GetFileName(txtDatabase.Text);
-            }
-            else
-            {
-                System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
-            }
-
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtDatabase.Text = dlg.FileName;
+            BrowseDatabase(ref txtDatabase, "Select CHaMP All Measurements Access Database");
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -50,11 +34,23 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
+            string sSurveyDesign = "";
+            if (chkImportFish.Checked && String.IsNullOrWhiteSpace(txtDatabase.Text) || !System.IO.File.Exists(txtDatabase.Text))
+            {
+                MessageBox.Show("Please enter a valid path to the CHaMP exported 'Survey Design' Access database.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                return;
+            }
+            else
+            {
+                sSurveyDesign = txtSurveyDesign.Text;
+            }
+
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-              String sMsg =  ScavengeVisitInfo(txtDatabase.Text);
-              MessageBox.Show(sMsg, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                String sMsg = ScavengeVisitInfo(txtDatabase.Text, sSurveyDesign);
+                MessageBox.Show(sMsg, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -67,8 +63,8 @@ namespace CHaMPWorkbench.Data
 
         }
 
-        private String ScavengeVisitInfo(String sDatabasePath)
-        {        
+        private String ScavengeVisitInfo(String sDatabasePath, string sSurveyDesignDB)
+        {
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
@@ -103,6 +99,9 @@ namespace CHaMPWorkbench.Data
                 UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
                 UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
                 UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
+
+                if (chkImportFish.Checked)
+                    UpdateSiteFishInfo(daSites, ds.CHAMP_Sites, sSurveyDesignDB);
             }
 
             String sMsg = "Process completed successfully.";
@@ -126,7 +125,7 @@ namespace CHaMPWorkbench.Data
                     if (r == null)
                     {
                         r = dtWorkbench.NewCHAMP_WatershedsRow();
-                        r.WatershedID= (int)dbRead["WatershedID"];
+                        r.WatershedID = (int)dbRead["WatershedID"];
                         r.WatershedName = (string)dbRead["WatershedName"];
                         r.SetFolderNull();
                         dtWorkbench.AddCHAMP_WatershedsRow(r);
@@ -170,6 +169,47 @@ namespace CHaMPWorkbench.Data
             }
         }
 
+        private void UpdateSiteFishInfo(RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter da, RBTWorkbenchDataSet.CHAMP_SitesDataTable dtWorkbench, string sSurveyDesignDB)
+        {
+            String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sSurveyDesignDB);
+            OleDbConnection conSurveyDesign = new OleDbConnection(sDB);
+            conSurveyDesign.Open();
+
+            OleDbCommand comSurveyDesign = new OleDbCommand("SELECT UC_CHIN, SN_CHIN, LC_STEEL, MC_STEEL, UC_STEEL, SN_STEEL FROM 2_MasterSample_All WHERE (Site_ID = ?) AND (WatershedName = ?)", conSurveyDesign);
+            OleDbParameter pSiteID = comSurveyDesign.Parameters.Add("SiteID", OleDbType.VarChar);
+            OleDbParameter pWatershedName = comSurveyDesign.Parameters.Add("WatershedName", OleDbType.VarChar);
+
+            string[] sFishFields = { "UC_Chin", "SN_Chin", "LC_Steel", "MC_STeel", "UC_Steel", "SN_Steel" };
+
+            // Loop over all sites stored in the workbench database
+            foreach (RBTWorkbenchDataSet.CHAMP_SitesRow rSite in dtWorkbench)
+            {
+                // Query the record for this site in the survey design database
+                pSiteID.Value = rSite.SiteName;
+                pWatershedName.Value = rSite.CHAMP_WatershedsRow.WatershedName;
+                OleDbDataReader dbRead = comSurveyDesign.ExecuteReader();
+                if (dbRead.Read())
+                {
+                    // Loop over all the fish presence fields (must be named same in both DBs)
+                    foreach (string aField in sFishFields)
+                    {
+                        if (DBNull.Value == dbRead[aField])
+                            rSite[aField] = DBNull.Value;
+                        else
+                            rSite[aField] = !string.IsNullOrWhiteSpace((string)dbRead[aField]);
+                    }
+                }
+                else
+                {
+                    // No site in survey design. Set all fish related information to Null
+                    foreach (string aField in sFishFields)
+                        rSite[aField] = DBNull.Value;
+                }
+                dbRead.Close();
+            }
+            da.Update(dtWorkbench);
+        }
+
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
         {
             String sSQL = "SELECT VisitID AS ID, HitchName, CrewName, VisitDate, ProgramSiteID AS SiteID, [Primary Visit], PanelName FROM VisitInformation WHERE (VisitID IS NOT NULL) AND (ProgramSiteID IS NOT NULL)";
@@ -198,8 +238,8 @@ namespace CHaMPWorkbench.Data
                     r.IsPrimary = System.Convert.IsDBNull(dbRead["Primary Visit"]) || string.Compare((string)dbRead["Primary Visit"], "Yes", true) != 0;
 
                     //if (System.Convert.IsDBNull(dbRead["HitchID"]))
-                        r.SetHitchIDNull();
-                   // else
+                    r.SetHitchIDNull();
+                    // else
                     //    r.HitchID = (int)dbRead["HitchID"];
 
                     r.SampleDate = (DateTime)dbRead["VisitDate"];
@@ -229,7 +269,7 @@ namespace CHaMPWorkbench.Data
             ds.CHAMP_ChannelUnits.Clear();
             daSegments.Fill(ds.CHaMP_Segments);
             //daUnits.Fill(ds.CHAMP_ChannelUnits);
-  
+
             sSQL = "SELECT VisitID, SegmentNumber, SegmentType FROM ChannelSegment WHERE (VisitID IS NOT NULL) AND (SegmentNumber IS NOT NULL) AND (SegmentType IS NOT NULL)";
             dbCom = new OleDbCommand(sSQL, dbCHaMP);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
@@ -243,12 +283,12 @@ namespace CHaMPWorkbench.Data
             }
             daSegments.Update(ds.CHaMP_Segments);
             dbRead.Close();
-            
+
             // Now generate fake segments for prior year visits
 
             //sSQL = "INSERT INTO CHAMP_Segments (VisitID, SegmentNumber, SegmentName) SELECT VisitID, 1, 'Main Channel' FROM CHaMP_Visits WHERE (VisitYear < 2014) AND VisitID NOT IN (SELECT VisitID FROM CHaMP_Segments GROUP BY VisitID)";
-           // dbCom = new OleDbCommand(sSQL, m_dbCon);
-           // dbCom.ExecuteNonQuery();
+            // dbCom = new OleDbCommand(sSQL, m_dbCon);
+            // dbCom.ExecuteNonQuery();
 
             // Reload the datasets
             daSegments.Fill(ds.CHaMP_Segments);
@@ -272,7 +312,7 @@ namespace CHaMPWorkbench.Data
             OleDbParameter pSand0062 = comInsert.Parameters.Add("Sand0062", OleDbType.Integer);
             OleDbParameter pFinesLT006 = comInsert.Parameters.Add("FinesLT006", OleDbType.Integer);
             OleDbParameter pSumSubstrateCover = comInsert.Parameters.Add("SumSubstrateCover", OleDbType.Integer);
-                                    
+
             // Now process the Channel Units
             sSQL = "SELECT ChannelUnit.VisitID, ChannelUnit.ChannelSegment, ChannelUnit.Tier1, ChannelUnit.Tier2, ChannelUnit.ChannelUnitNumber, SubstrateCover.BouldersGT256, SubstrateCover.Cobbles65255, SubstrateCover.CoarseGravel1764, SubstrateCover.FineGravel316, SubstrateCover.Sand0062, SubstrateCover.FinesLT006, SubstrateCover.SumSubstrateCover FROM ChannelUnit LEFT JOIN SubstrateCover ON (ChannelUnit.VisitID = SubstrateCover.VisitID) AND (ChannelUnit.ChannelUnitID = SubstrateCover.ChannelUnitID) WHERE (((ChannelUnit.[VisitID]) Is Not Null) AND ((ChannelUnit.[ChannelSegment]) Is Not Null) AND ((ChannelUnit.[ChannelUnitNumber]) Is Not Null))";
             dbCom = new OleDbCommand(sSQL, dbCHaMP);
@@ -299,7 +339,7 @@ namespace CHaMPWorkbench.Data
                             if (DBNull.Value == dbRead["BouldersGT256"])
                                 pBouldersGT256.Value = DBNull.Value;
                             else
-                                pBouldersGT256.Value = (int) dbRead["BouldersGT256"];
+                                pBouldersGT256.Value = (int)dbRead["BouldersGT256"];
 
                             if (DBNull.Value == dbRead["Cobbles65255"])
                                 pCobbles65255.Value = DBNull.Value;
@@ -340,8 +380,46 @@ namespace CHaMPWorkbench.Data
                     }
                 }
             }
-           // daUnits.Update(ds.CHAMP_ChannelUnits);
+            // daUnits.Update(ds.CHAMP_ChannelUnits);
             daUnits.Fill(ds.CHAMP_ChannelUnits);
+        }
+
+        private void cmdBrowseSurveyDesign_Click(object sender, EventArgs e)
+        {
+            BrowseDatabase(ref txtSurveyDesign, "CHaMP Survey Design Database");
+        }
+
+        private void BrowseDatabase(ref TextBox txt, string sTitle)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = sTitle;
+            dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb";
+
+            if (!String.IsNullOrWhiteSpace(txt.Text) && System.IO.File.Exists(txt.Text))
+            {
+                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(txt.Text);
+                dlg.FileName = System.IO.Path.GetFileName(txt.Text);
+            }
+            else
+            {
+                System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
+            }
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txt.Text = dlg.FileName;
+        }
+
+        private void chkImportFish_CheckedChanged(object sender, EventArgs e)
+        {
+            lblSurveyDesign.Enabled = chkImportFish.Checked;
+            txtSurveyDesign.Enabled = chkImportFish.Checked;
+            cmdBrowseSurveyDesign.Enabled = chkImportFish.Checked;
+        }
+
+        private void frmImportCHaMPInfo_Load(object sender, EventArgs e)
+        {
+            chkImportFish_CheckedChanged(sender, e);
         }
     }
 }
