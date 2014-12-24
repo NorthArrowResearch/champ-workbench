@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
@@ -64,6 +67,8 @@
             this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
+            this.tabSpecies = new System.Windows.Forms.TabPage();
+            this.chkSpecies = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +81,7 @@
             this.groupBox1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).BeginInit();
+            this.tabSpecies.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -130,6 +136,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabSpecies);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(6, 19);
             this.tabControl1.Name = "tabControl1";
@@ -301,6 +308,14 @@
             this.grdVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -308,9 +323,25 @@
             this.colFieldSeason,
             this.colSite,
             this.colFolder});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle2;
             this.grdVisits.Location = new System.Drawing.Point(6, 42);
             this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
@@ -463,6 +494,28 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Top level monitoring data folder";
             // 
+            // tabSpecies
+            // 
+            this.tabSpecies.Controls.Add(this.chkSpecies);
+            this.tabSpecies.Location = new System.Drawing.Point(4, 22);
+            this.tabSpecies.Name = "tabSpecies";
+            this.tabSpecies.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSpecies.Size = new System.Drawing.Size(632, 173);
+            this.tabSpecies.TabIndex = 4;
+            this.tabSpecies.Text = "Species Present";
+            this.tabSpecies.UseVisualStyleBackColor = true;
+            // 
+            // chkSpecies
+            // 
+            this.chkSpecies.CheckOnClick = true;
+            this.chkSpecies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkSpecies.FormattingEnabled = true;
+            this.chkSpecies.Location = new System.Drawing.Point(3, 3);
+            this.chkSpecies.Name = "chkSpecies";
+            this.chkSpecies.Size = new System.Drawing.Size(626, 167);
+            this.chkSpecies.TabIndex = 0;
+            this.chkSpecies.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
+            // 
             // frmHabitatBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -488,6 +541,7 @@
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).EndInit();
+            this.tabSpecies.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -529,5 +583,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFolder;
         private System.Windows.Forms.Button cmdSelectNone;
         private System.Windows.Forms.Button cmdSelectAll;
+        private System.Windows.Forms.TabPage tabSpecies;
+        private System.Windows.Forms.CheckedListBox chkSpecies;
     }
 }

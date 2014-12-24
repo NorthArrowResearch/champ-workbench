@@ -15,6 +15,8 @@ namespace CHaMPWorkbench.Habitat
         private OleDbConnection m_dbCon;
         private const int m_nSelectionColumnIndex = 0;
 
+
+
         public frmHabitatBatch(OleDbConnection dbCon)
         {
             InitializeComponent();
@@ -28,6 +30,15 @@ namespace CHaMPWorkbench.Habitat
             LoadFieldSeasons();
             LoadWatersheds();
             LoadVisitTypes();
+
+            // Load all the species into the checked listbox BEFORE loading all the visit data
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1));
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2));
+            chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3));
+            chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4));
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5));
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6));
+
             LoadAllVisits();
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
@@ -84,13 +95,22 @@ namespace CHaMPWorkbench.Habitat
 
             table.Columns.Add(new DataColumn("TopoFolder", typeof(string)));
 
-            OleDbCommand dbCom = new OleDbCommand("SELECT" +
-            " VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
-            " CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, " +
-            "CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder" +
-                " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                " WHERE (((CHAMP_Visits.SurveyGDB) Is Not Null) AND ((CHAMP_Visits.Folder) Is Not Null) AND ((CHAMP_Visits.HydraulicModelCSV) Is Not Null) AND ((CHAMP_Sites.Folder) Is Not Null) AND ((CHAMP_Watersheds.Folder) Is Not Null))" +
-                " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName", m_dbCon);
+            string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
+             " CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Sites.Folder AS SiteFolder, " +
+             "CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Watersheds.Folder AS WatershedFolder";
+
+            // Add the species to the SQL query and also to the receiving database table
+            foreach (SpeciesListItem sli in chkSpecies.Items)
+            {
+                table.Columns.Add(new DataColumn(sli.FieldName, typeof(bool)));
+                sSQL += ", " + sli.FieldName;
+            }
+
+            sSQL += " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
+                   " WHERE (((CHAMP_Visits.SurveyGDB) Is Not Null) AND ((CHAMP_Visits.Folder) Is Not Null) AND ((CHAMP_Visits.HydraulicModelCSV) Is Not Null) AND ((CHAMP_Sites.Folder) Is Not Null) AND ((CHAMP_Watersheds.Folder) Is Not Null))" +
+                   " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
+
+            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
 
             object[] rowArray = new object[table.Columns.Count];
@@ -110,6 +130,9 @@ namespace CHaMPWorkbench.Habitat
                 rowArray[11] = (string)dbRead["WatershedName"];
                 rowArray[12] = (string)dbRead["WatershedFolder"];
                 rowArray[13] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
+
+                // TODO: load the species presence absence attributes into the table
+
                 table.Rows.Add(rowArray);
             }
 
@@ -128,7 +151,10 @@ namespace CHaMPWorkbench.Habitat
             AddCheckedListboxFilter(ref chkFieldSeasons, ref sFilter, "FieldSeason");
             AddCheckedListboxFilter(ref chkWatersheds, ref sFilter, "WatershedID");
             AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
-            
+
+            for (int i = 0; i < chkSpecies.Items.Count; i++)
+                sFilter += string.Format(" AND {0} = {1}", ((SpeciesListItem)chkSpecies.Items[i]).FieldName, chkSpecies.GetItemChecked(i).ToString());
+
             if (chkPrimary.Checked)
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
@@ -151,10 +177,10 @@ namespace CHaMPWorkbench.Habitat
             foreach (ListItem l in lst.CheckedItems)
             {
                 if (bUseNameInsteadOfValue)
-                      sValueList += "'" + l.ToString() + "', ";
+                    sValueList += "'" + l.ToString() + "', ";
                 else
                     sValueList += l.Value.ToString() + ", ";
-          }
+            }
 
             if (!string.IsNullOrWhiteSpace(sValueList))
             {
@@ -289,10 +315,23 @@ namespace CHaMPWorkbench.Habitat
         {
             foreach (DataGridViewRow r in grdVisits.Rows)
             {
-                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell ) r.Cells[m_nSelectionColumnIndex];
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
                 chk.Value = bSelect;
                 //DataRow dr = (DataRow)r.DataBoundItem;
                 //dr.ItemArray[m_nSelectionColumnIndex] = bSelect;
+            }
+        }
+
+        private class SpeciesListItem : ListItem
+        {
+            private string m_sFieldName;
+
+            public string FieldName { get { return m_sFieldName; } }
+
+            public SpeciesListItem(string sName, string sFieldName, int nValue)
+                : base(sName, nValue)
+            {
+                m_sFieldName = sFieldName;
             }
         }
     }
