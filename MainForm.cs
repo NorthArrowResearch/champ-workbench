@@ -265,7 +265,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-       Data.frmScavengeVisitInfo frm = new Data.frmScavengeVisitInfo(m_dbCon);
+       Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
             frm.ShowDialog();
         }
 

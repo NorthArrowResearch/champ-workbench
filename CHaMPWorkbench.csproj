@@ -81,8 +81,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AccessIDHelper.cs" />
     <Compile Include="Classes\BatchInputfileBuilder.cs" />
     <Compile Include="Classes\BudgetSegregation.cs" />
+    <Compile Include="Classes\CHaMPData.cs" />
     <Compile Include="Classes\ChannelSegment.cs" />
     <Compile Include="Classes\ChannelUnit.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
@@ -115,11 +117,11 @@
     <Compile Include="Data\frmFindVisitByID.Designer.cs">
       <DependentUpon>frmFindVisitByID.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmScavengeVisitInfo.cs">
+    <Compile Include="Data\frmImportCHaMPInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmScavengeVisitInfo.Designer.cs">
-      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
+      <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
@@ -159,12 +161,29 @@
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="HabitatModelDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HabitatModelDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Habitat\dsHabitat.cs">
+      <DependentUpon>dsHabitat.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Habitat\dsHabitat.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsHabitat.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Habitat\frmHabitatBatch.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Habitat\frmHabitatBatch.Designer.cs">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Habitat\HabitatBatchBuilder.cs" />
+    <Compile Include="Habitat\HSProjectManager.cs" />
+    <Compile Include="Habitat\Paths.cs" />
     <Compile Include="RBT\frmRunBatches.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,8 +259,8 @@
     <EmbeddedResource Include="Data\frmFindVisitByID.resx">
       <DependentUpon>frmFindVisitByID.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmScavengeVisitInfo.resx">
-      <DependentUpon>frmScavengeVisitInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
+      <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
@@ -303,6 +322,28 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
+    <None Include="HabitatModelDataSet.xsc">
+      <DependentUpon>HabitatModelDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="HabitatModelDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HabitatModelDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HabitatModelDataSet.xss">
+      <DependentUpon>HabitatModelDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Habitat\dsHabitat.xsc">
+      <DependentUpon>dsHabitat.xsd</DependentUpon>
+    </None>
+    <None Include="Habitat\dsHabitat.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsHabitat.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Habitat\dsHabitat.xss">
+      <DependentUpon>dsHabitat.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

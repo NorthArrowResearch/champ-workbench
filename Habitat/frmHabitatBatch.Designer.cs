@@ -45,7 +45,14 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmdSelectNone = new System.Windows.Forms.Button();
+            this.cmdSelectAll = new System.Windows.Forms.Button();
             this.grdVisits = new System.Windows.Forms.DataGridView();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.cmdHabitatModelDB = new System.Windows.Forms.Button();
@@ -57,13 +64,6 @@
             this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
-            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmdSelectAll = new System.Windows.Forms.Button();
-            this.cmdSelectNone = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -107,7 +107,7 @@
             this.chkFieldSeasons.FormattingEnabled = true;
             this.chkFieldSeasons.Location = new System.Drawing.Point(3, 3);
             this.chkFieldSeasons.Name = "chkFieldSeasons";
-            this.chkFieldSeasons.Size = new System.Drawing.Size(573, 167);
+            this.chkFieldSeasons.Size = new System.Drawing.Size(626, 167);
             this.chkFieldSeasons.TabIndex = 2;
             this.chkFieldSeasons.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
@@ -118,7 +118,7 @@
             this.chkWatersheds.FormattingEnabled = true;
             this.chkWatersheds.Location = new System.Drawing.Point(3, 3);
             this.chkWatersheds.Name = "chkWatersheds";
-            this.chkWatersheds.Size = new System.Drawing.Size(573, 167);
+            this.chkWatersheds.Size = new System.Drawing.Size(626, 167);
             this.chkWatersheds.TabIndex = 5;
             this.chkWatersheds.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
@@ -143,7 +143,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(579, 173);
+            this.tabPage1.Size = new System.Drawing.Size(632, 173);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Field Seasons";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -154,7 +154,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(579, 173);
+            this.tabPage2.Size = new System.Drawing.Size(632, 173);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Watersheds";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -273,6 +273,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Selected Visits";
             // 
+            // cmdSelectNone
+            // 
+            this.cmdSelectNone.Location = new System.Drawing.Point(490, 13);
+            this.cmdSelectNone.Name = "cmdSelectNone";
+            this.cmdSelectNone.Size = new System.Drawing.Size(75, 23);
+            this.cmdSelectNone.TabIndex = 0;
+            this.cmdSelectNone.Text = "Select None";
+            this.cmdSelectNone.UseVisualStyleBackColor = true;
+            this.cmdSelectNone.Click += new System.EventHandler(this.cmdSelectNone_Click);
+            // 
+            // cmdSelectAll
+            // 
+            this.cmdSelectAll.Location = new System.Drawing.Point(571, 13);
+            this.cmdSelectAll.Name = "cmdSelectAll";
+            this.cmdSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.cmdSelectAll.TabIndex = 1;
+            this.cmdSelectAll.Text = "Select All";
+            this.cmdSelectAll.UseVisualStyleBackColor = true;
+            this.cmdSelectAll.Click += new System.EventHandler(this.cmdSelectAll_Click);
+            // 
             // grdVisits
             // 
             this.grdVisits.AllowUserToAddRows = false;
@@ -295,6 +315,44 @@
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
             this.grdVisits.TabIndex = 2;
+            // 
+            // colSelected
+            // 
+            this.colSelected.DataPropertyName = "Selected";
+            this.colSelected.HeaderText = "";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.Width = 30;
+            // 
+            // colWatershed
+            // 
+            this.colWatershed.DataPropertyName = "WatershedName";
+            this.colWatershed.HeaderText = "Watershed";
+            this.colWatershed.Name = "colWatershed";
+            this.colWatershed.ReadOnly = true;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "FieldSeason";
+            this.colFieldSeason.HeaderText = "Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            this.colFieldSeason.Width = 50;
+            // 
+            // colSite
+            // 
+            this.colSite.DataPropertyName = "SiteName";
+            this.colSite.HeaderText = "Site";
+            this.colSite.Name = "colSite";
+            this.colSite.ReadOnly = true;
+            this.colSite.Width = 200;
+            // 
+            // colFolder
+            // 
+            this.colFolder.DataPropertyName = "TopoFolder";
+            this.colFolder.HeaderText = "Folder";
+            this.colFolder.Name = "colFolder";
+            this.colFolder.ReadOnly = true;
+            this.colFolder.Width = 300;
             // 
             // groupBox1
             // 
@@ -362,7 +420,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboHabitatModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboHabitatModel.FormattingEnabled = true;
-            this.cboHabitatModel.Location = new System.Drawing.Point(168, 85);
+            this.cboHabitatModel.Location = new System.Drawing.Point(168, 84);
             this.cboHabitatModel.Name = "cboHabitatModel";
             this.cboHabitatModel.Size = new System.Drawing.Size(452, 21);
             this.cboHabitatModel.TabIndex = 7;
@@ -370,7 +428,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(90, 89);
+            this.label2.Location = new System.Drawing.Point(90, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 6;
@@ -404,64 +462,6 @@
             this.label1.Size = new System.Drawing.Size(155, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Top level monitoring data folder";
-            // 
-            // colSelected
-            // 
-            this.colSelected.DataPropertyName = "Selected";
-            this.colSelected.HeaderText = "";
-            this.colSelected.Name = "colSelected";
-            this.colSelected.Width = 30;
-            // 
-            // colWatershed
-            // 
-            this.colWatershed.DataPropertyName = "WatershedName";
-            this.colWatershed.HeaderText = "Watershed";
-            this.colWatershed.Name = "colWatershed";
-            this.colWatershed.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "FieldSeason";
-            this.colFieldSeason.HeaderText = "Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            this.colFieldSeason.Width = 50;
-            // 
-            // colSite
-            // 
-            this.colSite.DataPropertyName = "SiteName";
-            this.colSite.HeaderText = "Site";
-            this.colSite.Name = "colSite";
-            this.colSite.ReadOnly = true;
-            this.colSite.Width = 200;
-            // 
-            // colFolder
-            // 
-            this.colFolder.DataPropertyName = "TopoFolder";
-            this.colFolder.HeaderText = "Folder";
-            this.colFolder.Name = "colFolder";
-            this.colFolder.ReadOnly = true;
-            this.colFolder.Width = 300;
-            // 
-            // cmdSelectAll
-            // 
-            this.cmdSelectAll.Location = new System.Drawing.Point(571, 13);
-            this.cmdSelectAll.Name = "cmdSelectAll";
-            this.cmdSelectAll.Size = new System.Drawing.Size(75, 23);
-            this.cmdSelectAll.TabIndex = 1;
-            this.cmdSelectAll.Text = "Select All";
-            this.cmdSelectAll.UseVisualStyleBackColor = true;
-            this.cmdSelectAll.Click += new System.EventHandler(this.cmdSelectAll_Click);
-            // 
-            // cmdSelectNone
-            // 
-            this.cmdSelectNone.Location = new System.Drawing.Point(490, 13);
-            this.cmdSelectNone.Name = "cmdSelectNone";
-            this.cmdSelectNone.Size = new System.Drawing.Size(75, 23);
-            this.cmdSelectNone.TabIndex = 0;
-            this.cmdSelectNone.Text = "Select None";
-            this.cmdSelectNone.UseVisualStyleBackColor = true;
-            this.cmdSelectNone.Click += new System.EventHandler(this.cmdSelectNone_Click);
             // 
             // frmHabitatBatch
             // 
