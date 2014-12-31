@@ -32,7 +32,7 @@ namespace CHaMPWorkbench.Habitat
             LoadVisitTypes();
 
             // Load all the species into the checked listbox BEFORE loading all the visit data
-            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1),true);
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1), true);
             chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2), true);
             chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3), true);
             chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4), true);
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.Habitat
             table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
             table.Columns.Add(new DataColumn("SiteName", typeof(string)));
             table.Columns.Add(new DataColumn("SiteFolder", typeof(string)));
-            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));     
+            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
             table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
             table.Columns.Add(new DataColumn("WatershedFolder", typeof(string)));
             table.Columns.Add(new DataColumn("TopoFolder", typeof(string)));
@@ -127,7 +127,12 @@ namespace CHaMPWorkbench.Habitat
                 rowArray[12] = (string)dbRead["WatershedFolder"];
                 rowArray[13] = System.IO.Path.Combine(((Int16)dbRead["FieldSeason"]).ToString(), (string)dbRead["WatershedFolder"], (string)dbRead["SiteFolder"], (string)dbRead["VisitFolder"]);
 
-                // TODO: load the species presence absence attributes into the table
+                int i = 14;
+                foreach (SpeciesListItem sli in chkSpecies.Items)
+                {
+                    rowArray[i] = (bool) dbRead[sli.FieldName];
+                    i++;
+                }
 
                 table.Rows.Add(rowArray);
             }
@@ -148,8 +153,21 @@ namespace CHaMPWorkbench.Habitat
             AddCheckedListboxFilter(ref chkWatersheds, ref sFilter, "WatershedID");
             AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
 
-            for (int i = 0; i < chkSpecies.Items.Count; i++)
-               // sFilter += string.Format(" AND {0} = {1}", ((SpeciesListItem)chkSpecies.Items[i]).FieldName, chkSpecies.GetItemChecked(i).ToString());
+            if (chkSpecies.CheckedItems.Count > 0)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += "(";
+
+                for (int i = 0; i < chkSpecies.CheckedItems.Count; i++)
+                {
+                    if (i > 0)
+                        sFilter += " OR ";
+
+                    sFilter += string.Format("{0} = 1", ((SpeciesListItem)chkSpecies.CheckedItems[i]).FieldName);
+                }
+                sFilter += ") ";
+            }
 
             if (chkPrimary.Checked)
             {
@@ -162,6 +180,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 // bindingSourceSelectedVisits.Filter = sFilter;
                 DataView dv = (DataView)grdVisits.DataSource;
+                System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
                 dv.RowFilter = sFilter;
                 //grdVisits.Refresh();
             }
@@ -367,7 +386,29 @@ namespace CHaMPWorkbench.Habitat
 
         private bool ValidateForm()
         {
+            if (grdVisits.Rows.Count < 1)
+            {
+                MessageBox.Show("The current filters return zero CHaMP visits. Adjust the filters so that at least one CHaMP visit is returned.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
 
+            if (string.IsNullOrEmpty(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
+            {
+                MessageBox.Show("You must select a habitat model database to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            if (!(cboHabitatModel.SelectedItem is ListItem))
+            {
+                MessageBox.Show("You must select a habitat model to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtMonitoringFolder.Text) || !System.IO.Directory.Exists(txtMonitoringFolder.Text))
+            {
+                MessageBox.Show("You must specify the top level monitoring data folder to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
 
             return true;
         }
