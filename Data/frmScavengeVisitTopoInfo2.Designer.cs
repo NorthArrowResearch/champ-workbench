@@ -37,8 +37,11 @@
             this.cmdBrowseFolder = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rdoYWS = new System.Windows.Forms.RadioButton();
+            this.rdoWYSV = new System.Windows.Forms.RadioButton();
+            this.rdoWSYV = new System.Windows.Forms.RadioButton();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -52,18 +55,18 @@
             // chkSetNull
             // 
             this.chkSetNull.AutoSize = true;
-            this.chkSetNull.Location = new System.Drawing.Point(85, 159);
+            this.chkSetNull.Location = new System.Drawing.Point(15, 218);
             this.chkSetNull.Name = "chkSetNull";
-            this.chkSetNull.Size = new System.Drawing.Size(356, 17);
+            this.chkSetNull.Size = new System.Drawing.Size(222, 17);
             this.chkSetNull.TabIndex = 7;
-            this.chkSetNull.Text = "Set topo data fields to NULL for visits where the data cannot be found";
+            this.chkSetNull.Text = "Clear all visit topo fields before processing";
             this.chkSetNull.UseVisualStyleBackColor = true;
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(536, 192);
+            this.cmdCancel.Location = new System.Drawing.Point(536, 249);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 9;
@@ -73,7 +76,7 @@
             // Label2
             // 
             this.Label2.AutoSize = true;
-            this.Label2.Location = new System.Drawing.Point(12, 132);
+            this.Label2.Location = new System.Drawing.Point(12, 82);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(67, 13);
             this.Label2.TabIndex = 4;
@@ -83,7 +86,7 @@
             // 
             this.txtMonitoringDataFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMonitoringDataFolder.Location = new System.Drawing.Point(85, 128);
+            this.txtMonitoringDataFolder.Location = new System.Drawing.Point(85, 78);
             this.txtMonitoringDataFolder.Name = "txtMonitoringDataFolder";
             this.txtMonitoringDataFolder.Size = new System.Drawing.Size(445, 20);
             this.txtMonitoringDataFolder.TabIndex = 5;
@@ -91,23 +94,25 @@
             // cmdBrowseFolder
             // 
             this.cmdBrowseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseFolder.Location = new System.Drawing.Point(536, 127);
+            this.cmdBrowseFolder.Location = new System.Drawing.Point(536, 77);
             this.cmdBrowseFolder.Name = "cmdBrowseFolder";
             this.cmdBrowseFolder.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseFolder.TabIndex = 6;
             this.cmdBrowseFolder.Text = "Browse";
             this.cmdBrowseFolder.UseVisualStyleBackColor = true;
+            this.cmdBrowseFolder.Click += new System.EventHandler(this.cmdBrowseFolder_Click);
             // 
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(455, 192);
+            this.cmdOK.Location = new System.Drawing.Point(455, 249);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 8;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // label3
             // 
@@ -119,24 +124,51 @@
     "ossessing a name ending with *.gdb (i.e. a file geodatabase) and a folder posses" +
     "sing a name starting with TIN.";
             // 
-            // label4
+            // groupBox1
             // 
-            this.label4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(33, 92);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(584, 34);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "<parent folder>\\FieldSeason\\Watershed\\Site\\VISIT_XXXX\\Topo\\<topo data>";
+            this.groupBox1.Controls.Add(this.rdoWSYV);
+            this.groupBox1.Controls.Add(this.rdoWYSV);
+            this.groupBox1.Controls.Add(this.rdoYWS);
+            this.groupBox1.Location = new System.Drawing.Point(15, 112);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(515, 97);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Folder Structure Under Parent Folder";
             // 
-            // label5
+            // rdoYWS
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 71);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(606, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "The data must have the following structure, where <parent folder> is the path spe" +
-    "cified below, and XXXX is the CHaMP visit ID:";
+            this.rdoYWS.AutoSize = true;
+            this.rdoYWS.Checked = true;
+            this.rdoYWS.Location = new System.Drawing.Point(21, 20);
+            this.rdoYWS.Name = "rdoYWS";
+            this.rdoYWS.Size = new System.Drawing.Size(190, 17);
+            this.rdoYWS.TabIndex = 0;
+            this.rdoYWS.TabStop = true;
+            this.rdoYWS.Text = "Field Season\\Watersehd\\Site\\Visit";
+            this.rdoYWS.UseVisualStyleBackColor = true;
+            // 
+            // rdoWYSV
+            // 
+            this.rdoWYSV.AutoSize = true;
+            this.rdoWYSV.Location = new System.Drawing.Point(21, 44);
+            this.rdoWYSV.Name = "rdoWYSV";
+            this.rdoWYSV.Size = new System.Drawing.Size(190, 17);
+            this.rdoWYSV.TabIndex = 1;
+            this.rdoWYSV.TabStop = true;
+            this.rdoWYSV.Text = "Watershed\\Field Season\\Site\\Visit";
+            this.rdoWYSV.UseVisualStyleBackColor = true;
+            // 
+            // rdoWSYV
+            // 
+            this.rdoWSYV.AutoSize = true;
+            this.rdoWSYV.Location = new System.Drawing.Point(21, 68);
+            this.rdoWSYV.Name = "rdoWSYV";
+            this.rdoWSYV.Size = new System.Drawing.Size(190, 17);
+            this.rdoWSYV.TabIndex = 2;
+            this.rdoWSYV.TabStop = true;
+            this.rdoWSYV.Text = "Watershed\\Site\\Field Season\\Visit";
+            this.rdoWSYV.UseVisualStyleBackColor = true;
             // 
             // frmScavengeVisitTopoInfo2
             // 
@@ -144,9 +176,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(623, 227);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.ClientSize = new System.Drawing.Size(623, 284);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkSetNull);
@@ -156,7 +187,11 @@
             this.Controls.Add(this.cmdBrowseFolder);
             this.Controls.Add(this.cmdOK);
             this.Name = "frmScavengeVisitTopoInfo2";
+            this.ShowIcon = false;
             this.Text = "Update Topo and Hydro Paths In Workbench Database";
+            this.Load += new System.EventHandler(this.frmScavengeVisitTopoInfo2_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,7 +207,9 @@
         internal System.Windows.Forms.Button cmdBrowseFolder;
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rdoWSYV;
+        private System.Windows.Forms.RadioButton rdoWYSV;
+        private System.Windows.Forms.RadioButton rdoYWS;
     }
 }
