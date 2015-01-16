@@ -49,8 +49,10 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-
-                ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
+               ScavengeProperties theResult = ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
+               MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
+                   theResult.TopoFolders, theResult.WithVisitID, theResult.WithVisitFiles, theResult.WithHydro)
+                   , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -59,7 +61,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private void ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder, bool bSetMissingDataNULL)
+        private ScavengeProperties ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder, bool bSetMissingDataNULL)
         {
             if (dbCon.State == ConnectionState.Closed)
                 dbCon.Open();
@@ -82,9 +84,12 @@ namespace CHaMPWorkbench.Data
             daVisits.Fill(ds.CHAMP_Visits);
 
             string[] sAllTopoFolders = System.IO.Directory.GetDirectories(sMonitoringDataFolder, "Topo", SearchOption.AllDirectories);
+            ScavengeProperties theResult = new ScavengeProperties();
+
 
             foreach (string sTopoFolder in sAllTopoFolders)
             {
+                theResult.TopoFolders += 1;
                 System.Diagnostics.Debug.WriteLine(sTopoFolder);
 
                 System.IO.DirectoryInfo dTopo = new System.IO.DirectoryInfo(sTopoFolder);
@@ -95,6 +100,8 @@ namespace CHaMPWorkbench.Data
                     int nVisitID = 0;
                     if (int.TryParse(sVisitFolderParts[1], out nVisitID))
                     {
+                        theResult.WithVisitID += 1;
+
                         // Got a VisitID, now look for the topo data underneath
                         RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = ds.CHAMP_Visits.FindByVisitID(nVisitID);
                         if (rVisit is RBTWorkbenchDataSet.CHAMP_VisitsRow)
@@ -108,6 +115,7 @@ namespace CHaMPWorkbench.Data
 
                             if (LookForTopoFiles(dTopo.FullName, out sSurveyGDB, out sTopoTIN, out sWSTIN))
                             {
+                                theResult.WithVisitFiles += 1;
                                 rVisit.SurveyGDB = sSurveyGDB;
                                 rVisit.TopoTIN = sTopoTIN;
                                 rVisit.WSTIN = sWSTIN;
@@ -124,7 +132,10 @@ namespace CHaMPWorkbench.Data
                                     // got hydro!
                                     System.IO.FileInfo[] dAllCSVFiles = dAllArtifacts[1].GetFiles("*.csv");
                                     if (dAllCSVFiles.Count<System.IO.FileInfo>() == 1)
+                                    {
                                         rVisit.HydraulicModelCSV = dAllCSVFiles[1].FullName.Substring(dTopo.FullName.Length);
+                                        theResult.WithHydro += 1;
+                                    }
                                 }
                             }
                         }
@@ -132,6 +143,7 @@ namespace CHaMPWorkbench.Data
                 }
             }
             daVisits.Update(ds.CHAMP_Visits);
+            return theResult;
         }
 
         private void ClearTopoFields()
@@ -182,6 +194,14 @@ namespace CHaMPWorkbench.Data
                 sWSTIN = sWSDirs[0];
 
             return (!String.IsNullOrWhiteSpace(sSurveyGDB) && !String.IsNullOrWhiteSpace(sTopoTIN) && !String.IsNullOrWhiteSpace(sWSTIN));
+        }
+
+        private class ScavengeProperties
+        {
+            public int TopoFolders { get; set; }
+            public int WithVisitID { get; set; }
+            public int WithVisitFiles { get; set; }
+            public int WithHydro { get; set; }
         }
     }
 }
