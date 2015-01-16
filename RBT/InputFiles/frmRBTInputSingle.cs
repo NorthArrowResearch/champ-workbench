@@ -135,11 +135,13 @@ namespace CHaMPWorkbench
 
         private void UpdateInputfilePath()
         {
+            txtInputFile.Text = string.Empty;
             if (!String.IsNullOrWhiteSpace(txtOutputFolder.Text) && cboVisit.SelectedItem is DataRowView)
             {
                 DataRowView r = (DataRowView)cboVisit.SelectedItem;
-                RBTWorkbenchDataSet.CHAMP_VisitsRow v = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
-                txtInputFile.Text = System.IO.Path.Combine(this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(v, txtOutputFolder.Text), Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName);
+                RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)r.Row;
+                if (!rVisit.IsFolderNull())
+                    txtInputFile.Text = System.IO.Path.Combine(txtOutputFolder.Text, rVisit.Folder, Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName);
             }
         }
 
@@ -197,8 +199,6 @@ namespace CHaMPWorkbench
             Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
             theSite.AddVisit(mainvisit);
 
-            //mainvisit.WriteToXML(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit ,txtSourceFolder.Text));
-
             // other visits
             if (!rdoSelectedOnly.Checked)
             {
@@ -228,7 +228,7 @@ namespace CHaMPWorkbench
                 theBuilder.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
             }
             
-            theBuilder.CloseFile(ref xmlInput, this.rBTWorkbenchDataSet.CHAMP_Visits.BuildVisitDataFolder(rMainvisit, txtOutputFolder.Text));
+            theBuilder.CloseFile(ref xmlInput, System.IO.Path.GetDirectoryName(txtInputFile.Text));
 
             // Create the Batch
             if (chkBatch.Checked)

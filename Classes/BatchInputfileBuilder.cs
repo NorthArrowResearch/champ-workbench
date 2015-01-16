@@ -66,8 +66,8 @@ namespace CHaMPWorkbench.Classes
 
                 foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_ds.CHAMP_Visits)
                 {
-                    string sVisitTopofolder = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, sParentTopoDataFolder);
-                    string sOutputfolder = m_ds.CHAMP_Visits.BuildVisitDataFolder(rVisit, this.m_Outputs.OutputFolder);
+                    string sVisitTopofolder = System.IO.Path.Combine(sParentTopoDataFolder, rVisit.Folder);
+                    string sOutputfolder = System.IO.Path.Combine( this.m_Outputs.OutputFolder,rVisit.Folder);
                     string sInputFile = System.IO.Path.Combine(sOutputfolder, sDefaultInputFileName);
                     sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
 
