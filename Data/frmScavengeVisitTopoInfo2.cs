@@ -99,7 +99,8 @@ namespace CHaMPWorkbench.Data
                         RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = ds.CHAMP_Visits.FindByVisitID(nVisitID);
                         if (rVisit is RBTWorkbenchDataSet.CHAMP_VisitsRow)
                         {
-                            rVisit.Folder = dTopo.FullName;
+                            // The final path written to the table is the middle of the path, after the monitoring data folder and before the survey GDB
+                            rVisit.Folder = dTopo.FullName.Substring(sMonitoringDataFolder.Length);
                             rVisit.SetSurveyGDBNull();
                             rVisit.SetTopoTINNull();
                             rVisit.SetWSTINNull();

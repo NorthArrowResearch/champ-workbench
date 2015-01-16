@@ -148,53 +148,13 @@ namespace CHaMPWorkbench.Data
 
         private string GetPath(string sParent, OleDbDataReader dbRead)
         {
-            string sResult = string.Empty;
-            string sFinalResult = string.Empty;
-            int nVisitID = (int)dbRead["VisitID"];
-            bool bTopoFolderExists = false;
-
-            if (!string.IsNullOrEmpty(sParent))
+            string sResult = GetSafeStringValue(dbRead, "VisitFolder");
+            if (!string.IsNullOrEmpty(sResult))
             {
-                if (System.IO.Directory.Exists(sParent))
-                {
-                    sResult = sParent;
-                    string sTemp = GetSafeIntValue(dbRead, "VisitYear");
-                    sResult = System.IO.Path.Combine(sResult, sTemp);
-                    if (System.IO.Directory.Exists(sResult))
-                    {
-                        sTemp = GetSafeStringValue(dbRead, "WatershedFolder");
-                        sResult = System.IO.Path.Combine(sResult, sTemp);
-                       
-                        if (System.IO.Directory.Exists(sResult))
-                        {
-                            sTemp = GetSafeStringValue(dbRead, "SiteFolder");
-                            sResult = System.IO.Path.Combine(sResult, sTemp);
-
-                            if (System.IO.Directory.Exists(sResult))
-                            {
-                                sTemp = GetSafeStringValue(dbRead, "VisitFolder");
-                                sResult = System.IO.Path.Combine(sResult, sTemp);
-                                if (System.IO.Directory.Exists(sResult))
-                                {
-                                    sTemp = GetSafeStringValue(dbRead, "VisitFolder");
-                                    sFinalResult = sResult;
-                                    bTopoFolderExists = true;
-                                }
-                                else
-                                {
-
-                                }
-                            }
-                            else
-                            {
-                                sFinalResult = System.IO.Path.Combine(sResult,"Visit","Topo");
-                            }
-                        }
-                    }
-                }
+                sResult = System.IO.Path.Combine(sParent, sResult);
             }
 
-            return sFinalResult;
+            return sResult;
         }
 
         private string RBTInputFile
