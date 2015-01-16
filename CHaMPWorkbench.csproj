@@ -123,6 +123,12 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmScavengeVisitTopoInfo2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmScavengeVisitTopoInfo2.Designer.cs">
+      <DependentUpon>frmScavengeVisitTopoInfo2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
       <SubType>Form</SubType>
@@ -208,10 +214,10 @@
     <Compile Include="RBT\Batches\frmSelectRBTBatches.Designer.cs">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </Compile>
-    <Compile Include="RBT\Scavenger\frmScavengeVisitTopoInfo.cs">
+    <Compile Include="Data\frmScavengeVisitTopoInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBT\Scavenger\frmScavengeVisitTopoInfo.Designer.cs">
+    <Compile Include="Data\frmScavengeVisitTopoInfo.Designer.cs">
       <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.cs">
@@ -262,6 +268,9 @@
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmScavengeVisitTopoInfo2.resx">
+      <DependentUpon>frmScavengeVisitTopoInfo2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
     </EmbeddedResource>
@@ -295,7 +304,7 @@
     <EmbeddedResource Include="RBT\Batches\frmSelectRBTBatches.resx">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBT\Scavenger\frmScavengeVisitTopoInfo.resx">
+    <EmbeddedResource Include="Data\frmScavengeVisitTopoInfo.resx">
       <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
@@ -432,6 +441,8 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <None Include="Resources\32_habitat-logo.png" />
+    <None Include="Resources\search.png" />
     <None Include="Resources\new_folder.png" />
     <None Include="Resources\icon_xml.png" />
     <None Include="Resources\rbt_16x16.png" />

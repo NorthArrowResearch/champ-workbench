@@ -63,6 +63,16 @@ namespace CHaMPWorkbench.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _32_habitat_logo {
+            get {
+                object obj = ResourceManager.GetObject("32_habitat-logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Access {
             get {
                 object obj = ResourceManager.GetObject("Access", resourceCulture);
@@ -234,6 +244,16 @@ namespace CHaMPWorkbench.Properties {
         internal static System.Drawing.Bitmap RBT_Dark_32x321 {
             get {
                 object obj = ResourceManager.GetObject("RBT_Dark_32x321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
