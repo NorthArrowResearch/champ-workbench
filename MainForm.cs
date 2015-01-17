@@ -60,7 +60,7 @@ namespace CHaMPWorkbench
                 if (subMenu is ToolStripMenuItem)
                 //if we get the desired object type.
                 {
-                    if (((ToolStripMenuItem) subMenu).HasDropDownItems) // if subMenu has children
+                    if (((ToolStripMenuItem)subMenu).HasDropDownItems) // if subMenu has children
                     {
                         if (subMenu.Name != "aboutToolStripMenuItem")
                             UpdateMenuItemStatus(((ToolStripMenuItem)subMenu).DropDownItems); // Call recursive Method.
@@ -68,18 +68,18 @@ namespace CHaMPWorkbench
                     else // Do the desired operations here.
                     {
                         switch (subMenu.Name)
-                            {
+                        {
                             case "optionsToolStripMenuItem":
-                                    break; // do nothing. Always enabled.
+                                break; // do nothing. Always enabled.
 
                             case "openDatabaseToolStripMenuItem":
-                                    break; // do nothing. Always enabled.
+                                break; // do nothing. Always enabled.
 
                             case "exitToolStripMenuItem":
-                                    break; // do nothing. Always enabled.
-                            
+                                break; // do nothing. Always enabled.
+
                             case "closeDatabaseToolStripMenuItem":
-                                    subMenu.Enabled = m_dbCon != null;
+                                subMenu.Enabled = m_dbCon != null;
                                 break;
 
                             default:
@@ -109,7 +109,7 @@ namespace CHaMPWorkbench
             if (m_dbCon is System.Data.OleDb.OleDbConnection)
             {
                 System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
-                dlg.InitialDirectory =  System.IO.Path.GetDirectoryName( oCon.DataSource);
+                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
                 dlg.FileName = System.IO.Path.GetFileName(oCon.DataSource);
             }
             else
@@ -197,8 +197,7 @@ namespace CHaMPWorkbench
         private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
-                        rbt.ShowDialog();
-
+            rbt.ShowDialog();
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,7 +220,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
+            Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
             frm.ShowDialog();
         }
 
@@ -265,7 +264,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-       Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
+            Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
             frm.ShowDialog();
         }
 
@@ -289,69 +288,69 @@ namespace CHaMPWorkbench
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                UpdateCheckInfo info = null;
-                Cursor.Current= Cursors.WaitCursor;
+            UpdateCheckInfo info = null;
+            Cursor.Current = Cursors.WaitCursor;
 
-                if ((ApplicationDeployment.IsNetworkDeployed))
+            if ((ApplicationDeployment.IsNetworkDeployed))
+            {
+                ApplicationDeployment AD = ApplicationDeployment.CurrentDeployment;
+
+                try
                 {
-                    ApplicationDeployment AD = ApplicationDeployment.CurrentDeployment;
+                    info = AD.CheckForDetailedUpdate();
+                }
+                catch (DeploymentDownloadException dde)
+                {
+                    MessageBox.Show("The new version of the application cannot be downloaded at this time.\n\nPlease check your network connection, or try again later. Error: " + dde.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                catch (InvalidOperationException ioe)
+                {
+                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong);
+                    return;
+                }
 
-                    try
-                    {
-                        info = AD.CheckForDetailedUpdate();
-                    }
-                    catch (DeploymentDownloadException dde)
-                    {
-                        MessageBox.Show("The new version of the application cannot be downloaded at this time.\n\nPlease check your network connection, or try again later. Error: " + dde.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                    catch (InvalidOperationException ioe)
-                    {
-                        MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong);
-                        return;
-                    }
+                if ((info.UpdateAvailable))
+                {
+                    bool doUpdate = true;
 
-                    if ((info.UpdateAvailable))
+                    if ((!info.IsUpdateRequired))
                     {
-                        bool doUpdate = true;
-
-                        if ((!info.IsUpdateRequired))
+                        DialogResult dr = MessageBox.Show("An update is available. Would you like to update the application now?", "Update Available", MessageBoxButtons.OKCancel);
+                        if ((!(System.Windows.Forms.DialogResult.OK == dr)))
                         {
-                            DialogResult dr = MessageBox.Show("An update is available. Would you like to update the application now?", "Update Available", MessageBoxButtons.OKCancel);
-                            if ((!(System.Windows.Forms.DialogResult.OK == dr)))
-                            {
-                                doUpdate = false;
-                            }
+                            doUpdate = false;
                         }
-                        else
-                        {
-                            // Display a message that the app MUST reboot. Display the minimum required version.
-                            MessageBox.Show("This application has detected a mandatory update from your current " + "version to version " + info.MinimumRequiredVersion.ToString() + ". The application will now install the update and restart.", "Update Available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
+                    }
+                    else
+                    {
+                        // Display a message that the app MUST reboot. Display the minimum required version.
+                        MessageBox.Show("This application has detected a mandatory update from your current " + "version to version " + info.MinimumRequiredVersion.ToString() + ". The application will now install the update and restart.", "Update Available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
 
-                        if ((doUpdate))
+                    if ((doUpdate))
+                    {
+                        try
                         {
-                            try
-                            {
-                                AD.Update();
-                                MessageBox.Show("The application has been upgraded, and will now restart.");
-                                Application.Restart();
-                            }
-                            catch (DeploymentDownloadException dde)
-                            {
-                                MessageBox.Show("Cannot install the latest version of the application.\n\nPlease check your network connection, or try again later.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return;
-                            }
+                            AD.Update();
+                            MessageBox.Show("The application has been upgraded, and will now restart.");
+                            Application.Restart();
+                        }
+                        catch (DeploymentDownloadException dde)
+                        {
+                            MessageBox.Show("Cannot install the latest version of the application.\n\nPlease check your network connection, or try again later.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
                         }
                     }
                 }
-                else
-                {
-                   MessageBox.Show("The application is not deployed over the internet and therefore cannot be updated automatically.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                Cursor.Current = Cursors.Default;
             }
+            else
+            {
+                MessageBox.Show("The application is not deployed over the internet and therefore cannot be updated automatically.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            Cursor.Current = Cursors.Default;
+        }
 
         private void openDatabaseInAccessToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -366,7 +365,7 @@ namespace CHaMPWorkbench
         private void testXPathReferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
-            frm.ShowDialog();               
+            frm.ShowDialog();
         }
 
         private void queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click(object sender, EventArgs e)
