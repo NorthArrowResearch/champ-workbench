@@ -30,7 +30,7 @@ namespace CHaMPWorkbench.Habitat
 
             m_dsHabitat = new dsHabitat();
             LoadHabitatLookupData();
- 
+
             // Create any table adapters that are used to insert new records
             m_taSimulations = new dsHabitatTableAdapters.SimulationsTableAdapter();
             m_taSimulations.Connection = m_HabitatManager.ProjectDatabaseConnection;
@@ -51,7 +51,7 @@ namespace CHaMPWorkbench.Habitat
 
         private void LoadHabitatLookupData()
         {
-           // Fill the lookup list tables
+            // Fill the lookup list tables
             dsHabitatTableAdapters.LookupListsTableAdapter taLists = new dsHabitatTableAdapters.LookupListsTableAdapter();
             taLists.Connection = m_HabitatManager.ProjectDatabaseConnection;
             taLists.Fill(m_dsHabitat.LookupLists);
@@ -59,7 +59,7 @@ namespace CHaMPWorkbench.Habitat
             dsHabitatTableAdapters.LookupListItemsTableAdapter taListItems = new dsHabitatTableAdapters.LookupListItemsTableAdapter();
             taListItems.Connection = m_HabitatManager.ProjectDatabaseConnection;
             taListItems.Fill(m_dsHabitat.LookupListItems);
-            
+
             //Units
             dsHabitatTableAdapters.UnitsTableAdapter taUnits = new dsHabitatTableAdapters.UnitsTableAdapter();
             taUnits.Connection = m_HabitatManager.ProjectDatabaseConnection;
@@ -129,8 +129,9 @@ namespace CHaMPWorkbench.Habitat
                     if (rVariable.VariableName.ToLower().Contains("substrate"))
                     {
                         // Create raster data source
+                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                        dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SbustrateRaster", sOriginalPath, false, "raster");
 
-                        m_taProjectDataSources.Update(m_dsHabitat.ProjectDataSources);
 
                         // Create project variable
                         rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
@@ -140,8 +141,8 @@ namespace CHaMPWorkbench.Habitat
                         // Create a Data Source for the CSV
                         if (rCSVDataSource == null)
                         {
-                            rCSVDataSource = BuildCSVDataSource("Delft 3D CSV Output", rVisit);
-                            //m_taProjectDataSources.Update(m_dsHabitat.ProjectDataSources);
+                            string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.HydraulicModelCSV);
+                            rCSVDataSource = BuildAndCopyProjectDataSource("Delft 3D CSV Output", sOriginalPath, true, "csv");
                         }
 
                         if (rVariable.VariableName.ToLower().Contains("velocity"))
@@ -184,33 +185,48 @@ namespace CHaMPWorkbench.Habitat
             return sResult;
         }
 
-        private dsHabitat.ProjectDataSourcesRow BuildCSVDataSource(string sDataSourceName, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit)
+        /// <summary>
+        /// Creates the record in the database for the project data source (CSV or raster)
+        /// </summary>
+        /// <param name="sDataSourceName">Habitat project data source name</param>
+        /// <param name="sOriginalPath">Full, absolute path to the original file (CSV or TIF)</param>
+        /// <param name="bCopySingleFile">When true this routine copies on the original file path. When false it wildcards the file name .* and copies all files.</param>
+        /// <param name="sProjectInputType">"csv" or "raster". Used to lookup the lookuplist item ID in the habitat database</param>
+        /// <returns>Remember that this is used for both CSV and raster data sources</returns>
+        private dsHabitat.ProjectDataSourcesRow BuildAndCopyProjectDataSource(string sDataSourceName, string sOriginalPath, Boolean bCopySingleFile, string sProjectInputType)
         {
-            string sOriginalCSVPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.VisitYear.ToString(), rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.Folder, rVisit.CHAMP_SitesRow.Folder);
-            sOriginalCSVPath = System.IO.Path.Combine(sOriginalCSVPath, rVisit.HydraulicModelCSV);
-            //if (!System.IO.File.Exists(sOriginalCSVPath))
-            //    return null;
+            if (!System.IO.File.Exists(sOriginalPath))
+                return null;
 
-            string sInputPath = HMUI.Classes.Paths.GetSpecificInputFullPath(sDataSourceName, "csv");
-            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sOriginalCSVPath));
+            string sProjectDataSourcePath = HMUI.Classes.Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sProjectDataSourcePath));
 
-            //System.IO.File.Copy(sOriginalCSVPath, sInputPath, true);
-            //if (!System.IO.File.Exists(sInputPath))
-            //    return null;
+            // TIF rasters require all the files to be copied.
+            string sCopySource;
+            if (bCopySingleFile)
+                sCopySource = sOriginalPath;
+            else
+                sCopySource = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, System.IO.Path.GetFileNameWithoutExtension(sOriginalPath), ".*");
 
-            int nDataSourceTypeID = GetLookupListItemID("Project Input Types", "csv");
+            System.IO.File.Copy(sCopySource, sProjectDataSourcePath, true);
+            if (!System.IO.File.Exists(sProjectDataSourcePath))
+                return null;
+
+            int nDataSourceTypeID = GetLookupListItemID("Project Input Types", sProjectInputType);
+
 
             dsHabitat.ProjectDataSourcesRow rDataSource = m_dsHabitat.ProjectDataSources.NewProjectDataSourcesRow();
-            rDataSource.OriginalPath = sOriginalCSVPath;
+            rDataSource.OriginalPath = sOriginalPath;
             rDataSource.CreatedOn = DateTime.Now;
             rDataSource.DataSourceTypeID = nDataSourceTypeID;
-            rDataSource.ProjectPath = HMUI.Classes.Paths.GetRelativePath(sInputPath);
+            rDataSource.ProjectPath = HMUI.Classes.Paths.GetRelativePath(sProjectDataSourcePath);
             rDataSource.Title = sDataSourceName;
             m_dsHabitat.ProjectDataSources.AddProjectDataSourcesRow(rDataSource);
             m_taProjectDataSources.Update(rDataSource);
 
             return rDataSource;
         }
+
 
         private dsHabitat.ProjectVariablesRow BuildProjectVariable(string sValueField, dsHabitat.HSCRow rHSC, int nProjectDataSourceID)
         {

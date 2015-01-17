@@ -1785,6 +1785,8 @@ namespace CHaMPWorkbench {
             
             private global::System.Data.DataColumn columnHydraulicModelCSV;
             
+            private global::System.Data.DataColumn columnICRPath;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_VisitsDataTable() {
@@ -1996,6 +1998,14 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ICRPathColumn {
+                get {
+                    return this.columnICRPath;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2053,7 +2063,8 @@ namespace CHaMPWorkbench {
                         string Folder, 
                         string DisplayName, 
                         string PanelName, 
-                        string HydraulicModelCSV) {
+                        string HydraulicModelCSV, 
+                        string ICRPath) {
                 CHAMP_VisitsRow rowCHAMP_VisitsRow = ((CHAMP_VisitsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         VisitID,
@@ -2077,7 +2088,8 @@ namespace CHaMPWorkbench {
                         Folder,
                         DisplayName,
                         PanelName,
-                        HydraulicModelCSV};
+                        HydraulicModelCSV,
+                        ICRPath};
                 if ((_parentCHAMP_SitesRowBy_3B234512_3334_4E20_B9DB_CDA24E289DC9_ != null)) {
                     columnValuesArray[1] = _parentCHAMP_SitesRowBy_3B234512_3334_4E20_B9DB_CDA24E289DC9_[0];
                 }
@@ -2132,6 +2144,7 @@ namespace CHaMPWorkbench {
                 this.columnDisplayName = base.Columns["DisplayName"];
                 this.columnPanelName = base.Columns["PanelName"];
                 this.columnHydraulicModelCSV = base.Columns["HydraulicModelCSV"];
+                this.columnICRPath = base.Columns["ICRPath"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2181,6 +2194,8 @@ namespace CHaMPWorkbench {
                 base.Columns.Add(this.columnPanelName);
                 this.columnHydraulicModelCSV = new global::System.Data.DataColumn("HydraulicModelCSV", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnHydraulicModelCSV);
+                this.columnICRPath = new global::System.Data.DataColumn("ICRPath", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnICRPath);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnVisitID}, true));
                 this.columnVisitID.AllowDBNull = false;
@@ -2196,6 +2211,7 @@ namespace CHaMPWorkbench {
                 this.columnDisplayName.MaxLength = 255;
                 this.columnPanelName.MaxLength = 64;
                 this.columnHydraulicModelCSV.MaxLength = 255;
+                this.columnICRPath.MaxLength = 255;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4005,6 +4021,22 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string ICRPath {
+                get {
+                    try {
+                        return ((string)(this[this.tableCHAMP_Visits.ICRPathColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ICRPath\' in table \'CHAMP_Visits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_Visits.ICRPathColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_SitesRow CHAMP_SitesRow {
                 get {
                     return ((CHAMP_SitesRow)(this.GetParentRow(this.Table.ParentRelations["{3B234512-3334-4E20-B9DB-CDA24E289DC9}"])));
@@ -4264,6 +4296,18 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetHydraulicModelCSVNull() {
                 this[this.tableCHAMP_Visits.HydraulicModelCSVColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsICRPathNull() {
+                return this.IsNull(this.tableCHAMP_Visits.ICRPathColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetICRPathNull() {
+                this[this.tableCHAMP_Visits.ICRPathColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6596,10 +6640,11 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             tableMapping.ColumnMappings.Add("DisplayName", "DisplayName");
             tableMapping.ColumnMappings.Add("PanelName", "PanelName");
             tableMapping.ColumnMappings.Add("HydraulicModelCSV", "HydraulicModelCSV");
+            tableMapping.ColumnMappings.Add("ICRPath", "ICRPath");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Visits` WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 AND `CoordSystem` IS NULL) OR (`CoordSystem` = ?)) AND ((? = 1 AND `ExtentTop` IS NULL) OR (`ExtentTop` = ?)) AND ((? = 1 AND `ExtentLeft` IS NULL) OR (`ExtentLeft` = ?)) AND ((? = 1 AND `ExtentBottom` IS NULL) OR (`ExtentBottom` = ?)) AND ((? = 1 AND `ExtentRight` IS NULL) OR (`ExtentRight` = ?)) AND ((? = 1 AND `CoordSystemID` IS NULL) OR (`CoordSystemID` = ?)) AND ((? = 1 AND `TopoTIN` IS NULL) OR (`TopoTIN` = ?)) AND ((? = 1 AND `WSTIN` IS NULL) OR (`WSTIN` = ?)) AND ((? = 1 AND `SurveyGDB` IS NULL) OR (`SurveyGDB` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `HydraulicModelCSV` IS NULL) OR (`HydraulicModelCSV` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Visits` WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 AND `CoordSystem` IS NULL) OR (`CoordSystem` = ?)) AND ((? = 1 AND `ExtentTop` IS NULL) OR (`ExtentTop` = ?)) AND ((? = 1 AND `ExtentLeft` IS NULL) OR (`ExtentLeft` = ?)) AND ((? = 1 AND `ExtentBottom` IS NULL) OR (`ExtentBottom` = ?)) AND ((? = 1 AND `ExtentRight` IS NULL) OR (`ExtentRight` = ?)) AND ((? = 1 AND `CoordSystemID` IS NULL) OR (`CoordSystemID` = ?)) AND ((? = 1 AND `TopoTIN` IS NULL) OR (`TopoTIN` = ?)) AND ((? = 1 AND `WSTIN` IS NULL) OR (`WSTIN` = ?)) AND ((? = 1 AND `SurveyGDB` IS NULL) OR (`SurveyGDB` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `HydraulicModelCSV` IS NULL) OR (`HydraulicModelCSV` = ?)) AND ((? = 1 AND `ICRPath` IS NULL) OR (`ICRPath` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, true, null));
@@ -6642,29 +6687,32 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_PanelName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "PanelName", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HydraulicModelCSV", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HydraulicModelCSV", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HydraulicModelCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HydraulicModelCSV", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ICRPath", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ICRPath", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ICRPath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ICRPath", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "UPDATE `CHAMP_Visits` SET `VisitID` = ?, `SiteID` = ?, `ProgramSiteID` = ?, `Visi" +
                 "tYear` = ?, `HitchID` = ?, `HitchName` = ?, `CrewName` = ?, `SampleDate` = ?, `I" +
                 "sPrimary` = ?, `CoordSystem` = ?, `ExtentTop` = ?, `ExtentLeft` = ?, `ExtentBott" +
                 "om` = ?, `ExtentRight` = ?, `CoordSystemID` = ?, `TopoTIN` = ?, `WSTIN` = ?, `Su" +
-                "rveyGDB` = ?, `Folder` = ?, `PanelName` = ?, `HydraulicModelCSV` = ? WHERE ((`Vi" +
-                "sitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND" +
-                " `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` " +
-                "IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` " +
-                "= ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND" +
-                " `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) " +
-                "OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)" +
-                ") AND ((? = 1 AND `CoordSystem` IS NULL) OR (`CoordSystem` = ?)) AND ((? = 1 AND" +
-                " `ExtentTop` IS NULL) OR (`ExtentTop` = ?)) AND ((? = 1 AND `ExtentLeft` IS NULL" +
-                ") OR (`ExtentLeft` = ?)) AND ((? = 1 AND `ExtentBottom` IS NULL) OR (`ExtentBott" +
-                "om` = ?)) AND ((? = 1 AND `ExtentRight` IS NULL) OR (`ExtentRight` = ?)) AND ((?" +
-                " = 1 AND `CoordSystemID` IS NULL) OR (`CoordSystemID` = ?)) AND ((? = 1 AND `Top" +
-                "oTIN` IS NULL) OR (`TopoTIN` = ?)) AND ((? = 1 AND `WSTIN` IS NULL) OR (`WSTIN` " +
-                "= ?)) AND ((? = 1 AND `SurveyGDB` IS NULL) OR (`SurveyGDB` = ?)) AND ((? = 1 AND" +
-                " `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`" +
-                "PanelName` = ?)) AND ((? = 1 AND `HydraulicModelCSV` IS NULL) OR (`HydraulicMode" +
-                "lCSV` = ?)))";
+                "rveyGDB` = ?, `Folder` = ?, `PanelName` = ?, `HydraulicModelCSV` = ?, `ICRPath` " +
+                "= ? WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) " +
+                "AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 A" +
+                "ND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL)" +
+                " OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) " +
+                "AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `Sample" +
+                "Date` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`" +
+                "IsPrimary` = ?)) AND ((? = 1 AND `CoordSystem` IS NULL) OR (`CoordSystem` = ?)) " +
+                "AND ((? = 1 AND `ExtentTop` IS NULL) OR (`ExtentTop` = ?)) AND ((? = 1 AND `Exte" +
+                "ntLeft` IS NULL) OR (`ExtentLeft` = ?)) AND ((? = 1 AND `ExtentBottom` IS NULL) " +
+                "OR (`ExtentBottom` = ?)) AND ((? = 1 AND `ExtentRight` IS NULL) OR (`ExtentRight" +
+                "` = ?)) AND ((? = 1 AND `CoordSystemID` IS NULL) OR (`CoordSystemID` = ?)) AND (" +
+                "(? = 1 AND `TopoTIN` IS NULL) OR (`TopoTIN` = ?)) AND ((? = 1 AND `WSTIN` IS NUL" +
+                "L) OR (`WSTIN` = ?)) AND ((? = 1 AND `SurveyGDB` IS NULL) OR (`SurveyGDB` = ?)) " +
+                "AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `PanelName`" +
+                " IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `HydraulicModelCSV` IS NULL) OR " +
+                "(`HydraulicModelCSV` = ?)) AND ((? = 1 AND `ICRPath` IS NULL) OR (`ICRPath` = ?)" +
+                "))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
@@ -6687,6 +6735,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Folder", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("PanelName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "PanelName", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HydraulicModelCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HydraulicModelCSV", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ICRPath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ICRPath", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, false, null));
@@ -6728,6 +6777,8 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_PanelName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "PanelName", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HydraulicModelCSV", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HydraulicModelCSV", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HydraulicModelCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HydraulicModelCSV", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ICRPath", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ICRPath", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ICRPath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ICRPath", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6744,18 +6795,18 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, CoordSystem, ExtentTop, ExtentLeft, ExtentBottom, ExtentRight, CoordSystemID, TopoTIN, WSTIN, SurveyGDB, 
-                         Folder, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, PanelName, HydraulicModelCSV
+                         Folder, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, PanelName, HydraulicModelCSV, ICRPath
 FROM            CHAMP_Visits
 ORDER BY VisitYear DESC, IsPrimary DESC";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT CoordSystem, CoordSystemID, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, ExtentBottom, ExtentLeft, ExtentRight, ExtentTop, Folder, HitchID, HitchName, HydraulicModelCSV, IsPrimary, PanelName, ProgramSiteID, SampleDate, SiteID, SurveyGDB, TopoTIN, VisitID, VisitYear, WSTIN FROM CHAMP_Visits WHERE (SiteID = ?) AND (SurveyGDB IS NOT NULL) AND (TopoTIN IS NOT NULL) AND (WSTIN IS NOT NULL)";
+            this._commandCollection[1].CommandText = @"SELECT CoordSystem, CoordSystemID, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, ExtentBottom, ExtentLeft, ExtentRight, ExtentTop, Folder, HitchID, HitchName, HydraulicModelCSV, ICRPath, IsPrimary, PanelName, ProgramSiteID, SampleDate, SiteID, SurveyGDB, TopoTIN, VisitID, VisitYear, WSTIN FROM CHAMP_Visits WHERE (SiteID = ?) AND (SurveyGDB IS NOT NULL) AND (TopoTIN IS NOT NULL) AND (WSTIN IS NOT NULL)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT CoordSystem, CoordSystemID, CrewName, ExtentBottom, ExtentLeft, ExtentRight, ExtentTop, Folder, HitchID, HitchName, HydraulicModelCSV, IsPrimary, PanelName, ProgramSiteID, SampleDate, SiteID, SurveyGDB, TopoTIN, VisitID, VisitYear, WSTIN FROM CHAMP_Visits WHERE (VisitYear = ?)";
+            this._commandCollection[2].CommandText = @"SELECT CoordSystem, CoordSystemID, CrewName, ExtentBottom, ExtentLeft, ExtentRight, ExtentTop, Folder, HitchID, HitchName, HydraulicModelCSV, ICRPath, IsPrimary, PanelName, ProgramSiteID, SampleDate, SiteID, SurveyGDB, TopoTIN, VisitID, VisitYear, WSTIN FROM CHAMP_Visits WHERE (VisitYear = ?)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -6865,7 +6916,8 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     string Original_SurveyGDB, 
                     string Original_Folder, 
                     string Original_PanelName, 
-                    string Original_HydraulicModelCSV) {
+                    string Original_HydraulicModelCSV, 
+                    string Original_ICRPath) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_VisitID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_SiteID));
@@ -7008,6 +7060,14 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                 this.Adapter.DeleteCommand.Parameters[39].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[40].Value = ((string)(Original_HydraulicModelCSV));
             }
+            if ((Original_ICRPath == null)) {
+                this.Adapter.DeleteCommand.Parameters[41].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[42].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[41].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[42].Value = ((string)(Original_ICRPath));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -7050,6 +7110,7 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     string Folder, 
                     string PanelName, 
                     string HydraulicModelCSV, 
+                    string ICRPath, 
                     int Original_VisitID, 
                     int Original_SiteID, 
                     global::System.Nullable<int> Original_ProgramSiteID, 
@@ -7070,7 +7131,8 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     string Original_SurveyGDB, 
                     string Original_Folder, 
                     string Original_PanelName, 
-                    string Original_HydraulicModelCSV) {
+                    string Original_HydraulicModelCSV, 
+                    string Original_ICRPath) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(VisitID));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(SiteID));
             if ((ProgramSiteID.HasValue == true)) {
@@ -7177,147 +7239,161 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
             else {
                 this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(HydraulicModelCSV));
             }
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_VisitID));
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(Original_SiteID));
+            if ((ICRPath == null)) {
+                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((string)(ICRPath));
+            }
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_VisitID));
+            this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(Original_SiteID));
             if ((Original_ProgramSiteID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(Original_ProgramSiteID.Value));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(Original_ProgramSiteID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[27].Value = ((short)(Original_VisitYear));
+            this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[28].Value = ((short)(Original_VisitYear));
             if ((Original_HitchID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((int)(Original_HitchID.Value));
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((int)(Original_HitchID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[29].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
             if ((Original_HitchName == null)) {
                 throw new global::System.ArgumentNullException("Original_HitchName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((string)(Original_HitchName));
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((string)(Original_HitchName));
             }
             if ((Original_CrewName == null)) {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[33].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((string)(Original_CrewName));
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((string)(Original_CrewName));
             }
             if ((Original_SampleDate.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[34].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[35].Value = ((System.DateTime)(Original_SampleDate.Value));
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[36].Value = ((System.DateTime)(Original_SampleDate.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[34].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[35].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[36].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[36].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[37].Value = ((bool)(Original_IsPrimary));
+            this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[38].Value = ((bool)(Original_IsPrimary));
             if ((Original_CoordSystem == null)) {
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[39].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[40].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[39].Value = ((string)(Original_CoordSystem));
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[40].Value = ((string)(Original_CoordSystem));
             }
             if ((Original_ExtentTop.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[40].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[41].Value = ((double)(Original_ExtentTop.Value));
+                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[42].Value = ((double)(Original_ExtentTop.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[40].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[41].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[42].Value = global::System.DBNull.Value;
             }
             if ((Original_ExtentLeft.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[43].Value = ((double)(Original_ExtentLeft.Value));
+                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[44].Value = ((double)(Original_ExtentLeft.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[43].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[44].Value = global::System.DBNull.Value;
             }
             if ((Original_ExtentBottom.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[45].Value = ((double)(Original_ExtentBottom.Value));
+                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[46].Value = ((double)(Original_ExtentBottom.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[45].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[46].Value = global::System.DBNull.Value;
             }
             if ((Original_ExtentRight.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[46].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[47].Value = ((double)(Original_ExtentRight.Value));
+                this.Adapter.UpdateCommand.Parameters[47].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[48].Value = ((double)(Original_ExtentRight.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[46].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[47].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[47].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[48].Value = global::System.DBNull.Value;
             }
             if ((Original_CoordSystemID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[48].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((int)(Original_CoordSystemID.Value));
+                this.Adapter.UpdateCommand.Parameters[49].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[50].Value = ((int)(Original_CoordSystemID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[48].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[49].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[49].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[50].Value = global::System.DBNull.Value;
             }
             if ((Original_TopoTIN == null)) {
-                this.Adapter.UpdateCommand.Parameters[50].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[51].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[51].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[52].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[50].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((string)(Original_TopoTIN));
+                this.Adapter.UpdateCommand.Parameters[51].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[52].Value = ((string)(Original_TopoTIN));
             }
             if ((Original_WSTIN == null)) {
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[53].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[54].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_WSTIN));
+                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_WSTIN));
             }
             if ((Original_SurveyGDB == null)) {
-                this.Adapter.UpdateCommand.Parameters[54].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[55].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[56].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[54].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((string)(Original_SurveyGDB));
+                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[56].Value = ((string)(Original_SurveyGDB));
             }
             if ((Original_Folder == null)) {
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[57].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((string)(Original_Folder));
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_Folder));
             }
             if ((Original_PanelName == null)) {
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[59].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[60].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((string)(Original_PanelName));
+                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((string)(Original_PanelName));
             }
             if ((Original_HydraulicModelCSV == null)) {
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[61].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[62].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[61].Value = ((string)(Original_HydraulicModelCSV));
+                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[62].Value = ((string)(Original_HydraulicModelCSV));
+            }
+            if ((Original_ICRPath == null)) {
+                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[64].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[64].Value = ((string)(Original_ICRPath));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -7360,6 +7436,7 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     string Folder, 
                     string PanelName, 
                     string HydraulicModelCSV, 
+                    string ICRPath, 
                     int Original_VisitID, 
                     int Original_SiteID, 
                     global::System.Nullable<int> Original_ProgramSiteID, 
@@ -7380,8 +7457,9 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     string Original_SurveyGDB, 
                     string Original_Folder, 
                     string Original_PanelName, 
-                    string Original_HydraulicModelCSV) {
-            return this.Update(Original_VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, CoordSystem, ExtentTop, ExtentLeft, ExtentBottom, ExtentRight, CoordSystemID, TopoTIN, WSTIN, SurveyGDB, Folder, PanelName, HydraulicModelCSV, Original_VisitID, Original_SiteID, Original_ProgramSiteID, Original_VisitYear, Original_HitchID, Original_HitchName, Original_CrewName, Original_SampleDate, Original_IsPrimary, Original_CoordSystem, Original_ExtentTop, Original_ExtentLeft, Original_ExtentBottom, Original_ExtentRight, Original_CoordSystemID, Original_TopoTIN, Original_WSTIN, Original_SurveyGDB, Original_Folder, Original_PanelName, Original_HydraulicModelCSV);
+                    string Original_HydraulicModelCSV, 
+                    string Original_ICRPath) {
+            return this.Update(Original_VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, CoordSystem, ExtentTop, ExtentLeft, ExtentBottom, ExtentRight, CoordSystemID, TopoTIN, WSTIN, SurveyGDB, Folder, PanelName, HydraulicModelCSV, ICRPath, Original_VisitID, Original_SiteID, Original_ProgramSiteID, Original_VisitYear, Original_HitchID, Original_HitchName, Original_CrewName, Original_SampleDate, Original_IsPrimary, Original_CoordSystem, Original_ExtentTop, Original_ExtentLeft, Original_ExtentBottom, Original_ExtentRight, Original_CoordSystemID, Original_TopoTIN, Original_WSTIN, Original_SurveyGDB, Original_Folder, Original_PanelName, Original_HydraulicModelCSV, Original_ICRPath);
         }
     }
     

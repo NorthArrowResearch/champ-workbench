@@ -73,7 +73,7 @@
             this.txtWSTIN.Name = "txtWSTIN";
             this.txtWSTIN.Size = new System.Drawing.Size(408, 20);
             this.txtWSTIN.TabIndex = 8;
-            this.txtWSTIN.Text = "wsetin*.zip";
+            this.txtWSTIN.Text = "WettedSurfaceTIN*.zip";
             // 
             // Label5
             // 
@@ -90,7 +90,7 @@
             this.txtTopoTIN.Name = "txtTopoTIN";
             this.txtTopoTIN.Size = new System.Drawing.Size(408, 20);
             this.txtTopoTIN.TabIndex = 6;
-            this.txtTopoTIN.Text = "tin*.zip";
+            this.txtTopoTIN.Text = "TIN*.zip";
             // 
             // Label4
             // 
@@ -107,7 +107,7 @@
             this.txtSurvey2.Name = "txtSurvey2";
             this.txtSurvey2.Size = new System.Drawing.Size(408, 20);
             this.txtSurvey2.TabIndex = 3;
-            this.txtSurvey2.Text = "SurveyGDB.zip";
+            this.txtSurvey2.Text = "Orthogonal*.zip";
             // 
             // Label3
             // 
@@ -124,7 +124,7 @@
             this.txtSurvey1.Name = "txtSurvey1";
             this.txtSurvey1.Size = new System.Drawing.Size(408, 20);
             this.txtSurvey1.TabIndex = 1;
-            this.txtSurvey1.Text = "Orthogonal*.zip";
+            this.txtSurvey1.Text = "SurveyGDB*.zip";
             // 
             // Label2
             // 

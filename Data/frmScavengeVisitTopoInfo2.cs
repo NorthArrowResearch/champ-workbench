@@ -49,13 +49,16 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-               ScavengeProperties theResult = ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
-               MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
-                   theResult.TopoFolders, theResult.WithVisitID, theResult.WithVisitFiles, theResult.WithHydro)
-                   , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                ScavengeProperties theResult = ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
+                Cursor.Current = System.Windows.Forms.Cursors.Default;
+                MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
+                    theResult.TopoFolders, theResult.WithVisitID, theResult.WithVisitFiles, theResult.WithHydro)
+                    , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                Cursor.Current = System.Windows.Forms.Cursors.Default;
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -116,9 +119,9 @@ namespace CHaMPWorkbench.Data
                             if (LookForTopoFiles(dTopo.FullName, out sSurveyGDB, out sTopoTIN, out sWSTIN))
                             {
                                 theResult.WithVisitFiles += 1;
-                                rVisit.SurveyGDB = sSurveyGDB;
-                                rVisit.TopoTIN = sTopoTIN;
-                                rVisit.WSTIN = sWSTIN;
+                                rVisit.SurveyGDB = System.IO.Path.GetFileName(sSurveyGDB);
+                                rVisit.TopoTIN = System.IO.Path.GetFileName(sTopoTIN);
+                                rVisit.WSTIN = System.IO.Path.GetFileName(sWSTIN);
                             }
 
                             // Now look for the hydraulic model artifacts
