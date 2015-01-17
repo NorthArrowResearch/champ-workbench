@@ -8,7 +8,6 @@ namespace CHaMPWorkbench.Classes
 {
     class Site : NamedDBObject
     {
-        private String m_sFolder;
         private String m_sUTMZone;
         private Watershed m_Watershed;
         private Dictionary<int, Visit> m_dVisits;
@@ -16,7 +15,6 @@ namespace CHaMPWorkbench.Classes
         public Site(int nID, String sName, String sFolder, String sUTMZone, ref Watershed aWatershed)
             : base(nID, sName)
         {
-            m_sFolder = sFolder;
             m_dVisits = new Dictionary<int, Visit>();
             m_Watershed = aWatershed;
             m_sUTMZone = sUTMZone;
@@ -25,9 +23,6 @@ namespace CHaMPWorkbench.Classes
         public Site(RBTWorkbenchDataSet.CHAMP_SitesRow rSite)
             : base(rSite.SiteID, rSite.SiteName)
         {
-            if (!rSite.IsFolderNull())
-                m_sFolder = rSite.Folder;
-
             m_dVisits = new Dictionary<int, Visit>();
 
             if (!rSite.IsWatershedIDNull())
@@ -36,15 +31,6 @@ namespace CHaMPWorkbench.Classes
             if (!rSite.IsUTMZoneNull())
                 m_sUTMZone = rSite.UTMZone;
 
-        }
-
-
-        public String Folder
-        {
-            get
-            {
-                return m_sFolder;
-            }
         }
 
         public void AddVisit(Visit aVisit)
@@ -63,12 +49,9 @@ namespace CHaMPWorkbench.Classes
 
             foreach (Visit aVisit in m_dVisits.Values)
             {
-                if (!String.IsNullOrWhiteSpace(aVisit.Folder) && !String.IsNullOrWhiteSpace(Folder))
+                if (!String.IsNullOrWhiteSpace(aVisit.Folder))
                 {
-                    String sVisitTopoDatafolder = System.IO.Path.Combine(sSourceFolder, aVisit.FieldSeason.ToString());
-                    sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, m_Watershed.Folder);
-                    sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, Folder);
-                    sVisitTopoDatafolder = System.IO.Path.Combine(sVisitTopoDatafolder, aVisit.Folder);
+                    String sVisitTopoDatafolder = System.IO.Path.Combine(sSourceFolder, aVisit.Folder);
                     aVisit.WriteToXML(ref xmlFile, sVisitTopoDatafolder, bRequireWSTIN);
                 }
             }
@@ -77,7 +60,7 @@ namespace CHaMPWorkbench.Classes
         }
 
         public string NameForDatabaseBatch
-                {
+        {
             get
             {
                 Visit targetVisit = null;
@@ -85,7 +68,7 @@ namespace CHaMPWorkbench.Classes
                     if (v.CalculateMetrics || v.ChangeDetection)
                         targetVisit = v;
 
-                   string sName ="";
+                string sName = "";
                 if (targetVisit is Visit)
                     sName = targetVisit.FieldSeason.ToString() + ", ";
 

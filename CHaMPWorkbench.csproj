@@ -214,12 +214,6 @@
     <Compile Include="RBT\Batches\frmSelectRBTBatches.Designer.cs">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmScavengeVisitTopoInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Data\frmScavengeVisitTopoInfo.Designer.cs">
-      <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,9 +297,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\Batches\frmSelectRBTBatches.resx">
       <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmScavengeVisitTopoInfo.resx">
-      <DependentUpon>frmScavengeVisitTopoInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>

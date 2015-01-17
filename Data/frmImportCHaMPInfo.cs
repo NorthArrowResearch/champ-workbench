@@ -127,7 +127,6 @@ namespace CHaMPWorkbench.Data
                         r = dtWorkbench.NewCHAMP_WatershedsRow();
                         r.WatershedID = (int)dbRead["WatershedID"];
                         r.WatershedName = (string)dbRead["WatershedName"];
-                        r.SetFolderNull();
                         dtWorkbench.AddCHAMP_WatershedsRow(r);
                     }
                     else

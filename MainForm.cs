@@ -178,7 +178,7 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmScavengeVisitTopoInfo frm = new frmScavengeVisitTopoInfo(m_dbCon);
+            Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
             frm.ShowDialog();
         }
 
