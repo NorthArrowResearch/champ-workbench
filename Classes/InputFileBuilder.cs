@@ -31,6 +31,7 @@ namespace CHaMPWorkbench.Classes
 
             xmlInput = new System.Xml.XmlTextWriter(sRBTInputFilePath, System.Text.Encoding.UTF8);
             xmlInput.Formatting = System.Xml.Formatting.Indented;
+            xmlInput.Indentation = 4;
             xmlInput.WriteStartElement("rbt");
 
             xmlInput.WriteStartElement("metadata");
