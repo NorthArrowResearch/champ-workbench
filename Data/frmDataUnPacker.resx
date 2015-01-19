@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label7.Text" xml:space="preserve">
-    <value>This tool will search rescursively under the top level folder specified below for zip archives matching the file name patterns below. When it finds a zip archive matching the pattern it will unzip it into the same folder in which the zip file is located.</value>
+    <value>This tool searches rescursively under the top level folder specified below for zip archives matching the file name patterns. When it finds a folder containing Survey GDB and TIN zip archives it unzips them into the same folder in which the zip file is located or the output folder you specify.</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>The survey Survey GDB can be one of three options. If a folder contains a file matching option 1, then this file is unzipped and the process continues with the next folder. If a file matching option 1 is not found, then option 2 is used, and so on.</value>

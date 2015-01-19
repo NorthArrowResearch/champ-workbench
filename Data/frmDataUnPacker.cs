@@ -55,9 +55,32 @@ namespace CHaMPWorkbench.Data
                 }
             }
 
+            if (rdoDifferent.Checked)
+            {
+                if (string.IsNullOrEmpty(txtOutputFolder.Text) || !System.IO.Directory.Exists(txtOutputFolder.Text))
+                {
+                    MessageBox.Show("The top level output folder must be a valid directory.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
+            }
+
             try
             {
-                int nCount = Process(txtFolder.Text, txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text, txtTopoTIN.Text, txtWSTIN.Text);
+                string sHydroInputs = "";
+                string sHydroResults = "";
+                string sOutputFolder = "";
+
+                if (chkHydroInputs.Checked)
+                    sHydroInputs = txtHydroInputs.Text;
+
+                if (chkHydroResults.Checked)
+                    sHydroResults = txtHydroResults.Text;
+
+                if (rdoDifferent.Checked)
+                    sOutputFolder = txtOutputFolder.Text;
+
+                int nCount = Process(txtFolder.Text, txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text, txtTopoTIN.Text, txtWSTIN.Text, sHydroInputs,sHydroResults, sOutputFolder);
                 MessageBox.Show("Processed " + nCount.ToString("#,##0"), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -71,12 +94,12 @@ namespace CHaMPWorkbench.Data
             if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder) &&
                 System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder))
                 txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder;
+
+            UpdateControls(sender, e);
         }
 
-
-        private int Process(string sTopLevelFolder, string sSurvey1, string sSurvey2, string sSurvey3, string sTopoTIN, string sWSTIN)
+        private int Process(string sTopLevelFolder, string sSurvey1, string sSurvey2, string sSurvey3, string sTopoTIN, string sWSTIN, string sHydroInputs, string sHydroResults, string sOutputFolder)
         {
-
             int nUnpackedCount = 0;
             DialogResult eResult = DialogResult.Yes;
             foreach (string aFolder in Directory.GetDirectories(sTopLevelFolder, "*", SearchOption.AllDirectories))
@@ -119,22 +142,6 @@ namespace CHaMPWorkbench.Data
                         if (sFiles.Count() > 0)
                         {
                             sWSTINZip = sFiles[0];
-                            //
-                            // Got a folder with a survey GDB, topo TIN and WS TIN
-                            // proceed and unzip all three into the current folder
-                            //
-                            /*
-#if DEBUG
-                            if (eResult == DialogResult.Yes)
-                            {
-                                eResult = MessageBox.Show(sSurveyZip + "\n" + sTopoTINZip + "\n" + sWSTINZip,CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                                if (eResult == DialogResult.Cancel)
-                                {
-                                    break; // TODO: might not be correct. Was : Exit For
-                                }
-                            }
-#endif
-                            */
 
                             String sZipSoftware = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
                             if (String.IsNullOrWhiteSpace(sZipSoftware) || !System.IO.File.Exists(sZipSoftware))
@@ -144,9 +151,16 @@ namespace CHaMPWorkbench.Data
                             }
                             else
                             {
-                                UnZipArchive(sSurveyZip, sZipSoftware);
-                                UnZipArchive(sTopoTINZip, sZipSoftware);
-                                UnZipArchive(sWSTINZip, sZipSoftware);
+                                string sOutputPath = "";
+                                if (!string.IsNullOrEmpty(sOutputFolder))
+                                {
+                                    sOutputPath = System.IO.Path.GetDirectoryName(sSurveyZip).Replace(sTopLevelFolder, sOutputFolder);
+                                    System.IO.Directory.CreateDirectory(sOutputPath);
+                                }
+
+                                UnZipArchive(sSurveyZip, sZipSoftware, sOutputPath);
+                                UnZipArchive(sTopoTINZip, sZipSoftware, sOutputPath);
+                                UnZipArchive(sWSTINZip, sZipSoftware, sOutputPath);
                                 nUnpackedCount += 1;
                             }
                         }
@@ -155,10 +169,9 @@ namespace CHaMPWorkbench.Data
             }
 
             return nUnpackedCount;
-
         }
 
-        private void UnZipArchive(string sFilePath, string sZipSoftware)
+        private void UnZipArchive(string sFilePath, string sZipSoftware, string sOutputFolder)
         {
             string sOptions;
 
@@ -171,13 +184,18 @@ namespace CHaMPWorkbench.Data
                 sOptions = " x " + sFilePath;
             }
 
-            if (Path.GetDirectoryName(sFilePath).Trim().Contains(" "))
+            // If no output folder is specified then simply unzip into the same folder as the archive
+            if (string.IsNullOrEmpty(sOutputFolder))
+                sOutputFolder = Path.GetDirectoryName(sFilePath);
+            sOutputFolder = sOutputFolder.Trim();
+            
+            if (sOutputFolder.Contains(" "))
             {
-                sOptions += " -o\"" + Path.GetDirectoryName(sFilePath).Trim() + "\"";
+                sOptions += string.Format(" -o\"{0}\"",sOutputFolder);
             }
             else
             {
-                sOptions += " -o" + Path.GetDirectoryName(sFilePath).Trim();
+                sOptions += string.Format(" -o{0}", sOutputFolder);
             }
 
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(sZipSoftware, sOptions);
@@ -187,5 +205,36 @@ namespace CHaMPWorkbench.Data
             p.WaitForExit();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Select Top Level Output Data Folder";
+
+            if (!string.IsNullOrEmpty(txtOutputFolder.Text))
+            {
+                if (Directory.Exists(txtOutputFolder.Text))
+                {
+                    frm.SelectedPath = txtOutputFolder.Text;
+                }
+            }
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                txtOutputFolder.Text = frm.SelectedPath;
+            }            
+        }
+
+        private void UpdateControls(object sender, EventArgs e)
+        {
+            lblDifferent.Enabled = rdoDifferent.Checked;
+            txtOutputFolder.Enabled = lblDifferent.Enabled;
+            cmdBrowseOutput.Enabled = lblDifferent.Enabled;
+
+            lblHydroInputs.Enabled = chkHydroInputs.Checked;
+            txtHydroInputs.Enabled = lblHydroInputs.Enabled;
+
+            lblHydroResults.Enabled = chkHydroResults.Checked;
+            txtHydroResults.Enabled = lblHydroResults.Enabled;
+        }
     }
 }
