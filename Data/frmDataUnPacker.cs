@@ -171,7 +171,7 @@ namespace CHaMPWorkbench.Data
             return nUnpackedCount;
         }
 
-        private void UnZipArchive(string sFilePath, string sZipSoftware, string sOutputFolder)
+        private string UnZipArchive(string sFilePath, string sZipSoftware, string sOutputFolder)
         {
             string sOptions;
 
@@ -199,10 +199,15 @@ namespace CHaMPWorkbench.Data
             }
 
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(sZipSoftware, sOptions);
+            info.UseShellExecute = false;
+            info.RedirectStandardOutput = true;
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo = info;
             p.Start();
             p.WaitForExit();
+
+            string sResult = p.StandardOutput.ReadToEnd();
+            return sResult;
         }
 
         private void button1_Click(object sender, EventArgs e)

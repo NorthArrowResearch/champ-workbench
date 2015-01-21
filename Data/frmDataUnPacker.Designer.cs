@@ -53,7 +53,6 @@
             this.txtHydroResults = new System.Windows.Forms.TextBox();
             this.lblHydroResults = new System.Windows.Forms.Label();
             this.chkHydroResults = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rdoSame = new System.Windows.Forms.RadioButton();
             this.rdoDifferent = new System.Windows.Forms.RadioButton();
             this.cmdBrowseOutput = new System.Windows.Forms.Button();
@@ -61,17 +60,26 @@
             this.lblDifferent = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pgrProgress = new System.Windows.Forms.ProgressBar();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSurvey3
             // 
             this.txtSurvey3.Location = new System.Drawing.Point(86, 71);
             this.txtSurvey3.Name = "txtSurvey3";
-            this.txtSurvey3.Size = new System.Drawing.Size(412, 20);
+            this.txtSurvey3.Size = new System.Drawing.Size(500, 20);
             this.txtSurvey3.TabIndex = 5;
             this.txtSurvey3.Text = "*gdb.zip";
             // 
@@ -88,7 +96,7 @@
             // 
             this.txtWSTIN.Location = new System.Drawing.Point(86, 45);
             this.txtWSTIN.Name = "txtWSTIN";
-            this.txtWSTIN.Size = new System.Drawing.Size(412, 20);
+            this.txtWSTIN.Size = new System.Drawing.Size(500, 20);
             this.txtWSTIN.TabIndex = 8;
             this.txtWSTIN.Text = "WettedSurfaceTIN*.zip";
             // 
@@ -105,7 +113,7 @@
             // 
             this.txtTopoTIN.Location = new System.Drawing.Point(86, 19);
             this.txtTopoTIN.Name = "txtTopoTIN";
-            this.txtTopoTIN.Size = new System.Drawing.Size(412, 20);
+            this.txtTopoTIN.Size = new System.Drawing.Size(500, 20);
             this.txtTopoTIN.TabIndex = 6;
             this.txtTopoTIN.Text = "TIN*.zip";
             // 
@@ -122,7 +130,7 @@
             // 
             this.txtSurvey2.Location = new System.Drawing.Point(86, 45);
             this.txtSurvey2.Name = "txtSurvey2";
-            this.txtSurvey2.Size = new System.Drawing.Size(412, 20);
+            this.txtSurvey2.Size = new System.Drawing.Size(500, 20);
             this.txtSurvey2.TabIndex = 3;
             this.txtSurvey2.Text = "Orthogonal*.zip";
             // 
@@ -139,7 +147,7 @@
             // 
             this.txtSurvey1.Location = new System.Drawing.Point(86, 19);
             this.txtSurvey1.Name = "txtSurvey1";
-            this.txtSurvey1.Size = new System.Drawing.Size(412, 20);
+            this.txtSurvey1.Size = new System.Drawing.Size(500, 20);
             this.txtSurvey1.TabIndex = 1;
             this.txtSurvey1.Text = "SurveyGDB*.zip";
             // 
@@ -156,7 +164,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(438, 593);
+            this.cmdOK.Location = new System.Drawing.Point(468, 416);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 10;
@@ -168,7 +176,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(519, 593);
+            this.cmdCancel.Location = new System.Drawing.Point(549, 416);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 11;
@@ -177,7 +185,7 @@
             // 
             // cmdBrowse
             // 
-            this.cmdBrowse.Location = new System.Drawing.Point(519, 100);
+            this.cmdBrowse.Location = new System.Drawing.Point(520, 13);
             this.cmdBrowse.Name = "cmdBrowse";
             this.cmdBrowse.Size = new System.Drawing.Size(71, 23);
             this.cmdBrowse.TabIndex = 4;
@@ -187,7 +195,7 @@
             // 
             // txtFolder
             // 
-            this.txtFolder.Location = new System.Drawing.Point(167, 101);
+            this.txtFolder.Location = new System.Drawing.Point(168, 14);
             this.txtFolder.Name = "txtFolder";
             this.txtFolder.Size = new System.Drawing.Size(346, 20);
             this.txtFolder.TabIndex = 3;
@@ -195,7 +203,7 @@
             // Label1
             // 
             this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(11, 105);
+            this.Label1.Location = new System.Drawing.Point(12, 18);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(153, 13);
             this.Label1.TabIndex = 2;
@@ -203,7 +211,7 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(15, 9);
+            this.label7.Location = new System.Drawing.Point(10, 9);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(578, 42);
             this.label7.TabIndex = 0;
@@ -217,16 +225,16 @@
             this.groupBox1.Controls.Add(this.Label3);
             this.groupBox1.Controls.Add(this.Label6);
             this.groupBox1.Controls.Add(this.txtSurvey2);
-            this.groupBox1.Location = new System.Drawing.Point(15, 134);
+            this.groupBox1.Location = new System.Drawing.Point(6, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(507, 103);
+            this.groupBox1.Size = new System.Drawing.Size(592, 103);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Survey GDB Search Patterns";
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(15, 55);
+            this.label8.Location = new System.Drawing.Point(10, 55);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(578, 35);
             this.label8.TabIndex = 1;
@@ -235,7 +243,7 @@
             // chkHydroInputs
             // 
             this.chkHydroInputs.AutoSize = true;
-            this.chkHydroInputs.Location = new System.Drawing.Point(11, 22);
+            this.chkHydroInputs.Location = new System.Drawing.Point(8, 9);
             this.chkHydroInputs.Name = "chkHydroInputs";
             this.chkHydroInputs.Size = new System.Drawing.Size(182, 17);
             this.chkHydroInputs.TabIndex = 12;
@@ -246,7 +254,7 @@
             // lblHydroInputs
             // 
             this.lblHydroInputs.AutoSize = true;
-            this.lblHydroInputs.Location = new System.Drawing.Point(44, 46);
+            this.lblHydroInputs.Location = new System.Drawing.Point(41, 33);
             this.lblHydroInputs.Name = "lblHydroInputs";
             this.lblHydroInputs.Size = new System.Drawing.Size(36, 13);
             this.lblHydroInputs.TabIndex = 13;
@@ -254,7 +262,7 @@
             // 
             // txtHydroInputs
             // 
-            this.txtHydroInputs.Location = new System.Drawing.Point(90, 42);
+            this.txtHydroInputs.Location = new System.Drawing.Point(87, 29);
             this.txtHydroInputs.Name = "txtHydroInputs";
             this.txtHydroInputs.Size = new System.Drawing.Size(408, 20);
             this.txtHydroInputs.TabIndex = 14;
@@ -262,7 +270,7 @@
             // 
             // txtHydroResults
             // 
-            this.txtHydroResults.Location = new System.Drawing.Point(90, 86);
+            this.txtHydroResults.Location = new System.Drawing.Point(87, 73);
             this.txtHydroResults.Name = "txtHydroResults";
             this.txtHydroResults.Size = new System.Drawing.Size(408, 20);
             this.txtHydroResults.TabIndex = 17;
@@ -271,7 +279,7 @@
             // lblHydroResults
             // 
             this.lblHydroResults.AutoSize = true;
-            this.lblHydroResults.Location = new System.Drawing.Point(38, 90);
+            this.lblHydroResults.Location = new System.Drawing.Point(35, 77);
             this.lblHydroResults.Name = "lblHydroResults";
             this.lblHydroResults.Size = new System.Drawing.Size(42, 13);
             this.lblHydroResults.TabIndex = 16;
@@ -282,28 +290,13 @@
             this.chkHydroResults.AutoSize = true;
             this.chkHydroResults.Checked = true;
             this.chkHydroResults.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHydroResults.Location = new System.Drawing.Point(11, 66);
+            this.chkHydroResults.Location = new System.Drawing.Point(8, 53);
             this.chkHydroResults.Name = "chkHydroResults";
             this.chkHydroResults.Size = new System.Drawing.Size(184, 17);
             this.chkHydroResults.TabIndex = 15;
             this.chkHydroResults.Text = "Search for hydraulic model results";
             this.chkHydroResults.UseVisualStyleBackColor = true;
             this.chkHydroResults.CheckedChanged += new System.EventHandler(this.UpdateControls);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.chkHydroInputs);
-            this.groupBox2.Controls.Add(this.txtHydroResults);
-            this.groupBox2.Controls.Add(this.lblHydroInputs);
-            this.groupBox2.Controls.Add(this.lblHydroResults);
-            this.groupBox2.Controls.Add(this.txtHydroInputs);
-            this.groupBox2.Controls.Add(this.chkHydroResults);
-            this.groupBox2.Location = new System.Drawing.Point(15, 345);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(507, 121);
-            this.groupBox2.TabIndex = 18;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Hydraulic Model Zip Archives";
             // 
             // rdoSame
             // 
@@ -360,9 +353,9 @@
             this.groupBox3.Controls.Add(this.Label4);
             this.groupBox3.Controls.Add(this.txtWSTIN);
             this.groupBox3.Controls.Add(this.Label5);
-            this.groupBox3.Location = new System.Drawing.Point(15, 251);
+            this.groupBox3.Location = new System.Drawing.Point(6, 129);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(507, 80);
+            this.groupBox3.Size = new System.Drawing.Size(592, 80);
             this.groupBox3.TabIndex = 24;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "TIN Search Patterns";
@@ -374,12 +367,83 @@
             this.groupBox4.Controls.Add(this.cmdBrowseOutput);
             this.groupBox4.Controls.Add(this.rdoDifferent);
             this.groupBox4.Controls.Add(this.lblDifferent);
-            this.groupBox4.Location = new System.Drawing.Point(15, 480);
+            this.groupBox4.Location = new System.Drawing.Point(15, 42);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(578, 100);
             this.groupBox4.TabIndex = 25;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Output location";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(10, 93);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(612, 247);
+            this.tabControl1.TabIndex = 26;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.txtFolder);
+            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Controls.Add(this.Label1);
+            this.tabPage1.Controls.Add(this.cmdBrowse);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(604, 221);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Folder Paths";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(604, 221);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Topo Data";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.chkHydroInputs);
+            this.tabPage3.Controls.Add(this.txtHydroResults);
+            this.tabPage3.Controls.Add(this.lblHydroInputs);
+            this.tabPage3.Controls.Add(this.chkHydroResults);
+            this.tabPage3.Controls.Add(this.lblHydroResults);
+            this.tabPage3.Controls.Add(this.txtHydroInputs);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(604, 221);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Hydraulic Model Data";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pgrProgress
+            // 
+            this.pgrProgress.Location = new System.Drawing.Point(12, 346);
+            this.pgrProgress.Name = "pgrProgress";
+            this.pgrProgress.Size = new System.Drawing.Size(606, 23);
+            this.pgrProgress.TabIndex = 27;
+            this.pgrProgress.Visible = false;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(13, 379);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.TabIndex = 28;
+            this.lblStatus.Text = "lblStatus";
+            this.lblStatus.Visible = false;
             // 
             // frmDataUnPacker
             // 
@@ -387,18 +451,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(607, 629);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(637, 452);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.pgrProgress);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
-            this.Controls.Add(this.cmdBrowse);
-            this.Controls.Add(this.txtFolder);
-            this.Controls.Add(this.Label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -407,12 +467,16 @@
             this.Load += new System.EventHandler(this.frmDataUnPacker_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -444,7 +508,6 @@
         internal System.Windows.Forms.TextBox txtHydroResults;
         private System.Windows.Forms.Label lblHydroResults;
         private System.Windows.Forms.CheckBox chkHydroResults;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rdoSame;
         private System.Windows.Forms.RadioButton rdoDifferent;
         internal System.Windows.Forms.Button cmdBrowseOutput;
@@ -452,5 +515,11 @@
         internal System.Windows.Forms.Label lblDifferent;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ProgressBar pgrProgress;
+        private System.Windows.Forms.Label lblStatus;
     }
 }

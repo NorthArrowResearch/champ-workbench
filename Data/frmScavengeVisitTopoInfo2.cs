@@ -13,12 +13,21 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmScavengeVisitTopoInfo2 : Form
     {
+        private enum SearchTypes
+        {
+            Directory,
+            File
+        }
+
         private OleDbConnection m_dbCon;
+        private string m_sStatus;
+        private ScavengeProperties m_Props;
 
         public frmScavengeVisitTopoInfo2(OleDbConnection dbCon)
         {
             InitializeComponent();
             m_dbCon = dbCon;
+            m_sStatus = "";
         }
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
@@ -50,11 +59,16 @@ namespace CHaMPWorkbench.Data
             try
             {
                 Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                ScavengeProperties theResult = ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
-                Cursor.Current = System.Windows.Forms.Cursors.Default;
-                MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
-                    theResult.TopoFolders, theResult.WithVisitID, theResult.WithVisitFiles, theResult.WithHydro)
-                    , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmdCancel.Enabled = false;
+                cmdOK.Enabled = false;
+                grpStatus.Visible = true;
+
+                ScavengeProperties theResult = new ScavengeProperties();// = ScavengeVisitTopoInfo(m_dbCon, txtMonitoringDataFolder.Text, chkSetNull.Checked);
+
+                backgroundWorker1.WorkerReportsProgress = true;
+                //backgroundWorker1.WorkerSupportsCancellation = true;
+                backgroundWorker1.RunWorkerAsync();
+
             }
             catch (Exception ex)
             {
@@ -64,13 +78,54 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private ScavengeProperties ScavengeVisitTopoInfo(OleDbConnection dbCon, string sMonitoringDataFolder, bool bSetMissingDataNULL)
+        private void ClearTopoFields()
         {
-            if (dbCon.State == ConnectionState.Closed)
-                dbCon.Open();
+            OleDbCommand dbCom = new OleDbCommand("UPDATE CHaMP_Visits SET Folder = NULL, SurveyGDB = NULL, TopoTIN = NULL, WSTIN = NULL, HydraulicModelCSV = NULL", m_dbCon);
+            dbCom.ExecuteNonQuery();
+        }
 
-            if (bSetMissingDataNULL)
+        private class ScavengeProperties
+        {
+            public int TopoFolders { get; set; }
+            public int WithVisitID { get; set; }
+            public int WithVisitFiles { get; set; }
+            public int WithHydro { get; set; }
+        }
+
+        private bool LookForMatchingItems(string sContainingFolderPath, string sPatternList, SearchTypes eType, out string sResult)
+        {
+            sResult = "";
+            foreach (string aPattern in sPatternList.Split(';'))
+            {
+                String[] sMatches;
+                if (eType == SearchTypes.Directory)
+                {
+                    sMatches = System.IO.Directory.GetDirectories(sContainingFolderPath, aPattern);
+                }
+                else
+                {
+                    sMatches = System.IO.Directory.GetFiles(sContainingFolderPath, aPattern);
+                }
+
+                if (sMatches.Count<String>() == 1)
+                {
+                    sResult = sMatches[0].Substring(sContainingFolderPath.Length + 1);
+                    break;
+                }
+            }
+
+            return !string.IsNullOrEmpty(sResult);
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {      
+            if (m_dbCon.State == ConnectionState.Closed)
+                m_dbCon.Open();
+
+            if (chkSetNull.Checked)
                 ClearTopoFields();
+
+            string sMonitoringDataFolder = txtMonitoringDataFolder.Text;
 
             RBTWorkbenchDataSet ds = new RBTWorkbenchDataSet();
 
@@ -87,12 +142,17 @@ namespace CHaMPWorkbench.Data
             daVisits.Fill(ds.CHAMP_Visits);
 
             string[] sAllTopoFolders = System.IO.Directory.GetDirectories(sMonitoringDataFolder, "Topo", SearchOption.AllDirectories);
-            ScavengeProperties theResult = new ScavengeProperties();
 
-
+            m_Props = new ScavengeProperties();
             foreach (string sTopoFolder in sAllTopoFolders)
             {
-                theResult.TopoFolders += 1;
+                if (backgroundWorker1.CancellationPending)
+                    return;
+
+                m_Props.TopoFolders += 1;
+                m_sStatus = sTopoFolder;
+                backgroundWorker1.ReportProgress(100 * (m_Props.TopoFolders / sAllTopoFolders.Count<string>()));
+
                 System.Diagnostics.Debug.WriteLine(sTopoFolder);
 
                 System.IO.DirectoryInfo dTopo = new System.IO.DirectoryInfo(sTopoFolder);
@@ -103,108 +163,78 @@ namespace CHaMPWorkbench.Data
                     int nVisitID = 0;
                     if (int.TryParse(sVisitFolderParts[1], out nVisitID))
                     {
-                        theResult.WithVisitID += 1;
+                        m_Props.WithVisitID += 1;
 
                         // Got a VisitID, now look for the topo data underneath
                         RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = ds.CHAMP_Visits.FindByVisitID(nVisitID);
                         if (rVisit is RBTWorkbenchDataSet.CHAMP_VisitsRow)
                         {
                             // The final path written to the table is the middle of the path, after the monitoring data folder and before the survey GDB
-                            rVisit.Folder = dTopo.FullName.Substring(sMonitoringDataFolder.Length+1);
-                            rVisit.SetSurveyGDBNull();
-                            rVisit.SetTopoTINNull();
-                            rVisit.SetWSTINNull();
-                            string sSurveyGDB, sTopoTIN, sWSTIN;
+                            rVisit.Folder = dTopo.FullName.Substring(sMonitoringDataFolder.Length + 1);
+                            string sResult;
 
-                            if (LookForTopoFiles(dTopo.FullName, out sSurveyGDB, out sTopoTIN, out sWSTIN))
-                            {
-                                theResult.WithVisitFiles += 1;
-                                rVisit.SurveyGDB = System.IO.Path.GetFileName(sSurveyGDB);
-                                rVisit.TopoTIN = System.IO.Path.GetFileName(sTopoTIN);
-                                rVisit.WSTIN = System.IO.Path.GetFileName(sWSTIN);
-                            }
+                            if (LookForMatchingItems(dTopo.FullName, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sResult))
+                                rVisit.SurveyGDB = sResult;
+                            else
+                                rVisit.SetSurveyGDBNull();
 
+                            if (LookForMatchingItems(dTopo.FullName, "tin*", SearchTypes.Directory, out sResult))
+                                rVisit.TopoTIN = sResult;
+                            else
+                                rVisit.SetTopoTINNull();
+
+                            if (LookForMatchingItems(dTopo.FullName, "ws*", SearchTypes.Directory, out sResult))
+                                rVisit.WSTIN = sResult;
+                            else
+                                rVisit.SetWSTINNull();
+                            
                             // Now look for the hydraulic model artifacts
                             rVisit.SetHydraulicModelCSVNull();
                             System.IO.DirectoryInfo[] dAllHydro = dTopo.Parent.GetDirectories("Hydro");
                             if (dAllHydro.Count<System.IO.DirectoryInfo>() == 1)
                             {
-                                System.IO.DirectoryInfo[] dAllArtifacts = dAllHydro[0].GetDirectories("artifacts");
-                                if (dAllArtifacts.Count<System.IO.DirectoryInfo>() == 1)
+                                //System.IO.DirectoryInfo[] dAllArtifacts = dAllHydro[0].GetDirectories("artifacts");
+                                //if (dAllArtifacts.Count<System.IO.DirectoryInfo>() == 1)
                                 {
                                     // got hydro!
-                                    System.IO.FileInfo[] dAllCSVFiles = dAllArtifacts[1].GetFiles("*.csv");
+                                    System.IO.FileInfo[] dAllCSVFiles = dAllHydro[0].GetFiles("*.csv");
                                     if (dAllCSVFiles.Count<System.IO.FileInfo>() == 1)
                                     {
                                         rVisit.HydraulicModelCSV = dAllCSVFiles[1].FullName.Substring(dTopo.FullName.Length);
-                                        theResult.WithHydro += 1;
+                                        m_Props.WithHydro += 1;
                                     }
                                 }
                             }
+                             
                         }
                     }
                 }
             }
             daVisits.Update(ds.CHAMP_Visits);
-            return theResult;
+            //return theResult;
         }
 
-        private void ClearTopoFields()
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            OleDbCommand dbCom = new OleDbCommand("UPDATE CHaMP_Visits SET Folder = NULL, SurveyGDB = NULL, TopoTIN = NULL, WSTIN = NULL, HydraulicModelCSV = NULL", m_dbCon);
-            dbCom.ExecuteNonQuery();
+            pgrProgress.Value = e.ProgressPercentage;
+            lblStatus.Text = m_sStatus;
         }
 
-        private bool LookForTopoFiles(string sVisitTopoFolder, out string sSurveyGDB, out string sTopoTIN, out string sWSTIN)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            sSurveyGDB = "";
-            String[] sGDBs = System.IO.Directory.GetDirectories(sVisitTopoFolder, "*orthog*.gdb");
-            if (sGDBs.Count<String>() > 0)
-            {
-                if (sGDBs.Count<String>() == 1)
-                    sSurveyGDB = System.IO.Path.Combine(sVisitTopoFolder, sGDBs[0]);
-                else
-                {
-                    // multiple orthog GDBs
-                }
-            }
-            else
-            {
-                String[] sAnyGDBs = System.IO.Directory.GetDirectories(sVisitTopoFolder, "*.gdb");
-                if (sAnyGDBs.Count<String>() > 0)
-                {
-                    if (sAnyGDBs.Count<String>() == 1)
-                        sSurveyGDB = System.IO.Path.Combine(sVisitTopoFolder, sAnyGDBs[0]);
-                    else
-                    {
-                        // multiple orthog GDBs
-                        System.Diagnostics.Debug.Print("Warning: Skipping multiple GDBs in " + sVisitTopoFolder);
-                    }
-                }
-            }
-            System.Diagnostics.Debug.Print(sSurveyGDB);
+            Cursor.Current = System.Windows.Forms.Cursors.Default;
+            cmdCancel.Enabled = true;
+            cmdOK.Enabled = true;
+            MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
+                m_Props.TopoFolders, m_Props.WithVisitID, m_Props.WithVisitFiles, m_Props.WithHydro)
+                , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Topo TIN
-            sTopoTIN = "";
-            String[] sTopoDirs = System.IO.Directory.GetDirectories(sVisitTopoFolder, "tin*");
-            if (sTopoDirs.Count<String>() > 0)
-                sTopoTIN = sTopoDirs[0];
-
-            // WS TIN
-            sWSTIN = "";
-            String[] sWSDirs = System.IO.Directory.GetDirectories(sVisitTopoFolder, "ws*");
-            if (sWSDirs.Count<String>() > 0)
-                sWSTIN = sWSDirs[0];
-
-            return (!String.IsNullOrWhiteSpace(sSurveyGDB) && !String.IsNullOrWhiteSpace(sTopoTIN) && !String.IsNullOrWhiteSpace(sWSTIN));
         }
 
-        private class ScavengeProperties
+        private void cmdCancel_Click(object sender, EventArgs e)
         {
-            public int TopoFolders { get; set; }
-            public int WithVisitID { get; set; }
-            public int WithVisitFiles { get; set; }
-            public int WithHydro { get; set; }
+            if (backgroundWorker1.IsBusy)
+                backgroundWorker1.CancelAsync();
         }
     }
 }

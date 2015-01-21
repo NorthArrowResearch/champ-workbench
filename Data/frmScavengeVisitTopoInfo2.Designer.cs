@@ -38,10 +38,15 @@
             this.cmdOK = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rdoYWS = new System.Windows.Forms.RadioButton();
-            this.rdoWYSV = new System.Windows.Forms.RadioButton();
             this.rdoWSYV = new System.Windows.Forms.RadioButton();
+            this.rdoWYSV = new System.Windows.Forms.RadioButton();
+            this.rdoYWS = new System.Windows.Forms.RadioButton();
+            this.grpStatus = new System.Windows.Forms.GroupBox();
+            this.pgrProgress = new System.Windows.Forms.ProgressBar();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
+            this.grpStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -55,7 +60,7 @@
             // chkSetNull
             // 
             this.chkSetNull.AutoSize = true;
-            this.chkSetNull.Location = new System.Drawing.Point(15, 218);
+            this.chkSetNull.Location = new System.Drawing.Point(12, 109);
             this.chkSetNull.Name = "chkSetNull";
             this.chkSetNull.Size = new System.Drawing.Size(222, 17);
             this.chkSetNull.TabIndex = 7;
@@ -66,12 +71,13 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(536, 249);
+            this.cmdCancel.Location = new System.Drawing.Point(536, 349);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 9;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // Label2
             // 
@@ -105,12 +111,11 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(455, 249);
+            this.cmdOK.Location = new System.Drawing.Point(455, 349);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 8;
-            this.cmdOK.Text = "OK";
+            this.cmdOK.Text = "Run";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
@@ -129,40 +134,17 @@
             this.groupBox1.Controls.Add(this.rdoWSYV);
             this.groupBox1.Controls.Add(this.rdoWYSV);
             this.groupBox1.Controls.Add(this.rdoYWS);
-            this.groupBox1.Location = new System.Drawing.Point(15, 112);
+            this.groupBox1.Location = new System.Drawing.Point(12, 137);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(515, 97);
+            this.groupBox1.Size = new System.Drawing.Size(598, 97);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folder Structure Under Parent Folder";
             // 
-            // rdoYWS
-            // 
-            this.rdoYWS.AutoSize = true;
-            this.rdoYWS.Checked = true;
-            this.rdoYWS.Location = new System.Drawing.Point(21, 20);
-            this.rdoYWS.Name = "rdoYWS";
-            this.rdoYWS.Size = new System.Drawing.Size(190, 17);
-            this.rdoYWS.TabIndex = 0;
-            this.rdoYWS.TabStop = true;
-            this.rdoYWS.Text = "Field Season\\Watersehd\\Site\\Visit";
-            this.rdoYWS.UseVisualStyleBackColor = true;
-            // 
-            // rdoWYSV
-            // 
-            this.rdoWYSV.AutoSize = true;
-            this.rdoWYSV.Location = new System.Drawing.Point(21, 44);
-            this.rdoWYSV.Name = "rdoWYSV";
-            this.rdoWYSV.Size = new System.Drawing.Size(190, 17);
-            this.rdoWYSV.TabIndex = 1;
-            this.rdoWYSV.TabStop = true;
-            this.rdoWYSV.Text = "Watershed\\Field Season\\Site\\Visit";
-            this.rdoWYSV.UseVisualStyleBackColor = true;
-            // 
             // rdoWSYV
             // 
             this.rdoWSYV.AutoSize = true;
-            this.rdoWSYV.Location = new System.Drawing.Point(21, 68);
+            this.rdoWSYV.Location = new System.Drawing.Point(15, 68);
             this.rdoWSYV.Name = "rdoWSYV";
             this.rdoWSYV.Size = new System.Drawing.Size(190, 17);
             this.rdoWSYV.TabIndex = 2;
@@ -170,13 +152,71 @@
             this.rdoWSYV.Text = "Watershed\\Site\\Field Season\\Visit";
             this.rdoWSYV.UseVisualStyleBackColor = true;
             // 
+            // rdoWYSV
+            // 
+            this.rdoWYSV.AutoSize = true;
+            this.rdoWYSV.Location = new System.Drawing.Point(15, 44);
+            this.rdoWYSV.Name = "rdoWYSV";
+            this.rdoWYSV.Size = new System.Drawing.Size(190, 17);
+            this.rdoWYSV.TabIndex = 1;
+            this.rdoWYSV.TabStop = true;
+            this.rdoWYSV.Text = "Watershed\\Field Season\\Site\\Visit";
+            this.rdoWYSV.UseVisualStyleBackColor = true;
+            // 
+            // rdoYWS
+            // 
+            this.rdoYWS.AutoSize = true;
+            this.rdoYWS.Checked = true;
+            this.rdoYWS.Location = new System.Drawing.Point(15, 20);
+            this.rdoYWS.Name = "rdoYWS";
+            this.rdoYWS.Size = new System.Drawing.Size(190, 17);
+            this.rdoYWS.TabIndex = 0;
+            this.rdoYWS.TabStop = true;
+            this.rdoYWS.Text = "Field Season\\Watersehd\\Site\\Visit";
+            this.rdoYWS.UseVisualStyleBackColor = true;
+            // 
+            // grpStatus
+            // 
+            this.grpStatus.Controls.Add(this.lblStatus);
+            this.grpStatus.Controls.Add(this.pgrProgress);
+            this.grpStatus.Location = new System.Drawing.Point(12, 247);
+            this.grpStatus.Name = "grpStatus";
+            this.grpStatus.Size = new System.Drawing.Size(598, 77);
+            this.grpStatus.TabIndex = 11;
+            this.grpStatus.TabStop = false;
+            this.grpStatus.Text = "Status";
+            this.grpStatus.Visible = false;
+            // 
+            // pgrProgress
+            // 
+            this.pgrProgress.Location = new System.Drawing.Point(15, 20);
+            this.pgrProgress.Name = "pgrProgress";
+            this.pgrProgress.Size = new System.Drawing.Size(577, 23);
+            this.pgrProgress.TabIndex = 0;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(15, 50);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.TabIndex = 1;
+            this.lblStatus.Text = "lblStatus";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // frmScavengeVisitTopoInfo2
             // 
             this.AcceptButton = this.cmdOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(623, 284);
+            this.ClientSize = new System.Drawing.Size(623, 384);
+            this.Controls.Add(this.grpStatus);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
@@ -186,12 +226,17 @@
             this.Controls.Add(this.txtMonitoringDataFolder);
             this.Controls.Add(this.cmdBrowseFolder);
             this.Controls.Add(this.cmdOK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmScavengeVisitTopoInfo2";
             this.ShowIcon = false;
             this.Text = "Update Topo and Hydro Paths In Workbench Database";
             this.Load += new System.EventHandler(this.frmScavengeVisitTopoInfo2_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.grpStatus.ResumeLayout(false);
+            this.grpStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +256,9 @@
         private System.Windows.Forms.RadioButton rdoWSYV;
         private System.Windows.Forms.RadioButton rdoWYSV;
         private System.Windows.Forms.RadioButton rdoYWS;
+        private System.Windows.Forms.GroupBox grpStatus;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.ProgressBar pgrProgress;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
