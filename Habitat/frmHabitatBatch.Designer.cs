@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
@@ -41,6 +41,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chkVisitTypes = new System.Windows.Forms.CheckedListBox();
+            this.tabSpecies = new System.Windows.Forms.TabPage();
+            this.chkSpecies = new System.Windows.Forms.CheckedListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.chkPrimary = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -51,11 +53,6 @@
             this.cmdSelectNone = new System.Windows.Forms.Button();
             this.cmdSelectAll = new System.Windows.Forms.Button();
             this.grdVisits = new System.Windows.Forms.DataGridView();
-            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.cmdHabitatModelDB = new System.Windows.Forms.Button();
@@ -67,12 +64,16 @@
             this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
-            this.tabSpecies = new System.Windows.Forms.TabPage();
-            this.chkSpecies = new System.Windows.Forms.CheckedListBox();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabSpecies.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -81,7 +82,6 @@
             this.groupBox1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).BeginInit();
-            this.tabSpecies.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -188,6 +188,28 @@
             this.chkVisitTypes.Size = new System.Drawing.Size(626, 167);
             this.chkVisitTypes.TabIndex = 0;
             this.chkVisitTypes.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
+            // 
+            // tabSpecies
+            // 
+            this.tabSpecies.Controls.Add(this.chkSpecies);
+            this.tabSpecies.Location = new System.Drawing.Point(4, 22);
+            this.tabSpecies.Name = "tabSpecies";
+            this.tabSpecies.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSpecies.Size = new System.Drawing.Size(632, 173);
+            this.tabSpecies.TabIndex = 4;
+            this.tabSpecies.Text = "Species Present";
+            this.tabSpecies.UseVisualStyleBackColor = true;
+            // 
+            // chkSpecies
+            // 
+            this.chkSpecies.CheckOnClick = true;
+            this.chkSpecies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkSpecies.FormattingEnabled = true;
+            this.chkSpecies.Location = new System.Drawing.Point(3, 3);
+            this.chkSpecies.Name = "chkSpecies";
+            this.chkSpecies.Size = new System.Drawing.Size(626, 167);
+            this.chkSpecies.TabIndex = 0;
+            this.chkSpecies.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
             // tabPage4
             // 
@@ -309,14 +331,14 @@
             this.grdVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -324,67 +346,29 @@
             this.colFieldSeason,
             this.colSite,
             this.colFolder});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle2;
             this.grdVisits.Location = new System.Drawing.Point(6, 42);
             this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
             this.grdVisits.TabIndex = 2;
-            // 
-            // colSelected
-            // 
-            this.colSelected.DataPropertyName = "Selected";
-            this.colSelected.HeaderText = "";
-            this.colSelected.Name = "colSelected";
-            this.colSelected.Width = 30;
-            // 
-            // colWatershed
-            // 
-            this.colWatershed.DataPropertyName = "WatershedName";
-            this.colWatershed.HeaderText = "Watershed";
-            this.colWatershed.Name = "colWatershed";
-            this.colWatershed.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "FieldSeason";
-            this.colFieldSeason.HeaderText = "Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            this.colFieldSeason.Width = 50;
-            // 
-            // colSite
-            // 
-            this.colSite.DataPropertyName = "SiteName";
-            this.colSite.HeaderText = "Site";
-            this.colSite.Name = "colSite";
-            this.colSite.ReadOnly = true;
-            this.colSite.Width = 200;
-            // 
-            // colFolder
-            // 
-            this.colFolder.DataPropertyName = "TopoFolder";
-            this.colFolder.HeaderText = "Folder";
-            this.colFolder.Name = "colFolder";
-            this.colFolder.ReadOnly = true;
-            this.colFolder.Width = 300;
             // 
             // groupBox1
             // 
@@ -495,27 +479,43 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Top level monitoring data folder";
             // 
-            // tabSpecies
+            // colSelected
             // 
-            this.tabSpecies.Controls.Add(this.chkSpecies);
-            this.tabSpecies.Location = new System.Drawing.Point(4, 22);
-            this.tabSpecies.Name = "tabSpecies";
-            this.tabSpecies.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpecies.Size = new System.Drawing.Size(632, 173);
-            this.tabSpecies.TabIndex = 4;
-            this.tabSpecies.Text = "Species Present";
-            this.tabSpecies.UseVisualStyleBackColor = true;
+            this.colSelected.DataPropertyName = "Selected";
+            this.colSelected.HeaderText = "";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.Width = 30;
             // 
-            // chkSpecies
+            // colWatershed
             // 
-            this.chkSpecies.CheckOnClick = true;
-            this.chkSpecies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkSpecies.FormattingEnabled = true;
-            this.chkSpecies.Location = new System.Drawing.Point(3, 3);
-            this.chkSpecies.Name = "chkSpecies";
-            this.chkSpecies.Size = new System.Drawing.Size(626, 167);
-            this.chkSpecies.TabIndex = 0;
-            this.chkSpecies.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
+            this.colWatershed.DataPropertyName = "WatershedName";
+            this.colWatershed.HeaderText = "Watershed";
+            this.colWatershed.Name = "colWatershed";
+            this.colWatershed.ReadOnly = true;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "FieldSeason";
+            this.colFieldSeason.HeaderText = "Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            this.colFieldSeason.Width = 50;
+            // 
+            // colSite
+            // 
+            this.colSite.DataPropertyName = "SiteName";
+            this.colSite.HeaderText = "Site";
+            this.colSite.Name = "colSite";
+            this.colSite.ReadOnly = true;
+            this.colSite.Width = 200;
+            // 
+            // colFolder
+            // 
+            this.colFolder.DataPropertyName = "VisitFolder";
+            this.colFolder.HeaderText = "Folder";
+            this.colFolder.Name = "colFolder";
+            this.colFolder.ReadOnly = true;
+            this.colFolder.Width = 300;
             // 
             // frmHabitatBatch
             // 
@@ -532,6 +532,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabSpecies.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabControl2.ResumeLayout(false);
@@ -542,7 +543,6 @@
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).EndInit();
-            this.tabSpecies.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -577,14 +577,14 @@
         private System.Windows.Forms.Button cmdBrowseMonitoringDataFolder;
         private System.Windows.Forms.TextBox txtMonitoringFolder;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button cmdSelectNone;
+        private System.Windows.Forms.Button cmdSelectAll;
+        private System.Windows.Forms.TabPage tabSpecies;
+        private System.Windows.Forms.CheckedListBox chkSpecies;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershed;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFolder;
-        private System.Windows.Forms.Button cmdSelectNone;
-        private System.Windows.Forms.Button cmdSelectAll;
-        private System.Windows.Forms.TabPage tabSpecies;
-        private System.Windows.Forms.CheckedListBox chkSpecies;
     }
 }
