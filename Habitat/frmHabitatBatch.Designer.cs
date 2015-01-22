@@ -45,7 +45,7 @@
             this.chkSpecies = new System.Windows.Forms.CheckedListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.chkPrimary = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.chkHydraulic = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -53,6 +53,11 @@
             this.cmdSelectNone = new System.Windows.Forms.Button();
             this.cmdSelectAll = new System.Windows.Forms.Button();
             this.grdVisits = new System.Windows.Forms.DataGridView();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.cmdHabitatModelDB = new System.Windows.Forms.Button();
@@ -64,11 +69,7 @@
             this.txtMonitoringFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
-            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chkSubstrate = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -213,8 +214,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chkSubstrate);
             this.tabPage4.Controls.Add(this.chkPrimary);
-            this.tabPage4.Controls.Add(this.checkBox2);
+            this.tabPage4.Controls.Add(this.chkHydraulic);
             this.tabPage4.Controls.Add(this.checkBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
@@ -229,7 +231,7 @@
             this.chkPrimary.AutoSize = true;
             this.chkPrimary.Checked = true;
             this.chkPrimary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPrimary.Location = new System.Drawing.Point(7, 53);
+            this.chkPrimary.Location = new System.Drawing.Point(7, 76);
             this.chkPrimary.Name = "chkPrimary";
             this.chkPrimary.Size = new System.Drawing.Size(130, 17);
             this.chkPrimary.TabIndex = 2;
@@ -237,18 +239,18 @@
             this.chkPrimary.UseVisualStyleBackColor = true;
             this.chkPrimary.CheckedChanged += new System.EventHandler(this.FilterVisits);
             // 
-            // checkBox2
+            // chkHydraulic
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(7, 30);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(247, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Must have hydraulic model output CSV defined";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chkHydraulic.AutoSize = true;
+            this.chkHydraulic.Checked = true;
+            this.chkHydraulic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHydraulic.Enabled = false;
+            this.chkHydraulic.Location = new System.Drawing.Point(7, 30);
+            this.chkHydraulic.Name = "chkHydraulic";
+            this.chkHydraulic.Size = new System.Drawing.Size(247, 17);
+            this.chkHydraulic.TabIndex = 1;
+            this.chkHydraulic.Text = "Must have hydraulic model output CSV defined";
+            this.chkHydraulic.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
@@ -370,6 +372,43 @@
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
             this.grdVisits.TabIndex = 2;
             // 
+            // colSelected
+            // 
+            this.colSelected.DataPropertyName = "Selected";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.Width = 30;
+            // 
+            // colWatershed
+            // 
+            this.colWatershed.DataPropertyName = "WatershedName";
+            this.colWatershed.HeaderText = "Watershed";
+            this.colWatershed.Name = "colWatershed";
+            this.colWatershed.ReadOnly = true;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "FieldSeason";
+            this.colFieldSeason.HeaderText = "Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            this.colFieldSeason.Width = 50;
+            // 
+            // colSite
+            // 
+            this.colSite.DataPropertyName = "SiteName";
+            this.colSite.HeaderText = "Site";
+            this.colSite.Name = "colSite";
+            this.colSite.ReadOnly = true;
+            this.colSite.Width = 200;
+            // 
+            // colFolder
+            // 
+            this.colFolder.DataPropertyName = "VisitFolder";
+            this.colFolder.HeaderText = "Folder";
+            this.colFolder.Name = "colFolder";
+            this.colFolder.ReadOnly = true;
+            this.colFolder.Width = 300;
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -479,43 +518,18 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Top level monitoring data folder";
             // 
-            // colSelected
+            // chkSubstrate
             // 
-            this.colSelected.DataPropertyName = "Selected";
-            this.colSelected.HeaderText = "";
-            this.colSelected.Name = "colSelected";
-            this.colSelected.Width = 30;
-            // 
-            // colWatershed
-            // 
-            this.colWatershed.DataPropertyName = "WatershedName";
-            this.colWatershed.HeaderText = "Watershed";
-            this.colWatershed.Name = "colWatershed";
-            this.colWatershed.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "FieldSeason";
-            this.colFieldSeason.HeaderText = "Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            this.colFieldSeason.Width = 50;
-            // 
-            // colSite
-            // 
-            this.colSite.DataPropertyName = "SiteName";
-            this.colSite.HeaderText = "Site";
-            this.colSite.Name = "colSite";
-            this.colSite.ReadOnly = true;
-            this.colSite.Width = 200;
-            // 
-            // colFolder
-            // 
-            this.colFolder.DataPropertyName = "VisitFolder";
-            this.colFolder.HeaderText = "Folder";
-            this.colFolder.Name = "colFolder";
-            this.colFolder.ReadOnly = true;
-            this.colFolder.Width = 300;
+            this.chkSubstrate.AutoSize = true;
+            this.chkSubstrate.Checked = true;
+            this.chkSubstrate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSubstrate.Enabled = false;
+            this.chkSubstrate.Location = new System.Drawing.Point(7, 53);
+            this.chkSubstrate.Name = "chkSubstrate";
+            this.chkSubstrate.Size = new System.Drawing.Size(189, 17);
+            this.chkSubstrate.TabIndex = 3;
+            this.chkSubstrate.Text = "Must have substrate raster defined";
+            this.chkSubstrate.UseVisualStyleBackColor = true;
             // 
             // frmHabitatBatch
             // 
@@ -560,7 +574,7 @@
         private System.Windows.Forms.CheckedListBox chkVisitTypes;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.CheckBox chkPrimary;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox chkHydraulic;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage5;
@@ -586,5 +600,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFolder;
+        private System.Windows.Forms.CheckBox chkSubstrate;
     }
 }

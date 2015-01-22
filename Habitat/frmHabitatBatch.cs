@@ -40,6 +40,7 @@ namespace CHaMPWorkbench.Habitat
             chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6), true);
 
             LoadAllVisits();
+            FilterVisits(sender, e);
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
                 txtMonitoringFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
@@ -88,9 +89,10 @@ namespace CHaMPWorkbench.Habitat
             table.Columns.Add(new DataColumn("SiteName", typeof(string)));
             table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
             table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
+            table.Columns.Add(new DataColumn("ICRPath", typeof(string)));
 
             string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
-             " CHAMP_Sites.SiteName, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName";
+             " CHAMP_Sites.SiteName, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, ICRPath";
 
             // Add the species to the SQL query and also to the receiving database table
             foreach (SpeciesListItem sli in chkSpecies.Items)
@@ -126,7 +128,12 @@ namespace CHaMPWorkbench.Habitat
                 rowArray[9] = (int)dbRead["WatershedID"];
                 rowArray[10] = (string)dbRead["WatershedName"];
 
-                int i = 11;
+                if (DBNull.Value == dbRead["ICRPath"])
+                    rowArray[11] = DBNull.Value;
+                else
+                    rowArray[11] = (string)dbRead["ICRPath"];
+
+                int i = 12;
                 foreach (SpeciesListItem sli in chkSpecies.Items)
                 {
                     rowArray[i] = (bool)dbRead[sli.FieldName];
@@ -139,6 +146,7 @@ namespace CHaMPWorkbench.Habitat
             //grdVisits.DataSource = null;
             //bindingSourceSelectedVisits.DataSource = dt;
             grdVisits.DataSource = table.AsDataView(); // lVisits;
+          
         }
 
         private void FilterVisits(object sender, EventArgs e)
@@ -173,6 +181,20 @@ namespace CHaMPWorkbench.Habitat
                 if (!string.IsNullOrWhiteSpace(sFilter))
                     sFilter += " AND ";
                 sFilter += "IsPrimary = true";
+            }
+
+            if (chkSubstrate.Checked)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += " (ICRPath IS NOT Null) AND (Len(ICRPath) > 0) ";
+            }
+
+            if (chkHydraulic.Checked)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";       
             }
 
             if (grdVisits.DataSource is DataView)
