@@ -130,7 +130,7 @@ namespace CHaMPWorkbench.Habitat
                     {
                         // Create raster data source
                         string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
-                        dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SbustrateRaster", sOriginalPath, false, "raster");
+                        dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SubstrateRaster", sOriginalPath, false, "raster");
 
                         // Create project variable
                         rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
@@ -171,17 +171,8 @@ namespace CHaMPWorkbench.Habitat
 
         private string GetSimulationName(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit)
         {
-            string sResult = string.Format("{0}, {1}, {2}",
-                rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName,
-                rVisit.VisitYear.ToString(),
-                rVisit.CHAMP_SitesRow.SiteName);
-
-            if (!rVisit.IsHitchNameNull())
-                sResult += ", " + rVisit.HitchName;
-
-            if (!rVisit.IsCrewNameNull())
-                sResult += ", " + rVisit.CrewName;
-
+            // CBW5583-34565_VISIT_217
+            string sResult = string.Format("{0}_VISIT_{1}", rVisit.CHAMP_SitesRow.SiteName, rVisit.VisitID.ToString());
             return sResult;
         }
 
@@ -206,14 +197,18 @@ namespace CHaMPWorkbench.Habitat
             if (bCopySingleFile)
                 sCopySource = sOriginalPath;
             else
-                sCopySource = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, System.IO.Path.GetFileNameWithoutExtension(sOriginalPath), ".*");
+                sCopySource = System.IO.Path.ChangeExtension(sOriginalPath, "*");
 
-            System.IO.File.Copy(sCopySource, sProjectDataSourcePath, true);
-            if (!System.IO.File.Exists(sProjectDataSourcePath))
-                return null;
+            string[] sMatchingFiles = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(sCopySource), System.IO.Path.GetFileName(sCopySource));
+            foreach (string sFileToCopy in sMatchingFiles)
+            {
+                string sDestinationFile = System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sFileToCopy));
+                System.IO.File.Copy(sFileToCopy, sDestinationFile, true);
+                if (!System.IO.File.Exists(sDestinationFile))
+                    return null;
+            }
 
             int nDataSourceTypeID = GetLookupListItemID("Project Input Types", sProjectInputType);
-
 
             dsHabitat.ProjectDataSourcesRow rDataSource = m_dsHabitat.ProjectDataSources.NewProjectDataSourcesRow();
             rDataSource.OriginalPath = sOriginalPath;
