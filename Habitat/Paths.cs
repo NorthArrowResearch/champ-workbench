@@ -252,7 +252,7 @@ namespace HMUI.Classes
         {
             string sFolder = GetSpecificSimulationHSOutputsFolder(sSimulationName);
             string sHSOutput = RemoveDangerousCharacters(sOutputName);
-            sHSOutput = System.IO.Path.Combine(sFolder, sOutputName);
+            sHSOutput = System.IO.Path.Combine(sFolder, sHSOutput);
             sHSOutput = System.IO.Path.ChangeExtension(sHSOutput, "tif");
             return sHSOutput;
         }
@@ -261,7 +261,7 @@ namespace HMUI.Classes
         {
             string sFolder = GetSpecificSimulationHSPreparedFolder(sSimulationName);
             string sHSOutput = RemoveDangerousCharacters(sOutputName);
-            sHSOutput = System.IO.Path.Combine(sFolder, sOutputName);
+            sHSOutput = System.IO.Path.Combine(sFolder, sHSOutput);
             sHSOutput = System.IO.Path.ChangeExtension(sHSOutput, "tif");
             return sHSOutput;
         }
