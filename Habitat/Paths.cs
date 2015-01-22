@@ -307,6 +307,7 @@ namespace HMUI.Classes
             sResult = sResult.Replace("<", "");
             sResult = sResult.Replace(">", "");
             sResult = sResult.Replace("\0", "");
+            sResult = sResult.Replace("/", "");
 
             return sResult;
         }
