@@ -141,8 +141,10 @@ namespace CHaMPWorkbench.Data
             daVisits.Connection = m_dbCon;
             daVisits.Fill(ds.CHAMP_Visits);
 
+            m_sStatus = "Indexing Topo folders under the parent folder. This may take a moment...";
+            backgroundWorker1.ReportProgress(0);
             string[] sAllTopoFolders = System.IO.Directory.GetDirectories(sMonitoringDataFolder, "Topo", SearchOption.AllDirectories);
-
+            
             m_Props = new ScavengeProperties();
             foreach (string sTopoFolder in sAllTopoFolders)
             {
@@ -151,7 +153,7 @@ namespace CHaMPWorkbench.Data
 
                 m_Props.TopoFolders += 1;
                 m_sStatus = sTopoFolder;
-                backgroundWorker1.ReportProgress(100 * (m_Props.TopoFolders / sAllTopoFolders.Count<string>()));
+                backgroundWorker1.ReportProgress((int) (100 * ((double) m_Props.TopoFolders / sAllTopoFolders.Count<string>())));
 
                 System.Diagnostics.Debug.WriteLine(sTopoFolder);
 
@@ -174,7 +176,10 @@ namespace CHaMPWorkbench.Data
                             string sResult;
 
                             if (LookForMatchingItems(dTopo.FullName, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sResult))
+                            {
                                 rVisit.SurveyGDB = sResult;
+                                m_Props.WithVisitFiles+=1;
+                        }
                             else
                                 rVisit.SetSurveyGDBNull();
 
@@ -197,10 +202,10 @@ namespace CHaMPWorkbench.Data
                                 //if (dAllArtifacts.Count<System.IO.DirectoryInfo>() == 1)
                                 {
                                     // got hydro!
-                                    System.IO.FileInfo[] dAllCSVFiles = dAllHydro[0].GetFiles("*.csv");
+                                    System.IO.FileInfo[] dAllCSVFiles = dAllHydro[0].GetFiles("dem_grid*.csv");
                                     if (dAllCSVFiles.Count<System.IO.FileInfo>() == 1)
                                     {
-                                        rVisit.HydraulicModelCSV = dAllCSVFiles[1].FullName.Substring(dTopo.FullName.Length);
+                                        rVisit.HydraulicModelCSV = dAllCSVFiles[0].FullName.Substring(dTopo.FullName.Length);
                                         m_Props.WithHydro += 1;
                                     }
                                 }
@@ -210,8 +215,10 @@ namespace CHaMPWorkbench.Data
                     }
                 }
             }
+
+            m_sStatus = "Storing file and folder paths to the workbench database...";
+            backgroundWorker1.ReportProgress(100);
             daVisits.Update(ds.CHAMP_Visits);
-            //return theResult;
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -225,10 +232,8 @@ namespace CHaMPWorkbench.Data
             Cursor.Current = System.Windows.Forms.Cursors.Default;
             cmdCancel.Enabled = true;
             cmdOK.Enabled = true;
-            MessageBox.Show(string.Format("{0} topo folders found, of which {1} are within visit ID folders, of which {2} contain topo data files. {3} hydraulic model CSV result files found.",
-                m_Props.TopoFolders, m_Props.WithVisitID, m_Props.WithVisitFiles, m_Props.WithHydro)
-                , CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+            lblStatus.Text = string.Format("{0} topo folders processed, of which {1} are within visit ID folders with {2} survey GDBs and {3} hydraulic model CSV results.",
+                m_Props.TopoFolders, m_Props.WithVisitID, m_Props.WithVisitFiles, m_Props.WithHydro);
         }
 
         private void cmdCancel_Click(object sender, EventArgs e)

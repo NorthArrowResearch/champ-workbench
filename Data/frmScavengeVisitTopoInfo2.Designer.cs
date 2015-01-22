@@ -181,7 +181,7 @@
             this.grpStatus.Controls.Add(this.pgrProgress);
             this.grpStatus.Location = new System.Drawing.Point(12, 247);
             this.grpStatus.Name = "grpStatus";
-            this.grpStatus.Size = new System.Drawing.Size(598, 77);
+            this.grpStatus.Size = new System.Drawing.Size(598, 96);
             this.grpStatus.TabIndex = 11;
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status";
@@ -196,10 +196,9 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.AutoSize = true;
             this.lblStatus.Location = new System.Drawing.Point(15, 50);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.Size = new System.Drawing.Size(577, 43);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "lblStatus";
             // 
@@ -236,7 +235,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpStatus.ResumeLayout(false);
-            this.grpStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
