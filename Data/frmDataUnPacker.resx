@@ -123,4 +123,7 @@
   <data name="label8.Text" xml:space="preserve">
     <value>The survey Survey GDB can be one of three options. If a folder contains a file matching option 1, then this file is unzipped and the process continues with the next folder. If a file matching option 1 is not found, then option 2 is used, and so on.</value>
   </data>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

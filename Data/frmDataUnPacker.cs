@@ -13,9 +13,14 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmDataUnPacker : Form
     {
+        private int m_nFilesProcessed;
+        private string m_Status;
+        private string m_sTopLevelFolder;
+
         public frmDataUnPacker()
         {
             InitializeComponent();
+            m_nFilesProcessed = 0;
         }
 
         private void cmdBrowse_Click(object sender, EventArgs e)
@@ -39,6 +44,13 @@ namespace CHaMPWorkbench.Data
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            String sZipSoftware = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
+            if (String.IsNullOrWhiteSpace(sZipSoftware) || !System.IO.File.Exists(sZipSoftware))
+            {
+                MessageBox.Show("The path to the 7 Zip software is not valid. You can specify the path to the 7 Zip software under Tools\\Options '" + sZipSoftware + ".", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (string.IsNullOrEmpty(txtFolder.Text))
             {
                 MessageBox.Show("You must choose a top level folder that exists.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -67,21 +79,14 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-                string sHydroInputs = "";
-                string sHydroResults = "";
-                string sOutputFolder = "";
+                m_sTopLevelFolder = txtFolder.Text;
+                cmdOK.Enabled = false;
+                cmdCancel.Enabled = false;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                backgroundWorker1.WorkerReportsProgress = true;
+                backgroundWorker1.RunWorkerAsync();
 
-                if (chkHydroInputs.Checked)
-                    sHydroInputs = txtHydroInputs.Text;
-
-                if (chkHydroResults.Checked)
-                    sHydroResults = txtHydroResults.Text;
-
-                if (rdoDifferent.Checked)
-                    sOutputFolder = txtOutputFolder.Text;
-
-                int nCount = Process(txtFolder.Text, txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text, txtTopoTIN.Text, txtWSTIN.Text, sHydroInputs,sHydroResults, sOutputFolder);
-                MessageBox.Show("Processed " + nCount.ToString("#,##0"), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //                int nCount = Process(txtFolder.Text, txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text, txtTopoTIN.Text, txtWSTIN.Text, sHydroInputs,sHydroResults, sOutputFolder);
             }
             catch (Exception ex)
             {
@@ -98,80 +103,13 @@ namespace CHaMPWorkbench.Data
             UpdateControls(sender, e);
         }
 
-        private int Process(string sTopLevelFolder, string sSurvey1, string sSurvey2, string sSurvey3, string sTopoTIN, string sWSTIN, string sHydroInputs, string sHydroResults, string sOutputFolder)
-        {
-            int nUnpackedCount = 0;
-            DialogResult eResult = DialogResult.Yes;
-            foreach (string aFolder in Directory.GetDirectories(sTopLevelFolder, "*", SearchOption.AllDirectories))
-            {
-                Debug.WriteLine("Folder: " + aFolder);
-                bool bFound = false;
-                string sSurveyZip = string.Empty;
-                string sTopoTINZip = string.Empty;
-                string sWSTINZip = string.Empty;
+        //private int Process(string sTopLevelFolder, string sSurvey1, string sSurvey2, string sSurvey3, string sTopoTIN, string sWSTIN, string sHydroInputs, string sHydroResults, string sOutputFolder)
+        //{
 
-                string[] sFiles = Directory.GetFiles(aFolder, sSurvey1);
-                if (sFiles.Count() > 0)
-                {
-                    sSurveyZip = sFiles[0];
-                }
-                else
-                {
-                    sFiles = Directory.GetFiles(aFolder, sSurvey2);
-                    if (sFiles.Count() > 0)
-                    {
-                        sSurveyZip = sFiles[0];
-                    }
-                    else
-                    {
-                        sFiles = Directory.GetFiles(aFolder, sSurvey3);
-                        if (sFiles.Count() > 0)
-                        {
-                            sSurveyZip = sFiles[0];
-                        }
-                    }
-                }
+        //    return nUnpackedCount;
+        //}
 
-                if (!string.IsNullOrEmpty(sSurveyZip))
-                {
-                    sFiles = Directory.GetFiles(aFolder, sTopoTIN);
-                    if (sFiles.Count() > 0)
-                    {
-                        sTopoTINZip = sFiles[0];
-                        sFiles = Directory.GetFiles(aFolder, sWSTIN);
-                        if (sFiles.Count() > 0)
-                        {
-                            sWSTINZip = sFiles[0];
-
-                            String sZipSoftware = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
-                            if (String.IsNullOrWhiteSpace(sZipSoftware) || !System.IO.File.Exists(sZipSoftware))
-                            {
-                                MessageBox.Show("The path to the 7 Zip software is not valid. You can specify the path to the 7 Zip software under Tools\\Options '" + sZipSoftware + ".", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return 0;
-                            }
-                            else
-                            {
-                                string sOutputPath = "";
-                                if (!string.IsNullOrEmpty(sOutputFolder))
-                                {
-                                    sOutputPath = System.IO.Path.GetDirectoryName(sSurveyZip).Replace(sTopLevelFolder, sOutputFolder);
-                                    System.IO.Directory.CreateDirectory(sOutputPath);
-                                }
-
-                                UnZipArchive(sSurveyZip, sZipSoftware, sOutputPath);
-                                UnZipArchive(sTopoTINZip, sZipSoftware, sOutputPath);
-                                UnZipArchive(sWSTINZip, sZipSoftware, sOutputPath);
-                                nUnpackedCount += 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return nUnpackedCount;
-        }
-
-        private string UnZipArchive(string sFilePath, string sZipSoftware, string sOutputFolder)
+        private string UnZipArchive(string sFilePath, string sOutputFolder)
         {
             string sOptions;
 
@@ -188,26 +126,29 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(sOutputFolder))
                 sOutputFolder = Path.GetDirectoryName(sFilePath);
             sOutputFolder = sOutputFolder.Trim();
-            
+            System.IO.Directory.CreateDirectory(sOutputFolder);
+
             if (sOutputFolder.Contains(" "))
             {
-                sOptions += string.Format(" -o\"{0}\"",sOutputFolder);
+                sOptions += string.Format(" -o\"{0}\"", sOutputFolder);
             }
             else
             {
                 sOptions += string.Format(" -o{0}", sOutputFolder);
             }
 
-            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(sZipSoftware, sOptions);
+            sOptions += " -aoa";
+
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(CHaMPWorkbench.Properties.Settings.Default.ZipPath, sOptions);
             info.UseShellExecute = false;
-            info.RedirectStandardOutput = true;
+            // info.RedirectStandardOutput = true;
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo = info;
             p.Start();
-            p.WaitForExit();
+            //p.WaitForExit();
 
-            string sResult = p.StandardOutput.ReadToEnd();
-            return sResult;
+            //p.StandardOutput.ReadToEnd();
+            return "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -226,7 +167,7 @@ namespace CHaMPWorkbench.Data
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 txtOutputFolder.Text = frm.SelectedPath;
-            }            
+            }
         }
 
         private void UpdateControls(object sender, EventArgs e)
@@ -240,6 +181,90 @@ namespace CHaMPWorkbench.Data
 
             lblHydroResults.Enabled = chkHydroResults.Checked;
             txtHydroResults.Enabled = lblHydroResults.Enabled;
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            m_Status = "Building index of zip archives. This may take several minutes before progress bar commences...";
+            backgroundWorker1.ReportProgress(0);
+            string[] sAllZipFiles = Directory.GetFiles(m_sTopLevelFolder, "*.zip", SearchOption.AllDirectories);
+            foreach (string sZipFile in sAllZipFiles)
+            {
+                m_nFilesProcessed += 1;
+                m_Status = sZipFile;
+                backgroundWorker1.ReportProgress((100 * m_nFilesProcessed) / sAllZipFiles.Count<string>());
+
+                string aFolder = System.IO.Path.GetDirectoryName(sZipFile);
+                Debug.WriteLine("Folder: " + aFolder);
+                string sZipFileToProcess;
+
+                // Check if overriding the output folder
+                string sOutputPath = aFolder;
+                if (rdoDifferent.Checked)
+                    sOutputPath = aFolder.Replace(txtFolder.Text, txtOutputFolder.Text);
+
+                // Survey GDB
+                string[] sSurveyGDBPattern = { txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text };
+                if (LookupFile(aFolder, sSurveyGDBPattern, out sZipFileToProcess))
+                    UnZipArchive(sZipFileToProcess, sOutputPath);
+
+                // Topo TIN
+                string[] sTINPattern = { txtTopoTIN.Text };
+                if (LookupFile(aFolder, sTINPattern, out sZipFileToProcess))
+                    UnZipArchive(sZipFileToProcess, sOutputPath);
+
+                // WS TIN
+                string[] sWSTINPattern = { txtWSTIN.Text };
+                if (LookupFile(aFolder, sWSTINPattern, out sZipFileToProcess))
+                    UnZipArchive(sZipFileToProcess, sOutputPath);
+
+                // Hydro Model Inputs
+                if (chkHydroInputs.Checked)
+                {
+                    string[] sHydroInputs = { txtHydroInputs.Text };
+                    if (LookupFile(aFolder, sHydroInputs, out sZipFileToProcess))
+                        UnZipArchive(sZipFileToProcess, sOutputPath);
+                }
+
+                if (chkHydroResults.Checked)
+                {
+                    string[] sHydroResults = { txtHydroResults.Text };
+                    if (LookupFile(aFolder, sHydroResults, out sZipFileToProcess))
+                        UnZipArchive(sZipFileToProcess, sOutputPath);
+                }
+            }
+        }
+
+        private bool LookupFile(string sContainingFolder, string[] sPatternList, out string sFile)
+        {
+            sFile = "";
+
+            foreach (string sPattern in sPatternList)
+            {
+                string[] sFiles = Directory.GetFiles(sContainingFolder, sPattern);
+                if (sFiles.Count() > 0)
+                {
+                    sFile = sFiles[0];
+                    break;
+                }
+            }
+
+            return !string.IsNullOrEmpty(sFile);
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pgrProgress.Value = e.ProgressPercentage;
+            lblStatus.Text = m_Status;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            cmdOK.Enabled = true;
+            cmdCancel.Enabled = true;
+            lblStatus.Text = string.Format("Process complete. {0} zip files processed.", m_nFilesProcessed.ToString("#,##0"));
+            Cursor.Current = System.Windows.Forms.Cursors.Default;
+            //MessageBox.Show("Processed " + m_nFilesProcessed.ToString("#,##0"), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

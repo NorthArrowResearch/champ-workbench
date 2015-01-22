@@ -66,6 +66,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.pgrProgress = new System.Windows.Forms.ProgressBar();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -73,6 +75,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSurvey3
@@ -163,8 +166,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(468, 416);
+            this.cmdOK.Location = new System.Drawing.Point(465, 439);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 10;
@@ -176,7 +178,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(549, 416);
+            this.cmdCancel.Location = new System.Drawing.Point(546, 439);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 11;
@@ -379,7 +381,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(10, 93);
+            this.tabControl1.Location = new System.Drawing.Point(10, 92);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(612, 247);
@@ -429,21 +431,36 @@
             // 
             // pgrProgress
             // 
-            this.pgrProgress.Location = new System.Drawing.Point(12, 346);
+            this.pgrProgress.Location = new System.Drawing.Point(8, 19);
             this.pgrProgress.Name = "pgrProgress";
-            this.pgrProgress.Size = new System.Drawing.Size(606, 23);
+            this.pgrProgress.Size = new System.Drawing.Size(598, 23);
             this.pgrProgress.TabIndex = 27;
-            this.pgrProgress.Visible = false;
             // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(13, 379);
+            this.lblStatus.Location = new System.Drawing.Point(8, 51);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(47, 13);
             this.lblStatus.TabIndex = 28;
             this.lblStatus.Text = "lblStatus";
-            this.lblStatus.Visible = false;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pgrProgress);
+            this.groupBox2.Controls.Add(this.lblStatus);
+            this.groupBox2.Location = new System.Drawing.Point(10, 350);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(612, 77);
+            this.groupBox2.TabIndex = 29;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Status";
             // 
             // frmDataUnPacker
             // 
@@ -451,9 +468,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(637, 452);
-            this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.pgrProgress);
+            this.ClientSize = new System.Drawing.Size(634, 475);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -477,8 +493,9 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -521,5 +538,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ProgressBar pgrProgress;
         private System.Windows.Forms.Label lblStatus;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
