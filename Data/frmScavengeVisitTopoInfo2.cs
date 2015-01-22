@@ -205,7 +205,7 @@ namespace CHaMPWorkbench.Data
                                     System.IO.FileInfo[] dAllCSVFiles = dAllHydro[0].GetFiles("dem_grid*.csv");
                                     if (dAllCSVFiles.Count<System.IO.FileInfo>() == 1)
                                     {
-                                        rVisit.HydraulicModelCSV = dAllCSVFiles[0].FullName.Substring(dTopo.FullName.Length);
+                                        rVisit.HydraulicModelCSV = System.IO.Path.GetFileName(dAllCSVFiles[0].FullName);
                                         m_Props.WithHydro += 1;
                                     }
                                 }
