@@ -22,6 +22,9 @@ namespace CHaMPWorkbench.Habitat
         private dsHabitatTableAdapters.ProjectDataSourcesTableAdapter m_taProjectDataSources;
         private dsHabitatTableAdapters.ProjectVariablesTableAdapter m_taProjectVariables;
 
+        // This is the database ID of the lookup list item for CSV data source types
+        private const int m_nCSVDataSourceTypeID = 61;
+
         public HabitatBatchBuilder(ref OleDbConnection dbWorkbench, string sHabitatDBPath, string sMonitoringDataFolder)
         {
             m_CHaMPData = new Classes.CHaMPData(ref dbWorkbench);
@@ -133,7 +136,7 @@ namespace CHaMPWorkbench.Habitat
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SubstrateRaster", sOriginalPath, false, "raster");
 
                         // Create project variable
-                        rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
+                        rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rSubstrateSource.DataSourceID);
                     }
                     else
                     {
@@ -216,6 +219,13 @@ namespace CHaMPWorkbench.Habitat
             rDataSource.DataSourceTypeID = nDataSourceTypeID;
             rDataSource.ProjectPath = HMUI.Classes.Paths.GetRelativePath(sProjectDataSourcePath);
             rDataSource.Title = sDataSourceName;
+
+            if (nDataSourceTypeID == m_nCSVDataSourceTypeID)
+            {
+                rDataSource.XField = "X";
+                rDataSource.YField = "Y";
+            }
+
             m_dsHabitat.ProjectDataSources.AddProjectDataSourcesRow(rDataSource);
             m_taProjectDataSources.Update(rDataSource);
 
