@@ -132,7 +132,6 @@ namespace CHaMPWorkbench.Habitat
                         string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SbustrateRaster", sOriginalPath, false, "raster");
 
-
                         // Create project variable
                         rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
                     }
@@ -141,7 +140,8 @@ namespace CHaMPWorkbench.Habitat
                         // Create a Data Source for the CSV
                         if (rCSVDataSource == null)
                         {
-                            string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.HydraulicModelCSV);
+                            string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder);
+                            sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro", rVisit.HydraulicModelCSV);
                             rCSVDataSource = BuildAndCopyProjectDataSource("Delft 3D CSV Output", sOriginalPath, true, "csv");
                         }
 
