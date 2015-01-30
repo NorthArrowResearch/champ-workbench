@@ -207,10 +207,22 @@ namespace CHaMPWorkbench.Habitat
                 sCopySource = System.IO.Path.ChangeExtension(sOriginalPath, "*");
 
             string[] sMatchingFiles = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(sCopySource), System.IO.Path.GetFileName(sCopySource));
+
+
+
+            //test the first file to see if it exists
+            string sSuffix = "";
+            int counter = 0;
+            while (System.IO.File.Exists(System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sMatchingFiles.First() ))  ))
+            {
+                counter++;
+                sSuffix = "_" + counter.ToString();
+            }
+
             foreach (string sFileToCopy in sMatchingFiles)
             {
-                string sDestinationFile = System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sFileToCopy));
-                System.IO.File.Copy(sFileToCopy, sDestinationFile, true);
+                string sDestinationFile = System.IO.Path.ChangeExtension(sProjectDataSourcePath + sSuffix, System.IO.Path.GetExtension(sFileToCopy));
+                System.IO.File.Copy(sFileToCopy, sDestinationFile, false);
                 if (!System.IO.File.Exists(sDestinationFile))
                     return null;
             }
