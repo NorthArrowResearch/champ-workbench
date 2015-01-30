@@ -233,12 +233,12 @@ namespace HMUI.Classes
         /// <param name="sSimulationName"></param>
         /// <param name="sOutputName"></param>
         /// <returns>Simulations\MySim\Outputs\MySim.tif</returns>
-        public static string GetSpecificOutputFullPath(string sSimulationName)
+        public static string GetSpecificOutputFullPath(string sSimulationName, string sFileSuffix)
         {
             string sFolder = GetSpecificSimulationOutputsFolder(sSimulationName);
             string sOutput = RemoveDangerousCharacters(sSimulationName);
             sOutput = System.IO.Path.Combine(sFolder, sOutput);
-            sOutput = System.IO.Path.ChangeExtension(sOutput, "tif");
+            sOutput = System.IO.Path.ChangeExtension(sOutput, sFileSuffix);
             return sOutput;
         }
 

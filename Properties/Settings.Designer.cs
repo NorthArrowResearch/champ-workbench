@@ -193,7 +193,7 @@ namespace CHaMPWorkbench.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\PhilipLocal\\Documents\\Code" +
-            "\\HabitatModel\\habitat-model-desktop\\HMUI\\HabitatModel.accdb")]
+            "\\HabitatModel\\habitat-model-desktop\\HMDesktop\\HabitatModel.accdb")]
         public string HabitatModelConnectionString {
             get {
                 return ((string)(this["HabitatModelConnectionString"]));

@@ -6047,13 +6047,17 @@ namespace CHaMPWorkbench.Habitat {
             
             private global::System.Data.DataColumn columnIsQueuedToRun;
             
-            private global::System.Data.DataColumn columnHSISourcePath;
-            
             private global::System.Data.DataColumn columnFolder;
             
             private global::System.Data.DataColumn columnAddIndividualOutput;
             
             private global::System.Data.DataColumn columnRunOn;
+            
+            private global::System.Data.DataColumn columnCellSize;
+            
+            private global::System.Data.DataColumn columnHSIOutputCSV;
+            
+            private global::System.Data.DataColumn columnHSIOutputRaster;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -6162,14 +6166,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn HSISourcePathColumn {
-                get {
-                    return this.columnHSISourcePath;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn FolderColumn {
                 get {
                     return this.columnFolder;
@@ -6189,6 +6185,30 @@ namespace CHaMPWorkbench.Habitat {
             public global::System.Data.DataColumn RunOnColumn {
                 get {
                     return this.columnRunOn;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CellSizeColumn {
+                get {
+                    return this.columnCellSize;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn HSIOutputCSVColumn {
+                get {
+                    return this.columnHSIOutputCSV;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn HSIOutputRasterColumn {
+                get {
+                    return this.columnHSIOutputRaster;
                 }
             }
             
@@ -6229,7 +6249,7 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SimulationsRow AddSimulationsRow(string Title, HSIRow _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_, int FISID, string CreatedBy, System.DateTime CreatedOn, int VisitID, double Discharge, bool IsQueuedToRun, string HSISourcePath, string Folder, bool AddIndividualOutput, System.DateTime RunOn) {
+            public SimulationsRow AddSimulationsRow(string Title, HSIRow _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_, int FISID, string CreatedBy, System.DateTime CreatedOn, int VisitID, double Discharge, bool IsQueuedToRun, string Folder, bool AddIndividualOutput, System.DateTime RunOn, float CellSize, string HSIOutputCSV, string HSIOutputRaster) {
                 SimulationsRow rowSimulationsRow = ((SimulationsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -6241,10 +6261,12 @@ namespace CHaMPWorkbench.Habitat {
                         VisitID,
                         Discharge,
                         IsQueuedToRun,
-                        HSISourcePath,
                         Folder,
                         AddIndividualOutput,
-                        RunOn};
+                        RunOn,
+                        CellSize,
+                        HSIOutputCSV,
+                        HSIOutputRaster};
                 if ((_parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_ != null)) {
                     columnValuesArray[2] = _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_[0];
                 }
@@ -6286,10 +6308,12 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnVisitID = base.Columns["VisitID"];
                 this.columnDischarge = base.Columns["Discharge"];
                 this.columnIsQueuedToRun = base.Columns["IsQueuedToRun"];
-                this.columnHSISourcePath = base.Columns["HSISourcePath"];
                 this.columnFolder = base.Columns["Folder"];
                 this.columnAddIndividualOutput = base.Columns["AddIndividualOutput"];
                 this.columnRunOn = base.Columns["RunOn"];
+                this.columnCellSize = base.Columns["CellSize"];
+                this.columnHSIOutputCSV = base.Columns["HSIOutputCSV"];
+                this.columnHSIOutputRaster = base.Columns["HSIOutputRaster"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6313,14 +6337,18 @@ namespace CHaMPWorkbench.Habitat {
                 base.Columns.Add(this.columnDischarge);
                 this.columnIsQueuedToRun = new global::System.Data.DataColumn("IsQueuedToRun", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIsQueuedToRun);
-                this.columnHSISourcePath = new global::System.Data.DataColumn("HSISourcePath", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnHSISourcePath);
                 this.columnFolder = new global::System.Data.DataColumn("Folder", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFolder);
                 this.columnAddIndividualOutput = new global::System.Data.DataColumn("AddIndividualOutput", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddIndividualOutput);
                 this.columnRunOn = new global::System.Data.DataColumn("RunOn", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRunOn);
+                this.columnCellSize = new global::System.Data.DataColumn("CellSize", typeof(float), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCellSize);
+                this.columnHSIOutputCSV = new global::System.Data.DataColumn("HSIOutputCSV", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHSIOutputCSV);
+                this.columnHSIOutputRaster = new global::System.Data.DataColumn("HSIOutputRaster", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHSIOutputRaster);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSimulationID}, true));
                 this.columnSimulationID.AutoIncrement = true;
@@ -6330,8 +6358,9 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnSimulationID.Unique = true;
                 this.columnTitle.MaxLength = 255;
                 this.columnCreatedBy.MaxLength = 255;
-                this.columnHSISourcePath.MaxLength = 255;
                 this.columnFolder.MaxLength = 255;
+                this.columnHSIOutputCSV.MaxLength = 255;
+                this.columnHSIOutputRaster.MaxLength = 255;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9956,22 +9985,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string HSISourcePath {
-                get {
-                    try {
-                        return ((string)(this[this.tableSimulations.HSISourcePathColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'HSISourcePath\' in table \'Simulations\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableSimulations.HSISourcePathColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Folder {
                 get {
                     try {
@@ -10015,6 +10028,54 @@ namespace CHaMPWorkbench.Habitat {
                 }
                 set {
                     this[this.tableSimulations.RunOnColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public float CellSize {
+                get {
+                    try {
+                        return ((float)(this[this.tableSimulations.CellSizeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CellSize\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.CellSizeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string HSIOutputCSV {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.HSIOutputCSVColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HSIOutputCSV\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.HSIOutputCSVColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string HSIOutputRaster {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.HSIOutputRasterColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HSIOutputRaster\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.HSIOutputRasterColumn] = value;
                 }
             }
             
@@ -10127,18 +10188,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsHSISourcePathNull() {
-                return this.IsNull(this.tableSimulations.HSISourcePathColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetHSISourcePathNull() {
-                this[this.tableSimulations.HSISourcePathColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFolderNull() {
                 return this.IsNull(this.tableSimulations.FolderColumn);
             }
@@ -10171,6 +10220,42 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRunOnNull() {
                 this[this.tableSimulations.RunOnColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCellSizeNull() {
+                return this.IsNull(this.tableSimulations.CellSizeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCellSizeNull() {
+                this[this.tableSimulations.CellSizeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsHSIOutputCSVNull() {
+                return this.IsNull(this.tableSimulations.HSIOutputCSVColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetHSIOutputCSVNull() {
+                this[this.tableSimulations.HSIOutputCSVColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsHSIOutputRasterNull() {
+                return this.IsNull(this.tableSimulations.HSIOutputRasterColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetHSIOutputRasterNull() {
+                this[this.tableSimulations.HSIOutputRasterColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16953,14 +17038,16 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             tableMapping.ColumnMappings.Add("VisitID", "VisitID");
             tableMapping.ColumnMappings.Add("Discharge", "Discharge");
             tableMapping.ColumnMappings.Add("IsQueuedToRun", "IsQueuedToRun");
-            tableMapping.ColumnMappings.Add("HSISourcePath", "HSISourcePath");
             tableMapping.ColumnMappings.Add("Folder", "Folder");
             tableMapping.ColumnMappings.Add("AddIndividualOutput", "AddIndividualOutput");
             tableMapping.ColumnMappings.Add("RunOn", "RunOn");
+            tableMapping.ColumnMappings.Add("CellSize", "CellSize");
+            tableMapping.ColumnMappings.Add("HSIOutputCSV", "HSIOutputCSV");
+            tableMapping.ColumnMappings.Add("HSIOutputRaster", "HSIOutputRaster");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `Simulations` WHERE ((`SimulationID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `HSIID` IS NULL) OR (`HSIID` = ?)) AND ((? = 1 AND `FISID` IS NULL) OR (`FISID` = ?)) AND ((? = 1 AND `CreatedBy` IS NULL) OR (`CreatedBy` = ?)) AND ((? = 1 AND `CreatedOn` IS NULL) OR (`CreatedOn` = ?)) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `Discharge` IS NULL) OR (`Discharge` = ?)) AND ((? = 1 AND `IsQueuedToRun` IS NULL) OR (`IsQueuedToRun` = ?)) AND ((? = 1 AND `HSISourcePath` IS NULL) OR (`HSISourcePath` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `AddIndividualOutput` IS NULL) OR (`AddIndividualOutput` = ?)) AND ((? = 1 AND `RunOn` IS NULL) OR (`RunOn` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `Simulations` WHERE ((`SimulationID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `HSIID` IS NULL) OR (`HSIID` = ?)) AND ((? = 1 AND `FISID` IS NULL) OR (`FISID` = ?)) AND ((? = 1 AND `CreatedBy` IS NULL) OR (`CreatedBy` = ?)) AND ((? = 1 AND `CreatedOn` IS NULL) OR (`CreatedOn` = ?)) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `Discharge` IS NULL) OR (`Discharge` = ?)) AND ((? = 1 AND `IsQueuedToRun` IS NULL) OR (`IsQueuedToRun` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `AddIndividualOutput` IS NULL) OR (`AddIndividualOutput` = ?)) AND ((? = 1 AND `RunOn` IS NULL) OR (`RunOn` = ?)) AND ((? = 1 AND `CellSize` IS NULL) OR (`CellSize` = ?)) AND ((? = 1 AND `HSIOutputCSV` IS NULL) OR (`HSIOutputCSV` = ?)) AND ((? = 1 AND `HSIOutputRaster` IS NULL) OR (`HSIOutputRaster` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SimulationID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SimulationID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Title", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, true, null));
@@ -16979,19 +17066,21 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Discharge", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Discharge", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_IsQueuedToRun", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_IsQueuedToRun", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSISourcePath", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSISourcePath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Folder", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Folder", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_AddIndividualOutput", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_AddIndividualOutput", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_RunOn", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_RunOn", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_CellSize", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_CellSize", global::System.Data.OleDb.OleDbType.Single, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSIOutputCSV", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSIOutputCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSIOutputRaster", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSIOutputRaster", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO `Simulations` (`Title`, `HSIID`, `FISID`, `CreatedBy`, `CreatedOn`, `" +
-                "VisitID`, `Discharge`, `IsQueuedToRun`, `HSISourcePath`, `Folder`, `AddIndividua" +
-                "lOutput`, `RunOn`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO `Simulations` (`Title`, `HSIID`, `FISID`, `CreatedBy`, `CreatedOn`, `VisitID`, `Discharge`, `IsQueuedToRun`, `Folder`, `AddIndividualOutput`, `RunOn`, `CellSize`, `HSIOutputCSV`, `HSIOutputRaster`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIID", global::System.Data.DataRowVersion.Current, false, null));
@@ -17001,13 +17090,15 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Discharge", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Discharge", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsQueuedToRun", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSISourcePath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Folder", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("AddIndividualOutput", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("RunOn", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("CellSize", global::System.Data.OleDb.OleDbType.Single, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIOutputCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIOutputRaster", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `Simulations` SET `Title` = ?, `HSIID` = ?, `FISID` = ?, `CreatedBy` = ?, `CreatedOn` = ?, `VisitID` = ?, `Discharge` = ?, `IsQueuedToRun` = ?, `HSISourcePath` = ?, `Folder` = ?, `AddIndividualOutput` = ?, `RunOn` = ? WHERE ((`SimulationID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `HSIID` IS NULL) OR (`HSIID` = ?)) AND ((? = 1 AND `FISID` IS NULL) OR (`FISID` = ?)) AND ((? = 1 AND `CreatedBy` IS NULL) OR (`CreatedBy` = ?)) AND ((? = 1 AND `CreatedOn` IS NULL) OR (`CreatedOn` = ?)) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `Discharge` IS NULL) OR (`Discharge` = ?)) AND ((? = 1 AND `IsQueuedToRun` IS NULL) OR (`IsQueuedToRun` = ?)) AND ((? = 1 AND `HSISourcePath` IS NULL) OR (`HSISourcePath` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `AddIndividualOutput` IS NULL) OR (`AddIndividualOutput` = ?)) AND ((? = 1 AND `RunOn` IS NULL) OR (`RunOn` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `Simulations` SET `Title` = ?, `HSIID` = ?, `FISID` = ?, `CreatedBy` = ?, `CreatedOn` = ?, `VisitID` = ?, `Discharge` = ?, `IsQueuedToRun` = ?, `Folder` = ?, `AddIndividualOutput` = ?, `RunOn` = ?, `CellSize` = ?, `HSIOutputCSV` = ?, `HSIOutputRaster` = ? WHERE ((`SimulationID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `HSIID` IS NULL) OR (`HSIID` = ?)) AND ((? = 1 AND `FISID` IS NULL) OR (`FISID` = ?)) AND ((? = 1 AND `CreatedBy` IS NULL) OR (`CreatedBy` = ?)) AND ((? = 1 AND `CreatedOn` IS NULL) OR (`CreatedOn` = ?)) AND ((? = 1 AND `VisitID` IS NULL) OR (`VisitID` = ?)) AND ((? = 1 AND `Discharge` IS NULL) OR (`Discharge` = ?)) AND ((? = 1 AND `IsQueuedToRun` IS NULL) OR (`IsQueuedToRun` = ?)) AND ((? = 1 AND `Folder` IS NULL) OR (`Folder` = ?)) AND ((? = 1 AND `AddIndividualOutput` IS NULL) OR (`AddIndividualOutput` = ?)) AND ((? = 1 AND `RunOn` IS NULL) OR (`RunOn` = ?)) AND ((? = 1 AND `CellSize` IS NULL) OR (`CellSize` = ?)) AND ((? = 1 AND `HSIOutputCSV` IS NULL) OR (`HSIOutputCSV` = ?)) AND ((? = 1 AND `HSIOutputRaster` IS NULL) OR (`HSIOutputRaster` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIID", global::System.Data.DataRowVersion.Current, false, null));
@@ -17017,10 +17108,12 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Discharge", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Discharge", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsQueuedToRun", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSISourcePath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Folder", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("AddIndividualOutput", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("RunOn", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("CellSize", global::System.Data.OleDb.OleDbType.Single, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIOutputCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("HSIOutputRaster", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SimulationID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SimulationID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Title", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, false, null));
@@ -17038,14 +17131,18 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Discharge", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Discharge", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_IsQueuedToRun", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_IsQueuedToRun", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "IsQueuedToRun", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSISourcePath", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSISourcePath", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSISourcePath", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Folder", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Folder", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Folder", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_AddIndividualOutput", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_AddIndividualOutput", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AddIndividualOutput", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_RunOn", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_RunOn", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "RunOn", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_CellSize", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_CellSize", global::System.Data.OleDb.OleDbType.Single, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "CellSize", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSIOutputCSV", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSIOutputCSV", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputCSV", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_HSIOutputRaster", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_HSIOutputRaster", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "HSIOutputRaster", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17061,9 +17158,9 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT SimulationID, Title, HSIID, FISID, CreatedBy, CreatedOn, VisitID, Discharg" +
-                "e, IsQueuedToRun, HSISourcePath, Folder, AddIndividualOutput, RunOn FROM Simulat" +
-                "ions";
+            this._commandCollection[0].CommandText = "SELECT        SimulationID, Title, HSIID, FISID, CreatedBy, CreatedOn, VisitID, D" +
+                "ischarge, IsQueuedToRun, Folder, AddIndividualOutput, RunOn, CellSize, HSIOutput" +
+                "CSV, HSIOutputRaster\r\nFROM            Simulations";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17124,7 +17221,7 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_SimulationID, string Original_Title, global::System.Nullable<int> Original_HSIID, global::System.Nullable<int> Original_FISID, string Original_CreatedBy, System.DateTime Original_CreatedOn, global::System.Nullable<int> Original_VisitID, global::System.Nullable<double> Original_Discharge, bool Original_IsQueuedToRun, string Original_HSISourcePath, string Original_Folder, bool Original_AddIndividualOutput, global::System.Nullable<global::System.DateTime> Original_RunOn) {
+        public virtual int Delete(int Original_SimulationID, string Original_Title, global::System.Nullable<int> Original_HSIID, global::System.Nullable<int> Original_FISID, string Original_CreatedBy, System.DateTime Original_CreatedOn, global::System.Nullable<int> Original_VisitID, global::System.Nullable<double> Original_Discharge, bool Original_IsQueuedToRun, string Original_Folder, bool Original_AddIndividualOutput, global::System.Nullable<global::System.DateTime> Original_RunOn, global::System.Nullable<float> Original_CellSize, string Original_HSIOutputCSV, string Original_HSIOutputRaster) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_SimulationID));
             if ((Original_Title == null)) {
                 throw new global::System.ArgumentNullException("Original_Title");
@@ -17177,30 +17274,46 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             }
             this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[16].Value = ((bool)(Original_IsQueuedToRun));
-            if ((Original_HSISourcePath == null)) {
-                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[18].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[18].Value = ((string)(Original_HSISourcePath));
-            }
             if ((Original_Folder == null)) {
                 throw new global::System.ArgumentNullException("Original_Folder");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[20].Value = ((string)(Original_Folder));
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[18].Value = ((string)(Original_Folder));
             }
-            this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
-            this.Adapter.DeleteCommand.Parameters[22].Value = ((bool)(Original_AddIndividualOutput));
+            this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[20].Value = ((bool)(Original_AddIndividualOutput));
             if ((Original_RunOn.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[22].Value = ((System.DateTime)(Original_RunOn.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[22].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CellSize.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[24].Value = ((System.DateTime)(Original_RunOn.Value));
+                this.Adapter.DeleteCommand.Parameters[24].Value = ((float)(Original_CellSize.Value));
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[24].Value = global::System.DBNull.Value;
+            }
+            if ((Original_HSIOutputCSV == null)) {
+                this.Adapter.DeleteCommand.Parameters[25].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[26].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[25].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[26].Value = ((string)(Original_HSIOutputCSV));
+            }
+            if ((Original_HSIOutputRaster == null)) {
+                this.Adapter.DeleteCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[28].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[28].Value = ((string)(Original_HSIOutputRaster));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -17222,7 +17335,7 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string Title, global::System.Nullable<int> HSIID, global::System.Nullable<int> FISID, string CreatedBy, System.DateTime CreatedOn, global::System.Nullable<int> VisitID, global::System.Nullable<double> Discharge, bool IsQueuedToRun, string HSISourcePath, string Folder, bool AddIndividualOutput, global::System.Nullable<global::System.DateTime> RunOn) {
+        public virtual int Insert(string Title, global::System.Nullable<int> HSIID, global::System.Nullable<int> FISID, string CreatedBy, System.DateTime CreatedOn, global::System.Nullable<int> VisitID, global::System.Nullable<double> Discharge, bool IsQueuedToRun, string Folder, bool AddIndividualOutput, global::System.Nullable<global::System.DateTime> RunOn, global::System.Nullable<float> CellSize, string HSIOutputCSV, string HSIOutputRaster) {
             if ((Title == null)) {
                 throw new global::System.ArgumentNullException("Title");
             }
@@ -17261,24 +17374,36 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
                 this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             this.Adapter.InsertCommand.Parameters[7].Value = ((bool)(IsQueuedToRun));
-            if ((HSISourcePath == null)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(HSISourcePath));
-            }
             if ((Folder == null)) {
                 throw new global::System.ArgumentNullException("Folder");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(Folder));
+                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(Folder));
             }
-            this.Adapter.InsertCommand.Parameters[10].Value = ((bool)(AddIndividualOutput));
+            this.Adapter.InsertCommand.Parameters[9].Value = ((bool)(AddIndividualOutput));
             if ((RunOn.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[11].Value = ((System.DateTime)(RunOn.Value));
+                this.Adapter.InsertCommand.Parameters[10].Value = ((System.DateTime)(RunOn.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((CellSize.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[11].Value = ((float)(CellSize.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            if ((HSIOutputCSV == null)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((string)(HSIOutputCSV));
+            }
+            if ((HSIOutputRaster == null)) {
+                this.Adapter.InsertCommand.Parameters[13].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[13].Value = ((string)(HSIOutputRaster));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -17309,10 +17434,12 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
                     global::System.Nullable<int> VisitID, 
                     global::System.Nullable<double> Discharge, 
                     bool IsQueuedToRun, 
-                    string HSISourcePath, 
                     string Folder, 
                     bool AddIndividualOutput, 
                     global::System.Nullable<global::System.DateTime> RunOn, 
+                    global::System.Nullable<float> CellSize, 
+                    string HSIOutputCSV, 
+                    string HSIOutputRaster, 
                     int Original_SimulationID, 
                     string Original_Title, 
                     global::System.Nullable<int> Original_HSIID, 
@@ -17322,10 +17449,12 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
                     global::System.Nullable<int> Original_VisitID, 
                     global::System.Nullable<double> Original_Discharge, 
                     bool Original_IsQueuedToRun, 
-                    string Original_HSISourcePath, 
                     string Original_Folder, 
                     bool Original_AddIndividualOutput, 
-                    global::System.Nullable<global::System.DateTime> Original_RunOn) {
+                    global::System.Nullable<global::System.DateTime> Original_RunOn, 
+                    global::System.Nullable<float> Original_CellSize, 
+                    string Original_HSIOutputCSV, 
+                    string Original_HSIOutputRaster) {
             if ((Title == null)) {
                 throw new global::System.ArgumentNullException("Title");
             }
@@ -17364,85 +17493,89 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
                 this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             this.Adapter.UpdateCommand.Parameters[7].Value = ((bool)(IsQueuedToRun));
-            if ((HSISourcePath == null)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(HSISourcePath));
-            }
             if ((Folder == null)) {
                 throw new global::System.ArgumentNullException("Folder");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Folder));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Folder));
             }
-            this.Adapter.UpdateCommand.Parameters[10].Value = ((bool)(AddIndividualOutput));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((bool)(AddIndividualOutput));
             if ((RunOn.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((System.DateTime)(RunOn.Value));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((System.DateTime)(RunOn.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((CellSize.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((float)(CellSize.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_SimulationID));
+            if ((HSIOutputCSV == null)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(HSIOutputCSV));
+            }
+            if ((HSIOutputRaster == null)) {
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(HSIOutputRaster));
+            }
+            this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(Original_SimulationID));
             if ((Original_Title == null)) {
                 throw new global::System.ArgumentNullException("Original_Title");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_Title));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_Title));
             }
             if ((Original_HSIID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(Original_HSIID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            if ((Original_FISID.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(Original_FISID.Value));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(Original_HSIID.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
-            if ((Original_CreatedBy == null)) {
+            if ((Original_FISID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_FISID.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_CreatedBy));
+            if ((Original_CreatedBy == null)) {
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((System.DateTime)(Original_CreatedOn));
+            else {
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((string)(Original_CreatedBy));
+            }
+            this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[24].Value = ((System.DateTime)(Original_CreatedOn));
             if ((Original_VisitID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(Original_VisitID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
-            }
-            if ((Original_Discharge.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((double)(Original_Discharge.Value));
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(Original_VisitID.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[28].Value = ((bool)(Original_IsQueuedToRun));
-            if ((Original_HSISourcePath == null)) {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
+            if ((Original_Discharge.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((double)(Original_Discharge.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((string)(Original_HSISourcePath));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
+            this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[30].Value = ((bool)(Original_IsQueuedToRun));
             if ((Original_Folder == null)) {
                 throw new global::System.ArgumentNullException("Original_Folder");
             }
@@ -17459,6 +17592,30 @@ namespace CHaMPWorkbench.Habitat.dsHabitatTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[36].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CellSize.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[38].Value = ((float)(Original_CellSize.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[38].Value = global::System.DBNull.Value;
+            }
+            if ((Original_HSIOutputCSV == null)) {
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[40].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[40].Value = ((string)(Original_HSIOutputCSV));
+            }
+            if ((Original_HSIOutputRaster == null)) {
+                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[42].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[42].Value = ((string)(Original_HSIOutputRaster));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 

@@ -108,13 +108,14 @@ namespace CHaMPWorkbench.Habitat
 
                 // Create the one simulation for this visit
                 dsHabitat.SimulationsRow rSimulation = m_dsHabitat.Simulations.NewSimulationsRow();
-                rSimulation.Title = GetSimulationName(rVisit);
+                rSimulation.Title = GetSimulationName(rVisit, rHSI.Title);
                 rSimulation.CreatedBy = Environment.UserName;
                 rSimulation.CreatedOn = DateTime.Now;
                 rSimulation.AddIndividualOutput = true;
                 rSimulation.Folder = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificSimulationFolder(rSimulation.Title));
                 rSimulation.HSIID = nHSIID;
-                rSimulation.HSISourcePath = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title));
+                rSimulation.HSIOutputRaster = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
+                rSimulation.HSIOutputCSV = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
                 rSimulation.IsQueuedToRun = true;
                 rSimulation.VisitID = rVisit.VisitID;
                 m_dsHabitat.Simulations.AddSimulationsRow(rSimulation);
@@ -172,10 +173,13 @@ namespace CHaMPWorkbench.Habitat
             }
         }
 
-        private string GetSimulationName(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit)
+        private string GetSimulationName(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, string sHSIName)
         {
             // CBW5583-34565_VISIT_217
-            string sResult = string.Format("{0}_VISIT_{1}", rVisit.CHAMP_SitesRow.SiteName, rVisit.VisitID.ToString());
+            string sSiteName = HMUI.Classes.Paths.RemoveDangerousCharacters(rVisit.CHAMP_SitesRow.SiteName);
+            sHSIName = HMUI.Classes.Paths.RemoveDangerousCharacters(sHSIName);
+
+            string sResult = string.Format("{0}_VISIT_{1}_{2}", sSiteName, rVisit.VisitID.ToString(), sHSIName);
             return sResult;
         }
 
