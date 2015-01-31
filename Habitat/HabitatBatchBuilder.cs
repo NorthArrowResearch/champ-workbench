@@ -87,6 +87,11 @@ namespace CHaMPWorkbench.Habitat
             dsHabitatTableAdapters.HSICurvesTableAdapter taHSICurves = new dsHabitatTableAdapters.HSICurvesTableAdapter();
             taHSICurves.Connection = m_HabitatManager.ProjectDatabaseConnection;
             taHSICurves.Fill(m_dsHabitat.HSICurves);
+
+            //    dsHabitatTableAdapters.ProjectVariablesTableAdapter taProjectVariables = new dsHabitatTableAdapters.ProjectVariablesTableAdapter();
+            //    taProjectVariables.Connection = m_HabitatManager.ProjectDatabaseConnection;
+            //    taProjectVariables.Fill(m_dsHabitat.ProjectVariables);
+            //
         }
 
         public void BuildBatch(List<int> lVisitIDs, int nHSIID, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
@@ -118,10 +123,16 @@ namespace CHaMPWorkbench.Habitat
                 rSimulation.HSIOutputCSV = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
                 rSimulation.IsQueuedToRun = true;
                 rSimulation.VisitID = rVisit.VisitID;
+                rSimulation.CellSize = (float)0.1;
                 m_dsHabitat.Simulations.AddSimulationsRow(rSimulation);
                 // Trigger retrieval of SimulationID;
                 m_taSimulations.Update(rSimulation);
+                int nSimulationID = rSimulation.SimulationID;
                 nSucess++;
+
+                // Temporary fix because the C++ cannot produce a raster when there are no raster inputs.
+                // And cannot produce a CSV when there are just rasters.
+                Boolean bRasterInputs = false;
 
                 // Loop over all the input curves and create the necessary project data sources and inputs
                 dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;
@@ -138,6 +149,7 @@ namespace CHaMPWorkbench.Habitat
 
                         // Create project variable
                         rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rSubstrateSource.DataSourceID);
+                        bRasterInputs = true;
                     }
                     else
                     {
@@ -170,6 +182,18 @@ namespace CHaMPWorkbench.Habitat
 
                 // This update can be done outside the loop because the IDs are not needed elsewhere
                 m_taSimulationHSInputs.Update(m_dsHabitat.SimulationHSCInputs);
+
+                // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
+                // currently possible in the C++
+
+                m_taSimulations.Fill(m_dsHabitat.Simulations);
+                rSimulation = m_dsHabitat.Simulations.FindBySimulationID(nSimulationID);
+                if (bRasterInputs)
+                    rSimulation.SetHSIOutputCSVNull();
+                else
+                    rSimulation.SetHSIOutputRasterNull();
+
+                m_taSimulations.Update(rSimulation);
             }
         }
 
@@ -196,7 +220,26 @@ namespace CHaMPWorkbench.Habitat
             if (!System.IO.File.Exists(sOriginalPath))
                 return null;
 
-            string sProjectDataSourcePath = HMUI.Classes.Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
+            int i = 0;
+            string sProjectDataSourcePath;
+            string sFileName;
+            bool bAnyFilesExist = false;
+            do
+            {
+                sProjectDataSourcePath = HMUI.Classes.Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
+                sFileName = System.IO.Path.GetFileNameWithoutExtension(sProjectDataSourcePath);
+                if (i > 0)
+                    sFileName = string.Format("{0}_{1}", sFileName, i);
+
+                sProjectDataSourcePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), sFileName);
+                sProjectDataSourcePath = System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sOriginalPath));
+
+                string[] sMatch = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), System.IO.Path.ChangeExtension(sFileName, "*"));
+                bAnyFilesExist = sMatch.Count<string>() > 0;
+                i++;
+
+            } while (bAnyFilesExist);
+
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sProjectDataSourcePath));
 
             // TIF rasters require all the files to be copied.
@@ -207,21 +250,25 @@ namespace CHaMPWorkbench.Habitat
                 sCopySource = System.IO.Path.ChangeExtension(sOriginalPath, "*");
 
             string[] sMatchingFiles = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(sCopySource), System.IO.Path.GetFileName(sCopySource));
-
-
-
-            //test the first file to see if it exists
-            string sSuffix = "";
-            int counter = 0;
-            while (System.IO.File.Exists(System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sMatchingFiles.First() ))  ))
-            {
-                counter++;
-                sSuffix = "_" + counter.ToString();
-            }
-
             foreach (string sFileToCopy in sMatchingFiles)
             {
-                string sDestinationFile = System.IO.Path.ChangeExtension(sProjectDataSourcePath + sSuffix, System.IO.Path.GetExtension(sFileToCopy));
+                string sCleanName = System.IO.Path.GetFileNameWithoutExtension(sProjectDataSourcePath);
+                string sOrigFileName = System.IO.Path.GetFileNameWithoutExtension(sFileToCopy);
+                string sFileMiddle = "";
+                string sExtension = System.IO.Path.GetExtension(sFileToCopy);
+
+                if (sOrigFileName.IndexOf('.') >= 0)
+                {
+                    sFileMiddle = sOrigFileName.Substring(sOrigFileName.IndexOf('.'));
+                    sExtension = sFileMiddle + sExtension;
+                }
+
+                string sDestinationFile = System.IO.Path.ChangeExtension(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), sCleanName), sExtension);
+
+                if (System.IO.File.Exists(sDestinationFile))
+                    bAnyFilesExist = true;
+
+
                 System.IO.File.Copy(sFileToCopy, sDestinationFile, false);
                 if (!System.IO.File.Exists(sDestinationFile))
                     return null;

@@ -413,6 +413,23 @@ namespace CHaMPWorkbench.Habitat
                 return false;
             }
 
+            Boolean bAtLeastOneVisitSelected = false;
+            foreach (DataGridViewRow r in grdVisits.Rows)
+            {
+                DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
+                if ((bool)chk.Value)
+                {
+                    bAtLeastOneVisitSelected = true;
+                    break;
+                }
+            }
+
+            if (!bAtLeastOneVisitSelected)
+            {
+                MessageBox.Show("You must check the box next to at least one visit.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            
             if (string.IsNullOrEmpty(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
             {
                 MessageBox.Show("You must select a habitat model database to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
