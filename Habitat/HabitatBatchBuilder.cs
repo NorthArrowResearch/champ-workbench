@@ -233,9 +233,12 @@ namespace CHaMPWorkbench.Habitat
 
                 sProjectDataSourcePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), sFileName);
                 sProjectDataSourcePath = System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sOriginalPath));
-
-                string[] sMatch = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), System.IO.Path.ChangeExtension(sFileName, "*"));
-                bAnyFilesExist = sMatch.Count<string>() > 0;
+                string sFolder = System.IO.Path.GetDirectoryName(sProjectDataSourcePath);
+                if (System.IO.Directory.Exists(sFolder))
+                {
+                    string[] sMatch = System.IO.Directory.GetFiles(sFolder, System.IO.Path.ChangeExtension(sFileName, "*"));
+                    bAnyFilesExist = sMatch.Count<string>() > 0;
+                }
                 i++;
 
             } while (bAnyFilesExist);
