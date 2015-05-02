@@ -144,6 +144,8 @@ namespace CHaMPWorkbench.Data
 
             tTip.SetToolTip(cmdInputXML, "Open the RBT Input Builder with the current visit selected.");
             tTip.SetToolTip(cmdRBTBatch, "Add the existing RBT input XML file to a new batch and queue it for running.");
+
+            tTip.SetToolTip(button1, "Generate Channel Unit CSV File.");
         }
 
         private string GetPath(string sParent, OleDbDataReader dbRead)
