@@ -128,6 +128,8 @@ namespace CHaMPWorkbench.Data
             cmdExploreSurveyData.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
             cmdRBTBatch.Enabled = !string.IsNullOrEmpty(txtOutputPath.Text) && System.IO.Directory.Exists(txtOutputPath.Text) && System.IO.File.Exists(RBTInputFile);
             cmdInputXML.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
+
+            button1.Enabled = !string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text);
         }
 
         private void frmFindVisitByID_Load(object sender, EventArgs e)
