@@ -58,7 +58,7 @@ namespace CHaMPWorkbench.Data
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 if (dbRead.Read())
                 {
-                    string sVisitID =  GetSafeIntValue(dbRead, "VisitID");
+                    string sVisitID = GetSafeIntValue(dbRead, "VisitID");
                     string sFieldSeason = GetSafeIntValue(dbRead, "VisitYear");
 
                     txtResult.Text = "Watershed: " + GetSafeIntValue(dbRead, "WatershedID") + ", " + GetSafeStringValue(dbRead, "WatershedName");
@@ -107,7 +107,7 @@ namespace CHaMPWorkbench.Data
         private void cmdExplorerOutput_Click(object sender, EventArgs e)
         {
             Process.Start(txtOutputPath.Text);
-             }
+        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -135,7 +135,7 @@ namespace CHaMPWorkbench.Data
             UpdateControls();
 
             tTip.SetToolTip(valVisitID, "Enter the official CHaMP program Visit ID and then click tab");
-            
+
             tTip.SetToolTip(cmdCopySurveyData, "Copy to the clipboard the folder path to the visit survey data for the displayed visit.");
             tTip.SetToolTip(cmdCopyOutput, "Copy to the clipboard the input//output folder path for the displayed visit.");
 
@@ -173,7 +173,7 @@ namespace CHaMPWorkbench.Data
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {          
+        {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             try
             {
@@ -193,7 +193,7 @@ namespace CHaMPWorkbench.Data
                     pSummary.Size = m_sBatchName.Length;
 
                     OleDbParameter pInputFile = dbCom.Parameters.AddWithValue("InputFile", RBTInputFile);
-                  
+
                     dbCom.ExecuteNonQuery();
                     dbTrans.Commit();
 
@@ -211,8 +211,8 @@ namespace CHaMPWorkbench.Data
 
         private void cmdInputXML_Click(object sender, EventArgs e)
         {
-            m_nVisitToCreateInputFile = (int) valVisitID.Value;
-            frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int) valVisitID.Value);
+            m_nVisitToCreateInputFile = (int)valVisitID.Value;
+            frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int)valVisitID.Value);
             if (frmInput.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
@@ -220,6 +220,35 @@ namespace CHaMPWorkbench.Data
         private void cmdNewSurveyFolder_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSurveyPath.Text) && System.IO.Directory.Exists(txtSurveyPath.Text))
+            {
+                Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
+                try
+                {
+                    string sFilePath = System.IO.Path.Combine(txtSurveyPath.Text, "ChannelUnits.csv");
+                    csv.Run((int)valVisitID.Value, sFilePath);
+                    switch (MessageBox.Show("Channel Unit CSV file created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                    {
+                        case System.Windows.Forms.DialogResult.Yes:
+                            System.Diagnostics.Process.Start(sFilePath);
+                            break;
+
+                        case System.Windows.Forms.DialogResult.Cancel:
+                            this.DialogResult = System.Windows.Forms.DialogResult.None;
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("The survey data folder does not exist.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

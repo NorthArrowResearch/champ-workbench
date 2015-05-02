@@ -87,6 +87,7 @@
     <Compile Include="Classes\CHaMPData.cs" />
     <Compile Include="Classes\ChannelSegment.cs" />
     <Compile Include="Classes\ChannelUnit.cs" />
+    <Compile Include="Classes\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\InputFileBuilder.cs" />
@@ -432,6 +433,7 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <None Include="Resources\ConcaveHull.png" />
     <None Include="Resources\32_habitat-logo.png" />
     <None Include="Resources\search.png" />
     <None Include="Resources\new_folder.png" />
