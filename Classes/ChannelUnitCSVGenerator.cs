@@ -17,9 +17,11 @@ namespace CHaMPWorkbench.Classes
 
         public void Run(int nVisitID, string sFilePath)
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover" +
-                " FROM CHAMP_Sites INNER JOIN ((CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) INNER JOIN CHAMP_Visits AS V ON S.VisitID = V.VisitID) ON CHAMP_Sites.SiteID = V.SiteID" +
-                " WHERE V.VisitID = @VisitID ORDER BY C.ChannelUnitNumber", m_dbCon);
+            OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, " +
+                " C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover," +
+                " W.WatershedName, V.SampleDate, V.CrewName, V.PanelName,C.ID As ChannelUnitID, S.SegmentNumber, S.SegmentName" +
+                " FROM CHAMP_Watersheds AS W INNER JOIN ((CHAMP_Sites INNER JOIN CHAMP_Visits AS V ON CHAMP_Sites.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID) ON W.WatershedID = CHAMP_Sites.WatershedID" +
+                " WHERE V.VisitID=[@VisitID] ORDER BY C.ChannelUnitNumber", m_dbCon);
 
             dbCom.Parameters.AddWithValue("VisitID", nVisitID);
             try
@@ -28,18 +30,61 @@ namespace CHaMPWorkbench.Classes
 
                 string sUnit;
                 List<string> lUnits = new List<string>();
-                lUnits.Add("VisitID,SiteName,UnitNumber,Tier1,Tier2,PercentFlow,SideChannelPresent,InQualifyingSideChannel,BouldersGT256,Cobbles65255,CoarseGravel1764,FineGravel316,Sand0062,FinesLT006,SumSubstrateCover");
+                lUnits.Add("Watershed" +
+                    ",SiteID" +
+                    ",SampleDate" +
+                    ",VisitID" +
+                    ",MeasureNbr" +
+                    ",Crew" +
+                    ",VisitPhase" + 
+                    ",VisitStatus" + 
+                    ",StreamName" + 
+                    ",Panel" +
+                    ",ChannelUnitID" + 
+                    ",ChannelUnitNumber" + 
+                    ",ChannelSegment" +
+                    ",SegmentNumber" +
+                    ",Tier1" +
+                    ",Tier2" +
+                    ",FieldNotes" + 
+                    ",CountOfPebbles" +
+                    ",DataUpdateNotes" +
+                    ",PercentFlow" +
+                    ",SideChannelPresent" +
+                    ",InQualifyingSideChannel" +
+                    ",BouldersGT256" +
+                    ",Cobbles65255" +
+                    ",CoarseGravel1764" +
+                    ",FineGravel316" +
+                    ",Sand0062" +
+                    ",FinesLT006" +
+                    ",SumSubstrateCover"
+                 );
+
                 while (dbRead.Read())
                 {
-                    sUnit = nVisitID.ToString();
+                    sUnit = AddStringField(ref dbRead, "WatershedName");
                     sUnit += AddStringField(ref dbRead, "SiteName");
-                    sUnit += AddNumericField(ref dbRead, "ChannelUnitNumber");
+                    sUnit += AddStringField(ref dbRead, "SampleDate");
+                     sUnit += nVisitID.ToString();
+                   sUnit += ",1"; // Measure
+                    sUnit += AddStringField(ref dbRead, "CrewName");
+                    sUnit += ",1"; // Visit Phase
+                    sUnit += ",1"; // Visit Status
+                    sUnit += ","; // Stream Name
+                    sUnit += AddStringField(ref dbRead, "PanelName");
+                    sUnit += AddNumericField(ref dbRead, "ChannelUnitID");
+                        sUnit += AddNumericField(ref dbRead, "ChannelUnitNumber");
+                        sUnit += AddStringField(ref dbRead, "SegmentName");
+                        sUnit += AddNumericField(ref dbRead, "SegmentNumber");
                     sUnit += AddStringField(ref dbRead, "Tier1");
                     sUnit += AddStringField(ref dbRead, "Tier2");
-
-                    sUnit += ",0";
-                    sUnit += ",0";
-                    sUnit += ",0";
+                    sUnit += ",";
+                    sUnit += ",0"; // Pebbles
+                    sUnit += ",";
+                    sUnit += ",0"; // Percent Flow
+                    sUnit += ",0"; // Side channel Present
+                    sUnit += ",0"; // In qualifying side channel
                  
                     sUnit += AddNumericField(ref dbRead, "BouldersGT256");
                     sUnit += AddNumericField(ref dbRead, "Cobbles65255");
