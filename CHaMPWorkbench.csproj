@@ -14,7 +14,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://ftp.northarrowresearch.com/public_html/Applications/CHaMPWorkbench/</PublishUrl>
+    <PublishUrl>C:\Users\PhilipLocal\Documents\Code\Deploy\CHaMPWorkbench\Publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -24,8 +24,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://champworkbench.northarrowresearch.com/</InstallUrl>
-    <ApplicationRevision>45</ApplicationRevision>
+    <InstallUrl>http://releases.northarrowresearch.com/CHaMPWorkbench/</InstallUrl>
+    <ApplicationRevision>47</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
