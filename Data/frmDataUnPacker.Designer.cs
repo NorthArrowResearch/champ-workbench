@@ -68,6 +68,7 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblETA = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -166,7 +167,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(465, 439);
+            this.cmdOK.Location = new System.Drawing.Point(465, 461);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 10;
@@ -178,7 +179,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(546, 439);
+            this.cmdCancel.Location = new System.Drawing.Point(546, 461);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 11;
@@ -439,7 +440,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(8, 51);
+            this.lblStatus.Location = new System.Drawing.Point(8, 80);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(47, 13);
             this.lblStatus.TabIndex = 28;
@@ -453,14 +454,24 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblETA);
             this.groupBox2.Controls.Add(this.pgrProgress);
             this.groupBox2.Controls.Add(this.lblStatus);
             this.groupBox2.Location = new System.Drawing.Point(10, 350);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(612, 77);
+            this.groupBox2.Size = new System.Drawing.Size(612, 101);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Status";
+            // 
+            // lblETA
+            // 
+            this.lblETA.AutoSize = true;
+            this.lblETA.Location = new System.Drawing.Point(8, 55);
+            this.lblETA.Name = "lblETA";
+            this.lblETA.Size = new System.Drawing.Size(38, 13);
+            this.lblETA.TabIndex = 29;
+            this.lblETA.Text = "lblETA";
             // 
             // frmDataUnPacker
             // 
@@ -468,7 +479,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(634, 475);
+            this.ClientSize = new System.Drawing.Size(634, 497);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label8);
@@ -540,5 +551,6 @@
         private System.Windows.Forms.Label lblStatus;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label lblETA;
     }
 }
