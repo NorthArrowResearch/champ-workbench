@@ -299,7 +299,7 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://sites.google.com/a/northarrowresearch.com/workbench.
+        ///   Looks up a localized string similar to http://workbench.northarrowresearch.com/.
         /// </summary>
         internal static string WebSiteURL {
             get {

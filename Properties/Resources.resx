@@ -173,7 +173,7 @@
     <value>CHaMP Workbench</value>
   </data>
   <data name="WebSiteURL" xml:space="preserve">
-    <value>https://sites.google.com/a/northarrowresearch.com/workbench</value>
+    <value>http://workbench.northarrowresearch.com/</value>
   </data>
   <data name="BrowseFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BrowseFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
