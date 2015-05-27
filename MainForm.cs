@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using CHaMPWorkbench.RBTInputFile;
 using System.Deployment.Application;
+using System.Data.OleDb;
 
 namespace CHaMPWorkbench
 {
@@ -143,6 +144,8 @@ namespace CHaMPWorkbench
                     CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
                     CHaMPWorkbench.Properties.Settings.Default.Save();
                     UpdateMenuItemStatus(menuStrip1.Items);
+
+                    LoadVisits();
                 }
                 catch (Exception ex)
                 {
@@ -260,6 +263,8 @@ namespace CHaMPWorkbench
         private void MainForm_Load(object sender, EventArgs e)
         {
             UpdateMenuItemStatus(menuStrip1.Items);
+
+            LoadVisits();
         }
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -398,5 +403,141 @@ namespace CHaMPWorkbench
             Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch(m_dbCon);
             frm.ShowDialog();
         }
+
+        private void LoadVisits()
+        {
+            if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
+                return;
+
+            string sSQL = "SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHAMP_Visits.HitchName, CHAMP_Visits.CrewName, CHAMP_Visits.SampleDate, CHAMP_Visits.IsPrimary, CHAMP_Visits.PanelName" +
+" FROM (CHAMP_Watersheds INNER JOIN CHAMP_Sites ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID) INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID";
+
+            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
+            OleDbDataAdapter daVisits = new OleDbDataAdapter(dbCom);
+            DataTable dtVisits = new DataTable();
+            daVisits.Fill(dtVisits);
+            grdVisits.DataSource = dtVisits.AsDataView();
+
+            // Load the field seasons
+            OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", m_dbCon);
+            OleDbDataReader dbRead = comFS.ExecuteReader();
+            while (dbRead.Read())
+            {
+                int nSel = lstFieldSeason.Items.Add(new ListItem(((Int16)dbRead[0]).ToString(), (Int16)dbRead[0]));
+                lstFieldSeason.SetItemChecked(nSel, true);
+            }
+            dbRead.Close();
+
+            // Load the watersheds
+            comFS = new OleDbCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", m_dbCon);
+            dbRead = comFS.ExecuteReader();
+            while (dbRead.Read())
+            {
+                int nSel = lstWatershed.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
+                lstWatershed.SetItemChecked(nSel, true);
+            }
+
+        }
+
+        private void FilterVisits(object sender, EventArgs e)
+        {
+            // Filter the binding source.
+
+            //bindingSourceSelectedVisits.Filter = "";
+
+            string sFilter = "";
+            //AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
+
+            //if (chkSpecies.CheckedItems.Count > 0)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(sFilter))
+            //        sFilter += " AND ";
+            //    sFilter += "(";
+
+            //    for (int i = 0; i < chkSpecies.CheckedItems.Count; i++)
+            //    {
+            //        if (i > 0)
+            //            sFilter += " OR ";
+
+            //        sFilter += string.Format("{0} = 1", ((SpeciesListItem)chkSpecies.CheckedItems[i]).FieldName);
+            //    }
+            //    sFilter += ") ";
+            //}
+
+            //if (chkPrimary.Checked)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(sFilter))
+            //        sFilter += " AND ";
+            //    sFilter += "IsPrimary = true";
+            //}
+
+            //if (chkSubstrate.Checked)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(sFilter))
+            //        sFilter += " AND ";
+            //    sFilter += " (ICRPath IS NOT Null) AND (Len(ICRPath) > 0) ";
+            //}
+
+            //if (chkHydraulic.Checked)
+            //{
+            //    if (!string.IsNullOrWhiteSpace(sFilter))
+            //        sFilter += " AND ";
+            //    sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";
+            //}
+
+            if (chkVisitID.Checked)
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+                sFilter += string.Format(" (VisitID = {0})", (int)valVisitID.Value);
+            }
+
+            AddCheckedListboxFilter(ref lstFieldSeason, ref sFilter, "VisitYear");
+            AddCheckedListboxFilter(ref lstWatershed, ref sFilter, "WatershedID");
+
+            if (grdVisits.DataSource is DataView)
+            {
+                // bindingSourceSelectedVisits.Filter = sFilter;
+                DataView dv = (DataView)grdVisits.DataSource;
+                System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
+                dv.RowFilter = sFilter;
+                //grdVisits.Refresh();
+            }
+        }
+
+        private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
+        {
+            string sValueList = "";
+            foreach (ListItem l in lst.CheckedItems)
+            {
+                if (bUseNameInsteadOfValue)
+                    sValueList += "'" + l.ToString() + "', ";
+                else
+                    sValueList += l.Value.ToString() + ", ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(sValueList))
+            {
+                if (!string.IsNullOrWhiteSpace(sFilter))
+                    sFilter += " AND ";
+
+                sFilter += String.Format(" {0} IN ({1})", sPropertyName, sValueList.Substring(0, sValueList.Length - 2));
+            }
+        }
+
+        private void valVisitID_ValueChanged(object sender, EventArgs e)
+        {
+            chkVisitID.Checked = true;
+        }
+
+        private void lstFieldSeason_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (chkFieldSeason.Checked)
+                FilterVisits(sender, e);
+            else
+                chkFieldSeason.Checked = true;
+
+        }
+
     }
 }
