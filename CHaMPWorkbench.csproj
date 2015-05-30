@@ -121,6 +121,12 @@
     <Compile Include="Data\frmFindVisitByID.Designer.cs">
       <DependentUpon>frmFindVisitByID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmFTPVisit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmFTPVisit.Designer.cs">
+      <DependentUpon>frmFTPVisit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmImportCHaMPInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmFindVisitByID.resx">
       <DependentUpon>frmFindVisitByID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmFTPVisit.resx">
+      <DependentUpon>frmFTPVisit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
@@ -436,6 +445,9 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <None Include="Resources\download.png" />
+    <None Include="Resources\selection.png" />
+    <None Include="Resources\explorer.png" />
     <None Include="Resources\ConcaveHull.png" />
     <None Include="Resources\32_habitat-logo.png" />
     <None Include="Resources\search.png" />

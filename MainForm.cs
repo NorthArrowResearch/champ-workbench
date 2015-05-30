@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using CHaMPWorkbench.RBTInputFile;
 using System.Deployment.Application;
 using System.Data.OleDb;
+using System.IO;
 
 namespace CHaMPWorkbench
 {
@@ -409,8 +410,10 @@ namespace CHaMPWorkbench
             if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
                 return;
 
-            string sSQL = "SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHAMP_Visits.HitchName, CHAMP_Visits.CrewName, CHAMP_Visits.SampleDate, CHAMP_Visits.IsPrimary, CHAMP_Visits.PanelName" +
-" FROM (CHAMP_Watersheds INNER JOIN CHAMP_Sites ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID) INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID";
+            string sSQL = "SELECT W.WatershedID, W.WatershedName," +
+                " S.SiteID, S.SiteName, " +
+                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName, V.Folder, V.SurveyGDB" +
+                " FROM (CHAMP_Watersheds W INNER JOIN CHAMP_Sites S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
             OleDbDataAdapter daVisits = new OleDbDataAdapter(dbCom);
@@ -539,5 +542,146 @@ namespace CHaMPWorkbench
 
         }
 
+        private void visitPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grdVisits_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right && e.RowIndex > 0)
+            {
+                cmsVisit.Show(Cursor.Position);
+            }
+        }
+
+        private void browseMonitoringDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+        }
+
+        private void browseModelInputOutputFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder);
+        }
+
+        private void ExploreVisitFolder(string sParentFolder)
+        {
+            string sPath = RetrieveVisitFolder(sParentFolder);
+            if (!string.IsNullOrEmpty(sPath))
+            {
+                if (System.IO.Directory.Exists(sPath))
+                    System.Diagnostics.Process.Start(sPath);
+                else
+                {
+                    if (System.Windows.Forms.MessageBox.Show(string.Format("The specified folder does not exist. Do you want to create It? {0}", sPath),
+                        CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                        System.Diagnostics.Process.Start(sPath);
+                    }
+                }
+            }
+        }
+
+        private void CopyClipboardVisitFolder(string sParentFolder)
+        {
+            string sPath = RetrieveVisitFolder(sParentFolder);
+            if (!string.IsNullOrEmpty(sPath))
+            {
+                if (System.IO.Directory.Exists(sPath))
+                    Clipboard.SetText(sPath);
+                else
+                {
+                    if (System.Windows.Forms.MessageBox.Show(string.Format("The specified folder does not exist. Do you want to create It? {0}", sPath),
+                        CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                        Clipboard.SetText(sPath);
+                    }
+                }
+            }
+        }
+
+        private string RetrieveVisitFolder(string sParentFolder)
+        {
+            string sPath = string.Empty;
+            DataRow dr = RetrieveVisitInfo();
+            if (dr is DataRow)
+            {
+                sPath = System.IO.Path.Combine(sParentFolder, ((Int16)dr["VisitYear"]).ToString());
+                sPath = System.IO.Path.Combine(sPath, (string)dr["WatershedName"]);
+                sPath = System.IO.Path.Combine(sPath, (string)dr["SiteName"]);
+                sPath = System.IO.Path.Combine(sPath, string.Format("VISIT_{0}", dr["VisitID"]));
+                sPath = sPath.Replace(" ", "");
+            }
+            return sPath;
+        }
+
+        private DataRow RetrieveVisitInfo()
+        {
+            DataRow r = null;
+            if (grdVisits.SelectedRows.Count == 1)
+            {
+                DataRowView drv = (DataRowView)grdVisits.SelectedRows[0].DataBoundItem;
+                r = drv.Row;
+            }
+            return r;
+        }
+
+        private void copyMonitoringDataFolderPathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyClipboardVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+        }
+
+        private void copyModelInputOutputFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyClipboardVisitFolder(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder);
+        }
+
+        private void downloadTopoAndHydroDataFromCmorgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow r = RetrieveVisitInfo();
+            if (r is DataRow)
+            {
+                string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+                string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\","/");
+                Data.frmFTPVisit frm = new Data.frmFTPVisit((int) r["VisitID"], sFTPFolder, sTopoFolder);
+                frm.ShowDialog();
+            }
+            //List<string> lFiles = new List<string>();
+            //lFiles.Add("MapImages.zip");
+            //lFiles.Add("SurveyGDB.zip");
+            //lFiles.Add("TIN.zip");
+            //lFiles.Add("TopoToolbarResults.xml");
+            //lFiles.Add("WettedSurfaceTIN.zip");
+
+            //// C:\CHaMP\MonitoringData\2011\Lemhi\CBW05583-029103\VISIT_337\Topo
+            /////ByYear/2012/Methow/CBW05583-014793/VISIT_1101/Topo
+
+
+            //foreach (string sFile in lFiles)
+            //{
+            //    string sFTPFile = System.IO.Path.Combine(sFTPFolder, sFile).Replace("\\", "/");
+            //    string sLocalFile = System.IO.Path.Combine(sTopoFolder, sFile);
+
+            //    // Get the object used to communicate with the server.
+            //    System.Net.FtpWebRequest request = (System.Net.FtpWebRequest)System.Net.WebRequest.Create(sFTPFile);
+            //    request.Method = System.Net.WebRequestMethods.Ftp.DownloadFile;
+
+            //    // This example assumes the FTP site uses anonymous logon.
+            //    request.Credentials = new System.Net.NetworkCredential("anonymous", "janeDoe@contoso.com");
+
+            //    System.Net.FtpWebResponse response = (System.Net.FtpWebResponse)request.GetResponse();
+
+            //    Stream responseStream = response.GetResponseStream();
+
+            //    using (var fileStream = File.Create(sLocalFile))
+            //    {
+            //        responseStream.CopyTo(fileStream);
+            //    }
+            //    response.Close();
+            //}           
+        }
     }
 }
