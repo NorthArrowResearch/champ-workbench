@@ -857,7 +857,7 @@
             this.toolStripSeparator12,
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 248);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 270);
             // 
             // visitPropertiesToolStripMenuItem
             // 
@@ -929,6 +929,7 @@
             this.generateChannelUnitCSVFileToolStripMenuItem.Name = "generateChannelUnitCSVFileToolStripMenuItem";
             this.generateChannelUnitCSVFileToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.generateChannelUnitCSVFileToolStripMenuItem.Text = "Generate Channel Unit CSV File";
+            this.generateChannelUnitCSVFileToolStripMenuItem.Click += new System.EventHandler(this.generateChannelUnitCSVFileToolStripMenuItem_Click);
             // 
             // generateRBTRunForThisVisitToolStripMenuItem
             // 
@@ -936,9 +937,11 @@
             this.generateRBTRunForThisVisitToolStripMenuItem.Name = "generateRBTRunForThisVisitToolStripMenuItem";
             this.generateRBTRunForThisVisitToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.generateRBTRunForThisVisitToolStripMenuItem.Text = "Generate RBT Run For This Visit...";
+            this.generateRBTRunForThisVisitToolStripMenuItem.Click += new System.EventHandler(this.generateRBTRunForThisVisitToolStripMenuItem_Click);
             // 
             // generateRBTRunForAllVisitsInTheTableToolStripMenuItem
             // 
+            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Enabled = false;
             this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
             this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Name = "generateRBTRunForAllVisitsInTheTableToolStripMenuItem";
             this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Size = new System.Drawing.Size(356, 22);

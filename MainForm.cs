@@ -741,5 +741,32 @@ namespace CHaMPWorkbench
             FilterVisits(sender, e);
 
         }
+
+        private void generateChannelUnitCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow r = RetrieveVisitInfo();
+            if (r is DataRow)
+            {
+                string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+                sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
+                sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
+                Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
+                csv.Run((int)r["VisitID"], sTopoFolder);
+
+                if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                    System.Diagnostics.Process.Start(sTopoFolder);
+            }
+        }
+
+        private void generateRBTRunForThisVisitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow r = RetrieveVisitInfo();
+            if (r is DataRow)
+            {
+                frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int)r["VisitID"]);
+                if (frmInput.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            }
+        }
     }
 }
