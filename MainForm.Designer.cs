@@ -227,7 +227,7 @@
             // 
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
@@ -235,7 +235,7 @@
             // 
             this.scavengeVisitTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitTopoDataToolStripMenuItem.Name = "scavengeVisitTopoDataToolStripMenuItem";
-            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
+            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.scavengeVisitTopoDataToolStripMenuItem.Text = "Update Topo and Hydro Paths in Workbench Database";
             this.scavengeVisitTopoDataToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitTopoDataToolStripMenuItem_Click);
             // 
@@ -243,33 +243,33 @@
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Name = "scavengeVisitDataFromCHaMPExportToolStripMenuItem";
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Import CHaMP Water, Site and Visit Data From CHaMP Exports";
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Import CHaMP Watershed, Site and Visit Data From CHaMP Exports";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(401, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(426, 6);
             // 
             // prepareDatabaseForDeploymentToolStripMenuItem
             // 
             this.prepareDatabaseForDeploymentToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(401, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(426, 6);
             // 
             // findVisitByIDToolStripMenuItem
             // 
             this.findVisitByIDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.search;
             this.findVisitByIDToolStripMenuItem.Name = "findVisitByIDToolStripMenuItem";
-            this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
+            this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.findVisitByIDToolStripMenuItem.Text = "Find Visit By ID";
             this.findVisitByIDToolStripMenuItem.Visible = false;
             this.findVisitByIDToolStripMenuItem.Click += new System.EventHandler(this.findVisitByIDToolStripMenuItem_Click);
