@@ -414,10 +414,15 @@ namespace CHaMPWorkbench
             if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
                 return;
 
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+            
             string sSQL = "SELECT W.WatershedID, W.WatershedName," +
-                " S.SiteID, S.SiteName, " +
-                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName" +
-                " FROM (CHAMP_Watersheds W INNER JOIN CHAMP_Sites S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID";
+                " S.SiteID, S.SiteName," +
+                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName," +
+                " Count(C.SegmentID) AS ChannelUnits" +
+                " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
+                " GROUP BY W.WatershedID, W.WatershedName, S.SiteID, S.SiteName, V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName" +
+                " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
             OleDbDataAdapter daVisits = new OleDbDataAdapter(dbCom);
@@ -453,54 +458,16 @@ namespace CHaMPWorkbench
                 int nSel = lstSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
                 lstSite.SetItemChecked(nSel, true);
             }
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
         private void FilterVisits(object sender, EventArgs e)
         {
-            // Filter the binding source.
-
-            //bindingSourceSelectedVisits.Filter = "";
-
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+  
             string sFilter = "";
-            //AddCheckedListboxFilter(ref chkVisitTypes, ref sFilter, "PanelName", true);
-
-            //if (chkSpecies.CheckedItems.Count > 0)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(sFilter))
-            //        sFilter += " AND ";
-            //    sFilter += "(";
-
-            //    for (int i = 0; i < chkSpecies.CheckedItems.Count; i++)
-            //    {
-            //        if (i > 0)
-            //            sFilter += " OR ";
-
-            //        sFilter += string.Format("{0} = 1", ((SpeciesListItem)chkSpecies.CheckedItems[i]).FieldName);
-            //    }
-            //    sFilter += ") ";
-            //}
-
-            //if (chkPrimary.Checked)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(sFilter))
-            //        sFilter += " AND ";
-            //    sFilter += "IsPrimary = true";
-            //}
-
-            //if (chkSubstrate.Checked)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(sFilter))
-            //        sFilter += " AND ";
-            //    sFilter += " (ICRPath IS NOT Null) AND (Len(ICRPath) > 0) ";
-            //}
-
-            //if (chkHydraulic.Checked)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(sFilter))
-            //        sFilter += " AND ";
-            //    sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";
-            //}
-
+  
             if (chkVisitID.Checked)
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
@@ -516,12 +483,13 @@ namespace CHaMPWorkbench
 
             if (grdVisits.DataSource is DataView)
             {
-                // bindingSourceSelectedVisits.Filter = sFilter;
                 DataView dv = (DataView)grdVisits.DataSource;
                 System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
                 dv.RowFilter = sFilter;
-                //grdVisits.Refresh();
             }
+  
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+  
         }
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
