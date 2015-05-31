@@ -266,6 +266,10 @@ namespace CHaMPWorkbench
             UpdateMenuItemStatus(menuStrip1.Items);
 
             LoadVisits();
+
+            this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+            this.lstSite.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+            this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
         }
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -439,7 +443,16 @@ namespace CHaMPWorkbench
                 int nSel = lstWatershed.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
                 lstWatershed.SetItemChecked(nSel, true);
             }
+            dbRead.Close();
 
+            // Load the Sites
+            comFS = new OleDbCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE (SiteName Is Not Null) ORDER BY SiteName", m_dbCon);
+            dbRead = comFS.ExecuteReader();
+            while (dbRead.Read())
+            {
+                int nSel = lstSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
+                lstSite.SetItemChecked(nSel, true);
+            }
         }
 
         private void FilterVisits(object sender, EventArgs e)
@@ -494,9 +507,12 @@ namespace CHaMPWorkbench
                     sFilter += " AND ";
                 sFilter += string.Format(" (VisitID = {0})", (int)valVisitID.Value);
             }
-
-            AddCheckedListboxFilter(ref lstFieldSeason, ref sFilter, "VisitYear");
-            AddCheckedListboxFilter(ref lstWatershed, ref sFilter, "WatershedID");
+            else
+            {
+                AddCheckedListboxFilter(ref lstFieldSeason, ref sFilter, "VisitYear");
+                AddCheckedListboxFilter(ref lstWatershed, ref sFilter, "WatershedID");
+                AddCheckedListboxFilter(ref lstSite, ref sFilter, "SiteID");
+            }
 
             if (grdVisits.DataSource is DataView)
             {
@@ -510,6 +526,10 @@ namespace CHaMPWorkbench
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
         {
+            // Only add filter if not all the items are checked and there is some filtering to do
+            if (lst.CheckedItems.Count == lst.Items.Count)
+                return;
+
             string sValueList = "";
             foreach (ListItem l in lst.CheckedItems)
             {
@@ -531,15 +551,7 @@ namespace CHaMPWorkbench
         private void valVisitID_ValueChanged(object sender, EventArgs e)
         {
             chkVisitID.Checked = true;
-        }
-
-        private void lstFieldSeason_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (chkFieldSeason.Checked)
-                FilterVisits(sender, e);
-            else
-                chkFieldSeason.Checked = true;
-
+            FilterVisits(sender, e);
         }
 
         private void visitPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -549,8 +561,9 @@ namespace CHaMPWorkbench
 
         private void grdVisits_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right && e.RowIndex > 0)
+            if (e.Button == System.Windows.Forms.MouseButtons.Right && e.RowIndex >= 0)
             {
+                grdVisits.Rows[e.RowIndex].Selected = true;
                 cmsVisit.Show(Cursor.Position);
             }
         }
@@ -645,43 +658,88 @@ namespace CHaMPWorkbench
             if (r is DataRow)
             {
                 string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\","/");
-                Data.frmFTPVisit frm = new Data.frmFTPVisit((int) r["VisitID"], sFTPFolder, sTopoFolder);
+                string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\", "/");
+                Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sFTPFolder, sTopoFolder);
                 frm.ShowDialog();
             }
-            //List<string> lFiles = new List<string>();
-            //lFiles.Add("MapImages.zip");
-            //lFiles.Add("SurveyGDB.zip");
-            //lFiles.Add("TIN.zip");
-            //lFiles.Add("TopoToolbarResults.xml");
-            //lFiles.Add("WettedSurfaceTIN.zip");
+        }
 
-            //// C:\CHaMP\MonitoringData\2011\Lemhi\CBW05583-029103\VISIT_337\Topo
-            /////ByYear/2012/Methow/CBW05583-014793/VISIT_1101/Topo
+        private void filterForAllVisitsToThisSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chkVisitID.Checked = false;
 
+            DataRow r = RetrieveVisitInfo();
+            if (r is DataRow)
+            {
+                // turn off event handling
+                lstSite.ItemCheck -= FilterListBoxCheckChanged;
+                lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
 
-            //foreach (string sFile in lFiles)
-            //{
-            //    string sFTPFile = System.IO.Path.Combine(sFTPFolder, sFile).Replace("\\", "/");
-            //    string sLocalFile = System.IO.Path.Combine(sTopoFolder, sFile);
+                int nSiteID = (int)r["SiteID"];
+                int nWatershedID = (int)r["WatershedID"];
 
-            //    // Get the object used to communicate with the server.
-            //    System.Net.FtpWebRequest request = (System.Net.FtpWebRequest)System.Net.WebRequest.Create(sFTPFile);
-            //    request.Method = System.Net.WebRequestMethods.Ftp.DownloadFile;
+                for (int i = 0; i < lstFieldSeason.Items.Count; i++)
+                    lstFieldSeason.SetItemChecked(i, true);
 
-            //    // This example assumes the FTP site uses anonymous logon.
-            //    request.Credentials = new System.Net.NetworkCredential("anonymous", "janeDoe@contoso.com");
+                for (int i = 0; i < lstWatershed.Items.Count; i++)
+                {
+                    lstWatershed.SetItemChecked(i, ((ListItem)lstWatershed.Items[i]).Value == nWatershedID);
+                    if (((ListItem)lstWatershed.Items[i]).Value == nWatershedID)
+                        lstWatershed.TopIndex = i;
+                }
 
-            //    System.Net.FtpWebResponse response = (System.Net.FtpWebResponse)request.GetResponse();
+                for (int i = 0; i < lstSite.Items.Count; i++)
+                {
+                    lstSite.SetItemChecked(i, ((ListItem)lstSite.Items[i]).Value == nSiteID);
+                    if (((ListItem)lstSite.Items[i]).Value == nSiteID)
+                        lstSite.TopIndex = i;
 
-            //    Stream responseStream = response.GetResponseStream();
+                }
 
-            //    using (var fileStream = File.Create(sLocalFile))
-            //    {
-            //        responseStream.CopyTo(fileStream);
-            //    }
-            //    response.Close();
-            //}           
+                // turn on event handling
+                lstSite.ItemCheck += FilterListBoxCheckChanged;
+                lstWatershed.ItemCheck += FilterListBoxCheckChanged;
+            }
+
+            FilterVisits(sender, e);
+        }
+
+        private void AllNoneSitesClick(object sender, EventArgs e)
+        {
+            // turn off event handling
+            lstSite.ItemCheck -= FilterListBoxCheckChanged;
+
+            for (int i = 0; i < lstSite.Items.Count; i++)
+                lstSite.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
+
+            // Turn on event handling
+            lstSite.ItemCheck += FilterListBoxCheckChanged;
+
+            FilterVisits(sender, e);
+        }
+
+        private void AllNoneWatershedsClick(object sender, EventArgs e)
+        {
+            // turn off event handling
+            lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
+
+            for (int i = 0; i < lstWatershed.Items.Count; i++)
+                lstWatershed.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
+
+            // Turn on event handling
+            lstWatershed.ItemCheck += FilterListBoxCheckChanged;
+
+            FilterVisits(sender, e);
+        }
+
+        private void FilterListBoxCheckChanged(object sender, ItemCheckEventArgs e)
+        {
+            ((CheckedListBox)sender).ItemCheck -= FilterListBoxCheckChanged;
+            ((CheckedListBox)sender).SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
+            ((CheckedListBox)sender).ItemCheck += FilterListBoxCheckChanged;
+
+            FilterVisits(sender, e);
+
         }
     }
 }

@@ -84,10 +84,17 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.grpSite = new System.Windows.Forms.GroupBox();
+            this.lstSite = new System.Windows.Forms.CheckedListBox();
+            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstWatershed = new System.Windows.Forms.CheckedListBox();
+            this.cmsWatershed = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.grpFieldSeason = new System.Windows.Forms.GroupBox();
-            this.chkFieldSeason = new System.Windows.Forms.CheckBox();
             this.lstFieldSeason = new System.Windows.Forms.CheckedListBox();
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.chkVisitID = new System.Windows.Forms.CheckBox();
@@ -124,7 +131,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.grpSite.SuspendLayout();
+            this.cmsSiteAllNone.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.cmsWatershed.SuspendLayout();
             this.grpFieldSeason.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
@@ -141,7 +151,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(835, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -260,6 +270,7 @@
             this.findVisitByIDToolStripMenuItem.Name = "findVisitByIDToolStripMenuItem";
             this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(404, 22);
             this.findVisitByIDToolStripMenuItem.Text = "Find Visit By ID";
+            this.findVisitByIDToolStripMenuItem.Visible = false;
             this.findVisitByIDToolStripMenuItem.Click += new System.EventHandler(this.findVisitByIDToolStripMenuItem_Click);
             // 
             // rBTToolStripMenuItem
@@ -542,9 +553,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssDatabasePath});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 542);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(835, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -557,11 +568,14 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.grpSite);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.grpFieldSeason);
             this.splitContainer1.Panel1.Controls.Add(this.valVisitID);
@@ -570,9 +584,53 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.grdVisits);
-            this.splitContainer1.Size = new System.Drawing.Size(835, 518);
+            this.splitContainer1.Size = new System.Drawing.Size(784, 515);
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // grpSite
+            // 
+            this.grpSite.Controls.Add(this.lstSite);
+            this.grpSite.Location = new System.Drawing.Point(12, 332);
+            this.grpSite.Name = "grpSite";
+            this.grpSite.Size = new System.Drawing.Size(161, 166);
+            this.grpSite.TabIndex = 4;
+            this.grpSite.TabStop = false;
+            this.grpSite.Text = "Sites";
+            // 
+            // lstSite
+            // 
+            this.lstSite.CheckOnClick = true;
+            this.lstSite.ContextMenuStrip = this.cmsSiteAllNone;
+            this.lstSite.FormattingEnabled = true;
+            this.lstSite.Location = new System.Drawing.Point(7, 20);
+            this.lstSite.Name = "lstSite";
+            this.lstSite.Size = new System.Drawing.Size(148, 139);
+            this.lstSite.TabIndex = 0;
+            // 
+            // cmsSiteAllNone
+            // 
+            this.cmsSiteAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem,
+            this.selectNoneToolStripMenuItem});
+            this.cmsSiteAllNone.Name = "cmsAllNone";
+            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.AllNoneSitesClick);
+            // 
+            // selectNoneToolStripMenuItem
+            // 
+            this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem.Text = "Select None";
+            this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.AllNoneSitesClick);
             // 
             // groupBox1
             // 
@@ -582,37 +640,50 @@
             this.groupBox1.Size = new System.Drawing.Size(161, 166);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "     Watershed";
+            this.groupBox1.Text = "Watersheds";
             // 
             // lstWatershed
             // 
+            this.lstWatershed.CheckOnClick = true;
+            this.lstWatershed.ContextMenuStrip = this.cmsWatershed;
             this.lstWatershed.FormattingEnabled = true;
             this.lstWatershed.Location = new System.Drawing.Point(7, 20);
             this.lstWatershed.Name = "lstWatershed";
             this.lstWatershed.Size = new System.Drawing.Size(148, 139);
             this.lstWatershed.TabIndex = 0;
             // 
+            // cmsWatershed
+            // 
+            this.cmsWatershed.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem1,
+            this.selectNoneToolStripMenuItem1});
+            this.cmsWatershed.Name = "cmsWatershed";
+            this.cmsWatershed.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem1
+            // 
+            this.selectAllToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
+            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem1.Text = "Select All";
+            this.selectAllToolStripMenuItem1.Click += new System.EventHandler(this.AllNoneWatershedsClick);
+            // 
+            // selectNoneToolStripMenuItem1
+            // 
+            this.selectNoneToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.selectNoneToolStripMenuItem1.Name = "selectNoneToolStripMenuItem1";
+            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem1.Text = "Select None";
+            // 
             // grpFieldSeason
             // 
-            this.grpFieldSeason.Controls.Add(this.chkFieldSeason);
             this.grpFieldSeason.Controls.Add(this.lstFieldSeason);
             this.grpFieldSeason.Location = new System.Drawing.Point(13, 40);
             this.grpFieldSeason.Name = "grpFieldSeason";
             this.grpFieldSeason.Size = new System.Drawing.Size(161, 108);
             this.grpFieldSeason.TabIndex = 2;
             this.grpFieldSeason.TabStop = false;
-            this.grpFieldSeason.Text = "                            ";
-            // 
-            // chkFieldSeason
-            // 
-            this.chkFieldSeason.AutoSize = true;
-            this.chkFieldSeason.Location = new System.Drawing.Point(10, 0);
-            this.chkFieldSeason.Name = "chkFieldSeason";
-            this.chkFieldSeason.Size = new System.Drawing.Size(87, 17);
-            this.chkFieldSeason.TabIndex = 1;
-            this.chkFieldSeason.Text = "Field Season";
-            this.chkFieldSeason.UseVisualStyleBackColor = true;
-            this.chkFieldSeason.CheckedChanged += new System.EventHandler(this.FilterVisits);
+            this.grpFieldSeason.Text = "Field Seasons";
             // 
             // lstFieldSeason
             // 
@@ -625,7 +696,6 @@
             this.lstFieldSeason.Name = "lstFieldSeason";
             this.lstFieldSeason.Size = new System.Drawing.Size(148, 79);
             this.lstFieldSeason.TabIndex = 0;
-            this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstFieldSeason_ItemCheck);
             // 
             // valVisitID
             // 
@@ -686,7 +756,7 @@
             this.grdVisits.ReadOnly = true;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdVisits.Size = new System.Drawing.Size(638, 518);
+            this.grdVisits.Size = new System.Drawing.Size(587, 515);
             this.grdVisits.TabIndex = 0;
             this.grdVisits.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdVisits_CellMouseClick);
             // 
@@ -846,6 +916,7 @@
             this.filterForAllVisitsToThisSiteToolStripMenuItem.Name = "filterForAllVisitsToThisSiteToolStripMenuItem";
             this.filterForAllVisitsToThisSiteToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.filterForAllVisitsToThisSiteToolStripMenuItem.Text = "Filter For All Visits to this Site";
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Click += new System.EventHandler(this.filterForAllVisitsToThisSiteToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
             // 
@@ -890,12 +961,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(835, 564);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "MainForm";
             this.Text = "CHaMP Workbench";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -908,9 +980,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.grpSite.ResumeLayout(false);
+            this.cmsSiteAllNone.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.cmsWatershed.ResumeLayout(false);
             this.grpFieldSeason.ResumeLayout(false);
-            this.grpFieldSeason.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).EndInit();
             this.cmsVisit.ResumeLayout(false);
@@ -993,7 +1067,6 @@
         private System.Windows.Forms.CheckedListBox lstFieldSeason;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox lstWatershed;
-        private System.Windows.Forms.CheckBox chkFieldSeason;
         private System.Windows.Forms.ContextMenuStrip cmsVisit;
         private System.Windows.Forms.ToolStripMenuItem visitPropertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem browseMonitoringDataToolStripMenuItem;
@@ -1009,6 +1082,14 @@
         private System.Windows.Forms.ToolStripMenuItem generateRBTRunForAllVisitsInTheTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoAndHydroDataFromCmorgToolStripMenuItem;
+        private System.Windows.Forms.GroupBox grpSite;
+        private System.Windows.Forms.CheckedListBox lstSite;
+        private System.Windows.Forms.ContextMenuStrip cmsSiteAllNone;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip cmsWatershed;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem1;
 
     }
 }
