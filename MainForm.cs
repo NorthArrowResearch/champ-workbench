@@ -416,7 +416,7 @@ namespace CHaMPWorkbench
 
             string sSQL = "SELECT W.WatershedID, W.WatershedName," +
                 " S.SiteID, S.SiteName, " +
-                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName, V.Folder, V.SurveyGDB" +
+                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName" +
                 " FROM (CHAMP_Watersheds W INNER JOIN CHAMP_Sites S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
