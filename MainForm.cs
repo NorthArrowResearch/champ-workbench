@@ -415,7 +415,7 @@ namespace CHaMPWorkbench
                 return;
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-            
+
             string sSQL = "SELECT W.WatershedID, W.WatershedName," +
                 " S.SiteID, S.SiteName," +
                 " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName," +
@@ -465,9 +465,9 @@ namespace CHaMPWorkbench
         private void FilterVisits(object sender, EventArgs e)
         {
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-  
+
             string sFilter = "";
-  
+
             if (chkVisitID.Checked)
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
@@ -487,9 +487,9 @@ namespace CHaMPWorkbench
                 System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
                 dv.RowFilter = sFilter;
             }
-  
+
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-  
+
         }
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
@@ -634,12 +634,14 @@ namespace CHaMPWorkbench
 
         private void filterForAllVisitsToThisSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            chkVisitID.CheckedChanged -= FilterVisits;
             chkVisitID.Checked = false;
 
             DataRow r = RetrieveVisitInfo();
             if (r is DataRow)
             {
                 // turn off event handling
+                valVisitID.ValueChanged -= valVisitID_ValueChanged;
                 lstSite.ItemCheck -= FilterListBoxCheckChanged;
                 lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
 
@@ -666,10 +668,13 @@ namespace CHaMPWorkbench
 
                 // turn on event handling
                 lstSite.ItemCheck += FilterListBoxCheckChanged;
+                valVisitID.ValueChanged += valVisitID_ValueChanged;
                 lstWatershed.ItemCheck += FilterListBoxCheckChanged;
             }
 
             FilterVisits(sender, e);
+            chkVisitID.CheckedChanged += FilterVisits;
+
         }
 
         private void AllNoneSitesClick(object sender, EventArgs e)
