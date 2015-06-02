@@ -42,8 +42,8 @@
             this.rdoWYSV = new System.Windows.Forms.RadioButton();
             this.rdoYWS = new System.Windows.Forms.RadioButton();
             this.grpStatus = new System.Windows.Forms.GroupBox();
-            this.pgrProgress = new System.Windows.Forms.ProgressBar();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.pgrProgress = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.grpStatus.SuspendLayout();
@@ -144,6 +144,7 @@
             // rdoWSYV
             // 
             this.rdoWSYV.AutoSize = true;
+            this.rdoWSYV.Enabled = false;
             this.rdoWSYV.Location = new System.Drawing.Point(15, 68);
             this.rdoWSYV.Name = "rdoWSYV";
             this.rdoWSYV.Size = new System.Drawing.Size(190, 17);
@@ -155,6 +156,7 @@
             // rdoWYSV
             // 
             this.rdoWYSV.AutoSize = true;
+            this.rdoWYSV.Enabled = false;
             this.rdoWYSV.Location = new System.Drawing.Point(15, 44);
             this.rdoWYSV.Name = "rdoWYSV";
             this.rdoWYSV.Size = new System.Drawing.Size(190, 17);
@@ -187,13 +189,6 @@
             this.grpStatus.Text = "Status";
             this.grpStatus.Visible = false;
             // 
-            // pgrProgress
-            // 
-            this.pgrProgress.Location = new System.Drawing.Point(15, 20);
-            this.pgrProgress.Name = "pgrProgress";
-            this.pgrProgress.Size = new System.Drawing.Size(577, 23);
-            this.pgrProgress.TabIndex = 0;
-            // 
             // lblStatus
             // 
             this.lblStatus.Location = new System.Drawing.Point(15, 50);
@@ -201,6 +196,13 @@
             this.lblStatus.Size = new System.Drawing.Size(577, 43);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "lblStatus";
+            // 
+            // pgrProgress
+            // 
+            this.pgrProgress.Location = new System.Drawing.Point(15, 20);
+            this.pgrProgress.Name = "pgrProgress";
+            this.pgrProgress.Size = new System.Drawing.Size(577, 23);
+            this.pgrProgress.TabIndex = 0;
             // 
             // backgroundWorker1
             // 
