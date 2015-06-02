@@ -74,7 +74,7 @@ namespace CHaMPWorkbench.Data
             {
                 try
                 {
-                    m_sProgress.AppendLine(string.Format("Downloading {0}...", m_sFiles[i]));
+                    m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, m_sFiles[i]);
                     backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
                     
                     FTPFile(m_sFiles[i]);
@@ -83,7 +83,7 @@ namespace CHaMPWorkbench.Data
                 }
                 catch (Exception ex)
                 {
-                    m_sProgress.AppendLine(string.Format("{0}, {1}", m_sFiles[i], ex.Message));
+                    m_sProgress.AppendFormat("{2}{0}, {1}", m_sFiles[i], ex.Message,Environment.NewLine);
                 }
 
                 backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
@@ -211,7 +211,8 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
-
+             m_sLocalRoot = txtLocalFolder.Text;
+   
             m_sFiles = new List<string>();
             foreach (TreeNode aNode in treFiles.Nodes)
             {
@@ -223,6 +224,15 @@ namespace CHaMPWorkbench.Data
             m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", m_sFiles.Count));
             txtProgress.Text = m_sProgress.ToString();
             backgroundWorker1.RunWorkerAsync();
+        }
+
+        private void cmdBrowseLocal_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtLocalFolder.Text = frm.SelectedPath;
+            }
         }
     }
 }

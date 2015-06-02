@@ -42,8 +42,8 @@
             this.cmdBrowseLocal = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.grpProgress = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.txtProgress = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.grpProgress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,6 +158,7 @@
             this.cmdBrowseLocal.Size = new System.Drawing.Size(23, 23);
             this.cmdBrowseLocal.TabIndex = 10;
             this.cmdBrowseLocal.UseVisualStyleBackColor = true;
+            this.cmdBrowseLocal.Click += new System.EventHandler(this.cmdBrowseLocal_Click);
             // 
             // progressBar1
             // 
@@ -181,12 +182,6 @@
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
             // txtProgress
             // 
             this.txtProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -197,6 +192,12 @@
             this.txtProgress.ReadOnly = true;
             this.txtProgress.Size = new System.Drawing.Size(458, 127);
             this.txtProgress.TabIndex = 12;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // frmFTPVisit
             // 
