@@ -275,13 +275,15 @@ namespace CHaMPWorkbench
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
-            frm.ShowDialog();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                LoadVisits();
         }
 
         private void prepareDatabaseForDeploymentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.frmClearDatabase frm = new Data.frmClearDatabase(m_dbCon);
-            frm.ShowDialog();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                LoadVisits();
         }
 
         private void aboutExperimentalToolsToolStripMenuItem_Click(object sender, EventArgs e)
