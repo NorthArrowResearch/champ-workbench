@@ -63,10 +63,10 @@ namespace CHaMPWorkbench.Classes
 
                 while (dbRead.Read())
                 {
-                    sUnit = AddStringField(ref dbRead, "WatershedName");
+                    sUnit = AddStringField(ref dbRead, "WatershedName",false);
                     sUnit += AddStringField(ref dbRead, "SiteName");
                     sUnit += AddStringField(ref dbRead, "SampleDate");
-                     sUnit += nVisitID.ToString();
+                     sUnit +=string.Format(",{0}", nVisitID);
                    sUnit += ",1"; // Measure
                     sUnit += AddStringField(ref dbRead, "CrewName");
                     sUnit += ",1"; // Visit Phase
@@ -115,11 +115,15 @@ namespace CHaMPWorkbench.Classes
             return sResult;
         }
 
-        private string AddStringField(ref OleDbDataReader dbRead, string sFieldName)
+        private string AddStringField(ref OleDbDataReader dbRead, string sFieldName, bool bPreprendComma = true)
         {
-            string sResult = ",EmptyString";
+            string sResult = string.Empty;
+            
+            if (bPreprendComma)
+                sResult = ",";
+            
             if (DBNull.Value != dbRead[sFieldName])
-                sResult = "," + dbRead[sFieldName].ToString().Replace(" ", "").Trim();
+                sResult += dbRead[sFieldName].ToString().Replace(" ", "").Replace(",","").Trim();
             return sResult;
         }
     }
