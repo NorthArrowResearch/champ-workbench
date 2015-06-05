@@ -66,6 +66,9 @@ namespace CHaMPWorkbench.Classes
 
                 foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_ds.CHAMP_Visits)
                 {
+                    if (rVisit.IsFolderNull() || rVisit.IsSurveyGDBNull())
+                        continue;
+
                     string sVisitTopofolder = System.IO.Path.Combine(sParentTopoDataFolder, rVisit.Folder);
                     string sOutputfolder = System.IO.Path.Combine( this.m_Outputs.OutputFolder,rVisit.Folder);
                     string sInputFile = System.IO.Path.Combine(sOutputfolder, sDefaultInputFileName);
