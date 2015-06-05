@@ -724,6 +724,7 @@ namespace CHaMPWorkbench
             {
                 string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
                 sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
+                System.IO.Directory.CreateDirectory(sTopoFolder);
                 sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
                 Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
                 csv.Run((int)r["VisitID"], sTopoFolder);
