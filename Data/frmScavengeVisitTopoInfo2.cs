@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Data
 
         private void frmScavengeVisitTopoInfo2_Load(object sender, EventArgs e)
         {
-            txtMonitoringDataFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder;
+            txtMonitoringDataFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace CHaMPWorkbench.Data
                 String[] sMatches;
                 if (eType == SearchTypes.Directory)
                 {
-                    sMatches = System.IO.Directory.GetDirectories(sContainingFolderPath, aPattern);
+                    sMatches = System.IO.Directory.GetDirectories(sContainingFolderPath, aPattern, SearchOption.AllDirectories);
                 }
                 else
                 {
@@ -174,7 +174,6 @@ namespace CHaMPWorkbench.Data
                             // The final path written to the table is the middle of the path, after the monitoring data folder and before the survey GDB
                             rVisit.Folder = dTopo.FullName.Substring(sMonitoringDataFolder.Length + 1);
                             string sResult;
-
                             if (LookForMatchingItems(dTopo.FullName, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sResult))
                             {
                                 rVisit.SurveyGDB = sResult;
@@ -195,7 +194,7 @@ namespace CHaMPWorkbench.Data
                             
                             // Now look for the hydraulic model artifacts
                             rVisit.SetHydraulicModelCSVNull();
-                            System.IO.DirectoryInfo[] dAllHydro = dTopo.Parent.GetDirectories("Hydro");
+                            System.IO.DirectoryInfo[] dAllHydro = dTopo.Parent.GetDirectories("HydroModelResults", SearchOption.AllDirectories);
                             if (dAllHydro.Count<System.IO.DirectoryInfo>() == 1)
                             {
                                 //System.IO.DirectoryInfo[] dAllArtifacts = dAllHydro[0].GetDirectories("artifacts");
