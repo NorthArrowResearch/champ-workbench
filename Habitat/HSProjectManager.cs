@@ -2,52 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
 using System.Windows.Forms;
+using CHaMPWorkbench.Habitat;
 
-namespace HMUI.Classes
+namespace HMDesktop.Classes
 {
-   public class HSProjectManager
+    public class HSProjectManager
     {
-       private static HSProjectManager instance;
-       private static OleDbConnection m_dbCon;
-       private static string m_ProjectPath;
-       private static int m_nProjectID;
+        private static HSProjectManager instance;
+        private static dsHabitat m_ProjectDS;
+        private static string m_ProjectPath;
+        private static int m_nProjectID;
 
-       public static HSProjectManager Instance
-       {
-           get
-           {
-               if (instance == null)
-               {
-                   instance = new HSProjectManager(m_ProjectPath);
-               }
-               return instance;
-           }
-       }
+        public static HSProjectManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new HSProjectManager(m_ProjectPath);
+                }
+                return instance;
+            }
+        }
 
-       public static int ProjectID
-       {
-           get { return m_nProjectID; }
-       }
-       
+        public static int ProjectID
+        {
+            get { return m_nProjectID; }
+        }
+
         /// <summary>
         /// Returns true when there is a project currently open
         /// </summary>
         public bool IsCurrentProject
         {
-            get { return m_dbCon is System.Data.OleDb.OleDbConnection; }
+            get { return m_ProjectDS is dsHabitat; }
         }
 
-        public System.Data.OleDb.OleDbConnection ProjectDatabaseConnection
+        public dsHabitat ProjectDatabase
         {
-            get 
-            { 
-                return m_dbCon;
+            get
+            {
+                return m_ProjectDS;
             }
             set
             {
-                m_dbCon = value;
+                m_ProjectDS = value;
             }
         }
 
@@ -55,8 +55,8 @@ namespace HMUI.Classes
         {
             if (!string.IsNullOrEmpty(sProjectPath))
             {
-            m_ProjectPath = sProjectPath;
-            OpenProjectDatabase(sProjectPath);
+                m_ProjectPath = sProjectPath;
+                OpenProjectDatabase(sProjectPath);
             }
 
             //m_dbCon = null;
@@ -75,8 +75,8 @@ namespace HMUI.Classes
         public static string ProjectPath
         {
             get
-            { 
-                return m_ProjectPath; 
+            {
+                return m_ProjectPath;
             }
             //set
             //{
@@ -89,89 +89,52 @@ namespace HMUI.Classes
             get { return System.IO.Path.GetDirectoryName(m_ProjectPath); }
         }
 
-        public void CreateNewProjectDatabase(string sProjectPath)
+        public void Save()
         {
-            // 1. Get the path of the executing assembly (software).
-            // 2. Find the master copy of the habitat database 
-            // 3. Make a copy in the project path location.
-            // 4. Instantiate a new copy of the project database.
-
-            if (System.IO.File.Exists(sProjectPath))
+            if (m_ProjectDS is dsHabitat)
             {
-                MessageBox.Show("The project database path already exists at: " + sProjectPath,"Unable to Create Project", MessageBoxButtons.OK,MessageBoxIcon.Information);
-                return;
+                m_ProjectDS.AcceptChanges();
+                m_ProjectDS.WriteXml(m_ProjectPath);
             }
-
-            string sPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            sPath = System.IO.Path.GetDirectoryName(sPath);
-            sPath = System.IO.Path.Combine(sPath,"HabitatModel.accdb");
-            //sPath = @"C:\Users\A01674762\Desktop\Professional\CHaMP\HabitatModel\HabitatModel\HMUI\HabitatModel.accdb";
-
-             if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(sProjectPath)))
-             {
-                 System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sProjectPath));
-             }
-
-            System.IO.File.Copy(sPath, sProjectPath);
-
-            if (System.IO.File.Exists(sProjectPath))
-            {
-                m_ProjectPath = sProjectPath;
-                OpenProjectDatabase(sProjectPath);
-            }
-       }
+        }
 
         public void CloseCurrentProject()
         {
             // Save the dataset changees to the database
-            // close the connection
-
-            if (m_dbCon is System.Data.OleDb.OleDbConnection)
-                if (m_dbCon.State == System.Data.ConnectionState.Open)
-                    m_dbCon.Close();
-
+            Save();
             m_ProjectPath = string.Empty;
-            m_dbCon = null;
+            m_ProjectDS = null;
         }
 
         public void OpenProjectDatabase(string sProjectPath)
         {
-            if (!System.IO.File.Exists(sProjectPath))
-            {
-                MessageBox.Show("The master database file does not exist at " + sProjectPath, "Error Opening Project", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            string sConString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + sProjectPath;
-            System.Diagnostics.Debug.WriteLine("Opening project database at: " + sProjectPath);
-            m_dbCon = new OleDbConnection(sConString);
-            m_dbCon.Open();
+            m_ProjectDS = new dsHabitat();
+            m_ProjectDS.ReadXml(sProjectPath);
+            m_ProjectDS.AcceptChanges();
             m_ProjectPath = sProjectPath;
 
             // Get the project ID as the project is loaded.
-            CHaMPWorkbench.Habitat.dsHabitatTableAdapters.ProjectsTableAdapter daProjects = new CHaMPWorkbench.Habitat.dsHabitatTableAdapters.ProjectsTableAdapter();
-            daProjects.Connection = m_dbCon;
-            CHaMPWorkbench.Habitat.dsHabitat.ProjectsDataTable taProjects = new CHaMPWorkbench.Habitat.dsHabitat.ProjectsDataTable();
-            m_nProjectID = 0;
-            daProjects.Fill(taProjects);
-                if (taProjects.Rows.Count >0)
-                m_nProjectID = taProjects.First().ProjectID;
-
+            if (m_ProjectDS.Projects.Count > 0)
+            {
+                dsHabitat.ProjectsRow rProject = m_ProjectDS.Projects[0];
+                if (rProject is dsHabitat.ProjectsRow)
+                {
+                    m_nProjectID = rProject.ProjectID;
+                }
+            }
         }
 
         public void OpenProjectDatabaseDialog()
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Habitat Model Database";
-            dlg.Filter = "Habitat Model Databases (*.accdb)|*.accdb|All Files (*.*)|*.*";
+            dlg.Filter = "Habitat Model Databases (*.xml)|*.xml|All Files (*.*)|*.*";
             dlg.CheckFileExists = true;
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 OpenProjectDatabase(dlg.FileName);
             }
-            //OpenProjectDatabase(dlg.FileName);
-            //UpdateLastUsedSettingsDatabase(dlg.FileName);
         }
     }
 }

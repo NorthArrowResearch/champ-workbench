@@ -15,8 +15,6 @@ namespace CHaMPWorkbench.Habitat
         private OleDbConnection m_dbCon;
         private const int m_nSelectionColumnIndex = 0;
 
-
-
         public frmHabitatBatch(OleDbConnection dbCon)
         {
             InitializeComponent();
@@ -102,7 +100,7 @@ namespace CHaMPWorkbench.Habitat
             }
 
             sSQL += " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                   " WHERE (((CHAMP_Visits.SurveyGDB) Is Not Null) AND ((CHAMP_Visits.Folder) Is Not Null) AND ((CHAMP_Visits.HydraulicModelCSV) Is Not Null))" +
+                   " WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
                    " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
@@ -146,7 +144,7 @@ namespace CHaMPWorkbench.Habitat
             //grdVisits.DataSource = null;
             //bindingSourceSelectedVisits.DataSource = dt;
             grdVisits.DataSource = table.AsDataView(); // lVisits;
-          
+
         }
 
         private void FilterVisits(object sender, EventArgs e)
@@ -194,7 +192,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
                     sFilter += " AND ";
-                sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";       
+                sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";
             }
 
             if (grdVisits.DataSource is DataView)
@@ -293,7 +291,7 @@ namespace CHaMPWorkbench.Habitat
         {
             OpenFileDialog frm = new OpenFileDialog();
             frm.Title = "Habitat Model Project Database";
-            frm.Filter = "Habitat Model Databases (*.accdb)|*.accdb";
+            frm.Filter = "Habitat Model Databases (*.xml)|*.xml";
             frm.CheckFileExists = true;
 
             if (!string.IsNullOrWhiteSpace(txtHabitatModelDB.Text) && System.IO.File.Exists(txtHabitatModelDB.Text))
@@ -325,15 +323,23 @@ namespace CHaMPWorkbench.Habitat
             if (string.IsNullOrWhiteSpace(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
                 return;
 
-            string sConString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + txtHabitatModelDB.Text;// CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + txtHabitatModelDB.Text);
-            using (OleDbConnection dbCon = new OleDbConnection(sConString))
+            using (dsHabitat theHabitatProject = new dsHabitat())
             {
-                dbCon.Open();
+                theHabitatProject.ReadXml(txtHabitatModelDB.Text);
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT HSIID, Title FROM HSI", dbCon);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                    cboHabitatModel.Items.Add(new ListItem((string)dbRead["Title"], (int)dbRead["HSIID"]));
+                foreach (dsHabitat.HSIRow rHSI in theHabitatProject.HSI.Rows)
+                {
+                    string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rHSI.SpeciesID).ItemName;
+                    string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rHSI.LifestageID).ItemName;
+                    cboHabitatModel.Items.Add(new HabitatModelDef(rHSI.HSIID, HabitatModelDef.ModelTypes.HSI, rHSI.Title, sSpecies, sLifeStage));
+                }
+
+                foreach (dsHabitat.FISRow rFIS in theHabitatProject.FIS.Rows)
+                {
+                    string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rFIS.SpeciesID).ItemName;
+                    string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rFIS.LifeStageID).ItemName;
+                    cboHabitatModel.Items.Add(new HabitatModelDef(rFIS.FISID, HabitatModelDef.ModelTypes.FIS, rFIS.Title, sSpecies, sLifeStage));
+                }
             }
         }
 
@@ -395,7 +401,7 @@ namespace CHaMPWorkbench.Habitat
                     }
                 }
 
-                theBuilder.BuildBatch(lVisitIDs, ((ListItem)cboHabitatModel.SelectedItem).Value, ref nSuccess, ref nError);
+                theBuilder.BuildBatch(lVisitIDs, (HabitatModelDef)cboHabitatModel.SelectedItem, ref nSuccess, ref nError);
 
                 MessageBox.Show(String.Format("Complete. {0} successful simulations added, and {1} simulations encountered errors.", nSuccess, nError), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -429,7 +435,7 @@ namespace CHaMPWorkbench.Habitat
                 MessageBox.Show("You must check the box next to at least one visit.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
-            
+
             if (string.IsNullOrEmpty(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
             {
                 MessageBox.Show("You must select a habitat model database to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);

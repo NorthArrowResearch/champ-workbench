@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.OleDb;
+using HMDesktop.Classes;
 
 namespace CHaMPWorkbench.Habitat
 {
@@ -12,15 +13,8 @@ namespace CHaMPWorkbench.Habitat
         private OleDbConnection m_dbHabitatCon;
 
         private Classes.CHaMPData m_CHaMPData;
-        HMUI.Classes.HSProjectManager m_HabitatManager;
+        HSProjectManager m_HabitatManager;
         private System.IO.DirectoryInfo m_dMonitoringDatafolder;
-
-        private dsHabitat m_dsHabitat;
-
-        private dsHabitatTableAdapters.SimulationsTableAdapter m_taSimulations;
-        private dsHabitatTableAdapters.SimulationHSCInputsTableAdapter m_taSimulationHSInputs;
-        private dsHabitatTableAdapters.ProjectDataSourcesTableAdapter m_taProjectDataSources;
-        private dsHabitatTableAdapters.ProjectVariablesTableAdapter m_taProjectVariables;
 
         // This is the database ID of the lookup list item for CSV data source types
         private const int m_nCSVDataSourceTypeID = 61;
@@ -28,82 +22,15 @@ namespace CHaMPWorkbench.Habitat
         public HabitatBatchBuilder(ref OleDbConnection dbWorkbench, string sHabitatDBPath, string sMonitoringDataFolder)
         {
             m_CHaMPData = new Classes.CHaMPData(ref dbWorkbench);
-            m_HabitatManager = new HMUI.Classes.HSProjectManager(sHabitatDBPath);
             m_dMonitoringDatafolder = new System.IO.DirectoryInfo(sMonitoringDataFolder);
-
-            m_dsHabitat = new dsHabitat();
-            LoadHabitatLookupData();
-
-            // Create any table adapters that are used to insert new records
-            m_taSimulations = new dsHabitatTableAdapters.SimulationsTableAdapter();
-            m_taSimulations.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            m_taSimulations.Adapter.RowUpdated += new System.Data.OleDb.OleDbRowUpdatedEventHandler(m_taSimulations._adapter_RowUpdated);
-
-            m_taProjectDataSources = new dsHabitatTableAdapters.ProjectDataSourcesTableAdapter();
-            m_taProjectDataSources.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            m_taProjectDataSources.Adapter.RowUpdated += new System.Data.OleDb.OleDbRowUpdatedEventHandler(m_taProjectDataSources._adapter_RowUpdated);
-
-            m_taProjectVariables = new dsHabitatTableAdapters.ProjectVariablesTableAdapter();
-            m_taProjectVariables.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            m_taProjectVariables.Adapter.RowUpdated += new System.Data.OleDb.OleDbRowUpdatedEventHandler(m_taProjectVariables._adapter_RowUpdated);
-
-            m_taSimulationHSInputs = new dsHabitatTableAdapters.SimulationHSCInputsTableAdapter();
-            m_taSimulationHSInputs.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            // Do not need primary key after records inserted.
+            m_HabitatManager = new HSProjectManager(sHabitatDBPath);
         }
 
-        private void LoadHabitatLookupData()
-        {
-            // Fill the lookup list tables
-            dsHabitatTableAdapters.LookupListsTableAdapter taLists = new dsHabitatTableAdapters.LookupListsTableAdapter();
-            taLists.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taLists.Fill(m_dsHabitat.LookupLists);
-
-            dsHabitatTableAdapters.LookupListItemsTableAdapter taListItems = new dsHabitatTableAdapters.LookupListItemsTableAdapter();
-            taListItems.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taListItems.Fill(m_dsHabitat.LookupListItems);
-
-            //Units
-            dsHabitatTableAdapters.UnitsTableAdapter taUnits = new dsHabitatTableAdapters.UnitsTableAdapter();
-            taUnits.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taUnits.Fill(m_dsHabitat.Units);
-
-            // Variables
-            dsHabitatTableAdapters.VariablesTableAdapter taVariables = new dsHabitatTableAdapters.VariablesTableAdapter();
-            taVariables.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taVariables.Fill(m_dsHabitat.Variables);
-
-            // HSI
-            dsHabitatTableAdapters.HSITableAdapter taHSI = new dsHabitatTableAdapters.HSITableAdapter();
-            taHSI.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taHSI.Fill(m_dsHabitat.HSI);
-
-            // HSC
-            dsHabitatTableAdapters.HSCTableAdapter taHSC = new dsHabitatTableAdapters.HSCTableAdapter();
-            taHSC.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taHSC.Fill(m_dsHabitat.HSC);
-
-            // HSI Curves
-            dsHabitatTableAdapters.HSICurvesTableAdapter taHSICurves = new dsHabitatTableAdapters.HSICurvesTableAdapter();
-            taHSICurves.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            taHSICurves.Fill(m_dsHabitat.HSICurves);
-
-            //    dsHabitatTableAdapters.ProjectVariablesTableAdapter taProjectVariables = new dsHabitatTableAdapters.ProjectVariablesTableAdapter();
-            //    taProjectVariables.Connection = m_HabitatManager.ProjectDatabaseConnection;
-            //    taProjectVariables.Fill(m_dsHabitat.ProjectVariables);
-            //
-        }
-
-        public void BuildBatch(List<int> lVisitIDs, int nHSIID, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
+        public void BuildBatch(List<int> lVisitIDs, HabitatModelDef theModel, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
         {
             nSucess = nError = 0;
 
             m_CHaMPData.FillByVisitIDS(ref lVisitIDs);
-
-            //dsHabitatTableAdapters.SimulationsTableAdapter taSimulations = new dsHabitatTableAdapters.SimulationsTableAdapter();
-            //taSimulations.Connection = m_HabitatManager.ProjectDatabaseConnection;
-
-            dsHabitat.HSIRow rHSI = m_dsHabitat.HSI.FindByHSIID(nHSIID);
 
             foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_CHaMPData.DS.CHAMP_Visits)
             {
@@ -112,21 +39,36 @@ namespace CHaMPWorkbench.Habitat
                     continue;
 
                 // Create the one simulation for this visit
-                dsHabitat.SimulationsRow rSimulation = m_dsHabitat.Simulations.NewSimulationsRow();
-                rSimulation.Title = GetSimulationName(rVisit, rHSI.Title);
+                dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
+                string sModelTitle;
+
+                if (theModel.ModelType == HabitatModelDef.ModelTypes.HSI)
+                {
+                    sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModel.Value).Title;
+                    rSimulation.HSIID = theModel.Value;
+                }
+                else
+                {
+                    sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModel.Value).Title;
+                    rSimulation.FISID = theModel.Value;
+                }
+
+                rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
                 rSimulation.CreatedBy = Environment.UserName;
                 rSimulation.CreatedOn = DateTime.Now;
                 rSimulation.AddIndividualOutput = true;
-                rSimulation.Folder = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificSimulationFolder(rSimulation.Title));
-                rSimulation.HSIID = nHSIID;
-                rSimulation.HSIOutputRaster = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
-                rSimulation.HSIOutputCSV = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
+                rSimulation.Folder = Paths.GetRelativePath(Paths.GetSpecificSimulationFolder(rSimulation.Title));
+                rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
+                rSimulation.OutputCSV = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
                 rSimulation.IsQueuedToRun = true;
                 rSimulation.VisitID = rVisit.VisitID;
                 rSimulation.CellSize = (float)0.1;
-                m_dsHabitat.Simulations.AddSimulationsRow(rSimulation);
+
+                // Add the simulation. Now that it's XML, the ID should not need to be retrieved.
+                m_HabitatManager.ProjectDatabase.Simulations.AddSimulationsRow(rSimulation);
+
                 // Trigger retrieval of SimulationID;
-                m_taSimulations.Update(rSimulation);
+                //m_taSimulations.Update(rSimulation);
                 int nSimulationID = rSimulation.SimulationID;
                 nSucess++;
 
@@ -134,74 +76,131 @@ namespace CHaMPWorkbench.Habitat
                 // And cannot produce a CSV when there are just rasters.
                 Boolean bRasterInputs = false;
 
-                // Loop over all the input curves and create the necessary project data sources and inputs
-                dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;
-                foreach (dsHabitat.HSICurvesRow rHSICurveRow in rHSI.GetHSICurvesRows())
+                if (theModel.ModelType == HabitatModelDef.ModelTypes.HSI)
+                    AddHSISimulationChildRecords(ref rSimulation, rVisit, theModel.Value, ref bRasterInputs);
+                else
+                    AddFISSimulationChildRecords(ref rSimulation, rVisit, theModel.Value, ref bRasterInputs);
+
+                // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
+                // currently possible in the C++
+                rSimulation = m_HabitatManager.ProjectDatabase.Simulations.FindBySimulationID(nSimulationID);
+                if (bRasterInputs)
+                    rSimulation.SetOutputCSVNull();
+                else
+                    rSimulation.SetOutputRasterNull();
+
+                HSProjectManager.Instance.Save();
+            }
+        }
+
+        private void AddHSISimulationChildRecords(ref dsHabitat.SimulationsRow rSimulation, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, int nHSIID, ref bool bRasterInputs)
+        {
+            dsHabitat.HSIRow rHSI = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(nHSIID);
+
+            // Loop over all the input curves and create the necessary project data sources and inputs
+            dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;
+            foreach (dsHabitat.HSICurvesRow rHSICurveRow in rHSI.GetHSICurvesRows())
+            {
+                dsHabitat.VariablesRow rVariable = m_HabitatManager.ProjectDatabase.Variables.FindByVariableID(rHSICurveRow.HSCRow.HSCVariableID);
+                dsHabitat.ProjectVariablesRow rProjectVariable = null;
+
+                if (rVariable.VariableName.ToLower().Contains("substrate") || rVariable.VariableName.ToLower().Contains("d50"))
                 {
-                    dsHabitat.VariablesRow rVariable = m_dsHabitat.Variables.FindByVariableID(rHSICurveRow.HSCRow.HSCVariableID);
+                    // Create raster data source
+                    string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                    dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
+
+                    // Create project variable
+                    rProjectVariable = BuildProjectVariable("D50", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rSubstrateSource.DataSourceID);
+                    bRasterInputs = true;
+                }
+                else
+                {
+                    // Create a Data Source for the CSV
+                    if (rCSVDataSource == null)
+                    {
+                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder);
+                        sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro", rVisit.HydraulicModelCSV);
+                        rCSVDataSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "Delft 3D CSV Output", sOriginalPath, true, "csv");
+                    }
+
+                    if (rVariable.VariableName.ToLower().Contains("velocity"))
+                        rProjectVariable = BuildProjectVariable("Velocity.Magnitude", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
+                    else
+                        rProjectVariable = BuildProjectVariable("Depth", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
+                }
+
+                // Insert the Simulation HSC input
+                dsHabitat.SimulationHSCInputsRow rSimHSCInput = m_HabitatManager.ProjectDatabase.SimulationHSCInputs.NewSimulationHSCInputsRow();
+                rSimHSCInput.SimulationsRow = rSimulation;
+                rSimHSCInput.HSICurvesRow = rHSICurveRow;
+                rSimHSCInput.HSOutputPath = Paths.GetRelativePath(Paths.GetSpecificOutputHSFullPath(rSimulation.Title, rProjectVariable.Title));
+                rSimHSCInput.HSPreparedPath = Paths.GetRelativePath(Paths.GetSpecificPreparedHSFullPath(rSimulation.Title, rProjectVariable.Title));
+                rSimHSCInput.ProjectVariablesRow = rProjectVariable;
+                m_HabitatManager.ProjectDatabase.SimulationHSCInputs.AddSimulationHSCInputsRow(rSimHSCInput);
+            }
+        }
+
+        private void AddFISSimulationChildRecords(ref dsHabitat.SimulationsRow rSimulation, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, int nFISID, ref bool bRasterInputs)
+        {
+            dsHabitat.FISRow rFIS = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(nFISID);
+
+            // Loop over all the input curves and create the necessary project data sources and inputs
+            dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;
+
+            string sFISRuleFile = Paths.GetAbsolutePath(rFIS.FISRuleFile);
+            if (System.IO.File.Exists(sFISRuleFile))
+            {
+                FISRuleFile fis = new FISRuleFile(sFISRuleFile);
+                foreach (string sInput in fis.FISInputs)
+                {
                     dsHabitat.ProjectVariablesRow rProjectVariable = null;
 
-                    if (rVariable.VariableName.ToLower().Contains("substrate"))
-                    {
-                        // Create raster data source
-                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
-                        dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource("SubstrateRaster", sOriginalPath, false, "raster");
-
-                        // Create project variable
-                        rProjectVariable = BuildProjectVariable("", rHSICurveRow.HSCRow, rSubstrateSource.DataSourceID);
-                        bRasterInputs = true;
-                    }
-                    else
+                    if (string.Compare(sInput, "velocity", true) == 0 || string.Compare(sInput, "depth", true) == 0)
                     {
                         // Create a Data Source for the CSV
                         if (rCSVDataSource == null)
                         {
                             string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder);
                             sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro", rVisit.HydraulicModelCSV);
-                            rCSVDataSource = BuildAndCopyProjectDataSource("Delft 3D CSV Output", sOriginalPath, true, "csv");
+                            rCSVDataSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "Delft 3D CSV Output", sOriginalPath, true, "csv");
                         }
 
-                        if (rVariable.VariableName.ToLower().Contains("velocity"))
-                            rProjectVariable = BuildProjectVariable("Velocity.Magnitude", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
+                        if (sInput.ToLower().Contains("velocity"))
+                        {
+                            rProjectVariable = BuildProjectVariable("Velocity.Magnitude", "Velocity", 5, 22, rCSVDataSource.DataSourceID);
+                        }
                         else
-                            rProjectVariable = BuildProjectVariable("Depth", rHSICurveRow.HSCRow, rCSVDataSource.DataSourceID);
+                            rProjectVariable = BuildProjectVariable("Depth", "Depth", 8, 8, rCSVDataSource.DataSourceID);
                     }
+                    else if (string.Compare(sInput, "grainsize_mm", true) == 0)
+                    {
+                        // Create raster data source
+                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                        dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
-                    // Update the project variables table to trigger retrieval of primary keys
-                    m_taProjectVariables.Update(m_dsHabitat.ProjectVariables);
+                        // Create project variable
+                        rProjectVariable = BuildProjectVariable("D50", "D50", 12, 12, rSubstrateSource.DataSourceID);
+                        bRasterInputs = true;
+                    }
+                    else
+                        throw new Exception("Unhandled FIS input name '" + sInput + "'.");
 
                     // Insert the Simulation HSC input
-                    dsHabitat.SimulationHSCInputsRow rSimHSCInput = m_dsHabitat.SimulationHSCInputs.NewSimulationHSCInputsRow();
-                    rSimHSCInput.SimulationsRow = rSimulation;
-                    rSimHSCInput.HSICurvesRow = rHSICurveRow;
-                    rSimHSCInput.HSOutputPath = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificOutputHSFullPath(rSimulation.Title, rProjectVariable.Title));
-                    rSimHSCInput.HSPreparedPath = HMUI.Classes.Paths.GetRelativePath(HMUI.Classes.Paths.GetSpecificPreparedHSFullPath(rSimulation.Title, rProjectVariable.Title));
-                    rSimHSCInput.ProjectVariablesRow = rProjectVariable;
-                    m_dsHabitat.SimulationHSCInputs.AddSimulationHSCInputsRow(rSimHSCInput);
+                    dsHabitat.SimulationFISInputsRow rSimInput = m_HabitatManager.ProjectDatabase.SimulationFISInputs.NewSimulationFISInputsRow();
+                    rSimInput.SimulationsRow = rSimulation;
+                    rSimInput.FISInputName = sInput;
+                    rSimInput.ProjectVariablesRow = rProjectVariable;
+                    m_HabitatManager.ProjectDatabase.SimulationFISInputs.AddSimulationFISInputsRow(rSimInput);
                 }
-
-                // This update can be done outside the loop because the IDs are not needed elsewhere
-                m_taSimulationHSInputs.Update(m_dsHabitat.SimulationHSCInputs);
-
-                // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
-                // currently possible in the C++
-
-                m_taSimulations.Fill(m_dsHabitat.Simulations);
-                rSimulation = m_dsHabitat.Simulations.FindBySimulationID(nSimulationID);
-                if (bRasterInputs)
-                    rSimulation.SetHSIOutputCSVNull();
-                else
-                    rSimulation.SetHSIOutputRasterNull();
-
-                m_taSimulations.Update(rSimulation);
             }
         }
 
         private string GetSimulationName(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, string sHSIName)
         {
             // CBW5583-34565_VISIT_217
-            string sSiteName = HMUI.Classes.Paths.RemoveDangerousCharacters(rVisit.CHAMP_SitesRow.SiteName);
-            sHSIName = HMUI.Classes.Paths.RemoveDangerousCharacters(sHSIName);
+            string sSiteName = Paths.RemoveDangerousCharacters(rVisit.CHAMP_SitesRow.SiteName);
+            sHSIName = Paths.RemoveDangerousCharacters(sHSIName);
 
             string sResult = string.Format("{0}_VISIT_{1}_{2}", sSiteName, rVisit.VisitID.ToString(), sHSIName);
             return sResult;
@@ -215,18 +214,26 @@ namespace CHaMPWorkbench.Habitat
         /// <param name="bCopySingleFile">When true this routine copies on the original file path. When false it wildcards the file name .* and copies all files.</param>
         /// <param name="sProjectInputType">"csv" or "raster". Used to lookup the lookuplist item ID in the habitat database</param>
         /// <returns>Remember that this is used for both CSV and raster data sources</returns>
-        private dsHabitat.ProjectDataSourcesRow BuildAndCopyProjectDataSource(string sDataSourceName, string sOriginalPath, Boolean bCopySingleFile, string sProjectInputType)
+        private dsHabitat.ProjectDataSourcesRow BuildAndCopyProjectDataSource(int nVisitID, string sDataSourceName, string sOriginalPath, Boolean bCopySingleFile, string sProjectInputType)
         {
+            // check that the project data source does not already exist for this combination of visit ID and data source.
+            string sProjectDataSourcePath = Paths.GetSpecificInputFullPath(String.Format("{0}_VisitID{1}", sDataSourceName, nVisitID), System.IO.Path.GetExtension(sOriginalPath));
+            string sRelativeProjectDataSourcePath = Paths.GetRelativePath(sProjectDataSourcePath);
+            foreach (dsHabitat.ProjectDataSourcesRow rDS in m_HabitatManager.ProjectDatabase.ProjectDataSources)
+            {
+                if (string.Compare(rDS.ProjectPath, sRelativeProjectDataSourcePath) == 0)
+                    return rDS;
+            }
+
             if (!System.IO.File.Exists(sOriginalPath))
                 return null;
 
             int i = 0;
-            string sProjectDataSourcePath;
             string sFileName;
             bool bAnyFilesExist = false;
             do
             {
-                sProjectDataSourcePath = HMUI.Classes.Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
+                sProjectDataSourcePath = Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
                 sFileName = System.IO.Path.GetFileNameWithoutExtension(sProjectDataSourcePath);
                 if (i > 0)
                     sFileName = string.Format("{0}_{1}", sFileName, i);
@@ -279,11 +286,11 @@ namespace CHaMPWorkbench.Habitat
 
             int nDataSourceTypeID = GetLookupListItemID("Project Input Types", sProjectInputType);
 
-            dsHabitat.ProjectDataSourcesRow rDataSource = m_dsHabitat.ProjectDataSources.NewProjectDataSourcesRow();
+            dsHabitat.ProjectDataSourcesRow rDataSource = m_HabitatManager.ProjectDatabase.ProjectDataSources.NewProjectDataSourcesRow();
             rDataSource.OriginalPath = sOriginalPath;
             rDataSource.CreatedOn = DateTime.Now;
             rDataSource.DataSourceTypeID = nDataSourceTypeID;
-            rDataSource.ProjectPath = HMUI.Classes.Paths.GetRelativePath(sProjectDataSourcePath);
+            rDataSource.ProjectPath = Paths.GetRelativePath(sProjectDataSourcePath);
             rDataSource.Title = sDataSourceName;
 
             if (nDataSourceTypeID == m_nCSVDataSourceTypeID)
@@ -292,27 +299,25 @@ namespace CHaMPWorkbench.Habitat
                 rDataSource.YField = "Y";
             }
 
-            m_dsHabitat.ProjectDataSources.AddProjectDataSourcesRow(rDataSource);
-            m_taProjectDataSources.Update(rDataSource);
-
+            m_HabitatManager.ProjectDatabase.ProjectDataSources.AddProjectDataSourcesRow(rDataSource);
             return rDataSource;
         }
 
 
-        private dsHabitat.ProjectVariablesRow BuildProjectVariable(string sValueField, dsHabitat.HSCRow rHSC, int nProjectDataSourceID)
+        private dsHabitat.ProjectVariablesRow BuildProjectVariable(string sValueField, string sVariableTitle, int nUnitID, int nVariableID, int nProjectDataSourceID)
         {
-            dsHabitat.ProjectVariablesRow rProjectVariable = m_dsHabitat.ProjectVariables.NewProjectVariablesRow();
+            dsHabitat.ProjectVariablesRow rProjectVariable = m_HabitatManager.ProjectDatabase.ProjectVariables.NewProjectVariablesRow();
             rProjectVariable.DataSourceID = nProjectDataSourceID;
-            rProjectVariable.Title = rHSC.HSCName;
-            rProjectVariable.UnitsID = rHSC.UnitID;
-            rProjectVariable.VariableID = rHSC.HSCVariableID;
+            rProjectVariable.Title = sVariableTitle;
+            rProjectVariable.UnitsID = nUnitID;
+            rProjectVariable.VariableID = nVariableID;
 
             if (string.IsNullOrWhiteSpace(sValueField))
                 rProjectVariable.SetValueFieldNull();
             else
                 rProjectVariable.ValueField = sValueField;
 
-            m_dsHabitat.ProjectVariables.AddProjectVariablesRow(rProjectVariable);
+            m_HabitatManager.ProjectDatabase.ProjectVariables.AddProjectVariablesRow(rProjectVariable);
             return rProjectVariable;
         }
 
@@ -325,7 +330,7 @@ namespace CHaMPWorkbench.Habitat
         /// <returns></returns>
         private int GetLookupListItemID(string sListName, string sItemWildCard)
         {
-            foreach (dsHabitat.LookupListItemsRow rItem in m_dsHabitat.LookupListItems)
+            foreach (dsHabitat.LookupListItemsRow rItem in m_HabitatManager.ProjectDatabase.LookupListItems)
                 if (rItem.LookupListsRow.ListName.ToLower().Contains(sListName.ToLower()))
                     if (rItem.ItemName.ToLower().Contains(sItemWildCard.ToLower()))
                         return rItem.ItemID;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HMUI.Classes
+namespace HMDesktop.Classes
 {
     static public class Paths
     {
@@ -26,15 +26,15 @@ namespace HMUI.Classes
 
         public static string GetRelativePath(string sFullPath)
         {
-            if (string.IsNullOrEmpty(HMUI.Classes.HSProjectManager.ProjectFolder))
+            if (string.IsNullOrEmpty(HMDesktop.Classes.HSProjectManager.ProjectFolder))
             {
                 throw new Exception("The database path must be provided");
             }
 
-            int iIndex = sFullPath.ToLower().IndexOf(HMUI.Classes.HSProjectManager.ProjectFolder.ToLower());
+            int iIndex = sFullPath.ToLower().IndexOf(HMDesktop.Classes.HSProjectManager.ProjectFolder.ToLower());
             if (iIndex >= 0)
             {
-                sFullPath = sFullPath.Substring(HMUI.Classes.HSProjectManager.ProjectFolder.Length, sFullPath.Length - HMUI.Classes.HSProjectManager.ProjectFolder.Length);
+                sFullPath = sFullPath.Substring(HMDesktop.Classes.HSProjectManager.ProjectFolder.Length, sFullPath.Length - HMDesktop.Classes.HSProjectManager.ProjectFolder.Length);
                 sFullPath = sFullPath.TrimStart(System.IO.Path.DirectorySeparatorChar);
             }
 
@@ -43,7 +43,7 @@ namespace HMUI.Classes
 
         public static string GetAbsolutePath(string sRelativePath)
         {
-            return System.IO.Path.Combine(HMUI.Classes.HSProjectManager.ProjectFolder, sRelativePath);
+            return System.IO.Path.Combine(HMDesktop.Classes.HSProjectManager.ProjectFolder, sRelativePath);
         }
 
         //public static bool IsDatabaseInDirectory(string sDbPath)
@@ -60,7 +60,7 @@ namespace HMUI.Classes
         #region INPUTS
         public static string GetProjectInputsFolder()
         {
-            return System.IO.Path.Combine(HMUI.Classes.HSProjectManager.ProjectFolder, _sInputsFolder);
+            return System.IO.Path.Combine(HSProjectManager.ProjectFolder, _sInputsFolder);
         }
 
         public static string GetSpecificInputFolder(string sInputName)
@@ -74,7 +74,7 @@ namespace HMUI.Classes
         {
             string sSpecificInputPath = GetSpecificInputFolder(sInputName);
             //string sInputExtension = System.IO.Path.GetExtension(sInputName);
-            string sCleanInputName = HMUI.Classes.Paths.RemoveDangerousCharacters(System.IO.Path.GetFileNameWithoutExtension(sInputName));
+            string sCleanInputName = RemoveDangerousCharacters(System.IO.Path.GetFileNameWithoutExtension(sInputName));
             sSpecificInputPath = System.IO.Path.Combine(sSpecificInputPath, sCleanInputName);
             sSpecificInputPath = System.IO.Path.ChangeExtension(sSpecificInputPath, sExtension);
             return sSpecificInputPath;
@@ -87,7 +87,7 @@ namespace HMUI.Classes
             {
                 //Create folder and copy the input to the new folder (in later work we will check for orthogonality, etc.
                 sInputName = RemoveDangerousCharacters(sInputName);
-                string sInputPath = HMUI.Classes.Paths.GetProjectInputsFolder();
+                string sInputPath = GetProjectInputsFolder();
                 if (!System.IO.Directory.Exists(sInputPath))
                 {
                     System.IO.Directory.CreateDirectory(sInputPath);
@@ -95,7 +95,7 @@ namespace HMUI.Classes
 
                 if (System.IO.Directory.Exists(sInputPath))
                 {
-                    string sSpecificInputFolderPath = HMUI.Classes.Paths.GetSpecificInputFolder(sInputName);
+                    string sSpecificInputFolderPath = GetSpecificInputFolder(sInputName);
                     if (!System.IO.Directory.Exists(sSpecificInputFolderPath))
                     {
                         System.IO.Directory.CreateDirectory(sSpecificInputFolderPath);
@@ -103,9 +103,8 @@ namespace HMUI.Classes
                     if (System.IO.Directory.Exists(sSpecificInputFolderPath))
                     {
                         string sOriginalExtension = System.IO.Path.GetExtension(sOriginalInputPath);
-                        string sSpecificInputFullPath = HMUI.Classes.Paths.GetSpecificInputFullPath(sInputName, sOriginalExtension);
-
-
+                        string sSpecificInputFullPath = GetSpecificInputFullPath(sInputName, sOriginalExtension);
+                        
                         if (string.Compare(sOriginalExtension, ".txt") != 0)
                         {
                             string[] lAssociatedFiles = GetBaseFileMatches(sOriginalInputPath);
@@ -145,13 +144,13 @@ namespace HMUI.Classes
 
         public static string GetSimulationsFolder()
         {
-            string sSimulationsFolder = System.IO.Path.Combine(HSProjectManager.ProjectFolder, _sSimulationsFolder);
+            string sSimulationsFolder = System.IO.Path.Combine(HMDesktop.Classes.HSProjectManager.ProjectFolder, _sSimulationsFolder);
             return sSimulationsFolder;
         }
 
         public static string GetSimulationXMLFolder()
         {
-            string sSimulationXMLFolder = System.IO.Path.Combine(HSProjectManager.ProjectFolder, m_sSimulationXMLFolder);
+            string sSimulationXMLFolder = System.IO.Path.Combine(HMDesktop.Classes.HSProjectManager.ProjectFolder, m_sSimulationXMLFolder);
             return sSimulationXMLFolder;
         }
 
@@ -397,6 +396,4 @@ namespace HMUI.Classes
             return sPath;
         }
     }
-
-
 }
