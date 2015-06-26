@@ -59,6 +59,7 @@ namespace CHaMPWorkbench.Habitat
                 rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
                 rSimulation.CreatedBy = Environment.UserName;
                 rSimulation.CreatedOn = DateTime.Now;
+                rSimulation.RunOn = new DateTime(1970, 1, 1);
                 rSimulation.AddIndividualOutput = true;
                 rSimulation.Folder = Paths.GetRelativePath(Paths.GetSpecificSimulationFolder(rSimulation.Title));
                 rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
@@ -220,8 +221,9 @@ namespace CHaMPWorkbench.Habitat
         /// <returns>Remember that this is used for both CSV and raster data sources</returns>
         private dsHabitat.ProjectDataSourcesRow BuildAndCopyProjectDataSource(int nVisitID, string sDataSourceName, string sOriginalPath, Boolean bCopySingleFile, string sProjectInputType)
         {
+            sDataSourceName = string.Format(String.Format("{0}_VisitID{1}", sDataSourceName, nVisitID));
             // check that the project data source does not already exist for this combination of visit ID and data source.
-            string sProjectDataSourcePath = Paths.GetSpecificInputFullPath(String.Format("{0}_VisitID{1}", sDataSourceName, nVisitID), System.IO.Path.GetExtension(sOriginalPath));
+            string sProjectDataSourcePath = Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
             string sRelativeProjectDataSourcePath = Paths.GetRelativePath(sProjectDataSourcePath);
             foreach (dsHabitat.ProjectDataSourcesRow rDS in m_HabitatManager.ProjectDatabase.ProjectDataSources)
             {
@@ -237,7 +239,6 @@ namespace CHaMPWorkbench.Habitat
             bool bAnyFilesExist = false;
             do
             {
-                sProjectDataSourcePath = Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
                 sFileName = System.IO.Path.GetFileNameWithoutExtension(sProjectDataSourcePath);
                 if (i > 0)
                     sFileName = string.Format("{0}_{1}", sFileName, i);
