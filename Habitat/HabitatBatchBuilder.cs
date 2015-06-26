@@ -14,15 +14,18 @@ namespace CHaMPWorkbench.Habitat
 
         private Classes.CHaMPData m_CHaMPData;
         HSProjectManager m_HabitatManager;
-        private System.IO.DirectoryInfo m_dMonitoringDatafolder;
+        private System.IO.DirectoryInfo m_dHydraulicResultFolder;
+        private System.IO.DirectoryInfo m_dD50Folder;
 
         // This is the database ID of the lookup list item for CSV data source types
         private const int m_nCSVDataSourceTypeID = 61;
 
-        public HabitatBatchBuilder(ref OleDbConnection dbWorkbench, string sHabitatDBPath, string sMonitoringDataFolder)
+        public HabitatBatchBuilder(ref OleDbConnection dbWorkbench, string sHabitatDBPath, string sHydraulicResultTopLevelFolder, string sD50TopLevelFolder)
         {
             m_CHaMPData = new Classes.CHaMPData(ref dbWorkbench);
-            m_dMonitoringDatafolder = new System.IO.DirectoryInfo(sMonitoringDataFolder);
+            m_dHydraulicResultFolder = new System.IO.DirectoryInfo(sHydraulicResultTopLevelFolder);
+            m_dD50Folder = new System.IO.DirectoryInfo(sD50TopLevelFolder);
+
             m_HabitatManager = new HSProjectManager(sHabitatDBPath);
         }
 
@@ -107,7 +110,7 @@ namespace CHaMPWorkbench.Habitat
                 if (rVariable.VariableName.ToLower().Contains("substrate") || rVariable.VariableName.ToLower().Contains("d50"))
                 {
                     // Create raster data source
-                    string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                    string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder, rVisit.ICRPath);
                     dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
                     // Create project variable
@@ -119,8 +122,8 @@ namespace CHaMPWorkbench.Habitat
                     // Create a Data Source for the CSV
                     if (rCSVDataSource == null)
                     {
-                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder);
-                        sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro", rVisit.HydraulicModelCSV);
+                        string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder);
+                        sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro\\HydroModelResults", rVisit.HydraulicModelCSV);
                         rCSVDataSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "Delft 3D CSV Output", sOriginalPath, true, "csv");
                     }
 
@@ -161,8 +164,8 @@ namespace CHaMPWorkbench.Habitat
                         // Create a Data Source for the CSV
                         if (rCSVDataSource == null)
                         {
-                            string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder);
-                            sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro", rVisit.HydraulicModelCSV);
+                            string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder);
+                            sOriginalPath = System.IO.Path.Combine((new System.IO.DirectoryInfo(sOriginalPath)).Parent.FullName, "Hydro\\HydroModelResults", rVisit.HydraulicModelCSV);
                             rCSVDataSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "Delft 3D CSV Output", sOriginalPath, true, "csv");
                         }
 
@@ -176,7 +179,7 @@ namespace CHaMPWorkbench.Habitat
                     else if (string.Compare(sInput, "grainsize_mm", true) == 0)
                     {
                         // Create raster data source
-                        string sOriginalPath = System.IO.Path.Combine(m_dMonitoringDatafolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                        string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder, rVisit.ICRPath);
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
                         // Create project variable

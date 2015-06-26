@@ -207,6 +207,10 @@ namespace CHaMPWorkbench.Habitat
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
         {
+// Checking no items omits the filter.
+            if (lst.CheckedItems.Count < 1)
+                return;
+
             string sValueList = "";
             foreach (ListItem l in lst.CheckedItems)
             {
@@ -314,7 +318,13 @@ namespace CHaMPWorkbench.Habitat
                 frm.SelectedPath = txtMonitoringFolder.Text;
 
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                bool bChangeD50Folder = string.Compare(txtMonitoringFolder.Text, txtD50TopLevel.Text, true) == 0;
                 txtMonitoringFolder.Text = frm.SelectedPath;
+
+                if (bChangeD50Folder)
+                    txtD50TopLevel.Text=txtMonitoringFolder.Text;
+            }
         }
 
         private void txtHabitatModelDB_TextChanged(object sender, EventArgs e)
@@ -389,7 +399,7 @@ namespace CHaMPWorkbench.Habitat
             int nError = 0;
             try
             {
-                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text);
+                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text);
                 List<int> lVisitIDs = new List<int>();
                 foreach (DataGridViewRow r in grdVisits.Rows)
                 {
@@ -455,6 +465,19 @@ namespace CHaMPWorkbench.Habitat
             }
 
             return true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Select the top level folder containing the D50 substrate rasters. The first level of folders inside the selected folder should represent field seasons.";
+            frm.ShowNewFolderButton = false;
+
+            if (!string.IsNullOrWhiteSpace(txtMonitoringFolder.Text) && System.IO.Directory.Exists(txtMonitoringFolder.Text))
+                frm.SelectedPath = txtD50TopLevel.Text;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtD50TopLevel.Text = frm.SelectedPath;
         }
     }
 }
