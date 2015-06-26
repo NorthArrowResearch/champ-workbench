@@ -30,18 +30,21 @@ namespace CHaMPWorkbench.Habitat
             LoadVisitTypes();
 
             // Load all the species into the checked listbox BEFORE loading all the visit data
-            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1), true);
-            chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2), true);
-            chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3), true);
-            chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4), true);
-            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5), true);
-            chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6), true);
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Chinook", "UC_Chin", 1), false);
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Chinook", "SN_Chin", 2), false);
+            chkSpecies.Items.Add(new SpeciesListItem("Lower Columbia Steelhead", "LC_Steel", 3), false);
+            chkSpecies.Items.Add(new SpeciesListItem("Mid Columbia Steelhead", "MC_Steel", 4), false);
+            chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5), false);
+            chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6), false);
 
             LoadAllVisits();
             FilterVisits(sender, e);
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
+            {
                 txtMonitoringFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+                txtD50TopLevel.Text = txtMonitoringFolder.Text;
+            }
         }
 
         private void LoadFieldSeasons()
@@ -321,9 +324,8 @@ namespace CHaMPWorkbench.Habitat
             {
                 bool bChangeD50Folder = string.Compare(txtMonitoringFolder.Text, txtD50TopLevel.Text, true) == 0;
                 txtMonitoringFolder.Text = frm.SelectedPath;
-
                 if (bChangeD50Folder)
-                    txtD50TopLevel.Text=txtMonitoringFolder.Text;
+                    txtD50TopLevel.Text = txtMonitoringFolder.Text;
             }
         }
 
@@ -418,6 +420,7 @@ namespace CHaMPWorkbench.Habitat
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
         }
 
@@ -479,5 +482,9 @@ namespace CHaMPWorkbench.Habitat
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtD50TopLevel.Text = frm.SelectedPath;
         }
+
+        private void txtMonitoringFolder_TextChanged(object sender, EventArgs e)
+        {
+         }
     }
 }

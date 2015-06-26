@@ -114,7 +114,7 @@ namespace CHaMPWorkbench.Habitat
                     dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
                     // Create project variable
-                    rProjectVariable = BuildProjectVariable("D50", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rSubstrateSource.DataSourceID);
+                    rProjectVariable = BuildProjectVariable(rVisit.VisitID, "D50", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rSubstrateSource.DataSourceID);
                     bRasterInputs = true;
                 }
                 else
@@ -128,9 +128,9 @@ namespace CHaMPWorkbench.Habitat
                     }
 
                     if (rVariable.VariableName.ToLower().Contains("velocity"))
-                        rProjectVariable = BuildProjectVariable("Velocity.Magnitude", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
+                        rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Velocity.Magnitude", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
                     else
-                        rProjectVariable = BuildProjectVariable("Depth", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
+                        rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Depth", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
                 }
 
                 // Insert the Simulation HSC input
@@ -171,19 +171,19 @@ namespace CHaMPWorkbench.Habitat
 
                         if (sInput.ToLower().Contains("velocity"))
                         {
-                            rProjectVariable = BuildProjectVariable("Velocity.Magnitude", "Velocity", 5, 22, rCSVDataSource.DataSourceID);
+                            rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Velocity.Magnitude", "Velocity", 5, 22, rCSVDataSource.DataSourceID);
                         }
                         else
-                            rProjectVariable = BuildProjectVariable("Depth", "Depth", 8, 8, rCSVDataSource.DataSourceID);
+                            rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Depth", "Depth", 8, 8, rCSVDataSource.DataSourceID);
                     }
                     else if (string.Compare(sInput, "grainsize_mm", true) == 0)
                     {
                         // Create raster data source
-                        string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                        string sOriginalPath = System.IO.Path.Combine(m_dD50Folder.FullName, rVisit.Folder, rVisit.ICRPath);
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
                         // Create project variable
-                        rProjectVariable = BuildProjectVariable("D50", "D50", 12, 12, rSubstrateSource.DataSourceID);
+                        rProjectVariable = BuildProjectVariable(rVisit.VisitID, "D50", "D50", 12, 12, rSubstrateSource.DataSourceID);
                         bRasterInputs = true;
                     }
                     else
@@ -193,6 +193,7 @@ namespace CHaMPWorkbench.Habitat
                     dsHabitat.SimulationFISInputsRow rSimInput = m_HabitatManager.ProjectDatabase.SimulationFISInputs.NewSimulationFISInputsRow();
                     rSimInput.SimulationsRow = rSimulation;
                     rSimInput.FISInputName = sInput;
+                    rSimInput.FISPreparedPath = Paths.GetRelativePath(Paths.GetSpecificPreparedHSFullPath(rSimulation.Title, rProjectVariable.Title));
                     rSimInput.ProjectVariablesRow = rProjectVariable;
                     m_HabitatManager.ProjectDatabase.SimulationFISInputs.AddSimulationFISInputsRow(rSimInput);
                 }
@@ -294,7 +295,7 @@ namespace CHaMPWorkbench.Habitat
             rDataSource.CreatedOn = DateTime.Now;
             rDataSource.DataSourceTypeID = nDataSourceTypeID;
             rDataSource.ProjectPath = Paths.GetRelativePath(sProjectDataSourcePath);
-            rDataSource.Title = sDataSourceName;
+            rDataSource.Title = string.Format("Visit ID {0} - {1}", nVisitID, sDataSourceName);
 
             if (nDataSourceTypeID == m_nCSVDataSourceTypeID)
             {
@@ -307,11 +308,11 @@ namespace CHaMPWorkbench.Habitat
         }
 
 
-        private dsHabitat.ProjectVariablesRow BuildProjectVariable(string sValueField, string sVariableTitle, int nUnitID, int nVariableID, int nProjectDataSourceID)
+        private dsHabitat.ProjectVariablesRow BuildProjectVariable(int nVisitID, string sValueField, string sVariableTitle, int nUnitID, int nVariableID, int nProjectDataSourceID)
         {
             dsHabitat.ProjectVariablesRow rProjectVariable = m_HabitatManager.ProjectDatabase.ProjectVariables.NewProjectVariablesRow();
             rProjectVariable.DataSourceID = nProjectDataSourceID;
-            rProjectVariable.Title = sVariableTitle;
+            rProjectVariable.Title = string.Format("VisitID {0} - {1}",nVisitID, sVariableTitle);
             rProjectVariable.UnitsID = nUnitID;
             rProjectVariable.VariableID = nVariableID;
 
