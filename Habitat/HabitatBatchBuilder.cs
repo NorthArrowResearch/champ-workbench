@@ -110,7 +110,7 @@ namespace CHaMPWorkbench.Habitat
                 if (rVariable.VariableName.ToLower().Contains("substrate") || rVariable.VariableName.ToLower().Contains("d50"))
                 {
                     // Create raster data source
-                    string sOriginalPath = System.IO.Path.Combine(m_dHydraulicResultFolder.FullName, rVisit.Folder, rVisit.ICRPath);
+                    string sOriginalPath = System.IO.Path.Combine(m_dD50Folder.FullName, rVisit.Folder, rVisit.ICRPath);
                     dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", sOriginalPath, false, "raster");
 
                     // Create project variable
