@@ -466,10 +466,10 @@
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.txtD50TopLevel);
             this.groupBox4.Controls.Add(this.cmdD50TopLevel);
-            this.groupBox4.Location = new System.Drawing.Point(10, 198);
+            this.groupBox4.Location = new System.Drawing.Point(10, 185);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(639, 100);
-            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "D50 Substrate";
             // 
@@ -478,27 +478,27 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(16, 70);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(135, 13);
+            this.label6.Size = new System.Drawing.Size(80, 13);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Top level folder containing ";
+            this.label6.Text = "Top level folder";
             // 
             // label5
             // 
             this.label5.Location = new System.Drawing.Point(16, 25);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(617, 32);
-            this.label5.TabIndex = 6;
+            this.label5.TabIndex = 0;
             this.label5.Text = "Specify the top level folder that contains the D50 substrate rasters. The folder " +
-    "that you specify will have Year\\Watershed\\Site\\VISIT_xxxx\\Topo added to it";
+    "that you specify will have Year\\Watershed\\Site\\VISIT_xxxx\\Topo added to it.";
             // 
             // txtD50TopLevel
             // 
             this.txtD50TopLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtD50TopLevel.Location = new System.Drawing.Point(153, 66);
+            this.txtD50TopLevel.Location = new System.Drawing.Point(102, 66);
             this.txtD50TopLevel.Name = "txtD50TopLevel";
-            this.txtD50TopLevel.Size = new System.Drawing.Size(452, 20);
-            this.txtD50TopLevel.TabIndex = 7;
+            this.txtD50TopLevel.Size = new System.Drawing.Size(503, 20);
+            this.txtD50TopLevel.TabIndex = 1;
             // 
             // cmdD50TopLevel
             // 
@@ -507,7 +507,7 @@
             this.cmdD50TopLevel.Location = new System.Drawing.Point(610, 65);
             this.cmdD50TopLevel.Name = "cmdD50TopLevel";
             this.cmdD50TopLevel.Size = new System.Drawing.Size(23, 23);
-            this.cmdD50TopLevel.TabIndex = 8;
+            this.cmdD50TopLevel.TabIndex = 2;
             this.cmdD50TopLevel.UseVisualStyleBackColor = true;
             this.cmdD50TopLevel.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -517,10 +517,10 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txtMonitoringFolder);
             this.groupBox3.Controls.Add(this.cmdBrowseMonitoringDataFolder);
-            this.groupBox3.Location = new System.Drawing.Point(10, 92);
+            this.groupBox3.Location = new System.Drawing.Point(10, 79);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(639, 100);
-            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hydraulic Model Results";
             // 
@@ -532,25 +532,25 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Specify the top level folder that contains the hydraulic model results. The folde" +
     "r that you specify will have Year\\Watershed\\Site\\VISIT_xxxx\\Hydro\\HydroModelResu" +
-    "lts added to it";
+    "lts added to it.";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 70);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Top level folder containing ";
+            this.label1.Size = new System.Drawing.Size(80, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Top level folder";
             // 
             // txtMonitoringFolder
             // 
             this.txtMonitoringFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMonitoringFolder.Location = new System.Drawing.Point(153, 66);
+            this.txtMonitoringFolder.Location = new System.Drawing.Point(102, 66);
             this.txtMonitoringFolder.Name = "txtMonitoringFolder";
-            this.txtMonitoringFolder.Size = new System.Drawing.Size(452, 20);
-            this.txtMonitoringFolder.TabIndex = 4;
+            this.txtMonitoringFolder.Size = new System.Drawing.Size(503, 20);
+            this.txtMonitoringFolder.TabIndex = 2;
             this.txtMonitoringFolder.TextChanged += new System.EventHandler(this.txtMonitoringFolder_TextChanged);
             // 
             // cmdBrowseMonitoringDataFolder
@@ -560,7 +560,7 @@
             this.cmdBrowseMonitoringDataFolder.Location = new System.Drawing.Point(610, 65);
             this.cmdBrowseMonitoringDataFolder.Name = "cmdBrowseMonitoringDataFolder";
             this.cmdBrowseMonitoringDataFolder.Size = new System.Drawing.Size(23, 23);
-            this.cmdBrowseMonitoringDataFolder.TabIndex = 5;
+            this.cmdBrowseMonitoringDataFolder.TabIndex = 3;
             this.cmdBrowseMonitoringDataFolder.UseVisualStyleBackColor = true;
             this.cmdBrowseMonitoringDataFolder.Click += new System.EventHandler(this.cmdBrowseMonitoringDataFolder_Click);
             // 
@@ -603,7 +603,7 @@
             this.cboHabitatModel.Location = new System.Drawing.Point(168, 45);
             this.cboHabitatModel.Name = "cboHabitatModel";
             this.cboHabitatModel.Size = new System.Drawing.Size(452, 21);
-            this.cboHabitatModel.TabIndex = 7;
+            this.cboHabitatModel.TabIndex = 4;
             // 
             // label2
             // 
@@ -611,7 +611,7 @@
             this.label2.Location = new System.Drawing.Point(90, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 6;
+            this.label2.TabIndex = 3;
             this.label2.Text = "Habitat model";
             // 
             // frmHabitatBatch
