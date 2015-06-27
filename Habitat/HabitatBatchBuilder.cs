@@ -65,7 +65,9 @@ namespace CHaMPWorkbench.Habitat
                 rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
                 rSimulation.OutputCSV = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
                 rSimulation.IsQueuedToRun = true;
-                rSimulation.VisitID = rVisit.VisitID;
+                rSimulation.CHaMPVisitID = rVisit.VisitID;
+                rSimulation.CHaMPSiteName = rVisit.CHAMP_SitesRow.SiteName; 
+                rSimulation.CHaMPWatershed = rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName;
                 rSimulation.CellSize = (float)0.1;
 
                 // Add the simulation. Now that it's XML, the ID should not need to be retrieved.

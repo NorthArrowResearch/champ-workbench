@@ -4352,10 +4352,6 @@ namespace CHaMPWorkbench.Habitat {
             
             private global::System.Data.DataColumn columnComputer;
             
-            private global::System.Data.DataColumn columnCHaMPSiteID;
-            
-            private global::System.Data.DataColumn columnCHaMPWatershedID;
-            
             private global::System.Data.DataColumn columnDescription;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4441,22 +4437,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CHaMPSiteIDColumn {
-                get {
-                    return this.columnCHaMPSiteID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CHaMPWatershedIDColumn {
-                get {
-                    return this.columnCHaMPWatershedID;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn DescriptionColumn {
                 get {
                     return this.columnDescription;
@@ -4500,7 +4480,7 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ProjectsRow AddProjectsRow(string Title, LookupListItemsRow parentLookupListItemsRowByLookupListItemsProjects, System.DateTime DateCreated, string CreatedBy, string Computer, int CHaMPSiteID, int CHaMPWatershedID, string Description) {
+            public ProjectsRow AddProjectsRow(string Title, LookupListItemsRow parentLookupListItemsRowByLookupListItemsProjects, System.DateTime DateCreated, string CreatedBy, string Computer, string Description) {
                 ProjectsRow rowProjectsRow = ((ProjectsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4509,8 +4489,6 @@ namespace CHaMPWorkbench.Habitat {
                         DateCreated,
                         CreatedBy,
                         Computer,
-                        CHaMPSiteID,
-                        CHaMPWatershedID,
                         Description};
                 if ((parentLookupListItemsRowByLookupListItemsProjects != null)) {
                     columnValuesArray[2] = parentLookupListItemsRowByLookupListItemsProjects[0];
@@ -4550,8 +4528,6 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnDateCreated = base.Columns["DateCreated"];
                 this.columnCreatedBy = base.Columns["CreatedBy"];
                 this.columnComputer = base.Columns["Computer"];
-                this.columnCHaMPSiteID = base.Columns["CHaMPSiteID"];
-                this.columnCHaMPWatershedID = base.Columns["CHaMPWatershedID"];
                 this.columnDescription = base.Columns["Description"];
             }
             
@@ -4570,10 +4546,6 @@ namespace CHaMPWorkbench.Habitat {
                 base.Columns.Add(this.columnCreatedBy);
                 this.columnComputer = new global::System.Data.DataColumn("Computer", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnComputer);
-                this.columnCHaMPSiteID = new global::System.Data.DataColumn("CHaMPSiteID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCHaMPSiteID);
-                this.columnCHaMPWatershedID = new global::System.Data.DataColumn("CHaMPWatershedID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCHaMPWatershedID);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -5370,7 +5342,7 @@ namespace CHaMPWorkbench.Habitat {
             
             private global::System.Data.DataColumn columnCreatedOn;
             
-            private global::System.Data.DataColumn columnVisitID;
+            private global::System.Data.DataColumn columnCHaMPVisitID;
             
             private global::System.Data.DataColumn columnDischarge;
             
@@ -5389,6 +5361,10 @@ namespace CHaMPWorkbench.Habitat {
             private global::System.Data.DataColumn columnCellSize;
             
             private global::System.Data.DataColumn columnOutputCSV;
+            
+            private global::System.Data.DataColumn columnCHaMPSiteName;
+            
+            private global::System.Data.DataColumn columnCHaMPWatershed;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -5465,9 +5441,9 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn VisitIDColumn {
+            public global::System.Data.DataColumn CHaMPVisitIDColumn {
                 get {
-                    return this.columnVisitID;
+                    return this.columnCHaMPVisitID;
                 }
             }
             
@@ -5545,6 +5521,22 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CHaMPSiteNameColumn {
+                get {
+                    return this.columnCHaMPSiteName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CHaMPWatershedColumn {
+                get {
+                    return this.columnCHaMPWatershed;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -5580,7 +5572,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SimulationsRow AddSimulationsRow(HSIRow _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_, FISRow parentFISRowByFIS_Simulations, string CreatedBy, System.DateTime CreatedOn, int VisitID, double Discharge, bool IsQueuedToRun, string Title, string Folder, bool AddIndividualOutput, System.DateTime RunOn, string OutputRaster, float CellSize, string OutputCSV) {
+            public SimulationsRow AddSimulationsRow(
+                        HSIRow _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_, 
+                        FISRow parentFISRowByFIS_Simulations, 
+                        string CreatedBy, 
+                        System.DateTime CreatedOn, 
+                        int CHaMPVisitID, 
+                        double Discharge, 
+                        bool IsQueuedToRun, 
+                        string Title, 
+                        string Folder, 
+                        bool AddIndividualOutput, 
+                        System.DateTime RunOn, 
+                        string OutputRaster, 
+                        float CellSize, 
+                        string OutputCSV, 
+                        string CHaMPSiteName, 
+                        string CHaMPWatershed) {
                 SimulationsRow rowSimulationsRow = ((SimulationsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -5588,7 +5596,7 @@ namespace CHaMPWorkbench.Habitat {
                         null,
                         CreatedBy,
                         CreatedOn,
-                        VisitID,
+                        CHaMPVisitID,
                         Discharge,
                         IsQueuedToRun,
                         Title,
@@ -5597,7 +5605,9 @@ namespace CHaMPWorkbench.Habitat {
                         RunOn,
                         OutputRaster,
                         CellSize,
-                        OutputCSV};
+                        OutputCSV,
+                        CHaMPSiteName,
+                        CHaMPWatershed};
                 if ((_parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_ != null)) {
                     columnValuesArray[1] = _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_[0];
                 }
@@ -5638,7 +5648,7 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnFISID = base.Columns["FISID"];
                 this.columnCreatedBy = base.Columns["CreatedBy"];
                 this.columnCreatedOn = base.Columns["CreatedOn"];
-                this.columnVisitID = base.Columns["VisitID"];
+                this.columnCHaMPVisitID = base.Columns["CHaMPVisitID"];
                 this.columnDischarge = base.Columns["Discharge"];
                 this.columnIsQueuedToRun = base.Columns["IsQueuedToRun"];
                 this.columnTitle = base.Columns["Title"];
@@ -5648,6 +5658,8 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnOutputRaster = base.Columns["OutputRaster"];
                 this.columnCellSize = base.Columns["CellSize"];
                 this.columnOutputCSV = base.Columns["OutputCSV"];
+                this.columnCHaMPSiteName = base.Columns["CHaMPSiteName"];
+                this.columnCHaMPWatershed = base.Columns["CHaMPWatershed"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5663,8 +5675,8 @@ namespace CHaMPWorkbench.Habitat {
                 base.Columns.Add(this.columnCreatedBy);
                 this.columnCreatedOn = new global::System.Data.DataColumn("CreatedOn", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreatedOn);
-                this.columnVisitID = new global::System.Data.DataColumn("VisitID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnVisitID);
+                this.columnCHaMPVisitID = new global::System.Data.DataColumn("CHaMPVisitID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCHaMPVisitID);
                 this.columnDischarge = new global::System.Data.DataColumn("Discharge", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDischarge);
                 this.columnIsQueuedToRun = new global::System.Data.DataColumn("IsQueuedToRun", typeof(bool), null, global::System.Data.MappingType.Element);
@@ -5683,6 +5695,10 @@ namespace CHaMPWorkbench.Habitat {
                 base.Columns.Add(this.columnCellSize);
                 this.columnOutputCSV = new global::System.Data.DataColumn("OutputCSV", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOutputCSV);
+                this.columnCHaMPSiteName = new global::System.Data.DataColumn("CHaMPSiteName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCHaMPSiteName);
+                this.columnCHaMPWatershed = new global::System.Data.DataColumn("CHaMPWatershed", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCHaMPWatershed);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSimulationID}, true));
                 this.columnSimulationID.AutoIncrement = true;
@@ -5698,6 +5714,8 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnAddIndividualOutput.DefaultValue = ((bool)(false));
                 this.columnOutputRaster.MaxLength = 255;
                 this.columnOutputCSV.MaxLength = 255;
+                this.columnCHaMPSiteName.MaxLength = 255;
+                this.columnCHaMPWatershed.MaxLength = 255;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10119,38 +10137,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int CHaMPSiteID {
-                get {
-                    try {
-                        return ((int)(this[this.tableProjects.CHaMPSiteIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CHaMPSiteID\' in table \'Projects\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableProjects.CHaMPSiteIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int CHaMPWatershedID {
-                get {
-                    try {
-                        return ((int)(this[this.tableProjects.CHaMPWatershedIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CHaMPWatershedID\' in table \'Projects\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableProjects.CHaMPWatershedIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Description {
                 get {
                     try {
@@ -10234,30 +10220,6 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetComputerNull() {
                 this[this.tableProjects.ComputerColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCHaMPSiteIDNull() {
-                return this.IsNull(this.tableProjects.CHaMPSiteIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCHaMPSiteIDNull() {
-                this[this.tableProjects.CHaMPSiteIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCHaMPWatershedIDNull() {
-                return this.IsNull(this.tableProjects.CHaMPWatershedIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCHaMPWatershedIDNull() {
-                this[this.tableProjects.CHaMPWatershedIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10582,17 +10544,17 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int VisitID {
+            public int CHaMPVisitID {
                 get {
                     try {
-                        return ((int)(this[this.tableSimulations.VisitIDColumn]));
+                        return ((int)(this[this.tableSimulations.CHaMPVisitIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'VisitID\' in table \'Simulations\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CHaMPVisitID\' in table \'Simulations\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableSimulations.VisitIDColumn] = value;
+                    this[this.tableSimulations.CHaMPVisitIDColumn] = value;
                 }
             }
             
@@ -10732,6 +10694,38 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CHaMPSiteName {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.CHaMPSiteNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CHaMPSiteName\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.CHaMPSiteNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CHaMPWatershed {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.CHaMPWatershedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CHaMPWatershed\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.CHaMPWatershedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public FISRow FISRow {
                 get {
                     return ((FISRow)(this.GetParentRow(this.Table.ParentRelations["FIS_Simulations"])));
@@ -10802,14 +10796,14 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsVisitIDNull() {
-                return this.IsNull(this.tableSimulations.VisitIDColumn);
+            public bool IsCHaMPVisitIDNull() {
+                return this.IsNull(this.tableSimulations.CHaMPVisitIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetVisitIDNull() {
-                this[this.tableSimulations.VisitIDColumn] = global::System.Convert.DBNull;
+            public void SetCHaMPVisitIDNull() {
+                this[this.tableSimulations.CHaMPVisitIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10894,6 +10888,30 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetOutputCSVNull() {
                 this[this.tableSimulations.OutputCSVColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCHaMPSiteNameNull() {
+                return this.IsNull(this.tableSimulations.CHaMPSiteNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCHaMPSiteNameNull() {
+                this[this.tableSimulations.CHaMPSiteNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCHaMPWatershedNull() {
+                return this.IsNull(this.tableSimulations.CHaMPWatershedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCHaMPWatershedNull() {
+                this[this.tableSimulations.CHaMPWatershedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

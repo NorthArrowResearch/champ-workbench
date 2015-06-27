@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="HabitatModelConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="HabitatModelConnectionString (Settings)" PropertyReference="ApplicationSettings.CHaMPWorkbench.Properties.Settings.GlobalReference.Default.HabitatModelConnectionString" Provider="System.Data.OleDb" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="HabitatModelConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="HabitatModelConnectionString (Settings)" PropertyReference="ApplicationSettings.HMDesktop.Properties.Settings.GlobalReference.Default.HabitatModelConnectionString" Provider="System.Data.OleDb" />
         </Connections>
         <Tables />
         <Sources />
@@ -226,8 +226,6 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CHaMPSiteID" msprop:Generator_ColumnVarNameInTable="columnCHaMPSiteID" msprop:Generator_ColumnPropNameInRow="CHaMPSiteID" msprop:Generator_ColumnPropNameInTable="CHaMPSiteIDColumn" msprop:Generator_UserColumnName="CHaMPSiteID" type="xs:int" minOccurs="0" />
-              <xs:element name="CHaMPWatershedID" msprop:Generator_ColumnVarNameInTable="columnCHaMPWatershedID" msprop:Generator_ColumnPropNameInRow="CHaMPWatershedID" msprop:Generator_ColumnPropNameInTable="CHaMPWatershedIDColumn" msprop:Generator_UserColumnName="CHaMPWatershedID" type="xs:int" minOccurs="0" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -279,7 +277,7 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="CreatedOn" msprop:Generator_ColumnVarNameInTable="columnCreatedOn" msprop:Generator_ColumnPropNameInRow="CreatedOn" msprop:Generator_ColumnPropNameInTable="CreatedOnColumn" msprop:Generator_UserColumnName="CreatedOn" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="VisitID" msprop:Generator_ColumnVarNameInTable="columnVisitID" msprop:Generator_ColumnPropNameInRow="VisitID" msprop:Generator_ColumnPropNameInTable="VisitIDColumn" msprop:Generator_UserColumnName="VisitID" type="xs:int" minOccurs="0" />
+              <xs:element name="CHaMPVisitID" msprop:Generator_ColumnVarNameInTable="columnCHaMPVisitID" msprop:Generator_ColumnPropNameInRow="CHaMPVisitID" msprop:Generator_ColumnPropNameInTable="CHaMPVisitIDColumn" msprop:Generator_UserColumnName="CHaMPVisitID" type="xs:int" minOccurs="0" />
               <xs:element name="Discharge" msprop:Generator_ColumnVarNameInTable="columnDischarge" msprop:Generator_ColumnPropNameInRow="Discharge" msprop:Generator_ColumnPropNameInTable="DischargeColumn" msprop:Generator_UserColumnName="Discharge" type="xs:double" minOccurs="0" />
               <xs:element name="IsQueuedToRun" msprop:Generator_ColumnVarNameInTable="columnIsQueuedToRun" msprop:Generator_ColumnPropNameInRow="IsQueuedToRun" msprop:Generator_ColumnPropNameInTable="IsQueuedToRunColumn" msprop:Generator_UserColumnName="IsQueuedToRun" type="xs:boolean" default="true" />
               <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" minOccurs="0">
@@ -307,6 +305,20 @@
               </xs:element>
               <xs:element name="CellSize" msprop:Generator_ColumnVarNameInTable="columnCellSize" msprop:Generator_ColumnPropNameInRow="CellSize" msprop:Generator_ColumnPropNameInTable="CellSizeColumn" msprop:Generator_UserColumnName="CellSize" type="xs:float" minOccurs="0" />
               <xs:element name="OutputCSV" msprop:Generator_ColumnVarNameInTable="columnOutputCSV" msprop:Generator_ColumnPropNameInRow="OutputCSV" msprop:Generator_ColumnPropNameInTable="OutputCSVColumn" msprop:Generator_UserColumnName="OutputCSV" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CHaMPSiteName" msprop:Generator_ColumnVarNameInTable="columnCHaMPSiteName" msprop:Generator_ColumnPropNameInRow="CHaMPSiteName" msprop:Generator_ColumnPropNameInTable="CHaMPSiteNameColumn" msprop:Generator_UserColumnName="CHaMPSiteName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CHaMPWatershed" msprop:Generator_ColumnVarNameInTable="columnCHaMPWatershed" msprop:Generator_ColumnPropNameInRow="CHaMPWatershed" msprop:Generator_ColumnPropNameInTable="CHaMPWatershedColumn" msprop:Generator_UserColumnName="CHaMPWatershed" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
@@ -404,14 +416,14 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="XField" msprop:Generator_ColumnVarNameInTable="columnXField" msprop:Generator_ColumnPropNameInRow="XField" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInTable="XFieldColumn" msprop:Generator_UserColumnName="XField" minOccurs="0">
+              <xs:element name="XField" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="XField" msprop:Generator_ColumnVarNameInTable="columnXField" msprop:Generator_ColumnPropNameInTable="XFieldColumn" msprop:Generator_UserColumnName="XField" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="100" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="YField" msprop:Generator_ColumnVarNameInTable="columnYField" msprop:Generator_ColumnPropNameInRow="YField" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInTable="YFieldColumn" msprop:Generator_UserColumnName="YField" minOccurs="0">
+              <xs:element name="YField" msprop:nullValue="_null" msprop:Generator_ColumnPropNameInRow="YField" msprop:Generator_ColumnVarNameInTable="columnYField" msprop:Generator_ColumnPropNameInTable="YFieldColumn" msprop:Generator_UserColumnName="YField" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="100" />
