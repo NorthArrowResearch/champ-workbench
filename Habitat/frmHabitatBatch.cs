@@ -71,7 +71,7 @@ namespace CHaMPWorkbench.Habitat
             while (dbRead.Read())
             {
                 ListItem l = new ListItem((string)dbRead["PanelName"], i);
-                chkVisitTypes.Items.Add(l, string.Compare(l.ToString(), "Annual", true) == 0);
+                chkVisitTypes.Items.Add(l, false);
                 i++;
             }
         }
@@ -112,6 +112,8 @@ namespace CHaMPWorkbench.Habitat
             object[] rowArray = new object[table.Columns.Count];
             while (dbRead.Read())
             {
+                System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
+
                 rowArray[0] = false;
                 rowArray[1] = (int)dbRead["VisitID"];
                 rowArray[2] = (int)(Int16)dbRead["FieldSeason"];
@@ -122,7 +124,11 @@ namespace CHaMPWorkbench.Habitat
                 else
                     rowArray[4] = (string)dbRead["PanelName"];
 
-                rowArray[5] = (string)dbRead["SurveyGDB"];
+                if (DBNull.Value == dbRead["SurveyGDB"])
+                    rowArray[5] = "";
+                else
+                    rowArray[5] = (string)dbRead["SurveyGDB"];
+
                 rowArray[6] = (string)dbRead["VisitFolder"];
                 rowArray[7] = (string)dbRead["HydraulicModelCSV"];
                 rowArray[8] = (string)dbRead["SiteName"];
@@ -210,7 +216,7 @@ namespace CHaMPWorkbench.Habitat
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
         {
-// Checking no items omits the filter.
+            // Checking no items omits the filter.
             if (lst.CheckedItems.Count < 1)
                 return;
 
@@ -331,7 +337,7 @@ namespace CHaMPWorkbench.Habitat
 
         private void txtHabitatModelDB_TextChanged(object sender, EventArgs e)
         {
-            cboHabitatModel.Items.Clear();
+            chkModels.Items.Clear();
             if (string.IsNullOrWhiteSpace(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
                 return;
 
@@ -343,14 +349,14 @@ namespace CHaMPWorkbench.Habitat
                 {
                     string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rHSI.SpeciesID).ItemName;
                     string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rHSI.LifestageID).ItemName;
-                    cboHabitatModel.Items.Add(new HabitatModelDef(rHSI.HSIID, HabitatModelDef.ModelTypes.HSI, rHSI.Title, sSpecies, sLifeStage));
+                    chkModels.Items.Add(new HabitatModelDef(rHSI.HSIID, HabitatModelDef.ModelTypes.HSI, rHSI.Title, sSpecies, sLifeStage));
                 }
 
                 foreach (dsHabitat.FISRow rFIS in theHabitatProject.FIS.Rows)
                 {
                     string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rFIS.SpeciesID).ItemName;
                     string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rFIS.LifeStageID).ItemName;
-                    cboHabitatModel.Items.Add(new HabitatModelDef(rFIS.FISID, HabitatModelDef.ModelTypes.FIS, rFIS.Title, sSpecies, sLifeStage));
+                    chkModels.Items.Add(new HabitatModelDef(rFIS.FISID, HabitatModelDef.ModelTypes.FIS, rFIS.Title, sSpecies, sLifeStage));
                 }
             }
         }
@@ -401,6 +407,8 @@ namespace CHaMPWorkbench.Habitat
             int nError = 0;
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
                 HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text);
                 List<int> lVisitIDs = new List<int>();
                 foreach (DataGridViewRow r in grdVisits.Rows)
@@ -413,12 +421,18 @@ namespace CHaMPWorkbench.Habitat
                     }
                 }
 
-                theBuilder.BuildBatch(lVisitIDs, (HabitatModelDef)cboHabitatModel.SelectedItem, ref nSuccess, ref nError);
+                List<HabitatModelDef> lModels = new List<HabitatModelDef>();
+                foreach (object obj in chkModels.CheckedItems)
+                    lModels.Add((HabitatModelDef)obj);
 
+                theBuilder.BuildBatch(lVisitIDs, lModels, ref nSuccess, ref nError);
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 MessageBox.Show(String.Format("Complete. {0} successful simulations added, and {1} simulations encountered errors.", nSuccess, nError), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default; 
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
@@ -455,9 +469,9 @@ namespace CHaMPWorkbench.Habitat
                 return false;
             }
 
-            if (!(cboHabitatModel.SelectedItem is ListItem))
+            if (chkModels.CheckedItems.Count < 1)
             {
-                MessageBox.Show("You must select a habitat model to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You must select at least one habitat model to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
@@ -485,6 +499,6 @@ namespace CHaMPWorkbench.Habitat
 
         private void txtMonitoringFolder_TextChanged(object sender, EventArgs e)
         {
-         }
+        }
     }
 }

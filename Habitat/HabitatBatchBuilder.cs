@@ -29,73 +29,76 @@ namespace CHaMPWorkbench.Habitat
             m_HabitatManager = new HSProjectManager(sHabitatDBPath);
         }
 
-        public void BuildBatch(List<int> lVisitIDs, HabitatModelDef theModel, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
+        public void BuildBatch(List<int> lVisitIDs, List<HabitatModelDef> lModels, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
         {
             nSucess = nError = 0;
 
             m_CHaMPData.FillByVisitIDS(ref lVisitIDs);
 
-            foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_CHaMPData.DS.CHAMP_Visits)
+            foreach (HabitatModelDef theModelDef in lModels)
             {
-                // Placeholder until visits are filtered at load
-                if (!lVisitIDs.Contains(rVisit.VisitID))
-                    continue;
-
-                // Create the one simulation for this visit
-                dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
-                string sModelTitle;
-
-                if (theModel.ModelType == HabitatModelDef.ModelTypes.HSI)
+                foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_CHaMPData.DS.CHAMP_Visits)
                 {
-                    sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModel.Value).Title;
-                    rSimulation.HSIID = theModel.Value;
+                    // Placeholder until visits are filtered at load
+                    if (!lVisitIDs.Contains(rVisit.VisitID))
+                        continue;
+
+                    // Create the one simulation for this visit
+                    dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
+                    string sModelTitle;
+
+                    if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
+                    {
+                        sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).Title;
+                        rSimulation.HSIID = theModelDef.Value;
+                    }
+                    else
+                    {
+                        sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).Title;
+                        rSimulation.FISID = theModelDef.Value;
+                    }
+
+                    rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
+                    rSimulation.CreatedBy = Environment.UserName;
+                    rSimulation.CreatedOn = DateTime.Now;
+                    rSimulation.RunOn = new DateTime(1970, 1, 1);
+                    rSimulation.AddIndividualOutput = true;
+                    rSimulation.Folder = Paths.GetRelativePath(Paths.GetSpecificSimulationFolder(rSimulation.Title));
+                    rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
+                    rSimulation.OutputCSV = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
+                    rSimulation.IsQueuedToRun = true;
+                    rSimulation.CHaMPVisitID = rVisit.VisitID;
+                    rSimulation.CHaMPSiteName = rVisit.CHAMP_SitesRow.SiteName;
+                    rSimulation.CHaMPWatershed = rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName;
+                    rSimulation.CellSize = (float)0.1;
+
+                    // Add the simulation. Now that it's XML, the ID should not need to be retrieved.
+                    m_HabitatManager.ProjectDatabase.Simulations.AddSimulationsRow(rSimulation);
+
+                    // Trigger retrieval of SimulationID;
+                    //m_taSimulations.Update(rSimulation);
+                    int nSimulationID = rSimulation.SimulationID;
+                    nSucess++;
+
+                    // Temporary fix because the C++ cannot produce a raster when there are no raster inputs.
+                    // And cannot produce a CSV when there are just rasters.
+                    Boolean bRasterInputs = false;
+
+                    if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
+                        AddHSISimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
+                    else
+                        AddFISSimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
+
+                    // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
+                    // currently possible in the C++
+                    rSimulation = m_HabitatManager.ProjectDatabase.Simulations.FindBySimulationID(nSimulationID);
+                    if (bRasterInputs)
+                        rSimulation.SetOutputCSVNull();
+                    else
+                        rSimulation.SetOutputRasterNull();
+
+                    HSProjectManager.Instance.Save();
                 }
-                else
-                {
-                    sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModel.Value).Title;
-                    rSimulation.FISID = theModel.Value;
-                }
-
-                rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
-                rSimulation.CreatedBy = Environment.UserName;
-                rSimulation.CreatedOn = DateTime.Now;
-                rSimulation.RunOn = new DateTime(1970, 1, 1);
-                rSimulation.AddIndividualOutput = true;
-                rSimulation.Folder = Paths.GetRelativePath(Paths.GetSpecificSimulationFolder(rSimulation.Title));
-                rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
-                rSimulation.OutputCSV = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
-                rSimulation.IsQueuedToRun = true;
-                rSimulation.CHaMPVisitID = rVisit.VisitID;
-                rSimulation.CHaMPSiteName = rVisit.CHAMP_SitesRow.SiteName; 
-                rSimulation.CHaMPWatershed = rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName;
-                rSimulation.CellSize = (float)0.1;
-
-                // Add the simulation. Now that it's XML, the ID should not need to be retrieved.
-                m_HabitatManager.ProjectDatabase.Simulations.AddSimulationsRow(rSimulation);
-
-                // Trigger retrieval of SimulationID;
-                //m_taSimulations.Update(rSimulation);
-                int nSimulationID = rSimulation.SimulationID;
-                nSucess++;
-
-                // Temporary fix because the C++ cannot produce a raster when there are no raster inputs.
-                // And cannot produce a CSV when there are just rasters.
-                Boolean bRasterInputs = false;
-
-                if (theModel.ModelType == HabitatModelDef.ModelTypes.HSI)
-                    AddHSISimulationChildRecords(ref rSimulation, rVisit, theModel.Value, ref bRasterInputs);
-                else
-                    AddFISSimulationChildRecords(ref rSimulation, rVisit, theModel.Value, ref bRasterInputs);
-
-                // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
-                // currently possible in the C++
-                rSimulation = m_HabitatManager.ProjectDatabase.Simulations.FindBySimulationID(nSimulationID);
-                if (bRasterInputs)
-                    rSimulation.SetOutputCSVNull();
-                else
-                    rSimulation.SetOutputRasterNull();
-
-                HSProjectManager.Instance.Save();
             }
         }
 
@@ -229,7 +232,7 @@ namespace CHaMPWorkbench.Habitat
             string sRelativeProjectDataSourcePath = Paths.GetRelativePath(sProjectDataSourcePath);
             foreach (dsHabitat.ProjectDataSourcesRow rDS in m_HabitatManager.ProjectDatabase.ProjectDataSources)
             {
-                if (string.Compare(rDS.ProjectPath, sRelativeProjectDataSourcePath) == 0)
+                if (string.Compare(sDataSourceName, rDS.Title) == 0)
                     return rDS;
             }
 
@@ -298,7 +301,7 @@ namespace CHaMPWorkbench.Habitat
             rDataSource.CreatedOn = DateTime.Now;
             rDataSource.DataSourceTypeID = nDataSourceTypeID;
             rDataSource.ProjectPath = Paths.GetRelativePath(sProjectDataSourcePath);
-            rDataSource.Title = string.Format("Visit ID {0} - {1}", nVisitID, sDataSourceName);
+            rDataSource.Title = sDataSourceName;
 
             if (nDataSourceTypeID == m_nCSVDataSourceTypeID)
             {
@@ -313,9 +316,17 @@ namespace CHaMPWorkbench.Habitat
 
         private dsHabitat.ProjectVariablesRow BuildProjectVariable(int nVisitID, string sValueField, string sVariableTitle, int nUnitID, int nVariableID, int nProjectDataSourceID)
         {
+            sVariableTitle = string.Format("VisitID {0} - {1}", nVisitID, sVariableTitle);
+
+            foreach (dsHabitat.ProjectVariablesRow rPV in m_HabitatManager.ProjectDatabase.ProjectVariables.Rows)
+            {
+                if (string.Compare(sVariableTitle, rPV.Title, true) == 0)
+                    return rPV;
+            }
+
             dsHabitat.ProjectVariablesRow rProjectVariable = m_HabitatManager.ProjectDatabase.ProjectVariables.NewProjectVariablesRow();
             rProjectVariable.DataSourceID = nProjectDataSourceID;
-            rProjectVariable.Title = string.Format("VisitID {0} - {1}",nVisitID, sVariableTitle);
+            rProjectVariable.Title = sVariableTitle;
             rProjectVariable.UnitsID = nUnitID;
             rProjectVariable.VariableID = nVariableID;
 
