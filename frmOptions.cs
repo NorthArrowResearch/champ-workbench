@@ -36,31 +36,40 @@ namespace CHaMPWorkbench
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtOptions.Text) && System.IO.File.Exists(txtOptions.Text) && txtOptions.Text.EndsWith(".exe"))
-                CHaMPWorkbench.Properties.Settings.Default.RBTConsole = txtOptions.Text;
-            else
+            if (!String.IsNullOrWhiteSpace(txtOptions.Text))
             {
-                MessageBox.Show("The RBT Console software path must point to the RBT executable file (rbtconsole.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
+                if (System.IO.File.Exists(txtOptions.Text) && txtOptions.Text.EndsWith(".exe"))
+                    CHaMPWorkbench.Properties.Settings.Default.RBTConsole = txtOptions.Text;
+                else
+                {
+                    MessageBox.Show("The RBT Console software path must point to the RBT executable file (rbtconsole.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
             }
 
-            if (!String.IsNullOrWhiteSpace(txt7Zip.Text) && System.IO.File.Exists(txt7Zip.Text) && txtOptions.Text.EndsWith(".exe"))
-                CHaMPWorkbench.Properties.Settings.Default.ZipPath = txt7Zip.Text;
-            else
+            if (!String.IsNullOrWhiteSpace(txt7Zip.Text))
             {
-                MessageBox.Show("The 7-Zip software path must point to the 7-Zip executable file (7z.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
+                if (System.IO.File.Exists(txt7Zip.Text) && txtOptions.Text.EndsWith(".exe"))
+                    CHaMPWorkbench.Properties.Settings.Default.ZipPath = txt7Zip.Text;
+                else
+                {
+                    MessageBox.Show("The 7-Zip software path must point to the 7-Zip executable file (7z.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
             }
 
-            if (!String.IsNullOrWhiteSpace(txtTextEditor.Text) && System.IO.File.Exists(txtTextEditor.Text) && txtOptions.Text.EndsWith(".exe"))
-                CHaMPWorkbench.Properties.Settings.Default.TextEditor = txtTextEditor.Text;
-            else
+            if (!String.IsNullOrWhiteSpace(txtTextEditor.Text))
             {
-                MessageBox.Show("The text editor software path must point to an executable file (*.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
+                if (System.IO.File.Exists(txtTextEditor.Text) && txtOptions.Text.EndsWith(".exe"))
+                    CHaMPWorkbench.Properties.Settings.Default.TextEditor = txtTextEditor.Text;
+                else
+                {
+                    MessageBox.Show("The text editor software path must point to an executable file (*.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
             }
 
             if (!String.IsNullOrWhiteSpace(txtMonitoring.Text) && System.IO.Directory.Exists(txtMonitoring.Text))
@@ -74,7 +83,7 @@ namespace CHaMPWorkbench
                 CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder = string.Empty;
 
             if (!String.IsNullOrWhiteSpace(txtTemp.Text) && System.IO.Directory.Exists(txtTemp.Text))
-                CHaMPWorkbench.Properties.Settings.Default.LastTempFolder= txtTemp.Text;
+                CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = txtTemp.Text;
             else
                 CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = string.Empty;
 
@@ -113,7 +122,7 @@ namespace CHaMPWorkbench
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
             frm.Description = "Choose top level CHaMP monitoring data folder";
-            
+
             if (!string.IsNullOrEmpty(txtMonitoring.Text) && System.IO.Directory.Exists(txtMonitoring.Text))
                 frm.SelectedPath = txtMonitoring.Text;
 
@@ -142,7 +151,7 @@ namespace CHaMPWorkbench
                 frm.SelectedPath = txtTemp.Text;
 
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtTemp.Text = frm.SelectedPath;   
+                txtTemp.Text = frm.SelectedPath;
         }
     }
 }
