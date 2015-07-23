@@ -25,16 +25,15 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitID, V.SurveyGDB, V.VisitYear" +
+            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitID, V.VisitYear" +
                 " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-                " WHERE (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND (V.SurveyGDB Is Not Null)", m_dbCon);
+                " WHERE (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
             {
                 if (m_lVisitIDs.Contains<int>((int)dbRead["VisitID"]))
                 {
                     string sPath = System.IO.Path.Combine(dbRead["VisitYear"].ToString(), dbRead["WatershedName"].ToString(), dbRead["SiteName"].ToString(), string.Format("VISIT_{0:0000}", (int)dbRead["VisitID"]));
-                    sPath = System.IO.Path.Combine(sPath, "Topo", dbRead["SurveyGDB"].ToString());
                     lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
                 }
             }
@@ -127,24 +126,24 @@ namespace CHaMPWorkbench.RBTInputFile
                 }
             }
 
-            if (chkChangeDetection.Checked && !chkIncludeOtherVisits.Checked)
-            {
-                DialogResult eResult = MessageBox.Show("You must choose to include other visits if you want to perform change detection. Do you want to invlude all other visits?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                switch (eResult)
-                {
-                    case System.Windows.Forms.DialogResult.Yes:
-                        chkIncludeOtherVisits.Checked = true;
-                        break;
+            //if (chkChangeDetection.Checked && !chkIncludeOtherVisits.Checked)
+            //{
+            //    DialogResult eResult = MessageBox.Show("You must choose to include other visits if you want to perform change detection. Do you want to invlude all other visits?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            //    switch (eResult)
+            //    {
+            //        case System.Windows.Forms.DialogResult.Yes:
+            //            chkIncludeOtherVisits.Checked = true;
+            //            break;
 
-                    case System.Windows.Forms.DialogResult.No:
-                        this.DialogResult = System.Windows.Forms.DialogResult.None;
-                        return;
+            //        case System.Windows.Forms.DialogResult.No:
+            //            this.DialogResult = System.Windows.Forms.DialogResult.None;
+            //            return;
 
-                    case System.Windows.Forms.DialogResult.Cancel:
-                        this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-                        return;
-                }
-            }
+            //        case System.Windows.Forms.DialogResult.Cancel:
+            //            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            //            return;
+            //    }
+            //}
 
             string sMessage = string.Empty;
 
@@ -164,7 +163,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, chkCalculateMetrics.Checked, chkChangeDetection.Checked, true,chkIncludeOtherVisits.Checked,chkForcePrimary.Checked,chkRequireWSTIN.Checked);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true,true,true,true);
             }
             catch (Exception ex)
             {
@@ -176,6 +175,16 @@ namespace CHaMPWorkbench.RBTInputFile
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
