@@ -14,38 +14,28 @@ namespace CHaMPWorkbench.RBTInputFile
     {
         private OleDbConnection m_dbCon;
 
-        public frmRBTInputBatch(OleDbConnection dbCon)
+        private List<int> m_lVisitIDs;
+
+        public frmRBTInputBatch(OleDbConnection dbCon, List<int> lVisitIDs)
         {
             m_dbCon = dbCon;
+            m_lVisitIDs = lVisitIDs;
             InitializeComponent();
         }
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
-            lstFieldSeasons.CheckOnClick = true;
-
-            for (int i = 2011; i <= DateTime.Now.Year; i++)
-            {
-                int index = lstFieldSeasons.Items.Add(new ListItem(i.ToString(), i));
-                //lstFieldSeasons.SetItemChecked(index, true);
-            }
-
-            OleDbCommand dbCom = new OleDbCommand("SELECT DISTINCT VisitYear FROM CHAMP_Visits", m_dbCon);
+            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitID, V.SurveyGDB, V.VisitYear" +
+                " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
+                " WHERE (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND (V.SurveyGDB Is Not Null)", m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
             {
-                if (dbRead[0] != DBNull.Value)
+                if (m_lVisitIDs.Contains<int>((int)dbRead["VisitID"]))
                 {
-                    Int16 nVisitYear = (Int16)dbRead[0];
-                    bool bAlreadyAdded = false;
-                    foreach (ListItem l in lstFieldSeasons.Items)
-                    {
-                        if (l.Value == nVisitYear)
-                            bAlreadyAdded = true;
-                    }
-
-                    if (!bAlreadyAdded)
-                        lstFieldSeasons.Items.Add(new ListItem(nVisitYear.ToString(), nVisitYear));
+                    string sPath = System.IO.Path.Combine(dbRead["VisitYear"].ToString(), dbRead["WatershedName"].ToString(), dbRead["SiteName"].ToString(), string.Format("VISIT_{0:0000}", (int)dbRead["VisitID"]));
+                    sPath = System.IO.Path.Combine(sPath, "Topo", dbRead["SurveyGDB"].ToString());
+                    lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
                 }
             }
 
@@ -105,14 +95,6 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-
-            if (lstFieldSeasons.CheckedIndices.Count < 1)
-            {
-                MessageBox.Show("You must select at least one field season for which you want to build input files", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = System.Windows.Forms.DialogResult.None;
-                return;
-            }
-
             if (string.IsNullOrEmpty(txtMonitoringDataFolder.Text))
             {
                 MessageBox.Show("You must select the root \"monitoring\" local cloud folder.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -173,10 +155,6 @@ namespace CHaMPWorkbench.RBTInputFile
                 Classes.Config rbtConfig = ucConfig.GetRBTConfig();
                 Classes.Outputs rbtOutputs = ucConfig.GetRBTOutputs(txtOutputFolder.Text);
                 List<short> lFieldSeasons = new List<short>();
-                foreach (int nChecked in lstFieldSeasons.CheckedIndices)
-                {
-                    lFieldSeasons.Add(Convert.ToInt16(lstFieldSeasons.Items[nChecked].ToString()));
-                }
 
                 Classes.BatchInputfileBuilder theBatch = new Classes.BatchInputfileBuilder(m_dbCon, lFieldSeasons, rbtConfig, rbtOutputs);
 

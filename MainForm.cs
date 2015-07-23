@@ -171,15 +171,6 @@ namespace CHaMPWorkbench
             }
         }
 
-        private void batchToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_dbCon != null)
-            {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon);
-                frm.ShowDialog();
-            }
-        }
-
         private void scavengeVisitInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
@@ -212,8 +203,23 @@ namespace CHaMPWorkbench
 
         private void batchToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon);
-            frm.ShowDialog();
+            List<int> lvisitIDs = new List<int>();
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                lvisitIDs.Add((int) r["VisitID"]);
+            }
+
+            if (lvisitIDs.Count > 0)
+            {
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
+
+                frm.ShowDialog();
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
         }
 
         private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)

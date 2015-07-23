@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkForcePrimary = new System.Windows.Forms.CheckBox();
             this.chkRequireWSTIN = new System.Windows.Forms.CheckBox();
             this.chkIncludeOtherVisits = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,9 +43,7 @@
             this.txtMonitoringDataFolder = new System.Windows.Forms.TextBox();
             this.cmdBrowseFolder = new System.Windows.Forms.Button();
             this.txtInputFileRoot = new System.Windows.Forms.TextBox();
-            this.Label3 = new System.Windows.Forms.Label();
             this.Label5 = new System.Windows.Forms.Label();
-            this.lstFieldSeasons = new System.Windows.Forms.CheckedListBox();
             this.lblBatchName = new System.Windows.Forms.Label();
             this.txtBatch = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -53,12 +52,14 @@
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.chkForcePrimary = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lstVisits = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -74,6 +75,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.chkForcePrimary);
             this.tabPage1.Controls.Add(this.chkRequireWSTIN);
             this.tabPage1.Controls.Add(this.chkIncludeOtherVisits);
@@ -85,9 +87,7 @@
             this.tabPage1.Controls.Add(this.txtMonitoringDataFolder);
             this.tabPage1.Controls.Add(this.cmdBrowseFolder);
             this.tabPage1.Controls.Add(this.txtInputFileRoot);
-            this.tabPage1.Controls.Add(this.Label3);
             this.tabPage1.Controls.Add(this.Label5);
-            this.tabPage1.Controls.Add(this.lstFieldSeasons);
             this.tabPage1.Controls.Add(this.lblBatchName);
             this.tabPage1.Controls.Add(this.txtBatch);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -98,12 +98,22 @@
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // chkForcePrimary
+            // 
+            this.chkForcePrimary.AutoSize = true;
+            this.chkForcePrimary.Location = new System.Drawing.Point(204, 247);
+            this.chkForcePrimary.Name = "chkForcePrimary";
+            this.chkForcePrimary.Size = new System.Drawing.Size(155, 17);
+            this.chkForcePrimary.TabIndex = 15;
+            this.chkForcePrimary.Text = "Force all visits to be primary";
+            this.chkForcePrimary.UseVisualStyleBackColor = true;
+            // 
             // chkRequireWSTIN
             // 
             this.chkRequireWSTIN.AutoSize = true;
             this.chkRequireWSTIN.Checked = true;
             this.chkRequireWSTIN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 374);
+            this.chkRequireWSTIN.Location = new System.Drawing.Point(184, 277);
             this.chkRequireWSTIN.Name = "chkRequireWSTIN";
             this.chkRequireWSTIN.Size = new System.Drawing.Size(225, 17);
             this.chkRequireWSTIN.TabIndex = 14;
@@ -115,7 +125,7 @@
             this.chkIncludeOtherVisits.AutoSize = true;
             this.chkIncludeOtherVisits.Checked = true;
             this.chkIncludeOtherVisits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 321);
+            this.chkIncludeOtherVisits.Location = new System.Drawing.Point(184, 224);
             this.chkIncludeOtherVisits.Name = "chkIncludeOtherVisits";
             this.chkIncludeOtherVisits.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeOtherVisits.TabIndex = 13;
@@ -156,7 +166,7 @@
             // 
             this.GroupBox1.Controls.Add(this.chkChangeDetection);
             this.GroupBox1.Controls.Add(this.chkCalculateMetrics);
-            this.GroupBox1.Location = new System.Drawing.Point(184, 241);
+            this.GroupBox1.Location = new System.Drawing.Point(184, 144);
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.Size = new System.Drawing.Size(239, 68);
             this.GroupBox1.TabIndex = 12;
@@ -224,15 +234,6 @@
             this.txtInputFileRoot.Size = new System.Drawing.Size(239, 20);
             this.txtInputFileRoot.TabIndex = 9;
             // 
-            // Label3
-            // 
-            this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(104, 141);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(74, 13);
-            this.Label3.TabIndex = 10;
-            this.Label3.Text = "Field seasons:";
-            // 
             // Label5
             // 
             this.Label5.AutoSize = true;
@@ -241,14 +242,6 @@
             this.Label5.Size = new System.Drawing.Size(100, 13);
             this.Label5.TabIndex = 8;
             this.Label5.Text = "Input file root name:";
-            // 
-            // lstFieldSeasons
-            // 
-            this.lstFieldSeasons.FormattingEnabled = true;
-            this.lstFieldSeasons.Location = new System.Drawing.Point(184, 141);
-            this.lstFieldSeasons.Name = "lstFieldSeasons";
-            this.lstFieldSeasons.Size = new System.Drawing.Size(239, 94);
-            this.lstFieldSeasons.TabIndex = 11;
             // 
             // lblBatchName
             // 
@@ -329,15 +322,29 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // chkForcePrimary
+            // groupBox2
             // 
-            this.chkForcePrimary.AutoSize = true;
-            this.chkForcePrimary.Location = new System.Drawing.Point(204, 344);
-            this.chkForcePrimary.Name = "chkForcePrimary";
-            this.chkForcePrimary.Size = new System.Drawing.Size(155, 17);
-            this.chkForcePrimary.TabIndex = 15;
-            this.chkForcePrimary.Text = "Force all visits to be primary";
-            this.chkForcePrimary.UseVisualStyleBackColor = true;
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.lstVisits);
+            this.groupBox2.Location = new System.Drawing.Point(6, 300);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(831, 243);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Visits In This Batch";
+            // 
+            // lstVisits
+            // 
+            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstVisits.FormattingEnabled = true;
+            this.lstVisits.Location = new System.Drawing.Point(8, 19);
+            this.lstVisits.Name = "lstVisits";
+            this.lstVisits.Size = new System.Drawing.Size(817, 212);
+            this.lstVisits.TabIndex = 0;
             // 
             // frmRBTInputBatch
             // 
@@ -362,6 +369,7 @@
             this.GroupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -379,9 +387,7 @@
         internal System.Windows.Forms.TextBox txtMonitoringDataFolder;
         internal System.Windows.Forms.Button cmdBrowseFolder;
         internal System.Windows.Forms.TextBox txtInputFileRoot;
-        internal System.Windows.Forms.Label Label3;
         internal System.Windows.Forms.Label Label5;
-        internal System.Windows.Forms.CheckedListBox lstFieldSeasons;
         internal System.Windows.Forms.Label lblBatchName;
         internal System.Windows.Forms.TextBox txtBatch;
         private System.Windows.Forms.Button cmdCancel;
@@ -394,5 +400,7 @@
         private RBT.InputFiles.ucRBTChangeDetection ucRBTChangeDetection1;
         private System.Windows.Forms.CheckBox chkRequireWSTIN;
         private System.Windows.Forms.CheckBox chkForcePrimary;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox lstVisits;
     }
 }

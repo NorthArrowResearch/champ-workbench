@@ -50,7 +50,7 @@ namespace CHaMPWorkbench
 
             if (!String.IsNullOrWhiteSpace(txt7Zip.Text))
             {
-                if (System.IO.File.Exists(txt7Zip.Text) && txtOptions.Text.EndsWith(".exe"))
+                if (System.IO.File.Exists(txt7Zip.Text) && txt7Zip.Text.EndsWith(".exe"))
                     CHaMPWorkbench.Properties.Settings.Default.ZipPath = txt7Zip.Text;
                 else
                 {
@@ -62,7 +62,7 @@ namespace CHaMPWorkbench
 
             if (!String.IsNullOrWhiteSpace(txtTextEditor.Text))
             {
-                if (System.IO.File.Exists(txtTextEditor.Text) && txtOptions.Text.EndsWith(".exe"))
+                if (System.IO.File.Exists(txtTextEditor.Text) && txtTextEditor.Text.EndsWith(".exe"))
                     CHaMPWorkbench.Properties.Settings.Default.TextEditor = txtTextEditor.Text;
                 else
                 {

@@ -754,7 +754,6 @@
             this.colCahnnelUnits});
             this.grdVisits.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdVisits.Location = new System.Drawing.Point(0, 0);
-            this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
             this.grdVisits.ReadOnly = true;
             this.grdVisits.RowHeadersVisible = false;
