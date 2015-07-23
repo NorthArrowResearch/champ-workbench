@@ -154,9 +154,8 @@ namespace CHaMPWorkbench.RBTInputFile
 
                 Classes.Config rbtConfig = ucConfig.GetRBTConfig();
                 Classes.Outputs rbtOutputs = ucConfig.GetRBTOutputs(txtOutputFolder.Text);
-                List<short> lFieldSeasons = new List<short>();
 
-                Classes.BatchInputfileBuilder theBatch = new Classes.BatchInputfileBuilder(m_dbCon, lFieldSeasons, rbtConfig, rbtOutputs);
+                Classes.BatchInputfileBuilder theBatch = new Classes.BatchInputfileBuilder(m_dbCon, m_lVisitIDs, rbtConfig, rbtOutputs);
 
                 theBatch.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
                 theBatch.Config.ChangeDetectionConfig.ClearMasks();

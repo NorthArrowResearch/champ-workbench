@@ -11,8 +11,9 @@ namespace CHaMPWorkbench.Classes
     {
         private OleDbConnection m_dbCon;
         private RBTWorkbenchDataSet m_ds;
+        private List<int> m_lVisitIDs;
 
-        public BatchInputfileBuilder(OleDbConnection dbCon, List<short> lFieldSeasons, Classes.Config rbtConfig, Classes.Outputs rbtOutputs)
+        public BatchInputfileBuilder(OleDbConnection dbCon, List<int> lVisitIDs, Classes.Config rbtConfig, Classes.Outputs rbtOutputs)
             : base(rbtConfig, rbtOutputs)
         {
             m_ds = new RBTWorkbenchDataSet();
@@ -23,24 +24,8 @@ namespace CHaMPWorkbench.Classes
             RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter daS = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
             daS.Connection = dbCon;
             daS.Fill(m_ds.CHAMP_Sites);
-            
-            foreach (short nVisitYear in lFieldSeasons)
-            {
-                RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daV = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
-                daV.Connection = dbCon;
-                daV.ClearBeforeFill = false;
-                daV.FillByVisitYear(m_ds.CHAMP_Visits, nVisitYear);
 
-                RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSeg = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-                daSeg.Connection = dbCon;
-                daSeg.ClearBeforeFill = false;
-                daSeg.FillByVisitYear(m_ds.CHaMP_Segments, nVisitYear);
-
-                RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daC = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-                daC.Connection = dbCon;
-                daC.ClearBeforeFill = false;
-                daC.FillByVisitYear(m_ds.CHAMP_ChannelUnits, nVisitYear);
-            }
+            m_lVisitIDs = lVisitIDs;
             m_dbCon = dbCon;
         }
 
