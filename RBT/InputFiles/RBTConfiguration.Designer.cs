@@ -32,8 +32,6 @@
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
             this.valCrossSectionSpacing = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.lblHydroMode = new System.Windows.Forms.Label();
-            this.cboHydroMode = new System.Windows.Forms.ComboBox();
             this.chkOutputProfileValues = new System.Windows.Forms.CheckBox();
             this.valInitialCrossSectionLength = new System.Windows.Forms.NumericUpDown();
             this.Label1 = new System.Windows.Forms.Label();
@@ -108,8 +106,6 @@
             // 
             this.GroupBox2.Controls.Add(this.valCrossSectionSpacing);
             this.GroupBox2.Controls.Add(this.label2);
-            this.GroupBox2.Controls.Add(this.lblHydroMode);
-            this.GroupBox2.Controls.Add(this.cboHydroMode);
             this.GroupBox2.Controls.Add(this.chkOutputProfileValues);
             this.GroupBox2.Controls.Add(this.valInitialCrossSectionLength);
             this.GroupBox2.Controls.Add(this.Label1);
@@ -185,31 +181,9 @@
             this.label2.TabIndex = 43;
             this.label2.Text = "Cross section spacing (m):";
             // 
-            // lblHydroMode
-            // 
-            this.lblHydroMode.AutoSize = true;
-            this.lblHydroMode.Location = new System.Drawing.Point(29, 376);
-            this.lblHydroMode.Name = "lblHydroMode";
-            this.lblHydroMode.Size = new System.Drawing.Size(91, 13);
-            this.lblHydroMode.TabIndex = 42;
-            this.lblHydroMode.Text = "Hydro prep mode:";
-            // 
-            // cboHydroMode
-            // 
-            this.cboHydroMode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
-            this.cboHydroMode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboHydroMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboHydroMode.FormattingEnabled = true;
-            this.cboHydroMode.Location = new System.Drawing.Point(129, 372);
-            this.cboHydroMode.Name = "cboHydroMode";
-            this.cboHydroMode.Size = new System.Drawing.Size(208, 21);
-            this.cboHydroMode.TabIndex = 41;
-            // 
             // chkOutputProfileValues
             // 
             this.chkOutputProfileValues.AutoSize = true;
-            this.chkOutputProfileValues.Checked = true;
-            this.chkOutputProfileValues.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkOutputProfileValues.Location = new System.Drawing.Point(129, 311);
             this.chkOutputProfileValues.Name = "chkOutputProfileValues";
             this.chkOutputProfileValues.Size = new System.Drawing.Size(139, 17);
@@ -937,8 +911,6 @@
         internal System.Windows.Forms.Button cmdBrowseTemp;
         internal System.Windows.Forms.Label Label6;
         internal System.Windows.Forms.CheckBox chkOutputProfileValues;
-        private System.Windows.Forms.Label lblHydroMode;
-        private System.Windows.Forms.ComboBox cboHydroMode;
         internal System.Windows.Forms.NumericUpDown valCrossSectionSpacing;
         internal System.Windows.Forms.Label label2;
     }

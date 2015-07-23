@@ -14,14 +14,8 @@ namespace CHaMPWorkbench.Classes
             Calculate_Metrics = 10,
             Fix_Orthogonality = 20,
             Create_Site_Geodatabase = 30,
-            Fix_Orthogonality_With_Minimal_Validation = 40,
-            Hydraulic_Model_Preparation = 50         
-        };
-
-        public enum HydroModelPrepModes
-        {
-            ArcGIS_Processing = 1,
-            NumPy = 2
+            Hydraulic_Model_Preparation = 50,
+            GCD_Analysis = 60
         };
 
         private string m_sTempFolder = "C:\\CHaMP\\RBTTempFolder";
@@ -51,7 +45,6 @@ namespace CHaMPWorkbench.Classes
         private int m_nErrorRasterKernal = 5;
         private int m_nBankAngleBuffer = 5;
         private bool m_bOutputProfileValues = false;
-        private HydroModelPrepModes m_eHydroPrepMode = HydroModelPrepModes.ArcGIS_Processing;
 
         private double m_fInitialCrossSectionLength = 50;
 
@@ -225,13 +218,7 @@ namespace CHaMPWorkbench.Classes
         {
             get { return m_ChangeDetection; }
         }
-
-        public HydroModelPrepModes HydroModelPrepMode
-        {
-            get { return m_eHydroPrepMode; }
-            set { m_eHydroPrepMode = value; }
-        }
-        
+       
         #endregion
 
         public Config()
@@ -281,12 +268,6 @@ namespace CHaMPWorkbench.Classes
 
             xmlFile.WriteElementString("esri_license_level", ArcGISLicense.ToString());
             xmlFile.WriteComment("Basic = 40, Standard = 50, Advanced = 60, Server = 30, Engine = 10, Engine Geodatabase = 20");
-
-            xmlFile.WriteElementString("hydro_prep_mode", ((int)m_eHydroPrepMode).ToString());
-            string sHydroPrepModes = "";
-            foreach (HydroModelPrepModes eMode in Enum.GetValues(typeof(HydroModelPrepModes)))
-                sHydroPrepModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
-            xmlFile.WriteComment(sHydroPrepModes.Substring(0, sHydroPrepModes.Length - 2));
 
             xmlFile.WriteStartElement("intervals");
 

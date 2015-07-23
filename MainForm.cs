@@ -210,12 +210,6 @@ namespace CHaMPWorkbench
             frm.ShowDialog();
         }
 
-        private void singleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmRBTInputSingle frm = new frmRBTInputSingle(m_dbCon);
-            frm.ShowDialog();
-        }
-
         private void batchToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon);
