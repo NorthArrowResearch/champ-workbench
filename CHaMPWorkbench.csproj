@@ -115,12 +115,6 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmFindVisitByID.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Data\frmFindVisitByID.Designer.cs">
-      <DependentUpon>frmFindVisitByID.cs</DependentUpon>
-    </Compile>
     <Compile Include="Data\frmFTPVisit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,9 +252,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmFindVisitByID.resx">
-      <DependentUpon>frmFindVisitByID.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmFTPVisit.resx">
       <DependentUpon>frmFTPVisit.cs</DependentUpon>
