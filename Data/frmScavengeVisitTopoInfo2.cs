@@ -194,7 +194,7 @@ namespace CHaMPWorkbench.Data
                             
                             // Now look for the hydraulic model artifacts
                             rVisit.SetHydraulicModelCSVNull();
-                            System.IO.DirectoryInfo[] dAllHydro = dTopo.Parent.GetDirectories("HydroModelResults", SearchOption.AllDirectories);
+                            System.IO.DirectoryInfo[] dAllHydro = dTopo.Parent.GetDirectories("Hydro", SearchOption.AllDirectories);
                             if (dAllHydro.Count<System.IO.DirectoryInfo>() == 1)
                             {
                                 //System.IO.DirectoryInfo[] dAllArtifacts = dAllHydro[0].GetDirectories("artifacts");
