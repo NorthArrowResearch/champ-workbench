@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.RBTInputFile
             {
                 if (m_lVisitIDs.Contains<int>((int)dbRead["VisitID"]))
                 {
-                    string sPath = System.IO.Path.Combine(dbRead["VisitYear"].ToString(), dbRead["WatershedName"].ToString(), dbRead["SiteName"].ToString(), string.Format("VISIT_{0:0000}", (int)dbRead["VisitID"]));
+                    string sPath = Classes.BatchInputfileBuilder.GetVisitTopoFolder("", (int)dbRead["VisitYear"], (string)dbRead["WatershedName"], (string)dbRead["SiteName"], (int)dbRead["VisitID"]);
                     lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
                 }
             }
@@ -163,7 +163,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true,true,true,true);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true, true, true, true);
             }
             catch (Exception ex)
             {
