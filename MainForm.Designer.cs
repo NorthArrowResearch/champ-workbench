@@ -44,8 +44,6 @@
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.findVisitByIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.buildInputFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -216,9 +214,7 @@
             this.scavengeVisitTopoDataToolStripMenuItem,
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
             this.toolStripSeparator4,
-            this.prepareDatabaseForDeploymentToolStripMenuItem,
-            this.toolStripSeparator8,
-            this.findVisitByIDToolStripMenuItem});
+            this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -259,20 +255,6 @@
             this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(426, 6);
-            // 
-            // findVisitByIDToolStripMenuItem
-            // 
-            this.findVisitByIDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.search;
-            this.findVisitByIDToolStripMenuItem.Name = "findVisitByIDToolStripMenuItem";
-            this.findVisitByIDToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
-            this.findVisitByIDToolStripMenuItem.Text = "Find Visit By ID";
-            this.findVisitByIDToolStripMenuItem.Visible = false;
-            this.findVisitByIDToolStripMenuItem.Click += new System.EventHandler(this.findVisitByIDToolStripMenuItem_Click);
             // 
             // rBTToolStripMenuItem
             // 
@@ -1055,8 +1037,6 @@
         private System.Windows.Forms.ToolStripMenuItem delft3DToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToRasterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem queueBridgeCreekBatchesRBTRunsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripMenuItem findVisitByIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extractRBTErrorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem habitatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateBatchHabitatProjectToolStripMenuItem;

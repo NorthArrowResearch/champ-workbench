@@ -386,19 +386,6 @@ namespace CHaMPWorkbench
             frm.ShowDialog();
         }
 
-        private void findVisitByIDToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Data.frmFindVisitByID frm = new Data.frmFindVisitByID(m_dbCon);
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                if (frm.VisitToCreateInputFile > 0)
-                {
-                    frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, frm.VisitToCreateInputFile);
-                    frm.ShowDialog();
-                }
-            }
-        }
-
         private void extractRBTErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
