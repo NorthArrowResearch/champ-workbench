@@ -25,15 +25,17 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitID, V.VisitYear" +
+            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
                 " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-                " WHERE (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
+                " WHERE (V.VisitYear Is Not Null) AND (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
             OleDbDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
             {
-                if (m_lVisitIDs.Contains<int>((int)dbRead["VisitID"]))
+                int nVisitID = (int)dbRead["VisitID"];
+                if (m_lVisitIDs.Contains<int>(nVisitID))
                 {
-                    string sPath = Classes.BatchInputfileBuilder.GetVisitFolder("", (int)dbRead["VisitYear"], (string)dbRead["WatershedName"], (string)dbRead["SiteName"], (int)dbRead["VisitID"]);
+                    string sParentFolder = string.Empty;
+                    string sPath = Classes.BatchInputfileBuilder.GetVisitFolder(sParentFolder, dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")), (string)dbRead["WatershedName"], (string)dbRead["SiteName"], nVisitID);
                     lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
                 }
             }
