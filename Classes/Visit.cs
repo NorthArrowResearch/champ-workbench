@@ -13,7 +13,7 @@ namespace CHaMPWorkbench.Classes
         private String m_sHitch;
         private String m_sCrew;
         private int m_nFieldSeason;
-        private DateTime m_dSurveyDate;
+        private DateTime m_dSampleDate;
         private Dictionary<int, ChannelSegment> m_dChannelSegments;
         private bool m_bPrimary;
         private bool m_bCalculateMetrics;
@@ -21,7 +21,6 @@ namespace CHaMPWorkbench.Classes
         private bool m_bMakeDEMsOrthogonal;
         private bool m_bGenerateCSVs;
 
-        private String m_sFolder;
         private String m_sFileGDB;
         private String m_sTopoTIN;
         private String m_sWSTIN;
@@ -31,14 +30,6 @@ namespace CHaMPWorkbench.Classes
             get
             {
                 return m_nFieldSeason;
-            }
-        }
-
-        public String Folder
-        {
-            get
-            {
-                return m_sFolder; // System.IO.Path.Combine(m_sHitch, "topo");
             }
         }
 
@@ -92,7 +83,9 @@ namespace CHaMPWorkbench.Classes
             set { m_nVisitID = value; }
         }
 
-        public Visit(int nID, String sFolder, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, bool bPrimary)
+        public string SurveyGDB { get { return m_sFileGDB; } }
+
+        public Visit(int nID, String sHitch, String sCrew, int nFieldSeason, String sFileGDB, String sTopoTIN, String sWSTIN, DateTime dSampleDate, bool bTarget, bool bPrimary)
             : base(nID, sHitch)
         {
             m_nVisitID = nID;
@@ -102,14 +95,14 @@ namespace CHaMPWorkbench.Classes
             m_sFileGDB = sFileGDB;
             m_sTopoTIN = sTopoTIN;
             m_sWSTIN = sWSTIN;
-            m_sFolder = sFolder;
             m_nFieldSeason = nFieldSeason;
+            m_dSampleDate = dSampleDate;
 
             m_bPrimary = bPrimary;
-            m_bCalculateMetrics = false;
+            m_bCalculateMetrics = bTarget;
             m_bMakeDEMsOrthogonal = false;
-            m_bChangeDetection = false;
-            m_bGenerateCSVs = false;
+            m_bChangeDetection = bTarget || bPrimary;
+            m_bGenerateCSVs = bTarget;
         }
 
         public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs, bool bForcePrimary)
@@ -130,16 +123,13 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsWSTINNull())
                 m_sWSTIN = rVisit.WSTIN;
 
-            if (!rVisit.IsFolderNull())
-                m_sFolder = rVisit.Folder;
-
             if (!rVisit.IsIsPrimaryNull())
                 m_bPrimary = rVisit.IsPrimary || bForcePrimary;
 
             if (!rVisit.IsSampleDateNull())
-                m_dSurveyDate = rVisit.SampleDate;
+                m_dSampleDate = rVisit.SampleDate;
             else
-                m_dSurveyDate = new DateTime(rVisit.VisitYear, 1, 1);
+                m_dSampleDate = new DateTime(rVisit.VisitYear, 1, 1);
 
             m_nVisitID = rVisit.VisitID;
             m_nFieldSeason = rVisit.VisitYear;
@@ -155,19 +145,10 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public void WriteToXML(ref XmlTextWriter xmlFile, String sSourceFolder, Boolean bRequireWSTIN)
+        public void WriteToXML(ref XmlTextWriter xmlFile, Boolean bRequireWSTIN)
         {
-            if (String.IsNullOrWhiteSpace(m_sFileGDB) || string.IsNullOrWhiteSpace(m_sTopoTIN) || string.IsNullOrWhiteSpace(m_sFolder))
-            {
+            if (string.IsNullOrWhiteSpace(m_sWSTIN) && bRequireWSTIN)
                 return;
-            }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(m_sWSTIN) && bRequireWSTIN)
-                {
-                    return;
-                }
-            }
 
             xmlFile.WriteStartElement("visit");
             xmlFile.WriteAttributeString("calculatemetrics", m_bCalculateMetrics.ToString());
@@ -175,26 +156,20 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteAttributeString("makedemorthogonal", m_bMakeDEMsOrthogonal.ToString());
             xmlFile.WriteAttributeString("primary", m_bPrimary.ToString());
             xmlFile.WriteAttributeString("generatecsv", m_bGenerateCSVs.ToString());
-
-            if (m_nVisitID > 0)
-                xmlFile.WriteElementString("visitid", m_nVisitID.ToString());
-            else
-                xmlFile.WriteElementString("visitid", "");
-         
+            
+            xmlFile.WriteElementString("visitid", m_nVisitID.ToString());
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
-            xmlFile.WriteElementString("sample_date", m_dSurveyDate.ToString());
-            xmlFile.WriteElementString("filegdb", System.IO.Path.Combine(sSourceFolder, m_sFileGDB));
+            xmlFile.WriteElementString("sample_date", m_dSampleDate.ToString());
+            xmlFile.WriteElementString("filegdb", m_sFileGDB);
 
             xmlFile.WriteElementString("dem", "DEM");
-            xmlFile.WriteElementString("error_surface", "ElevationError");
-
-            xmlFile.WriteElementString("topo_tin", System.IO.Path.Combine(sSourceFolder, m_sTopoTIN));
+            xmlFile.WriteElementString("topo_tin",m_sTopoTIN);
 
             if (string.IsNullOrEmpty(m_sWSTIN))
                 xmlFile.WriteElementString("ws_tin", "");
             else
-                xmlFile.WriteElementString("ws_tin", System.IO.Path.Combine(sSourceFolder, m_sWSTIN));
+                xmlFile.WriteElementString("ws_tin", m_sWSTIN);
 
             xmlFile.WriteElementString("topo_points", "Topo_Points");
             xmlFile.WriteElementString("control_points", "Control_Points");
@@ -209,21 +184,23 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("bankfull_cross_sections", "BankfullXS");
             xmlFile.WriteElementString("detrended", "Detrended");
             xmlFile.WriteElementString("survey_extent", "Survey_Extent");
-
+            xmlFile.WriteElementString("water_depth", "Water_Depth");
+            xmlFile.WriteElementString("geomorphic_units", "GeomorphicUnits");
+            xmlFile.WriteElementString("wsdem", "WSEDEM");
             xmlFile.WriteElementString("wetted_islands", "WIslands");
             xmlFile.WriteElementString("bankfull_islands", "BIslands");
-
             xmlFile.WriteElementString("qaqc_points", "QaQc_RawPoints");
-
-            string sChannelUnitFeatureClassName = "Channel_Units";
-            if (FieldSeason == 2011)
-            {
-                sChannelUnitFeatureClassName = "Habitat_Units";
-            }
-            xmlFile.WriteElementString("channel_units", sChannelUnitFeatureClassName);
+            xmlFile.WriteElementString("channel_units", "Channel_Units");
 
             xmlFile.WriteElementString("emap_wetted_cross_sections", "WetCross_EMap");
             xmlFile.WriteElementString("emap_bankfull_cross_sections", "BankCross_EMap");
+
+            xmlFile.WriteElementString("error_surface", "ErrSurface");
+            xmlFile.WriteElementString("slope_raster", "AssocSlope");
+            xmlFile.WriteElementString("pdensity_raster", "AssocPDensity");
+            xmlFile.WriteElementString("pointQuality_raster", "Assoc3DPQ");
+            xmlFile.WriteElementString("roughness_raster", "AssocD50");
+            xmlFile.WriteElementString("interperror_raster", "AssocIErr");
 
             xmlFile.WriteStartElement("channel_segments");
             foreach (ChannelSegment sg in m_dChannelSegments.Values)

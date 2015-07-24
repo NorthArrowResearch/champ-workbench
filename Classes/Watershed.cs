@@ -7,7 +7,7 @@ namespace CHaMPWorkbench.Classes
 {
     class Watershed : NamedDBObject
     {       
-        public Watershed(int nID, String sName, String sFolder)
+        public Watershed(int nID, String sName)
             : base((int)nID, sName)
         {
         }

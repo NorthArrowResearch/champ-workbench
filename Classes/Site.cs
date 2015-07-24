@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Classes
         private Watershed m_Watershed;
         private Dictionary<int, Visit> m_dVisits;
 
-        public Site(int nID, String sName, String sFolder, String sUTMZone, ref Watershed aWatershed)
+        public Site(int nID, String sName, String sUTMZone, ref Watershed aWatershed)
             : base(nID, sName)
         {
             m_dVisits = new Dictionary<int, Visit>();
@@ -48,13 +48,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("sitegdb", "");
 
             foreach (Visit aVisit in m_dVisits.Values)
-            {
-                if (!String.IsNullOrWhiteSpace(aVisit.Folder))
-                {
-                    String sVisitTopoDatafolder = System.IO.Path.Combine(sSourceFolder, aVisit.Folder);
-                    aVisit.WriteToXML(ref xmlFile, sVisitTopoDatafolder, bRequireWSTIN);
-                }
-            }
+                aVisit.WriteToXML(ref xmlFile, bRequireWSTIN);
 
             xmlFile.WriteEndElement(); // site
         }
