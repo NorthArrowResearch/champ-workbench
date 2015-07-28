@@ -193,32 +193,32 @@ namespace CHaMPWorkbench
             theBuilder.CreateFile(txtInputFile.Text, out xmlInput);
                    
 
-            RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
-            bool bCSVs = ucConfig.GetRBTConfig().Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation;
-            Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs,chkForcePrimary.Checked);
-            Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
-            theSite.AddVisit(mainvisit);
+            //RBTWorkbenchDataSet.CHAMP_VisitsRow rMainvisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)  ((DataRowView)cboVisit.SelectedItem).Row;
+            //bool bCSVs = ucConfig.GetRBTConfig().Mode == Classes.Config.RBTModes.Hydraulic_Model_Preparation;
+            //Classes.Visit mainvisit = new Classes.Visit(rMainvisit, chkCalculateMetrics.Checked, chkChangeDetection.Checked, chkOrthogonal.Checked, bCSVs,chkForcePrimary.Checked);
+            //Classes.Site theSite = new Classes.Site(rMainvisit.CHAMP_SitesRow);
+            //theSite.AddVisit(mainvisit);
 
-            // other visits
-            if (!rdoSelectedOnly.Checked)
-            {
-                foreach (object obj in cboVisit.Items)
-                {
-                    RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
+            //// other visits
+            //if (!rdoSelectedOnly.Checked)
+            //{
+            //    foreach (object obj in cboVisit.Items)
+            //    {
+            //        RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = (RBTWorkbenchDataSet.CHAMP_VisitsRow)((DataRowView)obj).Row;
 
-                    if (rVisit.VisitID != mainvisit.ID)
-                    {
-                        if (rdoAll.Checked || rVisit.IsPrimary)
-                        {
-                            Classes.Visit anotherVisit = new Classes.Visit(rVisit, false, false, chkOrthogonal.Checked, false, chkForcePrimary.Checked);
-                            theSite.AddVisit(anotherVisit);
-                        }
-                    }
-                }
-            }
+            //        if (rVisit.VisitID != mainvisit.ID)
+            //        {
+            //            if (rdoAll.Checked || rVisit.IsPrimary)
+            //            {
+            //                Classes.Visit anotherVisit = new Classes.Visit(rVisit, false, false, chkOrthogonal.Checked, false, chkForcePrimary.Checked);
+            //                theSite.AddVisit(anotherVisit);
+            //            }
+            //        }
+            //    }
+            //}
 
             xmlInput.WriteStartElement("sites");
-            theSite.WriteToXML(xmlInput, txtSourceFolder.Text, chkRequireWSTIN.Checked);
+            //theSite.WriteToXML(xmlInput, txtSourceFolder.Text, chkRequireWSTIN.Checked);
             xmlInput.WriteEndElement(); // sites
 
             theBuilder.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
@@ -248,7 +248,7 @@ namespace CHaMPWorkbench
                     dbCom.Parameters.AddWithValue("BatchID", nBatchID);
                     dbCom.Parameters.AddWithValue("Summary", cboWatershed.Text + ", " + cboSite.Text + ", " + cboVisit.Text);
                     dbCom.Parameters.AddWithValue("InputFile", txtInputFile.Text);
-                    dbCom.Parameters.AddWithValue("PrimaryVisitID", mainvisit.ID);
+                    //dbCom.Parameters.AddWithValue("PrimaryVisitID", mainvisit.ID);
                     dbCom.ExecuteNonQuery();
                     
                     dbTrans.Commit();

@@ -106,7 +106,7 @@ namespace CHaMPWorkbench.Classes
             m_bGenerateCSVs = bTarget;
         }
 
-        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs, bool bForcePrimary)
+        public Visit(RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, string sSurveyGDB, string sTopoTIN, string sWSTIN, bool bCalculateMetrics, bool bChangeDetection, bool bDEMOrthogonal, bool bGenerateCSVs, bool bForcePrimary)
             : base(rVisit.VisitID, rVisit.HitchName)
         {
             if (!rVisit.IsHitchNameNull())
@@ -115,14 +115,9 @@ namespace CHaMPWorkbench.Classes
             if (!rVisit.IsCrewNameNull())
                 m_sCrew = rVisit.CrewName;
 
-            if (!rVisit.IsSurveyGDBNull())
-                m_sFileGDB = rVisit.SurveyGDB;
-
-            if (!rVisit.IsTopoTINNull())
-                m_sTopoTIN = rVisit.TopoTIN;
-
-            if (!rVisit.IsWSTINNull())
-                m_sWSTIN = rVisit.WSTIN;
+            m_sFileGDB = sSurveyGDB;
+            m_sTopoTIN = sTopoTIN;
+            m_sWSTIN = sWSTIN;
 
             if (!rVisit.IsIsPrimaryNull())
                 m_bPrimary = rVisit.IsPrimary || bForcePrimary;
@@ -157,7 +152,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteAttributeString("makedemorthogonal", m_bMakeDEMsOrthogonal.ToString());
             xmlFile.WriteAttributeString("primary", m_bPrimary.ToString());
             xmlFile.WriteAttributeString("generatecsv", m_bGenerateCSVs.ToString());
-            
+
             xmlFile.WriteElementString("visitid", m_nVisitID.ToString());
             xmlFile.WriteElementString("name", base.ToString());
             xmlFile.WriteElementString("fieldseason", FieldSeason.ToString());
@@ -165,7 +160,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("filegdb", m_sFileGDB);
 
             xmlFile.WriteElementString("dem", "DEM");
-            xmlFile.WriteElementString("topo_tin",m_sTopoTIN);
+            xmlFile.WriteElementString("topo_tin", m_sTopoTIN);
 
             if (string.IsNullOrEmpty(m_sWSTIN))
                 xmlFile.WriteElementString("ws_tin", "");

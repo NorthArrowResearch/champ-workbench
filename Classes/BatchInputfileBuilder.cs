@@ -104,7 +104,7 @@ namespace CHaMPWorkbench.Classes
                         taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
 
                         sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
-                        Visit theVisit = new Visit(rVisit, bTarget, rVisit.IsPrimary || bForcePrimary, bTarget, bTarget, bForcePrimary);
+                        Visit theVisit = new Visit(rVisit,sSurveyGDBPath,sTopoTIN,sWSETIN, bTarget, rVisit.IsPrimary || bForcePrimary, bTarget, bTarget, bForcePrimary);
 
                         theSite.AddVisit(theVisit);
                     }
