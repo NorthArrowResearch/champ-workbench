@@ -10,12 +10,6 @@ namespace CHaMPWorkbench.Classes
     public class BatchInputfileBuilder : InputFileBuilder
     {
 
-        private enum SearchTypes
-        {
-            Directory,
-            File
-        }
-
         private OleDbConnection m_dbCon;
         private List<int> m_lVisitIDs;
 
@@ -48,10 +42,10 @@ namespace CHaMPWorkbench.Classes
         {
             bool bResult = false;
 
-            if (LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sSurveyGDBPath))
+            if (Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
             {
-                bResult &= LookForMatchingItems(sVisitTopoFolder, "tin*", SearchTypes.Directory, out sTopoTIN);
-                bResult &= LookForMatchingItems(sVisitTopoFolder, "ws*", SearchTypes.Directory, out sWSETIN);
+                bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
+                bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
             }
             else
             {
@@ -60,31 +54,6 @@ namespace CHaMPWorkbench.Classes
             }
        
             return bResult;
-        }
-
-        private bool LookForMatchingItems(string sContainingFolderPath, string sPatternList, SearchTypes eType, out string sResult)
-        {
-            sResult = "";
-            foreach (string aPattern in sPatternList.Split(';'))
-            {
-                String[] sMatches;
-                if (eType == SearchTypes.Directory)
-                {
-                    sMatches = System.IO.Directory.GetDirectories(sContainingFolderPath, aPattern,System.IO.SearchOption.AllDirectories);
-                }
-                else
-                {
-                    sMatches = System.IO.Directory.GetFiles(sContainingFolderPath, aPattern);
-                }
-
-                if (sMatches.Count<String>() == 1)
-                {
-                    sResult = sMatches[0].Substring(sContainingFolderPath.Length + 1);
-                    break;
-                }
-            }
-
-            return !string.IsNullOrEmpty(sResult);
         }
 
         private string AddVisitToSite(ref Classes.Site theSite, string sParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)

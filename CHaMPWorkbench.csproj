@@ -93,6 +93,7 @@
     <Compile Include="Classes\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
     <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\InputFileBuilder.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\Outputs.cs" />
