@@ -723,13 +723,23 @@ namespace CHaMPWorkbench
 
         private void generateRBTRunForThisVisitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataRow r = RetrieveVisitInfo();
-            if (r is DataRow)
+            List<int> lvisitIDs = new List<int>();
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
-                frmRBTInputSingle frmInput = new frmRBTInputSingle(m_dbCon, (int)r["VisitID"]);
-                if (frmInput.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                lvisitIDs.Add((int)r["VisitID"]);
             }
+
+            if (lvisitIDs.Count > 0)
+            {
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
+
+                frm.ShowDialog();
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("You must have at least one visit selected in the main table of visits to create an RBT batch.");
         }
     }
 }

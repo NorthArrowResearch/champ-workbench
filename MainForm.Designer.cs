@@ -121,7 +121,6 @@
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
@@ -845,7 +844,6 @@
             this.toolStripSeparator11,
             this.generateChannelUnitCSVFileToolStripMenuItem,
             this.generateRBTRunForThisVisitToolStripMenuItem,
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem,
             this.toolStripSeparator12,
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
@@ -928,16 +926,8 @@
             this.generateRBTRunForThisVisitToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
             this.generateRBTRunForThisVisitToolStripMenuItem.Name = "generateRBTRunForThisVisitToolStripMenuItem";
             this.generateRBTRunForThisVisitToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.generateRBTRunForThisVisitToolStripMenuItem.Text = "Generate RBT Run For This Visit...";
+            this.generateRBTRunForThisVisitToolStripMenuItem.Text = "Generate RBT Run For Selected Visit(s)...";
             this.generateRBTRunForThisVisitToolStripMenuItem.Click += new System.EventHandler(this.generateRBTRunForThisVisitToolStripMenuItem_Click);
-            // 
-            // generateRBTRunForAllVisitsInTheTableToolStripMenuItem
-            // 
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Enabled = false;
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Name = "generateRBTRunForAllVisitsInTheTableToolStripMenuItem";
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.generateRBTRunForAllVisitsInTheTableToolStripMenuItem.Text = "Generate RBT Run For All Visits In The Table";
             // 
             // toolStripSeparator12
             // 
@@ -1061,7 +1051,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem generateChannelUnitCSVFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateRBTRunForThisVisitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem generateRBTRunForAllVisitsInTheTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoAndHydroDataFromCmorgToolStripMenuItem;
         private System.Windows.Forms.GroupBox grpSite;

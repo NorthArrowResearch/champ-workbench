@@ -9,6 +9,13 @@ namespace CHaMPWorkbench.Classes
 {
     public class BatchInputfileBuilder : InputFileBuilder
     {
+
+        private enum SearchTypes
+        {
+            Directory,
+            File
+        }
+
         private OleDbConnection m_dbCon;
         private List<int> m_lVisitIDs;
 
@@ -37,35 +44,47 @@ namespace CHaMPWorkbench.Classes
         /// <param name="sTopoTIN"></param>
         /// <param name="sWSETIN"></param>
         /// <returns>True if all the topo data were found for this visit.</returns>
-        private Boolean FindVisitTopoData(int nVisitID, out string sSurveyGDBPath, out string sTopoTIN, out string sWSETIN)
+        private Boolean FindVisitTopoData(string sVisitTopoFolder, out string sSurveyGDBPath, out string sTopoTIN, out string sWSETIN)
         {
+            bool bResult = false;
 
-            //// The final path written to the table is the middle of the path, after the monitoring data folder and before the survey GDB
-            //               rVisit.Folder = dTopo.FullName.Substring(sMonitoringDataFolder.Length + 1);
-            //               string sResult;
-            //               if (LookForMatchingItems(dTopo.FullName, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sResult))
-            //               {
-            //                   rVisit.SurveyGDB = sResult;
-            //                   m_Props.WithVisitFiles+=1;
-            //           }
-            //               else
-            //                   rVisit.SetSurveyGDBNull();
+            if (LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", SearchTypes.Directory, out sSurveyGDBPath))
+            {
+                bResult &= LookForMatchingItems(sVisitTopoFolder, "tin*", SearchTypes.Directory, out sTopoTIN);
+                bResult &= LookForMatchingItems(sVisitTopoFolder, "ws*", SearchTypes.Directory, out sWSETIN);
+            }
+            else
+            {
+                sTopoTIN = string.Empty;
+                sWSETIN = string.Empty;
+            }
+       
+            return bResult;
+        }
 
-            //               if (LookForMatchingItems(dTopo.FullName, "tin*", SearchTypes.Directory, out sResult))
-            //                   rVisit.TopoTIN = sResult;
-            //               else
-            //                   rVisit.SetTopoTINNull();
+        private bool LookForMatchingItems(string sContainingFolderPath, string sPatternList, SearchTypes eType, out string sResult)
+        {
+            sResult = "";
+            foreach (string aPattern in sPatternList.Split(';'))
+            {
+                String[] sMatches;
+                if (eType == SearchTypes.Directory)
+                {
+                    sMatches = System.IO.Directory.GetDirectories(sContainingFolderPath, aPattern,System.IO.SearchOption.AllDirectories);
+                }
+                else
+                {
+                    sMatches = System.IO.Directory.GetFiles(sContainingFolderPath, aPattern);
+                }
 
-            //               if (LookForMatchingItems(dTopo.FullName, "ws*", SearchTypes.Directory, out sResult))
-            //                   rVisit.WSTIN = sResult;
-            //               else
-            //                   rVisit.SetWSTINNull();
+                if (sMatches.Count<String>() == 1)
+                {
+                    sResult = sMatches[0].Substring(sContainingFolderPath.Length + 1);
+                    break;
+                }
+            }
 
-            sSurveyGDBPath = string.Empty;
-            sTopoTIN = string.Empty;
-            sWSETIN = string.Empty;
-
-            return true;
+            return !string.IsNullOrEmpty(sResult);
         }
 
         private string AddVisitToSite(ref Classes.Site theSite, string sParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
@@ -78,18 +97,18 @@ namespace CHaMPWorkbench.Classes
 
                 OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitID, V.VisitYear, V.IsPrimary, V.HitchName, V.CrewName, V.SampleDate" +
                 " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-                " WHERE (V.VisitID = @VisitID) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
+                " WHERE (V.VisitID = @VisitID) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
 
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 if (!dbRead.Read())
                     throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
 
-                string sPath = GetVisitFolder(sParentTopoFolder, (int)dbRead["VisitYear"], (string)dbRead["WatershedName"], (string)dbRead["SiteName"], (int)dbRead["VisitID"]);
+                string sPath = GetVisitFolder(sParentTopoFolder, (Int16)dbRead["VisitYear"], (string)dbRead["WatershedName"], (string)dbRead["SiteName"], (int)dbRead["VisitID"]);
                 if (System.IO.Directory.Exists(sPath))
                 {
                     string sSurveyGDBPath, sTopoTIN, sWSETIN;
-                    if (FindVisitTopoData(nVisitID, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
+                    if (FindVisitTopoData(sParentTopoFolder, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
                     {
                         sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
 
@@ -105,9 +124,9 @@ namespace CHaMPWorkbench.Classes
 
                         DateTime dSampleDate = DateTime.Now;
                         if (dbRead["SampleDate"] != DBNull.Value)
-                            dSampleDate = (DateTime) dbRead["SampleDate"];
+                            dSampleDate = (DateTime)dbRead["SampleDate"];
 
-                        Visit theVisit = new Visit(nVisitID, sHitchName, sCrewName, (int)dbRead["VisitYear"], sSurveyGDBPath, sTopoTIN, sWSETIN,dSampleDate, bTarget, bPrimary || bForcePrimary);
+                        Visit theVisit = new Visit(nVisitID, sHitchName, sCrewName, (int)dbRead["VisitYear"], sSurveyGDBPath, sTopoTIN, sWSETIN, dSampleDate, bTarget, bPrimary || bForcePrimary);
                         theSite.AddVisit(theVisit);
                     }
                 }
@@ -137,43 +156,53 @@ namespace CHaMPWorkbench.Classes
                 OleDbParameter pInputfile = dbInsert.Parameters.Add("InputFile", OleDbType.VarChar);
                 OleDbParameter pPrimaryVisitID = dbInsert.Parameters.Add("VisitID", OleDbType.Integer);
 
-                // This query retrieves all visits for the site. The target visit always comes first.
-                OleDbCommand dbTargetVisits = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
-                " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
-                " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM FROM Visits WHERE VistiID = @VisitID)" +
-                " ORDER BY IsTarget, V.SampleDate", m_dbCon);
-                OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
-
-                string sInputFile = string.Empty;
-                Site theSite = null;
-                bool bContinue = true;
-                foreach (int nVisitID in m_lVisitIDs)
+                using (OleDbConnection conVisits = new OleDbConnection(m_dbCon.ConnectionString))
                 {
-                    pVisitID.Value = nVisitID;
-                    OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
-                    while (dbRead.Read() && bContinue)
+                    conVisits.Open();
+
+                    // This query retrieves all visits for the site. The target visit always comes first.
+                    OleDbCommand dbTargetVisits = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
+                        " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
+                        " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
+                        " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
+
+                    OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
+
+                    string sInputFile = string.Empty;
+                    Site theSite = null;
+                    bool bContinue = true;
+                    foreach (int nVisitID in m_lVisitIDs)
                     {
-                        if (theSite == null)
+                        pVisitID.Value = nVisitID;
+                        OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
+                        while (dbRead.Read() && bContinue)
                         {
-                            Watershed theWatershed = new Watershed(0, (string)dbRead["WatershedName"]);
-                            theSite = new Site(0, (string)dbRead["SiteName"], (string)dbRead["UTMZone"], ref theWatershed);
-
-                            string sVisitTopoFolder = AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, true, bForcePrimary);
-                            if (!string.IsNullOrEmpty(sVisitTopoFolder) && System.IO.Directory.Exists(sVisitTopoFolder))
+                            if (theSite == null)
                             {
-                                // If got to here then the data paths were retrieved and point to real data that exist.
-                                sInputFile = sVisitTopoFolder.Replace(sParentTopoDataFolder, this.m_Outputs.OutputFolder);
-                                sInputFile = System.IO.Path.GetDirectoryName(sInputFile);
-                                sInputFile = System.IO.Path.Combine(sInputFile, sDefaultInputFileName);
-                                sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
-                            }
-                        }
-                        else
-                            AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, false, bForcePrimary);
+                                Watershed theWatershed = new Watershed(0, (string)dbRead["WatershedName"]);
+                                string sUTMZone = string.Empty;
+                                if (dbRead["UTMZone"] != DBNull.Value)
+                                    sUTMZone = (string) dbRead["UTMZone"];
 
-                        bContinue = bIncludeOtherVisits;
+                                theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
+
+                                string sVisitTopoFolder = AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, true, bForcePrimary);
+                                if (!string.IsNullOrEmpty(sVisitTopoFolder) && System.IO.Directory.Exists(sVisitTopoFolder))
+                                {
+                                    // If got to here then the data paths were retrieved and point to real data that exist.
+                                    sInputFile = sVisitTopoFolder.Replace(sParentTopoDataFolder, this.m_Outputs.OutputFolder);
+                                    sInputFile = System.IO.Path.GetDirectoryName(sInputFile);
+                                    sInputFile = System.IO.Path.Combine(sInputFile, sDefaultInputFileName);
+                                    sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
+                                }
+                            }
+                            else
+                                AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, false, bForcePrimary);
+
+                            bContinue = bIncludeOtherVisits;
+                        }
+                        dbRead.Close();
                     }
-                    dbRead.Close();
                 }
                 //pSummary.Value = theSite.NameForDatabaseBatch;
 
