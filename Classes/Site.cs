@@ -35,6 +35,7 @@ namespace CHaMPWorkbench.Classes
 
         public void AddVisit(Visit aVisit)
         {
+            System.Diagnostics.Debug.Assert(!m_dVisits.ContainsKey(aVisit.VisitID), "The visit already exists in the site.");
             m_dVisits.Add(aVisit.ID, aVisit);
         }
 

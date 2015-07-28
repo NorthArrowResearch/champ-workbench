@@ -30,7 +30,7 @@ namespace CHaMPWorkbench.Classes
 
                 if (sMatches.Count<String>() == 1)
                 {
-                    sResult = sMatches[0].Substring(sContainingFolderPath.Length + 1);
+                    sResult = sMatches[0];
                     break;
                 }
             }

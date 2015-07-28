@@ -42,7 +42,7 @@ namespace CHaMPWorkbench.Classes
         {
             bool bResult = false;
 
-            if (Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
+            if (bResult = Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
             {
                 bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
                 bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Classes
                 sTopoTIN = string.Empty;
                 sWSETIN = string.Empty;
             }
-       
+
             return bResult;
         }
 
@@ -64,7 +64,7 @@ namespace CHaMPWorkbench.Classes
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitID, V.VisitYear, V.IsPrimary, V.HitchName, V.CrewName, V.SampleDate" +
+                OleDbCommand dbCom = new OleDbCommand("SELECT W.WatershedName, S.SiteName, S.UTMZone, V.VisitID, V.VisitYear, V.IsPrimary, V.HitchName, V.CrewName, V.SampleDate" +
                 " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
                 " WHERE (V.VisitID = @VisitID) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
@@ -77,7 +77,7 @@ namespace CHaMPWorkbench.Classes
                 if (System.IO.Directory.Exists(sPath))
                 {
                     string sSurveyGDBPath, sTopoTIN, sWSETIN;
-                    if (FindVisitTopoData(sParentTopoFolder, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
+                    if (FindVisitTopoData(sPath, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
                     {
                         sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
 
@@ -95,7 +95,7 @@ namespace CHaMPWorkbench.Classes
                         if (dbRead["SampleDate"] != DBNull.Value)
                             dSampleDate = (DateTime)dbRead["SampleDate"];
 
-                        Visit theVisit = new Visit(nVisitID, sHitchName, sCrewName, (int)dbRead["VisitYear"], sSurveyGDBPath, sTopoTIN, sWSETIN, dSampleDate, bTarget, bPrimary || bForcePrimary);
+                        Visit theVisit = new Visit(nVisitID, sHitchName, sCrewName, (Int16)dbRead["VisitYear"], sSurveyGDBPath, sTopoTIN, sWSETIN, dSampleDate, bTarget, bPrimary || bForcePrimary);
                         theSite.AddVisit(theVisit);
                     }
                 }
@@ -119,11 +119,11 @@ namespace CHaMPWorkbench.Classes
                 dbInsert = new OleDbCommand("SELECT @@Identity", m_dbCon, dbTrans);
                 long nBatchID = (int)dbInsert.ExecuteScalar();
 
-                dbInsert = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, Inputfile, PrimaryVisitID) Values (?, ?, ?, ?)", m_dbCon, dbTrans);
-                dbInsert.Parameters.AddWithValue("BatchID", nBatchID);
-                OleDbParameter pSummary = dbInsert.Parameters.Add("Summary", OleDbType.VarChar);
-                OleDbParameter pInputfile = dbInsert.Parameters.Add("InputFile", OleDbType.VarChar);
-                OleDbParameter pPrimaryVisitID = dbInsert.Parameters.Add("VisitID", OleDbType.Integer);
+                dbInsert = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, InputFile, PrimaryVisitID) Values (@BatchID, @Summary, @InputFile, @PrimaryVisitID)", m_dbCon, dbTrans);
+                dbInsert.Parameters.AddWithValue("@BatchID", nBatchID);
+                OleDbParameter pSummary = dbInsert.Parameters.Add("@Summary", OleDbType.VarChar);
+                OleDbParameter pInputfile = dbInsert.Parameters.Add("@InputFile", OleDbType.VarChar);
+                OleDbParameter pPrimaryVisitID = dbInsert.Parameters.Add("@PrimaryVisitID", OleDbType.Integer);
 
                 using (OleDbConnection conVisits = new OleDbConnection(m_dbCon.ConnectionString))
                 {
@@ -137,25 +137,28 @@ namespace CHaMPWorkbench.Classes
 
                     OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
 
-                    string sInputFile = string.Empty;
-                    Site theSite = null;
-                    bool bContinue = true;
-                    foreach (int nVisitID in m_lVisitIDs)
+                    foreach (int nTargetVisitID in m_lVisitIDs)
                     {
-                        pVisitID.Value = nVisitID;
+                        Site theSite = null;
+                        string sInputFile = string.Empty;
+                        bool bContinue = true;
+
+                        pVisitID.Value = nTargetVisitID;
                         OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
                         while (dbRead.Read() && bContinue)
                         {
+                            int nVisitID = (int)dbRead["VisitID"];
+
                             if (theSite == null)
                             {
                                 Watershed theWatershed = new Watershed(0, (string)dbRead["WatershedName"]);
                                 string sUTMZone = string.Empty;
                                 if (dbRead["UTMZone"] != DBNull.Value)
-                                    sUTMZone = (string) dbRead["UTMZone"];
+                                    sUTMZone = (string)dbRead["UTMZone"];
 
                                 theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
 
-                                string sVisitTopoFolder = AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, true, bForcePrimary);
+                                string sVisitTopoFolder = AddVisitToSite(ref theSite, sParentTopoDataFolder, nTargetVisitID, true, bForcePrimary);
                                 if (!string.IsNullOrEmpty(sVisitTopoFolder) && System.IO.Directory.Exists(sVisitTopoFolder))
                                 {
                                     // If got to here then the data paths were retrieved and point to real data that exist.
@@ -171,21 +174,28 @@ namespace CHaMPWorkbench.Classes
                             bContinue = bIncludeOtherVisits;
                         }
                         dbRead.Close();
+
+                        if (!string.IsNullOrEmpty(sInputFile))
+                        {
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sInputFile));
+                            XmlTextWriter xmlInput;
+                            CreateFile(sInputFile, out xmlInput);
+
+                            xmlInput.WriteStartElement("sites");
+                            theSite.WriteToXML(xmlInput, sParentTopoDataFolder, bRequireWSTIN);
+                            xmlInput.WriteEndElement(); // sites
+
+                            // Write the end of the file
+                            CloseFile(ref xmlInput, System.IO.Path.GetDirectoryName(sInputFile));
+
+                            pSummary.Value = theSite.NameForDatabaseBatch;
+                            pInputfile.Value = sInputFile;
+                            pPrimaryVisitID.Value = nTargetVisitID;
+                            dbInsert.ExecuteNonQuery();
+                            nSuccess += 1;
+                        }
                     }
                 }
-                //pSummary.Value = theSite.NameForDatabaseBatch;
-
-                //System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sInputFile);
-
-                //xmlInput.WriteStartElement("sites");
-                //theSite.WriteToXML(xmlInput, sParentTopoDataFolder, bRequireWSTIN);
-                //xmlInput.WriteEndElement(); // sites
-
-                //// Write the end of the file
-                //CloseFile(ref xmlInput, sOutputfolder);
-
-                //dbInsert.ExecuteNonQuery();
-                //nSuccess += 1;
 
                 dbTrans.Commit();
                 sResult = nSuccess.ToString("#,##0") + " input files generated successfully.";
