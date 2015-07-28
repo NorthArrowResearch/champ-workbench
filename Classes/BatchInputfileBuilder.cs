@@ -9,15 +9,26 @@ namespace CHaMPWorkbench.Classes
 {
     public class BatchInputfileBuilder : InputFileBuilder
     {
-
         private OleDbConnection m_dbCon;
         private List<int> m_lVisitIDs;
+
+        private RBTWorkbenchDataSet dsData;
 
         public BatchInputfileBuilder(OleDbConnection dbCon, List<int> lVisitIDs, Classes.Config rbtConfig, Classes.Outputs rbtOutputs)
             : base(rbtConfig, rbtOutputs)
         {
             m_lVisitIDs = lVisitIDs;
             m_dbCon = dbCon;
+
+            dsData = new RBTWorkbenchDataSet();
+
+            RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter taWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
+            taWatersheds.Connection = m_dbCon;
+            taWatersheds.Fill(dsData.CHAMP_Watersheds);
+
+            RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter taSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
+            taSites.Connection = m_dbCon;
+            taSites.Fill(dsData.CHAMP_Sites);
         }
 
         public static string GetVisitFolder(String sParentFolder, int nFieldSeason, string sWatershedName, string sSiteName, int nVisitID)
@@ -60,48 +71,45 @@ namespace CHaMPWorkbench.Classes
         {
             string sVisitTopoFolder = string.Empty;
 
-            using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+            using (OleDbConnection conVisit = new OleDbConnection(m_dbCon.ConnectionString))
             {
-                dbCon.Open();
+                conVisit.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT W.WatershedName, S.SiteName, S.UTMZone, V.VisitID, V.VisitYear, V.IsPrimary, V.HitchName, V.CrewName, V.SampleDate" +
-                " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-                " WHERE (V.VisitID = @VisitID) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", dbCon);
-                dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
+                dsData.CHAMP_ChannelUnits.Clear();
+                dsData.CHaMP_Segments.Clear();
 
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
-                if (!dbRead.Read())
+                RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter taVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
+                taVisits.Connection = conVisit;
+                taVisits.FillByVisitID(dsData.CHAMP_Visits, nVisitID);
+
+                RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = dsData.CHAMP_Visits.First<RBTWorkbenchDataSet.CHAMP_VisitsRow>();
+                RBTWorkbenchDataSet.CHAMP_SitesRow rSite = dsData.CHAMP_Sites.FindBySiteID(rVisit.SiteID);
+                RBTWorkbenchDataSet.CHAMP_WatershedsRow rWatershed = dsData.CHAMP_Watersheds.FindByWatershedID(rSite.WatershedID);
+
+                if (dsData.CHAMP_Visits.Rows.Count != 1)
                     throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
 
-                string sPath = GetVisitFolder(sParentTopoFolder, (Int16)dbRead["VisitYear"], (string)dbRead["WatershedName"], (string)dbRead["SiteName"], (int)dbRead["VisitID"]);
+                string sPath = GetVisitFolder(sParentTopoFolder, rVisit.VisitYear, rWatershed.WatershedName, rSite.SiteName, rVisit.VisitID);
                 if (System.IO.Directory.Exists(sPath))
                 {
                     string sSurveyGDBPath, sTopoTIN, sWSETIN;
                     if (FindVisitTopoData(sPath, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
                     {
+                        RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+                        taSegments.Connection = conVisit;
+                        taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
+
+                        RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+                        taUnits.Connection = conVisit;
+                        taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
+
                         sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
+                        Visit theVisit = new Visit(rVisit, bTarget, rVisit.IsPrimary || bForcePrimary, bTarget, bTarget, bForcePrimary);
 
-                        bool bPrimary = (bool)dbRead["IsPrimary"];
-
-                        string sHitchName = string.Empty;
-                        if (dbRead["HitchName"] != DBNull.Value)
-                            sHitchName = (string)dbRead["HitchName"];
-
-                        string sCrewName = string.Empty;
-                        if (dbRead["CrewName"] != DBNull.Value)
-                            sCrewName = (string)dbRead["CrewName"];
-
-                        DateTime dSampleDate = DateTime.Now;
-                        if (dbRead["SampleDate"] != DBNull.Value)
-                            dSampleDate = (DateTime)dbRead["SampleDate"];
-
-                        Visit theVisit = new Visit(nVisitID, sHitchName, sCrewName, (Int16)dbRead["VisitYear"], sSurveyGDBPath, sTopoTIN, sWSETIN, dSampleDate, bTarget, bPrimary || bForcePrimary);
                         theSite.AddVisit(theVisit);
                     }
                 }
-                dbRead.Close();
             }
-
             return sVisitTopoFolder;
         }
 
