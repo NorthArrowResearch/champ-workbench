@@ -26,6 +26,8 @@ namespace CHaMPWorkbench
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
             txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
 
+            valGoogleMapZoom.Value = (decimal)CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom;
+
             tTip.SetToolTip(txtOptions, "The path to the RBT console executable (rbtconsole.exe) that will be used when the RBT is run.");
             tTip.SetToolTip(txt7Zip, "The path to the 7-Zip (www.7-zip.org) compression software that will be used for unpacking CHaMP topo data.");
             tTip.SetToolTip(txtTextEditor, "The path to the text editor executable that will be used to view text files (e.g. NotePad, WordPad, TextPad++).");
@@ -86,6 +88,8 @@ namespace CHaMPWorkbench
                 CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = txtTemp.Text;
             else
                 CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = string.Empty;
+
+            CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom = (byte) valGoogleMapZoom.Value;
 
             CHaMPWorkbench.Properties.Settings.Default.Save();
         }

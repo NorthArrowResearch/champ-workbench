@@ -211,5 +211,17 @@ namespace CHaMPWorkbench.Properties {
                 this["UserEmail"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public byte GoogleMapZoom {
+            get {
+                return ((byte)(this["GoogleMapZoom"]));
+            }
+            set {
+                this["GoogleMapZoom"] = value;
+            }
+        }
     }
 }

@@ -53,14 +53,17 @@
             this.txtTemp = new System.Windows.Forms.TextBox();
             this.cmdBrowseTemp = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.valGoogleMapZoom = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(489, 224);
+            this.cmdCancel.Location = new System.Drawing.Point(489, 251);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 11;
@@ -71,7 +74,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(408, 224);
+            this.cmdOK.Location = new System.Drawing.Point(408, 251);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 10;
@@ -275,13 +278,46 @@
             this.label6.TabIndex = 6;
             this.label6.Text = "Temp workspace:";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(13, 229);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(127, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Google map default zoom";
+            // 
+            // valGoogleMapZoom
+            // 
+            this.valGoogleMapZoom.Location = new System.Drawing.Point(153, 225);
+            this.valGoogleMapZoom.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.valGoogleMapZoom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.valGoogleMapZoom.Name = "valGoogleMapZoom";
+            this.valGoogleMapZoom.Size = new System.Drawing.Size(63, 20);
+            this.valGoogleMapZoom.TabIndex = 13;
+            this.valGoogleMapZoom.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
             // frmOptions
             // 
             this.AcceptButton = this.cmdOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(576, 259);
+            this.ClientSize = new System.Drawing.Size(576, 286);
+            this.Controls.Add(this.valGoogleMapZoom);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdBrowseTextEditor);
             this.Controls.Add(this.txtTextEditor);
@@ -304,6 +340,7 @@
             this.Load += new System.EventHandler(this.frmOptions_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -334,5 +371,7 @@
         private System.Windows.Forms.TextBox txtTemp;
         private System.Windows.Forms.Button cmdBrowseTemp;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown valGoogleMapZoom;
     }
 }

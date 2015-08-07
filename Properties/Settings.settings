@@ -60,5 +60,8 @@
     <Setting Name="UserEmail" Type="System.String" Scope="User">
       <Value Profile="(Default)">workbench@champmonitoring.org</Value>
     </Setting>
+    <Setting Name="GoogleMapZoom" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -419,6 +419,7 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />
     <None Include="Resources\SelectAll.png" />
     <None Include="Resources\download.png" />

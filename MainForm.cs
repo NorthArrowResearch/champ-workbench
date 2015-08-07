@@ -741,5 +741,27 @@ namespace CHaMPWorkbench
             else
                 System.Windows.Forms.MessageBox.Show("You must have at least one visit selected in the main table of visits to create an RBT batch.");
         }
+
+        private void viewSiteLocationMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", m_dbCon);
+                dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
+                {
+                    string sURL = string.Format("http://maps.google.com/?q={0},{1}&t=h&z={2}", (double)dbRead["Latitude"], (double)dbRead["Longitude"], CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom);
+                    System.Diagnostics.Process.Start(sURL);
+                }
+                else
+                    System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+
+        }
     }
 }

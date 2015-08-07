@@ -127,11 +127,14 @@
   <data name="update" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RBT_Dark_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBT_Dark_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gcd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gcd_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CHaMP_Logo_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CHaMP_Logo_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rbt_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rbt_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ConcaveHull" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ConcaveHull.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,6 +151,9 @@
   <data name="zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\zip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RBT_Dark_32x321" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RBT_Dark_32x321.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="xml_batch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\xml_batch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -157,17 +163,17 @@
   <data name="NA_Logo_SM" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NA_Logo_SM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Access1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Access.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SelectNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectNone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon_xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_xml.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="32_habitat-logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\32_habitat-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="import" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\import.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rbt_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rbt_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MyApplicationNameLong" xml:space="preserve">
     <value>CHaMP Workbench</value>
@@ -178,14 +184,17 @@
   <data name="WebSiteURL" xml:space="preserve">
     <value>http://workbench.northarrowresearch.com/</value>
   </data>
-  <data name="CHaMP_Logo_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CHaMP_Logo_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gcd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gcd_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BrowseFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BrowseFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RBT_Dark_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RBT_Dark_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -196,25 +205,19 @@
   <data name="DBConnectionStringBase" xml:space="preserve">
     <value>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=;User Id=admin;Password=;</value>
   </data>
+  <data name="Access1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Access.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="WebSite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WebSite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CheckControlNetwork" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CheckControlNetwork.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RBT_Dark_32x321" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBT_Dark_32x321.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="32_habitat-logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\32_habitat-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SelectAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SelectNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SelectNone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="map" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\map.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
