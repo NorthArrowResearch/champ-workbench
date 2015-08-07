@@ -34,22 +34,26 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
-            string sSurveyDesign = "";
-            if (chkImportFish.Checked && String.IsNullOrWhiteSpace(txtDatabase.Text) || !System.IO.File.Exists(txtDatabase.Text))
+            string sSurveyDesign = txtSurveyDesign.Text;
+            if (chkImportFish.Checked && (String.IsNullOrWhiteSpace(txtSurveyDesign.Text) || !System.IO.File.Exists(txtSurveyDesign.Text)))
             {
                 MessageBox.Show("Please enter a valid path to the CHaMP exported 'Survey Design' Access database.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 return;
             }
-            else
+
+            string sProjectMetricsDB = txtProgramMetrics.Text;
+            if (chkExtendedSiteInfo.Checked && (String.IsNullOrWhiteSpace(txtProgramMetrics.Text) || !System.IO.File.Exists(txtProgramMetrics.Text)))
             {
-                sSurveyDesign = txtSurveyDesign.Text;
+                MessageBox.Show("Please enter a valid path to the CHaMP exported 'Program Metrics' Access database.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                return;
             }
 
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                String sMsg = ScavengeVisitInfo(txtDatabase.Text, sSurveyDesign);
+                String sMsg = ScavengeVisitInfo(txtDatabase.Text, sSurveyDesign,sProjectMetricsDB);
                 MessageBox.Show(sMsg, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -63,7 +67,7 @@ namespace CHaMPWorkbench.Data
 
         }
 
-        private String ScavengeVisitInfo(String sDatabasePath, string sSurveyDesignDB)
+        private String ScavengeVisitInfo(String sDatabasePath, string sSurveyDesignDB, string sProjectMetricsDB)
         {
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
@@ -102,6 +106,9 @@ namespace CHaMPWorkbench.Data
 
                 if (chkImportFish.Checked)
                     UpdateSiteFishInfo(daSites, ds.CHAMP_Sites, sSurveyDesignDB);
+
+                if (chkExtendedSiteInfo.Checked)
+                    UpdateExtendedSiteInfo(sProjectMetricsDB);
             }
 
             String sMsg = "Process completed successfully.";
@@ -419,6 +426,47 @@ namespace CHaMPWorkbench.Data
         private void frmImportCHaMPInfo_Load(object sender, EventArgs e)
         {
             chkImportFish_CheckedChanged(sender, e);
+            checkBox1_CheckedChanged(sender, e);
         }
+
+        private void cmdBrowseProgramMetrics_Click(object sender, EventArgs e)
+        {
+            BrowseDatabase(ref txtProgramMetrics, "CHaMP Program Metrics Database");
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            lblProgramMetrics.Enabled = chkExtendedSiteInfo.Checked;
+            txtProgramMetrics.Enabled = chkExtendedSiteInfo.Checked;
+            cmdBrowseProgramMetrics.Enabled = chkExtendedSiteInfo.Checked;
+        }
+
+        private void UpdateExtendedSiteInfo(string sDatabaseExport)
+        {
+            OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID SET Latitude = @Latitude, Longitude = @Longitude WHERE (V.VisitID = @VisitID)", m_dbCon);
+            OleDbParameter pLatitude = dbUpdate.Parameters.Add("@Latitude", OleDbType.Single);
+            OleDbParameter pLongitude = dbUpdate.Parameters.Add("@Longitude", OleDbType.Single);
+            OleDbParameter pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Integer);
+
+            String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabaseExport);
+            using (OleDbConnection conExport = new OleDbConnection(sDB))
+            {
+                conExport.Open();
+
+                OleDbCommand comSurveyDesign = new OleDbCommand("SELECT VisitID, LAT_DD, LON_DD FROM MetricAndCovariates WHERE (VISITID IS NOT NULL) AND (LAT_DD IS NOT NULL) AND (LON_DD IS NOT NULL)", conExport);
+                OleDbDataReader dbRead = comSurveyDesign.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    pLatitude.Value = (Double)dbRead["LAT_DD"];
+                    pLongitude.Value = (Double)dbRead["LON_DD"];
+                    pVisitID.Value = (int)dbRead["VisitID"];
+                    dbUpdate.ExecuteNonQuery();
+                }
+            }
+        }
+   
     }
+
+ 
+    
 }
