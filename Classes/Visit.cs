@@ -194,7 +194,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("error_surface", "ErrSurface");
             xmlFile.WriteElementString("slope_raster", "AssocSlope");
             xmlFile.WriteElementString("pdensity_raster", "AssocPDensity");
-            xmlFile.WriteElementString("pointQuality_raster", "Assoc3DPQ");
+            xmlFile.WriteElementString("pointquality_raster", "Assoc3DPQ");
             xmlFile.WriteElementString("roughness_raster", "AssocD50");
             xmlFile.WriteElementString("interperror_raster", "AssocIErr");
 

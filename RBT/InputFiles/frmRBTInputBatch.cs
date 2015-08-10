@@ -165,7 +165,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true, true, true, true);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true);
             }
             catch (Exception ex)
             {
