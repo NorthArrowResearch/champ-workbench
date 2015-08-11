@@ -197,7 +197,7 @@ namespace CHaMPWorkbench.Classes
                             CloseFile(ref xmlInput, System.IO.Path.GetDirectoryName(sInputFile));
 
                             pSummary.Value = theSite.NameForDatabaseBatch;
-                            pInputfile.Value = sInputFile;
+                            pInputfile.Value = sInputFile.Replace("/","\\");
                             pPrimaryVisitID.Value = nTargetVisitID;
                             dbInsert.ExecuteNonQuery();
                             nSuccess += 1;
