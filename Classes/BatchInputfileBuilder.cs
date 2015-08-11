@@ -34,6 +34,7 @@ namespace CHaMPWorkbench.Classes
         public static string GetVisitFolder(String sParentFolder, int nFieldSeason, string sWatershedName, string sSiteName, int nVisitID)
         {
             string sPath = sPath = System.IO.Path.Combine(nFieldSeason.ToString(), sWatershedName, sSiteName, string.Format("VISIT_{0}\\Topo", nVisitID));
+            sPath = sPath.Replace(" ", "");
 
             if (!string.IsNullOrEmpty(sParentFolder) && System.IO.Directory.Exists(sParentFolder))
                 sPath = System.IO.Path.Combine(sParentFolder, sPath);
@@ -53,10 +54,14 @@ namespace CHaMPWorkbench.Classes
         {
             bool bResult = false;
 
-            if (bResult = Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
+            string sGDBFolder = System.IO.Path.Combine(sVisitTopoFolder, "SurveyGDB");
+            string sTopoTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "TIN");
+            string sWSTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "WettedSurfaceTIN");
+
+            if (bResult = Classes.FileSystem.LookForMatchingItems(sGDBFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
             {
-                bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
-                bResult &= Classes.FileSystem.LookForMatchingItems(sVisitTopoFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
+                bResult &= Classes.FileSystem.LookForMatchingItems(sTopoTinFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
+                bResult &= Classes.FileSystem.LookForMatchingItems(sWSTinFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
             }
             else
             {
