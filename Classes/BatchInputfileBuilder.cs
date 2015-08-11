@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.Classes
 
         public static string GetVisitFolder(String sParentFolder, int nFieldSeason, string sWatershedName, string sSiteName, int nVisitID)
         {
-            string sPath = sPath = System.IO.Path.Combine(nFieldSeason.ToString(), sWatershedName, sSiteName, string.Format("VISIT_{0:0000}\\Topo", nVisitID));
+            string sPath = sPath = System.IO.Path.Combine(nFieldSeason.ToString(), sWatershedName, sSiteName, string.Format("VISIT_{0}\\Topo", nVisitID));
 
             if (!string.IsNullOrEmpty(sParentFolder) && System.IO.Directory.Exists(sParentFolder))
                 sPath = System.IO.Path.Combine(sParentFolder, sPath);
