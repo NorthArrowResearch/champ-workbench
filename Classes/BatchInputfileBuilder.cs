@@ -109,7 +109,7 @@ namespace CHaMPWorkbench.Classes
                         taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
 
                         sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
-                        Visit theVisit = new Visit(rVisit,sSurveyGDBPath,sTopoTIN,sWSETIN, bTarget, rVisit.IsPrimary || bForcePrimary, bTarget, bTarget, bForcePrimary);
+                        Visit theVisit = new Visit(rVisit, sSurveyGDBPath, sTopoTIN, sWSETIN, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
 
                         theSite.AddVisit(theVisit);
                     }
@@ -202,7 +202,7 @@ namespace CHaMPWorkbench.Classes
                             CloseFile(ref xmlInput, System.IO.Path.GetDirectoryName(sInputFile));
 
                             pSummary.Value = theSite.NameForDatabaseBatch;
-                            pInputfile.Value = sInputFile.Replace("/","\\");
+                            pInputfile.Value = sInputFile.Replace("/", "\\");
                             pPrimaryVisitID.Value = nTargetVisitID;
                             dbInsert.ExecuteNonQuery();
                             nSuccess += 1;
