@@ -177,7 +177,7 @@ public class RBTBatchEngine
                     {
                         XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
                         if (aNode is XmlNode)
-                            scavenger.ScavengeLogFile(0, nResultID, aNode.InnerText, sResultFile);
+                            scavenger.ScavengeLogFile(nResultID, aNode.InnerText, sResultFile);
                     }
                 }
             }

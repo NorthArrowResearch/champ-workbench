@@ -50,7 +50,7 @@ namespace CHaMPWorkbench.Classes
             return nResultID;
         }
 
-        public void ScavengeLogFile(int nVisitID, int nResultID, String sLogFile, String sResultFilePath)
+        public void ScavengeLogFile(int nResultID, String sLogFile, String sResultFilePath)
         {
             if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
                 return;
@@ -58,25 +58,13 @@ namespace CHaMPWorkbench.Classes
             XmlDocument xmlR = new XmlDocument();
             xmlR.Load(sLogFile);
 
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (VisitID, ResultID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@VisitID, @ResultID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", m_dbCon);
-            if (nVisitID > 0)
-            {
-                dbCom.Parameters.AddWithValue("VisitID", nVisitID);
-            }
-            else
-            {
-                dbCom.Parameters.AddWithValue("VisitID", DBNull.Value);
-            }
-           
+            OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", m_dbCon);
+
             if (nResultID > 0)
-            {
                 dbCom.Parameters.AddWithValue("ResultID", nResultID);
-            }
             else
-            {
                 dbCom.Parameters.AddWithValue("ResultID", DBNull.Value);
-            }
-            
+
             dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
 
             OleDbParameter pResultFile = dbCom.Parameters.Add("ResultFilePath", OleDbType.VarChar);
@@ -112,55 +100,34 @@ namespace CHaMPWorkbench.Classes
                 //
                 // Now insert all the status messages and errors/warnings
                 //
-                dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogDateTime, LogMessage, LogException, LogSolution) VALUES (@LogID, @MessageType, @LogDateTime, @LogMessage, @LogException, @LogSolution)", m_dbCon);
+                dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, VisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
+                                                                " VALUES (@LogID, @MessageType, @MessageSeverity, @VisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", m_dbCon);
                 dbCom.Parameters.AddWithValue("LogID", nLogID);
                 OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
-                OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
+                OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
+                  OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.BigInt);
+             OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
                 OleDbParameter pLogMessage = dbCom.Parameters.Add("LogMessage", OleDbType.VarChar);
                 OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
                 OleDbParameter pLogSolution = dbCom.Parameters.Add("LogSolution", OleDbType.VarChar);
-                //
-                // Status messages first
-                //
-                foreach (XmlNode statusNode in xmlR.SelectNodes("rbt/status"))
+   
+                foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
                 {
-                    pMessageType.Value = "Status";
-                    pMessageType.Size = "Status".Length;
-
-                    XmlAttribute att = statusNode.Attributes["time"];
-                    pLogDateTime.Value = DBNull.Value;
+                    XmlAttribute att = MessageNode.Attributes["severity"];
+                    pMessageSeverity.Value = DBNull.Value;
                     if (att is XmlAttribute)
                     {
                         if (!string.IsNullOrEmpty(att.InnerText))
                         {
-                            DateTime aTime = default(DateTime);
-                            if (DateTime.TryParse(att.InnerText, out aTime))
+                            if (!string.IsNullOrEmpty(att.InnerText))
                             {
-                                pLogDateTime.Value = aTime;
+                                pMessageSeverity.Value = att.InnerText;
+                                pMessageSeverity.Size = att.InnerText.Length;
                             }
                         }
                     }
 
-                    pLogMessage.Value = DBNull.Value;
-                    if (!string.IsNullOrEmpty(statusNode.InnerText))
-                    {
-                        string sMessage = statusNode.InnerText.Trim();
-                        pLogMessage.Value = sMessage;
-                        pLogMessage.Size = sMessage.Length;
-                    }
-
-                    pLogException.Value = DBNull.Value;
-                    pLogSolution.Value = DBNull.Value;
-
-                    dbCom.ExecuteNonQuery();
-                }
-                //
-                // Now do the messages (errors, warnings and missing data)
-                //
-
-                foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
-                {
-                    XmlAttribute att = MessageNode.Attributes["severity"];
+                    att = MessageNode.Attributes["type"];
                     pMessageType.Value = DBNull.Value;
                     if (att is XmlAttribute)
                     {
@@ -173,7 +140,7 @@ namespace CHaMPWorkbench.Classes
                             }
                         }
                     }
-
+                    
                     att = MessageNode.Attributes["time"];
                     pLogDateTime.Value = DBNull.Value;
                     if (att is XmlAttribute)
@@ -221,55 +188,15 @@ namespace CHaMPWorkbench.Classes
                         }
                     }
 
-                    dbCom.ExecuteNonQuery();
-                }
-
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                // Now do the hard errors
-                //
-
-                foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/error"))
-                {
-                    XmlAttribute att; // = MessageNode.Attributes["severity"];
-                    //pMessageType.Value = DBNull.Value;
-                    //if (att is XmlAttribute)
-                    //{
-                    //    if (!string.IsNullOrEmpty(att.InnerText))
-                    //    {
-                    //        if (!string.IsNullOrEmpty(att.InnerText))
-                    //        {
-                    //            pMessageType.Value = att.InnerText;
-                    //            pMessageType.Size = att.InnerText.Length;
-                    //        }
-                    //    }
-                    //}
-
-                    pMessageType.Value = "error";
-                    pMessageType.Size = "error".Length;
-
-                    att = MessageNode.Attributes["time"];
-                    pLogDateTime.Value = DBNull.Value;
-                    if (att is XmlAttribute)
-                    {
-                        if (!string.IsNullOrEmpty(att.InnerText))
-                        {
-                            DateTime aTime = default(DateTime);
-                            if (DateTime.TryParse(att.InnerText, out aTime))
-                            {
-                                pLogDateTime.Value = aTime;
-                            }
-                        }
-                    }
-
-                    XmlNode aChildNode = MessageNode.SelectSingleNode("error_message");
-                    pLogMessage.Value = DBNull.Value;
+                    aChildNode = MessageNode.SelectSingleNode("visit");
+                    pVisitID.Value = DBNull.Value;
                     if (aChildNode is XmlNode)
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
-                            string sError = aChildNode.InnerText.Trim();
-                            pLogMessage.Value = sError;
-                            pLogMessage.Size = sError.Length;
+                            long nVisitID = 0;
+                            if (long.TryParse(aChildNode.InnerText,out nVisitID))
+                                pVisitID.Value = nVisitID;
                         }
                     }
 
@@ -282,11 +209,11 @@ namespace CHaMPWorkbench.Classes
         {
 
             string sSQL = null;
-            sSQL = "INSERT INTO Metric_SiteMetrics (ResultFile, VisitName, VisitID, FieldSeason, SiteName, RBTRunDateTime, RBTInputFile, RBTVersion, Artifacts" + 
+            sSQL = "INSERT INTO Metric_SiteMetrics (ResultFile, VisitName, VisitID, FieldSeason, SiteName, RBTRunDateTime, RBTInputFile, RBTVersion, Artifacts" +
                 ", LinearUnits, ReachLengthThalweg, ThalwegIncrementDistance, ReachWidthWetted, CoordAProjected, CoordAGeographic, CoordKProjected, CoordKGeographic, " +
                 "SiteWaterSurfaceSlope, AreaSum, RP100, PoolTailCrestDepthAvg, PoolMaxDepthAvg, XBFHeight, XBFWidth, BnkFullChCap, AvgXSecArea, AcgXSecAreaRect, AvgChCap, " +
                 "DEM_Left, DEM_Right, DEM_Top, DEM_Bottom, SiteGradient, SiteWaterSurfaceGradient, SiteSinuosity, SiteSinuosityCL, SiteArea, SiteAreaWetted, SiteAreaBankfull, " +
-                "WettedVolume, SiteLengthWetted, SiteLengthBankfull, SiteLengthThalweg, ThalwegCLLengthRatio, IntegratedWettedWidth, IntegratedBankfullWidth, SiteBankAngleMean, " + 
+                "WettedVolume, SiteLengthWetted, SiteLengthBankfull, SiteLengthThalweg, ThalwegCLLengthRatio, IntegratedWettedWidth, IntegratedBankfullWidth, SiteBankAngleMean, " +
                 "SiteBankAngleDeviation, DetrendedDEMStDev, BankfullVolume, WaterDepthStDev, BankfullMaxDepth, BankfullMeanDepth";
 
             sSQL += ") VALUES (";
@@ -790,16 +717,16 @@ namespace CHaMPWorkbench.Classes
             {
                 OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
                 dbCom.Parameters.AddWithValue("WaterExtent", sWaterExtent);
-                
+
                 OleDbParameter pType = dbCom.Parameters.Add("Type", OleDbType.VarChar, 255);
                 OleDbParameter pArea = dbCom.Parameters.Add("Area", OleDbType.Double);
                 OleDbParameter pCircumference = dbCom.Parameters.Add("Circumference", OleDbType.Double);
 
-                string sXPathRoot = "./" + sWaterExtent.ToLower() + "_channel/islands/islands";    
+                string sXPathRoot = "./" + sWaterExtent.ToLower() + "_channel/islands/islands";
 
                 foreach (XmlNode aNode in xmlTopNode.SelectNodes(sXPathRoot + "/island"))
                 {
-                    GetStringValueFromNode(pType,aNode, "./type");
+                    GetStringValueFromNode(pType, aNode, "./type");
                     GetDoubleValueFromNode(pArea, aNode, "./area");
                     GetDoubleValueFromNode(pCircumference, aNode, "./circumference");
                     dbCom.ExecuteNonQuery();
@@ -1035,14 +962,14 @@ namespace CHaMPWorkbench.Classes
                 return;
 
             string sSQL = "INSERT INTO Metric_CenterlineParts (CenterlineID, PartNumber, Type, Length, Sinuosity) VALUES (";
-            sSQL += nCenterlineID.ToString()  +  ", @PartNumber, @Type, @Length, @Sinuosity)";
-            
+            sSQL += nCenterlineID.ToString() + ", @PartNumber, @Type, @Length, @Sinuosity)";
+
             OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
             OleDbParameter pPartNumber = dbCom.Parameters.Add("PartNumber", OleDbType.Integer);
             OleDbParameter pType = dbCom.Parameters.Add("Type", OleDbType.VarChar);
             OleDbParameter pLength = dbCom.Parameters.Add("Length", OleDbType.Double);
             OleDbParameter pSinuosity = dbCom.Parameters.Add("Sinuosity", OleDbType.Single);
- 
+
             try
             {
                 foreach (XmlNode aNode in xmlTopNode.SelectNodes("./parts/part"))
@@ -1098,7 +1025,7 @@ namespace CHaMPWorkbench.Classes
                         {
                             pSinuosity.Value = fValue;
                         }
-                    } 
+                    }
 
                     dbCom.ExecuteNonQuery();
                 }

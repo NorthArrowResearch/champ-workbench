@@ -34,9 +34,9 @@ namespace CHaMPWorkbench
             tTip.SetToolTip(cmdOK, "Start the result file scavenger running");
             tTip.SetToolTip(cmdStop, "Cancel the current scavenger operation");
 
-            if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder))
-                if (System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder))
-                    txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastOutputFolder;
+            if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder))
+                if (System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder))
+                    txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
         }
 
         private void UpdateControls()

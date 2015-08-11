@@ -44,25 +44,15 @@ namespace CHaMPWorkbench.Classes
             }
             m_sTopLevelFolder = sTopLevelFolder;
 
+            m_SearchOption = SearchOption.TopDirectoryOnly;
             if (bRecursive)
-            {
                 m_SearchOption = SearchOption.AllDirectories;
-            }
-            else
-            {
-                m_SearchOption = SearchOption.TopDirectoryOnly;
-            }
 
             m_bEmptyDatabaseBefore = bEmptyDatabaseBefore;
 
-            if (string.IsNullOrEmpty(sFileSearch))
-            {
-                m_sFileSearch = "*.*";
-            }
-            else
-            {
+            m_sFileSearch = "*.*";
+            if (!string.IsNullOrEmpty(sFileSearch))
                 m_sFileSearch = sFileSearch;
-            }
 
             m_sLogFilePattern = sLogFilePattern;
         }
@@ -71,8 +61,13 @@ namespace CHaMPWorkbench.Classes
         {
             int nProcessed = 0;
             List<Exception> eErrors = new List<Exception>();
-            string[] sFiles = Directory.GetFiles(m_sTopLevelFolder, m_sFileSearch, m_SearchOption);
-  
+            string[] sResultFiles = Directory.GetFiles(m_sTopLevelFolder, m_sFileSearch, m_SearchOption);
+            List<string> lLogFiles = null;
+
+            if (!string.IsNullOrEmpty(m_sLogFilePattern))
+                lLogFiles = new System.Collections.Generic.List<string>(Directory.GetFiles(m_sTopLevelFolder, m_sLogFilePattern, m_SearchOption));
+                      
+
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
@@ -83,12 +78,30 @@ namespace CHaMPWorkbench.Classes
 
             ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
 
-            for (int i = 0; i <= sFiles.Count() - 1; i++)
+            for (int i = 0; i < sResultFiles.Count(); i++)
             {
-                int ResultID = 0;
+                int nResultID = 0;
                 try
                 {
-                    ResultID = scavenger.ScavengeResultFile(sFiles[i]);
+                    nResultID = scavenger.ScavengeResultFile(sResultFiles[i]);
+
+                    // Try to find a corresponding log file in this folder.
+                    if (nResultID > 0 && lLogFiles != null)
+                    {
+                        string sRelatedLogFile = System.IO.Path.GetDirectoryName(sResultFiles[i]);
+                        sRelatedLogFile = System.IO.Path.Combine(sRelatedLogFile, m_sLogFilePattern);
+                        string[] sLogs = Directory.GetFiles(sRelatedLogFile);
+                        for (int j = 0; i < sLogs.Count(); i++)
+                        {
+                            // Log exists. Process it and relate to the result.
+                            // Then remove it from later indepdendant processing
+                            scavenger.ScavengeLogFile(nResultID, sLogs[j], sResultFiles[i]);
+            
+                            if (lLogFiles.Contains(sLogs[i]))
+                                lLogFiles.Remove(sLogs[i]);
+                        }
+
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -99,14 +112,19 @@ namespace CHaMPWorkbench.Classes
                     eErrors.Add(ex);
                 }
 
+
+
                 if (!string.IsNullOrEmpty(m_sLogFilePattern))
                 {
-                    //string sLogFile as strin
-                    //scavenger.ScavengeLogFile(0, nResultID, sFiles[i]);
+                    // Process all the remaining log files that might not be related to result files.
+
+                    foreach (string sLog in lLogFiles)
+                        scavenger.ScavengeLogFile(0, sLog,string.Empty);
+
                     //PopulateTable_Log(ref m_dbCon, ResultID, Path.GetDirectoryName(sFiles[i]), m_sLogFilePattern, sFiles[i]);
                 }
 
-                worker.ReportProgress((i + 1) * 100 / sFiles.Count());
+                worker.ReportProgress((i + 1) * 100 / sResultFiles.Count());
             }
 
             if (eErrors.Count > 0)
@@ -115,7 +133,7 @@ namespace CHaMPWorkbench.Classes
                 throw ex;
             }
 
-            return (sFiles.Count() - eErrors.Count());
+            return (sResultFiles.Count() - eErrors.Count());
 
         }
 
