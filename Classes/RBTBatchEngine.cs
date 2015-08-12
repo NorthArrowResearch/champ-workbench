@@ -139,6 +139,10 @@ public class RBTBatchEngine
                     proc.StartInfo = psi;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.WindowStyle = m_eWindowStyle;
+
+                    if (m_eWindowStyle == System.Diagnostics.ProcessWindowStyle.Hidden)
+                        proc.StartInfo.CreateNoWindow = true;
+
                     proc.Start();
                     proc.WaitForExit();
                 }
@@ -152,7 +156,6 @@ public class RBTBatchEngine
 
                 if (aRun.ClearTempWorkspaceAfter && dFiles.Count > 0)
                     ClearTempWorkspace();
-
 
                 if (bScavengeResults || bScavengeLog)
                 {
