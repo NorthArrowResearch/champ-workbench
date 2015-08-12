@@ -58,15 +58,17 @@ namespace CHaMPWorkbench.Classes
             string sTopoTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "TIN");
             string sWSTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "WettedSurfaceTIN");
 
-            if (bResult = Classes.FileSystem.LookForMatchingItems(sGDBFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
+            sSurveyGDBPath = string.Empty;
+            sTopoTIN = string.Empty;
+            sWSETIN = string.Empty;
+
+            if (System.IO.Directory.Exists(sGDBFolder) && System.IO.Directory.Exists(sTopoTinFolder) && System.IO.Directory.Exists(sWSTinFolder))
             {
-                bResult &= Classes.FileSystem.LookForMatchingItems(sTopoTinFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
-                bResult &= Classes.FileSystem.LookForMatchingItems(sWSTinFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
-            }
-            else
-            {
-                sTopoTIN = string.Empty;
-                sWSETIN = string.Empty;
+                if (bResult = Classes.FileSystem.LookForMatchingItems(sGDBFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
+                {
+                    bResult &= Classes.FileSystem.LookForMatchingItems(sTopoTinFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
+                    bResult &= Classes.FileSystem.LookForMatchingItems(sWSTinFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
+                }
             }
 
             return bResult;
