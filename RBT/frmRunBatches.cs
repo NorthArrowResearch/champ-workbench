@@ -31,8 +31,11 @@ namespace CHaMPWorkbench.RBT
 
             System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
 
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
             Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole, eWindow);
             rbt.Run(chkScavengeResults.Checked, chkScavengeLog.Checked);
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
         private void frmRunBatches_Load(object sender, EventArgs e)
@@ -43,14 +46,14 @@ namespace CHaMPWorkbench.RBT
             int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
             int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
             cboWindowStyle.SelectedIndex = nHidden;
-         
-            int nRuns=0;
+
+            int nRuns = 0;
             using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
                 " FROM RBT_Batches RIGHT JOIN RBT_BatchRuns ON RBT_Batches.ID = RBT_BatchRuns.BatchID" +
                 " WHERE (RBT_BatchRuns.Run <> 0) OR (RBT_Batches.Run <> 0)", m_dbCon))
             {
                 nRuns = (int)dbCom.ExecuteScalar();
-             }
+            }
 
             if (nRuns < 1)
             {
