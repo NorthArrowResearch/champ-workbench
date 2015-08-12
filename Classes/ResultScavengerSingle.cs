@@ -58,12 +58,19 @@ namespace CHaMPWorkbench.Classes
             XmlDocument xmlR = new XmlDocument();
             xmlR.Load(sLogFile);
 
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", m_dbCon);
+            OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @LogFilePath, @ResultFilePath, @MetaDataInfo)", m_dbCon);
 
             if (nResultID > 0)
                 dbCom.Parameters.AddWithValue("ResultID", nResultID);
             else
                 dbCom.Parameters.AddWithValue("ResultID", DBNull.Value);
+
+            OleDbParameter pStatus = dbCom.Parameters.Add("Status", OleDbType.VarChar);
+            pStatus.Value = DBNull.Value;
+            XmlNode nodStatus = xmlR.SelectSingleNode("rbt/status");
+            if (nodStatus is XmlNode)
+                if (nodStatus is XmlNode && !string.IsNullOrEmpty(nodStatus.InnerText))
+                    pStatus.Value = nodStatus.InnerText;
 
             dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
 
@@ -105,12 +112,12 @@ namespace CHaMPWorkbench.Classes
                 dbCom.Parameters.AddWithValue("LogID", nLogID);
                 OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
                 OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
-                  OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.BigInt);
-             OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
+                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.BigInt);
+                OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
                 OleDbParameter pLogMessage = dbCom.Parameters.Add("LogMessage", OleDbType.VarChar);
                 OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
                 OleDbParameter pLogSolution = dbCom.Parameters.Add("LogSolution", OleDbType.VarChar);
-   
+
                 foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
                 {
                     XmlAttribute att = MessageNode.Attributes["severity"];
@@ -140,7 +147,7 @@ namespace CHaMPWorkbench.Classes
                             }
                         }
                     }
-                    
+
                     att = MessageNode.Attributes["time"];
                     pLogDateTime.Value = DBNull.Value;
                     if (att is XmlAttribute)
@@ -195,7 +202,7 @@ namespace CHaMPWorkbench.Classes
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
                             long nVisitID = 0;
-                            if (long.TryParse(aChildNode.InnerText,out nVisitID))
+                            if (long.TryParse(aChildNode.InnerText, out nVisitID))
                                 pVisitID.Value = nVisitID;
                         }
                     }
