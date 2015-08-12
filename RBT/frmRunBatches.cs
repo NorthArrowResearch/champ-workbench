@@ -40,10 +40,9 @@ namespace CHaMPWorkbench.RBT
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
-            cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
-            cboWindowStyle.Items.Add(new ListItem("Minimized", (int)System.Diagnostics.ProcessWindowStyle.Minimized));
+            int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
             int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
-            cboWindowStyle.SelectedIndex = nNormal;
+            cboWindowStyle.SelectedIndex = nHidden;
          
             int nRuns=0;
             using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
