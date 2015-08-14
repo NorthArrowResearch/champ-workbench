@@ -19,7 +19,10 @@ namespace CHaMPWorkbench.Classes
         private const string m_sTopoTINZipFile = "TIN";
         private const string m_sTopoTINSearch = "tin*";
 
-        public static bool VisitData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dVisitFolder)
+        private const string m_sWSTINZipFile = "WettedSurfaceTIN";
+        private const string m_sWSTINSearch = "ws*";
+
+        public static bool Visit(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dVisitFolder)
         {
             dVisitFolder = null;
 
@@ -34,12 +37,12 @@ namespace CHaMPWorkbench.Classes
             return RetrieveSingleFolder(dTopLevelFolder, sVisitFolderPattern, out dVisitFolder);
         }
 
-        public static bool TopoData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dTopoFolder)
+        public static bool Topo(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dTopoFolder)
         {
             DirectoryInfo dVisitFolder = null;
             dTopoFolder = null;
 
-            if (VisitData(dTopLevelFolder, nVisitID, out dVisitFolder))
+            if (Visit(dTopLevelFolder, nVisitID, out dVisitFolder))
                 RetrieveSingleFolder(dVisitFolder, m_sTopoFolder, out dTopoFolder);
 
             return dTopoFolder is DirectoryInfo && dTopoFolder.Exists;
@@ -50,7 +53,7 @@ namespace CHaMPWorkbench.Classes
             dSurveyGDB = null;
             DirectoryInfo dTopoFolder = null;
 
-            if (!TopoData(dTopoFolder, nVisitID, out dTopoFolder))
+            if (!Topo(dTopoFolder, nVisitID, out dTopoFolder))
                 return false;
 
             // Unzipped AWS bucket uses one additional folder level than the FTP
@@ -63,59 +66,86 @@ namespace CHaMPWorkbench.Classes
             return RetrieveSingleFolder(dTopoFolder, m_sSurveyGDBSearch, out dSurveyGDB);
         }
 
-        public static bool TopoTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dTopoTIN)
+        public static bool TopoTIN(DirectoryInfo dTopoLevelFolder, int nVisitID, out DirectoryInfo dTopoTin)
         {
-            dTopoTIN = null;
+            return TinFolder(dTopoLevelFolder, nVisitID, m_sTopoTINZipFile, m_sTopoTINSearch, out dTopoTin);
+        }
+
+        public static bool WaterSurfaceTIN(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dWaterSurfaceTIN)
+        {
+            return TinFolder(dTopLevelFolder, nVisitID, m_sWSTINZipFile, m_sWSTINSearch, out dWaterSurfaceTIN);
+        }
+
+        private static bool TinFolder(DirectoryInfo dTopLevelFolder, int nVisitID, string sTinZipFile, string sTinSearchPattern, out DirectoryInfo dTIN)
+        {
+            dTIN = null;
             DirectoryInfo dTopoFolder = null;
 
-            if (!TopoData(dTopoFolder, nVisitID, out dTopoFolder))
+            if (!Topo(dTopoFolder, nVisitID, out dTopoFolder))
                 return false;
 
             // Unzipped AWS bucket uses one additional folder level than the FTP
             // AWS: VISIT_XXXX\Topo\TIN\TIN\*.adf
             // FTP: VISIT_XXXX\Topo\TIN\*.adf
+            // or
+            // AWS: VISIT_XXXX\Topo\WettedSurfaceTIN\wsetin\*.adf
+            // FTP: VISIT_XXXX\Topo\wsetin\*.adf
 
             DirectoryInfo dTin = null;
-            if (RetrieveSingleFolder(dTopoFolder, m_sTopoTINSearch, out dTin))
+            if (RetrieveSingleFolder(dTopoFolder, sTinZipFile, out dTin))
             {
-                // A folder matching the TIN search pattern was found. This
-                // could be FTP data with a topo tin called "tin" or "tin1"
-                // or it could be AWS data and the TIN folder is nested lower.
+                // Folder matching the TIN search pattern found. Could be FTP data
+                // with a tin called "tin", "tin1", "wsetin1" etc or could be AWS
+                // data and the TIN folder is nested lower.
 
                 FileInfo[] fTinFiles = dTin.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
                 if (fTinFiles.Count<FileInfo>() == 0)
                 {
                     // There is a folder called TIN under TopoData but it does not contain any ADF files
                     // which suggests this is AWS data. Look inside for the actual tin folder.
-                    RetrieveSingleFolder(dTin, m_sTopoTINSearch, out dTin);
+                    RetrieveSingleFolder(dTin, sTinSearchPattern, out dTin);
                 }
                 else
                 {
-                    // ADF files were found in the folder called TIN under TopoData.
+                    // ADF files were found in the folder called under TopoData.
                     // This suggests it is FTP data.
                 }
+            }
+            else
+            {
+                // No folder matching the AWS zip file was found. This could still be FTP
+                // data with a tin called "tin1" or "wsetin" or "wsetin1"
+                RetrieveSingleFolder(dTopoFolder, sTinSearchPattern, out dTin);
             }
 
             return dTin is DirectoryInfo && dTin.Exists;
 
         }
-                
-        public static bool SurveyGDBTinWSTinData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out string dTopoTIN, out DirectoryInfo dWSETIN)
+
+        public static bool SurveyGDBTopoTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN)
         {
-            DirectoryInfo dVisitFolder = null;
+            DirectoryInfo dTopo = null;
+            dSurveyGDB = null;
+            dTopoTIN = null;
+
+            if (Topo(dTopLevelFolder, nVisitID, out dTopo))
+                if (SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB))
+                    TopoTIN(dTopLevelFolder, nVisitID, out dTopoTIN);
+
+            return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo;
+        }
+
+        public static bool SurveyGDBTopoTinWSTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN, out DirectoryInfo dWSETIN)
+        {
             dSurveyGDB = null;
             dTopoTIN = null;
             dWSETIN = null;
 
-            if (!VisitData(dTopLevelFolder, nVisitID, out dVisitFolder))
-                return false;
+            if (SurveyGDBTopoTin(dTopLevelFolder, nVisitID, out dSurveyGDB, out dTopoTIN))
+                WaterSurfaceTIN(dTopLevelFolder, nVisitID, out dWSETIN);
 
-
-
-
-
+            return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo && dWSETIN is DirectoryInfo;
         }
-
 
         private static bool RetrieveSingleFolder(DirectoryInfo dContainingFolder, string sSearchPatternList, out DirectoryInfo dFolder)
         {
