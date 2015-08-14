@@ -76,16 +76,17 @@ namespace CHaMPWorkbench.Classes
             // FTP: VISIT_XXXX\Topo\TIN\*.adf
 
             DirectoryInfo dTin = null;
-            if (RetrieveSingleFolder(dTopoFolder, m_sTopoTINZipFile, out dTin))
+            if (RetrieveSingleFolder(dTopoFolder, m_sTopoTINSearch, out dTin))
             {
-                // There is a folder called TIN in the TopoData folder, but the 
-                // actual TIN could still be nested inside another folder.
+                // A folder matching the TIN search pattern was found. This
+                // could be FTP data with a topo tin called "tin" or "tin1"
+                // or it could be AWS data and the TIN folder is nested lower.
+
                 FileInfo[] fTinFiles = dTin.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
                 if (fTinFiles.Count<FileInfo>() == 0)
                 {
-                    // There is a folder called TIN under TopoData but it does not contain
-                    // any ADF files which suggests this is AWS data. Look for the actual
-                    // tin folder.
+                    // There is a folder called TIN under TopoData but it does not contain any ADF files
+                    // which suggests this is AWS data. Look inside for the actual tin folder.
                     RetrieveSingleFolder(dTin, m_sTopoTINSearch, out dTin);
                 }
                 else
@@ -93,12 +94,6 @@ namespace CHaMPWorkbench.Classes
                     // ADF files were found in the folder called TIN under TopoData.
                     // This suggests it is FTP data.
                 }
-            }
-            else
-            {
-                // No folder called TIN was found. This could still be FTP data
-                // but with a TIN called tin1 etc
-                RetrieveSingleFolder(dTopoFolder, m_sTopoTINSearch, out dTin);
             }
 
             return dTin is DirectoryInfo && dTin.Exists;
