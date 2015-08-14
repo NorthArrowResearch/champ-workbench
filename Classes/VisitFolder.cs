@@ -6,44 +6,12 @@ using System.IO;
 
 namespace CHaMPWorkbench.Classes
 {
-    class VisitFolder
+    public class VisitFolder
     {
         private const string m_sVisitFolder = "VISIT_{0}";
         private const string m_sTopoFolder = "Topo";
         private const string m_sHydroFolder = "Hydro";
         private const string m_sRBTOutputs = "RBTOutputs";
-
-        private int m_nVisitID;
-
-        #region Properties
-
-        public readonly int VisitID { get { return m_nVisitID; } }
-
-        #endregion
-
-        public VisitFolder(int nVisitID)
-        {
-            if (nVisitID < 1)
-                throw new ArgumentOutOfRangeException("nVisitID", "The visit ID must be greater than zero.");
-
-            m_nVisitID = nVisitID;
-        }
-
-        public static bool SurveyGDBTinWSTinData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out string dTopoTIN, out DirectoryInfo dWSETIN)
-        {
-            DirectoryInfo dVisitFolder = null;
-            dSurveyGDB = null;
-            dTopoTIN = null;
-            dWSETIN = null;
-
-            if (!VisitData(dTopLevelFolder, nVisitID, out dVisitFolder))
-                return false;
-
-
-
-
-
-        }
 
         public static bool VisitData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dVisitFolder)
         {
@@ -56,7 +24,7 @@ namespace CHaMPWorkbench.Classes
                 throw new ArgumentOutOfRangeException("nVisitID", nVisitID, "The visit ID must be greater than zero.");
 
             string sVisitFolderPattern = string.Format(m_sVisitFolder, nVisitID);
-            
+
             return RetrieveSingleFolder(dTopLevelFolder, sVisitFolderPattern, out dVisitFolder);
         }
 
@@ -67,7 +35,7 @@ namespace CHaMPWorkbench.Classes
 
             if (VisitData(dTopLevelFolder, nVisitID, out dVisitFolder))
                 RetrieveSingleFolder(dVisitFolder, m_sTopoFolder, out dTopoFolder);
-            
+
             return dTopoFolder is DirectoryInfo && dTopoFolder.Exists;
         }
 
@@ -89,6 +57,22 @@ namespace CHaMPWorkbench.Classes
                     throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), sSearchPattern, dContainingFolder.FullName));
 
             }
+        }
+
+        public static bool SurveyGDBTinWSTinData(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out string dTopoTIN, out DirectoryInfo dWSETIN)
+        {
+            DirectoryInfo dVisitFolder = null;
+            dSurveyGDB = null;
+            dTopoTIN = null;
+            dWSETIN = null;
+
+            if (!VisitData(dTopLevelFolder, nVisitID, out dVisitFolder))
+                return false;
+
+
+
+
+
         }
 
     }
