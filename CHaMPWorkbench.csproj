@@ -104,7 +104,7 @@
     <Compile Include="Classes\ResultScavengerSingle.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
-    <Compile Include="Classes\VisitFolder.cs" />
+    <Compile Include="Classes\DataFolders.cs" />
     <Compile Include="Classes\Watershed.cs" />
     <Compile Include="Data\frmClearDatabase.cs">
       <SubType>Form</SubType>

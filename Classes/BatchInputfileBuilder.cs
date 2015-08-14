@@ -31,52 +31,9 @@ namespace CHaMPWorkbench.Classes
             taSites.Fill(dsData.CHAMP_Sites);
         }
 
-        public static string GetVisitFolder(String sParentFolder, int nFieldSeason, string sWatershedName, string sSiteName, int nVisitID)
+        private System.IO.DirectoryInfo AddVisitToSite(ref Classes.Site theSite, System.IO.DirectoryInfo dParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
         {
-            string sPath = sPath = System.IO.Path.Combine(nFieldSeason.ToString(), sWatershedName, sSiteName, string.Format("VISIT_{0}\\Topo", nVisitID));
-            sPath = sPath.Replace(" ", "");
-
-            if (!string.IsNullOrEmpty(sParentFolder) && System.IO.Directory.Exists(sParentFolder))
-                sPath = System.IO.Path.Combine(sParentFolder, sPath);
-
-            return sPath;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="nVisitID"></param>
-        /// <param name="sSurveyGDBPath"></param>
-        /// <param name="sTopoTIN"></param>
-        /// <param name="sWSETIN"></param>
-        /// <returns>True if all the topo data were found for this visit.</returns>
-        private Boolean FindVisitTopoData(string sVisitTopoFolder, out string sSurveyGDBPath, out string sTopoTIN, out string sWSETIN)
-        {
-            bool bResult = false;
-
-            string sGDBFolder = System.IO.Path.Combine(sVisitTopoFolder, "SurveyGDB");
-            string sTopoTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "TIN");
-            string sWSTinFolder = System.IO.Path.Combine(sVisitTopoFolder, "WettedSurfaceTIN");
-
-            sSurveyGDBPath = string.Empty;
-            sTopoTIN = string.Empty;
-            sWSETIN = string.Empty;
-
-            if (System.IO.Directory.Exists(sGDBFolder) && System.IO.Directory.Exists(sTopoTinFolder) && System.IO.Directory.Exists(sWSTinFolder))
-            {
-                if (bResult = Classes.FileSystem.LookForMatchingItems(sGDBFolder, "*orthog*.gdb;*.gdb", Classes.FileSystem.SearchTypes.Directory, out sSurveyGDBPath))
-                {
-                    bResult &= Classes.FileSystem.LookForMatchingItems(sTopoTinFolder, "tin*", Classes.FileSystem.SearchTypes.Directory, out sTopoTIN);
-                    bResult &= Classes.FileSystem.LookForMatchingItems(sWSTinFolder, "ws*", Classes.FileSystem.SearchTypes.Directory, out sWSETIN);
-                }
-            }
-
-            return bResult;
-        }
-
-        private string AddVisitToSite(ref Classes.Site theSite, string sParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
-        {
-            string sVisitTopoFolder = string.Empty;
+            System.IO.DirectoryInfo dVisitTopoFolder = null;
 
             using (OleDbConnection conVisit = new OleDbConnection(m_dbCon.ConnectionString))
             {
@@ -96,31 +53,30 @@ namespace CHaMPWorkbench.Classes
                 if (dsData.CHAMP_Visits.Rows.Count != 1)
                     throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
 
-                string sPath = GetVisitFolder(sParentTopoFolder, rVisit.VisitYear, rWatershed.WatershedName, rSite.SiteName, rVisit.VisitID);
-                if (System.IO.Directory.Exists(sPath))
+                System.IO.DirectoryInfo dSurveyGDB = null;
+                System.IO.DirectoryInfo dTopoTIN = null;
+                System.IO.DirectoryInfo dWSTIN = null;
+
+                if (Classes.DataFolders.SurveyGDBTopoTinWSTin(dParentTopoFolder, nVisitID, out dSurveyGDB, out dTopoTIN, out dWSTIN))
                 {
-                    string sSurveyGDBPath, sTopoTIN, sWSETIN;
-                    if (FindVisitTopoData(sPath, out sSurveyGDBPath, out sTopoTIN, out sWSETIN))
-                    {
-                        RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-                        taSegments.Connection = conVisit;
-                        taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
+                    RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+                    taSegments.Connection = conVisit;
+                    taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
 
-                        RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-                        taUnits.Connection = conVisit;
-                        taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
+                    RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+                    taUnits.Connection = conVisit;
+                    taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
 
-                        sVisitTopoFolder = System.IO.Path.GetDirectoryName(sSurveyGDBPath);
-                        Visit theVisit = new Visit(rVisit, sSurveyGDBPath, sTopoTIN, sWSETIN, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
+                    dVisitTopoFolder = dSurveyGDB.Parent;
+                    Visit theVisit = new Visit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
 
-                        theSite.AddVisit(theVisit);
-                    }
+                    theSite.AddVisit(theVisit);
                 }
             }
-            return sVisitTopoFolder;
+            return dVisitTopoFolder;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, String sParentTopoDataFolder, Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN)
+        public String Run(String sBatchName, String sDefaultInputFileName, System.IO.DirectoryInfo dParentTopoDataFolder, Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
@@ -155,7 +111,7 @@ namespace CHaMPWorkbench.Classes
                     foreach (int nTargetVisitID in m_lVisitIDs)
                     {
                         Site theSite = null;
-                        string sInputFile = string.Empty;
+                        System.IO.FileInfo dInputFile = null;
                         bool bContinue = true;
 
                         pVisitID.Value = nTargetVisitID;
@@ -173,38 +129,35 @@ namespace CHaMPWorkbench.Classes
 
                                 theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
 
-                                string sVisitTopoFolder = AddVisitToSite(ref theSite, sParentTopoDataFolder, nTargetVisitID, true, bForcePrimary);
-                                if (!string.IsNullOrEmpty(sVisitTopoFolder) && System.IO.Directory.Exists(sVisitTopoFolder))
+                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, dParentTopoDataFolder, nTargetVisitID, true, bForcePrimary);
+                                if (dVisitTopoFolder is System.IO.DirectoryInfo)
                                 {
                                     // If got to here then the data paths were retrieved and point to real data that exist.
-                                    sInputFile = sVisitTopoFolder.Replace(sParentTopoDataFolder, this.m_Outputs.OutputFolder);
-                                    sInputFile = System.IO.Path.GetDirectoryName(sInputFile);
-                                    sInputFile = System.IO.Path.Combine(sInputFile, sDefaultInputFileName);
-                                    sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
+                                    dInputFile= Classes.DataFolders.RBTInputFile(this.m_Outputs.OutputFolder, dVisitTopoFolder,sDefaultInputFileName);
                                 }
                             }
                             else
-                                AddVisitToSite(ref theSite, sParentTopoDataFolder, nVisitID, false, bForcePrimary);
+                                AddVisitToSite(ref theSite, dParentTopoDataFolder, nVisitID, false, bForcePrimary);
 
                             bContinue = bIncludeOtherVisits;
                         }
                         dbRead.Close();
 
-                        if (!string.IsNullOrEmpty(sInputFile))
+                        if (dInputFile is System.IO.FileInfo)
                         {
-                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sInputFile));
+                            dInputFile.Directory.Create();
                             XmlTextWriter xmlInput;
-                            CreateFile(sInputFile, out xmlInput);
+                            CreateFile(dInputFile.FullName, out xmlInput);
 
                             xmlInput.WriteStartElement("sites");
-                            theSite.WriteToXML(xmlInput, sParentTopoDataFolder, bRequireWSTIN);
+                            theSite.WriteToXML(xmlInput, dParentTopoDataFolder.FullName, bRequireWSTIN);
                             xmlInput.WriteEndElement(); // sites
 
                             // Write the end of the file
-                            CloseFile(ref xmlInput, System.IO.Path.GetDirectoryName(sInputFile));
+                            CloseFile(ref xmlInput,dInputFile.Directory.FullName);
 
                             pSummary.Value = theSite.NameForDatabaseBatch;
-                            pInputfile.Value = sInputFile.Replace("/", "\\");
+                            pInputfile.Value = dInputFile.FullName.Replace("/", "\\");
                             pPrimaryVisitID.Value = nTargetVisitID;
                             dbInsert.ExecuteNonQuery();
                             nSuccess += 1;

@@ -34,9 +34,12 @@ namespace CHaMPWorkbench.RBTInputFile
                 int nVisitID = (int)dbRead["VisitID"];
                 if (m_lVisitIDs.Contains<int>(nVisitID))
                 {
-                    string sParentFolder = string.Empty;
-                    string sPath = Classes.BatchInputfileBuilder.GetVisitFolder(sParentFolder, dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")), (string)dbRead["WatershedName"], (string)dbRead["SiteName"], nVisitID);
-                    lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
+                    System.IO.DirectoryInfo dVisitTopoFolder = null;
+                    if (Classes.DataFolders.Topo(new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), nVisitID, out dVisitTopoFolder))
+                    {
+                        string sPath = Classes.DataFolders.RBTInputFile(this.txtOutputFolder.Text, dVisitTopoFolder, txtInputFileRoot.Text).FullName;
+                        lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
+                    }
                 }
             }
 
@@ -165,7 +168,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, txtMonitoringDataFolder.Text, true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true);
             }
             catch (Exception ex)
             {

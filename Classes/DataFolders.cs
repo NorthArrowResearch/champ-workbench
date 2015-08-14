@@ -290,24 +290,31 @@ namespace CHaMPWorkbench.Classes
         /// <summary>
         /// Builds the folder where the RBT outputs results, logs and artifacts
         /// </summary>
-        /// <param name="dTopLevelOutputFolder">The top level of the output structure. e.g. D:\CHaMP\InputOutputFiles</param>
+        /// <param name="sTopLevelOutputFolder">The top level of the output structure. e.g. D:\CHaMP\InputOutputFiles</param>
         /// <param name="dVisitFolder">Full, absolute path of a visit. Doesn't need to exist. Must be three levels deep. Can be rooted in watershed or year.</param>
         /// <param name="bCreateIfMissing">True will force the creation of the output path</param>
         /// <returns>Note the output includes the Topo folder. e.g. D:\CHaMP\InputOutputFiles\2012\Tucannon\CBW5583-2345\VISIT_XXXX\Topo</returns>
-        public static DirectoryInfo RBTOutputFolder(DirectoryInfo dTopLevelOutputFolder, DirectoryInfo dVisitFolder, bool bCreateIfMissing = false)
+        /// <remarks>Note that the output folder is a string so that it can accommodate a simple period "." indicating the current directly
+        /// as well as explicit paths</remarks>
+        public static DirectoryInfo RBTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
         {
             if (!(dVisitFolder.FullName.Split(System.IO.Path.DirectorySeparatorChar).Count<string>() < 3))
                 throw new Exception("The visit folder must be at least 3 levels deep (watershed/year/site/visit_xxx or year/watershed/site/visit_xxx");
 
             DirectoryInfo dMonitoringDataFolder = dVisitFolder.Parent.Parent.Parent;
 
-            string sVisitOutputFolder = dVisitFolder.FullName.Replace(dMonitoringDataFolder.FullName, dTopLevelOutputFolder.FullName);
-            DirectoryInfo dVisitOutputFolder = new DirectoryInfo(System.IO.Path.Combine(sVisitOutputFolder,m_sTopoFolder));
-
-            if (bCreateIfMissing)
-                dVisitFolder.Create();
+            string sVisitOutputFolder = dVisitFolder.FullName.Replace(dMonitoringDataFolder.FullName, sTopLevelOutputFolder);
+            DirectoryInfo dVisitOutputFolder = new DirectoryInfo(System.IO.Path.Combine(sVisitOutputFolder, m_sTopoFolder));
 
             return dVisitOutputFolder;
+        }
+
+        public static FileInfo RBTInputFile(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder, string sInputFileName)
+        {
+            string sInputFile = Classes.DataFolders.RBTOutputFolder(sTopLevelOutputFolder, dVisitFolder).FullName;
+            sInputFile = System.IO.Path.Combine(sInputFile, sInputFileName);
+            sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
+            return new FileInfo(sInputFile);
         }
     }
 }
