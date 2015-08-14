@@ -6,7 +6,43 @@ using System.IO;
 
 namespace CHaMPWorkbench.Classes
 {
-    public class VisitFolder
+    /// <summary>
+    /// This class is intended to make it easy to retrieve the folder paths for 
+    /// CHaMP data. It is intended to work with BOTH local copies of the FTP
+    /// site as well as local copies of the AWS unzipped data.
+    /// 
+    /// The AWS data unzip survey GDBs and TINs into a folder structure that
+    /// is nested one level deeper than the AWS data.
+    /// 
+    /// FTP examples
+    /// 
+    /// VISIT_XXXX\Topo\orthogsurvey.gdb
+    /// VISIT_XXXX\Topo\survey.gdb
+    /// VISIT_XXXX\Topo\cbw55830045632verylongnamesurvey.gdb
+    /// 
+    /// VISIT_XXXX\Topo\tin
+    /// VISIT_XXXX\Topo\tin1
+    /// VISIT_XXXX\Topo\tin2
+    /// 
+    /// VISIT_XXXX\Topo\wsetin
+    /// VISIT_XXXX\Topo\wsetin1
+    /// VISIT_XXXX\Topo\watersurfacetin
+    /// 
+    /// AWS Examples
+    /// 
+    /// VISIT_XXXX\Topo\SurveyGDB\orthogsurvey.gdb
+    /// VISIT_XXXX\Topo\SurveyGDB\survey.gdb
+    /// VISIT_XXXX\Topo\SurveyGDB\cbw55830045632verylongnamesurvey.gdb
+    /// 
+    /// VISIT_XXXX\Topo\TIN\tin1
+    /// VISIT_XXXX\Topo\TIN\tin2
+    /// VISIT_XXXX\Topo\TIN\tin3
+    /// 
+    ///  VISIT_XXXX\Topo\WettedSurfaceTIN\wsetin
+    ///  VISIT_XXXX\Topo\WettedSurfaceTIN\wsetin1
+    ///  VISIT_XXXX\Topo\WettedSurfaceTIN\watersurfacetin
+    /// </summary>
+    public class DataFolders
     {
         private const string m_sVisitFolder = "VISIT_{0}";
         private const string m_sTopoFolder = "Topo";
@@ -22,6 +58,13 @@ namespace CHaMPWorkbench.Classes
         private const string m_sWSTINZipFile = "WettedSurfaceTIN";
         private const string m_sWSTINSearch = "ws*";
 
+        /// <summary>
+        /// Retrieves an existing visit folder below a top level folder
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dVisitFolder">Output, full absolute folder path to the visit. Null if does not exist.</param>
+        /// <returns>True if the visit folder is valid and exists, otherwise false.</returns>
         public static bool Visit(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dVisitFolder)
         {
             dVisitFolder = null;
@@ -33,10 +76,16 @@ namespace CHaMPWorkbench.Classes
                 throw new ArgumentOutOfRangeException("nVisitID", nVisitID, "The visit ID must be greater than zero.");
 
             string sVisitFolderPattern = string.Format(m_sVisitFolder, nVisitID);
-
             return RetrieveSingleFolder(dTopLevelFolder, sVisitFolderPattern, out dVisitFolder);
         }
 
+        /// <summary>
+        /// Retrieves an existing topo data folder inside a top level folder
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dTopoFolder">Output, full absolute folder path to the TopoFolder within the visit folder. Null if does not exist.</param>
+        /// <returns>True if the topo folder is valid and exists, otherwise false.</returns>
         public static bool Topo(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dTopoFolder)
         {
             DirectoryInfo dVisitFolder = null;
@@ -48,6 +97,13 @@ namespace CHaMPWorkbench.Classes
             return dTopoFolder is DirectoryInfo && dTopoFolder.Exists;
         }
 
+        /// <summary>
+        /// Retrieves an existing path to a survey GDB inside the top level folder for a particular visit.
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dSurveyGDB">Output, full absolute folder path to the TopoFolder within the visit folder. Null if does not exist.</param>
+        /// <returns>True if the survey GDB is valid and exists, otherwise false.</returns>
         public static bool SurveyGDB(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB)
         {
             dSurveyGDB = null;
@@ -66,16 +122,39 @@ namespace CHaMPWorkbench.Classes
             return RetrieveSingleFolder(dTopoFolder, m_sSurveyGDBSearch, out dSurveyGDB);
         }
 
+        /// <summary>
+        /// Retrieves an existing path to a Topo TIN inside the top level folder for a particular visit.
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dTopoTin">Output, full absolute folder path to the topo TIN. Null if does not exist.</param>
+        /// <returns>True if the topo TIN is valid and exists, otherwise null</returns>
         public static bool TopoTIN(DirectoryInfo dTopoLevelFolder, int nVisitID, out DirectoryInfo dTopoTin)
         {
             return TinFolder(dTopoLevelFolder, nVisitID, m_sTopoTINZipFile, m_sTopoTINSearch, out dTopoTin);
         }
 
+        /// <summary>
+        /// Retrieves an existing path to a water surface TIN inside the top level folder for a particular visit
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dWaterSurfaceTIN">Output, full absolute path to the water surface TIN. Null if does not exist</param>
+        /// <returns>True if the topo TIN is valid and exists, otherwise Null.</returns>
         public static bool WaterSurfaceTIN(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dWaterSurfaceTIN)
         {
             return TinFolder(dTopLevelFolder, nVisitID, m_sWSTINZipFile, m_sWSTINSearch, out dWaterSurfaceTIN);
         }
 
+        /// <summary>
+        /// Private generic method for finding a TIN. Used by the two public methods for topo and water surface TINs
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="sTinZipFile">Name of the FTP site Zip File that AWS unzips the TIN into. See class constants</param>
+        /// <param name="sTinSearchPattern">Semi colon concatenated list of wildcarded paths for TIN name. See class constants</param>
+        /// <param name="dTIN">Output, full absolute path to the TIN. Null if does not exist</param>
+        /// <returns>True if the TIN is found, orthwise Null</returns>
         private static bool TinFolder(DirectoryInfo dTopLevelFolder, int nVisitID, string sTinZipFile, string sTinSearchPattern, out DirectoryInfo dTIN)
         {
             dTIN = null;
@@ -122,6 +201,16 @@ namespace CHaMPWorkbench.Classes
 
         }
 
+        /// <summary>
+        /// Overloaded method for finding the Survey GDB and Topo TIN paths in one call
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dSurveyGDB">Output, full absolute path to the survey GDB. Null if doesn't exist.</param>
+        /// <param name="dTopoTIN">Output, full absolute path to the Topo TIN. Null if doesn't exist</param>
+        /// <returns>True if both the survey GDB and topo tin exist. False if either is missing.</returns>
+        /// <remarks>Note that this method will find either path regardless of whether one is missing.
+        /// The return value will only be true if both paths exist though</remarks>
         public static bool SurveyGDBTopoTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN)
         {
             DirectoryInfo dTopo = null;
@@ -129,12 +218,25 @@ namespace CHaMPWorkbench.Classes
             dTopoTIN = null;
 
             if (Topo(dTopLevelFolder, nVisitID, out dTopo))
-                if (SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB))
-                    TopoTIN(dTopLevelFolder, nVisitID, out dTopoTIN);
+            {
+                SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB);
+                TopoTIN(dTopLevelFolder, nVisitID, out dTopoTIN);
+            }
 
             return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo;
         }
 
+        /// <summary>
+        /// Overloaded method for finding the Survey GDB, Topo TIN and water surface TIN paths in one call
+        /// </summary>
+        /// <param name="dTopLevelFolder">Existing top level monitoring data folder inside which are either years or watersheds</param>
+        /// <param name="nVisitID">Unique Visit ID</param>
+        /// <param name="dSurveyGDB">Output, full absolute path to the survey GDB. Null if doesn't exist.</param>
+        /// <param name="dTopoTIN">Output, full absolute path to the Topo TIN. Null if doesn't exist</param>
+        /// <param name="dWSETIN">Output, full absolute path to the water surface TIN. Null if it doesn't exist</param>
+        /// <returns>True if all three paths exist. False if any one is missing</returns>
+        /// <remarks>Note that this method will find and return any paths that exist even if one or more are missing.
+        /// But the return value will only be true if all three are found and exist</remarks>
         public static bool SurveyGDBTopoTinWSTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN, out DirectoryInfo dWSETIN)
         {
             dSurveyGDB = null;
@@ -147,26 +249,38 @@ namespace CHaMPWorkbench.Classes
             return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo && dWSETIN is DirectoryInfo;
         }
 
+        /// <summary>
+        /// Private method for finding a single folder under the top level that matches the search pattern (list)
+        /// </summary>
+        /// <param name="dContainingFolder">Folder in which to look for subfolders</param>
+        /// <param name="sSearchPatternList">The search pattern to look foder. Can include wildcards (tin*) and can be a semi colon separated list (orthog*.gdb;*.gdb)</param>
+        /// <param name="dFolder">Output, full absolute path to the first folder that matches the search pattern</param>
+        /// <returns>True if exactly one folder is found matching the search pattern, otherwise false</returns>
+        /// <remarks>If the search pattern is a list then the list is searched in order. As soon as one directory
+        /// matches a pattern, the method exists with success.</remarks>
         private static bool RetrieveSingleFolder(DirectoryInfo dContainingFolder, string sSearchPatternList, out DirectoryInfo dFolder)
         {
             dFolder = null;
 
+            // Loop over all the search patterns, or just the name to look for if this is not a list
             foreach (string aPattern in sSearchPatternList.Split(';'))
             {
+                // **Recursively** find all folders below the top level that match the pattern
                 DirectoryInfo[] dMatchingFolders = dContainingFolder.GetDirectories(aPattern, SearchOption.AllDirectories);
-
                 switch (dMatchingFolders.Count<DirectoryInfo>())
                 {
                     case 0:
-                        return false;
-
-                    case 1:
-                        dFolder = dMatchingFolders[0];
+                        // No directories match this pattern. Continue looping through patterns.
                         break;
 
-                    default:
-                        throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
+                    case 1:
+                        // The first pattern that matches exactly one directly is considered success
+                        dFolder = dMatchingFolders[0];
+                        return true;
 
+                    default:
+                        // No pattern is allowed to match multiple directories (because additional logic would be required to pick which is correct)
+                        throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
                 }
             }
 
