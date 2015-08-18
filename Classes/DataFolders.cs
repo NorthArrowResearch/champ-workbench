@@ -69,9 +69,6 @@ namespace CHaMPWorkbench.Classes
         {
             dVisitFolder = null;
 
-            if (!dTopLevelFolder.Exists)
-                throw new ArgumentException("The top level folder must already exist.");
-
             if (nVisitID < 1)
                 throw new ArgumentOutOfRangeException("nVisitID", nVisitID, "The visit ID must be greater than zero.");
 
@@ -262,6 +259,9 @@ namespace CHaMPWorkbench.Classes
         {
             dFolder = null;
 
+            if (!dContainingFolder.Exists)
+                return false;
+
             // Loop over all the search patterns, or just the name to look for if this is not a list
             foreach (string aPattern in sSearchPatternList.Split(';'))
             {
@@ -278,9 +278,9 @@ namespace CHaMPWorkbench.Classes
                         dFolder = dMatchingFolders[0];
                         return true;
 
-                    default:
+                   // default:
                         // No pattern is allowed to match multiple directories (because additional logic would be required to pick which is correct)
-                        throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
+                        //throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
                 }
             }
 

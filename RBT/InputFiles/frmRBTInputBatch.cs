@@ -25,24 +25,7 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
-                " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-                " WHERE (V.VisitYear Is Not Null) AND (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-            {
-                int nVisitID = (int)dbRead["VisitID"];
-                if (m_lVisitIDs.Contains<int>(nVisitID))
-                {
-                    System.IO.DirectoryInfo dVisitTopoFolder = null;
-                    if (Classes.DataFolders.Topo(new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), nVisitID, out dVisitTopoFolder))
-                    {
-                        string sPath = Classes.DataFolders.RBTInputFile(this.txtOutputFolder.Text, dVisitTopoFolder, txtInputFileRoot.Text).FullName;
-                        lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
-                    }
-                }
-            }
-
+            RefreshVisitPaths();
             ucConfig.ManualInitialization();
 
             txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
@@ -63,6 +46,34 @@ namespace CHaMPWorkbench.RBTInputFile
                 sDefault = string.Empty;
             }
             txtOutputFolder.Text = sDefaultIO;
+        }
+
+        private void RefreshVisitPaths()
+        {
+            lstVisits.Items.Clear();
+
+            if (string.IsNullOrEmpty(txtMonitoringDataFolder.Text) || !System.IO.Directory.Exists(txtMonitoringDataFolder.Text))
+                return;
+            
+            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
+               " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
+               " WHERE (V.VisitYear Is Not Null) AND (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
+            OleDbDataReader dbRead = dbCom.ExecuteReader();
+            while (dbRead.Read())
+            {
+                int nVisitID = (int)dbRead["VisitID"];
+                if (m_lVisitIDs.Contains<int>(nVisitID))
+                {
+                    System.IO.DirectoryInfo dVisitTopoFolder = null;
+
+                    if (Classes.DataFolders.Topo(new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), nVisitID, out dVisitTopoFolder))
+                    {
+                        string sPath = Classes.DataFolders.RBTInputFile(this.txtOutputFolder.Text, dVisitTopoFolder, txtInputFileRoot.Text).FullName;
+                        lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
+                    }
+                }
+            }
+
         }
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
@@ -190,6 +201,11 @@ namespace CHaMPWorkbench.RBTInputFile
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtMonitoringDataFolder_TextChanged(object sender, EventArgs e)
+        {
+            RefreshVisitPaths();
         }
     }
 }

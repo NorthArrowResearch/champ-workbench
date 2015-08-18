@@ -30,10 +30,17 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rdoSelectedOnly = new System.Windows.Forms.RadioButton();
+            this.rdoAll = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lstVisits = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.chkChangeDetection = new System.Windows.Forms.CheckBox();
             this.Label2 = new System.Windows.Forms.Label();
             this.txtMonitoringDataFolder = new System.Windows.Forms.TextBox();
@@ -43,25 +50,18 @@
             this.lblBatchName = new System.Windows.Forms.Label();
             this.txtBatch = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lstVisits = new System.Windows.Forms.ListBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.rdoSelectedOnly = new System.Windows.Forms.RadioButton();
-            this.rdoAll = new System.Windows.Forms.RadioButton();
+            this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
+            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -97,6 +97,63 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rdoSelectedOnly);
+            this.groupBox3.Controls.Add(this.rdoAll);
+            this.groupBox3.Location = new System.Drawing.Point(184, 142);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(239, 72);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Which Visits to Include";
+            // 
+            // rdoSelectedOnly
+            // 
+            this.rdoSelectedOnly.AutoSize = true;
+            this.rdoSelectedOnly.Location = new System.Drawing.Point(14, 19);
+            this.rdoSelectedOnly.Name = "rdoSelectedOnly";
+            this.rdoSelectedOnly.Size = new System.Drawing.Size(115, 17);
+            this.rdoSelectedOnly.TabIndex = 0;
+            this.rdoSelectedOnly.Text = "Only the target visit";
+            this.rdoSelectedOnly.UseVisualStyleBackColor = true;
+            // 
+            // rdoAll
+            // 
+            this.rdoAll.AutoSize = true;
+            this.rdoAll.Checked = true;
+            this.rdoAll.Location = new System.Drawing.Point(14, 41);
+            this.rdoAll.Name = "rdoAll";
+            this.rdoAll.Size = new System.Drawing.Size(216, 17);
+            this.rdoAll.TabIndex = 2;
+            this.rdoAll.TabStop = true;
+            this.rdoAll.Text = "All visits to this site where topo data exist";
+            this.rdoAll.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.lstVisits);
+            this.groupBox2.Location = new System.Drawing.Point(6, 263);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(831, 280);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Target Visits";
+            // 
+            // lstVisits
+            // 
+            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstVisits.FormattingEnabled = true;
+            this.lstVisits.Location = new System.Drawing.Point(8, 19);
+            this.lstVisits.Name = "lstVisits";
+            this.lstVisits.Size = new System.Drawing.Size(817, 251);
+            this.lstVisits.TabIndex = 0;
             // 
             // label1
             // 
@@ -140,6 +197,30 @@
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Target Visit Attributes";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(11, 72);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(225, 17);
+            this.checkBox2.TabIndex = 3;
+            this.checkBox2.Text = "Require visits to have a water surface TIN";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(11, 49);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(155, 17);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "Force all visits to be primary";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // chkChangeDetection
             // 
             this.chkChangeDetection.AutoSize = true;
@@ -169,7 +250,7 @@
             this.txtMonitoringDataFolder.Name = "txtMonitoringDataFolder";
             this.txtMonitoringDataFolder.Size = new System.Drawing.Size(572, 20);
             this.txtMonitoringDataFolder.TabIndex = 3;
-            this.txtMonitoringDataFolder.Text = "E:\\Local Cloud\\Shared\\CHaMP\\MonitoringData";
+            this.txtMonitoringDataFolder.TextChanged += new System.EventHandler(this.txtMonitoringDataFolder_TextChanged);
             // 
             // cmdBrowseFolder
             // 
@@ -228,13 +309,6 @@
             this.tabPage2.Text = "RBT Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // ucConfig
-            // 
-            this.ucConfig.Location = new System.Drawing.Point(6, 6);
-            this.ucConfig.Name = "ucConfig";
-            this.ucConfig.Size = new System.Drawing.Size(835, 547);
-            this.ucConfig.TabIndex = 0;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
@@ -245,14 +319,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Change Detection";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // ucRBTChangeDetection1
-            // 
-            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
-            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
-            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 543);
-            this.ucRBTChangeDetection1.TabIndex = 0;
             // 
             // cmdCancel
             // 
@@ -277,86 +343,20 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // groupBox2
+            // ucConfig
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.lstVisits);
-            this.groupBox2.Location = new System.Drawing.Point(6, 263);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(831, 280);
-            this.groupBox2.TabIndex = 16;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Target Visits";
+            this.ucConfig.Location = new System.Drawing.Point(6, 6);
+            this.ucConfig.Name = "ucConfig";
+            this.ucConfig.Size = new System.Drawing.Size(835, 547);
+            this.ucConfig.TabIndex = 0;
             // 
-            // lstVisits
+            // ucRBTChangeDetection1
             // 
-            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstVisits.FormattingEnabled = true;
-            this.lstVisits.Location = new System.Drawing.Point(8, 19);
-            this.lstVisits.Name = "lstVisits";
-            this.lstVisits.Size = new System.Drawing.Size(817, 251);
-            this.lstVisits.TabIndex = 0;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.rdoSelectedOnly);
-            this.groupBox3.Controls.Add(this.rdoAll);
-            this.groupBox3.Location = new System.Drawing.Point(184, 142);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(239, 72);
-            this.groupBox3.TabIndex = 17;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Which Visits to Include";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(11, 49);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(155, 17);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Force all visits to be primary";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(11, 72);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(225, 17);
-            this.checkBox2.TabIndex = 3;
-            this.checkBox2.Text = "Require visits to have a water surface TIN";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
-            // rdoSelectedOnly
-            // 
-            this.rdoSelectedOnly.AutoSize = true;
-            this.rdoSelectedOnly.Location = new System.Drawing.Point(14, 19);
-            this.rdoSelectedOnly.Name = "rdoSelectedOnly";
-            this.rdoSelectedOnly.Size = new System.Drawing.Size(115, 17);
-            this.rdoSelectedOnly.TabIndex = 0;
-            this.rdoSelectedOnly.Text = "Only the target visit";
-            this.rdoSelectedOnly.UseVisualStyleBackColor = true;
-            // 
-            // rdoAll
-            // 
-            this.rdoAll.AutoSize = true;
-            this.rdoAll.Checked = true;
-            this.rdoAll.Location = new System.Drawing.Point(14, 41);
-            this.rdoAll.Name = "rdoAll";
-            this.rdoAll.Size = new System.Drawing.Size(216, 17);
-            this.rdoAll.TabIndex = 2;
-            this.rdoAll.TabStop = true;
-            this.rdoAll.Text = "All visits to this site where topo data exist";
-            this.rdoAll.UseVisualStyleBackColor = true;
+            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
+            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 543);
+            this.ucRBTChangeDetection1.TabIndex = 0;
             // 
             // frmRBTInputBatch
             // 
@@ -377,13 +377,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.GroupBox1.ResumeLayout(false);
             this.GroupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
