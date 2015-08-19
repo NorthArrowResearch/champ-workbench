@@ -106,7 +106,7 @@ namespace CHaMPWorkbench.Classes
             dSurveyGDB = null;
             DirectoryInfo dTopoFolder = null;
 
-            if (!Topo(dTopoFolder, nVisitID, out dTopoFolder))
+            if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
                 return false;
 
             // Unzipped AWS bucket uses one additional folder level than the FTP
@@ -210,16 +210,12 @@ namespace CHaMPWorkbench.Classes
         /// The return value will only be true if both paths exist though</remarks>
         public static bool SurveyGDBTopoTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN)
         {
-            DirectoryInfo dTopo = null;
             dSurveyGDB = null;
             dTopoTIN = null;
 
-            if (Topo(dTopLevelFolder, nVisitID, out dTopo))
-            {
-                SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB);
+            if (SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB))
                 TopoTIN(dTopLevelFolder, nVisitID, out dTopoTIN);
-            }
-
+      
             return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo;
         }
 
@@ -278,9 +274,9 @@ namespace CHaMPWorkbench.Classes
                         dFolder = dMatchingFolders[0];
                         return true;
 
-                   // default:
-                        // No pattern is allowed to match multiple directories (because additional logic would be required to pick which is correct)
-                        //throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
+                    // default:
+                    // No pattern is allowed to match multiple directories (because additional logic would be required to pick which is correct)
+                    //throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
                 }
             }
 
