@@ -600,6 +600,9 @@ namespace CHaMPWorkbench.Classes
                 foreach (XmlNode aNode in xmlTopNode.SelectNodes("./channel_segments/segment"))
                 {
                     GetIntegerValueFromNode(pSegmentNumber, aNode, "./segment_number");
+                    if (pSegmentNumber.Value == DBNull.Value)
+                        pSegmentNumber.Value = 1;
+                    
                     GetStringValueFromNode(pMaxDepth, aNode, "./max_depth");
                     GetDoubleValueFromNode(pArea, aNode, "./area");
                     GetDoubleValueFromNode(pVolume, aNode, "./volume");
