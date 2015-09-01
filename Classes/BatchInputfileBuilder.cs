@@ -67,7 +67,7 @@ namespace CHaMPWorkbench.Classes
                     taUnits.Connection = conVisit;
                     taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
 
-                    dVisitTopoFolder = dSurveyGDB.Parent;
+                    Classes.DataFolders.Topo(dParentTopoFolder, nVisitID, out dVisitTopoFolder);
                     Visit theVisit = new Visit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
 
                     theSite.AddVisit(theVisit);
