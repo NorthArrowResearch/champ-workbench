@@ -46,21 +46,21 @@ namespace CHaMPWorkbench.Classes
     /// </summary>
     public class DataFolders
     {
+        // Strings to use when naming things
+        private const string m_sTopoFolder = "Topo";
+
+
         // Regex Patterns for things
-        private const string m_sVisitFolder = "\\\\VISIT_{0}";
-        private const string m_sTopoFolder = "\\\\Topo";
-        private const string m_sHydroFolder = "\\\\Hydro";
-        private const string m_sRBTOutputs = "\\\\RBTOutputs";
+        private const string m_sVisitFolder = "\\\\VISIT_{0}$";
+        private const string m_sVisitFolderTest = "\\\\VISIT_[0-9]+$";
+        private const string m_sTopoFolderTest = "\\\\Topo$";
 
-        // Windows File Mathing Patterns
         private const string m_sSurveyGDBFolder = "\\\\.*\\.gdb$";
-        private const string m_sSurveyGDBOrthogFolder = "\\\\.*orthog.*\\.gdb";
+        private const string m_sSurveyGDBOrthogFolder = "\\\\.*orthog.*\\.gdb$";
 
-        private const string m_sTopoTINZipFile = "\\\\TIN";
         private const string m_sTopoTINSearch = "\\\\tin.*";
 
-        private const string m_sWSTINZipFile = "\\\\WettedSurfaceTIN";
-        private const string m_sWSTINSearch = "\\\\ws.*";
+        private const string m_sWSTINFolder = "\\\\(ws.*|WettedSurfaceTIN)$";
 
         /// <summary>
         /// Retrieves an existing visit folder below a top level folder
@@ -93,7 +93,7 @@ namespace CHaMPWorkbench.Classes
             dTopoFolder = null;
 
             if (Visit(dTopLevelFolder, nVisitID, out dVisitFolder))
-                FolderFindRecursive(dVisitFolder, m_sTopoFolder, out dTopoFolder, 1);
+                FolderFindRecursive(dVisitFolder, m_sTopoFolderTest, out dTopoFolder, 1);
 
             return dTopoFolder is DirectoryInfo && dTopoFolder.Exists;
         }
@@ -129,7 +129,7 @@ namespace CHaMPWorkbench.Classes
         /// <returns>True if the topo TIN is valid and exists, otherwise null</returns>
         public static bool TopoTIN(DirectoryInfo dTopoLevelFolder, int nVisitID, out DirectoryInfo dTopoTin)
         {
-            return TinFolder(dTopoLevelFolder, nVisitID, m_sTopoTINZipFile, m_sTopoTINSearch, out dTopoTin);
+            return TinFolder(dTopoLevelFolder, nVisitID, m_sTopoTINSearch, out dTopoTin);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace CHaMPWorkbench.Classes
         /// <returns>True if the topo TIN is valid and exists, otherwise Null.</returns>
         public static bool WaterSurfaceTIN(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dWaterSurfaceTIN)
         {
-            return TinFolder(dTopLevelFolder, nVisitID, m_sWSTINZipFile, m_sWSTINSearch, out dWaterSurfaceTIN);
+            return TinFolder(dTopLevelFolder, nVisitID, m_sWSTINFolder, out dWaterSurfaceTIN);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="sTinSearchPattern">Semi colon concatenated list of wildcarded paths for TIN name. See class constants</param>
         /// <param name="dTIN">Output, full absolute path to the TIN. Null if does not exist</param>
         /// <returns>True if the TIN is found, orthwise Null</returns>
-        private static bool TinFolder(DirectoryInfo dTopLevelFolder, int nVisitID, string sTinZipFile, string sTinSearchPattern, out DirectoryInfo dTIN)
+        private static bool TinFolder(DirectoryInfo dTopLevelFolder, int nVisitID, string sTinZipFile, out DirectoryInfo dTIN)
         {
             dTIN = null;
             DirectoryInfo dTopoFolder = null;
@@ -168,35 +168,17 @@ namespace CHaMPWorkbench.Classes
             // AWS: VISIT_XXXX\Topo\WettedSurfaceTIN\wsetin\*.adf
             // FTP: VISIT_XXXX\Topo\wsetin\*.adf
 
-            DirectoryInfo dTin = null;
-
-            DirectoryInfo dParent = dTopoFolder;
-            while (FolderFindRecursive(dParent, sTinZipFile, out dParent, 2))
+            DirectoryInfo dTempTin = dTopoFolder;
+            while (FolderFindRecursive(dTempTin, sTinZipFile, out dTempTin, 1))
             {
-                // Folder matching the TIN search pattern found. Could be FTP data
-                // with a tin called "tin", "tin1", "wsetin1" etc or could be AWS
-                // data and the TIN folder is nested lower.
-
-                //FileInfo[] fTinFiles = dTin.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
-                //if (fTinFiles.Count<FileInfo>() == 0)
-                //{
-                //    // There is a folder called TIN under TopoData but it does not contain any ADF files
-                //    // which suggests this is AWS data. Look inside for the actual tin folder.
-                //    FolderFindRecursive(dTin, sTinSearchPattern, out dTin, 2);
-                //}
-                //else
-                //{
-                //    // ADF files were found in the folder called under TopoData.
-                //    // This suggests it is FTP data.
-                //}
+                dTIN = dTempTin;
             }
-            
-            // No folder matching the AWS zip file was found. This could still be FTP
-            // data with a tin called "tin1" or "wsetin" or "wsetin1"
-            FolderFindRecursive(dParent, sTinSearchPattern, out dTin, 2);
 
+            if (dTIN == null)
+                return false;
 
-            return dTin is DirectoryInfo && dTin.Exists;
+            FileInfo[] fTinFiles = dTIN.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
+            return fTinFiles.Count<FileInfo>() > 0;
 
         }
 
@@ -294,10 +276,11 @@ namespace CHaMPWorkbench.Classes
         /// as well as explicit paths</remarks>
         public static DirectoryInfo RBTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
         {
-            if (!(dVisitFolder.FullName.Split(System.IO.Path.DirectorySeparatorChar).Count<string>() < 3))
+            Regex r = new Regex(m_sVisitFolderTest, RegexOptions.IgnoreCase);
+            if (!r.Match(dVisitFolder.FullName).Success)
                 throw new Exception("The visit folder must be at least 3 levels deep (watershed/year/site/visit_xxx or year/watershed/site/visit_xxx");
 
-            DirectoryInfo dMonitoringDataFolder = dVisitFolder.Parent.Parent.Parent;
+            DirectoryInfo dMonitoringDataFolder = dVisitFolder.Parent.Parent.Parent.Parent;
 
             string sVisitOutputFolder = dVisitFolder.FullName.Replace(dMonitoringDataFolder.FullName, sTopLevelOutputFolder);
             DirectoryInfo dVisitOutputFolder = new DirectoryInfo(System.IO.Path.Combine(sVisitOutputFolder, m_sTopoFolder));
@@ -305,9 +288,9 @@ namespace CHaMPWorkbench.Classes
             return dVisitOutputFolder;
         }
 
-        public static FileInfo RBTInputFile(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder, string sInputFileName)
+        public static FileInfo RBTInputFile(string sTopLevelOutputFolder, DirectoryInfo dVisitTopoFolder, string sInputFileName)
         {
-            string sInputFile = Classes.DataFolders.RBTOutputFolder(sTopLevelOutputFolder, dVisitFolder).FullName;
+            string sInputFile = Classes.DataFolders.RBTOutputFolder(sTopLevelOutputFolder, dVisitTopoFolder.Parent).FullName;
             sInputFile = System.IO.Path.Combine(sInputFile, sInputFileName);
             sInputFile = System.IO.Path.ChangeExtension(sInputFile, "xml");
             return new FileInfo(sInputFile);
