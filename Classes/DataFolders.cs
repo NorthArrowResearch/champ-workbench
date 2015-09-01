@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 
 namespace CHaMPWorkbench.Classes
 {
     /// <summary>
+    /// 
     /// This class is intended to make it easy to retrieve the folder paths for 
     /// CHaMP data. It is intended to work with BOTH local copies of the FTP
     /// site as well as local copies of the AWS unzipped data.
@@ -44,19 +46,21 @@ namespace CHaMPWorkbench.Classes
     /// </summary>
     public class DataFolders
     {
-        private const string m_sVisitFolder = "VISIT_{0}";
-        private const string m_sTopoFolder = "Topo";
-        private const string m_sHydroFolder = "Hydro";
-        private const string m_sRBTOutputs = "RBTOutputs";
+        // Regex Patterns for things
+        private const string m_sVisitFolder = "\\\\VISIT_{0}";
+        private const string m_sTopoFolder = "\\\\Topo";
+        private const string m_sHydroFolder = "\\\\Hydro";
+        private const string m_sRBTOutputs = "\\\\RBTOutputs";
 
-        private const string m_sSurveyGDBZipFile = "SurveyGDB";
-        private const string m_sSurveyGDBSearch = "*orthog*.gdb;*.gdb";
+        // Windows File Mathing Patterns
+        private const string m_sSurveyGDBFolder = "\\\\.*\\.gdb$";
+        private const string m_sSurveyGDBOrthogFolder = "\\\\.*orthog.*\\.gdb";
 
-        private const string m_sTopoTINZipFile = "TIN";
-        private const string m_sTopoTINSearch = "tin*";
+        private const string m_sTopoTINZipFile = "\\\\TIN";
+        private const string m_sTopoTINSearch = "\\\\tin.*";
 
-        private const string m_sWSTINZipFile = "WettedSurfaceTIN";
-        private const string m_sWSTINSearch = "ws*";
+        private const string m_sWSTINZipFile = "\\\\WettedSurfaceTIN";
+        private const string m_sWSTINSearch = "\\\\ws.*";
 
         /// <summary>
         /// Retrieves an existing visit folder below a top level folder
@@ -73,7 +77,7 @@ namespace CHaMPWorkbench.Classes
                 throw new ArgumentOutOfRangeException("nVisitID", nVisitID, "The visit ID must be greater than zero.");
 
             string sVisitFolderPattern = string.Format(m_sVisitFolder, nVisitID);
-            return RetrieveSingleFolder(dTopLevelFolder, sVisitFolderPattern, out dVisitFolder);
+            return FolderFindRecursive(dTopLevelFolder, sVisitFolderPattern, out dVisitFolder, 4);
         }
 
         /// <summary>
@@ -89,7 +93,7 @@ namespace CHaMPWorkbench.Classes
             dTopoFolder = null;
 
             if (Visit(dTopLevelFolder, nVisitID, out dVisitFolder))
-                RetrieveSingleFolder(dVisitFolder, m_sTopoFolder, out dTopoFolder);
+                FolderFindRecursive(dVisitFolder, m_sTopoFolder, out dTopoFolder, 1);
 
             return dTopoFolder is DirectoryInfo && dTopoFolder.Exists;
         }
@@ -109,14 +113,11 @@ namespace CHaMPWorkbench.Classes
             if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
                 return false;
 
-            // Unzipped AWS bucket uses one additional folder level than the FTP
-            // AWS: VISIT_XXXX\Topo\SurveyGDB\MySurvey.gdb
-            // FTP: VISIT_XXXX\Topo\MySurvey.gdb
-            DirectoryInfo dSurveyZipFolder = null;
-            if (RetrieveSingleFolder(dTopoFolder, m_sSurveyGDBZipFile, out  dSurveyZipFolder))
-                dTopoFolder = dSurveyZipFolder;
-
-            return RetrieveSingleFolder(dTopoFolder, m_sSurveyGDBSearch, out dSurveyGDB);
+            // Prioritize the Orthog Over the plain GDB result
+            if (FolderFindRecursive(dTopoFolder, m_sSurveyGDBOrthogFolder, out dSurveyGDB, 2))
+                return true;
+            else
+                return FolderFindRecursive(dTopoFolder, m_sSurveyGDBFolder, out dSurveyGDB, 2);
         }
 
         /// <summary>
@@ -168,7 +169,7 @@ namespace CHaMPWorkbench.Classes
             // FTP: VISIT_XXXX\Topo\wsetin\*.adf
 
             DirectoryInfo dTin = null;
-            if (RetrieveSingleFolder(dTopoFolder, sTinZipFile, out dTin))
+            if (FolderFindRecursive(dTopoFolder, sTinZipFile, out dTin, 2))
             {
                 // Folder matching the TIN search pattern found. Could be FTP data
                 // with a tin called "tin", "tin1", "wsetin1" etc or could be AWS
@@ -179,7 +180,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     // There is a folder called TIN under TopoData but it does not contain any ADF files
                     // which suggests this is AWS data. Look inside for the actual tin folder.
-                    RetrieveSingleFolder(dTin, sTinSearchPattern, out dTin);
+                    FolderFindRecursive(dTin, sTinSearchPattern, out dTin, 2);
                 }
                 else
                 {
@@ -191,7 +192,7 @@ namespace CHaMPWorkbench.Classes
             {
                 // No folder matching the AWS zip file was found. This could still be FTP
                 // data with a tin called "tin1" or "wsetin" or "wsetin1"
-                RetrieveSingleFolder(dTopoFolder, sTinSearchPattern, out dTin);
+                FolderFindRecursive(dTopoFolder, sTinSearchPattern, out dTin, 2);
             }
 
             return dTin is DirectoryInfo && dTin.Exists;
@@ -243,43 +244,41 @@ namespace CHaMPWorkbench.Classes
         }
 
         /// <summary>
-        /// Private method for finding a single folder under the top level that matches the search pattern (list)
+        /// Recursively walk through a folder structure up to a specified depth and try to match a pattern
         /// </summary>
-        /// <param name="dContainingFolder">Folder in which to look for subfolders</param>
-        /// <param name="sSearchPatternList">The search pattern to look foder. Can include wildcards (tin*) and can be a semi colon separated list (orthog*.gdb;*.gdb)</param>
-        /// <param name="dFolder">Output, full absolute path to the first folder that matches the search pattern</param>
-        /// <returns>True if exactly one folder is found matching the search pattern, otherwise false</returns>
-        /// <remarks>If the search pattern is a list then the list is searched in order. As soon as one directory
-        /// matches a pattern, the method exists with success.</remarks>
-        private static bool RetrieveSingleFolder(DirectoryInfo dContainingFolder, string sSearchPatternList, out DirectoryInfo dFolder)
+        /// <param name="root"></param>
+        /// <param name="depthRemaining"></param>
+        /// <param name="sSearchPattern"></param>
+        /// <param name="dFolder"></param>
+        /// <returns></returns>
+        private static bool FolderFindRecursive(System.IO.DirectoryInfo root, string sSearchPattern, out DirectoryInfo dFolder, int depthRemaining)
         {
             dFolder = null;
+            Regex r = new Regex(sSearchPattern, RegexOptions.IgnoreCase);
+            System.IO.DirectoryInfo[] subDirs = null;
 
-            if (!dContainingFolder.Exists)
+            if (depthRemaining <= 0)
                 return false;
 
-            // Loop over all the search patterns, or just the name to look for if this is not a list
-            foreach (string aPattern in sSearchPatternList.Split(';'))
+            // Now find all the subdirectories under this directory. 3
+            subDirs = root.GetDirectories();
+
+            foreach (System.IO.DirectoryInfo dirInfo in subDirs)
             {
-                // **Recursively** find all folders below the top level that match the pattern
-                DirectoryInfo[] dMatchingFolders = dContainingFolder.GetDirectories(aPattern, SearchOption.AllDirectories);
-                switch (dMatchingFolders.Count<DirectoryInfo>())
+                // Resursive call for each subdirectory.
+                Match m = r.Match(dirInfo.FullName);
+                if (m.Success)
                 {
-                    case 0:
-                        // No directories match this pattern. Continue looping through patterns.
-                        break;
-
-                    case 1:
-                        // The first pattern that matches exactly one directly is considered success
-                        dFolder = dMatchingFolders[0];
+                    dFolder = dirInfo;
+                    return true;
+                }
+                else
+                {
+                    bool bRecurse = FolderFindRecursive(dirInfo, sSearchPattern, out dFolder, (depthRemaining - 1 ) );
+                    if (bRecurse)
                         return true;
-
-                    // default:
-                    // No pattern is allowed to match multiple directories (because additional logic would be required to pick which is correct)
-                    //throw new Exception(string.Format("Multiple ({0}) visit folders found with pattern '{1}' under {2}", dMatchingFolders.Count<DirectoryInfo>(), aPattern, dContainingFolder.FullName));
                 }
             }
-
             return dFolder is DirectoryInfo && dFolder.Exists;
         }
 
