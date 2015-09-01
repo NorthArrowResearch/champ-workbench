@@ -158,7 +158,7 @@ namespace CHaMPWorkbench.Classes
             dTIN = null;
             DirectoryInfo dTopoFolder = null;
 
-            if (!Topo(dTopoFolder, nVisitID, out dTopoFolder))
+            if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
                 return false;
 
             // Unzipped AWS bucket uses one additional folder level than the FTP
@@ -169,31 +169,32 @@ namespace CHaMPWorkbench.Classes
             // FTP: VISIT_XXXX\Topo\wsetin\*.adf
 
             DirectoryInfo dTin = null;
-            if (FolderFindRecursive(dTopoFolder, sTinZipFile, out dTin, 2))
+
+            DirectoryInfo dParent = dTopoFolder;
+            while (FolderFindRecursive(dParent, sTinZipFile, out dParent, 2))
             {
                 // Folder matching the TIN search pattern found. Could be FTP data
                 // with a tin called "tin", "tin1", "wsetin1" etc or could be AWS
                 // data and the TIN folder is nested lower.
 
-                FileInfo[] fTinFiles = dTin.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
-                if (fTinFiles.Count<FileInfo>() == 0)
-                {
-                    // There is a folder called TIN under TopoData but it does not contain any ADF files
-                    // which suggests this is AWS data. Look inside for the actual tin folder.
-                    FolderFindRecursive(dTin, sTinSearchPattern, out dTin, 2);
-                }
-                else
-                {
-                    // ADF files were found in the folder called under TopoData.
-                    // This suggests it is FTP data.
-                }
+                //FileInfo[] fTinFiles = dTin.GetFiles("*.adf", SearchOption.TopDirectoryOnly);
+                //if (fTinFiles.Count<FileInfo>() == 0)
+                //{
+                //    // There is a folder called TIN under TopoData but it does not contain any ADF files
+                //    // which suggests this is AWS data. Look inside for the actual tin folder.
+                //    FolderFindRecursive(dTin, sTinSearchPattern, out dTin, 2);
+                //}
+                //else
+                //{
+                //    // ADF files were found in the folder called under TopoData.
+                //    // This suggests it is FTP data.
+                //}
             }
-            else
-            {
-                // No folder matching the AWS zip file was found. This could still be FTP
-                // data with a tin called "tin1" or "wsetin" or "wsetin1"
-                FolderFindRecursive(dTopoFolder, sTinSearchPattern, out dTin, 2);
-            }
+            
+            // No folder matching the AWS zip file was found. This could still be FTP
+            // data with a tin called "tin1" or "wsetin" or "wsetin1"
+            FolderFindRecursive(dParent, sTinSearchPattern, out dTin, 2);
+
 
             return dTin is DirectoryInfo && dTin.Exists;
 
@@ -216,7 +217,7 @@ namespace CHaMPWorkbench.Classes
 
             if (SurveyGDB(dTopLevelFolder, nVisitID, out dSurveyGDB))
                 TopoTIN(dTopLevelFolder, nVisitID, out dTopoTIN);
-      
+
             return dSurveyGDB is DirectoryInfo && dTopoTIN is DirectoryInfo;
         }
 
@@ -274,7 +275,7 @@ namespace CHaMPWorkbench.Classes
                 }
                 else
                 {
-                    bool bRecurse = FolderFindRecursive(dirInfo, sSearchPattern, out dFolder, (depthRemaining - 1 ) );
+                    bool bRecurse = FolderFindRecursive(dirInfo, sSearchPattern, out dFolder, (depthRemaining - 1));
                     if (bRecurse)
                         return true;
                 }
