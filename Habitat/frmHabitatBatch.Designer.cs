@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
@@ -44,7 +44,6 @@
             this.tabSpecies = new System.Windows.Forms.TabPage();
             this.chkSpecies = new System.Windows.Forms.CheckedListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.chkSubstrate = new System.Windows.Forms.CheckBox();
             this.chkPrimary = new System.Windows.Forms.CheckBox();
             this.chkHydraulic = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -61,6 +60,8 @@
             this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkModels = new System.Windows.Forms.CheckedListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -75,8 +76,8 @@
             this.txtHabitatModelDB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.chkModels = new System.Windows.Forms.CheckedListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtD50RasterFileName = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -89,10 +90,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).BeginInit();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -224,7 +225,6 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.chkSubstrate);
             this.tabPage4.Controls.Add(this.chkPrimary);
             this.tabPage4.Controls.Add(this.chkHydraulic);
             this.tabPage4.Controls.Add(this.checkBox1);
@@ -236,25 +236,12 @@
             this.tabPage4.Text = "Other Criteria";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // chkSubstrate
-            // 
-            this.chkSubstrate.AutoSize = true;
-            this.chkSubstrate.Checked = true;
-            this.chkSubstrate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubstrate.Location = new System.Drawing.Point(7, 53);
-            this.chkSubstrate.Name = "chkSubstrate";
-            this.chkSubstrate.Size = new System.Drawing.Size(189, 17);
-            this.chkSubstrate.TabIndex = 3;
-            this.chkSubstrate.Text = "Must have substrate raster defined";
-            this.chkSubstrate.UseVisualStyleBackColor = true;
-            this.chkSubstrate.CheckedChanged += new System.EventHandler(this.FilterVisits);
-            // 
             // chkPrimary
             // 
             this.chkPrimary.AutoSize = true;
             this.chkPrimary.Checked = true;
             this.chkPrimary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPrimary.Location = new System.Drawing.Point(7, 76);
+            this.chkPrimary.Location = new System.Drawing.Point(7, 53);
             this.chkPrimary.Name = "chkPrimary";
             this.chkPrimary.Size = new System.Drawing.Size(130, 17);
             this.chkPrimary.TabIndex = 2;
@@ -356,14 +343,14 @@
             this.grdVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -371,25 +358,25 @@
             this.colFieldSeason,
             this.colSite,
             this.colFolder});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle5;
             this.grdVisits.Location = new System.Drawing.Point(6, 42);
             this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
@@ -460,15 +447,42 @@
             this.tabPage6.Text = "Habitat Model";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Controls.Add(this.chkModels);
+            this.groupBox5.Location = new System.Drawing.Point(10, 43);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(639, 162);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Habitat Models to Configure";
+            // 
+            // chkModels
+            // 
+            this.chkModels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkModels.CheckOnClick = true;
+            this.chkModels.FormattingEnabled = true;
+            this.chkModels.Location = new System.Drawing.Point(6, 19);
+            this.chkModels.Name = "chkModels";
+            this.chkModels.Size = new System.Drawing.Size(627, 124);
+            this.chkModels.TabIndex = 0;
+            // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.txtD50RasterFileName);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.txtD50TopLevel);
             this.groupBox4.Controls.Add(this.cmdD50TopLevel);
             this.groupBox4.Location = new System.Drawing.Point(10, 330);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(639, 100);
+            this.groupBox4.Size = new System.Drawing.Size(639, 143);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "D50 Substrate";
@@ -476,7 +490,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 70);
+            this.label6.Location = new System.Drawing.Point(37, 70);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(80, 13);
             this.label6.TabIndex = 6;
@@ -495,9 +509,9 @@
             // 
             this.txtD50TopLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtD50TopLevel.Location = new System.Drawing.Point(102, 66);
+            this.txtD50TopLevel.Location = new System.Drawing.Point(123, 66);
             this.txtD50TopLevel.Name = "txtD50TopLevel";
-            this.txtD50TopLevel.Size = new System.Drawing.Size(503, 20);
+            this.txtD50TopLevel.Size = new System.Drawing.Size(482, 20);
             this.txtD50TopLevel.TabIndex = 1;
             // 
             // cmdD50TopLevel
@@ -537,7 +551,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 70);
+            this.label1.Location = new System.Drawing.Point(37, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 1;
@@ -547,9 +561,9 @@
             // 
             this.txtMonitoringFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMonitoringFolder.Location = new System.Drawing.Point(102, 66);
+            this.txtMonitoringFolder.Location = new System.Drawing.Point(123, 66);
             this.txtMonitoringFolder.Name = "txtMonitoringFolder";
-            this.txtMonitoringFolder.Size = new System.Drawing.Size(503, 20);
+            this.txtMonitoringFolder.Size = new System.Drawing.Size(482, 20);
             this.txtMonitoringFolder.TabIndex = 2;
             this.txtMonitoringFolder.TextChanged += new System.EventHandler(this.txtMonitoringFolder_TextChanged);
             // 
@@ -594,30 +608,24 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Habitat project database";
             // 
-            // groupBox5
+            // label2
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 96);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "D50 raster file name";
+            // 
+            // txtD50RasterFileName
+            // 
+            this.txtD50RasterFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.chkModels);
-            this.groupBox5.Location = new System.Drawing.Point(10, 43);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(639, 162);
-            this.groupBox5.TabIndex = 6;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Habitat Models to Configure";
-            // 
-            // chkModels
-            // 
-            this.chkModels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkModels.CheckOnClick = true;
-            this.chkModels.FormattingEnabled = true;
-            this.chkModels.Location = new System.Drawing.Point(6, 19);
-            this.chkModels.Name = "chkModels";
-            this.chkModels.Size = new System.Drawing.Size(627, 124);
-            this.chkModels.TabIndex = 0;
+            this.txtD50RasterFileName.Location = new System.Drawing.Point(123, 92);
+            this.txtD50RasterFileName.Name = "txtD50RasterFileName";
+            this.txtD50RasterFileName.Size = new System.Drawing.Size(179, 20);
+            this.txtD50RasterFileName.TabIndex = 7;
+            this.txtD50RasterFileName.Text = "D50.tif";
             // 
             // frmHabitatBatch
             // 
@@ -644,12 +652,12 @@
             this.groupBox1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).EndInit();
-            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -691,7 +699,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFolder;
-        private System.Windows.Forms.CheckBox chkSubstrate;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -701,5 +708,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckedListBox chkModels;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtD50RasterFileName;
     }
 }

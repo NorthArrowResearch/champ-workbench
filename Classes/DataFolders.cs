@@ -62,6 +62,9 @@ namespace CHaMPWorkbench.Classes
 
         private const string m_sWSTINFolder = "\\\\(ws.*|WettedSurfaceTIN)$";
 
+        private const string m_sHydroResultsFolder = "\\\\HydroModelResults";
+        private const string m_sHydroResultsFile = "dem_grid_results.csv";
+
         /// <summary>
         /// Retrieves an existing visit folder below a top level folder
         /// </summary>
@@ -118,6 +121,47 @@ namespace CHaMPWorkbench.Classes
                 return true;
             else
                 return FolderFindRecursive(dTopoFolder, m_sSurveyGDBFolder, out dSurveyGDB, 2);
+        }
+
+        public static bool HydroResultCSV(DirectoryInfo dTopLevelFolder, int nVisitID, out FileInfo dHydroResultCSV)
+        {
+            dHydroResultCSV = null;
+            DirectoryInfo dTopoFolder = null;
+
+            if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
+                return false;
+
+            System.IO.DirectoryInfo dHydroResultsFolder = null;
+            if (!FolderFindRecursive(dTopoFolder, m_sHydroResultsFolder, out dHydroResultsFolder, 3))
+                return false;
+
+            FileInfo[] fHydroResults = dHydroResultsFolder.GetFiles(m_sHydroResultsFile, SearchOption.TopDirectoryOnly);
+            if (fHydroResults.Count() == 1)
+            {
+                dHydroResultCSV = fHydroResults[0];
+                return true;
+            }
+            else
+                return false;
+
+        }
+
+        public static bool D50Raster(DirectoryInfo dTopLevelFolder, string sD50RasterFile, int nVisitID, out FileInfo d50RasterFile)
+        {
+            d50RasterFile = null;
+            DirectoryInfo dTopoFolder = null;
+
+            if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
+                return false;
+
+            FileInfo[] fD50Rasters = dTopoFolder.GetFiles(sD50RasterFile, SearchOption.TopDirectoryOnly);
+            if (fD50Rasters.Count() == 1)
+            {
+                d50RasterFile = fD50Rasters[0];
+                return true;
+            }
+            else
+                return false;
         }
 
         /// <summary>

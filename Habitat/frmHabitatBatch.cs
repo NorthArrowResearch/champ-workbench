@@ -190,13 +190,6 @@ namespace CHaMPWorkbench.Habitat
                 sFilter += "IsPrimary = true";
             }
 
-            if (chkSubstrate.Checked)
-            {
-                if (!string.IsNullOrWhiteSpace(sFilter))
-                    sFilter += " AND ";
-                sFilter += " (ICRPath IS NOT Null) AND (Len(ICRPath) > 0) ";
-            }
-
             if (chkHydraulic.Checked)
             {
                 if (!string.IsNullOrWhiteSpace(sFilter))
@@ -409,7 +402,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text);
+                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text, txtD50RasterFileName.Text);
                 List<int> lVisitIDs = new List<int>();
                 foreach (DataGridViewRow r in grdVisits.Rows)
                 {
@@ -432,7 +425,7 @@ namespace CHaMPWorkbench.Habitat
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default; 
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
@@ -478,6 +471,12 @@ namespace CHaMPWorkbench.Habitat
             if (string.IsNullOrEmpty(txtMonitoringFolder.Text) || !System.IO.Directory.Exists(txtMonitoringFolder.Text))
             {
                 MessageBox.Show("You must specify the top level monitoring data folder to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtD50RasterFileName.Text))
+            {
+                MessageBox.Show("You must specify a name for the D50 substrate raster files contained under the D50 substrate raster top level folder.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
