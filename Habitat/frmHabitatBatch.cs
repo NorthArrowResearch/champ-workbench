@@ -190,13 +190,6 @@ namespace CHaMPWorkbench.Habitat
                 sFilter += "IsPrimary = true";
             }
 
-            if (chkHydraulic.Checked)
-            {
-                if (!string.IsNullOrWhiteSpace(sFilter))
-                    sFilter += " AND ";
-                sFilter += " (HydraulicModelCSV IS NOT Null) AND (HydraulicModelCSV <> '') ";
-            }
-
             if (grdVisits.DataSource is DataView)
             {
                 // bindingSourceSelectedVisits.Filter = sFilter;

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
@@ -45,8 +45,6 @@
             this.chkSpecies = new System.Windows.Forms.CheckedListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.chkPrimary = new System.Windows.Forms.CheckBox();
-            this.chkHydraulic = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -226,8 +224,6 @@
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.chkPrimary);
-            this.tabPage4.Controls.Add(this.chkHydraulic);
-            this.tabPage4.Controls.Add(this.checkBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -241,39 +237,13 @@
             this.chkPrimary.AutoSize = true;
             this.chkPrimary.Checked = true;
             this.chkPrimary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPrimary.Location = new System.Drawing.Point(7, 53);
+            this.chkPrimary.Location = new System.Drawing.Point(7, 11);
             this.chkPrimary.Name = "chkPrimary";
             this.chkPrimary.Size = new System.Drawing.Size(130, 17);
             this.chkPrimary.TabIndex = 2;
             this.chkPrimary.Text = "Must be a primary visit";
             this.chkPrimary.UseVisualStyleBackColor = true;
             this.chkPrimary.CheckedChanged += new System.EventHandler(this.FilterVisits);
-            // 
-            // chkHydraulic
-            // 
-            this.chkHydraulic.AutoSize = true;
-            this.chkHydraulic.Checked = true;
-            this.chkHydraulic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHydraulic.Enabled = false;
-            this.chkHydraulic.Location = new System.Drawing.Point(7, 30);
-            this.chkHydraulic.Name = "chkHydraulic";
-            this.chkHydraulic.Size = new System.Drawing.Size(247, 17);
-            this.chkHydraulic.TabIndex = 1;
-            this.chkHydraulic.Text = "Must have hydraulic model output CSV defined";
-            this.chkHydraulic.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(7, 7);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(162, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Must have topo data defined";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -343,14 +313,14 @@
             this.grdVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -358,25 +328,25 @@
             this.colFieldSeason,
             this.colSite,
             this.colFolder});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle8;
             this.grdVisits.Location = new System.Drawing.Point(6, 42);
             this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
@@ -675,8 +645,6 @@
         private System.Windows.Forms.CheckedListBox chkVisitTypes;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.CheckBox chkPrimary;
-        private System.Windows.Forms.CheckBox chkHydraulic;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.GroupBox groupBox2;
