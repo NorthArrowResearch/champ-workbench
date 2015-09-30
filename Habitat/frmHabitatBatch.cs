@@ -491,5 +491,17 @@ namespace CHaMPWorkbench.Habitat
         private void txtMonitoringFolder_TextChanged(object sender, EventArgs e)
         {
         }
+
+        private void SelectAllNone(object sender, EventArgs e)
+        {
+            ToolStripMenuItem myItem = (ToolStripMenuItem)sender;
+            ContextMenuStrip cms = (ContextMenuStrip)myItem.Owner;
+
+            CheckedListBox lst = (CheckedListBox)cms.SourceControl;
+            for (int i = 0; i <= lst.Items.Count - 1; i++)
+            {
+                lst.SetItemChecked(i, myItem.Text.ToLower().Contains("all"));
+            }
+        }
     }
 }
