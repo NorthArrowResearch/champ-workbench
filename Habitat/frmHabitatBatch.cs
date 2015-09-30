@@ -102,7 +102,7 @@ namespace CHaMPWorkbench.Habitat
             }
 
             sSQL += " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                   //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
+                //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
                    " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
@@ -111,7 +111,7 @@ namespace CHaMPWorkbench.Habitat
             object[] rowArray = new object[table.Columns.Count];
             while (dbRead.Read())
             {
-                System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
+                //System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
 
                 rowArray[0] = false;
                 rowArray[1] = (int)dbRead["VisitID"];

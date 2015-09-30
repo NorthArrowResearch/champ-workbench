@@ -104,6 +104,8 @@ namespace CHaMPWorkbench.Habitat
 
                         HSProjectManager.Instance.Save();
                     }
+                    else
+                        HSProjectManager.Instance.ProjectDatabase.RejectChanges();
                 }
             }
         }
@@ -132,9 +134,6 @@ namespace CHaMPWorkbench.Habitat
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", dD50Raster.FullName, false, "raster");
                         // Create project variable
                         rProjectVariable = BuildProjectVariable(rVisit.VisitID, "D50", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rSubstrateSource.DataSourceID);
-                        if (rProjectVariable != null)
-                            lProjectVariables.Add(rProjectVariable);
-
                         bRasterInputs = true;
                     }
                 }
@@ -155,14 +154,12 @@ namespace CHaMPWorkbench.Habitat
                             rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Velocity.Magnitude", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
                         else
                             rProjectVariable = BuildProjectVariable(rVisit.VisitID, "Depth", rHSICurveRow.HSCRow.HSCName, rHSICurveRow.HSCRow.UnitID, rHSICurveRow.HSCRow.VariablesRow.VariableID, rCSVDataSource.DataSourceID);
-
-                        if (rProjectVariable != null)
-                            lProjectVariables.Add(rProjectVariable);
                     }
                 }
 
                 if (rProjectVariable != null)
                 {
+                    lProjectVariables.Add(rProjectVariable);
                     // Insert the Simulation HSC input
                     dsHabitat.SimulationHSCInputsRow rSimHSCInput = m_HabitatManager.ProjectDatabase.SimulationHSCInputs.NewSimulationHSCInputsRow();
                     rSimHSCInput.SimulationsRow = rSimulation;
@@ -176,13 +173,13 @@ namespace CHaMPWorkbench.Habitat
 
             if (lProjectVariables.Count == rHSI.GetHSICurvesRows().Count<dsHabitat.HSICurvesRow>())
             {
-                m_HabitatManager.ProjectDatabase.SimulationHSCInputs.RejectChanges();
-                return false;
+                m_HabitatManager.ProjectDatabase.SimulationHSCInputs.AcceptChanges();
+                return true;
             }
             else
             {
-                m_HabitatManager.ProjectDatabase.SimulationHSCInputs.AcceptChanges();
-                return true;
+                m_HabitatManager.ProjectDatabase.SimulationHSCInputs.RejectChanges();
+                return false;
             }
         }
 
@@ -260,13 +257,13 @@ namespace CHaMPWorkbench.Habitat
 
                 if (lProjectVariables.Count == fis.FISInputs.Count)
                 {
-                    m_HabitatManager.ProjectDatabase.SimulationHSCInputs.RejectChanges();
-                    return false;
+                    m_HabitatManager.ProjectDatabase.SimulationHSCInputs.AcceptChanges();
+                    return true;
                 }
                 else
                 {
-                    m_HabitatManager.ProjectDatabase.SimulationHSCInputs.AcceptChanges();
-                    return true;
+                    m_HabitatManager.ProjectDatabase.SimulationHSCInputs.RejectChanges();
+                    return false;
                 }
             }
             else
