@@ -132,7 +132,7 @@ namespace CHaMPWorkbench.Classes
                 return false;
 
             System.IO.DirectoryInfo dHydroResultsFolder = null;
-            if (!FolderFindRecursive(dTopoFolder, m_sHydroResultsFolder, out dHydroResultsFolder, 3))
+            if (!FolderFindRecursive(dTopoFolder.Parent, m_sHydroResultsFolder, out dHydroResultsFolder, 3))
                 return false;
 
             FileInfo[] fHydroResults = dHydroResultsFolder.GetFiles(m_sHydroResultsFile, SearchOption.TopDirectoryOnly);
