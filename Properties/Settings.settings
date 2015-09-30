@@ -6,10 +6,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastTempFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\CHaMP\RBTTempFolder</Value>
+      <Value Profile="(Default)">D:\CHaMP\RBTTempFolder</Value>
     </Setting>
     <Setting Name="LastOutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\CHaMP\RBTInputOutputFiles</Value>
+      <Value Profile="(Default)">D:\CHaMP\RBTInputOutputFiles</Value>
     </Setting>
     <Setting Name="LastResultsFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">Results.xml</Value>
@@ -18,7 +18,7 @@
       <Value Profile="(Default)">Log.xml</Value>
     </Setting>
     <Setting Name="LastSourceFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\CHaMP\MonitoringData</Value>
+      <Value Profile="(Default)">D:\CHaMP\MonitoringData</Value>
     </Setting>
     <Setting Name="RBTWorkbenchConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -44,10 +44,10 @@
       <Value Profile="(Default)">C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs</Value>
     </Setting>
     <Setting Name="MonitoringDataFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\CHaMP\MonitoringData</Value>
+      <Value Profile="(Default)">D:\CHaMP\MonitoringData</Value>
     </Setting>
     <Setting Name="InputOutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\CHaMP\RBTInputOutputFiles</Value>
+      <Value Profile="(Default)">D:\CHaMP\RBTInputOutputFiles</Value>
     </Setting>
     <Setting Name="HabitatModelConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
