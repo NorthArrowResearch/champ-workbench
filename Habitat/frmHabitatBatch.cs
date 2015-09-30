@@ -84,16 +84,15 @@ namespace CHaMPWorkbench.Habitat
             table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
             table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
             table.Columns.Add(new DataColumn("PanelName", typeof(string)));
-            table.Columns.Add(new DataColumn("SurveyGDB", typeof(string)));
-            table.Columns.Add(new DataColumn("VisitFolder", typeof(string)));
-            table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
+            //table.Columns.Add(new DataColumn("SurveyGDB", typeof(string)));
+            //table.Columns.Add(new DataColumn("VisitFolder", typeof(string)));
+            //table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
             table.Columns.Add(new DataColumn("SiteName", typeof(string)));
             table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
             table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
-            table.Columns.Add(new DataColumn("ICRPath", typeof(string)));
+            //table.Columns.Add(new DataColumn("ICRPath", typeof(string)));
 
-            string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SurveyGDB, CHAMP_Visits.Folder AS VisitFolder, HydraulicModelCSV, " +
-             " CHAMP_Sites.SiteName, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, ICRPath";
+            string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, CHAMP_Sites.SiteName, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName";
 
             // Add the species to the SQL query and also to the receiving database table
             foreach (SpeciesListItem sli in chkSpecies.Items)
@@ -103,7 +102,7 @@ namespace CHaMPWorkbench.Habitat
             }
 
             sSQL += " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                   " WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
+                   //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
                    " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
@@ -124,23 +123,23 @@ namespace CHaMPWorkbench.Habitat
                 else
                     rowArray[4] = (string)dbRead["PanelName"];
 
-                if (DBNull.Value == dbRead["SurveyGDB"])
-                    rowArray[5] = "";
-                else
-                    rowArray[5] = (string)dbRead["SurveyGDB"];
+                //if (DBNull.Value == dbRead["SurveyGDB"])
+                //    rowArray[5] = "";
+                //else
+                //    rowArray[5] = (string)dbRead["SurveyGDB"];
 
-                rowArray[6] = (string)dbRead["VisitFolder"];
-                rowArray[7] = (string)dbRead["HydraulicModelCSV"];
-                rowArray[8] = (string)dbRead["SiteName"];
-                rowArray[9] = (int)dbRead["WatershedID"];
-                rowArray[10] = (string)dbRead["WatershedName"];
+                //rowArray[6] = (string)dbRead["VisitFolder"];
+                //rowArray[7] = (string)dbRead["HydraulicModelCSV"];
+                rowArray[5] = (string)dbRead["SiteName"];
+                rowArray[6] = (int)dbRead["WatershedID"];
+                rowArray[7] = (string)dbRead["WatershedName"];
 
-                if (DBNull.Value == dbRead["ICRPath"])
-                    rowArray[11] = DBNull.Value;
-                else
-                    rowArray[11] = (string)dbRead["ICRPath"];
+                //if (DBNull.Value == dbRead["ICRPath"])
+                //    rowArray[11] = DBNull.Value;
+                //else
+                //    rowArray[11] = (string)dbRead["ICRPath"];
 
-                int i = 12;
+                int i = 8;
                 foreach (SpeciesListItem sli in chkSpecies.Items)
                 {
                     rowArray[i] = (bool)dbRead[sli.FieldName];
