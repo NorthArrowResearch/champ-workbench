@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastTempFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\RBTTempFolder</Value>
+      <Value Profile="(Default)">D:\CHaMP\Temp</Value>
     </Setting>
     <Setting Name="LastOutputFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\CHaMP\RBTInputOutputFiles</Value>
@@ -32,7 +32,7 @@
       <Value Profile="(Default)">C:\Program Files\Sublime Text 2\sublime_text.exe</Value>
     </Setting>
     <Setting Name="RBTConsole" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\PhilipLocal\Documents\Code\RBT\rbt-console\bin\Debug\x86\RBTConsole.exe</Value>
+      <Value Profile="(Default)">D:\Code\rbt\rbt-console\bin\Debug\x86\RBTConsole.exe</Value>
     </Setting>
     <Setting Name="ZipPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\7-Zip\7z.exe</Value>

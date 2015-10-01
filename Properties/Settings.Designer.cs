@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\RBTTempFolder")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\Temp")]
         public string LastTempFolder {
             get {
                 return ((string)(this["LastTempFolder"]));
@@ -119,7 +119,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\PhilipLocal\\Documents\\Code\\RBT\\rbt-console\\bin\\Debug\\x86\\RBTConsole.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Code\\rbt\\rbt-console\\bin\\Debug\\x86\\RBTConsole.exe")]
         public string RBTConsole {
             get {
                 return ((string)(this["RBTConsole"]));
