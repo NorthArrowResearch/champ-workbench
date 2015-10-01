@@ -53,7 +53,7 @@ namespace CHaMPWorkbench.Data
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                String sMsg = ScavengeVisitInfo(txtDatabase.Text, sSurveyDesign,sProjectMetricsDB);
+                String sMsg = ScavengeVisitInfo(txtDatabase.Text, sSurveyDesign, sProjectMetricsDB);
                 MessageBox.Show(sMsg, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -241,7 +241,10 @@ namespace CHaMPWorkbench.Data
                     else
                         r.HitchName = (string)dbRead["HitchName"];
 
-                    r.IsPrimary = System.Convert.IsDBNull(dbRead["Primary Visit"]) || string.Compare((string)dbRead["Primary Visit"], "Yes", true) != 0;
+                    if (dbRead["Primary Visit"] == DBNull.Value)
+                        r.IsPrimary = false;
+                    else
+                        r.IsPrimary = string.Compare((string)dbRead["Primary Visit"], "Yes", true) == 0;
 
                     //if (System.Convert.IsDBNull(dbRead["HitchID"]))
                     r.SetHitchIDNull();
@@ -464,9 +467,9 @@ namespace CHaMPWorkbench.Data
                 }
             }
         }
-   
+
     }
 
- 
-    
+
+
 }
