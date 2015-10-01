@@ -107,12 +107,13 @@ namespace CHaMPWorkbench.Classes
                 //
                 // Now insert all the status messages and errors/warnings
                 //
-                dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, VisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
+                dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, SourceVisitID, TargetVisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
                                                                 " VALUES (@LogID, @MessageType, @MessageSeverity, @VisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", m_dbCon);
                 dbCom.Parameters.AddWithValue("LogID", nLogID);
                 OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
                 OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
-                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.BigInt);
+                OleDbParameter pSourceVisitID = dbCom.Parameters.Add("SourceVisitID", OleDbType.BigInt);
+                OleDbParameter pTargetVisitID = dbCom.Parameters.Add("TargetVisitID", OleDbType.BigInt);
                 OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
                 OleDbParameter pLogMessage = dbCom.Parameters.Add("LogMessage", OleDbType.VarChar);
                 OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
@@ -195,15 +196,27 @@ namespace CHaMPWorkbench.Classes
                         }
                     }
 
-                    aChildNode = MessageNode.SelectSingleNode("visit");
-                    pVisitID.Value = DBNull.Value;
+                    aChildNode = MessageNode.SelectSingleNode("source_visit");
+                    pSourceVisitID.Value = DBNull.Value;
                     if (aChildNode is XmlNode)
                     {
                         if (!string.IsNullOrEmpty(aChildNode.InnerText))
                         {
                             long nVisitID = 0;
                             if (long.TryParse(aChildNode.InnerText, out nVisitID))
-                                pVisitID.Value = nVisitID;
+                                pSourceVisitID.Value = nVisitID;
+                        }
+                    }
+
+                    aChildNode = MessageNode.SelectSingleNode("target_visit");
+                    pTargetVisitID.Value = DBNull.Value;
+                    if (aChildNode is XmlNode)
+                    {
+                        if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                        {
+                            long nVisitID = 0;
+                            if (long.TryParse(aChildNode.InnerText, out nVisitID))
+                                pTargetVisitID.Value = nVisitID;
                         }
                     }
 
