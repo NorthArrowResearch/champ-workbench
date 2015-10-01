@@ -62,7 +62,7 @@ namespace CHaMPWorkbench.Classes
 
         private const string m_sWSTINFolder = "\\\\(ws.*|WettedSurfaceTIN)$";
 
-        private const string m_sHydroResultsFolder = "\\\\HydroModelResults";
+        private const string m_sHydroResultsFolder = "\\\\Hydro";
         private const string m_sHydroResultsFile = "dem_grid_results.csv";
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace CHaMPWorkbench.Classes
             if (!FolderFindRecursive(dTopoFolder.Parent, m_sHydroResultsFolder, out dHydroResultsFolder, 3))
                 return false;
 
-            FileInfo[] fHydroResults = dHydroResultsFolder.GetFiles(m_sHydroResultsFile, SearchOption.TopDirectoryOnly);
+            FileInfo[] fHydroResults = dHydroResultsFolder.GetFiles(m_sHydroResultsFile, SearchOption.AllDirectories);
             if (fHydroResults.Count() == 1)
             {
                 dHydroResultCSV = fHydroResults[0];
