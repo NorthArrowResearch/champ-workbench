@@ -80,7 +80,6 @@ namespace CHaMPWorkbench.Habitat
                     // Trigger retrieval of SimulationID;
                     //m_taSimulations.Update(rSimulation);
                     int nSimulationID = rSimulation.SimulationID;
-                    nSucess++;
 
                     // Temporary fix because the C++ cannot produce a raster when there are no raster inputs.
                     // And cannot produce a CSV when there are just rasters.
@@ -103,9 +102,13 @@ namespace CHaMPWorkbench.Habitat
                             rSimulation.SetOutputRasterNull();
 
                         HSProjectManager.Instance.Save();
+                        nSucess++;
                     }
                     else
+                    {
                         HSProjectManager.Instance.ProjectDatabase.RejectChanges();
+                        nError++;
+                    }
                 }
             }
         }
