@@ -108,7 +108,7 @@ namespace CHaMPWorkbench.Classes
                 // Now insert all the status messages and errors/warnings
                 //
                 dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, SourceVisitID, TargetVisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
-                                                                " VALUES (@LogID, @MessageType, @MessageSeverity, @VisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", m_dbCon);
+                                                                " VALUES (@LogID, @MessageType, @MessageSeverity, @SourceVisitID, @TargetVisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", m_dbCon);
                 dbCom.Parameters.AddWithValue("LogID", nLogID);
                 OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
                 OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
