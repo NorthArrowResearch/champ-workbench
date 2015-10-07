@@ -15,7 +15,6 @@ namespace CHaMPWorkbench
 {
     public partial class MainForm : Form
     {
-
         private System.Data.OleDb.OleDbConnection m_dbCon;
 
         public MainForm()
@@ -200,28 +199,7 @@ namespace CHaMPWorkbench
             frmOptions frm = new frmOptions();
             frm.ShowDialog();
         }
-
-        private void batchToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            List<int> lvisitIDs = new List<int>();
-            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
-            {
-                DataRowView drv = (DataRowView)aRow.DataBoundItem;
-                DataRow r = drv.Row;
-
-                lvisitIDs.Add((int) r["VisitID"]);
-            }
-
-            if (lvisitIDs.Count > 0)
-            {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
-
-                frm.ShowDialog();
-            }
-            else
-                System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
-        }
-
+        
         private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
@@ -759,9 +737,28 @@ namespace CHaMPWorkbench
                 }
                 else
                     System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
 
+        private void buildInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<int> lvisitIDs = new List<int>();
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                lvisitIDs.Add((int)r["VisitID"]);
             }
 
+            if (lvisitIDs.Count > 0)
+            {
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
+
+                frm.ShowDialog();
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
         }
     }
 }

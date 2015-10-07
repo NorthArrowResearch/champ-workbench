@@ -47,8 +47,6 @@
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.buildInputFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.singleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.batchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.selectBatchesToRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runRBTConsoleBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -281,34 +279,16 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
             // 
-            this.buildInputFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.singleToolStripMenuItem,
-            this.batchToolStripMenuItem1});
             this.buildInputFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.xml;
             this.buildInputFilesToolStripMenuItem.Name = "buildInputFilesToolStripMenuItem";
             this.buildInputFilesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.buildInputFilesToolStripMenuItem.Text = "Build Input File(s)";
-            // 
-            // singleToolStripMenuItem
-            // 
-            this.singleToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.xml;
-            this.singleToolStripMenuItem.Name = "singleToolStripMenuItem";
-            this.singleToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
-            this.singleToolStripMenuItem.Text = "Single...";
-            this.singleToolStripMenuItem.Click += new System.EventHandler(this.generateRBTRunForThisVisitToolStripMenuItem_Click);
-            // 
-            // batchToolStripMenuItem1
-            // 
-            this.batchToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml_batch;
-            this.batchToolStripMenuItem1.Name = "batchToolStripMenuItem1";
-            this.batchToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
-            this.batchToolStripMenuItem1.Text = "Batch...";
-            this.batchToolStripMenuItem1.Click += new System.EventHandler(this.batchToolStripMenuItem1_Click);
+            this.buildInputFilesToolStripMenuItem.Text = "Build Input File(s)...";
+            this.buildInputFilesToolStripMenuItem.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -349,7 +329,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             // 
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
@@ -364,7 +344,7 @@
             this.generateBatchHabitatProjectToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -379,7 +359,7 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             // 
             // cSVToRasterToolStripMenuItem
@@ -391,13 +371,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -1005,8 +985,6 @@
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unpackMonitoringData7ZipArchiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buildInputFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem singleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem batchToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem scavengeVisitTopoDataToolStripMenuItem;
