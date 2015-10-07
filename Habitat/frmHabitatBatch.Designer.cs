@@ -54,11 +54,6 @@
             this.cmdSelectNone = new System.Windows.Forms.Button();
             this.cmdSelectAll = new System.Windows.Forms.Button();
             this.grdVisits = new System.Windows.Forms.DataGridView();
-            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -80,6 +75,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
             this.cmdHelp = new System.Windows.Forms.Button();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWatershed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Visitcol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsSelectAllNone.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -355,10 +355,10 @@
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
-            this.colWatershed,
             this.colFieldSeason,
+            this.colWatershed,
             this.colSite,
-            this.colFolder});
+            this.Visitcol});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -382,43 +382,6 @@
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
             this.grdVisits.TabIndex = 2;
-            // 
-            // colSelected
-            // 
-            this.colSelected.DataPropertyName = "Selected";
-            this.colSelected.Name = "colSelected";
-            this.colSelected.Width = 30;
-            // 
-            // colWatershed
-            // 
-            this.colWatershed.DataPropertyName = "WatershedName";
-            this.colWatershed.HeaderText = "Watershed";
-            this.colWatershed.Name = "colWatershed";
-            this.colWatershed.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "FieldSeason";
-            this.colFieldSeason.HeaderText = "Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            this.colFieldSeason.Width = 50;
-            // 
-            // colSite
-            // 
-            this.colSite.DataPropertyName = "SiteName";
-            this.colSite.HeaderText = "Site";
-            this.colSite.Name = "colSite";
-            this.colSite.ReadOnly = true;
-            this.colSite.Width = 200;
-            // 
-            // colFolder
-            // 
-            this.colFolder.DataPropertyName = "VisitFolder";
-            this.colFolder.HeaderText = "Folder";
-            this.colFolder.Name = "colFolder";
-            this.colFolder.ReadOnly = true;
-            this.colFolder.Width = 300;
             // 
             // groupBox1
             // 
@@ -613,20 +576,20 @@
             // 
             this.txtHabitatModelDB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHabitatModelDB.Location = new System.Drawing.Point(168, 15);
+            this.txtHabitatModelDB.Location = new System.Drawing.Point(133, 15);
             this.txtHabitatModelDB.Name = "txtHabitatModelDB";
-            this.txtHabitatModelDB.Size = new System.Drawing.Size(452, 20);
+            this.txtHabitatModelDB.Size = new System.Drawing.Size(487, 20);
             this.txtHabitatModelDB.TabIndex = 1;
             this.txtHabitatModelDB.TextChanged += new System.EventHandler(this.txtHabitatModelDB_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 19);
+            this.label3.Location = new System.Drawing.Point(36, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(123, 13);
+            this.label3.Size = new System.Drawing.Size(92, 13);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Habitat project database";
+            this.label3.Text = "Habitat project file";
             // 
             // cmdHelp
             // 
@@ -637,6 +600,44 @@
             this.cmdHelp.Text = "Help";
             this.cmdHelp.UseVisualStyleBackColor = true;
             this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
+            // 
+            // colSelected
+            // 
+            this.colSelected.DataPropertyName = "Selected";
+            this.colSelected.HeaderText = "";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.Width = 30;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "FieldSeason";
+            this.colFieldSeason.HeaderText = "Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            this.colFieldSeason.Width = 50;
+            // 
+            // colWatershed
+            // 
+            this.colWatershed.DataPropertyName = "WatershedName";
+            this.colWatershed.HeaderText = "Watershed";
+            this.colWatershed.Name = "colWatershed";
+            this.colWatershed.ReadOnly = true;
+            this.colWatershed.Width = 175;
+            // 
+            // colSite
+            // 
+            this.colSite.DataPropertyName = "SiteName";
+            this.colSite.HeaderText = "Site";
+            this.colSite.Name = "colSite";
+            this.colSite.ReadOnly = true;
+            this.colSite.Width = 200;
+            // 
+            // Visitcol
+            // 
+            this.Visitcol.DataPropertyName = "VisitID";
+            this.Visitcol.HeaderText = "Visit ID";
+            this.Visitcol.Name = "Visitcol";
+            this.Visitcol.ReadOnly = true;
             // 
             // frmHabitatBatch
             // 
@@ -705,11 +706,6 @@
         private System.Windows.Forms.Button cmdSelectAll;
         private System.Windows.Forms.TabPage tabSpecies;
         private System.Windows.Forms.CheckedListBox chkSpecies;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershed;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFolder;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -725,5 +721,10 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
         private System.Windows.Forms.Button cmdHelp;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Visitcol;
     }
 }
