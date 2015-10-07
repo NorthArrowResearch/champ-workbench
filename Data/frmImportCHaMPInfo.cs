@@ -20,11 +20,6 @@ namespace CHaMPWorkbench.Data
             m_dbCon = dbCon;
         }
 
-        private void cmdBrowse_Click(object sender, EventArgs e)
-        {
-            BrowseDatabase(ref txtDatabase, "Select CHaMP All Measurements Access Database");
-        }
-
         private void cmdOK_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtDatabase.Text) || !System.IO.File.Exists(txtDatabase.Text))
@@ -393,31 +388,41 @@ namespace CHaMPWorkbench.Data
             daUnits.Fill(ds.CHAMP_ChannelUnits);
         }
 
+        #region BrowseEvents
+
+        private void cmdBrowse_Click(object sender, EventArgs e)
+        {
+            BrowseDatabase(ref txtDatabase, "Select CHaMP All Measurements Access Database");
+        }
+
         private void cmdBrowseSurveyDesign_Click(object sender, EventArgs e)
         {
             BrowseDatabase(ref txtSurveyDesign, "CHaMP Survey Design Database");
         }
 
+        private void cmdBrowseProgramMetrics_Click(object sender, EventArgs e)
+        {
+            BrowseDatabase(ref txtProgramMetrics, "CHaMP Program Metrics Database");
+        }
+
         private void BrowseDatabase(ref TextBox txt, string sTitle)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = sTitle;
-            dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb";
+            frmOpen.Title = sTitle;
 
             if (!String.IsNullOrWhiteSpace(txt.Text) && System.IO.File.Exists(txt.Text))
             {
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(txt.Text);
-                dlg.FileName = System.IO.Path.GetFileName(txt.Text);
-            }
-            else
-            {
-                System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
+                frmOpen.InitialDirectory = System.IO.Path.GetDirectoryName(txt.Text);
+                frmOpen.FileName = System.IO.Path.GetFileName(txt.Text);
             }
 
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txt.Text = dlg.FileName;
+            if (frmOpen.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                frmOpen.InitialDirectory = System.IO.Path.GetDirectoryName(frmOpen.FileName);
+                txt.Text = frmOpen.FileName;
+            }
         }
+
+        #endregion
 
         private void chkImportFish_CheckedChanged(object sender, EventArgs e)
         {
@@ -430,12 +435,13 @@ namespace CHaMPWorkbench.Data
         {
             chkImportFish_CheckedChanged(sender, e);
             checkBox1_CheckedChanged(sender, e);
+
+            frmOpen.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb";
+            frmOpen.RestoreDirectory = false;
+            System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+            frmOpen.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
         }
 
-        private void cmdBrowseProgramMetrics_Click(object sender, EventArgs e)
-        {
-            BrowseDatabase(ref txtProgramMetrics, "CHaMP Program Metrics Database");
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -469,7 +475,4 @@ namespace CHaMPWorkbench.Data
         }
 
     }
-
-
-
 }

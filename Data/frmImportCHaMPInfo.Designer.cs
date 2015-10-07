@@ -42,6 +42,7 @@
             this.txtProgramMetrics = new System.Windows.Forms.TextBox();
             this.lblProgramMetrics = new System.Windows.Forms.Label();
             this.chkExtendedSiteInfo = new System.Windows.Forms.CheckBox();
+            this.frmOpen = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -68,13 +69,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDatabase.Location = new System.Drawing.Point(158, 37);
             this.txtDatabase.Name = "txtDatabase";
-            this.txtDatabase.Size = new System.Drawing.Size(459, 20);
+            this.txtDatabase.Size = new System.Drawing.Size(422, 20);
             this.txtDatabase.TabIndex = 2;
             // 
             // cmdBrowse
             // 
             this.cmdBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowse.Location = new System.Drawing.Point(623, 36);
+            this.cmdBrowse.Location = new System.Drawing.Point(586, 36);
             this.cmdBrowse.Name = "cmdBrowse";
             this.cmdBrowse.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowse.TabIndex = 3;
@@ -86,10 +87,10 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(623, 271);
+            this.cmdCancel.Location = new System.Drawing.Point(586, 194);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 5;
+            this.cmdCancel.TabIndex = 13;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -97,10 +98,10 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(542, 271);
+            this.cmdOK.Location = new System.Drawing.Point(505, 194);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 4;
+            this.cmdOK.TabIndex = 12;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -111,7 +112,7 @@
             this.chkImportFish.Location = new System.Drawing.Point(16, 71);
             this.chkImportFish.Name = "chkImportFish";
             this.chkImportFish.Size = new System.Drawing.Size(167, 17);
-            this.chkImportFish.TabIndex = 6;
+            this.chkImportFish.TabIndex = 4;
             this.chkImportFish.Text = "Import fish species information";
             this.chkImportFish.UseVisualStyleBackColor = true;
             this.chkImportFish.CheckedChanged += new System.EventHandler(this.chkImportFish_CheckedChanged);
@@ -119,10 +120,10 @@
             // cmdBrowseSurveyDesign
             // 
             this.cmdBrowseSurveyDesign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseSurveyDesign.Location = new System.Drawing.Point(623, 94);
+            this.cmdBrowseSurveyDesign.Location = new System.Drawing.Point(586, 94);
             this.cmdBrowseSurveyDesign.Name = "cmdBrowseSurveyDesign";
             this.cmdBrowseSurveyDesign.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseSurveyDesign.TabIndex = 9;
+            this.cmdBrowseSurveyDesign.TabIndex = 7;
             this.cmdBrowseSurveyDesign.Text = "Browse";
             this.cmdBrowseSurveyDesign.UseVisualStyleBackColor = true;
             this.cmdBrowseSurveyDesign.Click += new System.EventHandler(this.cmdBrowseSurveyDesign_Click);
@@ -133,8 +134,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSurveyDesign.Location = new System.Drawing.Point(158, 95);
             this.txtSurveyDesign.Name = "txtSurveyDesign";
-            this.txtSurveyDesign.Size = new System.Drawing.Size(459, 20);
-            this.txtSurveyDesign.TabIndex = 8;
+            this.txtSurveyDesign.Size = new System.Drawing.Size(422, 20);
+            this.txtSurveyDesign.TabIndex = 6;
             // 
             // lblSurveyDesign
             // 
@@ -142,16 +143,16 @@
             this.lblSurveyDesign.Location = new System.Drawing.Point(31, 99);
             this.lblSurveyDesign.Name = "lblSurveyDesign";
             this.lblSurveyDesign.Size = new System.Drawing.Size(121, 13);
-            this.lblSurveyDesign.TabIndex = 7;
+            this.lblSurveyDesign.TabIndex = 5;
             this.lblSurveyDesign.Text = "Survey design database";
             // 
             // cmdBrowseProgramMetrics
             // 
             this.cmdBrowseProgramMetrics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseProgramMetrics.Location = new System.Drawing.Point(621, 153);
+            this.cmdBrowseProgramMetrics.Location = new System.Drawing.Point(584, 153);
             this.cmdBrowseProgramMetrics.Name = "cmdBrowseProgramMetrics";
             this.cmdBrowseProgramMetrics.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseProgramMetrics.TabIndex = 13;
+            this.cmdBrowseProgramMetrics.TabIndex = 11;
             this.cmdBrowseProgramMetrics.Text = "Browse";
             this.cmdBrowseProgramMetrics.UseVisualStyleBackColor = true;
             this.cmdBrowseProgramMetrics.Click += new System.EventHandler(this.cmdBrowseProgramMetrics_Click);
@@ -162,8 +163,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProgramMetrics.Location = new System.Drawing.Point(158, 154);
             this.txtProgramMetrics.Name = "txtProgramMetrics";
-            this.txtProgramMetrics.Size = new System.Drawing.Size(459, 20);
-            this.txtProgramMetrics.TabIndex = 12;
+            this.txtProgramMetrics.Size = new System.Drawing.Size(422, 20);
+            this.txtProgramMetrics.TabIndex = 10;
             // 
             // lblProgramMetrics
             // 
@@ -171,7 +172,7 @@
             this.lblProgramMetrics.Location = new System.Drawing.Point(23, 158);
             this.lblProgramMetrics.Name = "lblProgramMetrics";
             this.lblProgramMetrics.Size = new System.Drawing.Size(129, 13);
-            this.lblProgramMetrics.TabIndex = 11;
+            this.lblProgramMetrics.TabIndex = 9;
             this.lblProgramMetrics.Text = "Program metrics database";
             // 
             // chkExtendedSiteInfo
@@ -180,10 +181,14 @@
             this.chkExtendedSiteInfo.Location = new System.Drawing.Point(14, 130);
             this.chkExtendedSiteInfo.Name = "chkExtendedSiteInfo";
             this.chkExtendedSiteInfo.Size = new System.Drawing.Size(175, 17);
-            this.chkExtendedSiteInfo.TabIndex = 10;
+            this.chkExtendedSiteInfo.TabIndex = 8;
             this.chkExtendedSiteInfo.Text = "Import extended site information";
             this.chkExtendedSiteInfo.UseVisualStyleBackColor = true;
             this.chkExtendedSiteInfo.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // frmOpen
+            // 
+            this.frmOpen.FileName = "frmOpen";
             // 
             // frmImportCHaMPInfo
             // 
@@ -191,7 +196,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(710, 306);
+            this.ClientSize = new System.Drawing.Size(673, 229);
             this.Controls.Add(this.cmdBrowseProgramMetrics);
             this.Controls.Add(this.txtProgramMetrics);
             this.Controls.Add(this.lblProgramMetrics);
@@ -206,9 +211,9 @@
             this.Controls.Add(this.txtDatabase);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(422, 267);
             this.Name = "frmImportCHaMPInfo";
             this.Text = "Import CHaMP Visit Information";
             this.Load += new System.EventHandler(this.frmImportCHaMPInfo_Load);
@@ -233,5 +238,6 @@
         private System.Windows.Forms.TextBox txtProgramMetrics;
         private System.Windows.Forms.Label lblProgramMetrics;
         private System.Windows.Forms.CheckBox chkExtendedSiteInfo;
+        private System.Windows.Forms.OpenFileDialog frmOpen;
     }
 }
