@@ -503,5 +503,10 @@ namespace CHaMPWorkbench.Habitat
                 lst.SetItemChecked(i, myItem.Text.ToLower().Contains("all"));
             }
         }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://habitat.northarrowresearch.com/wiki/Online_Help/champ_batch_process.html");
+        }
     }
 }

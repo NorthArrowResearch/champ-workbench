@@ -35,6 +35,9 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
+            this.cmsSelectAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkWatersheds = new System.Windows.Forms.CheckedListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -76,9 +79,8 @@
             this.txtHabitatModelDB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
-            this.cmsSelectAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdHelp = new System.Windows.Forms.Button();
+            this.cmsSelectAllNone.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -95,7 +97,6 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).BeginInit();
-            this.cmsSelectAllNone.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -132,6 +133,28 @@
             this.chkFieldSeasons.Size = new System.Drawing.Size(626, 167);
             this.chkFieldSeasons.TabIndex = 2;
             this.chkFieldSeasons.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
+            // 
+            // cmsSelectAllNone
+            // 
+            this.cmsSelectAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem,
+            this.selectNoneToolStripMenuItem});
+            this.cmsSelectAllNone.Name = "cmsSelectAllNone";
+            this.cmsSelectAllNone.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllNone);
+            // 
+            // selectNoneToolStripMenuItem
+            // 
+            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem.Text = "Select None";
+            this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.SelectAllNone);
             // 
             // chkWatersheds
             // 
@@ -605,39 +628,29 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Habitat project database";
             // 
-            // cmsSelectAllNone
+            // cmdHelp
             // 
-            this.cmsSelectAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
-            this.cmsSelectAllNone.Name = "cmsSelectAllNone";
-            this.cmsSelectAllNone.Size = new System.Drawing.Size(138, 48);
-            // 
-            // selectAllToolStripMenuItem
-            // 
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem.Text = "Select All";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllNone);
-            // 
-            // selectNoneToolStripMenuItem
-            // 
-            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem.Text = "Select None";
-            this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.SelectAllNone);
+            this.cmdHelp.Location = new System.Drawing.Point(12, 569);
+            this.cmdHelp.Name = "cmdHelp";
+            this.cmdHelp.Size = new System.Drawing.Size(75, 23);
+            this.cmdHelp.TabIndex = 3;
+            this.cmdHelp.Text = "Help";
+            this.cmdHelp.UseVisualStyleBackColor = true;
+            this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
             // 
             // frmHabitatBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 604);
+            this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Name = "frmHabitatBatch";
             this.Text = "Create Habitat Model Batch Run";
             this.Load += new System.EventHandler(this.frmHabitatBatch_Load);
+            this.cmsSelectAllNone.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -658,7 +671,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSelectedVisits)).EndInit();
-            this.cmsSelectAllNone.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -712,5 +724,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsSelectAllNone;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
+        private System.Windows.Forms.Button cmdHelp;
     }
 }
