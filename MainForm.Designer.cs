@@ -331,6 +331,7 @@
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
             this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
+            this.gCDToolStripMenuItem.Visible = false;
             // 
             // generateGCDProjectFromCHaMPSiteToolStripMenuItem
             // 
@@ -361,6 +362,7 @@
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
             this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
+            this.delft3DToolStripMenuItem.Visible = false;
             // 
             // cSVToRasterToolStripMenuItem
             // 
@@ -468,6 +470,7 @@
             // 
             // queueBridgeCreekBatchesRBTRunsToolStripMenuItem
             // 
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Enabled = false;
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Name = "queueBridgeCreekBatchesRBTRunsToolStripMenuItem";
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
