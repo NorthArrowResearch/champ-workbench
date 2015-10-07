@@ -438,6 +438,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.txtD50RasterFileName);
             this.groupBox4.Controls.Add(this.label6);
@@ -510,6 +512,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txtMonitoringFolder);
@@ -648,6 +652,7 @@
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
+            this.MinimumSize = new System.Drawing.Size(710, 642);
             this.Name = "frmHabitatBatch";
             this.Text = "Create Habitat Model Batch Run";
             this.Load += new System.EventHandler(this.frmHabitatBatch_Load);

@@ -186,6 +186,12 @@
     <Compile Include="Habitat\frmHabitatBatch.Designer.cs">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Habitat\frmScavengeHabitatResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Habitat\frmScavengeHabitatResults.Designer.cs">
+      <DependentUpon>frmScavengeHabitatResults.cs</DependentUpon>
+    </Compile>
     <Compile Include="Habitat\HabitatBatchBuilder.cs" />
     <Compile Include="Habitat\HabitatModelDef.cs" />
     <Compile Include="Habitat\HSProjectManager.cs" />
@@ -285,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Habitat\frmScavengeHabitatResults.resx">
+      <DependentUpon>frmScavengeHabitatResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\frmRunBatches.resx">
       <DependentUpon>frmRunBatches.cs</DependentUpon>

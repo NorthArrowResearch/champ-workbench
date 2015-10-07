@@ -122,6 +122,7 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -342,7 +343,8 @@
             // habitatToolStripMenuItem
             // 
             this.habitatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateBatchHabitatProjectToolStripMenuItem});
+            this.generateBatchHabitatProjectToolStripMenuItem,
+            this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
             this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
@@ -351,7 +353,7 @@
             // generateBatchHabitatProjectToolStripMenuItem
             // 
             this.generateBatchHabitatProjectToolStripMenuItem.Name = "generateBatchHabitatProjectToolStripMenuItem";
-            this.generateBatchHabitatProjectToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.generateBatchHabitatProjectToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.generateBatchHabitatProjectToolStripMenuItem.Text = "Generate Batch Habitat Project...";
             this.generateBatchHabitatProjectToolStripMenuItem.Click += new System.EventHandler(this.generateBatchHabitatProjectToolStripMenuItem_Click);
             // 
@@ -935,6 +937,13 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
+            // writeSimulationResultsToCSVFileToolStripMenuItem
+            // 
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Name = "writeSimulationResultsToCSVFileToolStripMenuItem";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Text = "Write simulation results to CSV file...";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Click += new System.EventHandler(this.writeSimulationResultsToCSVFileToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1065,6 +1074,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
         private System.Windows.Forms.ToolStripMenuItem viewSiteLocationMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem writeSimulationResultsToCSVFileToolStripMenuItem;
 
     }
 }

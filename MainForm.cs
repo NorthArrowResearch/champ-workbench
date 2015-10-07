@@ -760,5 +760,11 @@ namespace CHaMPWorkbench
             else
                 System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
         }
+
+        private void writeSimulationResultsToCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults();
+            frm.ShowDialog();
+        }
     }
 }
