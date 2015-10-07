@@ -19,7 +19,6 @@ namespace CHaMPWorkbench
         private void frmOptions_Load(object sender, EventArgs e)
         {
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
-            txt7Zip.Text = CHaMPWorkbench.Properties.Settings.Default.ZipPath;
             txtTextEditor.Text = CHaMPWorkbench.Properties.Settings.Default.TextEditor;
 
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
@@ -29,7 +28,6 @@ namespace CHaMPWorkbench
             valGoogleMapZoom.Value = (decimal)CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom;
 
             tTip.SetToolTip(txtOptions, "The path to the RBT console executable (rbtconsole.exe) that will be used when the RBT is run.");
-            tTip.SetToolTip(txt7Zip, "The path to the 7-Zip (www.7-zip.org) compression software that will be used for unpacking CHaMP topo data.");
             tTip.SetToolTip(txtTextEditor, "The path to the text editor executable that will be used to view text files (e.g. NotePad, WordPad, TextPad++).");
 
             tTip.SetToolTip(txtMonitoring, "The top level folder containing the CHaMP survey data. Under this folder there should be a folder for each field season, then watershed etc");
@@ -45,18 +43,6 @@ namespace CHaMPWorkbench
                 else
                 {
                     MessageBox.Show("The RBT Console software path must point to the RBT executable file (rbtconsole.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = System.Windows.Forms.DialogResult.None;
-                    return;
-                }
-            }
-
-            if (!String.IsNullOrWhiteSpace(txt7Zip.Text))
-            {
-                if (System.IO.File.Exists(txt7Zip.Text) && txt7Zip.Text.EndsWith(".exe"))
-                    CHaMPWorkbench.Properties.Settings.Default.ZipPath = txt7Zip.Text;
-                else
-                {
-                    MessageBox.Show("The 7-Zip software path must point to the 7-Zip executable file (7z.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = System.Windows.Forms.DialogResult.None;
                     return;
                 }
@@ -111,12 +97,7 @@ namespace CHaMPWorkbench
             if (dlgBrowseExecutable.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txt.Text = dlgBrowseExecutable.FileName;
         }
-
-        private void cmdBrowse7Zip_Click(object sender, EventArgs e)
-        {
-            BrowseExecutable("7 Zip Executable", ref txt7Zip);
-        }
-
+       
         private void cmdBrowseTextEditor_Click(object sender, EventArgs e)
         {
             BrowseExecutable("Text Editor Software", ref txtTextEditor);
