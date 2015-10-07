@@ -22,7 +22,7 @@ namespace CHaMPWorkbench.RBT
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.RBTConsole) || !System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.RBTConsole))
+            if (string.IsNullOrEmpty(txtRBTConsole.Text) || !System.IO.File.Exists(txtRBTConsole.Text))
             {
                 MessageBox.Show("The RBT Console path is not valid. Go to Tools\\Options to set the correct path to the RBT Console executable (rbtconsole.exe).", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
@@ -47,6 +47,15 @@ namespace CHaMPWorkbench.RBT
             int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
             cboWindowStyle.SelectedIndex = nHidden;
 
+            if (string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.RBTConsole) || !System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.RBTConsole))
+            {
+                MessageBox.Show("The RBT Console path is not valid. Go to Tools\\Options to set the correct path to the RBT Console executable (rbtconsole.exe).", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = System.Windows.Forms.DialogResult.None;
+                return;
+            }
+            else
+                txtRBTConsole.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
+
             int nRuns = 0;
             using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
                 " FROM RBT_Batches RIGHT JOIN RBT_BatchRuns ON RBT_Batches.ID = RBT_BatchRuns.BatchID" +
@@ -63,8 +72,20 @@ namespace CHaMPWorkbench.RBT
             }
             else
                 lblMessage.Text = "Are you sure that you want to run the RBT on the " + nRuns.ToString("#,##0") + " RBT runs that are queued?";
+        }
 
+        private void cmdBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog frm = new OpenFileDialog();
+            frm.Title = "RBT Console Path";
+            if (!String.IsNullOrWhiteSpace(txtRBTConsole.Text) && System.IO.File.Exists(txtRBTConsole.Text))
+            {
+                frm.InitialDirectory = System.IO.Path.GetDirectoryName(txtRBTConsole.Text);
+                frm.FileName = System.IO.Path.GetFileName(txtRBTConsole.Text);
+            }
 
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                txtRBTConsole.Text = frm.FileName;
         }
     }
 }
