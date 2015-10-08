@@ -16,22 +16,21 @@ namespace CHaMPWorkbench.Data
 
         public frmClearDatabase(OleDbConnection dbCon)
         {
-             InitializeComponent();
-           m_dbCon = dbCon;
+            InitializeComponent();
+            m_dbCon = dbCon;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-  
-                 Classes.ClearDatabase clr = new Classes.ClearDatabase(m_dbCon);
-           if (chkRBTBatches.Checked)
-                clr.AddSQLStatementToClear("DELETE FROM RBT_Batches");
+            Classes.ClearDatabase clr = new Classes.ClearDatabase(m_dbCon);
+            if (chkRBTBatches.Checked)
+                clr.AddSQLStatementToClear("DELETE FROM RBT_Batches", "RBT batches cleared");
 
             if (chkRBTLogs.Checked)
-                clr.AddSQLStatementToClear("DELETE FROM LogFiles");
+                clr.AddSQLStatementToClear("DELETE FROM LogFiles", "RBT log files cleared");
 
             if (chkRBTMetrics.Checked)
-                clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengTypeID <> 2"); // Does not = validation data
+                clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengeTypeID <> 2", "RBT metrics cleared"); // Does not = validation data
 
             if (chkManulMetrics.Checked)
             {
@@ -39,11 +38,12 @@ namespace CHaMPWorkbench.Data
                 switch (eResult)
                 {
                     case System.Windows.Forms.DialogResult.Yes:
-                        clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengTypeID = 2"); // Is validation data
+                        clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengeTypeID = 2", "RBT validation metrics cleared"); // Is validation data
                         break;
 
                     case System.Windows.Forms.DialogResult.No:
-                        break;
+                        this.DialogResult = System.Windows.Forms.DialogResult.None;
+                        return;
 
                     case System.Windows.Forms.DialogResult.Cancel:
                         this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -52,9 +52,7 @@ namespace CHaMPWorkbench.Data
             }
 
             if (chkWatersheds.Checked)
-            
-                      clr.AddSQLStatementToClear("DELETE FROM CHaMP_Watersheds");
-            
+                clr.AddSQLStatementToClear("DELETE FROM CHaMP_Watersheds", "CHaMP information cleared");
 
             if (clr.TableCount > 0)
             {
@@ -62,8 +60,7 @@ namespace CHaMPWorkbench.Data
                 string sErrors = "";
                 clr.DoClear(ref sSuccess, ref sErrors);
 
-                string sMessage = "Process complete.";
-                sMessage += " The following SQL commands were used: " + sSuccess;
+                string sMessage = string.Format("Process complete. {0}.", sSuccess);
 
                 if (!string.IsNullOrWhiteSpace(sErrors))
                     sMessage += " Errors were encountered clearing the following tables: " + sErrors;

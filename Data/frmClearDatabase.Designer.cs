@@ -163,7 +163,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmClearDatabase";
-            this.Text = "Clear Database";
+            this.Text = "Manage Workbench Database Contents";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

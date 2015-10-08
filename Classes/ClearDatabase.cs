@@ -9,20 +9,21 @@ namespace CHaMPWorkbench.Classes
     class ClearDatabase
     {
         private OleDbConnection m_dbCon;
-        private List<string> m_sSQLStatements;
+        private Dictionary<string, string> m_sSQLStatements;
+        private List<string> m_lMessages;
 
         public ClearDatabase(OleDbConnection dbCon)
         {
             m_dbCon = dbCon;
-            m_sSQLStatements = new List<string>();
+            m_sSQLStatements = new Dictionary<string, string>();
         }
 
-        public void AddSQLStatementToClear(string sTable)
+        public void AddSQLStatementToClear(string sTable, string sMessage)
         {
             if (string.IsNullOrWhiteSpace(sTable))
                 throw new Exception("The SQL statement cannot be null or empty.");
 
-            m_sSQLStatements.Add(sTable);
+            m_sSQLStatements.Add(sTable, sMessage);
         }
 
         public int TableCount
@@ -36,13 +37,13 @@ namespace CHaMPWorkbench.Classes
                 m_dbCon.Open();
 
             OleDbCommand dbCom;
-            foreach (string sSQL in m_sSQLStatements)
+            foreach (string sSQL in m_sSQLStatements.Keys)
             {
                 dbCom = new OleDbCommand(sSQL, m_dbCon);
                 try
                 {
                     dbCom.ExecuteNonQuery();
-                    sSuccess += sSQL +", ";
+                    sSuccess += m_sSQLStatements[sSQL] +", ";
                 }
                 catch (Exception ex)
                 {
