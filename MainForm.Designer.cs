@@ -40,7 +40,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scavengeVisitTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +55,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.habitatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateBatchHabitatProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -122,7 +122,6 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -210,7 +209,6 @@
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
-            this.scavengeVisitTopoDataToolStripMenuItem,
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
             this.toolStripSeparator4,
             this.prepareDatabaseForDeploymentToolStripMenuItem});
@@ -271,7 +269,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -321,7 +319,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             this.gCDToolStripMenuItem.Visible = false;
             // 
@@ -338,7 +336,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -348,12 +346,19 @@
             this.generateBatchHabitatProjectToolStripMenuItem.Text = "Generate Batch Habitat Project...";
             this.generateBatchHabitatProjectToolStripMenuItem.Click += new System.EventHandler(this.generateBatchHabitatProjectToolStripMenuItem_Click);
             // 
+            // writeSimulationResultsToCSVFileToolStripMenuItem
+            // 
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Name = "writeSimulationResultsToCSVFileToolStripMenuItem";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Text = "Write simulation results to CSV file...";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Click += new System.EventHandler(this.writeSimulationResultsToCSVFileToolStripMenuItem_Click);
+            // 
             // delft3DToolStripMenuItem
             // 
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             this.delft3DToolStripMenuItem.Visible = false;
             // 
@@ -366,13 +371,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -928,13 +933,6 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
-            // writeSimulationResultsToCSVFileToolStripMenuItem
-            // 
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Name = "writeSimulationResultsToCSVFileToolStripMenuItem";
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Text = "Write simulation results to CSV file...";
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Click += new System.EventHandler(this.writeSimulationResultsToCSVFileToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -990,7 +988,6 @@
         private System.Windows.Forms.ToolStripMenuItem buildInputFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem scavengeVisitTopoDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutTheCHaMPWorkbenchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cHaMPWorkbenchWebSiteToolStripMenuItem;
