@@ -142,9 +142,9 @@
             this.lblSurveyDesign.AutoSize = true;
             this.lblSurveyDesign.Location = new System.Drawing.Point(31, 99);
             this.lblSurveyDesign.Name = "lblSurveyDesign";
-            this.lblSurveyDesign.Size = new System.Drawing.Size(121, 13);
+            this.lblSurveyDesign.Size = new System.Drawing.Size(115, 13);
             this.lblSurveyDesign.TabIndex = 5;
-            this.lblSurveyDesign.Text = "Survey design database";
+            this.lblSurveyDesign.Text = "Study design database";
             // 
             // cmdBrowseProgramMetrics
             // 
