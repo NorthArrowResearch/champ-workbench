@@ -80,6 +80,7 @@
             // 
             // cmdRandom
             // 
+            this.cmdRandom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdRandom.Location = new System.Drawing.Point(16, 436);
             this.cmdRandom.Name = "cmdRandom";
             this.cmdRandom.Size = new System.Drawing.Size(75, 23);
