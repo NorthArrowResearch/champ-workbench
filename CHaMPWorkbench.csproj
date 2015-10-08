@@ -323,7 +323,6 @@
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_1_TemporaryKey.pfx" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>

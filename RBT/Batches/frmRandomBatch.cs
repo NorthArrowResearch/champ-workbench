@@ -27,7 +27,7 @@ namespace CHaMPWorkbench.RBT.Batches
             {
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
-                    cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), dbRead.GetString(1), dbRead.GetInt32(2)));
+                    cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
             }
 
             if (cboBatch.Items.Count > 0)
