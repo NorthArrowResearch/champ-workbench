@@ -226,15 +226,6 @@
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
-            // scavengeVisitTopoDataToolStripMenuItem
-            // 
-            this.scavengeVisitTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
-            this.scavengeVisitTopoDataToolStripMenuItem.Name = "scavengeVisitTopoDataToolStripMenuItem";
-            this.scavengeVisitTopoDataToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
-            this.scavengeVisitTopoDataToolStripMenuItem.Text = "Update Topo and Hydro Paths in Workbench Database";
-            this.scavengeVisitTopoDataToolStripMenuItem.Visible = false;
-            this.scavengeVisitTopoDataToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitTopoDataToolStripMenuItem_Click);
-            // 
             // scavengeVisitDataFromCHaMPExportToolStripMenuItem
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;

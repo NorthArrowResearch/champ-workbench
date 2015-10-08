@@ -32,6 +32,7 @@
             this.treBatches = new System.Windows.Forms.TreeView();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
+            this.cmdRandom = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -77,6 +78,16 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
+            // cmdRandom
+            // 
+            this.cmdRandom.Location = new System.Drawing.Point(16, 436);
+            this.cmdRandom.Name = "cmdRandom";
+            this.cmdRandom.Size = new System.Drawing.Size(75, 23);
+            this.cmdRandom.TabIndex = 4;
+            this.cmdRandom.Text = "Random...";
+            this.cmdRandom.UseVisualStyleBackColor = true;
+            this.cmdRandom.Click += new System.EventHandler(this.cmdRandom_Click);
+            // 
             // frmSelectRBTBatches
             // 
             this.AcceptButton = this.cmdOK;
@@ -84,6 +95,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(428, 472);
+            this.Controls.Add(this.cmdRandom);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.treBatches);
@@ -105,5 +117,6 @@
         private System.Windows.Forms.TreeView treBatches;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdOK;
+        private System.Windows.Forms.Button cmdRandom;
     }
 }

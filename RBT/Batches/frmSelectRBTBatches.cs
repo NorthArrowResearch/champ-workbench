@@ -100,7 +100,7 @@ namespace CHaMPWorkbench
          TreeNode nodBatch = null;
                 TreeNode nodRun = null;
    
-             using (OleDbCommand dbBatches = new OleDbCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, B.Run AS BatchRun, R.Summary, R.Run" + 
+             using (OleDbCommand dbBatches = new OleDbCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, R.Summary, R.Run" + 
                  " FROM RBT_Batches AS B Right JOIN RBT_BatchRuns AS R ON B.ID = R.BatchID" +
                  " WHERE R.Inputfile Is Not Null" +
                  " ORDER BY R.BatchID, B.CreatedOn DESC", m_dbCon))
@@ -128,9 +128,6 @@ namespace CHaMPWorkbench
 
                          if (!System.Convert.IsDBNull(dbRead["BatchID"]))
                              nodBatch.Tag = ((int) dbRead["BatchID"]).ToString();
-
-                         if (!System.Convert.IsDBNull(dbRead["BatchRun"]))
-                             nodBatch.Checked = (bool) dbRead["BatchRun"];
 
                          nBatchID = nNewBatchID;
                      }
@@ -165,6 +162,15 @@ namespace CHaMPWorkbench
                 foreach (TreeNode nodsibling in e.Node.Parent.Nodes)
                     if (nodsibling.Checked)
                         bAllChecked = true;
+            }
+        }
+
+        private void cmdRandom_Click(object sender, EventArgs e)
+        {
+            RBT.Batches.frmRandomBatch frm = new RBT.Batches.frmRandomBatch(ref m_dbCon);
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                LoadTree();
             }
         }
     }

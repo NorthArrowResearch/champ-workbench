@@ -83,7 +83,7 @@ namespace CHaMPWorkbench.Classes
             string sResult;
             try
             {
-                OleDbCommand dbInsert = new OleDbCommand("INSERT INTO RBT_Batches (BatchName, Run) Values (?, 1)", m_dbCon, dbTrans);
+                OleDbCommand dbInsert = new OleDbCommand("INSERT INTO RBT_Batches (BatchName) Values (?)", m_dbCon, dbTrans);
                 dbInsert.Parameters.AddWithValue("BatchName", sBatchName);
                 dbInsert.ExecuteNonQuery();
 

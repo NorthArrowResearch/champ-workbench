@@ -27,10 +27,6 @@ namespace CHaMPWorkbench.Classes
 
             if (!rSite.IsWatershedIDNull())
                 m_Watershed = new Watershed(rSite.CHAMP_WatershedsRow);
-
-            if (!rSite.IsUTMZoneNull())
-                m_sUTMZone = rSite.UTMZone;
-
         }
 
         public void AddVisit(Visit aVisit)

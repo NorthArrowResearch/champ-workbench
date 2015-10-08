@@ -130,12 +130,6 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmScavengeVisitTopoInfo2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Data\frmScavengeVisitTopoInfo2.Designer.cs">
-      <DependentUpon>frmScavengeVisitTopoInfo2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
       <SubType>Form</SubType>
@@ -196,6 +190,12 @@
     <Compile Include="Habitat\HabitatModelDef.cs" />
     <Compile Include="Habitat\HSProjectManager.cs" />
     <Compile Include="Habitat\Paths.cs" />
+    <Compile Include="RBT\Batches\frmRandomBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RBT\Batches\frmRandomBatch.Designer.cs">
+      <DependentUpon>frmRandomBatch.cs</DependentUpon>
+    </Compile>
     <Compile Include="RBT\frmRunBatches.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,12 +225,6 @@
     </Compile>
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.Designer.cs">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RBT\InputFiles\frmRBTInputSingle.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RBT\InputFiles\frmRBTInputSingle.Designer.cs">
-      <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="ListItem.cs" />
     <Compile Include="MainForm.cs">
@@ -268,9 +262,6 @@
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmScavengeVisitTopoInfo2.resx">
-      <DependentUpon>frmScavengeVisitTopoInfo2.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
     </EmbeddedResource>
@@ -295,6 +286,9 @@
     <EmbeddedResource Include="Habitat\frmScavengeHabitatResults.resx">
       <DependentUpon>frmScavengeHabitatResults.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RBT\Batches\frmRandomBatch.resx">
+      <DependentUpon>frmRandomBatch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RBT\frmRunBatches.resx">
       <DependentUpon>frmRunBatches.cs</DependentUpon>
     </EmbeddedResource>
@@ -309,9 +303,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBT\InputFiles\frmRBTInputSingle.resx">
-      <DependentUpon>frmRBTInputSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -332,6 +323,7 @@
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_1_TemporaryKey.pfx" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>

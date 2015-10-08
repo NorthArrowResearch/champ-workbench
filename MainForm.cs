@@ -162,20 +162,6 @@ namespace CHaMPWorkbench
             UpdateMenuItemStatus(menuStrip1.Items);
         }
 
-        private void individualFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_dbCon != null)
-            {
-                frmRBTInputSingle frm = new frmRBTInputSingle(m_dbCon);
-            }
-        }
-
-        private void scavengeVisitInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
-            frm.ShowDialog();
-        }
-
         private void selectBatchesToRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmSelectRBTBatches frm = new frmSelectRBTBatches(m_dbCon);
@@ -197,12 +183,6 @@ namespace CHaMPWorkbench
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmOptions frm = new frmOptions();
-            frm.ShowDialog();
-        }
-        
-        private void scavengeVisitTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Data.frmScavengeVisitTopoInfo2 frm = new Data.frmScavengeVisitTopoInfo2(m_dbCon);
             frm.ShowDialog();
         }
 
