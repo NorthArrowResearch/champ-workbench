@@ -64,7 +64,7 @@ namespace CHaMPWorkbench.Classes
                     if (!Convert.IsDBNull((int)dbRdr["PrimaryVisitID"]))
                         nVisitID = (int)dbRdr["PrimaryVisitID"];
 
-                    dFiles.Add((int)dbRdr["ID"], new RBTRun((int)dbRdr["ID"], (string)dbRdr["InputFile"], (bool)dbRdr["ClearTempPrior"], (bool)dbRdr["ClearTempAfter"], nVisitID));
+                    dFiles.Add((int)dbRdr["ID"], new RBTRun((int)dbRdr["ID"], (string)dbRdr["InputFile"], false, false, nVisitID));
                 }
             }
             dbRdr.Close();
