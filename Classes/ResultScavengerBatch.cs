@@ -66,7 +66,7 @@ namespace CHaMPWorkbench.Classes
 
             if (!string.IsNullOrEmpty(m_sLogFilePattern))
                 lLogFiles = new System.Collections.Generic.List<string>(Directory.GetFiles(m_sTopLevelFolder, m_sLogFilePattern, m_SearchOption));
-                      
+
 
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
@@ -96,7 +96,7 @@ namespace CHaMPWorkbench.Classes
                             // Log exists. Process it and relate to the result.
                             // Then remove it from later indepdendant processing
                             scavenger.ScavengeLogFile(nResultID, sLogs[j], sResultFiles[i]);
-            
+
                             if (lLogFiles.Contains(sLogs[i]))
                                 lLogFiles.Remove(sLogs[i]);
                         }
@@ -111,22 +111,19 @@ namespace CHaMPWorkbench.Classes
                     //
                     eErrors.Add(ex);
                 }
-
-
-
-                if (!string.IsNullOrEmpty(m_sLogFilePattern))
-                {
-                    // Process all the remaining log files that might not be related to result files.
-
-                    foreach (string sLog in lLogFiles)
-                        scavenger.ScavengeLogFile(0, sLog,string.Empty);
-
-                    //PopulateTable_Log(ref m_dbCon, ResultID, Path.GetDirectoryName(sFiles[i]), m_sLogFilePattern, sFiles[i]);
-                }
-
                 worker.ReportProgress((i + 1) * 100 / sResultFiles.Count());
             }
 
+            if (!string.IsNullOrEmpty(m_sLogFilePattern))
+            {
+                // Process all the remaining log files that might not be related to result files.
+
+                foreach (string sLog in lLogFiles)
+                    scavenger.ScavengeLogFile(0, sLog, string.Empty);
+
+                //PopulateTable_Log(ref m_dbCon, ResultID, Path.GetDirectoryName(sFiles[i]), m_sLogFilePattern, sFiles[i]);
+            }
+            
             if (eErrors.Count > 0)
             {
                 Exception ex = new Exception(nProcessed.ToString() + " RBT result file(s) processed. " + eErrors.Count.ToString() + " files encountered errors.", eErrors[0]);
@@ -143,7 +140,7 @@ namespace CHaMPWorkbench.Classes
             bool bResult = false;
             try
             {
-                OleDbCommand dbCom = new OleDbCommand("DELETE * FROM Visits", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("DELETE * FROM Metric_SiteMetrics WHERE (VisitID Is Not NULL) AND (ScavengeTypeID <> 2)", dbCon);
                 dbCom.ExecuteNonQuery();
 
                 dbCom = new OleDbCommand("DELETE * FROM LogFiles", dbCon);
