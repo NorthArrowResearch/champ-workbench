@@ -213,7 +213,11 @@ namespace CHaMPWorkbench.Data
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
         {
-            String sSQL = "SELECT VisitID AS ID, HitchName, CrewName, VisitDate, ProgramSiteID AS SiteID, [Primary Visit], PanelName FROM VisitInformation WHERE (VisitID IS NOT NULL) AND (ProgramSiteID IS NOT NULL)";
+            String sSQL = "SELECT V.VisitID AS ID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID AS SiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName" +
+                        " FROM MetricAndCovariates AS M INNER JOIN VisitInformation AS V ON M.VisitID = V.VisitID" +
+                        " WHERE ( (V.[VisitID] Is Not Null) AND (V.[ProgramSiteID] Is Not Null) )" +
+                        " GROUP BY V.VisitID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName";
+
             using (OleDbCommand dbCom = new OleDbCommand(sSQL, dbCHaMP))
             {
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
@@ -253,6 +257,52 @@ namespace CHaMPWorkbench.Data
                         r.SetPanelNameNull();
                     else
                         r.PanelName = (string)dbRead["PanelName"];
+
+                    if (System.Convert.IsDBNull(dbRead["VisitPhase"]))
+                        r.SetVisitPhaseNull();
+                    else
+                        r.VisitPhase = (string)dbRead["VisitPhase"];
+
+                    if (System.Convert.IsDBNull(dbRead["Organization"]))
+                        r.SetOrganizationNull();
+                    else
+                    {
+                        string sOrganization = (string)dbRead["Organization"];
+                        if (string.IsNullOrEmpty(sOrganization) || string.IsNullOrWhiteSpace(sOrganization))
+                            r.SetOrganizationNull();
+                        else
+                        r.Organization = sOrganization.Substring(0, Math.Min(100, sOrganization.Length)); // The Workbench has this as ShortText(100), while the cm.org Export is LongText
+                    }
+                    if (System.Convert.IsDBNull(dbRead["AEM"]))
+                        r.SetAEMNull();
+                    else
+                        r.AEM = string.Compare((string)dbRead["AEM"], "Yes", true) == 0;
+
+                    if (System.Convert.IsDBNull(dbRead["HasStreamTempLogger"]))
+                        r.SetHasStreamTempLoggerNull();
+                    else
+                        r.HasStreamTempLogger = (bool)dbRead["HasStreamTempLogger"];
+
+                    if (System.Convert.IsDBNull(dbRead["Has Fish Data"]))
+                        r.SetHasFishDataNull();
+                    else
+                        r.HasFishData = string.Compare((string)dbRead["Has Fish Data"], "Yes", true) == 0;
+
+                    if (System.Convert.IsDBNull(dbRead["QC Visit"]))
+                        r.SetQCVisitNull();
+                    else
+                        r.QCVisit = string.Compare((string)dbRead["QC Visit"], "Yes", true) == 0;
+
+                    if (System.Convert.IsDBNull(dbRead["VisitStatus"]))
+                        r.SetVisitStatusNull();
+                    else
+                        r.VisitStatus = (string)dbRead["VisitStatus"];
+
+                    if (System.Convert.IsDBNull(dbRead["CategoryName"]))
+                        r.SetCategoryNameNull();
+                    else
+                        r.CategoryName = (string)dbRead["CategoryName"];
+
 
                     if (r.RowState == DataRowState.Detached)
                         dtWorkbench.AddCHAMP_VisitsRow(r);
