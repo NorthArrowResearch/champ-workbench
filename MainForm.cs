@@ -363,12 +363,11 @@ namespace CHaMPWorkbench
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            string sSQL = "SELECT W.WatershedID, W.WatershedName," +
-                " S.SiteID, S.SiteName," +
-                " V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName," +
-                " Count(C.SegmentID) AS ChannelUnits" +
+            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
+
+            string sSQL = "SELECT " + sGroupFields+ ", Count(C.SegmentID) AS ChannelUnits" +
                 " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
-                " GROUP BY W.WatershedID, W.WatershedName, S.SiteID, S.SiteName, V.VisitID, V.VisitYear, V.HitchName, V.CrewName, V.SampleDate, V.IsPrimary, V.PanelName" +
+                " GROUP BY " + sGroupFields +
                 " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
