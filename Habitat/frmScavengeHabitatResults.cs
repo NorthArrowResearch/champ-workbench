@@ -46,7 +46,9 @@ namespace CHaMPWorkbench.Habitat
 
                     bool bOK = ProcessFile(txtHabitatModelDB.Text, txtCSVFile.Text, out sMessage);
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                    MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+                        System.Diagnostics.Process.Start(txtCSVFile.Text);
+
                     if (!bOK)
                         this.DialogResult = System.Windows.Forms.DialogResult.None;
                 }
@@ -80,18 +82,19 @@ namespace CHaMPWorkbench.Habitat
                 if (dResults.ContainsKey(rResult.SimulationsRow.Title))
                     dResults[rResult.SimulationsRow.Title].AddResult(rResult.ResultTypeID, rResult.ResultValue);
                 else
-                    dResults.Add(rResult.SimulationsRow.Title, new SimulationResults(rResult.SimulationsRow.Title, rResult.ResultTypeID, rResult.ResultValue));
+                    dResults.Add(rResult.SimulationsRow.Title, new SimulationResults(ref dTypes, rResult.SimulationsRow.Title, rResult.ResultTypeID, rResult.ResultValue));
             }
 
             using (System.IO.StreamWriter wCSV = new System.IO.StreamWriter(txtCSVFile.Text))
             {
+                wCSV.Write("Simulation,");
                 wCSV.WriteLine(string.Join(",", dTypes.Values.ToArray<string>()));
 
                 foreach (SimulationResults aSimulation in dResults.Values)
                     wCSV.WriteLine(aSimulation.ToString());
             }
 
-            sMessage = string.Format("Process completed successfully. {0} result types written for {1} simulation(s) written to file.", dTypes.Count, dResults.Count);
+            sMessage = string.Format("Process completed successfully. {0} result types written for {1} simulation(s) written to file. Do you want to open and view the exported file?", dTypes.Count, dResults.Count);
             return true;
         }
 
@@ -134,13 +137,23 @@ namespace CHaMPWorkbench.Habitat
         private class SimulationResults
         {
             private string m_sSimulationName;
-            private SortedDictionary<int, Single> m_dResults;
+            private SortedDictionary<int, Nullable<Single>> m_dResults;
 
-            public SimulationResults(string sSimulation, int nResultType, Single fValue)
+            public SimulationResults(ref  SortedDictionary<int, string> dResultTypes, string sSimulation, int nResultType, Single fValue)
             {
                 m_sSimulationName = sSimulation;
-                m_dResults = new SortedDictionary<int, Single>();
+                m_dResults = new SortedDictionary<int, Nullable<Single>>();
                 m_dResults[nResultType] = fValue;
+
+                // Ensure that the simulation has a record for each result type.
+                // This is important so that all the columns in the CSV have values.
+                // i.e. Some simulation types do not write results in the project
+                // file for all result types.
+                foreach (int nResultTypeID in dResultTypes.Keys)
+                {
+                    if (!m_dResults.ContainsKey(nResultTypeID))
+                        m_dResults.Add(nResultTypeID,new Nullable<Single>());
+                }
             }
 
             public void AddResult(int nResultType, Single fValue)
@@ -151,8 +164,13 @@ namespace CHaMPWorkbench.Habitat
             public override string ToString()
             {
                 string sResults = m_sSimulationName;
-                foreach (Single fValue in m_dResults.Values)
-                    sResults += string.Format(",{0}", fValue);
+                foreach (Nullable<Single> fValue in m_dResults.Values)
+                {
+                    if (fValue.HasValue)
+                        sResults += string.Format(",{0}", fValue);
+                    else
+                        sResults += ",";
+                }
 
                 return sResults;
             }
