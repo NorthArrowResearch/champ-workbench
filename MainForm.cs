@@ -365,7 +365,7 @@ namespace CHaMPWorkbench
 
             string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
 
-            string sSQL = "SELECT " + sGroupFields+ ", Count(C.SegmentID) AS ChannelUnits" +
+            string sSQL = "SELECT " + sGroupFields + ", Count(C.SegmentID) AS ChannelUnits" +
                 " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
                 " GROUP BY " + sGroupFields +
                 " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
@@ -744,6 +744,32 @@ namespace CHaMPWorkbench
         {
             Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults();
             frm.ShowDialog();
+        }
+
+        private void exportAWSLookupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog frm = new SaveFileDialog();
+            frm.Title = "Save CHaMP Data For AWS";
+            frm.Filter = "JSON Files (*.json)|*.json";
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    Classes.AWSExporter aws = new Classes.AWSExporter();
+                    System.IO.FileInfo fiExport = new System.IO.FileInfo(frm.FileName);
+                    int nExported = aws.Run(ref m_dbCon, fiExport);
+
+                    if (MessageBox.Show(string.Format("{0:#,##0} records exported to file. Do you want to browse to the file created?", nExported), "Export Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(fiExport.Directory.FullName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
     }
 }

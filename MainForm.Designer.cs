@@ -95,21 +95,6 @@
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.chkVisitID = new System.Windows.Forms.CheckBox();
             this.grdVisits = new System.Windows.Forms.DataGridView();
-            this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browseModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.copyMonitoringDataFolderPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterForAllVisitsToThisSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colWatershedID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colWatershedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -130,6 +115,22 @@
             this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browseModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.copyMonitoringDataFolderPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterForAllVisitsToThisSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -277,7 +278,7 @@
             this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -327,7 +328,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             this.gCDToolStripMenuItem.Visible = false;
             // 
@@ -344,7 +345,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -366,7 +367,7 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             this.delft3DToolStripMenuItem.Visible = false;
             // 
@@ -379,13 +380,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -462,7 +463,8 @@
             // 
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testXPathReferencesToolStripMenuItem,
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem});
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem,
+            this.exportAWSLookupToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -742,127 +744,6 @@
             this.grdVisits.TabIndex = 0;
             this.grdVisits.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdVisits_CellMouseClick);
             // 
-            // cmsVisit
-            // 
-            this.cmsVisit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.visitPropertiesToolStripMenuItem,
-            this.browseMonitoringDataToolStripMenuItem,
-            this.browseModelInputOutputFolderToolStripMenuItem,
-            this.toolStripSeparator9,
-            this.copyMonitoringDataFolderPathToolStripMenuItem,
-            this.copyModelInputOutputFolderToolStripMenuItem,
-            this.toolStripSeparator10,
-            this.filterForAllVisitsToThisSiteToolStripMenuItem,
-            this.toolStripSeparator11,
-            this.generateChannelUnitCSVFileToolStripMenuItem,
-            this.generateRBTRunForThisVisitToolStripMenuItem,
-            this.toolStripSeparator12,
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
-            this.viewSiteLocationMapToolStripMenuItem});
-            this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 248);
-            // 
-            // visitPropertiesToolStripMenuItem
-            // 
-            this.visitPropertiesToolStripMenuItem.Enabled = false;
-            this.visitPropertiesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
-            this.visitPropertiesToolStripMenuItem.Name = "visitPropertiesToolStripMenuItem";
-            this.visitPropertiesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.visitPropertiesToolStripMenuItem.Text = "Visit Properties...";
-            this.visitPropertiesToolStripMenuItem.Click += new System.EventHandler(this.visitPropertiesToolStripMenuItem_Click);
-            // 
-            // browseMonitoringDataToolStripMenuItem
-            // 
-            this.browseMonitoringDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.explorer;
-            this.browseMonitoringDataToolStripMenuItem.Name = "browseMonitoringDataToolStripMenuItem";
-            this.browseMonitoringDataToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.browseMonitoringDataToolStripMenuItem.Text = "Browse Monitoring Data Folder...";
-            this.browseMonitoringDataToolStripMenuItem.Click += new System.EventHandler(this.browseMonitoringDataToolStripMenuItem_Click);
-            // 
-            // browseModelInputOutputFolderToolStripMenuItem
-            // 
-            this.browseModelInputOutputFolderToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.explorer;
-            this.browseModelInputOutputFolderToolStripMenuItem.Name = "browseModelInputOutputFolderToolStripMenuItem";
-            this.browseModelInputOutputFolderToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.browseModelInputOutputFolderToolStripMenuItem.Text = "Browse Model Input/Output Folder...";
-            this.browseModelInputOutputFolderToolStripMenuItem.Click += new System.EventHandler(this.browseModelInputOutputFolderToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(353, 6);
-            // 
-            // copyMonitoringDataFolderPathToolStripMenuItem
-            // 
-            this.copyMonitoringDataFolderPathToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.copyMonitoringDataFolderPathToolStripMenuItem.Name = "copyMonitoringDataFolderPathToolStripMenuItem";
-            this.copyMonitoringDataFolderPathToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.copyMonitoringDataFolderPathToolStripMenuItem.Text = "Copy Monitoring Data Folder Path to Clipboard...";
-            this.copyMonitoringDataFolderPathToolStripMenuItem.Click += new System.EventHandler(this.copyMonitoringDataFolderPathToolStripMenuItem_Click);
-            // 
-            // copyModelInputOutputFolderToolStripMenuItem
-            // 
-            this.copyModelInputOutputFolderToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
-            this.copyModelInputOutputFolderToolStripMenuItem.Name = "copyModelInputOutputFolderToolStripMenuItem";
-            this.copyModelInputOutputFolderToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.copyModelInputOutputFolderToolStripMenuItem.Text = "Copy Model Input/Output Folder PAth to Clipboard...";
-            this.copyModelInputOutputFolderToolStripMenuItem.Click += new System.EventHandler(this.copyModelInputOutputFolderToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(353, 6);
-            // 
-            // filterForAllVisitsToThisSiteToolStripMenuItem
-            // 
-            this.filterForAllVisitsToThisSiteToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
-            this.filterForAllVisitsToThisSiteToolStripMenuItem.Name = "filterForAllVisitsToThisSiteToolStripMenuItem";
-            this.filterForAllVisitsToThisSiteToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.filterForAllVisitsToThisSiteToolStripMenuItem.Text = "Filter For All Visits to this Site";
-            this.filterForAllVisitsToThisSiteToolStripMenuItem.Click += new System.EventHandler(this.filterForAllVisitsToThisSiteToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(353, 6);
-            // 
-            // generateChannelUnitCSVFileToolStripMenuItem
-            // 
-            this.generateChannelUnitCSVFileToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.ConcaveHull;
-            this.generateChannelUnitCSVFileToolStripMenuItem.Name = "generateChannelUnitCSVFileToolStripMenuItem";
-            this.generateChannelUnitCSVFileToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.generateChannelUnitCSVFileToolStripMenuItem.Text = "Generate Channel Unit CSV File";
-            this.generateChannelUnitCSVFileToolStripMenuItem.Click += new System.EventHandler(this.generateChannelUnitCSVFileToolStripMenuItem_Click);
-            // 
-            // generateRBTRunForThisVisitToolStripMenuItem
-            // 
-            this.generateRBTRunForThisVisitToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
-            this.generateRBTRunForThisVisitToolStripMenuItem.Name = "generateRBTRunForThisVisitToolStripMenuItem";
-            this.generateRBTRunForThisVisitToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.generateRBTRunForThisVisitToolStripMenuItem.Text = "Generate RBT Run For Selected Visit(s)...";
-            this.generateRBTRunForThisVisitToolStripMenuItem.Click += new System.EventHandler(this.generateRBTRunForThisVisitToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(353, 6);
-            // 
-            // downloadTopoAndHydroDataFromCmorgToolStripMenuItem
-            // 
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Name = "downloadTopoAndHydroDataFromCmorgToolStripMenuItem";
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Text = "Download Topo and Hydro Data From cm.org";
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem_Click);
-            // 
-            // viewSiteLocationMapToolStripMenuItem
-            // 
-            this.viewSiteLocationMapToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.map;
-            this.viewSiteLocationMapToolStripMenuItem.Name = "viewSiteLocationMapToolStripMenuItem";
-            this.viewSiteLocationMapToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
-            this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
-            // 
             // colWatershedID
             // 
             this.colWatershedID.DataPropertyName = "WatershedID";
@@ -1013,6 +894,134 @@
             this.colCahnnelUnits.Name = "colCahnnelUnits";
             this.colCahnnelUnits.ReadOnly = true;
             // 
+            // cmsVisit
+            // 
+            this.cmsVisit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.visitPropertiesToolStripMenuItem,
+            this.browseMonitoringDataToolStripMenuItem,
+            this.browseModelInputOutputFolderToolStripMenuItem,
+            this.toolStripSeparator9,
+            this.copyMonitoringDataFolderPathToolStripMenuItem,
+            this.copyModelInputOutputFolderToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.filterForAllVisitsToThisSiteToolStripMenuItem,
+            this.toolStripSeparator11,
+            this.generateChannelUnitCSVFileToolStripMenuItem,
+            this.generateRBTRunForThisVisitToolStripMenuItem,
+            this.toolStripSeparator12,
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
+            this.viewSiteLocationMapToolStripMenuItem});
+            this.cmsVisit.Name = "cmsVisit";
+            this.cmsVisit.Size = new System.Drawing.Size(357, 248);
+            // 
+            // visitPropertiesToolStripMenuItem
+            // 
+            this.visitPropertiesToolStripMenuItem.Enabled = false;
+            this.visitPropertiesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
+            this.visitPropertiesToolStripMenuItem.Name = "visitPropertiesToolStripMenuItem";
+            this.visitPropertiesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.visitPropertiesToolStripMenuItem.Text = "Visit Properties...";
+            this.visitPropertiesToolStripMenuItem.Click += new System.EventHandler(this.visitPropertiesToolStripMenuItem_Click);
+            // 
+            // browseMonitoringDataToolStripMenuItem
+            // 
+            this.browseMonitoringDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.explorer;
+            this.browseMonitoringDataToolStripMenuItem.Name = "browseMonitoringDataToolStripMenuItem";
+            this.browseMonitoringDataToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.browseMonitoringDataToolStripMenuItem.Text = "Browse Monitoring Data Folder...";
+            this.browseMonitoringDataToolStripMenuItem.Click += new System.EventHandler(this.browseMonitoringDataToolStripMenuItem_Click);
+            // 
+            // browseModelInputOutputFolderToolStripMenuItem
+            // 
+            this.browseModelInputOutputFolderToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.explorer;
+            this.browseModelInputOutputFolderToolStripMenuItem.Name = "browseModelInputOutputFolderToolStripMenuItem";
+            this.browseModelInputOutputFolderToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.browseModelInputOutputFolderToolStripMenuItem.Text = "Browse Model Input/Output Folder...";
+            this.browseModelInputOutputFolderToolStripMenuItem.Click += new System.EventHandler(this.browseModelInputOutputFolderToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(353, 6);
+            // 
+            // copyMonitoringDataFolderPathToolStripMenuItem
+            // 
+            this.copyMonitoringDataFolderPathToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
+            this.copyMonitoringDataFolderPathToolStripMenuItem.Name = "copyMonitoringDataFolderPathToolStripMenuItem";
+            this.copyMonitoringDataFolderPathToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.copyMonitoringDataFolderPathToolStripMenuItem.Text = "Copy Monitoring Data Folder Path to Clipboard...";
+            this.copyMonitoringDataFolderPathToolStripMenuItem.Click += new System.EventHandler(this.copyMonitoringDataFolderPathToolStripMenuItem_Click);
+            // 
+            // copyModelInputOutputFolderToolStripMenuItem
+            // 
+            this.copyModelInputOutputFolderToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Copy;
+            this.copyModelInputOutputFolderToolStripMenuItem.Name = "copyModelInputOutputFolderToolStripMenuItem";
+            this.copyModelInputOutputFolderToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.copyModelInputOutputFolderToolStripMenuItem.Text = "Copy Model Input/Output Folder PAth to Clipboard...";
+            this.copyModelInputOutputFolderToolStripMenuItem.Click += new System.EventHandler(this.copyModelInputOutputFolderToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(353, 6);
+            // 
+            // filterForAllVisitsToThisSiteToolStripMenuItem
+            // 
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Name = "filterForAllVisitsToThisSiteToolStripMenuItem";
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Text = "Filter For All Visits to this Site";
+            this.filterForAllVisitsToThisSiteToolStripMenuItem.Click += new System.EventHandler(this.filterForAllVisitsToThisSiteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(353, 6);
+            // 
+            // generateChannelUnitCSVFileToolStripMenuItem
+            // 
+            this.generateChannelUnitCSVFileToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.ConcaveHull;
+            this.generateChannelUnitCSVFileToolStripMenuItem.Name = "generateChannelUnitCSVFileToolStripMenuItem";
+            this.generateChannelUnitCSVFileToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.generateChannelUnitCSVFileToolStripMenuItem.Text = "Generate Channel Unit CSV File";
+            this.generateChannelUnitCSVFileToolStripMenuItem.Click += new System.EventHandler(this.generateChannelUnitCSVFileToolStripMenuItem_Click);
+            // 
+            // generateRBTRunForThisVisitToolStripMenuItem
+            // 
+            this.generateRBTRunForThisVisitToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.rbt_16x16;
+            this.generateRBTRunForThisVisitToolStripMenuItem.Name = "generateRBTRunForThisVisitToolStripMenuItem";
+            this.generateRBTRunForThisVisitToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.generateRBTRunForThisVisitToolStripMenuItem.Text = "Generate RBT Run For Selected Visit(s)...";
+            this.generateRBTRunForThisVisitToolStripMenuItem.Click += new System.EventHandler(this.generateRBTRunForThisVisitToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(353, 6);
+            // 
+            // downloadTopoAndHydroDataFromCmorgToolStripMenuItem
+            // 
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Name = "downloadTopoAndHydroDataFromCmorgToolStripMenuItem";
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Text = "Download Topo and Hydro Data From cm.org";
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem_Click);
+            // 
+            // viewSiteLocationMapToolStripMenuItem
+            // 
+            this.viewSiteLocationMapToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.map;
+            this.viewSiteLocationMapToolStripMenuItem.Name = "viewSiteLocationMapToolStripMenuItem";
+            this.viewSiteLocationMapToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
+            this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
+            // 
+            // exportAWSLookupToolStripMenuItem
+            // 
+            this.exportAWSLookupToolStripMenuItem.Name = "exportAWSLookupToolStripMenuItem";
+            this.exportAWSLookupToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.exportAWSLookupToolStripMenuItem.Text = "Export AWS Lookup...";
+            this.exportAWSLookupToolStripMenuItem.Click += new System.EventHandler(this.exportAWSLookupToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1151,6 +1160,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
+        private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
 
     }
 }
