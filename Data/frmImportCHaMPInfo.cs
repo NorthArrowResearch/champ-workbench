@@ -333,7 +333,8 @@ namespace CHaMPWorkbench.Data
                 r.SegmentNumber = (int)dbRead["SegmentNumber"];
                 r.SegmentName = (string)dbRead["SegmentType"];
                 r.VisitID = (int)dbRead["VisitID"];
-                ds.CHaMP_Segments.AddCHaMP_SegmentsRow(r);
+                if (ds.CHAMP_Visits.FindByVisitID(r.VisitID) != null)
+                    ds.CHaMP_Segments.AddCHaMP_SegmentsRow(r);
             }
             daSegments.Update(ds.CHaMP_Segments);
             dbRead.Close();
