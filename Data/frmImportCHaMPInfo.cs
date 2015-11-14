@@ -213,8 +213,8 @@ namespace CHaMPWorkbench.Data
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
         {
-            String sSQL = "SELECT V.VisitID AS ID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID AS SiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName" +
-                        " FROM MetricAndCovariates AS M INNER JOIN VisitInformation AS V ON M.VisitID = V.VisitID" +
+            String sSQL = "SELECT V.VisitID AS ID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID AS SiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName" +
+                        " FROM VisitInformation AS V LEFT JOIN MetricAndCovariates AS M ON M.VisitID = V.VisitID" +
                         " WHERE ( (V.[VisitID] Is Not Null) AND (V.[ProgramSiteID] Is Not Null) )" +
                         " GROUP BY V.VisitID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName";
 
@@ -263,16 +263,11 @@ namespace CHaMPWorkbench.Data
                     else
                         r.VisitPhase = (string)dbRead["VisitPhase"];
 
-                    if (System.Convert.IsDBNull(dbRead["Organization"]))
-                        r.SetOrganizationNull();
-                    else
-                    {
-                        string sOrganization = (string)dbRead["Organization"];
-                        if (string.IsNullOrEmpty(sOrganization) || string.IsNullOrWhiteSpace(sOrganization))
-                            r.SetOrganizationNull();
-                        else
-                        r.Organization = sOrganization.Substring(0, Math.Min(100, sOrganization.Length)); // The Workbench has this as ShortText(100), while the cm.org Export is LongText
-                    }
+                    // Organization is stored as long text field in cm.org export. Long text fields 
+                    // seem to appear as garbled text in left join queries. So default this field 
+                    // to null here and then update this field separately below.
+                    r.SetOrganizationNull();
+
                     if (System.Convert.IsDBNull(dbRead["AEM"]))
                         r.SetAEMNull();
                     else
@@ -307,6 +302,22 @@ namespace CHaMPWorkbench.Data
                     if (r.RowState == DataRowState.Detached)
                         dtWorkbench.AddCHAMP_VisitsRow(r);
                 }
+
+                // See comment above about long text fields in left joins                
+                using (OleDbCommand dbCom2 = new OleDbCommand("SELECT VisitID, Organization FROM MetricAndCovariates WHERE Organization Is Not NULL", dbCHaMP))
+                {
+                    OleDbDataReader dbRead2 = dbCom2.ExecuteReader();
+                    while (dbRead2.Read())
+                    {
+                        RBTWorkbenchDataSet.CHAMP_VisitsRow r = dtWorkbench.FindByVisitID((int)dbRead2["VisitID"]);
+                        if (r != null)
+                        {
+                            string sOrganization = dbRead2.GetString(dbRead2.GetOrdinal("Organization"));
+                            r.Organization = sOrganization.Substring(0, Math.Min(100, sOrganization.Length));
+                        }
+                    }
+                }
+
                 da.Update(dtWorkbench);
             }
         }
