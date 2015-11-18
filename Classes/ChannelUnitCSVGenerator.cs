@@ -40,8 +40,8 @@ namespace CHaMPWorkbench.Classes
                     ",VisitStatus" + 
                     ",StreamName" + 
                     ",Panel" +
-                    ",ChannelUnitID" + 
-                    ",ChannelUnitNumber" + 
+                    ",ChannelUnitID" +
+                    ",UnitNumber" + 
                     ",ChannelSegment" +
                     ",SegmentNumber" +
                     ",Tier1" +
@@ -53,10 +53,10 @@ namespace CHaMPWorkbench.Classes
                     ",SideChannelPresent" +
                     ",InQualifyingSideChannel" +
                     ",BouldersGT256" +
-                    ",Cobbles65255" +
-                    ",CoarseGravel1764" +
-                    ",FineGravel316" +
-                    ",Sand0062" +
+                    ",Cobbles65_255" +
+                    ",CoarseGravel17_64" +
+                    ",FineGravel3_16" +
+                    ",Sand006_2" +
                     ",FinesLT006" +
                     ",SumSubstrateCover"
                  );
