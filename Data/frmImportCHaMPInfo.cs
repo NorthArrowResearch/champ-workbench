@@ -514,16 +514,20 @@ namespace CHaMPWorkbench.Data
 
         private void UpdateExtendedSiteInfo(string sDatabaseExport)
         {
-            OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID SET Latitude = @Latitude, Longitude = @Longitude WHERE (V.VisitID = @VisitID)", m_dbCon);
-            OleDbParameter pLatitude = dbUpdate.Parameters.Add("@Latitude", OleDbType.Single);
-            OleDbParameter pLongitude = dbUpdate.Parameters.Add("@Longitude", OleDbType.Single);
-            OleDbParameter pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Integer);
 
             String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabaseExport);
             using (OleDbConnection conExport = new OleDbConnection(sDB))
             {
                 conExport.Open();
-
+                //
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // MetricAndCovariates fields
+                //
+                OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID SET Latitude = @Latitude, Longitude = @Longitude WHERE (V.VisitID = @VisitID)", m_dbCon);
+                OleDbParameter pLatitude = dbUpdate.Parameters.Add("@Latitude", OleDbType.Single);
+                OleDbParameter pLongitude = dbUpdate.Parameters.Add("@Longitude", OleDbType.Single);
+                OleDbParameter pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Single);
+                
                 OleDbCommand comSurveyDesign = new OleDbCommand("SELECT VisitID, LAT_DD, LON_DD FROM MetricAndCovariates WHERE (VISITID IS NOT NULL) AND (LAT_DD IS NOT NULL) AND (LON_DD IS NOT NULL)", conExport);
                 OleDbDataReader dbRead = comSurveyDesign.ExecuteReader();
                 while (dbRead.Read())
@@ -533,6 +537,34 @@ namespace CHaMPWorkbench.Data
                     pVisitID.Value = (int)dbRead["VisitID"];
                     dbUpdate.ExecuteNonQuery();
                 }
+                //
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // MetricVisitInformation fields
+                //
+                dbUpdate = new OleDbCommand("UPDATE CHAMP_Visits SET Discharge = @Discharge, D84 = @D84 WHERE (VisitID = @VisitID)", m_dbCon);
+                OleDbParameter pDischarge = dbUpdate.Parameters.Add("@Discharge", OleDbType.Single);
+                OleDbParameter pD84 = dbUpdate.Parameters.Add("@D84", OleDbType.Single);
+                pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Integer);
+                
+                comSurveyDesign = new OleDbCommand("SELECT VisitID, SubD84, Q FROM MetricVisitInformation WHERE VisitID IS NOT NULL", conExport);
+                dbRead = comSurveyDesign.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    pVisitID.Value = (int)dbRead["VisitID"];
+
+                    if (dbRead.IsDBNull(dbRead.GetOrdinal("SubD84")))
+                        pD84.Value = DBNull.Value;
+                    else
+                        pD84.Value = Convert.ToSingle(dbRead.GetDouble(dbRead.GetOrdinal("SubD84")));
+
+                    if (dbRead.IsDBNull(dbRead.GetOrdinal("Q")))
+                        pDischarge.Value = DBNull.Value;
+                    else
+                        pDischarge.Value = Convert.ToSingle(dbRead.GetDouble(dbRead.GetOrdinal("Q")));
+
+                    dbUpdate.ExecuteNonQuery();
+                }
+
             }
         }
 
