@@ -22,9 +22,9 @@ namespace CHaMPWorkbench.Classes
         public int Run(ref OleDbConnection dbCon, System.IO.FileInfo fiExport)
         {
             DataTable dt = new DataTable();
-            using (OleDbCommand cmd = new OleDbCommand("SELECT V.VisitYear AS [Year], W.WatershedName AS Watershed, S.SiteName AS Site, V.VisitID AS Visit" +
+            using (OleDbCommand cmd = new OleDbCommand("SELECT V.VisitYear AS [Year], W.WatershedName AS Watershed, S.SiteName AS Site, V.VisitID AS Visit, V.IsPrimary, V.Discharge, V.D84" +
                 " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
-                " GROUP BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID" +
+                " GROUP BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID, V.IsPrimary, V.Discharge, V.D84" +
                 " ORDER BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID", dbCon))
             {
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd);
