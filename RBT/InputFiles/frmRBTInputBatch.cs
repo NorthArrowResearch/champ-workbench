@@ -27,9 +27,6 @@ namespace CHaMPWorkbench.RBTInputFile
         {
             RefreshVisitPaths();
 
-
-
-
             ucConfig.ManualInitialization();
 
             txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
@@ -50,6 +47,11 @@ namespace CHaMPWorkbench.RBTInputFile
                 sDefault = string.Empty;
             }
             txtOutputFolder.Text = sDefaultIO;
+
+            if (m_lVisitIDs.Count == 1)
+            {
+                txtBatch.Text = string.Format("Visit {0}, {1} mode", m_lVisitIDs[0], ucConfig.cboRBTMode.Text);
+            }
         }
 
         private void RefreshVisitPaths()
