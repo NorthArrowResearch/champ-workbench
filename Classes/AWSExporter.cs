@@ -41,7 +41,10 @@ namespace CHaMPWorkbench.Classes
                         row = new Dictionary<string, object>();
                         foreach (DataColumn col in dt.Columns)
                         {
-                            row.Add(col.ColumnName, dr[col]);
+                            if (string.Compare(col.ToString(), "Watershed", true) == 0)
+                                row.Add(col.ColumnName, dr[col].ToString().Replace(" ", ""));
+                            else
+                                row.Add(col.ColumnName, dr[col]);
                         }
                         rows.Add(row);
                     }
