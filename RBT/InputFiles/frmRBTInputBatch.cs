@@ -179,7 +179,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true);
+                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
             }
             catch (Exception ex)
             {

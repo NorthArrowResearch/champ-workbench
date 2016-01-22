@@ -76,13 +76,20 @@ namespace CHaMPWorkbench.Classes
             return dVisitTopoFolder;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, System.IO.DirectoryInfo dParentTopoDataFolder, Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN)
+        public String Run(String sBatchName, String sDefaultInputFileName, System.IO.DirectoryInfo dParentTopoDataFolder, Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN, bool bClearOtherBatches)
         {
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
             string sResult;
             try
             {
+                if (bClearOtherBatches)
+                {
+                    // Make all existing RBT batches set to NOT run
+                    OleDbCommand dbUpdate = new OleDbCommand("UPDATE RBT_BatchRuns SET Run = False", m_dbCon, dbTrans);
+                    dbUpdate.ExecuteNonQuery();
+                }
+
                 OleDbCommand dbInsert = new OleDbCommand("INSERT INTO RBT_Batches (BatchName) Values (?)", m_dbCon, dbTrans);
                 dbInsert.Parameters.AddWithValue("BatchName", sBatchName);
                 dbInsert.ExecuteNonQuery();

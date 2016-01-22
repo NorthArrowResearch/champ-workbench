@@ -50,11 +50,12 @@
             this.lblBatchName = new System.Windows.Forms.Label();
             this.txtBatch = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.ucConfig = new CHaMPWorkbench.RBTConfiguration();
-            this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
+            this.chkClearOtherBatches = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,6 +78,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkClearOtherBatches);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.label1);
@@ -239,7 +241,7 @@
             this.Label2.Location = new System.Drawing.Point(40, 46);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(138, 13);
-            this.Label2.TabIndex = 2;
+            this.Label2.TabIndex = 3;
             this.Label2.Text = "Parent folder (\"Monitoring\"):";
             // 
             // txtMonitoringDataFolder
@@ -249,7 +251,7 @@
             this.txtMonitoringDataFolder.Location = new System.Drawing.Point(184, 42);
             this.txtMonitoringDataFolder.Name = "txtMonitoringDataFolder";
             this.txtMonitoringDataFolder.Size = new System.Drawing.Size(572, 20);
-            this.txtMonitoringDataFolder.TabIndex = 3;
+            this.txtMonitoringDataFolder.TabIndex = 4;
             this.txtMonitoringDataFolder.TextChanged += new System.EventHandler(this.txtMonitoringDataFolder_TextChanged);
             // 
             // cmdBrowseFolder
@@ -258,7 +260,7 @@
             this.cmdBrowseFolder.Location = new System.Drawing.Point(762, 41);
             this.cmdBrowseFolder.Name = "cmdBrowseFolder";
             this.cmdBrowseFolder.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseFolder.TabIndex = 4;
+            this.cmdBrowseFolder.TabIndex = 5;
             this.cmdBrowseFolder.Text = "Browse";
             this.cmdBrowseFolder.UseVisualStyleBackColor = true;
             this.cmdBrowseFolder.Click += new System.EventHandler(this.cmdBrowseFolder_Click);
@@ -309,6 +311,13 @@
             this.tabPage2.Text = "RBT Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // ucConfig
+            // 
+            this.ucConfig.Location = new System.Drawing.Point(6, 6);
+            this.ucConfig.Name = "ucConfig";
+            this.ucConfig.Size = new System.Drawing.Size(835, 547);
+            this.ucConfig.TabIndex = 0;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.ucRBTChangeDetection1);
@@ -319,6 +328,14 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Change Detection";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ucRBTChangeDetection1
+            // 
+            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
+            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
+            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 543);
+            this.ucRBTChangeDetection1.TabIndex = 0;
             // 
             // cmdCancel
             // 
@@ -343,20 +360,15 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // ucConfig
+            // chkClearOtherBatches
             // 
-            this.ucConfig.Location = new System.Drawing.Point(6, 6);
-            this.ucConfig.Name = "ucConfig";
-            this.ucConfig.Size = new System.Drawing.Size(835, 547);
-            this.ucConfig.TabIndex = 0;
-            // 
-            // ucRBTChangeDetection1
-            // 
-            this.ucRBTChangeDetection1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucRBTChangeDetection1.Location = new System.Drawing.Point(3, 3);
-            this.ucRBTChangeDetection1.Name = "ucRBTChangeDetection1";
-            this.ucRBTChangeDetection1.Size = new System.Drawing.Size(842, 543);
-            this.ucRBTChangeDetection1.TabIndex = 0;
+            this.chkClearOtherBatches.AutoSize = true;
+            this.chkClearOtherBatches.Location = new System.Drawing.Point(383, 15);
+            this.chkClearOtherBatches.Name = "chkClearOtherBatches";
+            this.chkClearOtherBatches.Size = new System.Drawing.Size(214, 17);
+            this.chkClearOtherBatches.TabIndex = 2;
+            this.chkClearOtherBatches.Text = "Set this as the only batch queued to run";
+            this.chkClearOtherBatches.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputBatch
             // 
@@ -417,5 +429,6 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.RadioButton rdoSelectedOnly;
         private System.Windows.Forms.RadioButton rdoAll;
+        private System.Windows.Forms.CheckBox chkClearOtherBatches;
     }
 }
