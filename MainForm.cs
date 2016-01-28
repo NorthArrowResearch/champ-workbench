@@ -771,5 +771,84 @@ namespace CHaMPWorkbench
                 }
             }
         }
+
+        private void filterVisitsFromVisitIDCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                if (grdVisits.DataSource is DataView)
+                {
+                    OpenFileDialog frm = new OpenFileDialog();
+                    frm.Title = "Visit ID Comma Separated Value (CSV) file";
+                    frm.Filter = "Comma Separated Value Files (*.csv)|*.csv";
+                    frm.CheckFileExists = true;
+
+                    if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        List<string> lValidVisitIDs = new List<string>();
+                        string[] sVisitIDs = File.ReadAllText(frm.FileName).Split(',');
+                        foreach (string sVisitID in sVisitIDs)
+                        {
+                            int nVisitID = 0;
+                            if (!string.IsNullOrEmpty(sVisitID))
+                            {
+                                if (int.TryParse(sVisitID, out nVisitID))
+                                {
+                                    if (nVisitID > 0)
+                                    {
+                                        lValidVisitIDs.Add(nVisitID.ToString());
+                                    }
+                                }
+                            }
+                        }
+
+                        if (lValidVisitIDs.Count < 1)
+                        {
+                            MessageBox.Show("No valid visit IDs found in file.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+
+                        // Clear the user interface of filtering items.
+                        chkVisitID.CheckedChanged -= FilterVisits;
+                        chkVisitID.Checked = false;
+                        chkVisitID.CheckedChanged += new EventHandler(FilterVisits);
+
+                        ClearCheckedItems(ref lstWatershed);
+                        ClearCheckedItems(ref lstSite);
+                        ClearCheckedItems(ref lstFieldSeason);
+
+                        string sFilter = string.Format("VisitID IN ({0})", string.Join(",", lValidVisitIDs));
+                        DataView dv = (DataView)grdVisits.DataSource;
+                        System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
+                        dv.RowFilter = sFilter;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            }
+        }
+
+        /// <summary>
+        /// Clears the checkbox on all items in the three visit filtering checked listboxs
+        /// </summary>
+        /// <param name="lst"></param>
+        /// <remarks>Note that the three listboxes have events on the itemcheck. These events
+        /// need to be turned off and then turned back on after the work is done (to prevent
+        /// the events firing every time that an item check is changed.</remarks>
+        private void ClearCheckedItems(ref CheckedListBox lst)
+        {
+            lst.ItemCheck -= FilterListBoxCheckChanged;
+            for (int i = 0; i < lst.Items.Count; i++)
+                lst.SetItemChecked(i, false);
+
+            lst.ItemCheck += new ItemCheckEventHandler(FilterListBoxCheckChanged);
+        }
     }
 }

@@ -72,6 +72,7 @@
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,7 +131,7 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -464,7 +465,8 @@
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testXPathReferencesToolStripMenuItem,
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem,
-            this.exportAWSLookupToolStripMenuItem});
+            this.exportAWSLookupToolStripMenuItem,
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -483,6 +485,13 @@
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Click += new System.EventHandler(this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click);
+            // 
+            // exportAWSLookupToolStripMenuItem
+            // 
+            this.exportAWSLookupToolStripMenuItem.Name = "exportAWSLookupToolStripMenuItem";
+            this.exportAWSLookupToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.exportAWSLookupToolStripMenuItem.Text = "Export AWS Lookup...";
+            this.exportAWSLookupToolStripMenuItem.Click += new System.EventHandler(this.exportAWSLookupToolStripMenuItem_Click);
             // 
             // saraBangenToolStripMenuItem
             // 
@@ -1015,12 +1024,12 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
-            // exportAWSLookupToolStripMenuItem
+            // filterVisitsFromVisitIDCSVFileToolStripMenuItem
             // 
-            this.exportAWSLookupToolStripMenuItem.Name = "exportAWSLookupToolStripMenuItem";
-            this.exportAWSLookupToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
-            this.exportAWSLookupToolStripMenuItem.Text = "Export AWS Lookup...";
-            this.exportAWSLookupToolStripMenuItem.Click += new System.EventHandler(this.exportAWSLookupToolStripMenuItem_Click);
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem.Name = "filterVisitsFromVisitIDCSVFileToolStripMenuItem";
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem.Text = "Filter Visits From Visit ID CSV file...";
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem.Click += new System.EventHandler(this.filterVisitsFromVisitIDCSVFileToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1161,6 +1170,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
         private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterVisitsFromVisitIDCSVFileToolStripMenuItem;
 
     }
 }
