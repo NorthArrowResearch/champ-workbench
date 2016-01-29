@@ -103,6 +103,7 @@
     <Compile Include="Classes\Outputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
+    <Compile Include="Classes\RBTValidationReport.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
     <Compile Include="Classes\ResultScavengerSingle.cs" />
     <Compile Include="Classes\Site.cs" />

@@ -850,5 +850,30 @@ namespace CHaMPWorkbench
 
             lst.ItemCheck += new ItemCheckEventHandler(FilterListBoxCheckChanged);
         }
+
+        private void validationReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog frm = new SaveFileDialog();
+            frm.Title = "RBT Validation Report Output Path";
+            frm.Filter = "HTML Files (*.html, *.htm)|*.htm|XML Files (*.xml)|*.xml";
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    Classes.RBTValidationReport report = new Classes.RBTValidationReport(m_dbCon.ConnectionString, new System.IO.FileInfo(frm.FileName));
+                    report.Run();
+
+                    if (System.IO.File.Exists(frm.FileName))
+                    {
+                        System.Diagnostics.Process.Start(frm.FileName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error Generating Report");
+                }
+            }
+        }
     }
 }
