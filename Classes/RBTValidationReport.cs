@@ -10,7 +10,6 @@ namespace CHaMPWorkbench.Classes
 {
     class RBTValidationReport
     {
-        private const int m_nRBTRun = 1;
         private const int m_nValidation = 2;
 
         private System.IO.FileInfo m_fiOutputPath;
@@ -44,40 +43,83 @@ namespace CHaMPWorkbench.Classes
             XmlNode nodMetrics = xmlDoc.CreateElement("metrics");
             nodReport.AppendChild(nodMetrics);
 
-            // Loop over the unique tables doing one SQL command for each
-            foreach (string sTable in dUniqueTables.Keys)
+            // Loop over each metric
+            foreach (Metric theMetric in dValidationMetrics.Values)
             {
                 using (OleDbConnection dbCon = new OleDbConnection(DBCon))
                 {
                     dbCon.Open();
 
-                    string sSQL = string.Format("SELECT {0} FROM {1}", string.Join(",", dUniqueTables[sTable].ToArray<string>()), sTable);
+                    XmlNode nodMetric = xmlDoc.CreateElement("metric");
+                    nodMetrics.AppendChild(nodMetric);
+
+                    XmlNode nodMetricName = xmlDoc.CreateElement("name");
+                    nodMetricName.InnerText = theMetric.Title;
+                    nodMetric.AppendChild(nodMetricName);
+
+                    XmlNode nodMetricUnits = xmlDoc.CreateElement("unit");
+                    nodMetricUnits.InnerText = theMetric.Units;
+                    nodMetric.AppendChild(nodMetricUnits);
+
+                    XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
+                    nodTolerance.InnerText = theMetric.Threshold.ToString("#0.00");
+                    nodMetric.AppendChild(nodTolerance);
+
+                    // First go and get the manually calculate "truth" variable"
+                    string sSQL = string.Format("SELECT {0} FROM {1} WHERE ScavengeTypeID = {0}", theMetric.DBField, theMetric.DBTable, m_nValidation);
                     System.Diagnostics.Debug.Print(sSQL);
                     OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
                     OleDbDataReader dbRead = dbCom.ExecuteReader();
 
-                    // Loop over all the metrics retrieved from this table using this command.
-                    foreach (string sDBField in dUniqueTables[sTable])
+                    XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
+                    Nullable<float> fManualValue = new Nullable<float>();
+                    if (dbRead.Read() && !dbRead.IsDBNull(0))
                     {
-                        Metric m = RetrieveMetric(sTable, sDBField, ref dValidationMetrics);
-                        if (m == null)
+                        fManualValue = dbRead.GetFloat(0);
+                        nodManualResult.InnerText = fManualValue.ToString();
+                    }
+                    dbRead.Close();
+                    nodMetric.AppendChild(nodManualResult);
+
+                    XmlNode nodResults = xmlDoc.CreateElement("results");
+                    nodMetric.AppendChild(nodResults);
+
+                    // Now go and get all the other RBT generated versions (and compare them to the truth)
+                    sSQL = string.Format("SELECT {0}, RBTVersion FROM {1} WHERE ScavengeTypeID <> {0}", theMetric.DBField, theMetric.DBTable, m_nValidation);
+                    System.Diagnostics.Debug.Print(sSQL);
+                    dbCom = new OleDbCommand(sSQL, dbCon);
+                    dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        // Skip results that don't have an RBT version
+                        if (dbRead.IsDBNull(1))
                             continue;
 
-                        XmlNode nodMetric = xmlDoc.CreateElement("metric");
-                        nodMetrics.AppendChild(nodMetric);
+                        XmlNode nodResult = xmlDoc.CreateElement("result");
+                        nodResults.AppendChild(nodResult);
 
-                        XmlNode nodMetricName = xmlDoc.CreateElement("name");
-                        nodMetricName.InnerText = m.Title;
-                        nodMetric.AppendChild(nodMetricName);
+                        XmlNode nodVersion = xmlDoc.CreateElement("version");
+                        nodVersion.InnerText = dbRead.GetString(dbRead.GetOrdinal("RBTVersion"));
+                        nodResult.AppendChild(nodVersion);
 
-                        XmlNode nodMetricUnits = xmlDoc.CreateElement("unit");
-                        nodMetricUnits.InnerText = m.Units;
-                        nodMetric.AppendChild(nodMetricUnits);
+                        XmlNode nodValue = xmlDoc.CreateElement("result");
+                        Nullable<float> fValue = new Nullable<float>();
+                        if (!dbRead.IsDBNull(0))
+                        {
+                            fValue = dbRead.GetFloat(0);
+                            nodValue.InnerText = fValue.ToString();
+                        }
 
-                        XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
-                        nodTolerance.InnerText = m.Threshold.ToString("#0.00");
-                        nodMetric.AppendChild(nodTolerance);
-
+                        XmlNode nodStatus = xmlDoc.CreateElement("status");
+                        if (fManualValue.HasValue && fValue.HasValue)
+                        {
+                            float fDiff = (float)Math.Abs((decimal) ((fManualValue - fValue) / fManualValue));
+                            if (fDiff <= theMetric.Threshold)
+                                nodStatus.InnerText = "Pass";
+                            else
+                                nodStatus.InnerText = "Fail";
+                        }
+                        nodResult.AppendChild(nodStatus);
                     }
                 }
             }
@@ -90,21 +132,6 @@ namespace CHaMPWorkbench.Classes
             {
                 ex.Data["File Path"] = m_fiOutputPath.FullName;
             }
-        }
-
-        private Metric RetrieveMetric(string sTable, string sDBField, ref  Dictionary<string, Metric> dValidationMetrics)
-        {
-            Metric theResult = null;
-
-            foreach (Metric m in dValidationMetrics.Values)
-            {
-                if (string.Compare(m.DBTable, sTable, true) == 0 && string.Compare(m.DBField, sDBField, true) == 0)
-                {
-                    theResult = m;
-                    break;
-                }
-            }
-            return theResult;
         }
 
         private Dictionary<string, Metric> RetrieveValidationMetrics()
