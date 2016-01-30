@@ -861,6 +861,7 @@ namespace CHaMPWorkbench
             {
                 try
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     Classes.RBTValidationReport report = new Classes.RBTValidationReport(m_dbCon.ConnectionString, new System.IO.FileInfo(frm.FileName));
                     report.Run();
 
@@ -872,6 +873,10 @@ namespace CHaMPWorkbench
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error Generating Report");
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
                 }
             }
         }

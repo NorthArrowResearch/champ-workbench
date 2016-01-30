@@ -36,6 +36,11 @@ namespace CHaMPWorkbench.Classes
             XmlNode nodReport = xmlDoc.CreateElement("report");
             xmlDoc.AppendChild(nodReport);
 
+            //Create an XML declaration. 
+            XmlDeclaration xmldecl;
+            xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
+            xmlDoc.InsertBefore(xmldecl, nodReport);
+
             XmlNode nodDate = xmlDoc.CreateElement("date");
             nodDate.InnerText = DateTime.Now.ToString("O");
             nodReport.AppendChild(nodDate);
@@ -43,85 +48,120 @@ namespace CHaMPWorkbench.Classes
             XmlNode nodMetrics = xmlDoc.CreateElement("metrics");
             nodReport.AppendChild(nodMetrics);
 
+            List<ListItem> lVisitIDs = GetVisitIDs();
+            if (lVisitIDs.Count < 1)
+                throw new Exception("There are no visits containing manual validation data.");
+
             // Loop over each metric
             foreach (Metric theMetric in dValidationMetrics.Values)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                XmlNode nodMetric = xmlDoc.CreateElement("metric");
+                nodMetrics.AppendChild(nodMetric);
+
+                XmlNode nodMetricName = xmlDoc.CreateElement("name");
+                nodMetricName.InnerText = theMetric.Title;
+                nodMetric.AppendChild(nodMetricName);
+
+                XmlNode nodMetricUnits = xmlDoc.CreateElement("unit");
+                nodMetricUnits.InnerText = theMetric.Units;
+                nodMetric.AppendChild(nodMetricUnits);
+
+                XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
+                nodTolerance.InnerText = theMetric.Threshold.ToString("#0.00");
+                nodMetric.AppendChild(nodTolerance);
+
+                XmlNode nodVisits = xmlDoc.CreateElement("visits");
+                nodMetric.AppendChild(nodVisits);
+
+                // Query to get the manually calculate "truth" variable
+                string sSQL = string.Format("SELECT {0} FROM {1} WHERE (ScavengeTypeID = {2}) AND (VisitID = @VisitID)", theMetric.DBField, theMetric.DBTable, m_nValidation);
+                System.Diagnostics.Debug.Print(sSQL);
+                using (OleDbConnection conManual = new OleDbConnection(DBCon))
                 {
-                    dbCon.Open();
+                    conManual.Open();
+                    OleDbCommand comManual = new OleDbCommand(sSQL, conManual);
+                    OleDbParameter pManualVisit = comManual.Parameters.Add("@VisitID", OleDbType.Integer);
 
-                    XmlNode nodMetric = xmlDoc.CreateElement("metric");
-                    nodMetrics.AppendChild(nodMetric);
-
-                    XmlNode nodMetricName = xmlDoc.CreateElement("name");
-                    nodMetricName.InnerText = theMetric.Title;
-                    nodMetric.AppendChild(nodMetricName);
-
-                    XmlNode nodMetricUnits = xmlDoc.CreateElement("unit");
-                    nodMetricUnits.InnerText = theMetric.Units;
-                    nodMetric.AppendChild(nodMetricUnits);
-
-                    XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
-                    nodTolerance.InnerText = theMetric.Threshold.ToString("#0.00");
-                    nodMetric.AppendChild(nodTolerance);
-
-                    // First go and get the manually calculate "truth" variable"
-                    string sSQL = string.Format("SELECT {0} FROM {1} WHERE ScavengeTypeID = {0}", theMetric.DBField, theMetric.DBTable, m_nValidation);
-                    System.Diagnostics.Debug.Print(sSQL);
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
-
-                    XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
-                    Nullable<float> fManualValue = new Nullable<float>();
-                    if (dbRead.Read() && !dbRead.IsDBNull(0))
+                    // Query to get the RBT result values
+                    using (OleDbConnection conRBT = new OleDbConnection(DBCon))
                     {
-                        fManualValue = dbRead.GetFloat(0);
-                        nodManualResult.InnerText = fManualValue.ToString();
-                    }
-                    dbRead.Close();
-                    nodMetric.AppendChild(nodManualResult);
+                        conRBT.Open();
 
-                    XmlNode nodResults = xmlDoc.CreateElement("results");
-                    nodMetric.AppendChild(nodResults);
+                        sSQL = string.Format("SELECT {0}, RBTVersion FROM {1} AS M WHERE (ScavengeTypeID <> {2}) AND (VisitID = @VisitID)", theMetric.DBField, theMetric.DBTable, m_nValidation);
+                        System.Diagnostics.Debug.Print(sSQL);
+                        OleDbCommand comRBT = new OleDbCommand(sSQL, conRBT);
+                        OleDbParameter pRBTVisit = comRBT.Parameters.Add("@VisitID", OleDbType.Integer);
 
-                    // Now go and get all the other RBT generated versions (and compare them to the truth)
-                    sSQL = string.Format("SELECT {0}, RBTVersion FROM {1} WHERE ScavengeTypeID <> {0}", theMetric.DBField, theMetric.DBTable, m_nValidation);
-                    System.Diagnostics.Debug.Print(sSQL);
-                    dbCom = new OleDbCommand(sSQL, dbCon);
-                    dbRead = dbCom.ExecuteReader();
-                    while (dbRead.Read())
-                    {
-                        // Skip results that don't have an RBT version
-                        if (dbRead.IsDBNull(1))
-                            continue;
-
-                        XmlNode nodResult = xmlDoc.CreateElement("result");
-                        nodResults.AppendChild(nodResult);
-
-                        XmlNode nodVersion = xmlDoc.CreateElement("version");
-                        nodVersion.InnerText = dbRead.GetString(dbRead.GetOrdinal("RBTVersion"));
-                        nodResult.AppendChild(nodVersion);
-
-                        XmlNode nodValue = xmlDoc.CreateElement("result");
-                        Nullable<float> fValue = new Nullable<float>();
-                        if (!dbRead.IsDBNull(0))
+                        foreach (ListItem aVisit in lVisitIDs)
                         {
-                            fValue = dbRead.GetFloat(0);
-                            nodValue.InnerText = fValue.ToString();
-                        }
+                            // Retrieve the manual visit. Only proceed and include RBT results if there's a manual result.
+                            pManualVisit.Value = aVisit.Value;
+                            OleDbDataReader rdManual = comManual.ExecuteReader();
+                            if (!rdManual.Read() || rdManual.IsDBNull(0))
+                                continue;
 
-                        XmlNode nodStatus = xmlDoc.CreateElement("status");
-                        if (fManualValue.HasValue && fValue.HasValue)
-                        {
-                            float fDiff = (float)Math.Abs((decimal) ((fManualValue - fValue) / fManualValue));
-                            if (fDiff <= theMetric.Threshold)
-                                nodStatus.InnerText = "Pass";
-                            else
-                                nodStatus.InnerText = "Fail";
+                            XmlNode nodVisit = xmlDoc.CreateElement("visit");
+                            nodVisits.AppendChild(nodVisit);
+
+                            XmlNode nodVisitID = xmlDoc.CreateElement("visit_id");
+                            nodVisitID.InnerText = aVisit.Value.ToString();
+                            nodVisit.AppendChild(nodVisitID);
+
+                            XmlNode nodVisitName = xmlDoc.CreateElement("visit_name");
+                            nodVisitName.InnerText = aVisit.ToString();
+                            nodVisit.AppendChild(nodVisitName);
+
+                            XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
+                            Nullable<float> fManualValue = new Nullable<float>();
+                            fManualValue = (float)rdManual.GetDouble(0);
+                            nodManualResult.InnerText = fManualValue.ToString();
+                            nodVisit.AppendChild(nodManualResult);
+
+                            XmlNode nodResults = xmlDoc.CreateElement("results");
+                            nodVisit.AppendChild(nodResults);
+
+                            // Now go and get all the other RBT generated versions (and compare them to the truth)
+                            pRBTVisit.Value = aVisit.Value;
+                            OleDbDataReader rdRBT = comRBT.ExecuteReader();
+                            while (rdRBT.Read())
+                            {
+                                // Skip results that don't have an RBT version
+                                if (rdRBT.IsDBNull(rdRBT.GetOrdinal("RBTVersion")))
+                                    continue;
+
+                                XmlNode nodResult = xmlDoc.CreateElement("result");
+                                nodResults.AppendChild(nodResult);
+
+                                XmlNode nodVersion = xmlDoc.CreateElement("version");
+                                nodVersion.InnerText = rdRBT.GetString(rdRBT.GetOrdinal("RBTVersion"));
+                                nodResult.AppendChild(nodVersion);
+
+                                XmlNode nodValue = xmlDoc.CreateElement("value");
+                                Nullable<float> fValue = new Nullable<float>();
+                                if (!rdRBT.IsDBNull(0))
+                                {
+                                    fValue = (float)rdManual.GetDouble(0);
+                                    nodValue.InnerText = fValue.ToString();
+                                }
+                                nodResult.AppendChild(nodValue);
+
+                                XmlNode nodStatus = xmlDoc.CreateElement("status");
+                                if (fManualValue.HasValue && fValue.HasValue)
+                                {
+                                    float fDiff = (float)Math.Abs((decimal)((fManualValue - fValue) / fManualValue));
+                                    if (fDiff <= theMetric.Threshold)
+                                        nodStatus.InnerText = "Pass";
+                                    else
+                                        nodStatus.InnerText = "Fail";
+                                }
+                                nodResult.AppendChild(nodStatus);
+                            }
                         }
-                        nodResult.AppendChild(nodStatus);
                     }
                 }
+
+                if (!nodVisits.HasChildNodes)
+                    nodMetrics.RemoveChild(nodMetric);
             }
 
             try
@@ -132,6 +172,49 @@ namespace CHaMPWorkbench.Classes
             {
                 ex.Data["File Path"] = m_fiOutputPath.FullName;
             }
+        }
+
+        private List<ListItem> GetVisitIDs()
+        {
+            List<ListItem> lResult = new List<ListItem>();
+
+            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            {
+                dbCon.Open();
+                OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear" +
+                    " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_SiteMetrics INNER JOIN CHAMP_Visits ON Metric_SiteMetrics.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
+" WHERE (((Metric_SiteMetrics.ScavengeTypeID)=2))" +
+" GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear", dbCon);
+
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    lResult.Add(new ListItem(
+                        string.Format("{0}, {1}, {2}",
+                        dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
+                        dbRead.GetString(dbRead.GetOrdinal("SiteName")),
+                        dbRead.GetInt16(dbRead.GetOrdinal("VisitYear"))),
+                        dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))
+                        ));
+            }
+
+            return lResult;
+        }
+
+        private float GetMetricValue(ref OleDbDataReader dbRead, int nOrdinal)
+        {
+            float fResult = 0;
+            object objValue = dbRead[0];
+            float fTheValue;
+            if (!float.TryParse(objValue.ToString(), out fTheValue))
+            {
+                double ffValue;
+                if (double.TryParse(objValue.ToString(), out ffValue))
+                {
+                    fTheValue = (float)ffValue;
+                }
+            }
+            fResult = fTheValue;
+            return fResult;
         }
 
         private Dictionary<string, Metric> RetrieveValidationMetrics()
