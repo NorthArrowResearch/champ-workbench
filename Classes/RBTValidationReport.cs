@@ -133,7 +133,7 @@ namespace CHaMPWorkbench.Classes
                                 nodResults.AppendChild(nodResult);
 
                                 XmlNode nodVersion = xmlDoc.CreateElement("version");
-                                nodVersion.InnerText = rdRBT.GetString(rdRBT.GetOrdinal("RBTVersion"));
+                                nodVersion.InnerText = GetFormattedRBTVersion(rdRBT.GetString(rdRBT.GetOrdinal("RBTVersion")));
                                 nodResult.AppendChild(nodVersion);
 
                                 XmlNode nodValue = xmlDoc.CreateElement("value");
@@ -205,6 +205,26 @@ namespace CHaMPWorkbench.Classes
             {
                 ex.Data["File Path"] = m_fiOutputPath.FullName;
             }
+        }
+
+        private string GetFormattedRBTVersion(string sRawRBTVersion)
+        {
+            string[] sVersionParts = sRawRBTVersion.Split('.');
+            List<string> lVersionParts = new List<string>();
+
+            for (int i = 0; i < sVersionParts.Count<string>(); i++)
+            {
+                if (i == 0)
+                    lVersionParts.Add(sVersionParts[i]);
+                else
+                {
+                    int nVersionPart = 0;
+                    int.TryParse(sVersionParts[i], out nVersionPart);
+                    lVersionParts.Add(nVersionPart.ToString("00"));
+                }
+            }
+
+            return string.Join(".", lVersionParts.ToArray<string>());
         }
 
         private List<ListItem> GetVisitIDs()
