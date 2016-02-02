@@ -112,14 +112,16 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
                     // the top level namespace of the project needs to match the folder in which
                     // the code is located on the computer on which it is built.
                     Type myType = typeof(NARException);
-                    myType.Namespace.ToString();
-
                     string sName = myType.Namespace.ToString().Substring(0, myType.Namespace.ToString().IndexOf("."));
                     string sRegEx = string.Format("[A-Z]:[\\/]*.*{0}", sName);
                     Regex theRegEx = new Regex(sRegEx);
                     string sStackTrace = ex.StackTrace;
                     Match theMatch = theRegEx.Match(ex.StackTrace);
-                    sStackTrace = sStackTrace.Replace(theMatch.ToString(), "").Trim();
+                    if (theMatch.Groups.Count > 0 && theMatch.Length > 0)
+                        sStackTrace = sStackTrace.Replace(theMatch.Groups[0].Value.ToString(), "").Trim();
+                    else
+                        sStackTrace = ex.StackTrace;
+
                     row.Add("StackTrace", sStackTrace);
                 }
                 catch (Exception exStackTrace)
