@@ -42,7 +42,7 @@ namespace CHaMPWorkbench.Classes
             xmlDoc.InsertBefore(xmldecl, nodReport);
 
             XmlNode nodDate = xmlDoc.CreateElement("date");
-            nodDate.InnerText = DateTime.Now.ToString("O");
+            nodDate.InnerText = DateTime.Now.ToString("d MMM yyyy");
             nodReport.AppendChild(nodDate);
 
             XmlNode nodMetrics = xmlDoc.CreateElement("metrics");
