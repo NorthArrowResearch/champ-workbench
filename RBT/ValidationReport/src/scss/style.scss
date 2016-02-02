@@ -14,15 +14,35 @@ table, table.table{
   tbody tr td:nth-child(1), thead tr th:nth-child(1) { width: 50px; }
   tbody tr td:nth-child(2), thead tr th:nth-child(2) { width: 300px; }
   thead { @extend .bg-inverse; }
+  thead th.version {
+    border-right: 1px solid #AAA;
+  }
+  th { border: none; }
   th .label{
     font-size: 100%;
   }
   td span.status { display: none; }
+  td span.tolerance { font-size: 90%; display: none; }
+  td:hover span.tolerance { 
+    display: inline;
+    position: absolute;
+  }
   th.manual{ @extend .bg-primary; }
   td.manualResult{ @extend .bg-primary; }
-  td.version{ background: $brand-warning; border-right: 1px solid white; }
-  td.pass{ background: $brand-success; }
-  td.fail{ background: $brand-danger; }
+  td.version{ 
+    background: $gray-lighter; 
+    border-right: 1px solid white;
+  }
+  td.pass{ color: #050; background: $brand-success; }
+  td.fail{ color: #FCC; background: $brand-danger; }
+
+  th.version,
+  td.manualResult,
+  td.version {
+    font-size: 1rem;
+    font-family: Consolas, monaco, monospace;
+    font-weight: normal;
+  }
 }
 
 // Make the titles blend in with the table
@@ -30,7 +50,7 @@ table, table.table{
   h2{
     font-size: 1.3rem;
     margin-bottom: 0;
-    background: black;
+    background: #555;
     color: white;
     padding: 0.5rem;    
   }

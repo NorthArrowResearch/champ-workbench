@@ -19,11 +19,15 @@
         <div class="container">
           <xsl:call-template name="header" />
           <xsl:for-each select="metrics/metric">
+            <xsl:variable name="tolerance" select="tolerance" />
             <div class="metric">
               <xsl:attribute name="data"><xsl:value-of select="name"/></xsl:attribute>
-              <h2><xsl:value-of select="name"/> 
-                <span>(<xsl:value-of select="unit"/>)</span>
-                <span class="tolerance">( ± <xsl:value-of select="tolerance"/> )</span>
+              <h2><xsl:value-of select="name"/> &#160;
+                  <xsl:choose>
+                    <xsl:when test="normalize-space(unit)"><span>(<xsl:value-of select="unit"/>) &#160;</span></xsl:when>
+                    <xsl:otherwise></xsl:otherwise>
+                  </xsl:choose>
+                <span class="tolerance">( ±<xsl:value-of select="tolerance * 100"/>% )</span>
               </h2>
               <table class="table">
                 <thead>
@@ -64,6 +68,9 @@
                           <span class="value">
                             <xsl:value-of select="$results/result[version=$version]/value"/>
                           </span>
+                          <span class="tolerance">
+                            ±<xsl:value-of select="$tolerance * 100"/>%
+                          </span>
                           <span class="status">
                             <xsl:value-of select="$results/result[version=$version]/status"/>
                           </span>
@@ -86,7 +93,7 @@
 
   <xsl:template name="header">
     <div class="jumbotron">
-      <h1 class="display-3">RBT Report</h1>
+      <h1 class="display-3">RBT Validation Report</h1>
       <p class="lead">Date: <xsl:value-of select="date"/></p>
       <div class="row">
         <div class="col-sm-3">

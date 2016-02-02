@@ -44,6 +44,13 @@ $(document).ready(function() {
     console.log(filterArgs.onlyFailures.value);
     filter();
   });
+
+  // Remove zero padding on version numbers
+  $('thead th.version span').each(function(){
+    var version = $(this).text();
+    $(this).html(version.replace(/\.0/g, "."));
+  });
+
 });
 
 /**
@@ -58,66 +65,71 @@ var filter = function(){
 
   // Go through and hide some of the sections
   $('div.metric').each(function(){
-    var hidden = false;
+    var hideMetric = false;
     if (filterArgs.metric.value && filterArgs.metric.value.length > 0){
-      hidden = true;
+      hideMetric = true;
       var metric = $(this).attr('data');
       $.each(filterArgs.metric.value, function(n, val){
         if (val == metric){
-          hidden = false;
+          hideMetric = false;
         }
       })
     }
 
-    if (hidden){
+    // Go through and hide some of the rows
+    // ------------------------------------------------
+    var rowCount = 0;
+    $(this).find('table tbody tr').each(function(){
+      var hideRow = false;
+      if (filterArgs.visit.value && filterArgs.visit.value.length > 0){
+        hideRow = true;
+        var visit = $(this).find(filterArgs.visit.selector).attr("data");
+        $.each(filterArgs.visit.value, function(n, val){
+          if (val == visit){
+            hideRow = false;
+          }
+        })
+      }
+
+      // OnlyFailures
+      if (!hideRow && filterArgs.onlyFailures.value && filterArgs.onlyFailures.value == true){
+        hideRow = true;
+        $(this).find("td.version span.status").each(function(){
+          if ($(this).text() == passfail.fail){ 
+            hideRow = false;
+          }
+        });
+      }
+
+      if (hideRow) $(this).addClass("hide");
+      else rowCount++
+    });
+
+    // Now we make a decision to hide (or not) the metric
+    if (hideMetric || rowCount == 0)
       $(this).addClass("hide");
-    }
+
   });
 
-  // Go through and hide some of the rows
-  $('table tbody tr').each(function(){
-    var hidden = false;
-    if (filterArgs.visit.value && filterArgs.visit.value.length > 0){
-      hidden = true;
-      var visit = $(this).find(filterArgs.visit.selector).attr("data");
-      $.each(filterArgs.visit.value, function(n, val){
-        if (val == visit){
-          hidden = false;
-        }
-      })
-    }
-
-    // OnlyFailures
-    if (filterArgs.onlyFailures.value && filterArgs.onlyFailures.value == true){
-      hidden = true;
-      $(this).find("td.version span.status").each(function(){
-        if ($(this).text() == passfail.fail){ 
-          hidden = false;
-        }
-      });
-    };
-
-    if (hidden){
-      $(this).addClass("hide");
-    }
-  });
-
-  // Go through and hide some of the rows
+  // Go through and hide some of the Columns
+  // ------------------------------------------------
   $(filterArgs.version.selector).each(function(n,row){
-    var hidden = false;
+    var hideCol = false;
     if (filterArgs.version.value && filterArgs.version.value.length > 0){
-      hidden = true;
+      hideCol = true;
       var version = $(this).attr("data");
       $.each(filterArgs.version.value, function(n, val){
         if (val == version){
-          hidden = false;
+          hideCol = false;
         }
       })
     }
 
-    if (hidden){
+    if (hideCol){
       $(this).addClass("hide");
     }
   });
+
+
 
 }

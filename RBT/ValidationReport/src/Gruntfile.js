@@ -94,7 +94,7 @@ module.exports = function(grunt) {
       },
       xslt: {
         files: ['style.xsl', 'data.xml'],
-        tasks: ['exec']
+        tasks: ['build']
       },
       scss: {
         files: ['scss/*.scss'],
@@ -113,8 +113,7 @@ module.exports = function(grunt) {
 
   // Here are our tasks 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['copy', 'compass', 'concat', 'exec']);
+  grunt.registerTask('build', ['copy', 'compass', 'uglify', 'regex-replace', 'exec']);
   grunt.registerTask('dev', ['watch']);
-  grunt.registerTask('boop', ['copy', 'compass', 'uglify', 'regex-replace', 'exec']);
 
 };
