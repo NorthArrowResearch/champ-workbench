@@ -25,32 +25,39 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void frmRBTInputBatch_Load(object sender, EventArgs e)
         {
-            RefreshVisitPaths();
+            try
+            {
+                RefreshVisitPaths();
 
-            ucConfig.ManualInitialization();
+                ucConfig.ManualInitialization();
 
-            txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
-            txtInputFileRoot.Text = Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName;
+                txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
+                txtInputFileRoot.Text = Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName;
 #if DEBUG
-            txtBatch.Text = txtBatch.Text + "_debug";
+                txtBatch.Text = txtBatch.Text + "_debug";
 #endif
-            string sDefault = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
-            if (string.IsNullOrEmpty(sDefault) || !System.IO.Directory.Exists(sDefault))
-            {
-                sDefault = string.Empty;
-            }
-            txtMonitoringDataFolder.Text = sDefault;
+                string sDefault = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+                if (string.IsNullOrEmpty(sDefault) || !System.IO.Directory.Exists(sDefault))
+                {
+                    sDefault = string.Empty;
+                }
+                txtMonitoringDataFolder.Text = sDefault;
 
-            string sDefaultIO = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
-            if (string.IsNullOrEmpty(sDefaultIO) || !System.IO.Directory.Exists(sDefaultIO))
-            {
-                sDefault = string.Empty;
-            }
-            txtOutputFolder.Text = sDefaultIO;
+                string sDefaultIO = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
+                if (string.IsNullOrEmpty(sDefaultIO) || !System.IO.Directory.Exists(sDefaultIO))
+                {
+                    sDefault = string.Empty;
+                }
+                txtOutputFolder.Text = sDefaultIO;
 
-            if (m_lVisitIDs.Count == 1)
+                if (m_lVisitIDs.Count == 1)
+                {
+                    txtBatch.Text = string.Format("Visit {0}, {1} mode", m_lVisitIDs[0], ucConfig.cboRBTMode.Text);
+                }
+            }
+            catch (Exception ex)
             {
-                txtBatch.Text = string.Format("Visit {0}, {1} mode", m_lVisitIDs[0], ucConfig.cboRBTMode.Text);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -183,7 +190,7 @@ namespace CHaMPWorkbench.RBTInputFile
             }
             catch (Exception ex)
             {
-                sMessage = "Error during processing: " + ex.Message;
+                Classes.ExceptionHandling.NARException.HandleException(ex);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
             finally

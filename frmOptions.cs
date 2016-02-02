@@ -19,7 +19,6 @@ namespace CHaMPWorkbench
         private void frmOptions_Load(object sender, EventArgs e)
         {
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
-            txtTextEditor.Text = CHaMPWorkbench.Properties.Settings.Default.TextEditor;
 
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
@@ -28,10 +27,18 @@ namespace CHaMPWorkbench
             valGoogleMapZoom.Value = (decimal)CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom;
 
             tTip.SetToolTip(txtOptions, "The path to the RBT console executable (rbtconsole.exe) that will be used when the RBT is run.");
-            tTip.SetToolTip(txtTextEditor, "The path to the text editor executable that will be used to view text files (e.g. NotePad, WordPad, TextPad++).");
 
             tTip.SetToolTip(txtMonitoring, "The top level folder containing the CHaMP survey data. Under this folder there should be a folder for each field season, then watershed etc");
             tTip.SetToolTip(txtOutput, "The top level folder containing the RBT input and output files and results. Under this folder there should be a folder for each field season, then watershed etc");
+
+#if DEBUG
+            cmdTestAWS.Visible = true;
+#endif
+
+            if (Classes.AWSCloudWatch.AWSCloudWatchSingleton.HasInstallationGUID)
+                txtStreamName.Text = Classes.AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID.ToString();
+
+            chkAWSLoggingEnabled.Checked = CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -43,18 +50,6 @@ namespace CHaMPWorkbench
                 else
                 {
                     MessageBox.Show("The RBT Console software path must point to the RBT executable file (rbtconsole.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = System.Windows.Forms.DialogResult.None;
-                    return;
-                }
-            }
-
-            if (!String.IsNullOrWhiteSpace(txtTextEditor.Text))
-            {
-                if (System.IO.File.Exists(txtTextEditor.Text) && txtTextEditor.Text.EndsWith(".exe"))
-                    CHaMPWorkbench.Properties.Settings.Default.TextEditor = txtTextEditor.Text;
-                else
-                {
-                    MessageBox.Show("The text editor software path must point to an executable file (*.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = System.Windows.Forms.DialogResult.None;
                     return;
                 }
@@ -77,6 +72,17 @@ namespace CHaMPWorkbench
 
             CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom = (byte) valGoogleMapZoom.Value;
 
+            try
+            {
+                CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID = Classes.AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID;
+                CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled = chkAWSLoggingEnabled.Checked;
+            }
+            catch (Exception ex)
+            {
+                Exception exOuter = new Exception("Error saving software settings.", ex);
+                Classes.ExceptionHandling.NARException.HandleException(exOuter);
+            }
+
             CHaMPWorkbench.Properties.Settings.Default.Save();
         }
 
@@ -97,12 +103,7 @@ namespace CHaMPWorkbench
             if (dlgBrowseExecutable.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txt.Text = dlgBrowseExecutable.FileName;
         }
-       
-        private void cmdBrowseTextEditor_Click(object sender, EventArgs e)
-        {
-            BrowseExecutable("Text Editor Software", ref txtTextEditor);
-        }
-
+ 
         private void cmdBrowseMonitoring_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
@@ -137,6 +138,43 @@ namespace CHaMPWorkbench
 
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtTemp.Text = frm.SelectedPath;
+        }
+
+        private void chkAWSLoggingEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            bool bExistingKey = Classes.AWSCloudWatch.AWSCloudWatchSingleton.HasInstallationGUID;
+
+            if (!bExistingKey)
+            {
+                if (chkAWSLoggingEnabled.Checked)
+                {
+                    // If there's no existing installation key, then call the singelton to generate one.
+                    // This will save the installation key to the settings.
+                    txtStreamName.Text = Classes.AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID.ToString();
+                }
+            }
+
+            lblStreamName.Visible = bExistingKey || chkAWSLoggingEnabled.Checked;
+            txtStreamName.Visible = bExistingKey || chkAWSLoggingEnabled.Checked;
+        }
+
+        private void cmdTestAWS_Click(object sender, EventArgs e)
+        {
+            if (CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled || chkAWSLoggingEnabled.Checked)
+            {
+                try
+                {
+                    throw new Exception(string.Format("Test error message.", DateTime.Now.ToString()));
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+            }
+            else
+            {
+                MessageBox.Show("You must enable sharing exceptions with developers before this tool can be used.");
+            }
         }
     }
 }

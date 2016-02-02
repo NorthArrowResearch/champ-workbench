@@ -76,14 +76,14 @@ namespace CHaMPWorkbench.Data
                 {
                     m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, m_sFiles[i]);
                     backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
-                    
+
                     FTPFile(m_sFiles[i]);
                     m_sProgress.Append(" success");
                     backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
                 }
                 catch (Exception ex)
                 {
-                    m_sProgress.AppendFormat("{2}{0}, {1}", m_sFiles[i], ex.Message,Environment.NewLine);
+                    m_sProgress.AppendFormat("{2}{0}, {1}", m_sFiles[i], ex.Message, Environment.NewLine);
                 }
 
                 backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
@@ -211,8 +211,8 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
-             m_sLocalRoot = txtLocalFolder.Text;
-   
+            m_sLocalRoot = txtLocalFolder.Text;
+
             m_sFiles = new List<string>();
             foreach (TreeNode aNode in treFiles.Nodes)
             {
@@ -221,9 +221,16 @@ namespace CHaMPWorkbench.Data
                 GetCheckedFiles(ref sPath, ref aChildNode);
             }
 
-            m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", m_sFiles.Count));
-            txtProgress.Text = m_sProgress.ToString();
-            backgroundWorker1.RunWorkerAsync();
+            try
+            {
+                m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", m_sFiles.Count));
+                txtProgress.Text = m_sProgress.ToString();
+                backgroundWorker1.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void cmdBrowseLocal_Click(object sender, EventArgs e)

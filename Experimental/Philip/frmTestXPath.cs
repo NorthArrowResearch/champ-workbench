@@ -54,9 +54,6 @@ namespace CHaMPWorkbench.Experimental.Philip
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txtResultFile.Text = dlg.FileName;
-
-
-
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -111,9 +108,8 @@ namespace CHaMPWorkbench.Experimental.Philip
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error During Processing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
-
         }
     }
 }

@@ -56,16 +56,23 @@ namespace CHaMPWorkbench.Data
 
             if (clr.TableCount > 0)
             {
-                string sSuccess = "";
-                string sErrors = "";
-                clr.DoClear(ref sSuccess, ref sErrors);
+                try
+                {
+                    string sSuccess = "";
+                    string sErrors = "";
+                    clr.DoClear(ref sSuccess, ref sErrors);
 
-                string sMessage = string.Format("Process complete. {0}.", sSuccess);
+                    string sMessage = string.Format("Process complete. {0}.", sSuccess);
 
-                if (!string.IsNullOrWhiteSpace(sErrors))
-                    sMessage += " Errors were encountered clearing the following tables: " + sErrors;
+                    if (!string.IsNullOrWhiteSpace(sErrors))
+                        sMessage += " Errors were encountered clearing the following tables: " + sErrors;
 
-                MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
             else
             {

@@ -211,5 +211,65 @@ namespace CHaMPWorkbench.Properties {
                 this["GoogleMapZoom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00000000-0000-0000-0000-000000000000")]
+        public global::System.Guid AWSCloudWatchGUID {
+            get {
+                return ((global::System.Guid)(this["AWSCloudWatchGUID"]));
+            }
+            set {
+                this["AWSCloudWatchGUID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AWSLoggingEnabled {
+            get {
+                return ((bool)(this["AWSLoggingEnabled"]));
+            }
+            set {
+                this["AWSLoggingEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("us-west-2")]
+        public string AWSRegion {
+            get {
+                return ((string)(this["AWSRegion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("NARApps-Workbench")]
+        public string AWSGroupName {
+            get {
+                return ((string)(this["AWSGroupName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AKIAIM7D6NQSGCW37YDQ")]
+        public string AWSKey {
+            get {
+                return ((string)(this["AWSKey"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hSd6jwqQUs8Bk2AxC+hXV/CNhY3J2KP2gmIesC5/")]
+        public string AWSSecret {
+            get {
+                return ((string)(this["AWSSecret"]));
+            }
+        }
     }
 }

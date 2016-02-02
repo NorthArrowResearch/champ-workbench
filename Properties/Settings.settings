@@ -60,5 +60,23 @@
     <Setting Name="GoogleMapZoom" Type="System.Byte" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
+    <Setting Name="AWSCloudWatchGUID" Type="System.Guid" Scope="User">
+      <Value Profile="(Default)">00000000-0000-0000-0000-000000000000</Value>
+    </Setting>
+    <Setting Name="AWSLoggingEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AWSRegion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">us-west-2</Value>
+    </Setting>
+    <Setting Name="AWSGroupName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">NARApps-Workbench</Value>
+    </Setting>
+    <Setting Name="AWSKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AKIAIM7D6NQSGCW37YDQ</Value>
+    </Setting>
+    <Setting Name="AWSSecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">hSd6jwqQUs8Bk2AxC+hXV/CNhY3J2KP2gmIesC5/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

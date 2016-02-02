@@ -53,13 +53,12 @@ namespace CHaMPWorkbench.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error Processing VisitInfo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
             finally
             {
                 this.Cursor = Cursors.Default;
             }
-
         }
 
         private String ScavengeVisitInfo(String sDatabasePath, string sSurveyDesignDB, string sProjectMetricsDB)
@@ -567,6 +566,5 @@ namespace CHaMPWorkbench.Data
 
             }
         }
-
     }
 }

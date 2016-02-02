@@ -68,6 +68,10 @@
     <ApplicationIcon>CHaMP.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK, Version=2.3.54.2, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.2.3.54.2\lib\net35\AWSSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>_Redistributables\DotNetZip\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -98,6 +102,15 @@
     <Compile Include="Classes\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
     <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\ExceptionHandling\AWSCloudWatch\AWSCloudWatchSingleton.cs" />
+    <Compile Include="Classes\ExceptionHandling\AWSCloudWatch\CloudWatchLogsTraceListener.cs" />
+    <Compile Include="Classes\ExceptionHandling\frmException.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ExceptionHandling\frmException.designer.cs">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\ExceptionHandling\NARException.cs" />
     <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\InputFileBuilder.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
@@ -135,7 +148,6 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,6 +267,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Classes\ExceptionHandling\frmException.resx">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\frmClearDatabase.resx">
       <DependentUpon>frmClearDatabase.cs</DependentUpon>
     </EmbeddedResource>
@@ -340,6 +355,7 @@
     <None Include="Habitat\dsHabitat.xss">
       <DependentUpon>dsHabitat.xsd</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -363,7 +379,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GCD\" />
-    <Folder Include="RBTInputFile\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CHaMP_Logo_32.png" />

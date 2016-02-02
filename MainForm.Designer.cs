@@ -939,7 +939,6 @@
             this.visitPropertiesToolStripMenuItem.Name = "visitPropertiesToolStripMenuItem";
             this.visitPropertiesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.visitPropertiesToolStripMenuItem.Text = "Visit Properties...";
-            this.visitPropertiesToolStripMenuItem.Click += new System.EventHandler(this.visitPropertiesToolStripMenuItem_Click);
             // 
             // browseMonitoringDataToolStripMenuItem
             // 

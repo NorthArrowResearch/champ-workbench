@@ -21,6 +21,19 @@ namespace CHaMPWorkbench
         {
             InitializeComponent();
 
+            // Check the status of the AWS logging and create the singleton AWS logger if active
+            if (CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled)
+            {
+                try
+                {
+                    Classes.AWSCloudWatch.AWSCloudWatchSingleton theWather = new Classes.AWSCloudWatch.AWSCloudWatchSingleton();
+                }
+                catch
+                {
+                    // Failed to instantiate the cloud watcher. Do nothing.
+                }
+            }
+
             string sPath = GetDatabasePathFromConnectionString(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
             if (!String.IsNullOrWhiteSpace(sPath))
             {
@@ -150,7 +163,7 @@ namespace CHaMPWorkbench
                 catch (Exception ex)
                 {
                     m_dbCon = null;
-                    MessageBox.Show("Error opening database: " + sDB, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
         }
@@ -159,43 +172,93 @@ namespace CHaMPWorkbench
         {
             m_dbCon = null;
             GC.Collect();
-            UpdateMenuItemStatus(menuStrip1.Items);
+
+            try
+            {
+                UpdateMenuItemStatus(menuStrip1.Items);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void selectBatchesToRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSelectRBTBatches frm = new frmSelectRBTBatches(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                frmSelectRBTBatches frm = new frmSelectRBTBatches(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void runRBTConsoleBatchesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RBT.frmRunBatches frm = new RBT.frmRunBatches(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                RBT.frmRunBatches frm = new RBT.frmRunBatches(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void scavengeRBTResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
-            rbt.ShowDialog();
+            try
+            {
+                CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
+                rbt.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmOptions frm = new frmOptions();
-            frm.ShowDialog();
+            try
+            {
+                frmOptions frm = new frmOptions();
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void unpackMonitoringData7ZipArchiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Data.frmDataUnPacker frm = new Data.frmDataUnPacker();
-            frm.ShowDialog();
+            try
+            {
+                Data.frmDataUnPacker frm = new Data.frmDataUnPacker();
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void aboutTheCHaMPWorkbenchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAbout frm = new frmAbout(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                frmAbout frm = new frmAbout(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void cHaMPWorkbenchWebSiteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,9 +284,16 @@ namespace CHaMPWorkbench
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            UpdateMenuItemStatus(menuStrip1.Items);
+            try
+            {
+                UpdateMenuItemStatus(menuStrip1.Items);
 
-            LoadVisits();
+                LoadVisits();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
 
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstSite.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
@@ -232,16 +302,30 @@ namespace CHaMPWorkbench
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                LoadVisits();
+            try
+            {
+                Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
+                if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    LoadVisits();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void prepareDatabaseForDeploymentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Data.frmClearDatabase frm = new Data.frmClearDatabase(m_dbCon);
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                LoadVisits();
+            try
+            {
+                Data.frmClearDatabase frm = new Data.frmClearDatabase(m_dbCon);
+                if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    LoadVisits();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void aboutExperimentalToolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,8 +336,15 @@ namespace CHaMPWorkbench
 
         private void hydroModelInputGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.Kelly.frmHydroModelInputs frm = new Experimental.Kelly.frmHydroModelInputs(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                Experimental.Kelly.frmHydroModelInputs frm = new Experimental.Kelly.frmHydroModelInputs(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -334,26 +425,54 @@ namespace CHaMPWorkbench
 
         private void testXPathReferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.Philip.frmBridgeBatchRuns frm = new Experimental.Philip.frmBridgeBatchRuns(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                Experimental.Philip.frmBridgeBatchRuns frm = new Experimental.Philip.frmBridgeBatchRuns(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void extractRBTErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void generateBatchHabitatProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch(m_dbCon);
-            frm.ShowDialog();
+            try
+            {
+                Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch(m_dbCon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void LoadVisits()
@@ -464,13 +583,15 @@ namespace CHaMPWorkbench
 
         private void valVisitID_ValueChanged(object sender, EventArgs e)
         {
-            chkVisitID.Checked = true;
-            FilterVisits(sender, e);
-        }
-
-        private void visitPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
+            try
+            {
+                chkVisitID.Checked = true;
+                FilterVisits(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void grdVisits_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -484,12 +605,26 @@ namespace CHaMPWorkbench
 
         private void browseMonitoringDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+            try
+            {
+                ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void browseModelInputOutputFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder);
+            try
+            {
+                ExploreVisitFolder(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void ExploreVisitFolder(string sParentFolder)
@@ -568,13 +703,20 @@ namespace CHaMPWorkbench
 
         private void downloadTopoAndHydroDataFromCmorgToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataRow r = RetrieveVisitInfo();
-            if (r is DataRow)
+            try
             {
-                string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\", "/");
-                Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sFTPFolder, sTopoFolder);
-                frm.ShowDialog();
+                DataRow r = RetrieveVisitInfo();
+                if (r is DataRow)
+                {
+                    string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+                    string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\", "/");
+                    Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sFTPFolder, sTopoFolder);
+                    frm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -583,44 +725,50 @@ namespace CHaMPWorkbench
             chkVisitID.CheckedChanged -= FilterVisits;
             chkVisitID.Checked = false;
 
-            DataRow r = RetrieveVisitInfo();
-            if (r is DataRow)
+            try
             {
-                // turn off event handling
-                valVisitID.ValueChanged -= valVisitID_ValueChanged;
-                lstSite.ItemCheck -= FilterListBoxCheckChanged;
-                lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
-
-                int nSiteID = (int)r["SiteID"];
-                int nWatershedID = (int)r["WatershedID"];
-
-                for (int i = 0; i < lstFieldSeason.Items.Count; i++)
-                    lstFieldSeason.SetItemChecked(i, true);
-
-                for (int i = 0; i < lstWatershed.Items.Count; i++)
+                DataRow r = RetrieveVisitInfo();
+                if (r is DataRow)
                 {
-                    lstWatershed.SetItemChecked(i, ((ListItem)lstWatershed.Items[i]).Value == nWatershedID);
-                    if (((ListItem)lstWatershed.Items[i]).Value == nWatershedID)
-                        lstWatershed.TopIndex = i;
+                    // turn off event handling
+                    valVisitID.ValueChanged -= valVisitID_ValueChanged;
+                    lstSite.ItemCheck -= FilterListBoxCheckChanged;
+                    lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
+
+                    int nSiteID = (int)r["SiteID"];
+                    int nWatershedID = (int)r["WatershedID"];
+
+                    for (int i = 0; i < lstFieldSeason.Items.Count; i++)
+                        lstFieldSeason.SetItemChecked(i, true);
+
+                    for (int i = 0; i < lstWatershed.Items.Count; i++)
+                    {
+                        lstWatershed.SetItemChecked(i, ((ListItem)lstWatershed.Items[i]).Value == nWatershedID);
+                        if (((ListItem)lstWatershed.Items[i]).Value == nWatershedID)
+                            lstWatershed.TopIndex = i;
+                    }
+
+                    for (int i = 0; i < lstSite.Items.Count; i++)
+                    {
+                        lstSite.SetItemChecked(i, ((ListItem)lstSite.Items[i]).Value == nSiteID);
+                        if (((ListItem)lstSite.Items[i]).Value == nSiteID)
+                            lstSite.TopIndex = i;
+
+                    }
+
+                    // turn on event handling
+                    lstSite.ItemCheck += FilterListBoxCheckChanged;
+                    valVisitID.ValueChanged += valVisitID_ValueChanged;
+                    lstWatershed.ItemCheck += FilterListBoxCheckChanged;
                 }
 
-                for (int i = 0; i < lstSite.Items.Count; i++)
-                {
-                    lstSite.SetItemChecked(i, ((ListItem)lstSite.Items[i]).Value == nSiteID);
-                    if (((ListItem)lstSite.Items[i]).Value == nSiteID)
-                        lstSite.TopIndex = i;
-
-                }
-
-                // turn on event handling
-                lstSite.ItemCheck += FilterListBoxCheckChanged;
-                valVisitID.ValueChanged += valVisitID_ValueChanged;
-                lstWatershed.ItemCheck += FilterListBoxCheckChanged;
+                FilterVisits(sender, e);
+                chkVisitID.CheckedChanged += FilterVisits;
             }
-
-            FilterVisits(sender, e);
-            chkVisitID.CheckedChanged += FilterVisits;
-
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void AllNoneSitesClick(object sender, EventArgs e)
@@ -628,13 +776,20 @@ namespace CHaMPWorkbench
             // turn off event handling
             lstSite.ItemCheck -= FilterListBoxCheckChanged;
 
-            for (int i = 0; i < lstSite.Items.Count; i++)
-                lstSite.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
+            try
+            {
+                for (int i = 0; i < lstSite.Items.Count; i++)
+                    lstSite.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
 
-            // Turn on event handling
-            lstSite.ItemCheck += FilterListBoxCheckChanged;
+                // Turn on event handling
+                lstSite.ItemCheck += FilterListBoxCheckChanged;
 
-            FilterVisits(sender, e);
+                FilterVisits(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void AllNoneWatershedsClick(object sender, EventArgs e)
@@ -642,13 +797,20 @@ namespace CHaMPWorkbench
             // turn off event handling
             lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
 
-            for (int i = 0; i < lstWatershed.Items.Count; i++)
-                lstWatershed.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
+            try
+            {
+                for (int i = 0; i < lstWatershed.Items.Count; i++)
+                    lstWatershed.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
 
-            // Turn on event handling
-            lstWatershed.ItemCheck += FilterListBoxCheckChanged;
+                // Turn on event handling
+                lstWatershed.ItemCheck += FilterListBoxCheckChanged;
 
-            FilterVisits(sender, e);
+                FilterVisits(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void FilterListBoxCheckChanged(object sender, ItemCheckEventArgs e)
@@ -657,24 +819,38 @@ namespace CHaMPWorkbench
             ((CheckedListBox)sender).SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
             ((CheckedListBox)sender).ItemCheck += FilterListBoxCheckChanged;
 
-            FilterVisits(sender, e);
+            try
+            {
+                FilterVisits(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
 
         }
 
         private void generateChannelUnitCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataRow r = RetrieveVisitInfo();
-            if (r is DataRow)
+            try
             {
-                string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
-                System.IO.Directory.CreateDirectory(sTopoFolder);
-                sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
-                Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
-                csv.Run((int)r["VisitID"], sTopoFolder);
+                DataRow r = RetrieveVisitInfo();
+                if (r is DataRow)
+                {
+                    string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+                    sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
+                    System.IO.Directory.CreateDirectory(sTopoFolder);
+                    sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
+                    Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
+                    csv.Run((int)r["VisitID"], sTopoFolder);
 
-                if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
-                    System.Diagnostics.Process.Start(sTopoFolder);
+                    if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+                        System.Diagnostics.Process.Start(sTopoFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -692,8 +868,14 @@ namespace CHaMPWorkbench
             if (lvisitIDs.Count > 0)
             {
                 frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
-
-                frm.ShowDialog();
+                try
+                {
+                    frm.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
             else
                 System.Windows.Forms.MessageBox.Show("You must have at least one visit selected in the main table of visits to create an RBT batch.");
@@ -706,16 +888,23 @@ namespace CHaMPWorkbench
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", m_dbCon);
-                dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
-                if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
+                try
                 {
-                    string sURL = string.Format("http://maps.google.com/?q={0},{1}&t=h&z={2}", (double)dbRead["Latitude"], (double)dbRead["Longitude"], CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom);
-                    System.Diagnostics.Process.Start(sURL);
+                    OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", m_dbCon);
+                    dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
+                    {
+                        string sURL = string.Format("http://maps.google.com/?q={0},{1}&t=h&z={2}", (double)dbRead["Latitude"], (double)dbRead["Longitude"], CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom);
+                        System.Diagnostics.Process.Start(sURL);
+                    }
+                    else
+                        System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
-                    System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
         }
 
@@ -734,7 +923,14 @@ namespace CHaMPWorkbench
             {
                 frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
 
-                frm.ShowDialog();
+                try
+                {
+                    frm.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
             else
                 System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
@@ -767,7 +963,7 @@ namespace CHaMPWorkbench
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
         }
@@ -827,7 +1023,7 @@ namespace CHaMPWorkbench
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
             finally
             {
@@ -872,7 +1068,7 @@ namespace CHaMPWorkbench
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error Generating Report");
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
                 finally
                 {

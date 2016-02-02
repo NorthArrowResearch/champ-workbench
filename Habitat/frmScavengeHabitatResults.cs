@@ -55,7 +55,7 @@ namespace CHaMPWorkbench.Habitat
                 catch (Exception ex)
                 {
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
         }

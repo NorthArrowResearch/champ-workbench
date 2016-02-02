@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -286,7 +286,7 @@ namespace CHaMPWorkbench.Data
 
             Single nPercent = 0;
             if (m_nFilesProcessed > 0 && m_nTotalFiles > 0)
-                nPercent = (Single) m_nFilesProcessed / m_nTotalFiles;
+                nPercent = (Single)m_nFilesProcessed / m_nTotalFiles;
 
             lblETA.Text = string.Format("Unzipped {0:#,##0} ({1:P0}) of {2:#,##0} archives.", m_nFilesProcessed, nPercent, m_nTotalFiles);
 

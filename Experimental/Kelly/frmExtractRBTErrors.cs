@@ -60,7 +60,7 @@ namespace CHaMPWorkbench.Experimental.Kelly
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error Processing VisitInfo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
             finally
             {

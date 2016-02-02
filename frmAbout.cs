@@ -38,7 +38,8 @@ namespace CHaMPWorkbench
             }
             catch (Exception ex)
             {
-                lblDBVersion.Text = "Error retrieving database version.";
+                Exception ex2 = new Exception("Error retrieving database version.", ex);
+                Classes.ExceptionHandling.NARException.HandleException(ex2);
             }
 
             lblWebSite.Text = "Web Site: " + CHaMPWorkbench.Properties.Resources.WebSiteURL;

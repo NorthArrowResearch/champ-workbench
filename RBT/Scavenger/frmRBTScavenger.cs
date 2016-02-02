@@ -75,17 +75,23 @@ namespace CHaMPWorkbench
                 sSearch = txtMatch.Text;
             }
 
-            m_scavenger = new Classes.ResultScavengerBatch(m_dbCon, txtFolder.Text, sSearch, chkRecursive.Checked, chkEmptyDB.Checked, txtLog.Text);
+            try
+            {
+                m_scavenger = new Classes.ResultScavengerBatch(m_dbCon, txtFolder.Text, sSearch, chkRecursive.Checked, chkEmptyDB.Checked, txtLog.Text);
 
-            prgBar.Visible = true;
-            cmdOK.Enabled = false;
-            cmdStop.Enabled = true;
-            BackgroundWorker1.WorkerReportsProgress = true;
-            BackgroundWorker1.WorkerSupportsCancellation = true;
-            BackgroundWorker1.RunWorkerAsync();
+                prgBar.Visible = true;
+                cmdOK.Enabled = false;
+                cmdStop.Enabled = true;
+                BackgroundWorker1.WorkerReportsProgress = true;
+                BackgroundWorker1.WorkerSupportsCancellation = true;
+                BackgroundWorker1.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
-
-
+        
         // This event handler is where the actual work is done. 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -156,7 +162,7 @@ namespace CHaMPWorkbench
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
             frm.Description = "Select the top level folder that you want to search for RBT results and log files.";
-           
+
             if (!string.IsNullOrWhiteSpace(txtFolder.Text))
                 if (System.IO.Directory.Exists(txtFolder.Text))
                     frm.SelectedPath = txtFolder.Text;

@@ -22,11 +22,18 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         private void frmBridgeBatchRuns_Load(object sender, EventArgs e)
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT ID, BatchName FROM RBT_Batches WHERE BatchName IS NOT NULL", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-                cboBatches.Items.Add(new ListItem((string)dbRead["BatchName"], (int)dbRead["ID"]));
-            
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand("SELECT ID, BatchName FROM RBT_Batches WHERE BatchName IS NOT NULL", m_dbCon);
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    cboBatches.Items.Add(new ListItem((string)dbRead["BatchName"], (int)dbRead["ID"]));
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+
             if (cboBatches.Items.Count > 0)
                 cboBatches.SelectedIndex = 0;
         }
@@ -35,10 +42,17 @@ namespace CHaMPWorkbench.Experimental.Philip
         {
             if (cboBatches.SelectedItem is ListItem)
             {
-                OleDbCommand dbCom = new OleDbCommand(" UPDATE CHAMP_Visits INNER JOIN RBT_BatchRuns ON CHAMP_Visits.VisitID = RBT_BatchRuns.PrimaryVisitID SET RBT_BatchRuns.Run = 1 WHERE (((CHAMP_Visits.IsBridge)<>0) AND ((RBT_BatchRuns.BatchID)=[?]))", m_dbCon);
-                dbCom.Parameters.AddWithValue("ID", ((ListItem)cboBatches.SelectedItem).Value);
-                dbCom.ExecuteNonQuery();
-                MessageBox.Show("Process completed successfully.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    OleDbCommand dbCom = new OleDbCommand(" UPDATE CHAMP_Visits INNER JOIN RBT_BatchRuns ON CHAMP_Visits.VisitID = RBT_BatchRuns.PrimaryVisitID SET RBT_BatchRuns.Run = 1 WHERE (((CHAMP_Visits.IsBridge)<>0) AND ((RBT_BatchRuns.BatchID)=[?]))", m_dbCon);
+                    dbCom.Parameters.AddWithValue("ID", ((ListItem)cboBatches.SelectedItem).Value);
+                    dbCom.ExecuteNonQuery();
+                    MessageBox.Show("Process completed successfully.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
             else
                 MessageBox.Show("No batch selected.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);

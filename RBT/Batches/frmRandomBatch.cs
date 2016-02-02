@@ -22,12 +22,18 @@ namespace CHaMPWorkbench.RBT.Batches
 
         private void frmRandomBatch_Load(object sender, EventArgs e)
         {
-
-            using (OleDbCommand dbCom = new OleDbCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM RBT_Batches AS B INNER JOIN RBT_BatchRuns AS R ON B.ID = R.BatchID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", m_dbCon))
+            try
             {
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                    cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
+                using (OleDbCommand dbCom = new OleDbCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM RBT_Batches AS B INNER JOIN RBT_BatchRuns AS R ON B.ID = R.BatchID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", m_dbCon))
+                {
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                        cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
+                }
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
 
             if (cboBatch.Items.Count > 0)
@@ -51,7 +57,7 @@ namespace CHaMPWorkbench.RBT.Batches
         {
             if (cboBatch.SelectedItem is RBTBatch)
             {
-                RBTBatch theBatch = (RBTBatch) cboBatch.SelectedItem;
+                RBTBatch theBatch = (RBTBatch)cboBatch.SelectedItem;
                 valSize.Value = Math.Min(valSize.Value, theBatch.Runs);
                 valSize.Maximum = theBatch.Runs;
             }
@@ -65,7 +71,7 @@ namespace CHaMPWorkbench.RBT.Batches
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
 
-            int nBatchID = ((RBTBatch) cboBatch.SelectedItem).Value;
+            int nBatchID = ((RBTBatch)cboBatch.SelectedItem).Value;
             OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             try
             {
@@ -80,7 +86,7 @@ namespace CHaMPWorkbench.RBT.Batches
                     dbCom.Parameters.AddWithValue("@BatchID", nBatchID);
 
                 dbCom.ExecuteNonQuery();
-                
+
                 sSQL = string.Format("UPDATE RBT_BatchRuns SET Run = True WHERE ID IN (SELECT TOP {0} ID from RBT_BatchRuns WHERE (BatchID = {1}) ORDER BY rnd(ID))", valSize.Value, nBatchID);
                 dbCom = new OleDbCommand(sSQL, m_dbCon, dbTrans);
                 dbCom.ExecuteNonQuery();
@@ -90,7 +96,8 @@ namespace CHaMPWorkbench.RBT.Batches
             catch (Exception ex)
             {
                 dbTrans.Rollback();
-                MessageBox.Show(ex.Message, "Error. No Database Changes Saved", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Exception ex2 = new Exception("Error. No Database Changes Saved", ex);
+                Classes.ExceptionHandling.NARException.HandleException(ex2);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
         }

@@ -37,8 +37,15 @@ namespace CHaMPWorkbench.Habitat
             chkSpecies.Items.Add(new SpeciesListItem("Upper Columbia Steelhead", "UC_Steel", 5), false);
             chkSpecies.Items.Add(new SpeciesListItem("Snake River Steelhead", "SN_Steel", 6), false);
 
-            LoadAllVisits();
-            FilterVisits(sender, e);
+            try
+            {
+                LoadAllVisits();
+                FilterVisits(sender, e);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
             {
@@ -191,11 +198,16 @@ namespace CHaMPWorkbench.Habitat
 
             if (grdVisits.DataSource is DataView)
             {
-                // bindingSourceSelectedVisits.Filter = sFilter;
-                DataView dv = (DataView)grdVisits.DataSource;
-                System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
-                dv.RowFilter = sFilter;
-                //grdVisits.Refresh();
+                try
+                {
+                    DataView dv = (DataView)grdVisits.DataSource;
+                    System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
+                    dv.RowFilter = sFilter;
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
         }
 
@@ -326,23 +338,30 @@ namespace CHaMPWorkbench.Habitat
             if (string.IsNullOrWhiteSpace(txtHabitatModelDB.Text) || !System.IO.File.Exists(txtHabitatModelDB.Text))
                 return;
 
-            using (dsHabitat theHabitatProject = new dsHabitat())
+            try
             {
-                theHabitatProject.ReadXml(txtHabitatModelDB.Text);
-
-                foreach (dsHabitat.HSIRow rHSI in theHabitatProject.HSI.Rows)
+                using (dsHabitat theHabitatProject = new dsHabitat())
                 {
-                    string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rHSI.SpeciesID).ItemName;
-                    string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rHSI.LifestageID).ItemName;
-                    chkModels.Items.Add(new HabitatModelDef(rHSI.HSIID, HabitatModelDef.ModelTypes.HSI, rHSI.Title, sSpecies, sLifeStage));
-                }
+                    theHabitatProject.ReadXml(txtHabitatModelDB.Text);
 
-                foreach (dsHabitat.FISRow rFIS in theHabitatProject.FIS.Rows)
-                {
-                    string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rFIS.SpeciesID).ItemName;
-                    string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rFIS.LifeStageID).ItemName;
-                    chkModels.Items.Add(new HabitatModelDef(rFIS.FISID, HabitatModelDef.ModelTypes.FIS, rFIS.Title, sSpecies, sLifeStage));
+                    foreach (dsHabitat.HSIRow rHSI in theHabitatProject.HSI.Rows)
+                    {
+                        string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rHSI.SpeciesID).ItemName;
+                        string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rHSI.LifestageID).ItemName;
+                        chkModels.Items.Add(new HabitatModelDef(rHSI.HSIID, HabitatModelDef.ModelTypes.HSI, rHSI.Title, sSpecies, sLifeStage));
+                    }
+
+                    foreach (dsHabitat.FISRow rFIS in theHabitatProject.FIS.Rows)
+                    {
+                        string sSpecies = theHabitatProject.LookupListItems.FindByItemID(rFIS.SpeciesID).ItemName;
+                        string sLifeStage = theHabitatProject.LookupListItems.FindByItemID(rFIS.LifeStageID).ItemName;
+                        chkModels.Items.Add(new HabitatModelDef(rFIS.FISID, HabitatModelDef.ModelTypes.FIS, rFIS.Title, sSpecies, sLifeStage));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -418,7 +437,7 @@ namespace CHaMPWorkbench.Habitat
             catch (Exception ex)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Classes.ExceptionHandling.NARException.HandleException(ex);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
         }
