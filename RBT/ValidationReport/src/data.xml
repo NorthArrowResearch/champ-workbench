@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <report>
-  <date>2016-01-30T12:02:06.2343343-08:00</date>
+  <date>2 Feb 2016</date>
   <metrics>
     <metric>
       <name>Integrated Bankfull Width</name>
@@ -14,33 +14,33 @@
           <manual_result>27.06935</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>27.06935</value>
+              <version>5.00.03.00</version>
+              <value>28.75347</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>27.53495</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>27.06935</value>
+              <version>5.00.10.00</version>
+              <value>27.53495</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>27.06935</value>
+              <version>5.00.14.00</version>
+              <value>27.53495</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>27.06935</value>
+              <version>5.00.15.00</version>
+              <value>27.53495</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>27.06935</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.0.13.0</version>
-              <value>27.06935</value>
+              <version>5.00.13.00</version>
+              <value>27.53495</value>
               <status>Pass</status>
             </result>
           </results>
@@ -59,32 +59,32 @@
           <manual_result>16.09018</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>16.09018</value>
-              <status>Fail</status>
+              <version>5.00.03.00</version>
+              <value>16.04545</value>
+              <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
+              <version>5.00.05.00</version>
               <value>16.09018</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
+              <version>5.00.10.00</version>
               <value>16.09018</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
+              <version>5.00.14.00</version>
               <value>16.09018</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
+              <version>5.00.15.00</version>
               <value>16.09018</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
+              <version>5.00.13.00</version>
               <value>16.09018</value>
               <status>Pass</status>
             </result>
@@ -104,33 +104,33 @@
           <manual_result>9920.507</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>9920.507</value>
+              <version>5.00.03.00</version>
+              <value>10364.32</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>9920.507</value>
+              <version>5.00.05.00</version>
+              <value>9925.099</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>9920.507</value>
+              <version>5.00.10.00</version>
+              <value>9925.099</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>9920.507</value>
+              <version>5.00.14.00</version>
+              <value>9925.099</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>9920.507</value>
+              <version>5.00.15.00</version>
+              <value>9925.099</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>9920.507</value>
+              <version>5.00.13.00</version>
+              <value>9925.099</value>
               <status>Pass</status>
             </result>
           </results>
@@ -149,33 +149,33 @@
           <manual_result>366.4848</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>366.4848</value>
+              <version>5.00.03.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>366.4848</value>
+              <version>5.00.05.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>366.4848</value>
+              <version>5.00.10.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>366.4848</value>
+              <version>5.00.14.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>366.4848</value>
+              <version>5.00.15.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>366.4848</value>
+              <version>5.00.13.00</version>
+              <value>360.4545</value>
               <status>Pass</status>
             </result>
           </results>
@@ -194,32 +194,32 @@
           <manual_result>393.4442</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
+              <version>5.00.03.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
+              <version>5.00.05.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
+              <version>5.00.10.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
+              <version>5.00.14.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
+              <version>5.00.15.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
+              <version>5.00.13.00</version>
               <value>393.4442</value>
               <status>Pass</status>
             </result>
@@ -239,32 +239,32 @@
           <manual_result>357.3399</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
+              <version>5.00.03.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
+              <version>5.00.05.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
+              <version>5.00.10.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
+              <version>5.00.14.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
+              <version>5.00.15.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
+              <version>5.00.13.00</version>
               <value>357.3399</value>
               <status>Pass</status>
             </result>
@@ -284,33 +284,33 @@
           <manual_result>1.484277</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>1.484277</value>
+              <version>5.00.03.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>1.484277</value>
+              <version>5.00.05.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>1.484277</value>
+              <version>5.00.10.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>1.484277</value>
+              <version>5.00.14.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>1.484277</value>
+              <version>5.00.15.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>1.484277</value>
+              <version>5.00.13.00</version>
+              <value>1.48428</value>
               <status>Pass</status>
             </result>
           </results>
@@ -329,33 +329,33 @@
           <manual_result>1.370921</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>1.370921</value>
+              <version>5.00.03.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>1.370921</value>
+              <version>5.00.05.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>1.370921</value>
+              <version>5.00.10.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>1.370921</value>
+              <version>5.00.14.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>1.370921</value>
+              <version>5.00.15.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>1.370921</value>
+              <version>5.00.13.00</version>
+              <value>1.37069</value>
               <status>Pass</status>
             </result>
           </results>
@@ -374,33 +374,33 @@
           <manual_result>0.005334119</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>0.005334119</value>
+              <version>5.00.03.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>0.005334119</value>
+              <version>5.00.05.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>0.005334119</value>
+              <version>5.00.10.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>0.005334119</value>
+              <version>5.00.14.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>0.005334119</value>
+              <version>5.00.15.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>0.005334119</value>
+              <version>5.00.13.00</version>
+              <value>0.00537</value>
               <status>Pass</status>
             </result>
           </results>
@@ -419,32 +419,32 @@
           <manual_result>5749.662</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
+              <version>5.00.03.00</version>
+              <value>5733.68</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
               <value>5749.662</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
+              <version>5.00.10.00</version>
               <value>5749.662</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
+              <version>5.00.14.00</version>
               <value>5749.662</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
+              <version>5.00.15.00</version>
               <value>5749.662</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>5749.662</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.0.13.0</version>
+              <version>5.00.13.00</version>
               <value>5749.662</value>
               <status>Pass</status>
             </result>
@@ -464,33 +464,33 @@
           <manual_result>0.4835667</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>0.4835667</value>
+              <version>5.00.03.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>0.4835667</value>
+              <version>5.00.05.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>0.4835667</value>
+              <version>5.00.10.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>0.4835667</value>
+              <version>5.00.14.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>0.4835667</value>
+              <version>5.00.15.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>0.4835667</value>
+              <version>5.00.13.00</version>
+              <value>0.48357</value>
               <status>Pass</status>
             </result>
           </results>
@@ -509,34 +509,34 @@
           <manual_result>1.101036</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.03.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.05.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.10.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.14.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.15.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>1.101036</value>
-              <status>Pass</status>
+              <version>5.00.13.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
             </result>
           </results>
         </visit>
@@ -554,33 +554,33 @@
           <manual_result>0.2133063</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>0.2133063</value>
+              <version>5.00.03.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>0.2133063</value>
+              <version>5.00.05.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>0.2133063</value>
+              <version>5.00.10.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>0.2133063</value>
+              <version>5.00.14.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>0.2133063</value>
+              <version>5.00.15.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>0.2133063</value>
+              <version>5.00.13.00</version>
+              <value>0.2136</value>
               <status>Pass</status>
             </result>
           </results>
@@ -599,33 +599,33 @@
           <manual_result>1582.663</manual_result>
           <results>
             <result>
-              <version>5.0.3.0</version>
-              <value>1582.663</value>
+              <version>5.00.03.00</version>
+              <value>1558.161</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.5.0</version>
-              <value>1582.663</value>
+              <version>5.00.05.00</version>
+              <value>1558.068</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.10.0</version>
-              <value>1582.663</value>
+              <version>5.00.10.00</version>
+              <value>1558.068</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.14.0</version>
-              <value>1582.663</value>
+              <version>5.00.14.00</version>
+              <value>1558.068</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.15.0</version>
-              <value>1582.663</value>
+              <version>5.00.15.00</version>
+              <value>1558.068</value>
               <status>Pass</status>
             </result>
             <result>
-              <version>5.0.13.0</version>
-              <value>1582.663</value>
+              <version>5.00.13.00</version>
+              <value>1558.068</value>
               <status>Pass</status>
             </result>
           </results>
