@@ -71,7 +71,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLocalFolder.Location = new System.Drawing.Point(95, 13);
             this.txtLocalFolder.Name = "txtLocalFolder";
-            this.txtLocalFolder.Size = new System.Drawing.Size(368, 20);
+            this.txtLocalFolder.Size = new System.Drawing.Size(409, 20);
             this.txtLocalFolder.TabIndex = 2;
             // 
             // txtRemote
@@ -81,14 +81,14 @@
             this.txtRemote.Location = new System.Drawing.Point(95, 40);
             this.txtRemote.Name = "txtRemote";
             this.txtRemote.ReadOnly = true;
-            this.txtRemote.Size = new System.Drawing.Size(397, 20);
+            this.txtRemote.Size = new System.Drawing.Size(438, 20);
             this.txtRemote.TabIndex = 3;
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(417, 583);
+            this.cmdCancel.Location = new System.Drawing.Point(458, 583);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 4;
@@ -98,7 +98,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(311, 583);
+            this.cmdOK.Location = new System.Drawing.Point(352, 583);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(100, 23);
             this.cmdOK.TabIndex = 5;
@@ -113,7 +113,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treFiles.Location = new System.Drawing.Point(12, 114);
             this.treFiles.Name = "treFiles";
-            this.treFiles.Size = new System.Drawing.Size(480, 281);
+            this.treFiles.Size = new System.Drawing.Size(521, 281);
             this.treFiles.TabIndex = 6;
             this.treFiles.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treFiles_AfterCheck);
             // 
@@ -153,7 +153,7 @@
             // 
             this.cmdBrowseLocal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdBrowseLocal.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseLocal.Location = new System.Drawing.Point(469, 12);
+            this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 12);
             this.cmdBrowseLocal.Name = "cmdBrowseLocal";
             this.cmdBrowseLocal.Size = new System.Drawing.Size(23, 23);
             this.cmdBrowseLocal.TabIndex = 10;
@@ -166,7 +166,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(10, 24);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(458, 13);
+            this.progressBar1.Size = new System.Drawing.Size(499, 13);
             this.progressBar1.TabIndex = 11;
             // 
             // grpProgress
@@ -177,7 +177,7 @@
             this.grpProgress.Controls.Add(this.progressBar1);
             this.grpProgress.Location = new System.Drawing.Point(12, 401);
             this.grpProgress.Name = "grpProgress";
-            this.grpProgress.Size = new System.Drawing.Size(480, 176);
+            this.grpProgress.Size = new System.Drawing.Size(521, 176);
             this.grpProgress.TabIndex = 12;
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
@@ -190,7 +190,7 @@
             this.txtProgress.Multiline = true;
             this.txtProgress.Name = "txtProgress";
             this.txtProgress.ReadOnly = true;
-            this.txtProgress.Size = new System.Drawing.Size(458, 127);
+            this.txtProgress.Size = new System.Drawing.Size(499, 127);
             this.txtProgress.TabIndex = 12;
             // 
             // backgroundWorker1
@@ -203,7 +203,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 618);
+            this.ClientSize = new System.Drawing.Size(545, 618);
             this.Controls.Add(this.grpProgress);
             this.Controls.Add(this.cmdBrowseLocal);
             this.Controls.Add(this.cmdHelp);
@@ -217,6 +217,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(561, 220);
             this.Name = "frmFTPVisit";
             this.Text = "Download Visit Data";
             this.Load += new System.EventHandler(this.frmFTPVisit_Load);
