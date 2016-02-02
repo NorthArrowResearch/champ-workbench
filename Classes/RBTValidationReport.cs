@@ -97,65 +97,69 @@ namespace CHaMPWorkbench.Classes
                             // Retrieve the manual visit. Only proceed and include RBT results if there's a manual result.
                             pManualVisit.Value = aVisit.Value;
                             OleDbDataReader rdManual = comManual.ExecuteReader();
-                            if (!rdManual.Read() || rdManual.IsDBNull(0))
-                                continue;
-
-                            XmlNode nodVisit = xmlDoc.CreateElement("visit");
-                            nodVisits.AppendChild(nodVisit);
-
-                            XmlNode nodVisitID = xmlDoc.CreateElement("visit_id");
-                            nodVisitID.InnerText = aVisit.Value.ToString();
-                            nodVisit.AppendChild(nodVisitID);
-
-                            XmlNode nodVisitName = xmlDoc.CreateElement("visit_name");
-                            nodVisitName.InnerText = aVisit.ToString();
-                            nodVisit.AppendChild(nodVisitName);
-
-                            XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
-                            Nullable<float> fManualValue = new Nullable<float>();
-                            fManualValue = (float)rdManual.GetDouble(0);
-                            nodManualResult.InnerText = fManualValue.ToString();
-                            nodVisit.AppendChild(nodManualResult);
-
-                            XmlNode nodResults = xmlDoc.CreateElement("results");
-                            nodVisit.AppendChild(nodResults);
-
-                            // Now go and get all the other RBT generated versions (and compare them to the truth)
-                            pRBTVisit.Value = aVisit.Value;
-                            OleDbDataReader rdRBT = comRBT.ExecuteReader();
-                            while (rdRBT.Read())
+                            if (rdManual.Read() && !rdManual.IsDBNull(0))
                             {
-                                // Skip results that don't have an RBT version
-                                if (rdRBT.IsDBNull(rdRBT.GetOrdinal("RBTVersion")))
-                                    continue;
+                                XmlNode nodVisit = xmlDoc.CreateElement("visit");
+                                nodVisits.AppendChild(nodVisit);
 
-                                XmlNode nodResult = xmlDoc.CreateElement("result");
-                                nodResults.AppendChild(nodResult);
+                                XmlNode nodVisitID = xmlDoc.CreateElement("visit_id");
+                                nodVisitID.InnerText = aVisit.Value.ToString();
+                                nodVisit.AppendChild(nodVisitID);
 
-                                XmlNode nodVersion = xmlDoc.CreateElement("version");
-                                nodVersion.InnerText = GetFormattedRBTVersion(rdRBT.GetString(rdRBT.GetOrdinal("RBTVersion")));
-                                nodResult.AppendChild(nodVersion);
+                                XmlNode nodVisitName = xmlDoc.CreateElement("visit_name");
+                                nodVisitName.InnerText = aVisit.ToString();
+                                nodVisit.AppendChild(nodVisitName);
 
-                                XmlNode nodValue = xmlDoc.CreateElement("value");
-                                Nullable<float> fValue = new Nullable<float>();
-                                if (!rdRBT.IsDBNull(0))
+                                XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
+                                Nullable<float> fManualValue = new Nullable<float>();
+                                fManualValue = (float)rdManual.GetDouble(0);
+                                nodManualResult.InnerText = fManualValue.ToString();
+                                nodVisit.AppendChild(nodManualResult);
+
+                                XmlNode nodResults = xmlDoc.CreateElement("results");
+                                nodVisit.AppendChild(nodResults);
+
+                                // Now go and get all the other RBT generated versions (and compare them to the truth)
+                                pRBTVisit.Value = aVisit.Value;
+                                OleDbDataReader rdRBT = comRBT.ExecuteReader();
+                                while (rdRBT.Read())
                                 {
-                                    fValue = (float)rdRBT.GetDouble(0);
-                                    nodValue.InnerText = fValue.ToString();
-                                }
-                                nodResult.AppendChild(nodValue);
+                                    // Skip results that don't have an RBT version
+                                    if (rdRBT.IsDBNull(rdRBT.GetOrdinal("RBTVersion")))
+                                        continue;
 
-                                XmlNode nodStatus = xmlDoc.CreateElement("status");
-                                if (fManualValue.HasValue && fValue.HasValue)
-                                {
-                                    float fDiff = (float)Math.Abs((decimal)((fManualValue - fValue) / fManualValue));
-                                    if (fDiff <= theMetric.Threshold)
-                                        nodStatus.InnerText = "Pass";
-                                    else
-                                        nodStatus.InnerText = "Fail";
+                                    XmlNode nodResult = xmlDoc.CreateElement("result");
+                                    nodResults.AppendChild(nodResult);
+
+                                    XmlNode nodVersion = xmlDoc.CreateElement("version");
+                                    nodVersion.InnerText = GetFormattedRBTVersion(rdRBT.GetString(rdRBT.GetOrdinal("RBTVersion")));
+                                    nodResult.AppendChild(nodVersion);
+
+                                    XmlNode nodValue = xmlDoc.CreateElement("value");
+                                    Nullable<float> fValue = new Nullable<float>();
+                                    if (!rdRBT.IsDBNull(0))
+                                    {
+                                        fValue = (float)rdRBT.GetDouble(0);
+                                        nodValue.InnerText = fValue.ToString();
+                                    }
+                                    nodResult.AppendChild(nodValue);
+
+                                    XmlNode nodStatus = xmlDoc.CreateElement("status");
+                                    if (fManualValue.HasValue && fValue.HasValue)
+                                    {
+                                        float fDiff = (float)Math.Abs((decimal)((fManualValue - fValue) / fManualValue));
+                                        if (fDiff <= theMetric.Threshold)
+                                            nodStatus.InnerText = "Pass";
+                                        else
+                                            nodStatus.InnerText = "Fail";
+                                    }
+                                    nodResult.AppendChild(nodStatus);
+
                                 }
-                                nodResult.AppendChild(nodStatus);
+                                rdRBT.Close();
                             }
+                            rdManual.Close();
+
                         }
                     }
                 }
