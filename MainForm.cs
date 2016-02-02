@@ -175,6 +175,13 @@ namespace CHaMPWorkbench
 
             try
             {
+                lstFieldSeason.Items.Clear();
+                lstSite.Items.Clear();
+                lstWatershed.Items.Clear();
+
+                DataView dv = (System.Data.DataView) grdVisits.DataSource;
+                dv.Table.Clear();
+
                 UpdateMenuItemStatus(menuStrip1.Items);
             }
             catch (Exception ex)
