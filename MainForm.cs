@@ -499,9 +499,18 @@ namespace CHaMPWorkbench
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
             OleDbDataAdapter daVisits = new OleDbDataAdapter(dbCom);
             DataTable dtVisits = new DataTable();
-            daVisits.Fill(dtVisits);
-            grdVisits.DataSource = dtVisits.AsDataView();
 
+            try
+            {
+                daVisits.Fill(dtVisits);
+                grdVisits.DataSource = dtVisits.AsDataView();
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error loading visits", ex);
+                ex2.Data["SQL Select Command"] = dbCom.CommandText;
+                throw ex2;
+            }
             // Load the field seasons
             OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", m_dbCon);
             OleDbDataReader dbRead = comFS.ExecuteReader();
