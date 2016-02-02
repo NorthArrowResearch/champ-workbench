@@ -176,7 +176,7 @@ namespace CHaMPWorkbench.Classes
                     // When in HTML mode we need and XSL transformer to convert the XML to HTML.
                     System.Xml.Xsl.XslCompiledTransform theTransformer = new System.Xml.Xsl.XslCompiledTransform();
 
-                    string sXSLPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "RBT\\ValidationReport\\style.xsl");
+                    string sXSLPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "RBT\\ValidationReport\\dist\\style.xsl");
                     if (!System.IO.File.Exists(sXSLPath))
                         throw new Exception("The XSL template does is missing at " + sXSLPath);
 

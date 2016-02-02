@@ -12,8 +12,8 @@
       <head> 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RBT Report</title>
-        <link href="style.css?__inline=true" rel="stylesheet" />
+        <title>RBT Validation Report</title>
+        <xsl:call-template name="stylesheet" />
       </head>
       <body>
         <div class="container">
@@ -21,7 +21,10 @@
           <xsl:for-each select="metrics/metric">
             <div class="metric">
               <xsl:attribute name="data"><xsl:value-of select="name"/></xsl:attribute>
-              <h2><xsl:value-of select="name"/> (<xsl:value-of select="unit"/>) +/- (<xsl:value-of select="tolerance"/>)</h2>
+              <h2><xsl:value-of select="name"/> 
+                <span>(<xsl:value-of select="unit"/>)</span>
+                <span class="tolerance">( ± <xsl:value-of select="tolerance"/> )</span>
+              </h2>
               <table class="table">
                 <thead>
                   <tr>
@@ -74,8 +77,9 @@
             </div>
           </xsl:for-each>
         </div>
+        <xsl:call-template name="javascript" />
       </body>
-      <script src="app.js?__inline=true"></script>
+      
     </html>
   </xsl:template>
 
@@ -130,6 +134,13 @@
     </div>
   </xsl:template>
 
+  <xsl:template name="javascript">
+    <script src="tmp/app.js?__inline=true"></script>
+  </xsl:template>
+
+  <xsl:template name="stylesheet">
+    <link href="tmp/style.css?__inline=true" rel="stylesheet" />
+  </xsl:template>
 
 </xsl:stylesheet>
 
