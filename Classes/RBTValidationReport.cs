@@ -140,7 +140,7 @@ namespace CHaMPWorkbench.Classes
                                 Nullable<float> fValue = new Nullable<float>();
                                 if (!rdRBT.IsDBNull(0))
                                 {
-                                    fValue = (float)rdManual.GetDouble(0);
+                                    fValue = (float)rdRBT.GetDouble(0);
                                     nodValue.InnerText = fValue.ToString();
                                 }
                                 nodResult.AppendChild(nodValue);
