@@ -1,0 +1,42 @@
+@import "variables";
+@import "bootstrap";
+@import "selectize-bootstrap3";
+
+// Table formatting
+table, table.table{
+  width: 100%;
+  font-size: 12px;
+  table-layout: fixed;
+  margin-bottom: 2rem;
+  tbody tr:nth-child(odd) { 
+     background-color: #eee;
+  }
+  tbody tr td:nth-child(1), thead tr th:nth-child(1) { width: 50px; }
+  tbody tr td:nth-child(2), thead tr th:nth-child(2) { width: 300px; }
+  thead { @extend .bg-inverse; }
+  th .label{
+    font-size: 100%;
+  }
+  td span.status { display: none; }
+  th.manual{ @extend .bg-primary; }
+  td.manualResult{ @extend .bg-primary; }
+  td.version{ background: $brand-warning; border-right: 1px solid white; }
+  td.pass{ background: $brand-success; }
+  td.fail{ background: $brand-danger; }
+}
+
+// Make the titles blend in with the table
+.metric{
+  h2{
+    font-size: 1.3rem;
+    margin-bottom: 0;
+    background: black;
+    color: white;
+    padding: 0.5rem;    
+  }
+}
+
+// This is how the magic of filtering works
+.hide{
+  display: none;
+}

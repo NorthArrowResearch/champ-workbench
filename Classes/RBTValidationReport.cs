@@ -166,7 +166,40 @@ namespace CHaMPWorkbench.Classes
 
             try
             {
-                xmlDoc.Save(m_fiOutputPath.FullName);
+                if (string.Compare(m_fiOutputPath.Extension, ".xml", true) == 0)
+                {
+                    // When in XML mode, simply export the data to XML file.
+                    xmlDoc.Save(m_fiOutputPath.FullName);
+                }
+                else
+                {
+                    // When in HTML mode we need and XSL transformer to convert the XML to HTML.
+                    System.Xml.Xsl.XslCompiledTransform theTransformer = new System.Xml.Xsl.XslCompiledTransform();
+
+                    string sXSLPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "RBT\\ValidationReport\\style.xsl");
+                    if (!System.IO.File.Exists(sXSLPath))
+                        throw new Exception("The XSL template does is missing at " + sXSLPath);
+
+                    System.Xml.XmlReaderSettings xmlSettings = new System.Xml.XmlReaderSettings();
+                    xmlSettings.DtdProcessing = DtdProcessing.Ignore;
+
+                    System.Xml.Xsl.XsltArgumentList xslArgs = new System.Xml.Xsl.XsltArgumentList();
+
+                    System.Xml.Xsl.XsltSettings xslSettings = new System.Xml.Xsl.XsltSettings();
+                    xslSettings.EnableDocumentFunction = true;
+                    xslSettings.EnableScript = true;
+
+                    using (System.Xml.XmlReader xReader = System.Xml.XmlReader.Create(sXSLPath, xmlSettings))
+                    {
+                        // Load the XSL into the transformer.
+                        theTransformer.Load(xReader, xslSettings, null);
+                        using (System.IO.TextWriter fOutput = System.IO.File.CreateText(m_fiOutputPath.FullName))
+                        {
+                            // Perform the transformation from XML to XSL
+                            theTransformer.Transform(nodReport.CreateNavigator(), xslArgs, fOutput);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

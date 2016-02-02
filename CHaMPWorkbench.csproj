@@ -427,6 +427,15 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+    <Content Include="RBT\ValidationReport\dist\app.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RBT\ValidationReport\dist\style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RBT\ValidationReport\style.xsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />
     <None Include="Resources\SelectAll.png" />
