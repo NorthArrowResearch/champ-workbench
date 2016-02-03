@@ -70,7 +70,7 @@ namespace CHaMPWorkbench
             else
                 CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = string.Empty;
 
-            CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom = (byte) valGoogleMapZoom.Value;
+            CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom = (byte)valGoogleMapZoom.Value;
 
             try
             {
@@ -103,7 +103,7 @@ namespace CHaMPWorkbench
             if (dlgBrowseExecutable.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 txt.Text = dlgBrowseExecutable.FileName;
         }
- 
+
         private void cmdBrowseMonitoring_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
@@ -173,7 +173,7 @@ namespace CHaMPWorkbench
             }
             else
             {
-                MessageBox.Show("You must enable sharing exceptions with developers before this tool can be used.");
+                MessageBox.Show("You must enable sharing exceptions with developers before this tool can be used.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
