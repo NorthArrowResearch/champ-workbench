@@ -46,8 +46,8 @@
             this.cmdHelp = new System.Windows.Forms.Button();
             this.dlgDatabase = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.cmdOK = new System.Windows.Forms.Button();
-            this.cmdCancel = new System.Windows.Forms.Button();
+            this.cmdRun = new System.Windows.Forms.Button();
+            this.cmdCloseCancel = new System.Windows.Forms.Button();
             this.prgBar = new System.Windows.Forms.ProgressBar();
             this.grpFolder.SuspendLayout();
             this.SuspendLayout();
@@ -136,6 +136,7 @@
             this.cmdStop.TabIndex = 16;
             this.cmdStop.Text = "Stop";
             this.cmdStop.UseVisualStyleBackColor = true;
+            this.cmdStop.Click += new System.EventHandler(this.cancelAsyncButton_Click);
             // 
             // BackgroundWorker1
             // 
@@ -153,8 +154,8 @@
             // 
             // txtFolder
             // 
-            this.txtFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFolder.Location = new System.Drawing.Point(95, 18);
             this.txtFolder.Name = "txtFolder";
             this.txtFolder.Size = new System.Drawing.Size(466, 20);
@@ -162,8 +163,8 @@
             // 
             // grpFolder
             // 
-            this.grpFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpFolder.Controls.Add(this.txtLog);
             this.grpFolder.Controls.Add(this.chkLogs);
             this.grpFolder.Controls.Add(this.txtMatch);
@@ -205,33 +206,32 @@
             // 
             this.dlgDatabase.FileName = "OpenFileDialog1";
             // 
-            // cmdOK
+            // cmdRun
             // 
-            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(504, 231);
-            this.cmdOK.Name = "cmdOK";
-            this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 15;
-            this.cmdOK.Text = "Run";
-            this.cmdOK.UseVisualStyleBackColor = true;
-            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.cmdRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdRun.Location = new System.Drawing.Point(504, 231);
+            this.cmdRun.Name = "cmdRun";
+            this.cmdRun.Size = new System.Drawing.Size(75, 23);
+            this.cmdRun.TabIndex = 15;
+            this.cmdRun.Text = "Run";
+            this.cmdRun.UseVisualStyleBackColor = true;
+            this.cmdRun.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // cmdCancel
+            // cmdCloseCancel
             // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(588, 268);
-            this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 10;
-            this.cmdCancel.Text = "Close";
-            this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCloseCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCloseCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdCloseCancel.Location = new System.Drawing.Point(588, 268);
+            this.cmdCloseCancel.Name = "cmdCloseCancel";
+            this.cmdCloseCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCloseCancel.TabIndex = 10;
+            this.cmdCloseCancel.Text = "Close";
+            this.cmdCloseCancel.UseVisualStyleBackColor = true;
             // 
             // prgBar
             // 
-            this.prgBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.prgBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.prgBar.Location = new System.Drawing.Point(12, 235);
             this.prgBar.Name = "prgBar";
             this.prgBar.Size = new System.Drawing.Size(486, 14);
@@ -241,17 +241,17 @@
             // 
             // frmRBTScavenger
             // 
-            this.AcceptButton = this.cmdCancel;
+            this.AcceptButton = this.cmdCloseCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.cmdCancel;
+            this.CancelButton = this.cmdCloseCancel;
             this.ClientSize = new System.Drawing.Size(672, 308);
             this.Controls.Add(this.cmdStop);
             this.Controls.Add(this.chkEmptyDB);
             this.Controls.Add(this.grpFolder);
             this.Controls.Add(this.cmdHelp);
-            this.Controls.Add(this.cmdOK);
-            this.Controls.Add(this.cmdCancel);
+            this.Controls.Add(this.cmdRun);
+            this.Controls.Add(this.cmdCloseCancel);
             this.Controls.Add(this.prgBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -285,8 +285,8 @@
         internal System.Windows.Forms.Button cmdHelp;
         internal System.Windows.Forms.OpenFileDialog dlgDatabase;
         internal System.Windows.Forms.FolderBrowserDialog dlgFolder;
-        internal System.Windows.Forms.Button cmdOK;
-        internal System.Windows.Forms.Button cmdCancel;
+        internal System.Windows.Forms.Button cmdRun;
+        internal System.Windows.Forms.Button cmdCloseCancel;
         internal System.Windows.Forms.ProgressBar prgBar;
     }
 }

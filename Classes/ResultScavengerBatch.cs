@@ -25,9 +25,12 @@ namespace CHaMPWorkbench.Classes
 
         private string m_sLogFilePattern;
 
+        public List<Exception> Errors { get; internal set; }
+
         public ResultScavengerBatch(OleDbConnection dbCon, string sTopLevelFolder, string sFileSearch, bool bRecursive, bool bEmptyDatabaseBefore, string sLogFilePattern)
         {
             m_dbCon = dbCon;
+            Errors = new System.Collections.Generic.List<System.Exception>();
 
             if (string.IsNullOrEmpty(sTopLevelFolder))
             {
@@ -60,7 +63,6 @@ namespace CHaMPWorkbench.Classes
         public long Process(BackgroundWorker worker, DoWorkEventArgs e)
         {
             int nProcessed = 0;
-            List<Exception> eErrors = new List<Exception>();
             string[] sResultFiles = Directory.GetFiles(m_sTopLevelFolder, m_sFileSearch, m_SearchOption);
             List<string> lLogFiles = null;
 
@@ -90,8 +92,8 @@ namespace CHaMPWorkbench.Classes
                     if (nResultID > 0 && lLogFiles != null)
                     {
                         string sRelatedLogFile = System.IO.Path.GetDirectoryName(sResultFiles[i]);
-                        sRelatedLogFile = System.IO.Path.Combine(sRelatedLogFile, m_sLogFilePattern);
-                        string[] sLogs = Directory.GetFiles(sRelatedLogFile);
+                        //sRelatedLogFile = System.IO.Path.Combine(sRelatedLogFile, m_sLogFilePattern);
+                        string[] sLogs = Directory.GetFiles(sRelatedLogFile, m_sLogFilePattern, SearchOption.TopDirectoryOnly);
                         for (int j = 0; i < sLogs.Count(); i++)
                         {
                             // Log exists. Process it and relate to the result.
@@ -110,10 +112,9 @@ namespace CHaMPWorkbench.Classes
                     // these are legimitate RBT XML result files that have errors. Add them
                     // to the running list of problems and continue with next file.
                     //
-                    eErrors.Add(ex);
+                    Errors.Add(ex);
                 }
-
-
+                
                 try
                 {
                     scavengerCHaMP.ScavengeResultFile(sResultFiles[i]);
@@ -124,33 +125,37 @@ namespace CHaMPWorkbench.Classes
                     // these are legimitate RBT XML result files that have errors. Add them
                     // to the running list of problems and continue with next file.
                     //
-                    eErrors.Add(ex);
+                    Errors.Add(ex);
                 }
-
-
-
-
+                
                 worker.ReportProgress((i + 1) * 100 / sResultFiles.Count());
+
+                if (worker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    // User clicked cancel on the user interace.
+                    return (sResultFiles.Count() - Errors.Count());
+
+                }  
             }
 
             if (!string.IsNullOrEmpty(m_sLogFilePattern))
             {
                 // Process all the remaining log files that might not be related to result files.
-
                 foreach (string sLog in lLogFiles)
-                    scavenger.ScavengeLogFile(0, sLog, string.Empty);
-
-                //PopulateTable_Log(ref m_dbCon, ResultID, Path.GetDirectoryName(sFiles[i]), m_sLogFilePattern, sFiles[i]);
+                {
+                    try
+                    {
+                        scavenger.ScavengeLogFile(0, sLog, string.Empty);
+                    }
+                    catch (Exception ex)
+                    {
+                        Errors.Add(ex);
+                    }
+                }
             }
-            
-            if (eErrors.Count > 0)
-            {
-                Exception ex = new Exception(nProcessed.ToString() + " RBT result file(s) processed. " + eErrors.Count.ToString() + " files encountered errors.", eErrors[0]);
-                throw ex;
-            }
 
-            return (sResultFiles.Count() - eErrors.Count());
-
+            return (sResultFiles.Count() - Errors.Count());
         }
 
         private bool ClearDatabase(ref OleDbConnection dbCon)
@@ -173,17 +178,6 @@ namespace CHaMPWorkbench.Classes
             }
 
             return bResult;
-
-        }
-
-        //public void PopulateTable_Log(ref OleDbConnection dbcon, int nVisitID, string sDirectory, string sLogFile, string sResultFilePath)
-        //{
-
-        //    foreach (string sLog in Directory.GetFiles(sDirectory, sLogFile, SearchOption.TopDirectoryOnly))
-        //    {
-        //       ScavengeLogFile(ref dbcon, nVisitID, sLog, sResultFilePath);
-        //    }
-        //}      
+        }    
     }
-
 }

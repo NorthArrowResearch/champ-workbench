@@ -56,7 +56,17 @@ namespace CHaMPWorkbench.Classes
                 return;
 
             XmlDocument xmlR = new XmlDocument();
-            xmlR.Load(sLogFile);
+
+            try
+            {
+                xmlR.Load(sLogFile);
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error loading RBT log file into XMLDocument object.", ex);
+                ex2.Data["Log File"] = sLogFile;
+                throw ex2;
+            }
 
             OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @LogFilePath, @ResultFilePath, @MetaDataInfo)", m_dbCon);
 

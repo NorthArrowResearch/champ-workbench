@@ -31,7 +31,7 @@ namespace CHaMPWorkbench
             tTip.SetToolTip(txtMatch, "File name pattern that identifies RBT result files. Use asterix as a wildcard. File names must end with .xml");
             tTip.SetToolTip(chkEmptyDB, "Check this option to empty the database before running the scavenger tool. Unchecking this box will append any scavenged results to existing data in the database.");
             tTip.SetToolTip(cmdHelp, "Get help with this tool");
-            tTip.SetToolTip(cmdOK, "Start the result file scavenger running");
+            tTip.SetToolTip(cmdRun, "Start the result file scavenger running");
             tTip.SetToolTip(cmdStop, "Cancel the current scavenger operation");
 
             if (!string.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder))
@@ -80,8 +80,9 @@ namespace CHaMPWorkbench
                 m_scavenger = new Classes.ResultScavengerBatch(m_dbCon, txtFolder.Text, sSearch, chkRecursive.Checked, chkEmptyDB.Checked, txtLog.Text);
 
                 prgBar.Visible = true;
-                cmdOK.Enabled = false;
+                cmdRun.Enabled = false;
                 cmdStop.Enabled = true;
+                cmdCloseCancel.Enabled = false;
                 BackgroundWorker1.WorkerReportsProgress = true;
                 BackgroundWorker1.WorkerSupportsCancellation = true;
                 BackgroundWorker1.RunWorkerAsync();
@@ -117,11 +118,10 @@ namespace CHaMPWorkbench
         {
             // Cancel the asynchronous operation. 
             this.BackgroundWorker1.CancelAsync();
-
             // Disable the Cancel button.
-            cmdOK.Enabled = true;
-            cmdStop.Enabled = false;
-
+            //cmdRun.Enabled = true;
+            //cmdStop.Enabled = false;
+            //cmdCloseCancel.Enabled = true;
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -140,6 +140,7 @@ namespace CHaMPWorkbench
                 // flag may not have been set, even though 
                 // CancelAsync was called.
                 //lblProgress.Text = "Canceled"
+                MessageBox.Show("Processed cancelled by user.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else if ((e.Error != null))
             {
@@ -149,13 +150,14 @@ namespace CHaMPWorkbench
             {
                 // Finally, handle the case where the operation succeeded.
                 //lblProgress.Text = e.Result.ToString()
-                cmdCancel.Focus();
+                cmdCloseCancel.Focus();
                 MessageBox.Show("Completed sucessfully", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             // Disable the Cancel button.
-            cmdOK.Enabled = true;
+            cmdRun.Enabled = true;
             cmdStop.Enabled = false;
+            cmdCloseCancel.Enabled = true;
         }
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
@@ -173,6 +175,5 @@ namespace CHaMPWorkbench
                     txtFolder.Text = frm.SelectedPath;
             }
         }
-
     }
 }
