@@ -30,6 +30,7 @@ namespace CHaMPWorkbench.Classes
 
         public ResultScavengerSingleCHaMP(string sDBCon)
         {
+            System.Diagnostics.Debug.Assert(!string.IsNullOrEmpty(sDBCon), "The database connection string cannot be empty.");
             m_sDBCon = sDBCon;
         }
 
@@ -47,27 +48,58 @@ namespace CHaMPWorkbench.Classes
                 throw ex;
             }
 
-            //List<ScavengeMetric> lTier1Metrics = GetMetrics(m_nTier1MetricTypeID);
-
             XmlDocument xmlResults = new XmlDocument();
-            xmlResults.Load(sResultFilePath);
+
+            try
+            {
+                xmlResults.Load(sResultFilePath);
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error loading RBT result XML file into XMLDocument object.", ex);
+                ex2.Data["Result File"] = sResultFilePath;
+                throw ex2;
+            }
 
             int nResultID = 0;
             using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
             {
+                // Open the database and use a transaction for this entire RBT result file.
+                // If anything goes wrong with any metric then the whole file is abandoned
+                // and no changes are stored to the database.
                 DBCon.Open();
                 OleDbTransaction dbTrans = DBCon.BeginTransaction();
 
-                nResultID = InsertResultRecord(ref dbTrans, sResultFilePath, ref xmlResults);
-                if (nResultID > 0)
+                try
                 {
-                    ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
+                    // Insert the result file record and retrieve the unique ID that represents that result.
+                    nResultID = InsertResultRecord(ref dbTrans, sResultFilePath, ref xmlResults);
+                    if (nResultID > 0)
+                    {
+                        ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
+                        dbTrans.Commit();
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.Print("Skipping result. Failed to insert result ID: " + sResultFilePath);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    dbTrans.Rollback();
+                    throw ex;
                 }
             }
 
             return nResultID;
         }
 
+        /// <summary>
+        /// Retrieves all metric definitions that have the argument TypeID, have an XPath defined, and are also tied to CHaMP monitoring IDs
+        /// </summary>
+        /// <param name="nMetricTypeID">Workbench LookupListItemID of the particular type of metrics to retrieve. See constants at top of this file.</param>
+        /// <returns></returns>
         private List<ScavengeMetric> GetMetrics(int nMetricTypeID)
         {
             List<ScavengeMetric> lMetrics = new List<ScavengeMetric>();
@@ -90,7 +122,16 @@ namespace CHaMPWorkbench.Classes
 
             return lMetrics;
         }
-        
+
+        /// <summary>
+        /// Inserts the record that represents this RBT result file.
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="sResultFile">Full path to the RBT result file.</param>
+        /// <param name="xmlResults">XML document object representing the result file. This is used to get some basic properties of the RBT run.</param>
+        /// <returns>The ID of the RBT result file record. This is used as the foreign key for inserting metrics.</returns>
+        /// <remarks>
+        /// This method only saves the record if the RBT version, run date time and VisitID values can be obtained from the result XML file.</remarks>
         private int InsertResultRecord(ref OleDbTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults)
         {
             int nResultID = 0;
@@ -112,7 +153,7 @@ namespace CHaMPWorkbench.Classes
                         dbCom.Parameters.AddWithValue("@ResultFile", sResultFile);
                         dbCom.Parameters.AddWithValue("@RBTVersion", nodVersion.InnerText);
                         dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
-                        dbCom.Parameters.AddWithValue("@RBTRunDateTime", dtCreated);
+                        dbCom.Parameters.AddWithValue("@RBTRunDateTime", dtCreated.ToString());
                         dbCom.Parameters.AddWithValue("@ScavengeTypeID", m_nRBTScavengeTypeID);
 
                         dbCom.ExecuteNonQuery();
@@ -130,6 +171,12 @@ namespace CHaMPWorkbench.Classes
             return nResultID;
         }
 
+        /// <summary>
+        /// Performs the actual retrieval of metric values from the result XML file and inserts them into the database
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="xmlResults">RBT result XML document</param>
+        /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
         private void ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
@@ -157,13 +204,17 @@ namespace CHaMPWorkbench.Classes
                 }
             }
         }
-
+        
+        /// <summary>
+        /// This class is used to keep a list of all metrics in memory that need processing from an RBT result XML file.
+        /// </summary>
+        /// <remarks>Typically a list of these metrics is loaded for just a particular TypeID (visit or channel unit tier 1 level etc)</remarks>
         private class ScavengeMetric
         {
-            public int MetricID { public get; internal set; }
-            public int CMMetricID { public get; internal set; }
-            public string Name { public get; internal set; }
-            public string XPath { public get; internal set; }
+            public int MetricID { get; internal set; }
+            public int CMMetricID { get; internal set; }
+            public string Name { get; internal set; }
+            public string XPath { get; internal set; }
 
             public ScavengeMetric(int nMetricID, int nCMMetricID, string sName, string sXPath)
             {
@@ -179,5 +230,4 @@ namespace CHaMPWorkbench.Classes
             }
         }
     }
-
 }
