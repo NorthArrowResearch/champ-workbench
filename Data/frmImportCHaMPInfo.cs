@@ -99,7 +99,7 @@ namespace CHaMPWorkbench.Data
                 UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
 
                 if (chkImportFish.Checked)
-                    UpdateSiteFishInfo(daSites, ds.CHAMP_Sites, sSurveyDesignDB);
+                    UpdateSiteFishInfo(daSites, ref ds, sSurveyDesignDB);
 
                 if (chkExtendedSiteInfo.Checked)
                     UpdateExtendedSiteInfo(sProjectMetricsDB);
@@ -169,8 +169,10 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private void UpdateSiteFishInfo(RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter da, RBTWorkbenchDataSet.CHAMP_SitesDataTable dtWorkbench, string sSurveyDesignDB)
+        private void UpdateSiteFishInfo(RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter da, ref RBTWorkbenchDataSet dsWorkbench, string sSurveyDesignDB)
         {
+            dsWorkbench.AcceptChanges();
+
             String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sSurveyDesignDB);
             OleDbConnection conSurveyDesign = new OleDbConnection(sDB);
             conSurveyDesign.Open();
@@ -182,7 +184,7 @@ namespace CHaMPWorkbench.Data
             string[] sFishFields = { "UC_Chin", "SN_Chin", "LC_Steel", "MC_STeel", "UC_Steel", "SN_Steel" };
 
             // Loop over all sites stored in the workbench database
-            foreach (RBTWorkbenchDataSet.CHAMP_SitesRow rSite in dtWorkbench)
+            foreach (RBTWorkbenchDataSet.CHAMP_SitesRow rSite in dsWorkbench.CHAMP_Sites)
             {
                 // Query the record for this site in the survey design database
                 pSiteID.Value = rSite.SiteName;
@@ -193,6 +195,11 @@ namespace CHaMPWorkbench.Data
                     // Loop over all the fish presence fields (must be named same in both DBs)
                     foreach (string aField in sFishFields)
                     {
+                        if (string.Compare(aField, "UC_Chin", true) == 0 && rSite.RowState != DataRowState.Unchanged)
+                        {
+                            System.Diagnostics.Debug.Print("warning");
+                        }
+
                         if (DBNull.Value == dbRead[aField])
                             rSite[aField] = DBNull.Value;
                         else
@@ -206,8 +213,17 @@ namespace CHaMPWorkbench.Data
                         rSite[aField] = DBNull.Value;
                 }
                 dbRead.Close();
+
+                try
+                {
+                    da.Update(dsWorkbench.CHAMP_Sites);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print(ex.Message);
+                }
             }
-            da.Update(dtWorkbench);
+            
         }
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
@@ -526,7 +542,7 @@ namespace CHaMPWorkbench.Data
                 OleDbParameter pLatitude = dbUpdate.Parameters.Add("@Latitude", OleDbType.Single);
                 OleDbParameter pLongitude = dbUpdate.Parameters.Add("@Longitude", OleDbType.Single);
                 OleDbParameter pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Single);
-                
+
                 OleDbCommand comSurveyDesign = new OleDbCommand("SELECT VisitID, LAT_DD, LON_DD FROM MetricAndCovariates WHERE (VISITID IS NOT NULL) AND (LAT_DD IS NOT NULL) AND (LON_DD IS NOT NULL)", conExport);
                 OleDbDataReader dbRead = comSurveyDesign.ExecuteReader();
                 while (dbRead.Read())
@@ -544,7 +560,7 @@ namespace CHaMPWorkbench.Data
                 OleDbParameter pDischarge = dbUpdate.Parameters.Add("@Discharge", OleDbType.Single);
                 OleDbParameter pD84 = dbUpdate.Parameters.Add("@D84", OleDbType.Single);
                 pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Integer);
-                
+
                 comSurveyDesign = new OleDbCommand("SELECT VisitID, SubD84, Q FROM MetricVisitInformation WHERE VisitID IS NOT NULL", conExport);
                 dbRead = comSurveyDesign.ExecuteReader();
                 while (dbRead.Read())
