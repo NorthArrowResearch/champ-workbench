@@ -188,7 +188,7 @@ namespace CHaMPWorkbench
                 lstSite.Items.Clear();
                 lstWatershed.Items.Clear();
 
-                DataView dv = (System.Data.DataView) grdVisits.DataSource;
+                DataView dv = (System.Data.DataView)grdVisits.DataSource;
                 dv.Table.Clear();
 
                 UpdateMenuItemStatus(menuStrip1.Items);
@@ -1084,11 +1084,16 @@ namespace CHaMPWorkbench
                 {
                     Cursor.Current = Cursors.WaitCursor;
                     Classes.RBTValidationReport report = new Classes.RBTValidationReport(m_dbCon.ConnectionString, new System.IO.FileInfo(frm.FileName));
-                    report.Run();
+                    Classes.RBTValidationReport.ValidationReportResults theResults = report.Run();
 
-                    if (System.IO.File.Exists(frm.FileName))
+                    if (theResults.Visits < 1)
+                        MessageBox.Show("The database does not contain any visits with manual metric values against which to validate RBT runs.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
                     {
-                        System.Diagnostics.Process.Start(frm.FileName);
+                        if (System.IO.File.Exists(frm.FileName))
+                        {
+                            System.Diagnostics.Process.Start(frm.FileName);
+                        }
                     }
                 }
                 catch (Exception ex)

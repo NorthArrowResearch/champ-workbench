@@ -21,9 +21,10 @@ namespace CHaMPWorkbench.Classes
             DBCon = sDBCon;
         }
 
-        public void Run()
+        public ValidationReportResults Run()
         {
             // Loop through all scavenged results and produce a metric XML file for each.
+            ValidationReportResults theResult = new ValidationReportResults();
 
             // Key = Metric Name, Value = [DatabaseTable].[DatabaseField]
             Dictionary<string, Metric> dValidationMetrics = RetrieveValidationMetrics();
@@ -50,7 +51,7 @@ namespace CHaMPWorkbench.Classes
 
             List<ListItem> lVisitIDs = GetVisitIDs();
             if (lVisitIDs.Count < 1)
-                throw new Exception("There are no visits containing manual validation data.");
+                return theResult;
 
             // Loop over each metric
             foreach (Metric theMetric in dValidationMetrics.Values)
@@ -209,6 +210,8 @@ namespace CHaMPWorkbench.Classes
             {
                 ex.Data["File Path"] = m_fiOutputPath.FullName;
             }
+
+            return theResult;
         }
 
         private string GetFormattedRBTVersion(string sRawRBTVersion)
@@ -315,6 +318,18 @@ namespace CHaMPWorkbench.Classes
             }
 
             return dResult;
+        }
+
+        public class ValidationReportResults
+        {
+            public int Visits { get; set; }
+            public int Metrics { get; set; }
+
+            public ValidationReportResults()
+            {
+                Visits = 0;
+                Metrics = 0;
+            }
         }
 
         private class Metric
