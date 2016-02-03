@@ -77,6 +77,7 @@ namespace CHaMPWorkbench.Classes
             }
 
             ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+            ResultScavengerSingleCHaMP scavengerCHaMP = new ResultScavengerSingleCHaMP(m_dbCon.ConnectionString);
 
             for (int i = 0; i < sResultFiles.Count(); i++)
             {
@@ -111,6 +112,24 @@ namespace CHaMPWorkbench.Classes
                     //
                     eErrors.Add(ex);
                 }
+
+
+                try
+                {
+                    scavengerCHaMP.ScavengeResultFile(sResultFiles[i]);
+                }
+                catch (Exception ex)
+                {
+                    //
+                    // these are legimitate RBT XML result files that have errors. Add them
+                    // to the running list of problems and continue with next file.
+                    //
+                    eErrors.Add(ex);
+                }
+
+
+
+
                 worker.ReportProgress((i + 1) * 100 / sResultFiles.Count());
             }
 
