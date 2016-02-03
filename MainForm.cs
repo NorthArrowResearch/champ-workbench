@@ -112,6 +112,15 @@ namespace CHaMPWorkbench
                 else
                     tssDatabasePath.Text = string.Empty;
             }
+
+            // Kelly's Hydro prep and RBT error tool are deprecated. Hide it in release build
+#if DEBUG
+
+#else
+            hydroModelInputGeneratorToolStripMenuItem.Visible = false;
+            extractRBTErrorsToolStripMenuItem.Visible = false;
+#endif
+
         }
 
         private void openDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
