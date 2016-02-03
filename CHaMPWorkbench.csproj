@@ -120,6 +120,7 @@
     <Compile Include="Classes\RBTValidationReport.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
     <Compile Include="Classes\ResultScavengerSingle.cs" />
+    <Compile Include="Classes\ResultScavengerSingleCHaMP.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\DataFolders.cs" />
