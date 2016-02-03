@@ -126,7 +126,7 @@
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
             this.chkCreateDir.TabIndex = 7;
-            this.chkCreateDir.Text = "Create directories that don\'t alread yexist";
+            this.chkCreateDir.Text = "Create directories that don\'t already exist";
             this.chkCreateDir.UseVisualStyleBackColor = true;
             // 
             // checkBox1
