@@ -45,19 +45,22 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
                 sExceptionJSON = ex.Message;
             }
 
-            // Truncate the main exception message to the max allowed length and log the exception to AWS.
-            // Note that the AWS Singleton must already be instantiated. 
-            // Note that this logging to AWS will fail silently if an internet connection is not available.
-            int nMessageLength = Math.Min(theException.Message.Length, nMaxAWSMessage);
-            AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.WriteLine(string.Format("[Exception] [{0}] {1}", theException.Message.Substring(0, nMessageLength).Replace("[", "").Replace("]", "").Replace("\n", " "), sExceptionJSON));
-            AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.Flush();
-
-            if (bShowUserMessage)
+            if (CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled)
             {
-                // Show the standard user interface form to the user.
-                // TODO: format the exception to plain English instead of JSON.
-                CHaMPWorkbench.Classes.ExceptionHandling.frmException frm = new CHaMPWorkbench.Classes.ExceptionHandling.frmException(theException.Message, sExceptionJSON);
-                frm.ShowDialog();
+                // Truncate the main exception message to the max allowed length and log the exception to AWS.
+                // Note that the AWS Singleton must already be instantiated. 
+                // Note that this logging to AWS will fail silently if an internet connection is not available.
+                int nMessageLength = Math.Min(theException.Message.Length, nMaxAWSMessage);
+                AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.WriteLine(string.Format("[Exception] [{0}] {1}", theException.Message.Substring(0, nMessageLength).Replace("[", "").Replace("]", "").Replace("\n", " "), sExceptionJSON));
+                AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.Flush();
+
+                if (bShowUserMessage)
+                {
+                    // Show the standard user interface form to the user.
+                    // TODO: format the exception to plain English instead of JSON.
+                    CHaMPWorkbench.Classes.ExceptionHandling.frmException frm = new CHaMPWorkbench.Classes.ExceptionHandling.frmException(theException.Message, sExceptionJSON);
+                    frm.ShowDialog();
+                }
             }
         }
 
