@@ -1165,5 +1165,13 @@ namespace CHaMPWorkbench
             GUT.frmGUTRun frm = new GUT.frmGUTRun(m_dbCon.ConnectionString);
             frm.ShowDialog();
         }
+
+        private void recordPostGCDQAQCRecordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record(m_dbCon);
+            frm.ShowDialog();
+
+        }
+
     }
 }

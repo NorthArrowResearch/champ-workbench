@@ -54,5 +54,39 @@ namespace CHaMPWorkbench.Classes
                 return dt.Rows.Count;
             }
         }
+
+        public int Run(ref OleDbConnection dbCon, String sSQL_Statement, System.IO.FileInfo fiExport)
+        {
+            DataTable dt = new DataTable();
+            using (OleDbCommand cmd = new OleDbCommand(sSQL_Statement, dbCon))
+            {
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                da.Fill(dt);
+
+                System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                Dictionary<string, object> row;
+
+                using (System.IO.StreamWriter wCSV = new System.IO.StreamWriter(fiExport.FullName))
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        row = new Dictionary<string, object>();
+                        foreach (DataColumn col in dt.Columns)
+                        {
+                            if (string.Compare(col.ToString(), "ID", true) == 0)
+                                row.Add(col.ColumnName, dr[col].ToString().Replace(" ", ""));
+                            else
+                                row.Add(col.ColumnName, dr[col]);
+                        }
+                        rows.Add(row);
+                    }
+                    wCSV.Write(serializer.Serialize(rows));
+                }
+
+                return dt.Rows.Count;
+            }
+        }
+
     }
 }

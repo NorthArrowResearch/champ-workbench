@@ -72,6 +72,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hydroModelInputGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,7 @@
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.filterVisitsFromVisitIDCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -491,9 +492,18 @@
             // 
             // jamesHensleighToolStripMenuItem
             // 
+            this.jamesHensleighToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.recordPostGCDQAQCRecordToolStripMenuItem});
             this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
             this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
+            // 
+            // recordPostGCDQAQCRecordToolStripMenuItem
+            // 
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Name = "recordPostGCDQAQCRecordToolStripMenuItem";
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Text = "Enter Post GCD QA/QC Record";
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Click += new System.EventHandler(this.recordPostGCDQAQCRecordToolStripMenuItem_Click);
             // 
             // kellyWhiteheadToolStripMenuItem
             // 
@@ -1252,6 +1262,8 @@
         private System.Windows.Forms.ToolStripMenuItem selectBatchesToRunToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runSelectedBatchesToolStripMenuItem;
 
+		
+		private System.Windows.Forms.ToolStripMenuItem recordPostGCDQAQCRecordToolStripMenuItem;
     }
 }
 
