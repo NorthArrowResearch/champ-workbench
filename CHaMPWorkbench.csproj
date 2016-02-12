@@ -90,6 +90,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>_Redistributables\ZedGraph\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AccessIDHelper.cs" />
@@ -157,12 +160,20 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\James\Coordinates.cs" />
     <Compile Include="Experimental\James\frmEnterPostGCD_QAQC_Record.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Experimental\James\frmEnterPostGCD_QAQC_Record.Designer.cs">
       <DependentUpon>frmEnterPostGCD_QAQC_Record.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\James\frmUSGS_StreamDataViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\James\frmUSGS_StreamDataViewer.Designer.cs">
+      <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Experimental\James\NumericExtensions.cs" />
     <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
       <SubType>Form</SubType>
@@ -330,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmEnterPostGCD_QAQC_Record.resx">
       <DependentUpon>frmEnterPostGCD_QAQC_Record.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
+      <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
@@ -506,6 +520,7 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
+
     <Content Include="Validation\ReportTransforms\dist\gcd.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -519,6 +534,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\docGUT.png" />
+
+
+    <Content Include="Resources\Python\get_usgs_stream_data.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />
     <None Include="Resources\SelectAll.png" />
