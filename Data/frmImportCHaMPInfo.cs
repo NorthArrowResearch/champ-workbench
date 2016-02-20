@@ -114,6 +114,28 @@ namespace CHaMPWorkbench.Data
             return sMsg;
         }
 
+        private void LogCHaMPDataUpdate(string sDBCon, string sTable)
+        {
+            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            {
+                dbCon.Open();
+
+                OleDbCommand dbCom = new OleDbCommand("SELECT MAX(Version) AS Version FROM VersionChangeLog", dbCon);
+                object objVersion = dbCom.ExecuteScalar();
+                if (DBNull.Value != objVersion && objVersion is int)
+                {
+                    string sDescription = string.Format("CHaMP {0} information updated by {1} using the computer {2} on {3:dd MMM yyyy}.", sTable.ToLower(), Environment.UserName, Environment.MachineName, DateTime.Now);
+
+                    dbCom = new OleDbCommand("INSERT INTO VersionChangeLog (Version, Description) VALUES (@Version, @Description)", dbCon);
+                    dbCom.Parameters.AddWithValue("@Version", (int) objVersion);
+                    OleDbParameter pDescription = dbCom.Parameters.AddWithValue("@Description", sDescription);
+                    pDescription.Size = sDescription.Length;
+
+                    dbCom.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void UpdateWatersheds(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter daWatersheds, RBTWorkbenchDataSet.CHAMP_WatershedsDataTable dtWorkbench)
         {
             String sSQL = "SELECT WatershedID, WatershedName FROM ChannelUnit WHERE (WatershedID IS NOT NULL) AND (WatershedName IS NOT NULL) GROUP BY WatershedID, WatershedName";
@@ -138,6 +160,7 @@ namespace CHaMPWorkbench.Data
                     }
                 }
                 daWatersheds.Update(dtWorkbench);
+                LogCHaMPDataUpdate(daWatersheds.Connection.ConnectionString, "Watersheds");
             }
         }
 
@@ -166,6 +189,7 @@ namespace CHaMPWorkbench.Data
                     }
                 }
                 da.Update(dtWorkbench);
+                LogCHaMPDataUpdate(da.Connection.ConnectionString, "sites");
             }
         }
 
@@ -217,13 +241,14 @@ namespace CHaMPWorkbench.Data
                 try
                 {
                     da.Update(dsWorkbench.CHAMP_Sites);
+                    LogCHaMPDataUpdate(da.Connection.ConnectionString, "fish information");
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.Print(ex.Message);
                 }
             }
-            
+
         }
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
@@ -334,6 +359,7 @@ namespace CHaMPWorkbench.Data
                 }
 
                 da.Update(dtWorkbench);
+                LogCHaMPDataUpdate(da.Connection.ConnectionString, "visits");
             }
         }
 
@@ -463,6 +489,7 @@ namespace CHaMPWorkbench.Data
             }
             // daUnits.Update(ds.CHAMP_ChannelUnits);
             daUnits.Fill(ds.CHAMP_ChannelUnits);
+            LogCHaMPDataUpdate(daSegments.Connection.ConnectionString, "segments and channel units");
         }
 
         #region BrowseEvents
@@ -580,6 +607,7 @@ namespace CHaMPWorkbench.Data
                     dbUpdate.ExecuteNonQuery();
                 }
 
+                LogCHaMPDataUpdate(conExport.ConnectionString, "extended site information");
             }
         }
     }
