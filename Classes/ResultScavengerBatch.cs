@@ -83,6 +83,7 @@ namespace CHaMPWorkbench.Classes
 
             for (int i = 0; i < sResultFiles.Count(); i++)
             {
+                int nOriginal = i;
                 int nResultID = 0;
                 try
                 {
@@ -114,10 +115,10 @@ namespace CHaMPWorkbench.Classes
                     //
                     Errors.Add(ex);
                 }
-                
+
                 try
                 {
-                    scavengerCHaMP.ScavengeResultFile(sResultFiles[i]);
+                    scavengerCHaMP.ScavengeResultFile(sResultFiles[nOriginal]);
                 }
                 catch (Exception ex)
                 {
@@ -127,16 +128,19 @@ namespace CHaMPWorkbench.Classes
                     //
                     Errors.Add(ex);
                 }
-                
-                worker.ReportProgress((i + 1) * 100 / sResultFiles.Count());
 
+                if (i < 1 || sResultFiles.Length < 1)
+                    worker.ReportProgress(0);
+                else
+                    worker.ReportProgress((i) * 100 / sResultFiles.Length);
+                
                 if (worker.CancellationPending)
                 {
                     e.Cancel = true;
                     // User clicked cancel on the user interace.
                     return (sResultFiles.Count() - Errors.Count());
 
-                }  
+                }
             }
 
             if (!string.IsNullOrEmpty(m_sLogFilePattern))
@@ -178,6 +182,6 @@ namespace CHaMPWorkbench.Classes
             }
 
             return bResult;
-        }    
+        }
     }
 }
