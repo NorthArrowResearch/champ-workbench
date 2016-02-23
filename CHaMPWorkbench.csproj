@@ -186,6 +186,12 @@
     <Compile Include="frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSelectVisits.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSelectVisits.Designer.cs">
+      <DependentUpon>frmSelectVisits.cs</DependentUpon>
+    </Compile>
     <Compile Include="Habitat\dsHabitat.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -300,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelectVisits.resx">
+      <DependentUpon>frmSelectVisits.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>

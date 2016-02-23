@@ -51,6 +51,7 @@
             this.runRBTConsoleBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.scavengeRBTResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.validationReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.habitatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,7 +133,7 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.validationReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectRandomNumberOfVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -281,7 +282,7 @@
             this.validationReportToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -325,13 +326,20 @@
             this.scavengeRBTResultsToolStripMenuItem.Text = "Scavenge RBT Results...";
             this.scavengeRBTResultsToolStripMenuItem.Click += new System.EventHandler(this.scavengeRBTResultsToolStripMenuItem_Click);
             // 
+            // validationReportToolStripMenuItem
+            // 
+            this.validationReportToolStripMenuItem.Name = "validationReportToolStripMenuItem";
+            this.validationReportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.validationReportToolStripMenuItem.Text = "Validation Report...";
+            this.validationReportToolStripMenuItem.Click += new System.EventHandler(this.validationReportToolStripMenuItem_Click);
+            // 
             // gCDToolStripMenuItem
             // 
             this.gCDToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             this.gCDToolStripMenuItem.Visible = false;
             // 
@@ -348,7 +356,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -370,7 +378,7 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             this.delft3DToolStripMenuItem.Visible = false;
             // 
@@ -383,13 +391,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -923,6 +931,7 @@
             this.copyModelInputOutputFolderToolStripMenuItem,
             this.toolStripSeparator10,
             this.filterForAllVisitsToThisSiteToolStripMenuItem,
+            this.selectRandomNumberOfVisitsToolStripMenuItem,
             this.toolStripSeparator11,
             this.generateChannelUnitCSVFileToolStripMenuItem,
             this.generateRBTRunForThisVisitToolStripMenuItem,
@@ -930,7 +939,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
             this.viewSiteLocationMapToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 248);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 292);
             // 
             // visitPropertiesToolStripMenuItem
             // 
@@ -1032,12 +1041,13 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
-            // validationReportToolStripMenuItem
+            // selectRandomNumberOfVisitsToolStripMenuItem
             // 
-            this.validationReportToolStripMenuItem.Name = "validationReportToolStripMenuItem";
-            this.validationReportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.validationReportToolStripMenuItem.Text = "Validation Report...";
-            this.validationReportToolStripMenuItem.Click += new System.EventHandler(this.validationReportToolStripMenuItem_Click);
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Name = "selectRandomNumberOfVisitsToolStripMenuItem";
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Text = "Select random number of visits...";
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Click += new System.EventHandler(this.selectRandomNumberOfVisitsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1180,6 +1190,7 @@
         private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisitsFromVisitIDCSVFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem validationReportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectRandomNumberOfVisitsToolStripMenuItem;
 
     }
 }

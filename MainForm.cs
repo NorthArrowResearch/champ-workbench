@@ -1106,5 +1106,29 @@ namespace CHaMPWorkbench
                 }
             }
         }
+
+        private void selectRandomNumberOfVisitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSelectVisits frm = new frmSelectVisits();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                if (frm.VisitsToSelect >= grdVisits.Rows.Count)
+                {
+                    grdVisits.SelectAll();
+                }
+                else
+                {
+                    grdVisits.ClearSelection();
+                    Random random = new Random();
+
+                    while (grdVisits.SelectedRows.Count < frm.VisitsToSelect)
+                    {
+                        int randomNumber = random.Next(0, grdVisits.Rows.Count);
+                        grdVisits.Rows[randomNumber].Selected = true;
+                    }
+                }
+            }
+        }
     }
 }
