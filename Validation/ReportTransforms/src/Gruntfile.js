@@ -42,30 +42,31 @@ module.exports = function(grunt) {
       }
     },
 
+    // convert the file name into a <script> or <style> tag containing that file
     'regex-replace': {
-        foofoo: { //specify a target with any name
-            src: ['../dist/*.xsl'],
-            actions: [
-                {
-                    name: 'css',
-                    search: /<link href="([^"]+.css)[^>]+>/i,
-                     // m0 is the whole match. m1 is the match inside the ()
-                     replace: function(m0, m1) {
-                        // convert the file name into a tag containing that file
-                        return '<style>' + fs.readFileSync(m1).toString() + '</style>';
-                     },
-                    flags: 'gi'
-                }, {
-                    name: 'js',
-                    search: /<script src="([^"]+.js)[^>]+><\/script>/i,
-                     // m0 is the whole match. m1 is the match inside the ()
-                     replace: function(m0,m1) {
-                        return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync(m1).toString() + ']]></script>';
-                     },
-                    flags: 'gi'
-                }
-            ]
-        }
+      xslfiles: { //specify a target with any name
+        src: ['../dist/*.xsl'],
+        actions: [
+          {
+            name: 'css',
+            search: /<link href="([^"]+.css)[^>]+>/i,
+             // m0 is the whole match. m1 is the match inside the ()
+             replace: function(m0, m1) {
+                
+                return '<style>' + fs.readFileSync(m1).toString() + '</style>';
+             },
+            flags: 'gi'
+          }, {
+            name: 'js',
+            search: /<script src="([^"]+.js)[^>]+><\/script>/i,
+             // m0 is the whole match. m1 is the match inside the ()
+             replace: function(m0,m1) {
+                return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync(m1).toString() + ']]></script>';
+             },
+            flags: 'gi'
+          }
+        ]
+      }
     },
 
     exec: {
@@ -74,32 +75,42 @@ module.exports = function(grunt) {
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml'
     },
 
-    uglify: {
-      build: {
-        files: {
-          'tmp/rbt_manual.js': [
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/tether/dist/js/tether.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
-            'node_modules/selectize/dist/js/standalone/selectize.min.js',
-            'js/rbt_manual.js',
-          ],
-          'tmp/gcd.js': [
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/tether/dist/js/tether.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
-            'node_modules/d3/d3.min.js',
-            'js/gcd.js',
-          ],
-          'tmp/habitat.js': [
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/tether/dist/js/tether.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
-            'node_modules/d3/d3.min.js',
-            'js/habitat.js',
-          ]
-        }        
+    // Collect all our js into one script
+    concat: {
+      options: {
+        separator: '\n;\n',
+      },
+      rbt_manual: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/selectize/dist/js/standalone/selectize.min.js',
+          'js/rbt_manual.js',
+        ],
+        dest: 'tmp/rbt_manual.js'      
+      },
+      gcd: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/gcd.js',
+        ],
+        dest: 'tmp/gcd.js' 
+      },
+      habitat: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/habitat.js',
+        ],
+        dest: 'tmp/habitat.js'    
       }
+
     },
 
     // This is for dev only. Makes use of livereload on file changes.
@@ -109,11 +120,11 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['js/*.js'],
-        tasks: ['uglify', 'regex-replace', 'exec']
+        tasks: ['concat', 'regex-replace', 'exec']
       },
       xslt: {
         files: ['*.xsl', '../Samples/*.xml'],
-        tasks: ['regex-replace', 'exec']
+        tasks: ['copy', 'regex-replace', 'exec']
       },
       scss: {
         files: ['scss/*.scss'],
@@ -126,13 +137,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-regex-replace');
   grunt.loadNpmTasks('grunt-exec');
 
   // Here are our tasks 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['copy', 'compass', 'uglify', 'regex-replace', 'exec']);
+  grunt.registerTask('build', ['copy', 'compass', 'concat', 'regex-replace', 'exec']);
   grunt.registerTask('dev', ['watch']);
 
 };
