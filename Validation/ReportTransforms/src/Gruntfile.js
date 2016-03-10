@@ -48,17 +48,19 @@ module.exports = function(grunt) {
             actions: [
                 {
                     name: 'css',
-                    search: new RegExp('(<link[^>]+>)'),
-                     replace: function(match) {
-                        console.log("BOOP", match);
-                        return '<style>' + fs.readFileSync('tmp/style.css').toString() + '</style>';
+                    search: /<link href="([^"]+.css)[^>]+>/i,
+                     // m0 is the whole match. m1 is the match inside the ()
+                     replace: function(m0, m1) {
+                        // convert the file name into a tag containing that file
+                        return '<style>' + fs.readFileSync(m1).toString() + '</style>';
                      },
                     flags: 'gi'
                 }, {
                     name: 'js',
-                    search: new RegExp('(<script.*\/script>)'),
-                     replace: function() {
-                        return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync('tmp/app.js').toString() + ']]></script>';
+                    search: /<script src="([^"]+.js)[^>]+><\/script>/i,
+                     // m0 is the whole match. m1 is the match inside the ()
+                     replace: function(m0,m1) {
+                        return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync(m1).toString() + ']]></script>';
                      },
                     flags: 'gi'
                 }
@@ -67,36 +69,34 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      xslt: 'xsltproc -o ../dist/report.html ../dist/style.xsl data.xml'
+      gcd:        'xsltproc -o ../Samples/gcd.html ../dist/gcd.xsl ../Samples/gcd.xml',
+      habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+      rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml'
     },
 
     uglify: {
-      my_target: {
-        rbt_manual: {
+      build: {
+        files: {
           'tmp/rbt_manual.js': [
             'node_modules/jquery/dist/jquery.js',
             'node_modules/tether/dist/js/tether.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/selectize/dist/js/standalone/selectize.min.js',
             'js/rbt_manual.js',
-          ]
-        },
-        gcd: {
+          ],
           'tmp/gcd.js': [
             'node_modules/jquery/dist/jquery.js',
             'node_modules/tether/dist/js/tether.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/d3/d3.min.js',
             'js/gcd.js',
-          ]
-        },
-        habitat: {
-          'tmp/gcd.js': [
+          ],
+          'tmp/habitat.js': [
             'node_modules/jquery/dist/jquery.js',
             'node_modules/tether/dist/js/tether.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/d3/d3.min.js',
-            'js/gcd.js',
+            'js/habitat.js',
           ]
         }        
       }
@@ -109,11 +109,11 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['js/*.js'],
-        tasks: ['build']
+        tasks: ['uglify', 'regex-replace', 'exec']
       },
       xslt: {
         files: ['*.xsl', '../Samples/*.xml'],
-        tasks: ['build']
+        tasks: ['regex-replace', 'exec']
       },
       scss: {
         files: ['scss/*.scss'],

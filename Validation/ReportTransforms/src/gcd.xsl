@@ -4,15 +4,13 @@
   <xsl:key name="metric" match="/report/metrics/metric/name/text()" use="." />
   <xsl:key name="visit" match="/report/metrics/metric/visits/visit/visit_id/text()" use="." />
   <xsl:key name="version" match="/report/metrics/metric/visits/visit/results/result/version/text()" use="." />
-  <!-- <xsl:key name="metric" match="/report/metrics/metric/name/text()" use="." /> -->
-
 
   <xsl:template match="report">
     <html class="no-js" lang="en">
       <head> 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RBT Validation Report</title>
+        <title>GCD Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
       <body>
@@ -142,11 +140,11 @@
   </xsl:template>
 
   <xsl:template name="javascript">
-    <script src="tmp/app.js?__inline=true"></script>
+    <script src="tmp/gcd.js"></script>
   </xsl:template>
 
   <xsl:template name="stylesheet">
-    <link href="tmp/style.css?__inline=true" rel="stylesheet" />
+    <link href="tmp/gcd.css" rel="stylesheet" />
   </xsl:template>
 
 </xsl:stylesheet>
