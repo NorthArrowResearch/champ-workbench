@@ -127,13 +127,15 @@
             this.copyModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.filterForAllVisitsToThisSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectRandomNumberOfVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectRandomNumberOfVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -264,6 +266,8 @@
             this.gCDToolStripMenuItem,
             this.habitatToolStripMenuItem,
             this.delft3DToolStripMenuItem,
+            this.toolStripSeparator8,
+            this.modelValidationReportsToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -282,7 +286,7 @@
             this.validationReportToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(216, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -339,7 +343,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             this.gCDToolStripMenuItem.Visible = false;
             // 
@@ -356,7 +360,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -378,7 +382,7 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             this.delft3DToolStripMenuItem.Visible = false;
             // 
@@ -391,13 +395,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -939,7 +943,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
             this.viewSiteLocationMapToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 292);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 270);
             // 
             // visitPropertiesToolStripMenuItem
             // 
@@ -999,6 +1003,14 @@
             this.filterForAllVisitsToThisSiteToolStripMenuItem.Text = "Filter For All Visits to this Site";
             this.filterForAllVisitsToThisSiteToolStripMenuItem.Click += new System.EventHandler(this.filterForAllVisitsToThisSiteToolStripMenuItem_Click);
             // 
+            // selectRandomNumberOfVisitsToolStripMenuItem
+            // 
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Name = "selectRandomNumberOfVisitsToolStripMenuItem";
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Text = "Select random number of visits...";
+            this.selectRandomNumberOfVisitsToolStripMenuItem.Click += new System.EventHandler(this.selectRandomNumberOfVisitsToolStripMenuItem_Click);
+            // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
@@ -1041,13 +1053,16 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
-            // selectRandomNumberOfVisitsToolStripMenuItem
+            // modelValidationReportsToolStripMenuItem
             // 
-            this.selectRandomNumberOfVisitsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
-            this.selectRandomNumberOfVisitsToolStripMenuItem.Name = "selectRandomNumberOfVisitsToolStripMenuItem";
-            this.selectRandomNumberOfVisitsToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
-            this.selectRandomNumberOfVisitsToolStripMenuItem.Text = "Select random number of visits...";
-            this.selectRandomNumberOfVisitsToolStripMenuItem.Click += new System.EventHandler(this.selectRandomNumberOfVisitsToolStripMenuItem_Click);
+            this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
+            this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
             // 
             // MainForm
             // 
@@ -1191,6 +1206,8 @@
         private System.Windows.Forms.ToolStripMenuItem filterVisitsFromVisitIDCSVFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem validationReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectRandomNumberOfVisitsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem modelValidationReportsToolStripMenuItem;
 
     }
 }
