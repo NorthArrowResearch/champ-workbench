@@ -72,6 +72,7 @@ module.exports = function(grunt) {
     exec: {
       gcd:        'xsltproc -o ../Samples/gcd.html ../dist/gcd.xsl ../Samples/gcd.xml',
       habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+      rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml'
     },
 
@@ -109,8 +110,18 @@ module.exports = function(grunt) {
           'js/habitat.js',
         ],
         dest: 'tmp/habitat.js'    
+      },
+      rbt: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/lib/boxplot.js',
+          'js/rbt.js',
+        ],
+        dest: 'tmp/rbt.js'    
       }
-
     },
 
     // This is for dev only. Makes use of livereload on file changes.
@@ -120,7 +131,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['js/*.js'],
-        tasks: ['concat', 'regex-replace', 'exec']
+        tasks: ['copy', 'concat', 'regex-replace', 'exec']
       },
       xslt: {
         files: ['*.xsl', '../Samples/*.xml'],

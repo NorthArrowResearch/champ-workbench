@@ -32,9 +32,6 @@
                   <tr>
                     <th>VID</th>
                     <th>Visit</th>
-                    <th class="manual">
-                      <span class="">Manual</span>
-                    </th>
                     <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
                       <th class="version">
                         <xsl:attribute name="data"><xsl:value-of select="."/></xsl:attribute>
@@ -52,7 +49,6 @@
                       <xsl:value-of select="visit_id"/>
                     </td>
                     <td class="visitName"><xsl:value-of select="visit_name"/></td>
-                    <td class="manualResult"><xsl:value-of select="manual_result"/></td>
                     <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
                       <xsl:variable name="version" select="." />
                       <td class="version">
@@ -93,49 +89,6 @@
     <div class="jumbotron">
       <h1 class="display-3">GCD Validation Report</h1>
       <p class="lead">Date: <xsl:value-of select="date"/></p>
-      <div class="row">
-        <div class="col-sm-3">
-          <select multiple="true" id="metric-filter" name="Metric" placeholder="Metric">
-            <xsl:for-each select="/report/metrics/metric/name/text()[generate-id() = generate-id(key('metric',.)[1])]">
-              <option>
-                <xsl:attribute name="value">
-                  <xsl:value-of select="."/>
-                </xsl:attribute>
-                <xsl:value-of select="."/>
-              </option>              
-            </xsl:for-each>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <select multiple="true" id="visit-filter" name="Visit" placeholder="Visit">
-            <xsl:for-each select="/report/metrics/metric/visits/visit/visit_id/text()[generate-id() = generate-id(key('visit',.)[1])]">
-              <option>
-                <xsl:attribute name="value">
-                  <xsl:value-of select="."/>
-                </xsl:attribute>
-                <xsl:value-of select="."/>
-              </option>              
-            </xsl:for-each>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <select multiple="true" id="version-filter" name="Version" placeholder="Version">
-            <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
-              <option>
-                <xsl:attribute name="value">
-                  <xsl:value-of select="."/>
-                </xsl:attribute>
-                <xsl:value-of select="."/>
-              </option>              
-            </xsl:for-each>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <label>
-            <input id="onlyFailures" type="checkbox" name="failures" /> Only Failures
-          </label>
-        </div>
-      </div>
     </div>
   </xsl:template>
 
