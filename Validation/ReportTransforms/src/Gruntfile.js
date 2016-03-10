@@ -44,12 +44,13 @@ module.exports = function(grunt) {
 
     'regex-replace': {
         foofoo: { //specify a target with any name
-            src: ['../dist/style.xsl'],
+            src: ['../dist/*.xsl'],
             actions: [
                 {
                     name: 'css',
                     search: new RegExp('(<link[^>]+>)'),
-                     replace: function() {
+                     replace: function(match) {
+                        console.log("BOOP", match);
                         return '<style>' + fs.readFileSync('tmp/style.css').toString() + '</style>';
                      },
                     flags: 'gi'
@@ -71,15 +72,33 @@ module.exports = function(grunt) {
 
     uglify: {
       my_target: {
-        files: {
-          'tmp/app.js': [
+        rbt_manual: {
+          'tmp/rbt_manual.js': [
             'node_modules/jquery/dist/jquery.js',
             'node_modules/tether/dist/js/tether.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/selectize/dist/js/standalone/selectize.min.js',
-            'js/app.js',
+            'js/rbt_manual.js',
           ]
-        }
+        },
+        gcd: {
+          'tmp/gcd.js': [
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/tether/dist/js/tether.min.js',
+            'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            'node_modules/d3/d3.min.js',
+            'js/gcd.js',
+          ]
+        },
+        habitat: {
+          'tmp/gcd.js': [
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/tether/dist/js/tether.min.js',
+            'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            'node_modules/d3/d3.min.js',
+            'js/gcd.js',
+          ]
+        }        
       }
     },
 
@@ -89,11 +108,11 @@ module.exports = function(grunt) {
         debounceDelay: 1000,
       },
       js: {
-        files: ['js/app.js'],
+        files: ['js/*.js'],
         tasks: ['build']
       },
       xslt: {
-        files: ['*.xsl', 'data.xml'],
+        files: ['*.xsl', '../Samples/*.xml'],
         tasks: ['build']
       },
       scss: {
