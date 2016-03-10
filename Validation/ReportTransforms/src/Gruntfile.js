@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         ],
       },
       xsl: {
-        files: [ {expand: true, src: 'style.xsl', dest: '../dist'} ]
+        files: [ {expand: true, src: '*.xsl', dest: '../dist'} ]
       }
     },
 
@@ -93,7 +93,7 @@ module.exports = function(grunt) {
         tasks: ['build']
       },
       xslt: {
-        files: ['style.xsl', 'data.xml'],
+        files: ['*.xsl', 'data.xml'],
         tasks: ['build']
       },
       scss: {
