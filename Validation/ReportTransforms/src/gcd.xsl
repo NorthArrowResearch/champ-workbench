@@ -89,6 +89,7 @@
     <div class="jumbotron">
       <h1 class="display-3">GCD Validation Report</h1>
       <p class="lead">Date: <xsl:value-of select="date"/></p>
+      <div id="plot"></div>
     </div>
   </xsl:template>
 
