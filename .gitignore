@@ -5,6 +5,7 @@
 *.[Cc]ache
 *.bak
 *.ncb
+*.pfx
 *.log 
 *.DS_Store
 [Tt]humbs.db 
