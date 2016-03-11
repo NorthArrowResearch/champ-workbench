@@ -31,28 +31,38 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.lstReports = new System.Windows.Forms.ListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lstVisits = new System.Windows.Forms.ListBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rdoXML = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(356, 316);
+            this.cmdCancel.Location = new System.Drawing.Point(499, 504);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 0;
+            this.cmdCancel.TabIndex = 4;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(275, 316);
+            this.cmdOK.Location = new System.Drawing.Point(418, 504);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 1;
+            this.cmdOK.TabIndex = 3;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // lstReports
             // 
@@ -60,10 +70,83 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstReports.FormattingEnabled = true;
-            this.lstReports.Location = new System.Drawing.Point(12, 16);
+            this.lstReports.Location = new System.Drawing.Point(6, 19);
             this.lstReports.Name = "lstReports";
-            this.lstReports.Size = new System.Drawing.Size(419, 290);
-            this.lstReports.TabIndex = 2;
+            this.lstReports.Size = new System.Drawing.Size(267, 355);
+            this.lstReports.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.lstReports);
+            this.groupBox1.Location = new System.Drawing.Point(12, 106);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(279, 384);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Reports";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.lstVisits);
+            this.groupBox2.Location = new System.Drawing.Point(297, 106);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(279, 384);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Visits";
+            // 
+            // lstVisits
+            // 
+            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstVisits.FormattingEnabled = true;
+            this.lstVisits.Location = new System.Drawing.Point(6, 19);
+            this.lstVisits.Name = "lstVisits";
+            this.lstVisits.Size = new System.Drawing.Size(267, 355);
+            this.lstVisits.TabIndex = 0;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.rdoXML);
+            this.groupBox3.Location = new System.Drawing.Point(12, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(564, 88);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Report Type";
+            // 
+            // rdoXML
+            // 
+            this.rdoXML.AutoSize = true;
+            this.rdoXML.Checked = true;
+            this.rdoXML.Location = new System.Drawing.Point(21, 24);
+            this.rdoXML.Name = "rdoXML";
+            this.rdoXML.Size = new System.Drawing.Size(75, 17);
+            this.rdoXML.TabIndex = 0;
+            this.rdoXML.TabStop = true;
+            this.rdoXML.Text = "Web page";
+            this.rdoXML.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(21, 48);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(68, 17);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "R Scripts";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // frmModelValidation
             // 
@@ -71,13 +154,19 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(443, 351);
-            this.Controls.Add(this.lstReports);
+            this.ClientSize = new System.Drawing.Size(586, 539);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Name = "frmModelValidation";
             this.Text = "Model Validation Reports";
             this.Load += new System.EventHandler(this.frmModelValidation_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -87,5 +176,11 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.ListBox lstReports;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox lstVisits;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rdoXML;
     }
 }

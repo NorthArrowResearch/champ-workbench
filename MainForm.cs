@@ -1074,37 +1074,37 @@ namespace CHaMPWorkbench
 
         private void validationReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog frm = new SaveFileDialog();
-            frm.Title = "RBT Validation Report Output Path";
-            frm.Filter = "HTML Files (*.html, *.htm)|*.htm|XML Files (*.xml)|*.xml";
+            //SaveFileDialog frm = new SaveFileDialog();
+            //frm.Title = "RBT Validation Report Output Path";
+            //frm.Filter = "HTML Files (*.html, *.htm)|*.htm|XML Files (*.xml)|*.xml";
 
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                try
-                {
-                    Cursor.Current = Cursors.WaitCursor;
-                    Classes.RBTValidationReport report = new Classes.RBTValidationReport(m_dbCon.ConnectionString, new System.IO.FileInfo(frm.FileName));
-                    Classes.RBTValidationReport.ValidationReportResults theResults = report.Run();
+            //if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    try
+            //    {
+            //        Cursor.Current = Cursors.WaitCursor;
+            //        Classes.ValidationReport report = new Classes.ValidationReport(m_dbCon.ConnectionString, new System.IO.FileInfo(frm.FileName));
+            //        Classes.ValidationReport.ValidationReportResults theResults = report.Run();
 
-                    if (theResults.Visits < 1)
-                        MessageBox.Show("The database does not contain any visits with manual metric values against which to validate RBT runs.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                    {
-                        if (System.IO.File.Exists(frm.FileName))
-                        {
-                            System.Diagnostics.Process.Start(frm.FileName);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Classes.ExceptionHandling.NARException.HandleException(ex);
-                }
-                finally
-                {
-                    Cursor.Current = Cursors.Default;
-                }
-            }
+            //        if (theResults.Visits < 1)
+            //            MessageBox.Show("The database does not contain any visits with manual metric values against which to validate RBT runs.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        else
+            //        {
+            //            if (System.IO.File.Exists(frm.FileName))
+            //            {
+            //                System.Diagnostics.Process.Start(frm.FileName);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Classes.ExceptionHandling.NARException.HandleException(ex);
+            //    }
+            //    finally
+            //    {
+            //        Cursor.Current = Cursors.Default;
+            //    }
+            //}
         }
 
         private void selectRandomNumberOfVisitsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1129,6 +1129,22 @@ namespace CHaMPWorkbench
                     }
                 }
             }
+        }
+
+        private void modelValidationReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<ListItem> lVisits = new List<ListItem>();
+
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                lVisits.Add(new ListItem(string.Format("{0} - {1} - Visit ID {2}", (string)r["WatershedName"], (string)r["SiteName"], (int)r["VisitID"]), (int)r["VisitID"]));
+            }
+
+            Validation.frmModelValidation frm = new Validation.frmModelValidation(m_dbCon.ConnectionString, ref lVisits);
+            frm.ShowDialog();
         }
     }
 }

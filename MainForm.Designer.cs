@@ -59,6 +59,8 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,8 +136,6 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -391,6 +391,18 @@
             this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
             this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
+            // 
+            // modelValidationReportsToolStripMenuItem
+            // 
+            this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
+            this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
+            this.modelValidationReportsToolStripMenuItem.Click += new System.EventHandler(this.modelValidationReportsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1052,17 +1064,6 @@
             this.viewSiteLocationMapToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
-            // 
-            // modelValidationReportsToolStripMenuItem
-            // 
-            this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
-            this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
             // 
             // MainForm
             // 
