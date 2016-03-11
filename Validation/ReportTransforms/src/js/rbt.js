@@ -8,17 +8,20 @@ var data = [
   [ ["2013"], [8000,3294,17633,12121,4319,18712,17270,13676,6587,16754] ],
   [ ["2014"], [20000,5629,5752,7557,5125,5116,5828,6014,5995,8905] ]
 ]
-  // using an array of arrays with
-  // data[n][2] 
-  // where n = number of columns in the csv file 
-  // data[i][0] = name of the ith column
-  // data[i][1] = array of values of ith column
+// using an array of arrays with
+// data[n][2] 
+// where n = number of columns in the csv file 
+// data[i][0] = name of the ith column
+// data[i][1] = array of values of ith column
 
 var labels = true; // show the text labels beside individual boxplots?
+var totalwidth = $("#plot").width();
+var totalheight = 500;
 
-var margin = {top: 30, right: 50, bottom: 70, left: 50};
-var  width = 800 - margin.left - margin.right;
-var height = 400 - margin.top - margin.bottom;
+
+var margin = {top: 10, right: 20, bottom: 40, left: 20};
+var  width = totalwidth - margin.left - margin.right;
+var height = totalheight - margin.top - margin.bottom;
   
 var min = Infinity,
     max = -Infinity;
@@ -42,10 +45,11 @@ $(document).ready(function() {
   var svg = d3.select("#plot").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
+    .attr("viewbox", "0 0 " + totalwidth + " " + totalheight)
     .attr("class", "box")    
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+
   // the x-axis
   var x = d3.scale.ordinal()     
     .domain( data.map(function(d) { console.log(d); return d[0] } ) )     
