@@ -64,6 +64,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                             Visits[aVisit.Value].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, (float)dbRead[0]);
                         }
                     }
+                    dbRead.Close();
                 }
             }
         }
