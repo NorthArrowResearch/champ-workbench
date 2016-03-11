@@ -12,7 +12,7 @@ You don't need to do anything with node, grunt or sass if you just want to use t
 2. Place your new html file from the transform (`something.html`) next to `app.js` and `style.css` (found in the `/dist` folder of this repo).  
 3. Feel pretty good about yourself and your connection with the universe. Go have some tea or something. It's your life, I don't know.
 
-## How to `develop` XSL Reports
+## How to *develop* XSL Reports
 
 If you want to start editing XSL, CSS and JS you will need to get set up to compile these reports on the command line. This is assuming you already have `NodeJS` and `npm` (node package manager) installed and configured properly
 
@@ -79,19 +79,3 @@ To generate your html file manually use the following command (assuming you have
 ```
 xsltproc -o dist/report.html style.xsl data.xml
 ```
-
-## The Grunt way
-
-### Setting up: 
-
-```
-npm install
-```
-
-### Running:
-
-```
-grunt dev
-```
-
-Then make changes. Grunt will watch any files for changes and rebuild everything.
