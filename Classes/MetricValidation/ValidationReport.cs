@@ -10,12 +10,21 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     class ValidationReport
     {
-        private const int m_nValidationScavengeTypeID = 2;
-
+        // Full file path to the report XSL file
         private System.IO.FileInfo m_fiReportXSL;
+        
+        // Full file path to the output HTML report file.
         private System.IO.FileInfo m_fiOutputPath;
+
+        // Database connection string
         private string DBCon { get; set; }
 
+        /// <summary>
+        /// Create a new validation report generator
+        /// </summary>
+        /// <param name="sDBCon">Connection string to the database</param>
+        /// <param name="fiReportXSL">Full file path to the report XSL file</param>
+        /// <param name="fiOutputPath">Full file path to the output HTML report file.</param>
         public ValidationReport(string sDBCon, System.IO.FileInfo fiReportXSL, System.IO.FileInfo fiOutputPath)
         {
             DBCon = sDBCon;
@@ -23,39 +32,50 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             m_fiOutputPath = fiOutputPath;
         }
 
+        /// <summary>
+        /// Generate a new report.
+        /// </summary>
+        /// <param name="lVisits">List of visits to include in the report</param>
+        /// <returns>Creates an XML file containing all the metric data for the specified
+        /// visits and then uses an XSL transform to convert this file to a HTML report.</returns>
         public ValidationReportResults Run(List<ListItem> lVisits)
         {
-            // Loop through all scavenged results and produce a metric XML file for each.
+            // This return variable really just counts metrics and visits included in the report.
             ValidationReportResults theResult = new ValidationReportResults();
 
-            // Key = Metric Name, Value = [DatabaseTable].[DatabaseField]
+            // Load a dictionary of all metrics that are flagged as "Active" for validation.
+            // Then load the metric values for any visits in the argument list
             Dictionary<string, Metric> dValidationMetrics = RetrieveValidationMetrics();
+            theResult.Metrics = dValidationMetrics.Count;
 
-
-            // Get Unique list of tables being validated and the fields in use.
-            //Dictionary<string, List<string>> dUniqueTables = GetListOfUniqueTables(dValidationMetrics);
-
+            // Start a new XML document that will contain all the metric result data
             XmlDocument xmlDoc = new XmlDocument();
-
             XmlNode nodReport = xmlDoc.CreateElement("report");
             xmlDoc.AppendChild(nodReport);
 
-            //Create an XML declaration. 
+            // Create an XML declaration. 
             XmlDeclaration xmldecl;
             xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
             xmlDoc.InsertBefore(xmldecl, nodReport);
 
+            // Metadata about the report
             XmlNode nodDate = xmlDoc.CreateElement("date");
             nodDate.InnerText = DateTime.Now.ToString("d MMM yyyy");
             nodReport.AppendChild(nodDate);
 
+            // Start the node under which all metric results will be included.
             XmlNode nodMetrics = xmlDoc.CreateElement("metrics");
             nodReport.AppendChild(nodMetrics);
 
+            // If there are no
             List<ListItem> lVisitIDs = GetVisitIDs();
             if (lVisitIDs.Count < 1)
                 return theResult;
 
+            // Loop over all the validation metrics loaded.
+            // First load a single manual result value (if it exists)
+            // Second load all model run metric values
+            // Serialize the metrics to the XML document.
             foreach (Metric aMetric in dValidationMetrics.Values)
             {
                 System.Diagnostics.Debug.Print(string.Format("Metric {0} {1}", aMetric.MetricID, aMetric.Title));
@@ -64,8 +84,13 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 aMetric.LoadResults(DBCon, ref lVisits, false);
 
                 aMetric.Serialize(ref xmlDoc, ref nodMetrics);
-            }
 
+                theResult.Visits += aMetric.Visits.Count;
+            }            
+
+            //
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Now create and write the XML document to file and then transform it.
             try
             {
                 if (string.Compare(m_fiOutputPath.Extension, ".xml", true) == 0)
@@ -110,52 +135,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private string GetMetricSQLStatement(Metric theMetric, bool bManualMetricValues)
-        {
-            string sSQL = "SELECT V.MetricValue, R.RBTVersion";
-
-            switch (theMetric.GroupTypeID)
-            {
-                case 3: // visit metrics
-                    sSQL += " FROM Metric_Results R INNER JOIN Metric_VisitMetrics V ON R.ResultID = V.ResultID";
-                    break;
-
-                case 4: // tier 1 metrics
-
-                    break;
-
-                case 5: // tier 2 metrics
-
-                    break;
-
-                case 6: // Channel unit metrics
-                    break;
-            }
-
-            sSQL += string.Format(" WHERE (R.VisitID = @VisitID) AND (V.MetricID = {0}) AND (R.ScavengeTypeID {1} {2})", theMetric.MetricID, (bManualMetricValues) ? "=" : "<>", m_nValidationScavengeTypeID);
-            return sSQL;
-        }
-
-        private string GetFormattedRBTVersion(string sRawRBTVersion)
-        {
-            string[] sVersionParts = sRawRBTVersion.Split('.');
-            List<string> lVersionParts = new List<string>();
-
-            for (int i = 0; i < sVersionParts.Count<string>(); i++)
-            {
-                if (i == 0)
-                    lVersionParts.Add(sVersionParts[i]);
-                else
-                {
-                    int nVersionPart = 0;
-                    int.TryParse(sVersionParts[i], out nVersionPart);
-                    lVersionParts.Add(nVersionPart.ToString("00"));
-                }
-            }
-
-            return string.Join(".", lVersionParts.ToArray<string>());
-        }
-
         private List<ListItem> GetVisitIDs()
         {
             List<ListItem> lResult = new List<ListItem>();
@@ -181,23 +160,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             }
 
             return lResult;
-        }
-
-        private float GetMetricValue(ref OleDbDataReader dbRead, int nOrdinal)
-        {
-            float fResult = 0;
-            object objValue = dbRead[0];
-            float fTheValue;
-            if (!float.TryParse(objValue.ToString(), out fTheValue))
-            {
-                double ffValue;
-                if (double.TryParse(objValue.ToString(), out ffValue))
-                {
-                    fTheValue = (float)ffValue;
-                }
-            }
-            fResult = fTheValue;
-            return fResult;
         }
 
         private Dictionary<string, Metric> RetrieveValidationMetrics()
@@ -233,24 +195,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        //private Dictionary<string, List<string>> GetListOfUniqueTables(Dictionary<string, Metric> dValidationMetrics)
-        //{
-        //    Dictionary<string, List<string>> dResult = new Dictionary<string, List<string>>();
-
-        //    foreach (Metric m in dValidationMetrics.Values)
-        //    {
-        //        // Ensure that the db table is added to the dictionary
-        //        if (!dResult.Keys.Contains<string>(m.DBTable))
-        //            dResult.Add(m.DBTable, new List<string>());
-
-        //        // ensure that the db field is added to the list of fields for the table
-        //        if (!dResult[m.DBTable].Contains<string>(m.DBField))
-        //            dResult[m.DBTable].Add(m.DBField);
-        //    }
-
-        //    return dResult;
-        //}
-
         public class ValidationReportResults
         {
             public int Visits { get; set; }
@@ -262,25 +206,5 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 Metrics = 0;
             }
         }
-
-        //private class Metric
-        //{
-        //    public string Title { get; internal set; }
-        //    public int MetricID { get; internal set; }
-        //    public int GroupTypeID { get; internal set; }
-        //    public float Threshold { get; internal set; }
-        //    public bool IsActive { get; internal set; }
-        //    public string Units { get; internal set; }
-
-        //    public Metric(string sTitle, int nMetricID, int nGroupTypeID, float fThreshold, bool bIsActive)
-        //    {
-        //        Title = sTitle;
-        //        MetricID = nMetricID;
-        //        GroupTypeID = nGroupTypeID;
-        //        Threshold = fThreshold;
-        //        IsActive = bIsActive;
-        //        Units = string.Empty;
-        //    }
-        //}
     }
 }

@@ -7,8 +7,14 @@ using System.Data.OleDb;
 
 namespace CHaMPWorkbench.Classes.MetricValidation
 {
+    /// <summary>
+    /// Class representing a CHaMP metric.
+    /// </summary>
+    /// <remarks>Each metric is a record in the Metric_MetricDefinitions table in the 
+    /// Workbench database</remarks>
     public class Metric
     {
+        // This is the LookupListID for validation runs of models (e.g. Carol's manual RBT values)
         private const int m_nValidationScavengeTypeID = 2;
 
         public string Title { get; internal set; }
@@ -60,13 +66,51 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                             Visits[aVisit.Value].ManualResult = new MetricValueBase((float)dbRead[0]);
                         else
                         {
-                            string sModelVersion = dbRead.GetString(dbRead.GetOrdinal("RBTVersion"));
-                            Visits[aVisit.Value].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, (float)dbRead[0]);
+                            string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("RBTVersion")));
+                            float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
+                            Visits[aVisit.Value].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
                         }
                     }
                     dbRead.Close();
                 }
             }
+        }
+
+        private string GetFormattedRBTVersion(string sRawRBTVersion)
+        {
+            string[] sVersionParts = sRawRBTVersion.Split('.');
+            List<string> lVersionParts = new List<string>();
+
+            for (int i = 0; i < sVersionParts.Count<string>(); i++)
+            {
+                if (i == 0)
+                    lVersionParts.Add(sVersionParts[i]);
+                else
+                {
+                    int nVersionPart = 0;
+                    int.TryParse(sVersionParts[i], out nVersionPart);
+                    lVersionParts.Add(nVersionPart.ToString("00"));
+                }
+            }
+
+            return string.Join(".", lVersionParts.ToArray<string>());
+        }
+
+        private float GetMetricValue(ref OleDbDataReader dbRead, int nOrdinal)
+        {
+            float fResult = 0;
+            object objValue = dbRead[0];
+            float fTheValue;
+            if (!float.TryParse(objValue.ToString(), out fTheValue))
+            {
+                double ffValue;
+                if (double.TryParse(objValue.ToString(), out ffValue))
+                {
+                    fTheValue = (float)ffValue;
+                }
+            }
+            fResult = fTheValue;
+            return fResult;
         }
 
         private string MetricResultSQLStatement(bool bManualMetricValues)
