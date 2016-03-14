@@ -4,29 +4,28 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    // Run compass
-    // All the parameters below replace config.rb.
-    compass: {
-      options: {
-        watch: false,
-        cssDir: 'tmp',
-        sassDir: 'scss',
-        imagesDir: 'images',
-        javascriptsDir: 'js',
-        fontsDir: 'fonts',
-        httpPath: '/',
-        relativeAssets: true,
-        noLineComments: true,
-        importPath: [
-          'node_modules/bootstrap/scss'
-        ],
-      },
-      dist: {
-        options: {
-          environment: 'production',
+
+    // Grunt-sass 
+    sass: {
+      app: {
+        // Takes every file that ends with .scss from the scss 
+        // directory and compile them into the css directory. 
+        // Also changes the extension from .scss into .css. 
+        // Note: file name that begins with _ are ignored automatically
+        files: [{
+          sourceMap: true,
           outputStyle: 'compressed',
-        },
+          cwd: 'scss',
+          src: ['scss/**/*.scss'],
+          dest: 'tmp',
+          ext: '.css'
+        }]
       },
+      options: {
+        sourceMap: true, 
+        outputStyle: 'nested', 
+        imagePath: "../",
+      }
     },
 
     // Move our assets out of node_modules
@@ -145,7 +144,7 @@ module.exports = function(grunt) {
   });
 
   // Define the modules we need for these tasks:
-  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -155,7 +154,8 @@ module.exports = function(grunt) {
 
   // Here are our tasks 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['copy', 'compass', 'concat', 'regex-replace', 'exec']);
+  grunt.registerTask('build', ['copy', 'sass', 'concat', 'regex-replace']);
+  grunt.registerTask('buildsamples', ['build', 'exec']);
   grunt.registerTask('dev', ['watch']);
 
 };

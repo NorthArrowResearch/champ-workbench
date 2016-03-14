@@ -79,3 +79,9 @@ To generate your html file manually use the following command (assuming you have
 ```
 xsltproc -o dist/report.html style.xsl data.xml
 ```
+
+## How do I import a new library (like D3.js)
+
+1. Find the npm name for this library
+2. npm install it: `npm install -S d3`.
+3. Edit the grunt file. 
