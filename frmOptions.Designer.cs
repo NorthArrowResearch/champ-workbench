@@ -53,10 +53,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.cmdTestAWS = new System.Windows.Forms.Button();
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.cmdTestAWS = new System.Windows.Forms.Button();
+            this.cmdBrowseGUT = new System.Windows.Forms.Button();
+            this.txtGUT = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -91,7 +94,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 24);
+            this.label1.Location = new System.Drawing.Point(73, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 0;
@@ -101,9 +104,9 @@
             // 
             this.txtOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOptions.Location = new System.Drawing.Point(140, 20);
+            this.txtOptions.Location = new System.Drawing.Point(148, 20);
             this.txtOptions.Name = "txtOptions";
-            this.txtOptions.Size = new System.Drawing.Size(609, 20);
+            this.txtOptions.Size = new System.Drawing.Size(601, 20);
             this.txtOptions.TabIndex = 1;
             // 
             // cmdBrowseRBT
@@ -287,6 +290,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.cmdBrowseGUT);
+            this.tabPage3.Controls.Add(this.txtGUT);
+            this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.cmdBrowseRBT);
             this.tabPage3.Controls.Add(this.txtOptions);
             this.tabPage3.Controls.Add(this.label1);
@@ -295,7 +301,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(836, 238);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "RBT";
+            this.tabPage3.Text = "Models";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -311,6 +317,17 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Error Logging";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // cmdTestAWS
+            // 
+            this.cmdTestAWS.Location = new System.Drawing.Point(20, 200);
+            this.cmdTestAWS.Name = "cmdTestAWS";
+            this.cmdTestAWS.Size = new System.Drawing.Size(156, 23);
+            this.cmdTestAWS.TabIndex = 4;
+            this.cmdTestAWS.Text = "Test AWS Message Log";
+            this.cmdTestAWS.UseVisualStyleBackColor = true;
+            this.cmdTestAWS.Visible = false;
+            this.cmdTestAWS.Click += new System.EventHandler(this.cmdTestAWS_Click);
             // 
             // txtStreamName
             // 
@@ -340,16 +357,34 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // cmdTestAWS
+            // cmdBrowseGUT
             // 
-            this.cmdTestAWS.Location = new System.Drawing.Point(20, 200);
-            this.cmdTestAWS.Name = "cmdTestAWS";
-            this.cmdTestAWS.Size = new System.Drawing.Size(156, 23);
-            this.cmdTestAWS.TabIndex = 4;
-            this.cmdTestAWS.Text = "Test AWS Message Log";
-            this.cmdTestAWS.UseVisualStyleBackColor = true;
-            this.cmdTestAWS.Visible = false;
-            this.cmdTestAWS.Click += new System.EventHandler(this.cmdTestAWS_Click);
+            this.cmdBrowseGUT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseGUT.Location = new System.Drawing.Point(755, 49);
+            this.cmdBrowseGUT.Name = "cmdBrowseGUT";
+            this.cmdBrowseGUT.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseGUT.TabIndex = 5;
+            this.cmdBrowseGUT.Text = "Browse";
+            this.cmdBrowseGUT.UseVisualStyleBackColor = true;
+            this.cmdBrowseGUT.Click += new System.EventHandler(this.cmdBrowseGUT_Click);
+            // 
+            // txtGUT
+            // 
+            this.txtGUT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGUT.Location = new System.Drawing.Point(148, 50);
+            this.txtGUT.Name = "txtGUT";
+            this.txtGUT.Size = new System.Drawing.Size(601, 20);
+            this.txtGUT.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(136, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Geomorphic unit tool (GUT)";
             // 
             // frmOptions
             // 
@@ -412,5 +447,8 @@
         private System.Windows.Forms.Label lblStreamName;
         private System.Windows.Forms.CheckBox chkAWSLoggingEnabled;
         private System.Windows.Forms.Button cmdTestAWS;
+        private System.Windows.Forms.Button cmdBrowseGUT;
+        private System.Windows.Forms.TextBox txtGUT;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -19,6 +19,7 @@ namespace CHaMPWorkbench
         private void frmOptions_Load(object sender, EventArgs e)
         {
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
+            txtGUT.Text = CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath;
 
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
@@ -50,6 +51,18 @@ namespace CHaMPWorkbench
                 else
                 {
                     MessageBox.Show("The RBT Console software path must point to the RBT executable file (rbtconsole.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(txtGUT.Text))
+            {
+                if (System.IO.File.Exists(txtGUT.Text) && txtOptions.Text.EndsWith(".py"))
+                    CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath = txtGUT.Text;
+                else
+                {
+                    MessageBox.Show("The GUT python script path must point to a Python file (e.g. C:\\CHaMP\\GUT\\gut.py)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = System.Windows.Forms.DialogResult.None;
                     return;
                 }
@@ -88,11 +101,12 @@ namespace CHaMPWorkbench
 
         private void cmdBrowseRBT_Click(object sender, EventArgs e)
         {
-            BrowseExecutable("RBT Console Executable", ref txtOptions);
+            BrowseExecutable("RBT Console Executable", "Executable Files (*.exe)|*.exe", ref txtOptions);
         }
 
-        private void BrowseExecutable(string sTitle, ref TextBox txt)
+        private void BrowseExecutable(string sTitle, string sFileTypeFilter, ref TextBox txt)
         {
+            dlgBrowseExecutable.Filter = sFileTypeFilter;
             dlgBrowseExecutable.Title = sTitle;
             if (!String.IsNullOrWhiteSpace(txt.Text) && System.IO.File.Exists(txt.Text))
             {
@@ -175,6 +189,11 @@ namespace CHaMPWorkbench
             {
                 MessageBox.Show("You must enable sharing exceptions with developers before this tool can be used.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void cmdBrowseGUT_Click(object sender, EventArgs e)
+        {
+            BrowseExecutable("Geomorphic Unit Tool", "Python Scripts (*.py)|*.py", ref txtGUT);
         }
     }
 }

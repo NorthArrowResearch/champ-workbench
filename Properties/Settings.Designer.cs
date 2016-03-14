@@ -271,5 +271,17 @@ namespace CHaMPWorkbench.Properties {
                 return ((string)(this["AWSSecret"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GUTPythonPath {
+            get {
+                return ((string)(this["GUTPythonPath"]));
+            }
+            set {
+                this["GUTPythonPath"] = value;
+            }
+        }
     }
 }
