@@ -8,7 +8,7 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 {
     public abstract class CSVGeneratorBase
     {
-        protected string DBCon { get; internal set; }
+        public string DBCon { get; internal set; }
 
         public CSVGeneratorBase(string sDBCon)
         {

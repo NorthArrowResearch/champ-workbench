@@ -69,8 +69,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             XmlNode nodDate = xmlDoc.CreateElement("date");
             nodDate.InnerText = DateTime.Now.ToString();
             nodCreated.AppendChild(nodTool);
- 
-            return xmlDoc
+
+            return xmlDoc;
         }
 
         /// <summary>

@@ -27,12 +27,12 @@ namespace CHaMPWorkbench.RBTInputFile
         {
             try
             {
-                RefreshVisitPaths();
+               Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_lVisitIDs, ref lstVisits);
 
                 ucConfig.ManualInitialization();
 
                 txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
-                txtInputFileRoot.Text = Classes.InputFileBuilder.m_sDefaultRBTInputXMLFileName;
+                txtInputFileRoot.Text = Classes.ModelInputFiles.RBT_InputFileBuilder.m_sDefaultRBTInputXMLFileName;
 #if DEBUG
                 txtBatch.Text = txtBatch.Text + "_debug";
 #endif
@@ -61,27 +61,7 @@ namespace CHaMPWorkbench.RBTInputFile
             }
         }
 
-        private void RefreshVisitPaths()
-        {
-            lstVisits.Items.Clear();
 
-            OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
-               " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
-               " WHERE (V.VisitYear Is Not Null) AND (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-            {
-                int nVisitID = (int)dbRead["VisitID"];
-                if (m_lVisitIDs.Contains<int>(nVisitID))
-                {
-                    System.IO.DirectoryInfo dVisitTopoFolder = null;
-
-                    string sPath = string.Format("{0}\\{1}\\{2}\\VISIT_{3}", dbRead["VisitYear"], dbRead["WatershedName"].ToString().Replace(" ", ""), dbRead["SiteName"].ToString().Replace(" ", ""), nVisitID);
-                    lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
-                }
-            }
-
-        }
 
         private void cmdBrowseFolder_Click(object sender, EventArgs e)
         {
@@ -177,7 +157,7 @@ namespace CHaMPWorkbench.RBTInputFile
                 Classes.Config rbtConfig = ucConfig.GetRBTConfig();
                 Classes.Outputs rbtOutputs = ucConfig.GetRBTOutputs(txtOutputFolder.Text);
 
-                Classes.BatchInputfileBuilder theBatch = new Classes.BatchInputfileBuilder(m_dbCon, m_lVisitIDs, rbtConfig, rbtOutputs);
+                Classes.ModelInputFiles.BatchInputfileBuilder theBatch = new Classes.ModelInputFiles.BatchInputfileBuilder(m_dbCon, m_lVisitIDs, rbtConfig, rbtOutputs);
 
                 theBatch.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
                 theBatch.Config.ChangeDetectionConfig.ClearMasks();
@@ -212,7 +192,7 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void txtMonitoringDataFolder_TextChanged(object sender, EventArgs e)
         {
-            RefreshVisitPaths();
+            Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_lVisitIDs, ref lstVisits);
         }
     }
 }

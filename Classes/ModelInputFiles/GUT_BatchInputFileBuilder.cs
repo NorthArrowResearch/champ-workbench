@@ -51,14 +51,14 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                         m_Inputs.Serialize(ref xmlDoc, ref nodInputs);
 
-                        System.IO.FileInfo fiSubstrate = GenerateSubstrateCSV();
+                        System.IO.FileInfo fiSubstrate = GenerateSubstrateCSV(aVisit.VisitID);
                         if (fiSubstrate is System.IO.FileInfo)
                         {
                            XmlNode nodSubstate = xmlDoc.CreateElement("substrate_csv_path");
                             nodSubstate.InnerText=fiSubstrate.FullName;
                             nodInputs.AppendChild(nodSubstate);
 
-                            System.IO.FileInfo fiWood = GenerateWoodCSV();
+                            System.IO.FileInfo fiWood = GenerateWoodCSV(aVisit.VisitID);
                             if (fiWood is System.IO.FileInfo)
                             {
                                 XmlNode nodWood = xmlDoc.CreateElement("lwp_csv_path");
@@ -84,20 +84,20 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             if (DataFolders.Visit(MonitoringDataFolder, nVisitID, out dVisitFolder))
             {
                 string sSubstrateCSV = System.IO.Path.Combine(DataFolders.GUTOutputFolder(OutputFolder.FullName, dVisitFolder).FullName, string.Format("substrate_visit_{0}.csv", nVisitID));
-                ChannelUnitCSVGenerator csvGen = new ChannelUnitCSVGenerator(DBCon);
+               CSVGenerators.ChannelUnitCSVGenerator csvGen = new CSVGenerators.ChannelUnitCSVGenerator(DBCon);
                 fiSubstrate = csvGen.Run(nVisitID, sSubstrateCSV);
             }
             return fiSubstrate;
         }
 
-        private System.IO.FileInfo GenerateWoodCSV()
+        private System.IO.FileInfo GenerateWoodCSV(int nVisitID)
         {
             System.IO.FileInfo fiWood = null;
             System.IO.DirectoryInfo dVisitFolder = null;
             if (DataFolders.Visit(MonitoringDataFolder, nVisitID, out dVisitFolder))
             {
                 string sSubstrateCSV = System.IO.Path.Combine(DataFolders.GUTOutputFolder(OutputFolder.FullName, dVisitFolder).FullName, string.Format("substrate_visit_{0}.csv", nVisitID));
-                ChannelUnitCSVGenerator csvGen = new ChannelUnitCSVGenerator(DBCon);
+                CSVGenerators.WoodCSVGenerator csvGen = new CSVGenerators.WoodCSVGenerator(DBCon);
                 fiWood = csvGen.Run(nVisitID, sSubstrateCSV);
             }
             return fiWood;

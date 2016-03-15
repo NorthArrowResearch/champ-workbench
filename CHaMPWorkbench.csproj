@@ -94,12 +94,16 @@
   <ItemGroup>
     <Compile Include="Classes\AccessIDHelper.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
-    <Compile Include="Classes\BatchInputfileBuilder.cs" />
+    <Compile Include="Classes\CSVGenerators\CSVGeneratorBase.cs" />
+    <Compile Include="Classes\ModelInputFiles\BatchInputFileBuilderBase.cs" />
+    <Compile Include="Classes\ModelInputFiles\GUTInputProperties.cs" />
+    <Compile Include="Classes\ModelInputFiles\GUT_BatchInputFileBuilder.cs" />
+    <Compile Include="Classes\ModelInputFiles\RBT_BatchInputfileBuilder.cs" />
     <Compile Include="Classes\BudgetSegregation.cs" />
     <Compile Include="Classes\CHaMPData.cs" />
     <Compile Include="Classes\ChannelSegment.cs" />
     <Compile Include="Classes\ChannelUnit.cs" />
-    <Compile Include="Classes\ChannelUnitCSVGenerator.cs" />
+    <Compile Include="Classes\CSVGenerators\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\ExceptionHandling\AWSCloudWatch\AWSCloudWatchSingleton.cs" />
@@ -112,7 +116,8 @@
     </Compile>
     <Compile Include="Classes\ExceptionHandling\NARException.cs" />
     <Compile Include="Classes\FileSystem.cs" />
-    <Compile Include="Classes\InputFileBuilder.cs" />
+    <Compile Include="Classes\ModelInputFiles\RBT_InputFileBuilder.cs" />
+    <Compile Include="Classes\ModelInputFiles\InputFileBuilder_Helper.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\Outputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
@@ -129,6 +134,7 @@
     <Compile Include="Classes\Visit.cs" />
     <Compile Include="Classes\DataFolders.cs" />
     <Compile Include="Classes\Watershed.cs" />
+    <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
     <Compile Include="Data\frmClearDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,12 @@
     </Compile>
     <Compile Include="frmSelectVisits.Designer.cs">
       <DependentUpon>frmSelectVisits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUT\frmGUTInputXMLBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUT\frmGUTInputXMLBuilder.Designer.cs">
+      <DependentUpon>frmGUTInputXMLBuilder.cs</DependentUpon>
     </Compile>
     <Compile Include="Habitat\dsHabitat.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -319,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectVisits.resx">
       <DependentUpon>frmSelectVisits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUT\frmGUTInputXMLBuilder.resx">
+      <DependentUpon>frmGUTInputXMLBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>
@@ -479,6 +494,7 @@
     <Content Include="Validation\ReportTransforms\dist\rbt_manual.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\docGUT.png" />
     <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />
     <None Include="Resources\SelectAll.png" />

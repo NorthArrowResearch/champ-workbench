@@ -17,9 +17,12 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         public BatchInputfileBuilder(OleDbConnection dbCon, List<int> lVisitIDs, Classes.Config rbtConfig, Classes.Outputs rbtOutputs)
             : base(rbtConfig, rbtOutputs)
         {
-            m_lVisitIDs = lVisitIDs;
             m_dbCon = dbCon;
 
+            lVisits  = new List<BatchInputFileBuilderBase.BatchVisits>();
+            foreach (int nVisitID in lVisitIDs)
+                lVisits.Add(new BatchInputFileBuilderBase.BatchVisits(nVisitID));
+            
             dsData = new RBTWorkbenchDataSet();
 
             RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter taWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
@@ -115,13 +118,13 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                     OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
 
-                    foreach (int nTargetVisitID in m_lVisitIDs)
+                    foreach ( BatchInputFileBuilderBase.BatchVisits aVisit in lVisits)
                     {
                         Site theSite = null;
                         System.IO.FileInfo dInputFile = null;
                         bool bContinue = true;
 
-                        pVisitID.Value = nTargetVisitID;
+                        pVisitID.Value = aVisit.VisitID;
                         OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
                         while (dbRead.Read() && bContinue)
                         {
@@ -136,7 +139,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                                 theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
 
-                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, dParentTopoDataFolder, nTargetVisitID, true, bForcePrimary);
+                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, dParentTopoDataFolder, aVisit.VisitID, true, bForcePrimary);
                                 if (dVisitTopoFolder is System.IO.DirectoryInfo)
                                 {
                                     // If got to here then the data paths were retrieved and point to real data that exist.
@@ -165,7 +168,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                             pSummary.Value = theSite.NameForDatabaseBatch;
                             pInputfile.Value = dInputFile.FullName.Replace("/", "\\");
-                            pPrimaryVisitID.Value = nTargetVisitID;
+                            pPrimaryVisitID.Value = aVisit.VisitID;
                             dbInsert.ExecuteNonQuery();
                             nSuccess += 1;
                         }

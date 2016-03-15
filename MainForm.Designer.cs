@@ -1,4 +1,4 @@
-﻿namespace CHaMPWorkbench
+﻿ CHaMPWorkbench
 {
     partial class MainForm
     {
@@ -59,6 +59,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.geomorphicUnitToolGUTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -136,6 +137,10 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildInputFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectBatchesToRunToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSelectedBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -266,6 +271,7 @@
             this.gCDToolStripMenuItem,
             this.habitatToolStripMenuItem,
             this.delft3DToolStripMenuItem,
+            this.geomorphicUnitToolGUTToolStripMenuItem,
             this.toolStripSeparator8,
             this.modelValidationReportsToolStripMenuItem,
             this.toolStripSeparator1,
@@ -286,7 +292,7 @@
             this.validationReportToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
-            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(216, 22);
+            this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
             this.rBTToolStripMenuItem1.Text = "RBT";
             // 
             // buildInputFilesToolStripMenuItem
@@ -343,7 +349,7 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem});
             this.gCDToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.gcd_icon;
             this.gCDToolStripMenuItem.Name = "gCDToolStripMenuItem";
-            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.gCDToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.gCDToolStripMenuItem.Text = "GCD";
             this.gCDToolStripMenuItem.Visible = false;
             // 
@@ -360,7 +366,7 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
-            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.habitatToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.habitatToolStripMenuItem.Text = "Habitat";
             // 
             // generateBatchHabitatProjectToolStripMenuItem
@@ -382,7 +388,7 @@
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cSVToRasterToolStripMenuItem});
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
-            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
             this.delft3DToolStripMenuItem.Visible = false;
             // 
@@ -396,6 +402,22 @@
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
+            // geomorphicUnitToolGUTToolStripMenuItem
+            // 
+            this.geomorphicUnitToolGUTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buildInputFilesToolStripMenuItem1,
+            this.toolStripSeparator13,
+            this.selectBatchesToRunToolStripMenuItem1,
+            this.runSelectedBatchesToolStripMenuItem});
+            this.geomorphicUnitToolGUTToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.docGUT;
+            this.geomorphicUnitToolGUTToolStripMenuItem.Name = "geomorphicUnitToolGUTToolStripMenuItem";
+            this.geomorphicUnitToolGUTToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.geomorphicUnitToolGUTToolStripMenuItem.Text = "Geomorphic Unit Tool (GUT)";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(223, 6);
             // 
             // modelValidationReportsToolStripMenuItem
             // 
@@ -407,13 +429,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(223, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -1065,6 +1087,33 @@
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
             // 
+            // buildInputFilesToolStripMenuItem1
+            // 
+            this.buildInputFilesToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml;
+            this.buildInputFilesToolStripMenuItem1.Name = "buildInputFilesToolStripMenuItem1";
+            this.buildInputFilesToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
+            this.buildInputFilesToolStripMenuItem1.Text = "Build Input Files...";
+            this.buildInputFilesToolStripMenuItem1.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(196, 6);
+            // 
+            // selectBatchesToRunToolStripMenuItem1
+            // 
+            this.selectBatchesToRunToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.CheckControlNetwork;
+            this.selectBatchesToRunToolStripMenuItem1.Name = "selectBatchesToRunToolStripMenuItem1";
+            this.selectBatchesToRunToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
+            this.selectBatchesToRunToolStripMenuItem1.Text = "Select Batches To Run...";
+            // 
+            // runSelectedBatchesToolStripMenuItem
+            // 
+            this.runSelectedBatchesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.docGUT;
+            this.runSelectedBatchesToolStripMenuItem.Name = "runSelectedBatchesToolStripMenuItem";
+            this.runSelectedBatchesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.runSelectedBatchesToolStripMenuItem.Text = "Run Selected Batches...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1209,6 +1258,11 @@
         private System.Windows.Forms.ToolStripMenuItem selectRandomNumberOfVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem modelValidationReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem geomorphicUnitToolGUTToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildInputFilesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem selectBatchesToRunToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem runSelectedBatchesToolStripMenuItem;
 
     }
 }

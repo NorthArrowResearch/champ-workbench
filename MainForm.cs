@@ -866,7 +866,7 @@ namespace CHaMPWorkbench
                     sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
                     System.IO.Directory.CreateDirectory(sTopoFolder);
                     sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
-                    Classes.ChannelUnitCSVGenerator csv = new Classes.ChannelUnitCSVGenerator(ref m_dbCon);
+                    Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(m_dbCon.ConnectionString);
                     csv.Run((int)r["VisitID"], sTopoFolder);
 
                     if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
