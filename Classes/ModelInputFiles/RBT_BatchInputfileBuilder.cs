@@ -5,12 +5,12 @@ using System.Text;
 using System.Data.OleDb;
 using System.Xml;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
-    public class BatchInputfileBuilder : InputFileBuilder
+    public class BatchInputfileBuilder : RBT_InputFileBuilder
     {
         private OleDbConnection m_dbCon;
-        private List<int> m_lVisitIDs;
+        private List<BatchInputFileBuilderBase.BatchVisits> lVisits;
 
         private RBTWorkbenchDataSet dsData;
 

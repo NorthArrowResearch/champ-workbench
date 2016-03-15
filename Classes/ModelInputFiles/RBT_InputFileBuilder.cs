@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
-    public class InputFileBuilder
+    public class RBT_InputFileBuilder
     {
         protected Config m_Config;
         protected Outputs m_Outputs;
 
         public const string m_sDefaultRBTInputXMLFileName = "rbt_input.xml";
 
-        public InputFileBuilder(Config theConfig, Outputs theOutputs)
+        public RBT_InputFileBuilder(Config theConfig, Outputs theOutputs)
         {
             m_Config = theConfig;
             m_Outputs = theOutputs;
