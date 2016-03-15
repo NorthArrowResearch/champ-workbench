@@ -53,13 +53,21 @@ namespace CHaMPWorkbench.GUT
                 return;
             }
 
+            Classes.ModelInputFiles.GUTInputProperties gutProperties = new Classes.ModelInputFiles.GUTInputProperties(val_low_slope.Value, val_high_slope.Value,
+                val_low_cm_slope.Value, val_high_cm_slope.Value, val_fw_reliedf.Value, val_low_hadbf.Value, val_up_hadbf.Value, val_low_bf_distance.Value, val_high_bf_distance.Value,
+                valLowRelief.Value, valHighRelief.Value);
 
+            Classes.ModelInputFiles.GUT_BatchInputFileBuilder gutBuilder = new Classes.ModelInputFiles.GUT_BatchInputFileBuilder(m_sDBCon, txtBatch.Text, chkClearOtherBatches.Checked,
+                txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_lVisitIDs, txtInputFile.Text, gutProperties);
 
-
-
-
-
-
+            try
+            {
+                gutBuilder.Run();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private bool ValidateForm()
@@ -76,6 +84,24 @@ namespace CHaMPWorkbench.GUT
                 MessageBox.Show("You must provide a name for the batch.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtBatch.Select();
                 return false;
+            }
+            else
+            {
+                // check that the batch name is unique
+                using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(m_sDBCon))
+                {
+                    dbCon.Open();
+
+                    System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT ID FROM Model_Batches WHERE BatchName = @BatchName", dbCon);
+                    dbCom.Parameters.AddWithValue("@BatchName", txtBatch.Text);
+                    object obj = dbCom.ExecuteScalar();
+                    if (obj != null & obj != DBNull.Value)
+                    {
+                        MessageBox.Show(string.Format("A batch with the name '{0}' already exists in the Workbench database. Please choose a unique name.", txtBatch.Text), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtBatch.Select();
+                        return false;
+                    }
+                }
             }
 
             if (string.IsNullOrEmpty(txtMonitoringDataFolder.Text) || !System.IO.Directory.Exists(txtMonitoringDataFolder.Text))

@@ -16,6 +16,8 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
         {
             using (OleDbConnection dbCon = new OleDbConnection(DBCon))
             {
+                dbCon.Open();
+
                 OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, " +
                     " C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover," +
                     " W.WatershedName, V.SampleDate, V.CrewName, V.PanelName,C.ID As ChannelUnitID, S.SegmentNumber, S.SegmentName" +

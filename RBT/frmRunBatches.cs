@@ -57,9 +57,9 @@ namespace CHaMPWorkbench.RBT
                 txtRBTConsole.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
 
             int nRuns = 0;
-            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(RBT_BatchRuns.Run) AS CountOfRun" +
-                " FROM RBT_Batches RIGHT JOIN RBT_BatchRuns ON RBT_Batches.ID = RBT_BatchRuns.BatchID" +
-                " WHERE (RBT_BatchRuns.Run <> 0)", m_dbCon))
+            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(Model_BatchRuns.Run) AS CountOfRun" +
+                " FROM Model_Batches RIGHT JOIN Model_BatchRuns ON RBT_Batches.ID = Model_BatchRuns.BatchID" +
+                " WHERE (Model_BatchRuns.Run <> 0)", m_dbCon))
             {
                 nRuns = (int)dbCom.ExecuteScalar();
             }

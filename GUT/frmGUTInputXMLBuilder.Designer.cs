@@ -49,8 +49,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.valHighRelief = new System.Windows.Forms.NumericUpDown();
+            this.valLowRelief = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.val_fw_reliedf = new System.Windows.Forms.NumericUpDown();
@@ -78,8 +78,8 @@
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valHighRelief)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valLowRelief)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_fw_reliedf)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.val_high_bf_distance)).BeginInit();
@@ -316,8 +316,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.numericUpDown2);
+            this.groupBox3.Controls.Add(this.valHighRelief);
+            this.groupBox3.Controls.Add(this.valLowRelief);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Location = new System.Drawing.Point(237, 234);
@@ -327,27 +327,27 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Relief";
             // 
-            // numericUpDown1
+            // valHighRelief
             // 
-            this.numericUpDown1.DecimalPlaces = 1;
-            this.numericUpDown1.Location = new System.Drawing.Point(97, 52);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 12;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.valHighRelief.DecimalPlaces = 1;
+            this.valHighRelief.Location = new System.Drawing.Point(97, 52);
+            this.valHighRelief.Name = "valHighRelief";
+            this.valHighRelief.Size = new System.Drawing.Size(120, 20);
+            this.valHighRelief.TabIndex = 12;
+            this.valHighRelief.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // numericUpDown2
+            // valLowRelief
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Location = new System.Drawing.Point(97, 26);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 10;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.valLowRelief.DecimalPlaces = 1;
+            this.valLowRelief.Location = new System.Drawing.Point(97, 26);
+            this.valLowRelief.Name = "valLowRelief";
+            this.valLowRelief.Size = new System.Drawing.Size(120, 20);
+            this.valLowRelief.TabIndex = 10;
+            this.valLowRelief.Value = new decimal(new int[] {
             8,
             0,
             0,
@@ -613,8 +613,8 @@
             this.tabPage2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valHighRelief)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valLowRelief)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_fw_reliedf)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -670,8 +670,8 @@
         private System.Windows.Forms.NumericUpDown val_low_slope;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown valHighRelief;
+        private System.Windows.Forms.NumericUpDown valLowRelief;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         internal System.Windows.Forms.TextBox txtInputFile;

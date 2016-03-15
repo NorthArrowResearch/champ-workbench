@@ -283,5 +283,23 @@ namespace CHaMPWorkbench.Properties {
                 this["GUTPythonPath"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int ModelType_RBT {
+            get {
+                return ((int)(this["ModelType_RBT"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int ModelType_GUT {
+            get {
+                return ((int)(this["ModelType_GUT"]));
+            }
+        }
     }
 }

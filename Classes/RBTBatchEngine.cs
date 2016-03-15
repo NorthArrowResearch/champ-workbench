@@ -50,7 +50,7 @@ namespace CHaMPWorkbench.Classes
             ///''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
             // Get all of the active runs
             //
-            OleDbCommand dbCom = new OleDbCommand("SELECT R.*, B.BatchName FROM RBT_Batches B RIGHT JOIN RBT_BatchRuns R ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", m_dbCon);
+            OleDbCommand dbCom = new OleDbCommand("SELECT R.*, B.BatchName FROM Model_Batches B RIGHT JOIN Model_BatchRuns R ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", m_dbCon);
             OleDbDataReader dbRdr = dbCom.ExecuteReader();
             Dictionary<int, RBTRun> dFiles = new Dictionary<int, RBTRun>();
             while (dbRdr.Read())
@@ -74,7 +74,7 @@ namespace CHaMPWorkbench.Classes
             {
                 sInputFile = aRun.InputFile;
 
-                dbCom = new OleDbCommand("UPDATE RBT_BatchRuns SET Run = 0, DateTimeStarted = Now(), DateTimeCompleted = NULL WHERE ID = @ID", m_dbCon);
+                dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeStarted = Now(), DateTimeCompleted = NULL WHERE ID = @ID", m_dbCon);
                 dbCom.Parameters.AddWithValue("ID", aRun.ID);
                 dbCom.ExecuteNonQuery();
 
@@ -119,7 +119,7 @@ namespace CHaMPWorkbench.Classes
                     {
                     }
 
-                    dbCom = new OleDbCommand("UPDATE RBT_BatchRuns SET DateTimeCompleted = Now() WHERE ID = @ID", m_dbCon);
+                    dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET DateTimeCompleted = Now() WHERE ID = @ID", m_dbCon);
                     dbCom.Parameters.AddWithValue("ID", aRun.ID);
                     dbCom.ExecuteNonQuery();
 

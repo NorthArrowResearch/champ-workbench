@@ -24,7 +24,7 @@ namespace CHaMPWorkbench.Experimental.Philip
         {
             try
             {
-                OleDbCommand dbCom = new OleDbCommand("SELECT ID, BatchName FROM RBT_Batches WHERE BatchName IS NOT NULL", m_dbCon);
+                OleDbCommand dbCom = new OleDbCommand("SELECT ID, BatchName FROM Model_Batches WHERE BatchName IS NOT NULL", m_dbCon);
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     cboBatches.Items.Add(new ListItem((string)dbRead["BatchName"], (int)dbRead["ID"]));
@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             {
                 try
                 {
-                    OleDbCommand dbCom = new OleDbCommand(" UPDATE CHAMP_Visits INNER JOIN RBT_BatchRuns ON CHAMP_Visits.VisitID = RBT_BatchRuns.PrimaryVisitID SET RBT_BatchRuns.Run = 1 WHERE (((CHAMP_Visits.IsBridge)<>0) AND ((RBT_BatchRuns.BatchID)=[?]))", m_dbCon);
+                    OleDbCommand dbCom = new OleDbCommand(" UPDATE CHAMP_Visits INNER JOIN Model_BatchRuns ON CHAMP_Visits.VisitID = Model_BatchRuns.PrimaryVisitID SET Model_BatchRuns.Run = 1 WHERE (((CHAMP_Visits.IsBridge)<>0) AND ((Model_BatchRuns.BatchID)=[?]))", m_dbCon);
                     dbCom.Parameters.AddWithValue("ID", ((ListItem)cboBatches.SelectedItem).Value);
                     dbCom.ExecuteNonQuery();
                     MessageBox.Show("Process completed successfully.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -18,6 +18,8 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
         {
             using (OleDbConnection dbCon = new OleDbConnection(DBCon))
             {
+                dbCon.Open();
+
                 OleDbCommand dbCom = new OleDbCommand("SELECT C.ChannelUnitNumber, C.LargeWoodCount FROM CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID WHERE (S.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbCon);
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
 

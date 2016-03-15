@@ -81,5 +81,11 @@
     <Setting Name="GUTPythonPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ModelType_RBT" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="ModelType_GUT" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

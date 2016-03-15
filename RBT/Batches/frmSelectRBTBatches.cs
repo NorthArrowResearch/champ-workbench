@@ -24,7 +24,7 @@ namespace CHaMPWorkbench
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            using (OleDbCommand dbUpdateRun = new OleDbCommand("UPDATE RBT_BatchRuns SET Run = ? WHERE ID = ?", m_dbCon))
+            using (OleDbCommand dbUpdateRun = new OleDbCommand("UPDATE Model_BatchRuns SET Run = ? WHERE ID = ?", m_dbCon))
             {
                 OleDbParameter pBatchRunRun = dbUpdateRun.Parameters.Add("BatchRun", OleDbType.Boolean);
                 OleDbParameter pRunID = dbUpdateRun.Parameters.Add("BatchID", OleDbType.Integer);
@@ -62,9 +62,9 @@ namespace CHaMPWorkbench
             if (m_dbCon.State == ConnectionState.Closed)
                 m_dbCon.Open();
 
-            //using (OleDbCommand dbBatches = new OleDbCommand("SELECT ID, BatchName, Run FROM RBT_Batches ORDER BY CreatedOn DESC", m_dbCon))
+            //using (OleDbCommand dbBatches = new OleDbCommand("SELECT ID, BatchName, Run FROM Model_Batches ORDER BY CreatedOn DESC", m_dbCon))
             //{
-            //    using (OleDbCommand dbRuns = new OleDbCommand("SELECT ID, BatchID, Summary, Run FROM RBT_BatchRuns WHERE BatchID = ?", m_dbCon))
+            //    using (OleDbCommand dbRuns = new OleDbCommand("SELECT ID, BatchID, Summary, Run FROM Model_BatchRuns WHERE BatchID = ?", m_dbCon))
             //    {
             //        OleDbParameter pBatchID = dbRuns.Parameters.Add("BatchID", OleDbType.Integer);
 
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench
             TreeNode nodRun = null;
 
             using (OleDbCommand dbBatches = new OleDbCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, R.Summary, R.Run" +
-                " FROM RBT_Batches AS B Right JOIN RBT_BatchRuns AS R ON B.ID = R.BatchID" +
+                " FROM Model_Batches AS B Right JOIN Model_BatchRuns AS R ON B.ID = R.BatchID" +
                 " WHERE R.Inputfile Is Not Null" +
                 " ORDER BY R.BatchID, B.CreatedOn DESC", m_dbCon))
             {

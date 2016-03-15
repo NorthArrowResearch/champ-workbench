@@ -89,18 +89,18 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                 if (bClearOtherBatches)
                 {
                     // Make all existing RBT batches set to NOT run
-                    OleDbCommand dbUpdate = new OleDbCommand("UPDATE RBT_BatchRuns SET Run = False", m_dbCon, dbTrans);
+                    OleDbCommand dbUpdate = new OleDbCommand("UPDATE Model_BatchRuns SET Run = False", m_dbCon, dbTrans);
                     dbUpdate.ExecuteNonQuery();
                 }
 
-                OleDbCommand dbInsert = new OleDbCommand("INSERT INTO RBT_Batches (BatchName) Values (?)", m_dbCon, dbTrans);
+                OleDbCommand dbInsert = new OleDbCommand("INSERT INTO Model_Batches (BatchName) Values (?)", m_dbCon, dbTrans);
                 dbInsert.Parameters.AddWithValue("BatchName", sBatchName);
                 dbInsert.ExecuteNonQuery();
 
                 dbInsert = new OleDbCommand("SELECT @@Identity", m_dbCon, dbTrans);
                 long nBatchID = (int)dbInsert.ExecuteScalar();
 
-                dbInsert = new OleDbCommand("INSERT INTO RBT_BatchRuns (BatchID, Summary, InputFile, PrimaryVisitID) Values (@BatchID, @Summary, @InputFile, @PrimaryVisitID)", m_dbCon, dbTrans);
+                dbInsert = new OleDbCommand("INSERT INTO Model_BatchRuns (BatchID, Summary, InputFile, PrimaryVisitID) Values (@BatchID, @Summary, @InputFile, @PrimaryVisitID)", m_dbCon, dbTrans);
                 dbInsert.Parameters.AddWithValue("@BatchID", nBatchID);
                 OleDbParameter pSummary = dbInsert.Parameters.Add("@Summary", OleDbType.VarChar);
                 OleDbParameter pInputfile = dbInsert.Parameters.Add("@InputFile", OleDbType.VarChar);

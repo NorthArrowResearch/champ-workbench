@@ -24,7 +24,7 @@ namespace CHaMPWorkbench.Data
         {
             Classes.ClearDatabase clr = new Classes.ClearDatabase(m_dbCon);
             if (chkRBTBatches.Checked)
-                clr.AddSQLStatementToClear("DELETE FROM RBT_Batches", "RBT batches cleared");
+                clr.AddSQLStatementToClear("DELETE FROM Model_Batches", "Model batches cleared");
 
             if (chkRBTLogs.Checked)
                 clr.AddSQLStatementToClear("DELETE FROM LogFiles", "RBT log files cleared");

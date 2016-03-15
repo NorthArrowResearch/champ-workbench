@@ -24,7 +24,7 @@ namespace CHaMPWorkbench.RBT.Batches
         {
             try
             {
-                using (OleDbCommand dbCom = new OleDbCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM RBT_Batches AS B INNER JOIN RBT_BatchRuns AS R ON B.ID = R.BatchID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", m_dbCon))
+                using (OleDbCommand dbCom = new OleDbCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM Model_Batches AS B INNER JOIN Model_BatchRuns AS R ON B.ID = R.BatchID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", m_dbCon))
                 {
                     OleDbDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
@@ -76,7 +76,7 @@ namespace CHaMPWorkbench.RBT.Batches
             try
             {
                 // Set all runs to not run. Optionally restrict this query to just the current batch.
-                string sSQL = "UPDATE RBT_BatchRuns SET Run = False";
+                string sSQL = "UPDATE Model_BatchRuns SET Run = False";
                 if (rdoLeaveOtherBatches.Checked)
                     sSQL += " WHERE BatchID = @BatchID";
 
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.RBT.Batches
 
                 dbCom.ExecuteNonQuery();
 
-                sSQL = string.Format("UPDATE RBT_BatchRuns SET Run = True WHERE ID IN (SELECT TOP {0} ID from RBT_BatchRuns WHERE (BatchID = {1}) ORDER BY rnd(ID))", valSize.Value, nBatchID);
+                sSQL = string.Format("UPDATE Model_BatchRuns SET Run = True WHERE ID IN (SELECT TOP {0} ID from Model_BatchRuns WHERE (BatchID = {1}) ORDER BY rnd(ID))", valSize.Value, nBatchID);
                 dbCom = new OleDbCommand(sSQL, m_dbCon, dbTrans);
                 dbCom.ExecuteNonQuery();
 

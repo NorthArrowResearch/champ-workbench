@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         {
             System.Xml.XmlNode nodValue = xmlDoc.CreateElement(sNodeName);
             nodValue.InnerText = fValue.ToString();
-            nodParent.AppendChild(nodParent);
+            nodParent.AppendChild(nodValue);
         }
     }
 }

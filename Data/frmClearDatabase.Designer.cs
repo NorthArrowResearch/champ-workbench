@@ -56,9 +56,9 @@
             this.chkRBTBatches.AutoSize = true;
             this.chkRBTBatches.Location = new System.Drawing.Point(11, 20);
             this.chkRBTBatches.Name = "chkRBTBatches";
-            this.chkRBTBatches.Size = new System.Drawing.Size(291, 17);
+            this.chkRBTBatches.Size = new System.Drawing.Size(298, 17);
             this.chkRBTBatches.TabIndex = 1;
-            this.chkRBTBatches.Text = "RBT batches and batch runs (i.e. input XML file records)";
+            this.chkRBTBatches.Text = "Model batches and batch runs (i.e. input XML file records)";
             this.chkRBTBatches.UseVisualStyleBackColor = true;
             // 
             // chkRBTLogs
@@ -66,9 +66,9 @@
             this.chkRBTLogs.AutoSize = true;
             this.chkRBTLogs.Location = new System.Drawing.Point(11, 44);
             this.chkRBTLogs.Name = "chkRBTLogs";
-            this.chkRBTLogs.Size = new System.Drawing.Size(86, 17);
+            this.chkRBTLogs.Size = new System.Drawing.Size(93, 17);
             this.chkRBTLogs.TabIndex = 2;
-            this.chkRBTLogs.Text = "RBT log files";
+            this.chkRBTLogs.Text = "Model log files";
             this.chkRBTLogs.UseVisualStyleBackColor = true;
             // 
             // chkRBTMetrics
@@ -76,9 +76,9 @@
             this.chkRBTMetrics.AutoSize = true;
             this.chkRBTMetrics.Location = new System.Drawing.Point(11, 68);
             this.chkRBTMetrics.Name = "chkRBTMetrics";
-            this.chkRBTMetrics.Size = new System.Drawing.Size(112, 17);
+            this.chkRBTMetrics.Size = new System.Drawing.Size(119, 17);
             this.chkRBTMetrics.TabIndex = 3;
-            this.chkRBTMetrics.Text = "RBT metric results";
+            this.chkRBTMetrics.Text = "Model metric results";
             this.chkRBTMetrics.UseVisualStyleBackColor = true;
             // 
             // groupBox1
