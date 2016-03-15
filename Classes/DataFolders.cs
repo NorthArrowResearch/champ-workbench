@@ -48,7 +48,7 @@ namespace CHaMPWorkbench.Classes
     {
         // Strings to use when naming things
         private const string m_sTopoFolder = "Topo";
-
+        private const string m_sGUTFolder = "GUT";
 
         // Regex Patterns for things
         private const string m_sVisitFolder = "\\\\VISIT_{0}$";
@@ -320,6 +320,16 @@ namespace CHaMPWorkbench.Classes
         /// as well as explicit paths</remarks>
         public static DirectoryInfo RBTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
         {
+            return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sGUTFolder);
+        }
+
+        public static DirectoryInfo GUTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
+        {
+            return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sGUTFolder);
+        }
+
+        private static DirectoryInfo ModelOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder, string sModelFolderName)
+        {
             Regex r = new Regex(m_sVisitFolderTest, RegexOptions.IgnoreCase);
             if (!r.Match(dVisitFolder.FullName).Success)
                 throw new Exception("The visit folder must be at least 3 levels deep (watershed/year/site/visit_xxx or year/watershed/site/visit_xxx");
@@ -327,7 +337,7 @@ namespace CHaMPWorkbench.Classes
             DirectoryInfo dMonitoringDataFolder = dVisitFolder.Parent.Parent.Parent.Parent;
 
             string sVisitOutputFolder = dVisitFolder.FullName.Replace(dMonitoringDataFolder.FullName, sTopLevelOutputFolder);
-            DirectoryInfo dVisitOutputFolder = new DirectoryInfo(System.IO.Path.Combine(sVisitOutputFolder, m_sTopoFolder));
+            DirectoryInfo dVisitOutputFolder = new DirectoryInfo(System.IO.Path.Combine(sVisitOutputFolder, sModelFolderName));
 
             return dVisitOutputFolder;
         }
