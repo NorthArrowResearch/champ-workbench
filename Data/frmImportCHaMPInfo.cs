@@ -626,7 +626,7 @@ namespace CHaMPWorkbench.Data
 
                 using (OleDbConnection conWorkbench = new OleDbConnection(sWorkbenchDB))
                 {
-                    conCHaMP.Open();
+                    conWorkbench.Open();
 
                     OleDbCommand comUpdate = new OleDbCommand("UPDATE CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS U ON S.SegmentID = U.SegmentID SET U.LargeWoodCount = @LargeWoodCount WHERE (S.VisitID = @VisitID) AND (U.ChannelUnitNumber = @ChannelUnitNumber)", conWorkbench);
                     OleDbParameter pLargeWoodCount = comUpdate.Parameters.Add("@LargeWoodCount", OleDbType.Integer);
@@ -647,7 +647,7 @@ namespace CHaMPWorkbench.Data
                         {
                             pVisitID.Value = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
                             pChannelUnitNumber.Value = dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber"));
-                            pLargeWoodCount.Value = dbRead.GetInt32(dbRead.GetOrdinal("LargeWoodCount"));
+                            pLargeWoodCount.Value = (int) dbRead.GetDouble(dbRead.GetOrdinal("LargeWoodCount"));
                             comUpdate.ExecuteNonQuery();
                         }
                         dbRead.Close();
