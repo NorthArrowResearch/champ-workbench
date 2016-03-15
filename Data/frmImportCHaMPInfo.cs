@@ -97,6 +97,8 @@ namespace CHaMPWorkbench.Data
                 UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
                 UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
                 UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
+                UpdateLargeWoodCount(dbCHaMP.ConnectionString, daWatersheds.Connection.ConnectionString);
+
 
                 if (chkImportFish.Checked)
                     UpdateSiteFishInfo(daSites, ref ds, sSurveyDesignDB);
@@ -608,6 +610,49 @@ namespace CHaMPWorkbench.Data
                 }
 
                 LogCHaMPDataUpdate(conExport.ConnectionString, "extended site information");
+            }
+        }
+
+        /// <summary>
+        /// Populate the large wood column on the channel unit table.
+        /// </summary>
+        /// <param name="sdbCHaMP">Connection string to the CHaMP All Measurements database</param>
+        /// <param name="sWorkbenchDB">Connection string to the Worbench database</param>
+        private void UpdateLargeWoodCount(string sdbCHaMP, string sWorkbenchDB)
+        {
+            using (OleDbConnection conCHaMP = new OleDbConnection(sdbCHaMP))
+            {
+                conCHaMP.Open();
+
+                using (OleDbConnection conWorkbench = new OleDbConnection(sWorkbenchDB))
+                {
+                    conCHaMP.Open();
+
+                    OleDbCommand comUpdate = new OleDbCommand("UPDATE CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS U ON S.SegmentID = U.SegmentID SET U.LargeWoodCount = @LargeWoodCount WHERE (S.VisitID = @VisitID) AND (U.ChannelUnitNumber = @ChannelUnitNumber)", conWorkbench);
+                    OleDbParameter pLargeWoodCount = comUpdate.Parameters.Add("@LargeWoodCount", OleDbType.Integer);
+                    OleDbParameter pVisitID = comUpdate.Parameters.Add("@VisitID", OleDbType.Integer);
+                    OleDbParameter pChannelUnitNumber = comUpdate.Parameters.Add("@ChannelUnitNumber", OleDbType.Integer);
+
+                    // 2011-2013 stored wood in the debris table. 2014 onward stores individual pieces. 
+                    string[] sWoodSQLStatements = {
+                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Sum(SumLWDCount) AS LargeWoodCount FROM LargeWoodyDebris GROUP BY VisitID, ChannelUnit_ChannelUnitNumber", 
+                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Count(ChannelUnit_ChannelUnitNumber) AS LargeWoodCount FROM LargeWoodPiece GROUP BY VisitID, ChannelUnit_ChannelUnitNumber"
+                                                  };
+
+                    foreach (string sSQL in sWoodSQLStatements)
+                    {
+                        OleDbCommand comSelect = new OleDbCommand(sSQL, conCHaMP);
+                        OleDbDataReader dbRead = comSelect.ExecuteReader();
+                        while (dbRead.Read())
+                        {
+                            pVisitID.Value = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
+                            pChannelUnitNumber.Value = dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber"));
+                            pLargeWoodCount.Value = dbRead.GetInt32(dbRead.GetOrdinal("LargeWoodCount"));
+                            comUpdate.ExecuteNonQuery();
+                        }
+                        dbRead.Close();
+                    }
+                }
             }
         }
     }
