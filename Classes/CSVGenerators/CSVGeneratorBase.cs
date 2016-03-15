@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data.OleDb;
+
+namespace CHaMPWorkbench.Classes.CSVGenerators
+{
+    public abstract class CSVGeneratorBase
+    {
+        protected string DBCon { get; internal set; }
+
+        public CSVGeneratorBase(string sDBCon)
+        {
+            DBCon = sDBCon;
+        }
+
+        // All CSV generators must implement the run method that actually performs the CSV generation
+        public abstract System.IO.FileInfo Run(int nVisitID, string sFilePath);
+
+        protected string AddNumericField(ref OleDbDataReader dbRead, string sFieldName)
+        {
+            string sResult = ",0";
+            if (DBNull.Value != dbRead[sFieldName])
+                sResult = "," + dbRead[sFieldName].ToString();
+            return sResult;
+        }
+
+        protected string AddStringField(ref OleDbDataReader dbRead, string sFieldName, bool bPreprendComma = true)
+        {
+            string sResult = string.Empty;
+
+            if (bPreprendComma)
+                sResult = ",";
+
+            if (DBNull.Value != dbRead[sFieldName])
+                sResult += dbRead[sFieldName].ToString().Replace(" ", "").Replace(",", "").Trim();
+            return sResult;
+        }
+
+    }
+}
