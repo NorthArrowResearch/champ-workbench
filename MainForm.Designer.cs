@@ -60,6 +60,10 @@
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geomorphicUnitToolGUTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildInputFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectBatchesToRunToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSelectedBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -137,10 +141,6 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buildInputFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.selectBatchesToRunToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSelectedBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -413,6 +413,34 @@
             this.geomorphicUnitToolGUTToolStripMenuItem.Name = "geomorphicUnitToolGUTToolStripMenuItem";
             this.geomorphicUnitToolGUTToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.geomorphicUnitToolGUTToolStripMenuItem.Text = "Geomorphic Unit Tool (GUT)";
+            // 
+            // buildInputFilesToolStripMenuItem1
+            // 
+            this.buildInputFilesToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml;
+            this.buildInputFilesToolStripMenuItem1.Name = "buildInputFilesToolStripMenuItem1";
+            this.buildInputFilesToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
+            this.buildInputFilesToolStripMenuItem1.Text = "Build Input Files...";
+            this.buildInputFilesToolStripMenuItem1.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(196, 6);
+            // 
+            // selectBatchesToRunToolStripMenuItem1
+            // 
+            this.selectBatchesToRunToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.CheckControlNetwork;
+            this.selectBatchesToRunToolStripMenuItem1.Name = "selectBatchesToRunToolStripMenuItem1";
+            this.selectBatchesToRunToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
+            this.selectBatchesToRunToolStripMenuItem1.Text = "Select Batches To Run...";
+            this.selectBatchesToRunToolStripMenuItem1.Click += new System.EventHandler(this.selectBatchesToRunToolStripMenuItem1_Click);
+            // 
+            // runSelectedBatchesToolStripMenuItem
+            // 
+            this.runSelectedBatchesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.docGUT;
+            this.runSelectedBatchesToolStripMenuItem.Name = "runSelectedBatchesToolStripMenuItem";
+            this.runSelectedBatchesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.runSelectedBatchesToolStripMenuItem.Text = "Run Selected Batches...";
             // 
             // toolStripSeparator8
             // 
@@ -1086,33 +1114,6 @@
             this.viewSiteLocationMapToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
-            // 
-            // buildInputFilesToolStripMenuItem1
-            // 
-            this.buildInputFilesToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.xml;
-            this.buildInputFilesToolStripMenuItem1.Name = "buildInputFilesToolStripMenuItem1";
-            this.buildInputFilesToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
-            this.buildInputFilesToolStripMenuItem1.Text = "Build Input Files...";
-            this.buildInputFilesToolStripMenuItem1.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(196, 6);
-            // 
-            // selectBatchesToRunToolStripMenuItem1
-            // 
-            this.selectBatchesToRunToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.CheckControlNetwork;
-            this.selectBatchesToRunToolStripMenuItem1.Name = "selectBatchesToRunToolStripMenuItem1";
-            this.selectBatchesToRunToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
-            this.selectBatchesToRunToolStripMenuItem1.Text = "Select Batches To Run...";
-            // 
-            // runSelectedBatchesToolStripMenuItem
-            // 
-            this.runSelectedBatchesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.docGUT;
-            this.runSelectedBatchesToolStripMenuItem.Name = "runSelectedBatchesToolStripMenuItem";
-            this.runSelectedBatchesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.runSelectedBatchesToolStripMenuItem.Text = "Run Selected Batches...";
             // 
             // MainForm
             // 

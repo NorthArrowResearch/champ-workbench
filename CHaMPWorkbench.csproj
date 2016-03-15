@@ -254,11 +254,11 @@
     <Compile Include="RBT\Scavenger\frmRBTScavenger.Designer.cs">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
     </Compile>
-    <Compile Include="RBT\Batches\frmSelectRBTBatches.cs">
+    <Compile Include="Models\frmSelectBatches.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBT\Batches\frmSelectRBTBatches.Designer.cs">
-      <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
+    <Compile Include="Models\frmSelectBatches.Designer.cs">
+      <DependentUpon>frmSelectBatches.cs</DependentUpon>
     </Compile>
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.cs">
       <SubType>Form</SubType>
@@ -353,8 +353,8 @@
     <EmbeddedResource Include="RBT\Scavenger\frmRBTScavenger.resx">
       <DependentUpon>frmRBTScavenger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBT\Batches\frmSelectRBTBatches.resx">
-      <DependentUpon>frmSelectRBTBatches.cs</DependentUpon>
+    <EmbeddedResource Include="Models\frmSelectBatches.resx">
+      <DependentUpon>frmSelectBatches.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\InputFiles\frmRBTInputBatch.resx">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>

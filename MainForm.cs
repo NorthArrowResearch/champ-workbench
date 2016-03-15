@@ -203,7 +203,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                frmSelectRBTBatches frm = new frmSelectRBTBatches(m_dbCon);
+                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1145,6 +1145,19 @@ namespace CHaMPWorkbench
 
             Validation.frmModelValidation frm = new Validation.frmModelValidation(m_dbCon.ConnectionString, ref lVisits);
             frm.ShowDialog();
+        }
+
+        private void selectBatchesToRunToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
     }
 }
