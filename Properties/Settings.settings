@@ -87,5 +87,8 @@
     <Setting Name="ModelType_GUT" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">16</Value>
     </Setting>
+    <Setting Name="Model_Python" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -52,14 +52,17 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cmdBrowseGUT = new System.Windows.Forms.Button();
+            this.txtGUT = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.cmdTestAWS = new System.Windows.Forms.Button();
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.cmdBrowseGUT = new System.Windows.Forms.Button();
-            this.txtGUT = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.cmdBrowsePython = new System.Windows.Forms.Button();
+            this.txtPython = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -290,6 +293,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.cmdBrowsePython);
+            this.tabPage3.Controls.Add(this.txtPython);
+            this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.cmdBrowseGUT);
             this.tabPage3.Controls.Add(this.txtGUT);
             this.tabPage3.Controls.Add(this.label2);
@@ -303,6 +309,35 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Models";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cmdBrowseGUT
+            // 
+            this.cmdBrowseGUT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseGUT.Location = new System.Drawing.Point(755, 48);
+            this.cmdBrowseGUT.Name = "cmdBrowseGUT";
+            this.cmdBrowseGUT.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseGUT.TabIndex = 5;
+            this.cmdBrowseGUT.Text = "Browse";
+            this.cmdBrowseGUT.UseVisualStyleBackColor = true;
+            this.cmdBrowseGUT.Click += new System.EventHandler(this.cmdBrowseGUT_Click);
+            // 
+            // txtGUT
+            // 
+            this.txtGUT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGUT.Location = new System.Drawing.Point(148, 49);
+            this.txtGUT.Name = "txtGUT";
+            this.txtGUT.Size = new System.Drawing.Size(601, 20);
+            this.txtGUT.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 53);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(136, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Geomorphic unit tool (GUT)";
             // 
             // tabPage4
             // 
@@ -357,34 +392,34 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // cmdBrowseGUT
+            // cmdBrowsePython
             // 
-            this.cmdBrowseGUT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseGUT.Location = new System.Drawing.Point(755, 49);
-            this.cmdBrowseGUT.Name = "cmdBrowseGUT";
-            this.cmdBrowseGUT.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseGUT.TabIndex = 5;
-            this.cmdBrowseGUT.Text = "Browse";
-            this.cmdBrowseGUT.UseVisualStyleBackColor = true;
-            this.cmdBrowseGUT.Click += new System.EventHandler(this.cmdBrowseGUT_Click);
+            this.cmdBrowsePython.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowsePython.Location = new System.Drawing.Point(755, 77);
+            this.cmdBrowsePython.Name = "cmdBrowsePython";
+            this.cmdBrowsePython.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowsePython.TabIndex = 8;
+            this.cmdBrowsePython.Text = "Browse";
+            this.cmdBrowsePython.UseVisualStyleBackColor = true;
+            this.cmdBrowsePython.Click += new System.EventHandler(this.cmdBrowsePython_Click);
             // 
-            // txtGUT
+            // txtPython
             // 
-            this.txtGUT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtPython.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGUT.Location = new System.Drawing.Point(148, 50);
-            this.txtGUT.Name = "txtGUT";
-            this.txtGUT.Size = new System.Drawing.Size(601, 20);
-            this.txtGUT.TabIndex = 4;
+            this.txtPython.Location = new System.Drawing.Point(148, 78);
+            this.txtPython.Name = "txtPython";
+            this.txtPython.Size = new System.Drawing.Size(601, 20);
+            this.txtPython.TabIndex = 7;
             // 
-            // label2
+            // label3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Geomorphic unit tool (GUT)";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(102, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Python";
             // 
             // frmOptions
             // 
@@ -450,5 +485,8 @@
         private System.Windows.Forms.Button cmdBrowseGUT;
         private System.Windows.Forms.TextBox txtGUT;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button cmdBrowsePython;
+        private System.Windows.Forms.TextBox txtPython;
+        private System.Windows.Forms.Label label3;
     }
 }

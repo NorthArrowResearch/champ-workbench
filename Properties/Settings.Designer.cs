@@ -301,5 +301,17 @@ namespace CHaMPWorkbench.Properties {
                 return ((int)(this["ModelType_GUT"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Model_Python {
+            get {
+                return ((string)(this["Model_Python"]));
+            }
+            set {
+                this["Model_Python"] = value;
+            }
+        }
     }
 }

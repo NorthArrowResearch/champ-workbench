@@ -208,6 +208,12 @@
     <Compile Include="GUT\frmGUTInputXMLBuilder.Designer.cs">
       <DependentUpon>frmGUTInputXMLBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUT\frmGUTRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUT\frmGUTRun.Designer.cs">
+      <DependentUpon>frmGUTRun.cs</DependentUpon>
+    </Compile>
     <Compile Include="Habitat\dsHabitat.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -334,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUT\frmGUTInputXMLBuilder.resx">
       <DependentUpon>frmGUTInputXMLBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUT\frmGUTRun.resx">
+      <DependentUpon>frmGUTRun.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>

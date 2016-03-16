@@ -20,7 +20,8 @@ namespace CHaMPWorkbench
         {
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
             txtGUT.Text = CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath;
-
+            txtPython.Text = CHaMPWorkbench.Properties.Settings.Default.Model_Python;
+            
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
             txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
@@ -58,11 +59,27 @@ namespace CHaMPWorkbench
 
             if (!String.IsNullOrWhiteSpace(txtGUT.Text))
             {
-                if (System.IO.File.Exists(txtGUT.Text) && txtOptions.Text.EndsWith(".py"))
+                if (System.IO.File.Exists(txtGUT.Text) && txtGUT.Text.EndsWith(".py"))
                     CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath = txtGUT.Text;
                 else
                 {
                     MessageBox.Show("The GUT python script path must point to a Python file (e.g. C:\\CHaMP\\GUT\\gut.py)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPython.Text))
+            {
+                CHaMPWorkbench.Properties.Settings.Default.Model_Python = string.Empty;
+            }
+            else
+            {
+                if (System.IO.File.Exists(txtPython.Text) && txtPython.Text.ToLower().EndsWith(".exe"))
+                    CHaMPWorkbench.Properties.Settings.Default.Model_Python = txtPython.Text;
+                else
+                {
+                    MessageBox.Show("The python path must point to the Python scripting language executable file (e.g. C:\\Python\\Python.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = System.Windows.Forms.DialogResult.None;
                     return;
                 }
@@ -194,6 +211,11 @@ namespace CHaMPWorkbench
         private void cmdBrowseGUT_Click(object sender, EventArgs e)
         {
             BrowseExecutable("Geomorphic Unit Tool", "Python Scripts (*.py)|*.py", ref txtGUT);
+        }
+
+        private void cmdBrowsePython_Click(object sender, EventArgs e)
+        {
+            BrowseExecutable("Python", "Executables (*.exe)|*.exe", ref txtPython);
         }
     }
 }
