@@ -21,7 +21,7 @@ namespace CHaMPWorkbench
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
             txtGUT.Text = CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath;
             txtPython.Text = CHaMPWorkbench.Properties.Settings.Default.Model_Python;
-            
+
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
             txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
@@ -118,10 +118,10 @@ namespace CHaMPWorkbench
 
         private void cmdBrowseRBT_Click(object sender, EventArgs e)
         {
-            BrowseExecutable("RBT Console Executable", "Executable Files (*.exe)|*.exe", ref txtOptions);
+            BrowseExecutable("RBT Console Executable", "Executable Files (*.exe)|*.exe", ref dlgBrowseExecutable, ref txtOptions);
         }
 
-        private void BrowseExecutable(string sTitle, string sFileTypeFilter, ref TextBox txt)
+        public static void BrowseExecutable(string sTitle, string sFileTypeFilter, ref OpenFileDialog dlgBrowseExecutable, ref TextBox txt)
         {
             dlgBrowseExecutable.Filter = sFileTypeFilter;
             dlgBrowseExecutable.Title = sTitle;
@@ -210,12 +210,12 @@ namespace CHaMPWorkbench
 
         private void cmdBrowseGUT_Click(object sender, EventArgs e)
         {
-            BrowseExecutable("Geomorphic Unit Tool", "Python Scripts (*.py)|*.py", ref txtGUT);
+            BrowseExecutable("Geomorphic Unit Tool (GUT) Python Script", "Python Scripts (*.py)|*.py", ref dlgBrowseExecutable, ref txtGUT);
         }
 
         private void cmdBrowsePython_Click(object sender, EventArgs e)
         {
-            BrowseExecutable("Python", "Executables (*.exe)|*.exe", ref txtPython);
+            BrowseExecutable("Python", "Executables (*.exe)|*.exe", ref dlgBrowseExecutable, ref txtPython);
         }
     }
 }

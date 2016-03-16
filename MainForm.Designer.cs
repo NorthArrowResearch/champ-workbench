@@ -441,6 +441,7 @@
             this.runSelectedBatchesToolStripMenuItem.Name = "runSelectedBatchesToolStripMenuItem";
             this.runSelectedBatchesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.runSelectedBatchesToolStripMenuItem.Text = "Run Selected Batches...";
+            this.runSelectedBatchesToolStripMenuItem.Click += new System.EventHandler(this.runSelectedBatchesToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 

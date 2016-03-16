@@ -1159,5 +1159,11 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void runSelectedBatchesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUT.frmGUTRun frm = new GUT.frmGUTRun(m_dbCon.ConnectionString);
+            frm.ShowDialog();
+        }
     }
 }
