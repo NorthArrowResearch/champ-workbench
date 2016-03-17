@@ -53,14 +53,15 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
                 int nMessageLength = Math.Min(theException.Message.Length, nMaxAWSMessage);
                 AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.WriteLine(string.Format("[Exception] [{0}] {1}", theException.Message.Substring(0, nMessageLength).Replace("[", "").Replace("]", "").Replace("\n", " "), sExceptionJSON));
                 AWSCloudWatch.AWSCloudWatchSingleton.Instance.Listener.Flush();
+            }
 
-                if (bShowUserMessage)
-                {
-                    // Show the standard user interface form to the user.
-                    // TODO: format the exception to plain English instead of JSON.
-                    CHaMPWorkbench.Classes.ExceptionHandling.frmException frm = new CHaMPWorkbench.Classes.ExceptionHandling.frmException(theException.Message, sExceptionJSON);
-                    frm.ShowDialog();
-                }
+            if (bShowUserMessage)
+            {
+                // Show the standard user interface form to the user.
+                // TODO: format the exception to plain English instead of JSON.
+                String prettyString = Classes.ExceptionHandling.NARException.ToString(theException, AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID);
+                CHaMPWorkbench.Classes.ExceptionHandling.frmException frm = new CHaMPWorkbench.Classes.ExceptionHandling.frmException(theException.Message, prettyString);
+                frm.ShowDialog();
             }
         }
 
@@ -85,6 +86,41 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
             return serializer.Serialize(row);
+        }
+
+        /// <summary>
+        /// We want a nice output for
+        /// </summary>
+        /// <returns></returns>
+        public static string ToString(Exception ex, Guid installationKey)
+        {
+            // Add the details of the outermost exception to a dictionary of JSON objects.
+            // This will also recursively add the details of all inner exceptions
+            Dictionary<string, object> rows = new Dictionary<string, object>();
+            AddExceptionDetailRows(ref rows, ex);
+            rows.Add("ProductVersion", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            rows.Add("OSVersion", Environment.OSVersion.ToString());
+            String prettyString = String.Empty;
+            String prettyExData = String.Empty;
+            foreach (KeyValuePair<string, object> row in rows)
+            {
+                if (row.Key == "ExceptionData")
+                {
+                    Dictionary<string, object> exDataContainer = (Dictionary<string, object>)row.Value;
+                    prettyExData = String.Format("EXCEPTION DATA: {0}", Environment.NewLine);
+                    foreach (KeyValuePair<string, object> exData in exDataContainer)
+                    {
+                        prettyExData += String.Format("  {0}: {1}{2}", exData.Key, exData.Value.ToString(), Environment.NewLine);
+
+                    }
+                    prettyString += prettyExData + Environment.NewLine;
+                }
+                else
+                {
+                    prettyString += String.Format("{0}: {1}{2}", row.Key, row.Value.ToString(), Environment.NewLine);
+                }
+            }
+            return prettyString;
         }
 
         /// <summary>
@@ -121,7 +157,7 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
                     string sStackTrace = ex.StackTrace;
                     Match theMatch = theRegEx.Match(ex.StackTrace);
                     if (theMatch.Groups.Count > 0 && theMatch.Length > 0)
-                        sStackTrace = sStackTrace.Replace(theMatch.Groups[0].Value.ToString(), "").Trim();
+                        sStackTrace = sStackTrace.Replace(theMatch.Groups[0].Value.ToString(), "");
                     else
                         sStackTrace = ex.StackTrace;
 

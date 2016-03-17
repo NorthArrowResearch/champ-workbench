@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using System.Threading;
 
 namespace CHaMPWorkbench.GUT
 {
@@ -47,7 +48,7 @@ namespace CHaMPWorkbench.GUT
             // Default the DOS window that will appear to either normal (visible) or hidden.
             int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
             int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
-            cboWindowStyle.SelectedIndex = nHidden;
+            cboWindowStyle.SelectedIndex = nNormal;
 
             cmdOK.Select();
 
@@ -60,7 +61,7 @@ namespace CHaMPWorkbench.GUT
                     dbCon.Open();
 
                     QueuedRuns = new List<QueuedRun>();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_Batches WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0)", dbCon);
+                    OleDbCommand dbCom = new OleDbCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_BatchRuns WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0)", dbCon);
                     dbCom.Parameters.AddWithValue("ModelTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
                     OleDbDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
@@ -133,6 +134,7 @@ namespace CHaMPWorkbench.GUT
             frmOptions.BrowseExecutable("Python", "Executables (*.exe)|*.exe", ref dlgBrowseExecutable, ref txtPython);
         }
 
+
         private void cmdOK_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
@@ -161,29 +163,37 @@ namespace CHaMPWorkbench.GUT
                         Console.WriteLine("\n******************************************************************************");
 
                         // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
-                        ProcessStartInfo psi = new ProcessStartInfo(txtPython.Text);
+                        ProcessStartInfo psi = new ProcessStartInfo();
                         if (CHaMPWorkbench.Properties.Settings.Default.RBTPathVariableActive)
                         {
                             if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.RBTPathVariable))
                             {
-                                StringDictionary dictionary = psi.EnvironmentVariables;
-                                psi.EnvironmentVariables["PATH"] = "C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs";
-                                psi.UseShellExecute = false;
-                                psi.Arguments = string.Format("{0} {1}", aRun.InputFile, sGUTMode);
-                                psi.WindowStyle = eWindow;
+                                psi.FileName = txtPython.Text;
+                                psi.WorkingDirectory = System.IO.Path.GetDirectoryName(txtPyGUT.Text);
+                                psi.Arguments = string.Format("{0} {1} \"{2}\"", System.IO.Path.GetFileName(txtPyGUT.Text), sGUTMode, aRun.InputFile);
+                                psi.CreateNoWindow = false;
+                                psi.UseShellExecute = true;
+                                psi.RedirectStandardOutput = false;
+                                psi.RedirectStandardError = false;   
                             }
                         }
+
+                        gutOutput.AppendText(String.Format("Running: {0}  {1} {2}", Environment.NewLine, txtPython.Text, psi.Arguments));
+                        
                         System.Diagnostics.Process proc = new Process();
-
                         proc.StartInfo = psi;
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.WindowStyle = eWindow;
-
-                        if (eWindow == System.Diagnostics.ProcessWindowStyle.Hidden)
-                            proc.StartInfo.CreateNoWindow = true;
 
                         proc.Start();
+                        //System.IO.StreamReader stdErr = proc.StandardError;
                         proc.WaitForExit();
+                        if (proc.ExitCode != 0)
+                        {
+                            Exception ex = new Exception("Python Script Error");
+                            ex.Data["Python Script path"] = txtPyGUT.Text;
+                            ex.Data["Params"] = psi.Arguments;
+                            //ex.Data["Standard Error"] = stdErr.ReadToEnd();
+                            throw ex;
+                        }
 
                         // Update the batch and set it to no longer queued. Also store the completed date time.
                         pBatchID.Value = aRun.BatchRunID;
@@ -191,7 +201,7 @@ namespace CHaMPWorkbench.GUT
                     }
                     catch (Exception ex)
                     {
-                        //TODO: what happens when a Python call crashes.
+                        //Classes.ExceptionHandling.NARException.HandleException(ex);
                     }
                     finally
                     {

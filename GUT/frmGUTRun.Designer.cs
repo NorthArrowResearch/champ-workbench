@@ -43,13 +43,14 @@
             this.dlgBrowseExecutable = new System.Windows.Forms.OpenFileDialog();
             this.cboWindowStyle = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.gutOutput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(598, 150);
+            this.cmdCancel.Location = new System.Drawing.Point(598, 492);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 9;
@@ -59,7 +60,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(517, 150);
+            this.cmdOK.Location = new System.Drawing.Point(517, 492);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 8;
@@ -70,7 +71,7 @@
             // cmdHelp
             // 
             this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdHelp.Location = new System.Drawing.Point(12, 150);
+            this.cmdHelp.Location = new System.Drawing.Point(12, 492);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
             this.cmdHelp.TabIndex = 10;
@@ -173,11 +174,23 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Window style";
             // 
+            // gutOutput
+            // 
+            this.gutOutput.BackColor = System.Drawing.Color.White;
+            this.gutOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gutOutput.Location = new System.Drawing.Point(13, 155);
+            this.gutOutput.Multiline = true;
+            this.gutOutput.Name = "gutOutput";
+            this.gutOutput.ReadOnly = true;
+            this.gutOutput.Size = new System.Drawing.Size(660, 331);
+            this.gutOutput.TabIndex = 13;
+            // 
             // frmGUTRun
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(685, 185);
+            this.ClientSize = new System.Drawing.Size(685, 527);
+            this.Controls.Add(this.gutOutput);
             this.Controls.Add(this.cboWindowStyle);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmdBrowsePython);
@@ -219,5 +232,6 @@
         private System.Windows.Forms.OpenFileDialog dlgBrowseExecutable;
         private System.Windows.Forms.ComboBox cboWindowStyle;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox gutOutput;
     }
 }

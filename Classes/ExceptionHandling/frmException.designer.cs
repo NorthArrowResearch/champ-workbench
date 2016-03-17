@@ -52,7 +52,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnOK.Location = new System.Drawing.Point(456, 8);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(2);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 22);
             this.btnOK.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             this.btnDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDetails.Location = new System.Drawing.Point(456, 35);
-            this.btnDetails.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDetails.Margin = new System.Windows.Forms.Padding(2);
             this.btnDetails.Name = "btnDetails";
             this.btnDetails.Size = new System.Drawing.Size(80, 22);
             this.btnDetails.TabIndex = 0;
@@ -78,9 +78,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grbDetails.Controls.Add(this.txtErrorMessage);
             this.grbDetails.Location = new System.Drawing.Point(14, 69);
-            this.grbDetails.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbDetails.Margin = new System.Windows.Forms.Padding(2);
             this.grbDetails.Name = "grbDetails";
-            this.grbDetails.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grbDetails.Padding = new System.Windows.Forms.Padding(2);
             this.grbDetails.Size = new System.Drawing.Size(522, 194);
             this.grbDetails.TabIndex = 3;
             this.grbDetails.TabStop = false;
@@ -90,7 +90,7 @@
             // 
             this.txtErrorMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtErrorMessage.Location = new System.Drawing.Point(2, 15);
-            this.txtErrorMessage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtErrorMessage.Margin = new System.Windows.Forms.Padding(2);
             this.txtErrorMessage.Multiline = true;
             this.txtErrorMessage.Name = "txtErrorMessage";
             this.txtErrorMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -109,7 +109,7 @@
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblException);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(495, 112);
