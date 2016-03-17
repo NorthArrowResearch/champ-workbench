@@ -61,7 +61,7 @@ namespace CHaMPWorkbench.GUT
                     dbCon.Open();
 
                     QueuedRuns = new List<QueuedRun>();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_BatchRuns WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0)", dbCon);
+                    OleDbCommand dbCom = new OleDbCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_BatchRuns WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0) ORDER BY Priority", dbCon);
                     dbCom.Parameters.AddWithValue("ModelTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
                     OleDbDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
