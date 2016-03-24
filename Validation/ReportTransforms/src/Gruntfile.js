@@ -6,26 +6,25 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     // Grunt-sass 
+    // sass (libsass) config
     sass: {
-      app: {
-        // Takes every file that ends with .scss from the scss 
-        // directory and compile them into the css directory. 
-        // Also changes the extension from .scss into .css. 
-        // Note: file name that begins with _ are ignored automatically
-        files: [{
-          sourceMap: true,
-          outputStyle: 'compressed',
-          cwd: 'scss',
-          src: ['scss/**/*.scss'],
-          dest: 'tmp',
-          ext: '.css'
-        }]
-      },
-      options: {
-        sourceMap: true, 
-        outputStyle: 'nested', 
-        imagePath: "../",
-      }
+        options: {
+            sourceMap: true,
+            relativeAssets: false,
+            outputStyle: 'compressed',
+            sassDir: 'scss',
+            cssDir: 'tmp',
+            includePaths: ['node_modules/bootstrap/scss']
+        },
+        build: {
+            files: [{
+                expand: true,
+                cwd: 'scss/',
+                src: ['**/*.scss'],
+                dest: 'tmp',
+                ext: '.css'
+            }]
+        }
     },
 
     // Move our assets out of node_modules
@@ -145,7 +144,6 @@ module.exports = function(grunt) {
 
   // Define the modules we need for these tasks:
   grunt.loadNpmTasks('grunt-sass');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
