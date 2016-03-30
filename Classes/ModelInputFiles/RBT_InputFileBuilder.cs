@@ -8,18 +8,18 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
     public class RBT_InputFileBuilder
     {
-        protected Config m_Config;
-        protected Outputs m_Outputs;
+        protected RBTConfig m_Config;
+        protected RBTOutputs m_Outputs;
 
         public const string m_sDefaultRBTInputXMLFileName = "rbt_input.xml";
 
-        public RBT_InputFileBuilder(Config theConfig, Outputs theOutputs)
+        public RBT_InputFileBuilder(RBTConfig theConfig, RBTOutputs theOutputs)
         {
             m_Config = theConfig;
             m_Outputs = theOutputs;
         }
 
-        public Config Config
+        public RBTConfig Config
         {
             get { return m_Config; }
         }

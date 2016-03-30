@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
-    public class Config
+    public class RBTConfig
     {
         public enum RBTModes
         {
@@ -221,7 +221,7 @@ namespace CHaMPWorkbench.Classes
        
         #endregion
 
-        public Config()
+        public RBTConfig()
         {
             m_ChangeDetection = new RBTConfig_ChangeDetection();
         }

@@ -125,6 +125,13 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                                 dbCom.ExecuteNonQuery();
                             }
                         }
+
+                        if (MakeOnlyBatch)
+                        {
+                            // Make all existing RBT batches set to NOT run
+                            dbCom = new System.Data.OleDb.OleDbCommand("UPDATE Model_BatchRuns SET Run = False", dbCon, dbTrans);
+                            dbCom.ExecuteNonQuery();
+                        }
                     }
 
                     dbTrans.Commit();

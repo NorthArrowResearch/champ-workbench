@@ -27,7 +27,7 @@ namespace CHaMPWorkbench.RBTInputFile
         {
             try
             {
-               Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_lVisitIDs, ref lstVisits);
+                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_lVisitIDs, ref lstVisits);
 
                 ucConfig.ManualInitialization();
 
@@ -129,44 +129,26 @@ namespace CHaMPWorkbench.RBTInputFile
                 }
             }
 
-            //if (chkChangeDetection.Checked && !chkIncludeOtherVisits.Checked)
-            //{
-            //    DialogResult eResult = MessageBox.Show("You must choose to include other visits if you want to perform change detection. Do you want to invlude all other visits?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            //    switch (eResult)
-            //    {
-            //        case System.Windows.Forms.DialogResult.Yes:
-            //            chkIncludeOtherVisits.Checked = true;
-            //            break;
-
-            //        case System.Windows.Forms.DialogResult.No:
-            //            this.DialogResult = System.Windows.Forms.DialogResult.None;
-            //            return;
-
-            //        case System.Windows.Forms.DialogResult.Cancel:
-            //            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            //            return;
-            //    }
-            //}
-
             string sMessage = string.Empty;
 
             try
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                Classes.Config rbtConfig = ucConfig.GetRBTConfig();
-                Classes.Outputs rbtOutputs = ucConfig.GetRBTOutputs(txtOutputFolder.Text);
+                Classes.ModelInputFiles.RBTConfig rbtConfig = ucConfig.GetRBTConfig();
+                Classes.ModelInputFiles.RBTOutputs rbtOutputs = ucConfig.GetRBTOutputs(txtOutputFolder.Text);
 
-                Classes.ModelInputFiles.BatchInputfileBuilder theBatch = new Classes.ModelInputFiles.BatchInputfileBuilder(m_dbCon, m_lVisitIDs, rbtConfig, rbtOutputs);
-
-                theBatch.Config.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
-                theBatch.Config.ChangeDetectionConfig.ClearMasks();
+                rbtConfig.ChangeDetectionConfig.Threshold = ucRBTChangeDetection1.Threshold;
+                rbtConfig.ChangeDetectionConfig.ClearMasks();
                 foreach (Classes.BudgetSegregation aMask in ucRBTChangeDetection1.BudgetMasks.CheckedItems)
                 {
-                    theBatch.Config.ChangeDetectionConfig.AddMask(aMask.MaskName);
+                    rbtConfig.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                sMessage = theBatch.Run(txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
+                Classes.ModelInputFiles.RBTBatchInputfileBuilder theBatch = new Classes.ModelInputFiles.RBTBatchInputfileBuilder(m_dbCon.ConnectionString, txtBatch.Text, chkClearOtherBatches.Checked,
+                              txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_lVisitIDs, txtInputFileRoot.Text, rbtConfig, rbtOutputs, true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
+
+                theBatch.Run(); // txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
             }
             catch (Exception ex)
             {

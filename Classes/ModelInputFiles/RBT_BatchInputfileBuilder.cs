@@ -7,30 +7,42 @@ using System.Xml;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
-    public class BatchInputfileBuilder : RBT_InputFileBuilder
+    public class RBTBatchInputfileBuilder : BatchInputFileBuilderBase
     {
-        private OleDbConnection m_dbCon;
-        private List<BatchInputFileBuilderBase.BatchVisits> lVisits;
+        RBTConfig m_RBTConfig;
+        RBTOutputs m_RBTOutputs;
+
+        private bool m_bCalculateMetrics;
+        private bool m_bChangeDetection;
+        private bool m_bMakeDEMOrthogonal;
+        private bool m_bIncludeOtherVisits;
+        private bool m_bForcePrimary;
+        private bool m_bRequiresWSTIN;
 
         private RBTWorkbenchDataSet dsData;
 
-        public BatchInputfileBuilder(OleDbConnection dbCon, List<int> lVisitIDs, Classes.Config rbtConfig, Classes.Outputs rbtOutputs)
-            : base(rbtConfig, rbtOutputs)
+        public RBTBatchInputfileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref List<int> lVisits, string sInputFileName, RBTConfig rbtConfig, RBTOutputs rbtOutput,
+             Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN, bool bClearOtherBatches)
+            : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sOutputFolder, ref lVisits, sInputFileName)
         {
-            m_dbCon = dbCon;
+            m_RBTConfig = rbtConfig;
+            m_RBTOutputs = rbtOutput;
 
-            lVisits  = new List<BatchInputFileBuilderBase.BatchVisits>();
-            foreach (int nVisitID in lVisitIDs)
-                lVisits.Add(new BatchInputFileBuilderBase.BatchVisits(nVisitID));
-            
+            m_bCalculateMetrics = bCalculateMetrics;
+            m_bChangeDetection = bChangeDetection;
+            m_bMakeDEMOrthogonal = bMakeDEMOrthogonal;
+            m_bIncludeOtherVisits = bIncludeOtherVisits;
+            m_bForcePrimary = bForcePrimary;
+            m_bRequiresWSTIN = bRequireWSTIN;
+
             dsData = new RBTWorkbenchDataSet();
 
             RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter taWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
-            taWatersheds.Connection = m_dbCon;
+            taWatersheds.Connection = new OleDbConnection(sDBCon);
             taWatersheds.Fill(dsData.CHAMP_Watersheds);
 
             RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter taSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
-            taSites.Connection = m_dbCon;
+            taSites.Connection = new OleDbConnection(sDBCon);
             taSites.Fill(dsData.CHAMP_Sites);
         }
 
@@ -38,7 +50,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         {
             System.IO.DirectoryInfo dVisitTopoFolder = null;
 
-            using (OleDbConnection conVisit = new OleDbConnection(m_dbCon.ConnectionString))
+            using (OleDbConnection conVisit = new OleDbConnection(DBCon))
             {
                 conVisit.Open();
 
@@ -79,34 +91,12 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return dVisitTopoFolder;
         }
 
-        public String Run(String sBatchName, String sDefaultInputFileName, System.IO.DirectoryInfo dParentTopoDataFolder, Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN, bool bClearOtherBatches)
+        public override void Run()
         {
-            OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
             int nSuccess = 0;
-            string sResult;
             try
             {
-                if (bClearOtherBatches)
-                {
-                    // Make all existing RBT batches set to NOT run
-                    OleDbCommand dbUpdate = new OleDbCommand("UPDATE Model_BatchRuns SET Run = False", m_dbCon, dbTrans);
-                    dbUpdate.ExecuteNonQuery();
-                }
-
-                OleDbCommand dbInsert = new OleDbCommand("INSERT INTO Model_Batches (BatchName) Values (?)", m_dbCon, dbTrans);
-                dbInsert.Parameters.AddWithValue("BatchName", sBatchName);
-                dbInsert.ExecuteNonQuery();
-
-                dbInsert = new OleDbCommand("SELECT @@Identity", m_dbCon, dbTrans);
-                long nBatchID = (int)dbInsert.ExecuteScalar();
-
-                dbInsert = new OleDbCommand("INSERT INTO Model_BatchRuns (BatchID, Summary, InputFile, PrimaryVisitID) Values (@BatchID, @Summary, @InputFile, @PrimaryVisitID)", m_dbCon, dbTrans);
-                dbInsert.Parameters.AddWithValue("@BatchID", nBatchID);
-                OleDbParameter pSummary = dbInsert.Parameters.Add("@Summary", OleDbType.VarChar);
-                OleDbParameter pInputfile = dbInsert.Parameters.Add("@InputFile", OleDbType.VarChar);
-                OleDbParameter pPrimaryVisitID = dbInsert.Parameters.Add("@PrimaryVisitID", OleDbType.Integer);
-
-                using (OleDbConnection conVisits = new OleDbConnection(m_dbCon.ConnectionString))
+                using (OleDbConnection conVisits = new OleDbConnection(DBCon))
                 {
                     conVisits.Open();
 
@@ -118,7 +108,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                     OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
 
-                    foreach ( BatchInputFileBuilderBase.BatchVisits aVisit in lVisits)
+                    foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                     {
                         Site theSite = null;
                         System.IO.FileInfo dInputFile = null;
@@ -139,17 +129,17 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                                 theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
 
-                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, dParentTopoDataFolder, aVisit.VisitID, true, bForcePrimary);
+                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, MonitoringDataFolder, aVisit.VisitID, true, m_bForcePrimary);
                                 if (dVisitTopoFolder is System.IO.DirectoryInfo)
                                 {
                                     // If got to here then the data paths were retrieved and point to real data that exist.
-                                    dInputFile= Classes.DataFolders.RBTInputFile(this.m_Outputs.OutputFolder, dVisitTopoFolder,sDefaultInputFileName);
+                                    dInputFile = Classes.DataFolders.RBTInputFile(OutputFolder.FullName, dVisitTopoFolder, InputFileName);
                                 }
                             }
                             else
-                                AddVisitToSite(ref theSite, dParentTopoDataFolder, nVisitID, false, bForcePrimary);
+                                AddVisitToSite(ref theSite, MonitoringDataFolder, nVisitID, false, m_bForcePrimary);
 
-                            bContinue = bIncludeOtherVisits;
+                            bContinue = m_bIncludeOtherVisits;
                         }
                         dbRead.Close();
 
@@ -160,32 +150,50 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                             CreateFile(dInputFile.FullName, out xmlInput);
 
                             xmlInput.WriteStartElement("sites");
-                            theSite.WriteToXML(xmlInput, dParentTopoDataFolder.FullName, bRequireWSTIN);
+                            theSite.WriteToXML(xmlInput, MonitoringDataFolder.FullName, m_bRequiresWSTIN);
                             xmlInput.WriteEndElement(); // sites
 
                             // Write the end of the file
-                            CloseFile(ref xmlInput,dInputFile.Directory.FullName);
-
-                            pSummary.Value = theSite.NameForDatabaseBatch;
-                            pInputfile.Value = dInputFile.FullName.Replace("/", "\\");
-                            pPrimaryVisitID.Value = aVisit.VisitID;
-                            dbInsert.ExecuteNonQuery();
+                            CloseFile(ref xmlInput, dInputFile.Directory.FullName);
                             nSuccess += 1;
+
+                            aVisit.InputFile = dInputFile.FullName;
                         }
                     }
                 }
-
-                dbTrans.Commit();
-                sResult = nSuccess.ToString("#,##0") + " input files generated successfully.";
-
             }
             catch (Exception ex)
             {
-                dbTrans.Rollback();
-                sResult = nSuccess.ToString("#,##0") + " input files were generated successfully, but then an error occurred and none of the records were stored in the workbench database. The error was: " + ex.Message;
-            }
 
-            return sResult;
+            }
+        }
+
+        private  void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)
+        {
+            // Ensure that the directory exists
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sRBTInputFilePath));
+
+            xmlInput = new System.Xml.XmlTextWriter(sRBTInputFilePath, System.Text.Encoding.UTF8);
+            xmlInput.Formatting = System.Xml.Formatting.Indented;
+            xmlInput.Indentation = 4;
+            xmlInput.WriteStartElement("rbt");
+
+            xmlInput.WriteStartElement("metadata");
+            xmlInput.WriteStartElement("created");
+            xmlInput.WriteElementString("tool", System.Reflection.Assembly.GetExecutingAssembly().FullName);
+            xmlInput.WriteElementString("date", DateTime.Now.ToString());
+            xmlInput.WriteEndElement(); // created
+            xmlInput.WriteEndElement(); // metadata
+        }
+
+        private void CloseFile(ref XmlTextWriter xmlInput, String sOutputFolder)
+        {
+            m_RBTOutputs.WriteToXML(xmlInput, sOutputFolder);
+            m_RBTConfig.WriteToXML(xmlInput);
+
+            xmlInput.WriteEndElement(); // rbt
+
+            xmlInput.Close();
         }
     }
 }

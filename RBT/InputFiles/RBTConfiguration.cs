@@ -39,7 +39,7 @@ namespace CHaMPWorkbench
             txtLog.Text = CHaMPWorkbench.Properties.Settings.Default.LastLogfile;
 
 
-            foreach (Classes.Config.RBTModes eMode in Enum.GetValues(typeof(Classes.Config.RBTModes)))
+            foreach (Classes.ModelInputFiles.RBTConfig.RBTModes eMode in Enum.GetValues(typeof(Classes.ModelInputFiles.RBTConfig.RBTModes)))
                 cboRBTMode.Items.Add(new ListItem(eMode.ToString().Replace("_"," "), (int)eMode));
             cboRBTMode.SelectedIndex = 1;
 
@@ -210,11 +210,11 @@ namespace CHaMPWorkbench
             if (dlg.ShowDialog() == DialogResult.OK)
                 txtTempFolder.Text = dlg.SelectedPath;
         }
-        
-        public Classes.Config GetRBTConfig()
+
+        public CHaMPWorkbench.Classes.ModelInputFiles.RBTConfig GetRBTConfig()
         {
-            Classes.Config aConfig = new Classes.Config();
-            aConfig.Mode = (Classes.Config.RBTModes) ((ListItem)cboRBTMode.SelectedItem).Value;
+            Classes.ModelInputFiles.RBTConfig aConfig = new Classes.ModelInputFiles.RBTConfig();
+            aConfig.Mode = (Classes.ModelInputFiles.RBTConfig.RBTModes)((ListItem)cboRBTMode.SelectedItem).Value;
             aConfig.ESRIProduct = ((ListItem)cboESRIProduct.SelectedItem).Value;
             aConfig.ArcGISLicense = ((ListItem)cboLicense.SelectedItem).Value;
             aConfig.PrecisionFormatString = txtPrecisionFormatString.Text;
@@ -240,10 +240,10 @@ namespace CHaMPWorkbench
             aConfig.OutputProfileValues = chkOutputProfileValues.Checked;
             return aConfig;
         }
-        
-        public Classes.Outputs GetRBTOutputs(string sRBTOutputFolder)
+
+        public Classes.ModelInputFiles.RBTOutputs GetRBTOutputs(string sRBTOutputFolder)
         {
-            Classes.Outputs anOutput = new Classes.Outputs();
+            Classes.ModelInputFiles.RBTOutputs anOutput = new Classes.ModelInputFiles.RBTOutputs();
             anOutput.OutputFolder = sRBTOutputFolder;
             anOutput.TempFolder = txtTempFolder.Text;
             anOutput.ResultFile = txtResults.Text;

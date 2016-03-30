@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
-    public class Outputs
+    public class RBTOutputs
     {
 
         #region "Members"

@@ -110,7 +110,7 @@
     <Compile Include="Classes\ChannelUnit.cs" />
     <Compile Include="Classes\CSVGenerators\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
-    <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\ModelInputFiles\RBTConfig.cs" />
     <Compile Include="Classes\ExceptionHandling\AWSCloudWatch\AWSCloudWatchSingleton.cs" />
     <Compile Include="Classes\ExceptionHandling\AWSCloudWatch\CloudWatchLogsTraceListener.cs" />
     <Compile Include="Classes\ExceptionHandling\frmException.cs">
@@ -124,7 +124,7 @@
     <Compile Include="Classes\ModelInputFiles\RBT_InputFileBuilder.cs" />
     <Compile Include="Classes\ModelInputFiles\InputFileBuilder_Helper.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
-    <Compile Include="Classes\Outputs.cs" />
+    <Compile Include="Classes\ModelInputFiles\RBTOutputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
