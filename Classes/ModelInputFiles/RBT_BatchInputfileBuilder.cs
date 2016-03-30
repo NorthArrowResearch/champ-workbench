@@ -166,6 +166,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             {
 
             }
+            
+            GenerateBatchDBRecord();
         }
 
         private  void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)

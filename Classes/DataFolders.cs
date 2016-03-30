@@ -320,7 +320,7 @@ namespace CHaMPWorkbench.Classes
         /// as well as explicit paths</remarks>
         public static DirectoryInfo RBTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
         {
-            return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sGUTFolder);
+            return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sTopoFolder);
         }
 
         public static DirectoryInfo GUTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
