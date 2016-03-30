@@ -148,8 +148,8 @@ namespace CHaMPWorkbench.GUT
                 dbCon.Open();
 
                 // Prepare a database command to update the batches and unqueue them when they are complete.
-                OleDbCommand dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeCompleted = Now() WHERE BatchID = @BatchID", dbCon);
-                OleDbParameter pBatchID = dbCom.Parameters.Add("@BatchID", OleDbType.Integer);
+                OleDbCommand dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeCompleted = Now() WHERE ID = @ID", dbCon);
+                OleDbParameter pBatchID = dbCom.Parameters.Add("@ID", OleDbType.Integer);
 
                 // Loop over all the queued runs.
                 foreach (QueuedRun aRun in QueuedRuns)
