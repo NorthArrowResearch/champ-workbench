@@ -122,14 +122,14 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MAX(Version) AS Version FROM VersionChangeLog", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("SELECT MAX(Version) AS MaxVersion FROM VersionChangeLog", dbCon);
                 object objVersion = dbCom.ExecuteScalar();
                 if (DBNull.Value != objVersion && objVersion is int)
                 {
                     string sDescription = string.Format("CHaMP {0} information updated by {1} using the computer {2} on {3:dd MMM yyyy}.", sTable.ToLower(), Environment.UserName, Environment.MachineName, DateTime.Now);
 
                     dbCom = new OleDbCommand("INSERT INTO VersionChangeLog (Version, Description) VALUES (@Version, @Description)", dbCon);
-                    dbCom.Parameters.AddWithValue("@Version", (int) objVersion);
+                    dbCom.Parameters.AddWithValue("@Version", (int)objVersion);
                     OleDbParameter pDescription = dbCom.Parameters.AddWithValue("@Description", sDescription);
                     pDescription.Size = sDescription.Length;
 
@@ -243,7 +243,6 @@ namespace CHaMPWorkbench.Data
                 try
                 {
                     da.Update(dsWorkbench.CHAMP_Sites);
-                    LogCHaMPDataUpdate(da.Connection.ConnectionString, "fish information");
                 }
                 catch (Exception ex)
                 {
@@ -251,6 +250,7 @@ namespace CHaMPWorkbench.Data
                 }
             }
 
+            LogCHaMPDataUpdate(da.Connection.ConnectionString, "fish information");
         }
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
@@ -609,8 +609,8 @@ namespace CHaMPWorkbench.Data
                     dbUpdate.ExecuteNonQuery();
                 }
 
-                LogCHaMPDataUpdate(conExport.ConnectionString, "extended site information");
             }
+            LogCHaMPDataUpdate(m_dbCon.ConnectionString, "extended site information");
         }
 
         /// <summary>
@@ -647,7 +647,13 @@ namespace CHaMPWorkbench.Data
                         {
                             pVisitID.Value = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
                             pChannelUnitNumber.Value = dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber"));
-                            pLargeWoodCount.Value = (int) dbRead.GetDouble(dbRead.GetOrdinal("LargeWoodCount"));
+
+                            if (dbRead.GetFieldType(dbRead.GetOrdinal("LargeWoodCount")) == System.Type.GetType("System.Double"))
+                                pLargeWoodCount.Value = (int)dbRead.GetDouble(dbRead.GetOrdinal("LargeWoodCount"));
+                            else if (dbRead.GetFieldType(dbRead.GetOrdinal("LargeWoodCount")) == System.Type.GetType("System.Int32"))
+                                pLargeWoodCount.Value = dbRead.GetInt32(dbRead.GetOrdinal("LargeWoodCount"));
+                            else
+                                throw new Exception("Unhandled LargeWoodCount field type");
                             comUpdate.ExecuteNonQuery();
                         }
                         dbRead.Close();
