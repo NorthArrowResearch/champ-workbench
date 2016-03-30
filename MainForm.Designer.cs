@@ -1,4 +1,4 @@
-﻿ CHaMPWorkbench
+﻿namespace CHaMPWorkbench
 {
     partial class MainForm
     {
@@ -420,7 +420,7 @@
             this.buildInputFilesToolStripMenuItem1.Name = "buildInputFilesToolStripMenuItem1";
             this.buildInputFilesToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
             this.buildInputFilesToolStripMenuItem1.Text = "Build Input Files...";
-            this.buildInputFilesToolStripMenuItem1.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem1_Click);
+            this.buildInputFilesToolStripMenuItem1.Click += new System.EventHandler(this.validationReportToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
