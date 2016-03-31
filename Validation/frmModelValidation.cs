@@ -57,6 +57,11 @@ namespace CHaMPWorkbench.Validation
 
         private bool ValidateForm()
         {
+            if (lstReports.SelectedItems.Count < 1)
+            {
+                MessageBox.Show("You must select a report to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
 
 
             return true;
