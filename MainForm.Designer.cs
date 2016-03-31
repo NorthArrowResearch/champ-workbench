@@ -51,7 +51,6 @@
             this.runRBTConsoleBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.scavengeRBTResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.validationReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.habitatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -288,8 +287,7 @@
             this.selectBatchesToRunToolStripMenuItem,
             this.runRBTConsoleBatchesToolStripMenuItem,
             this.toolStripSeparator3,
-            this.scavengeRBTResultsToolStripMenuItem,
-            this.validationReportToolStripMenuItem});
+            this.scavengeRBTResultsToolStripMenuItem});
             this.rBTToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.RBT_Dark_32x32;
             this.rBTToolStripMenuItem1.Name = "rBTToolStripMenuItem1";
             this.rBTToolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
@@ -335,13 +333,6 @@
             this.scavengeRBTResultsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.scavengeRBTResultsToolStripMenuItem.Text = "Scavenge RBT Results...";
             this.scavengeRBTResultsToolStripMenuItem.Click += new System.EventHandler(this.scavengeRBTResultsToolStripMenuItem_Click);
-            // 
-            // validationReportToolStripMenuItem
-            // 
-            this.validationReportToolStripMenuItem.Name = "validationReportToolStripMenuItem";
-            this.validationReportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.validationReportToolStripMenuItem.Text = "Validation Report...";
-            this.validationReportToolStripMenuItem.Click += new System.EventHandler(this.validationReportToolStripMenuItem_Click);
             // 
             // gCDToolStripMenuItem
             // 
@@ -398,10 +389,6 @@
             this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
             // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
             // geomorphicUnitToolGUTToolStripMenuItem
             // 
             this.geomorphicUnitToolGUTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -451,7 +438,7 @@
             // modelValidationReportsToolStripMenuItem
             // 
             this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
-            this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
             this.modelValidationReportsToolStripMenuItem.Click += new System.EventHandler(this.modelValidationReportsToolStripMenuItem_Click);
             // 
@@ -1256,7 +1243,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
         private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisitsFromVisitIDCSVFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem validationReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectRandomNumberOfVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem modelValidationReportsToolStripMenuItem;
