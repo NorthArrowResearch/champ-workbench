@@ -131,7 +131,8 @@ namespace CHaMPWorkbench.Classes
                         XmlDocument xmlR = new XmlDocument();
                         xmlR.Load(sInputFile);
 
-                        ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+                        //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+                        ResultScavengerSingleCHaMP scavenger = new ResultScavengerSingleCHaMP(m_dbCon.ConnectionString);
                         int nResultID = 0;
                         string sResultFile = "";
 
@@ -149,7 +150,7 @@ namespace CHaMPWorkbench.Classes
                         {
                             XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
                             if (aNode is XmlNode)
-                                scavenger.ScavengeLogFile(nResultID, aNode.InnerText, sResultFile);
+                                scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile);
                         }
                     }
                 }

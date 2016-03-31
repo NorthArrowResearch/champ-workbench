@@ -204,7 +204,442 @@ namespace CHaMPWorkbench.Classes
                 }
             }
         }
-        
+
+        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath)
+        {
+            if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
+                return;
+
+            XmlDocument xmlR = new XmlDocument();
+
+            try
+            {
+                xmlR.Load(sLogFile);
+            }
+            catch (Exception ex)
+            {
+                Exception ex2 = new Exception("Error loading RBT log file into XMLDocument object.", ex);
+                ex2.Data["Log File"] = sLogFile;
+                throw ex2;
+            }
+
+            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            {
+                dbCon.Open();
+
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbCon);
+
+                if (nResultID > 0)
+                    dbCom.Parameters.AddWithValue("ResultID", nResultID);
+                else
+                    dbCom.Parameters.AddWithValue("ResultID", DBNull.Value);
+
+                OleDbParameter pStatus = dbCom.Parameters.Add("Status", OleDbType.VarChar);
+                pStatus.Value = DBNull.Value;
+                XmlNode nodStatus = xmlR.SelectSingleNode("rbt/status");
+                if (nodStatus is XmlNode)
+                    if (nodStatus is XmlNode && !string.IsNullOrEmpty(nodStatus.InnerText))
+                        pStatus.Value = nodStatus.InnerText;
+
+                dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
+
+                OleDbParameter pResultFile = dbCom.Parameters.Add("ResultFilePath", OleDbType.VarChar);
+                if (string.IsNullOrEmpty(sResultFilePath))
+                {
+                    pResultFile.Value = DBNull.Value;
+                }
+                else
+                {
+                    pResultFile.Value = sResultFilePath;
+                    pResultFile.Size = sResultFilePath.Length;
+                }
+
+                XmlNode xMeta = xmlR.SelectSingleNode("rbt/meta_data");
+                OleDbParameter pMeta = dbCom.Parameters.Add("MetaDataInfo", OleDbType.VarChar);
+                pMeta.Value = DBNull.Value;
+                if (xMeta is XmlNode)
+                {
+                    if (!string.IsNullOrEmpty(xMeta.InnerXml))
+                    {
+                        pMeta.Value = xMeta.InnerXml;
+                        pMeta.Size = xMeta.InnerXml.Length;
+                    }
+                }
+                dbCom.ExecuteNonQuery();
+                //
+                // Get the ID of this log file entry
+                //
+                dbCom = new OleDbCommand("SELECT @@Identity FROM LogFiles", dbCon);
+                int nLogID = (int)dbCom.ExecuteScalar();
+                if (nLogID > 0)
+                {
+                    //
+                    // Now insert all the status messages and errors/warnings
+                    //
+                    dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, SourceVisitID, TargetVisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
+                                                                    " VALUES (@LogID, @MessageType, @MessageSeverity, @SourceVisitID, @TargetVisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", dbCon);
+                    dbCom.Parameters.AddWithValue("LogID", nLogID);
+                    OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
+                    OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
+                    OleDbParameter pSourceVisitID = dbCom.Parameters.Add("SourceVisitID", OleDbType.BigInt);
+                    OleDbParameter pTargetVisitID = dbCom.Parameters.Add("TargetVisitID", OleDbType.BigInt);
+                    OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
+                    OleDbParameter pLogMessage = dbCom.Parameters.Add("LogMessage", OleDbType.VarChar);
+                    OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
+                    OleDbParameter pLogSolution = dbCom.Parameters.Add("LogSolution", OleDbType.VarChar);
+
+                    foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
+                    {
+                        XmlAttribute att = MessageNode.Attributes["severity"];
+                        pMessageSeverity.Value = DBNull.Value;
+                        if (att is XmlAttribute)
+                        {
+                            if (!string.IsNullOrEmpty(att.InnerText))
+                            {
+                                if (!string.IsNullOrEmpty(att.InnerText))
+                                {
+                                    pMessageSeverity.Value = att.InnerText;
+                                    pMessageSeverity.Size = att.InnerText.Length;
+                                }
+                            }
+                        }
+
+                        att = MessageNode.Attributes["type"];
+                        pMessageType.Value = DBNull.Value;
+                        if (att is XmlAttribute)
+                        {
+                            if (!string.IsNullOrEmpty(att.InnerText))
+                            {
+                                if (!string.IsNullOrEmpty(att.InnerText))
+                                {
+                                    pMessageType.Value = att.InnerText;
+                                    pMessageType.Size = att.InnerText.Length;
+                                }
+                            }
+                        }
+
+                        att = MessageNode.Attributes["time"];
+                        pLogDateTime.Value = DBNull.Value;
+                        if (att is XmlAttribute)
+                        {
+                            if (!string.IsNullOrEmpty(att.InnerText))
+                            {
+                                DateTime aTime = default(DateTime);
+                                if (DateTime.TryParse(att.InnerText, out aTime))
+                                {
+                                    pLogDateTime.Value = aTime;
+                                }
+                            }
+                        }
+
+                        XmlNode aChildNode = MessageNode.SelectSingleNode("description");
+                        pLogMessage.Value = DBNull.Value;
+                        if (aChildNode is XmlNode)
+                        {
+                            if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                            {
+                                pLogMessage.Value = aChildNode.InnerText.Trim();
+                                //pLogMessage.Size = aChildNode.InnerText.Length;
+                            }
+                        }
+
+                        aChildNode = MessageNode.SelectSingleNode("exception");
+                        pLogException.Value = DBNull.Value;
+                        if (aChildNode is XmlNode)
+                        {
+                            if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                            {
+                                pLogException.Value = aChildNode.InnerText.Trim();
+                                //pLogException.Size = aChildNode.InnerText.Length;
+                            }
+                        }
+
+                        aChildNode = MessageNode.SelectSingleNode("solution");
+                        pLogSolution.Value = DBNull.Value;
+                        if (aChildNode is XmlNode)
+                        {
+                            if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                            {
+                                pLogSolution.Value = aChildNode.InnerText.Trim();
+                                //pLogSolution.Size = aChildNode.InnerText.Length;
+                            }
+                        }
+
+                        aChildNode = MessageNode.SelectSingleNode("source_visit");
+                        pSourceVisitID.Value = DBNull.Value;
+                        if (aChildNode is XmlNode)
+                        {
+                            if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                            {
+                                long nVisitID = 0;
+                                if (long.TryParse(aChildNode.InnerText, out nVisitID))
+                                    pSourceVisitID.Value = nVisitID;
+                            }
+                        }
+
+                        aChildNode = MessageNode.SelectSingleNode("target_visit");
+                        pTargetVisitID.Value = DBNull.Value;
+                        if (aChildNode is XmlNode)
+                        {
+                            if (!string.IsNullOrEmpty(aChildNode.InnerText))
+                            {
+                                long nVisitID = 0;
+                                if (long.TryParse(aChildNode.InnerText, out nVisitID))
+                                    pTargetVisitID.Value = nVisitID;
+                            }
+                        }
+
+                        dbCom.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+
+        private void Scavenge_ChangeDetection(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nVisitID)
+        {
+
+            foreach (XmlNode dodNode in xmlTopNode.SelectNodes("./change_detection_results/dod"))
+            {
+                string sSQL = null;
+                sSQL = "INSERT INTO Metric_ChangeDetection (ResultID, NewVisit, NewfieldSeason, NewVisitID, OldVisit, OldFieldSeason, OldVisitID, Epoch, ThresholdType, Threshold, SpatialCoherence";
+
+                sSQL += ") VALUES (" + nVisitID.ToString();
+
+                AddStringValue(ref sSQL, dodNode, "./new_visit_name");
+                AddNumericValue(ref sSQL, dodNode, "./new_visit_year");
+                AddNumericValue(ref sSQL, dodNode, "./new_visit_id");
+                AddStringValue(ref sSQL, dodNode, "./old_visit_name");
+                AddNumericValue(ref sSQL, dodNode, "./old_visit_year");
+                AddNumericValue(ref sSQL, dodNode, "./old_visit_id");
+
+                XmlAttribute xmlAtt = dodNode.Attributes["epoch"];
+                if (xmlAtt is XmlAttribute && !string.IsNullOrEmpty(xmlAtt.InnerText))
+                {
+                    sSQL += ", '" + xmlAtt.InnerText.Replace("'", "") + "'";
+                }
+                else
+                {
+                    sSQL += "NULL";
+                }
+
+                xmlAtt = dodNode.Attributes["type"];
+                if (xmlAtt is XmlAttribute && !string.IsNullOrEmpty(xmlAtt.InnerText))
+                {
+                    sSQL += ", '" + xmlAtt.InnerText.Replace("'", "") + "'";
+                }
+                else
+                {
+                    sSQL += "NULL";
+                }
+
+                xmlAtt = dodNode.Attributes["threshold"];
+                if (xmlAtt is XmlAttribute && !String.IsNullOrWhiteSpace(xmlAtt.InnerText))
+                {
+                    sSQL += ", " + xmlAtt.InnerText;
+                }
+                else
+                {
+                    sSQL += "NULL";
+                }
+
+                xmlAtt = dodNode.Attributes["spatial_coherence"];
+                if (xmlAtt is XmlAttribute && !String.IsNullOrWhiteSpace(xmlAtt.InnerText))
+                {
+                    sSQL += ", " + xmlAtt.InnerText;
+                }
+                else
+                {
+                    sSQL += "NULL";
+                }
+
+                sSQL += ")";
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                try
+                {
+                    dbCom.ExecuteNonQuery();
+
+                    int nChangeDetectionID = 0;
+                    dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_ChangeDetection", dbTrans.Connection, dbTrans);
+                    OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                    if (dbRdr.Read())
+                    {
+                        if (!System.Convert.IsDBNull(dbRdr[0]))
+                        {
+                            nChangeDetectionID = (int)dbRdr[0];
+                            PopulateTable_BudgetSegegration(ref dbTrans, dodNode, nChangeDetectionID);
+                        }
+                    }
+                    dbRdr.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error inserting change detection");
+                }
+            }
+        }
+
+
+        private void PopulateTable_BudgetSegegration(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nChangeDetectionID)
+        {
+            //("./change_detection/dod")
+            foreach (XmlNode aBudgetSegNode in xmlTopNode.ChildNodes)
+            {
+
+                if (aBudgetSegNode.Name.ToLower().Contains("site") || aBudgetSegNode.Name.ToLower().Contains("tier") || aBudgetSegNode.Name.ToLower().Contains("bankfull"))
+                {
+                    string sSQL = "INSERT INTO Metric_BudgetSegregations (";
+                    sSQL += "ChangeDetectionID" + ", Mask";
+
+                    sSQL += ") VALUES (";
+                    sSQL += nChangeDetectionID.ToString() + ", ";
+                    sSQL += "'" + aBudgetSegNode.Name.Replace("'", "") + "'";
+                    sSQL += ")";
+
+                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                    dbCom.ExecuteNonQuery();
+
+                    dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_BudgetSegregations", dbTrans.Connection, dbTrans);
+                    OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                    if (dbRdr.Read())
+                    {
+                        if (!System.Convert.IsDBNull(dbRdr[0]))
+                        {
+                            int nBudgetSegragationID = (int)dbRdr[0];
+
+                            if (aBudgetSegNode.Name.ToLower().Contains("site"))
+                            {
+                                PopulateTable_BudgetSegragationValues(dbTrans, aBudgetSegNode, nBudgetSegragationID, "site");
+                            }
+                            else
+                            {
+                                foreach (XmlNode aChannelUnitTypeNode in aBudgetSegNode.ChildNodes)
+                                {
+                                    PopulateTable_BudgetSegragationValues(dbTrans, aChannelUnitTypeNode, nBudgetSegragationID, aChannelUnitTypeNode.Name);
+                                }
+                            }
+
+                        }
+                    }
+                    dbRdr.Close();
+                }
+            }
+        }
+
+
+        private void PopulateTable_BudgetSegragationValues(OleDbTransaction dbTrans, XmlNode xmlBudgetNode, int nBudgetSegragationID, string sMaskValueName)
+        {
+            string sSQL = "INSERT INTO Metric_BudgetSegregationValues (BudgetID" + ", MaskValueName" + ", RawAreaErosion" + ", RawAreaDeposition" + ", ThresholdAreaErosion" + ", ThresholdAreaDeposition" + ", AreaDetectableChange" + ", AreaOfInterestRaw" + ", PercentAreaOfInterestDetectableChange" + ", RawVolumeErosion" + ", ThresholdVolumeErosion" + ", ErrorVolumeErosion" + ", ThresholdPercentErosion" + ", RawVolumeDeposition" + ", ThresholdVolumeDeposition" + ", ErrorVolumeDeposition" + ", ThresholdPercentDeposition" + ", RawVolumeDifference" + ", ThresholdedVolumeDifference" + ", ErrorVolumeDifference" + ", VolumeDifferencePercent" + ", AverageDepthErosionRaw" + ", AverageDepthErosionThreshold" + ", AverageDepthErosionError" + ", AverageDepthErosionPercent" + ", AverageDepthDepositionRaw" + ", AverageDepthDepositionThreshold" + ", AverageDepthDepositionError" + ", AverageDepthDepositionPercent" + ", AverageThicknessDifferenceAOIRaw" + ", AverageThicknessDifferenceAOIThresholded" + ", AverageThicknessDifferenceAOIError" + ", AverageThicknessDifferenceAOIPercent" + ", AverageNetThicknessDifferenceAOIRaw" + ", AverageNetThicknessDifferenceAOIThresholded" + ", AverageNetThicknessDifferenceAOIError" + ", AverageNetThicknessDifferenceAOIPercent" + ", AverageThicknessDifferenceADCThresholded" + ", AverageThicknessDifferenceADCError" + ", AverageThicknessDifferenceADCPercent" + ", AverageNetThicknessDifferenceADCThresholded" + ", AverageNetThicknessDifferenceADCError" + ", AverageNetThicknessDifferenceADCPercent" + ", PercentErosionRaw" + ", PercentErosionThresholded" + ", PercentDepositionRaw" + ", PercentDepositionThresholded" + ", PercentImbalanceRaw" + ", PercentImbalanceThresholded" + ", PercentNetVolumeRatioRaw" + ", PercentNetVolumeRatioThresholded" + ") VALUES (" + nBudgetSegragationID;
+
+            sSQL += ", '" + sMaskValueName.Replace("'", "") + "'";
+            AddNumericValue(ref sSQL, xmlBudgetNode, "raw_area_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "raw_area_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_area_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_area_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "area_detectable_change");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "area_of_interest_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_area_of_interest_detectable_change");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "raw_volume_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_volume_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "error_volume_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_percent_erosion");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "raw_volume_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_volume_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "error_volume_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_percent_deposition");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "raw_volume_difference");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "thresholded_volume_difference");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "error_volume_difference");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "volume_difference_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_erosion_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_erosion_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_erosion_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_erosion_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_deposition_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_deposition_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_deposition_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_depth_deposition_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_aoi_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_aoi_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_aoi_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_aoi_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_aoi_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_aoi_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_aoi_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_aoi_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_adc_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_adc_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_thickness_difference_adc_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_adc_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_adc_error");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "average_net_thickness_difference_adc_percent");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_erosion_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_erosion_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_deposition_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_deposition_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_imbalance_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_imbalance_thresholded");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_net_volume_ratio_raw");
+            AddNumericValue(ref sSQL, xmlBudgetNode, "percent_net_volume_ratio_thresholded");
+
+            sSQL += ")";
+
+            try
+            {
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                dbCom.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inserting budget segregation values " + nBudgetSegragationID.ToString());
+            }
+        }
+
+
+        private void AddStringValue(ref string sSQL, XmlNode xmlTopNode, string xmlTag)
+        {
+            XmlNode xmlNode = xmlTopNode.SelectSingleNode(xmlTag);
+            if (xmlNode is XmlNode)
+            {
+                string sValue = xmlNode.InnerText;
+                if (string.IsNullOrEmpty(sValue))
+                {
+                    sSQL += ", NULL";
+                }
+                else
+                {
+                    sSQL += ", '" + sValue.Replace("'", "''") + "'";
+                }
+            }
+            else
+            {
+                sSQL += ", NULL";
+            }
+
+        }
+
+
+        private void AddNumericValue(ref string sSQL, XmlNode xmlTopNode, string xmlTag)
+        {
+            string sValue = "";
+            XmlNode xmlNode = xmlTopNode.SelectSingleNode(xmlTag);
+            if (xmlNode is XmlNode)
+            {
+                sValue = xmlNode.InnerText;
+            }
+
+            double fValue = 0;
+            if (double.TryParse(sValue, out fValue) && !double.IsNaN(fValue))
+            {
+                sSQL += ", " + fValue.ToString();
+            }
+            else
+            {
+                sSQL += ", NULL";
+            }
+        }
+
         /// <summary>
         /// This class is used to keep a list of all metrics in memory that need processing from an RBT result XML file.
         /// </summary>
