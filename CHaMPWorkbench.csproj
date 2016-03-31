@@ -128,7 +128,6 @@
     <Compile Include="Classes\RBTBatchEngine.cs" />
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
-    <Compile Include="Classes\ResultScavengerSingle.cs" />
     <Compile Include="Classes\ResultScavengerSingleCHaMP.cs" />
     <Compile Include="Classes\Site.cs" />
     <Compile Include="Classes\Visit.cs" />

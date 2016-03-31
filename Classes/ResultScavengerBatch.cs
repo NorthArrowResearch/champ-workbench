@@ -78,7 +78,7 @@ namespace CHaMPWorkbench.Classes
                 ClearDatabase(ref m_dbCon);
             }
 
-            ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+            //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
             ResultScavengerSingleCHaMP scavengerCHaMP = new ResultScavengerSingleCHaMP(m_dbCon.ConnectionString);
 
             for (int i = 0; i < sResultFiles.Count(); i++)
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.Classes
                 int nResultID = 0;
                 try
                 {
-                    nResultID = scavenger.ScavengeResultFile(sResultFiles[i]);
+                    nResultID = scavengerCHaMP.ScavengeResultFile(sResultFiles[i]);
 
                     // Try to find a corresponding log file in this folder.
                     if (nResultID > 0 && lLogFiles != null)
@@ -99,7 +99,7 @@ namespace CHaMPWorkbench.Classes
                         {
                             // Log exists. Process it and relate to the result.
                             // Then remove it from later indepdendant processing
-                            scavenger.ScavengeLogFile(nResultID, sLogs[j], sResultFiles[i]);
+                            scavengerCHaMP.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, sLogs[j], sResultFiles[i]);
 
                             if (lLogFiles.Contains(sLogs[i]))
                                 lLogFiles.Remove(sLogs[i]);
@@ -150,7 +150,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     try
                     {
-                        scavenger.ScavengeLogFile(0, sLog, string.Empty);
+                        scavengerCHaMP.ScavengeLogFile(m_dbCon.ConnectionString,  0, sLog, string.Empty);
                     }
                     catch (Exception ex)
                     {

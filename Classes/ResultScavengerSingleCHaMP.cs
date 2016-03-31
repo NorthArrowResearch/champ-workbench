@@ -77,6 +77,7 @@ namespace CHaMPWorkbench.Classes
                     if (nResultID > 0)
                     {
                         ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
+                        Scavenge_ChangeDetection(ref dbTrans, xmlResults, nResultID);
                         dbTrans.Commit();
                     }
                     else
@@ -147,13 +148,13 @@ namespace CHaMPWorkbench.Classes
                     int nVisitID;
                     if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
                     {
-                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, RBTVersion, VisitID, RBTRunDateTime, ScavengeTypeID)" +
-                            " VALUES (@ResultFile, @RBTVersion, @VisitID, @RBTRunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
+                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
+                            " VALUES (@ResultFile, @ModelVersion, @VisitID, @RBTRunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
 
                         dbCom.Parameters.AddWithValue("@ResultFile", sResultFile);
-                        dbCom.Parameters.AddWithValue("@RBTVersion", nodVersion.InnerText);
+                        dbCom.Parameters.AddWithValue("@ModelVersion", nodVersion.InnerText);
                         dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
-                        dbCom.Parameters.AddWithValue("@RBTRunDateTime", dtCreated.ToString());
+                        dbCom.Parameters.AddWithValue("@RunDateTime", dtCreated.ToString());
                         dbCom.Parameters.AddWithValue("@ScavengeTypeID", m_nRBTScavengeTypeID);
 
                         dbCom.ExecuteNonQuery();
@@ -396,15 +397,15 @@ namespace CHaMPWorkbench.Classes
         }
 
 
-        private void Scavenge_ChangeDetection(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nVisitID)
+        private void Scavenge_ChangeDetection(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nResultID)
         {
 
-            foreach (XmlNode dodNode in xmlTopNode.SelectNodes("./change_detection_results/dod"))
+            foreach (XmlNode dodNode in xmlTopNode.SelectNodes("/rbt_results/metric_results/change_detection_results/dod"))
             {
                 string sSQL = null;
                 sSQL = "INSERT INTO Metric_ChangeDetection (ResultID, NewVisit, NewfieldSeason, NewVisitID, OldVisit, OldFieldSeason, OldVisitID, Epoch, ThresholdType, Threshold, SpatialCoherence";
 
-                sSQL += ") VALUES (" + nVisitID.ToString();
+                sSQL += ") VALUES (" + nResultID.ToString();
 
                 AddStringValue(ref sSQL, dodNode, "./new_visit_name");
                 AddNumericValue(ref sSQL, dodNode, "./new_visit_year");
@@ -478,7 +479,6 @@ namespace CHaMPWorkbench.Classes
                 }
             }
         }
-
 
         private void PopulateTable_BudgetSegegration(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nChangeDetectionID)
         {
