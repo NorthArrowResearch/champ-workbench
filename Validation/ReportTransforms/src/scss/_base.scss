@@ -8,14 +8,14 @@ img, svg { max-width: 100%; }
 // Table formatting
 table, table.table{
   width: 100%;
-  font-size: 12px;
+  font-size: 10px;
   table-layout: fixed;
   margin-bottom: 2rem;
   tbody tr:nth-child(odd) { 
      background-color: #eee;
   }
   tbody tr td:nth-child(1), thead tr th:nth-child(1) { width: 50px; }
-  tbody tr td:nth-child(2), thead tr th:nth-child(2) { width: 300px; }
+  //tbody tr td:nth-child(2), thead tr th:nth-child(2) { width: 300px; }
   thead { @extend .bg-inverse; }
   thead th.version {
     border-right: 1px solid #AAA;
@@ -50,7 +50,7 @@ table, table.table{
 
 // Make the titles blend in with the table
 .metric{
-  h2{
+  h3{
     font-size: 1.3rem;
     margin-bottom: 0;
     background: #555;
