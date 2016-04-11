@@ -6,11 +6,20 @@
       <name>Integrated Bankfull Width</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>4.326557</manual_result>
           <results>
             <result>
@@ -42,7 +51,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>22.95172</manual_result>
           <results>
             <result>
@@ -79,13 +93,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>24.12372</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>27.06935</manual_result>
           <results>
             <result>
@@ -122,7 +146,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>9.664985</manual_result>
           <results>
             <result>
@@ -164,7 +193,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>7.270227</manual_result>
           <results>
             <result>
@@ -196,7 +230,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>7.647735</manual_result>
           <results>
             <result>
@@ -223,13 +262,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>28.73112</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>68.7879</manual_result>
           <results>
             <result>
@@ -266,7 +315,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>4.917998</manual_result>
           <results>
             <result>
@@ -307,11 +361,20 @@
       <name>Integrated Wetted Width</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.366013</manual_result>
           <results>
             <result>
@@ -343,7 +406,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>16.4834</manual_result>
           <results>
             <result>
@@ -380,13 +448,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>15.64242</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>16.09018</manual_result>
           <results>
             <result>
@@ -423,7 +501,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>8.078991</manual_result>
           <results>
             <result>
@@ -465,7 +548,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>7.019182</manual_result>
           <results>
             <result>
@@ -497,7 +585,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>5.925639</manual_result>
           <results>
             <result>
@@ -524,13 +617,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>22.93721</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>43.44846</manual_result>
           <results>
             <result>
@@ -567,7 +670,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>2.147502</manual_result>
           <results>
             <result>
@@ -608,11 +716,20 @@
       <name>Site Bankfull Area</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>497.6279</manual_result>
           <results>
             <result>
@@ -644,7 +761,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>8286.328</manual_result>
           <results>
             <result>
@@ -681,13 +803,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>8591.909</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>9920.507</manual_result>
           <results>
             <result>
@@ -724,7 +856,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>2021.809</manual_result>
           <results>
             <result>
@@ -766,7 +903,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1251.012</manual_result>
           <results>
             <result>
@@ -798,7 +940,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1262.388</manual_result>
           <results>
             <result>
@@ -825,13 +972,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>15104.14</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>43465.34</manual_result>
           <results>
             <result>
@@ -868,7 +1025,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>597.7524</manual_result>
           <results>
             <result>
@@ -909,11 +1071,20 @@
       <name>Site Length Bankfull</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>115.0171</manual_result>
           <results>
             <result>
@@ -945,7 +1116,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>361.033</manual_result>
           <results>
             <result>
@@ -982,13 +1158,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>356.1602</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>366.4848</manual_result>
           <results>
             <result>
@@ -1025,7 +1211,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>209.189</manual_result>
           <results>
             <result>
@@ -1067,7 +1258,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>172.0733</manual_result>
           <results>
             <result>
@@ -1099,7 +1295,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>165.067</manual_result>
           <results>
             <result>
@@ -1126,13 +1327,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>525.7066</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>631.8748</manual_result>
           <results>
             <result>
@@ -1169,7 +1380,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>121.5438</manual_result>
           <results>
             <result>
@@ -1210,11 +1426,20 @@
       <name>Site Length Thalweg</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>124.7559</manual_result>
           <results>
             <result>
@@ -1246,7 +1471,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>385.6556</manual_result>
           <results>
             <result>
@@ -1283,13 +1513,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>387.408</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>393.4442</manual_result>
           <results>
             <result>
@@ -1326,7 +1566,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>207.8328</manual_result>
           <results>
             <result>
@@ -1368,7 +1613,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>161.3418</manual_result>
           <results>
             <result>
@@ -1400,7 +1650,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>165.4876</manual_result>
           <results>
             <result>
@@ -1427,13 +1682,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>576.716</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>634.5787</manual_result>
           <results>
             <result>
@@ -1470,7 +1735,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>136.5564</manual_result>
           <results>
             <result>
@@ -1511,11 +1781,20 @@
       <name>Site Length Wetted</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>123.64</manual_result>
           <results>
             <result>
@@ -1547,7 +1826,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>363.6694</manual_result>
           <results>
             <result>
@@ -1584,13 +1868,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>363.6677</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>357.3399</manual_result>
           <results>
             <result>
@@ -1627,7 +1921,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>207.9677</manual_result>
           <results>
             <result>
@@ -1669,7 +1968,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>163.2689</manual_result>
           <results>
             <result>
@@ -1701,7 +2005,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>162.1122</manual_result>
           <results>
             <result>
@@ -1728,13 +2037,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>524.9655</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>624.0291</manual_result>
           <results>
             <result>
@@ -1771,7 +2090,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>132.2175</manual_result>
           <results>
             <result>
@@ -1812,11 +2136,20 @@
       <name>Site Sinuosity</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.175275</manual_result>
           <results>
             <result>
@@ -1848,7 +2181,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.486395</manual_result>
           <results>
             <result>
@@ -1885,13 +2223,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.491547</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.484277</manual_result>
           <results>
             <result>
@@ -1928,7 +2276,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.324408</manual_result>
           <results>
             <result>
@@ -1970,7 +2323,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.186664</manual_result>
           <results>
             <result>
@@ -2002,7 +2360,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.18589</manual_result>
           <results>
             <result>
@@ -2029,13 +2392,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.651533</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.625941</manual_result>
           <results>
             <result>
@@ -2072,7 +2445,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>2.087556</manual_result>
           <results>
             <result>
@@ -2113,11 +2491,20 @@
       <name>Site Sinuosity Centerline</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.162258</manual_result>
           <results>
             <result>
@@ -2149,7 +2536,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.389438</manual_result>
           <results>
             <result>
@@ -2186,13 +2578,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.37851</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.370921</manual_result>
           <results>
             <result>
@@ -2229,7 +2631,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.36585</manual_result>
           <results>
             <result>
@@ -2271,7 +2678,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.182244</manual_result>
           <results>
             <result>
@@ -2303,7 +2715,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.165884</manual_result>
           <results>
             <result>
@@ -2330,13 +2747,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.481401</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.57216</manual_result>
           <results>
             <result>
@@ -2373,7 +2800,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>2.030545</manual_result>
           <results>
             <result>
@@ -2414,11 +2846,20 @@
       <name>Site Water Surface Gradient</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.03411349</manual_result>
           <results>
             <result>
@@ -2450,7 +2891,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.00517988</manual_result>
           <results>
             <result>
@@ -2487,13 +2933,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.005181106</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.005334119</manual_result>
           <results>
             <result>
@@ -2530,7 +2986,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.01697672</manual_result>
           <results>
             <result>
@@ -2572,7 +3033,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.05615823</manual_result>
           <results>
             <result>
@@ -2604,7 +3070,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.05414501</manual_result>
           <results>
             <result>
@@ -2631,13 +3102,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.002683905</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.004485214</manual_result>
           <results>
             <result>
@@ -2674,7 +3155,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.0071452</manual_result>
           <results>
             <result>
@@ -2715,11 +3201,20 @@
       <name>Site Wetted Area</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>168.8939</manual_result>
           <results>
             <result>
@@ -2751,7 +3246,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>5994.509</manual_result>
           <results>
             <result>
@@ -2788,13 +3288,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>5688.643</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>5749.662</manual_result>
           <results>
             <result>
@@ -2831,7 +3341,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1680.169</manual_result>
           <results>
             <result>
@@ -2873,7 +3388,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1146.014</manual_result>
           <results>
             <result>
@@ -2905,7 +3425,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>960.6183</manual_result>
           <results>
             <result>
@@ -2932,13 +3457,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>12041.24</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>27113.1</manual_result>
           <results>
             <result>
@@ -2975,7 +3510,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>283.9374</manual_result>
           <results>
             <result>
@@ -3016,11 +3556,20 @@
       <name>Standard Deviation of the Detrended DEM</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.6622869</manual_result>
           <results>
             <result>
@@ -3052,13 +3601,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.4799007</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.4835667</manual_result>
           <results>
             <result>
@@ -3095,7 +3654,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.8878476</manual_result>
           <results>
             <result>
@@ -3137,7 +3701,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.82842</manual_result>
           <results>
             <result>
@@ -3169,7 +3738,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.029407</manual_result>
           <results>
             <result>
@@ -3196,13 +3770,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.9357951</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>3.589276</manual_result>
           <results>
             <result>
@@ -3239,7 +3823,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.7521511</manual_result>
           <results>
             <result>
@@ -3280,11 +3869,20 @@
       <name>Thalweg to Centerline Length Ratio</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.009025</manual_result>
           <results>
             <result>
@@ -3316,7 +3914,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.060457</manual_result>
           <results>
             <result>
@@ -3353,13 +3956,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.06528</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.101036</manual_result>
           <results>
             <result>
@@ -3396,7 +4009,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.9993511</manual_result>
           <results>
             <result>
@@ -3438,7 +4056,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.9881966</manual_result>
           <results>
             <result>
@@ -3470,7 +4093,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.020821</manual_result>
           <results>
             <result>
@@ -3497,13 +4125,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.098579</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.016906</manual_result>
           <results>
             <result>
@@ -3540,7 +4178,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1.032816</manual_result>
           <results>
             <result>
@@ -3581,17 +4224,31 @@
       <name>Water Depth Standard Deviation</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.2157731</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.2133063</manual_result>
           <results>
             <result>
@@ -3628,7 +4285,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.1270123</manual_result>
           <results>
             <result>
@@ -3660,7 +4322,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.1445545</manual_result>
           <results>
             <result>
@@ -3687,7 +4354,12 @@
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.5885969</manual_result>
           <results>
             <result>
@@ -3724,7 +4396,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>0.1546901</manual_result>
           <results>
             <result>
@@ -3765,11 +4442,20 @@
       <name>Wetted Volume</name>
       <unit>
       </unit>
+      <display_parent_group>SOME_PARENT</display_parent_group>
+      <display_child_group>SOME_CHILD</display_child_group>
+      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
         <visit>
           <visit_id>561</visit_id>
-          <visit_name>John Day, OJD03458-000005, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>9.438771</manual_result>
           <results>
             <result>
@@ -3801,7 +4487,12 @@
         </visit>
         <visit>
           <visit_id>784</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1718.195</manual_result>
           <results>
             <result>
@@ -3838,13 +4529,23 @@
         </visit>
         <visit>
           <visit_id>1010</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1632.07</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1011</visit_id>
-          <visit_name>Tucannon, CBW05583-481459, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>1582.663</manual_result>
           <results>
             <result>
@@ -3881,7 +4582,12 @@
         </visit>
         <visit>
           <visit_id>995</visit_id>
-          <visit_name>Asotin, ASW00001-NF-F1 P2BR, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>332.17</manual_result>
           <results>
             <result>
@@ -3923,7 +4629,12 @@
         </visit>
         <visit>
           <visit_id>696</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>186.7876</manual_result>
           <results>
             <result>
@@ -3955,7 +4666,12 @@
         </visit>
         <visit>
           <visit_id>749</visit_id>
-          <visit_name>South Fork Salmon, CBW05583-401362, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>244.4708</manual_result>
           <results>
             <result>
@@ -3982,13 +4698,23 @@
         </visit>
         <visit>
           <visit_id>606</visit_id>
-          <visit_name>Wenatchee, WC503432-000038, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>7259.111</manual_result>
           <results />
         </visit>
         <visit>
           <visit_id>1105</visit_id>
-          <visit_name>Methow , CBW05583-354249, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>20016.75</manual_result>
           <results>
             <result>
@@ -4025,7 +4751,12 @@
         </visit>
         <visit>
           <visit_id>1142</visit_id>
-          <visit_name>Big-Navarro-Garcia (CA), CAL00001-070161, 2012</visit_name>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
           <manual_result>44.6563</manual_result>
           <results>
             <result>

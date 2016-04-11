@@ -51,7 +51,11 @@
                       <xsl:attribute name="data"><xsl:value-of select="visit_id"/></xsl:attribute>
                       <xsl:value-of select="visit_id"/>
                     </td>
-                    <td class="visitName"><xsl:value-of select="visit_name"/></td>
+                    <td class="visitName">
+                      VISIT_<xsl:value-of select="visit_id"/>, 
+                      <xsl:value-of select="watershed_name"/>, 
+                      <xsl:value-of select="field_season"/>
+                    </td>
                     <td class="manualResult"><xsl:value-of select="manual_result"/></td>
                     <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
                       <xsl:variable name="version" select="." />
