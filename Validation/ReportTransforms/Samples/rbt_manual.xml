@@ -8,7 +8,7 @@
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>6</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -363,7 +363,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>5</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -718,7 +718,7 @@
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>84</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -1073,7 +1073,7 @@
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>8</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -1428,7 +1428,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>9</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -1783,7 +1783,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>7</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -2138,7 +2138,7 @@
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>2</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -2493,7 +2493,7 @@
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>433</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -2848,7 +2848,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>331</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -3203,7 +3203,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>83</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -3558,7 +3558,7 @@
       </unit>
       <display_parent_group>Bankful</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>431</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -3871,7 +3871,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>432</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -4226,7 +4226,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Shape</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>465</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
@@ -4444,7 +4444,7 @@
       </unit>
       <display_parent_group>Wetted</display_parent_group>
       <display_child_group>Site Size</display_child_group>
-      <metric_calc_type_id>9999999</metric_calc_type_id>
+      <metric_calc_type_id>4</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
       <visits>
