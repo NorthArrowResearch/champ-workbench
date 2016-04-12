@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:key name="metric" match="/report/metrics/metric/name/text()" use="." />
+  <xsl:key name="visit" match="/report/metrics/metric/visits/visit" use="visit_id/text()" />
+  <xsl:key name="result" match="/report/metrics/metric/visits/visit/results/result" use="concat(../../visit_id, '|', ../../../../display_parent_group, '|', ../../../../display_child_group)" />
+
   <xsl:template match="report">
     <html class="no-js" lang="en">
       <head> 
@@ -20,362 +24,98 @@
               </div>
               <div class="metric">  
                   <h3>Bankful Metrics</h3>        
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='33']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='45']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='37']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='139']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='137']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3264']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3263']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='33']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='45']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='37']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='139']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='137']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3264']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3263']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                            </tr>
-                        </tbody>
-                      </table>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Visit ID</th>
+                        <th>Field Season</th>
+                        <xsl:for-each select="/report/metrics/metric[display_parent_group='Bankfull' and display_child_group='SiteSize']">
+                            <th><xsl:value-of select="name" /></th>
+                        </xsl:for-each>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <xsl:for-each select="/report/metrics/metric[display_parent_group='Bankfull' and display_child_group='SiteSize']/visits/visit">
+                        <tr>
+                            <td class="visitId"><xsl:value-of select="visit_id" /></td>
+                            <td><xsl:value-of select="field_season" /></td>
+                            <td><xsl:value-of select="results/result/value" /></td>
+                        </tr>
+                        </xsl:for-each>
+                    </tbody>
+                  </table>
               </div>
               <div class="metric">
                   <h3>Wetted Metrics</h3>      
                   <div>    
-                      <table class="table light">
+                      <table class="table">
                         <thead>
                           <tr>
                             <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='31']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='34']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='35']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='157']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='155']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='40']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='30']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='68']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='28']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3373']">
-                              <th><xsl:value-of select="Title" /></th>
+                            <th>Field Season</th>
+                            <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteSize']">
+                                <th><xsl:value-of select="name" /></th>
                             </xsl:for-each>
                           </tr>
-                        </thead>
+                        </thead> 
                         <tbody>
-                            <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='31']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='34']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='35']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='157']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='155']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='40']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='30']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                                <xsl:for-each select="watershed-report[MetricID='68']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                                <xsl:for-each select="watershed-report[MetricID='28']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                                <xsl:for-each select="watershed-report[MetricID='3373']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                            </tr>
+                            <xsl:for-each select="/report/metrics/metric/visits/visit[generate-id() = generate-id(key('visit',visit_id/text())[1])]">
+                                <xsl:variable name="myVisitID" select="./visit_id" />
+                                <tr>
+                                    <td class="visitId"><xsl:value-of select="visit_id" /></td>
+                                    <td class="visitId"><xsl:value-of select="field_season" /></td>
+                                    <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteSize']">
+                                        <xsl:variable name="myResult" select="visits/visit/results/result[generate-id() = generate-id(key('result',concat($myVisitID, '|', 'Wetted', '|', 'SiteSize'))[1])]" />
+                                        <xsl:choose>
+                                          <xsl:when test="$myResult">
+                                            <td><xsl:value-of select="$myResult/value" /></td>
+                                          </xsl:when>
+                                          <xsl:otherwise>
+                                            <td></td>
+                                          </xsl:otherwise>
+                                        </xsl:choose>
+
+                                   </xsl:for-each>
+                                </tr>
+                            </xsl:for-each>
                         </tbody>
                       </table>
                   </div>
-              </div>
+               </div>
           </div>
-          <!-- Site Shape metrics -->   
-          <div class="panel panel-default">   
+          <!-- Site Shape metrics -->
+          <div class="panel panel-default"> 
               <div class="panel-heading"><div class="panel-title"><h2>Site Shape</h2></div></div>
               <div class="panel-body">
                 <p>Summarize and explain what 'Site Shape' means, and the types of metrics included.</p>
               </div>
               <div class="metric">  
-                  <h3>Bankful Metrics</h3>      
-                  <div>    
+                  <h3>Bankful Metrics</h3>        
                       <table class="table">
                         <thead>
                           <tr>
                             <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='151']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='149']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='145']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='143']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='78']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='90']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='139']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='32']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                          </tr>
-</thead>
-                        <tbody>
-                            <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='151']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='149']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='145']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='143']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='78']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='90']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='139']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='32']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                            </tr>
-</tbody>
-                      </table>
-                  </div>
-              </div>
-              <div class="metric">
-                  <h3>Wetted Metrics</h3>      
-                  <div>    
-                      <table class="table light">
-                        <thead>
-                          <tr>
-                            <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='169']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='167']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='163']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='161']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='71']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='79']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='157']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='30']">
-                              <th><xsl:value-of select="Title" /></th>
+                                <xsl:for-each select="/report/metrics/metric[display_parent_group='Bankfull' and display_child_group='SiteShape']">
+                                <th><xsl:value-of select="name" /></th>
                             </xsl:for-each>
                           </tr>
                         </thead>
                         <tbody>
+                            <xsl:for-each select="/report/metrics/metric/visits/visit">
+                            <xsl:variable name="results" select="results" />
                             <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='169']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='167']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='163']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='161']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='71']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='79']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='157']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                                <xsl:for-each select="watershed-report[MetricID='30']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
+                                <td class="visitId">
+                                    <xsl:value-of select="visit_id" />
+                                </td>
+                                <xsl:for-each select="/report/metrics/metric[display_parent_group='Bankfull' and display_child_group='SiteShape']">
+                                    <td>
+                                        <xsl:value-of select="results/result/value" />
+                                    </td>
+                                </xsl:for-each>    
                             </tr>
+                            </xsl:for-each>
                         </tbody>
-</table>
-                  </div>
-              </div>
-          </div>
-          <!-- Side Channels metrics -->   
-          <div class="panel panel-default">   
-              <div class="panel-heading"><div class="panel-title"><h2>Side Channels</h2></div></div>
-              <div class="panel-body">
-                <p>Summarize and explain what the 'Side Channels' means, and the types of metrics included in the summary report.</p>
-              </div>
-              <div class="metric">  
-                  <h3>Bankful Metrics</h3>      
-                  <div>    
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='89']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='139']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3271']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3269']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3283']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3281']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3277']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3275']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='32']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='89']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='139']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3271']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3269']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3283']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3281']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3277']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3275']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='32']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                            </tr>
-                          </tbody>
                       </table>
-                  </div>
               </div>
               <div class="metric">
                   <h3>Wetted Metrics</h3>      
@@ -384,207 +124,30 @@
                         <thead>
                           <tr>
                             <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='79']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='157']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3289']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3287']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3301']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3299']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3295']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3293']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='30']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='6679']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3374']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3375']">
-                              <th><xsl:value-of select="Title" /></th>
+                                <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteShape']">
+                                <th><xsl:value-of select="name" /></th>
                             </xsl:for-each>
                           </tr>
                         </thead>
                         <tbody>
+                            <xsl:for-each select="/report/metrics/metric/visits/visit">
+                            <xsl:variable name="results" select="results" />
                             <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='79']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='157']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3289']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3287']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3301']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3299']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3295']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3293']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='30']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='6679']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3374']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3375']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
+                                <td class="visitId">
+                                    <xsl:value-of select="visit_id" />
+                                </td>
+                                <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteShape']">
+                                    <td>
+                                        <xsl:value-of select="results/result/value" />
+                                    </td>
+                                </xsl:for-each>    
                             </tr>
+                            </xsl:for-each>
                         </tbody>
                       </table>
                   </div>
-              </div>
-          </div>
-          <!-- Channel Features metrics -->
-          <div class="panel panel-default">   
-              <div class="panel-heading"><div class="panel-title"><h2>Channel Features</h2></div></div>
-              <div class="panel-body">
-                <p>Summarize and explain what 'Channel Features' means, and the types of metrics included.</p>
-              </div>
-              <div class="metric">  
-                  <h3>Channel Feature Metrics</h3>      
-                  <div>    
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Visit ID</th>
-                            <xsl:for-each select="watershed-report[MetricID='19']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='20']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3359']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='23']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='22']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='14']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='15']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3358']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='18']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='17']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='9']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='10']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='3357']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                            <xsl:for-each select="watershed-report[MetricID='13']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='12']">
-                              <th><xsl:value-of select="Title" /></th>
-                            </xsl:for-each>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                              <xsl:for-each select="watershed-report[1]">
-                                <td><xsl:value-of select="VisitID"/></td>
-                              </xsl:for-each>  
-                              <xsl:for-each select="watershed-report[MetricID='19']">   
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='20']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3359']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='23']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='22']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='14']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='15']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3358']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='18']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='17']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='9']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='10']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='3357']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='13']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                              <xsl:for-each select="watershed-report[MetricID='12']">
-                                <td><xsl:value-of select="AvgOfMetricValue"/></td>
-                              </xsl:for-each>
-                            </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
+               </div>
+            </div>
         </div>
       </body>
     </html>

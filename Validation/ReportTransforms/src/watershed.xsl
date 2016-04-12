@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:key name="metric" match="/report/metrics/metric/name/text()" use="." />
+  <xsl:key name="visit" match="/report/metrics/metric/visits/visit" use="visit_id/text()" />
+  <xsl:key name="result" match="/report/metrics/metric/visits/visit/results/result" use="concat(../../visit_id, '|', ../../../../display_parent_group, '|', ../../../../display_child_group)" />
+
   <xsl:template match="report">
     <html class="no-js" lang="en">
       <head> 
@@ -32,7 +36,6 @@
                     </thead>
                     <tbody>
                         <xsl:for-each select="/report/metrics/metric[display_parent_group='Bankfull' and display_child_group='SiteSize']/visits/visit">
-                        <!-- <xsl:variable name="results" select="results" /> -->
                         <tr>
                             <td class="visitId"><xsl:value-of select="visit_id" /></td>
                             <td><xsl:value-of select="field_season" /></td>
@@ -56,13 +59,23 @@
                           </tr>
                         </thead> 
                         <tbody>
-                            <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteSize']/visits/visit">
+                            <xsl:for-each select="/report/metrics/metric/visits/visit[generate-id() = generate-id(key('visit',visit_id/text())[1])]">
+                                <xsl:variable name="myVisitID" select="./visit_id" />
                                 <tr>
                                     <td class="visitId"><xsl:value-of select="visit_id" /></td>
                                     <td class="visitId"><xsl:value-of select="field_season" /></td>
-                                    <xsl:for-each select="results/result">
-                                        <td><xsl:value-of select="value" /></td>
-                                    </xsl:for-each>
+                                    <xsl:for-each select="/report/metrics/metric[display_parent_group='Wetted' and display_child_group='SiteSize']">
+                                        <xsl:variable name="myResult" select="visits/visit/results/result[generate-id() = generate-id(key('result',concat($myVisitID, '|', 'Wetted', '|', 'SiteSize'))[1])]" />
+                                        <xsl:choose>
+                                          <xsl:when test="$myResult">
+                                            <td><xsl:value-of select="$myResult/value" /></td>
+                                          </xsl:when>
+                                          <xsl:otherwise>
+                                            <td></td>
+                                          </xsl:otherwise>
+                                        </xsl:choose>
+
+                                   </xsl:for-each>
                                 </tr>
                             </xsl:for-each>
                         </tbody>
