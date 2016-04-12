@@ -6,8 +6,8 @@
       <name>Integrated Bankfull Width</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -361,8 +361,8 @@
       <name>Integrated Wetted Width</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -716,8 +716,8 @@
       <name>Site Bankfull Area</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -1071,8 +1071,8 @@
       <name>Site Length Bankfull</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -1426,8 +1426,8 @@
       <name>Site Length Thalweg</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -1781,8 +1781,8 @@
       <name>Site Length Wetted</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2136,8 +2136,8 @@
       <name>Site Sinuosity</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2491,8 +2491,8 @@
       <name>Site Sinuosity Centerline</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2846,8 +2846,8 @@
       <name>Site Water Surface Gradient</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3201,8 +3201,8 @@
       <name>Site Wetted Area</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3556,8 +3556,8 @@
       <name>Standard Deviation of the Detrended DEM</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Bankful</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3869,8 +3869,8 @@
       <name>Thalweg to Centerline Length Ratio</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -4224,8 +4224,8 @@
       <name>Water Depth Standard Deviation</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Shape</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -4442,8 +4442,8 @@
       <name>Wetted Volume</name>
       <unit>
       </unit>
-      <display_parent_group>SOME_PARENT</display_parent_group>
-      <display_child_group>SOME_CHILD</display_child_group>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>Site Size</display_child_group>
       <metric_calc_type_id>9999999</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
