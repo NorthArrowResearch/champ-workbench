@@ -68,9 +68,8 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      gcd:        'xsltproc -o ../Samples/gcd.html ../dist/gcd.xsl ../Samples/gcd.xml',
-      habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
-      rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
+      //habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+      //rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
       watershed:  'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
     },
@@ -90,37 +89,27 @@ module.exports = function(grunt) {
         ],
         dest: 'tmp/rbt_manual.js'      
       },
-      gcd: {
-        src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          'node_modules/d3/d3.min.js',
-          'js/gcd.js',
-        ],
-        dest: 'tmp/gcd.js' 
-      },
-      habitat: {
-        src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          'node_modules/d3/d3.min.js',
-          'js/habitat.js',
-        ],
-        dest: 'tmp/habitat.js'    
-      },
-      rbt: {
-        src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          'node_modules/d3/d3.min.js',
-          'js/lib/boxplot.js',
-          'js/rbt.js',
-        ],
-        dest: 'tmp/rbt.js'    
-      },
+      //habitat: {
+        //src: [
+          //'node_modules/jquery/dist/jquery.min.js',
+          //'node_modules/tether/dist/js/tether.min.js',
+          //'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          //'node_modules/d3/d3.min.js',
+          //'js/habitat.js',
+        //],
+        //dest: 'tmp/habitat.js'    
+      //},
+      //rbt: {
+        //src: [
+          //'node_modules/jquery/dist/jquery.min.js',
+          //'node_modules/tether/dist/js/tether.min.js',
+          //'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          //'node_modules/d3/d3.min.js',
+          //'js/lib/boxplot.js',
+          //'js/rbt.js',
+        //],
+        //dest: 'tmp/rbt.js'    
+      //},
       watershed: {
         src: [
           'node_modules/jquery/dist/jquery.min.js',

@@ -4,10 +4,9 @@
   <metrics>
     <metric>
       <name>Integrated Bankfull Width</name>
-      <unit>
-      </unit>
+      <unit></unit>
       <display_parent_group>Bankfull</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>6</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -15,7 +14,7 @@
         <visit>
           <visit_id>561</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>6</watershed_id>
           <watershed_name>John Day</watershed_name>
           <site>OJD03458-000005</site>
           <organization>QCI</organization>
@@ -52,7 +51,7 @@
         <visit>
           <visit_id>784</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -94,7 +93,7 @@
         <visit>
           <visit_id>1010</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -105,7 +104,7 @@
         <visit>
           <visit_id>1011</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -148,7 +147,7 @@
           <visit_id>995</visit_id>
           <field_season>2012</field_season>
           <watershed_id>9999999</watershed_id>
-          <watershed_name>Asotin</watershed_name>
+          <watershed_name>17</watershed_name>
           <site>ASW00001-NF-F1 P2BR</site>
           <organization>QCI</organization>
           <crew_name>Laurel's Crew</crew_name>
@@ -194,7 +193,7 @@
         <visit>
           <visit_id>696</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -231,7 +230,7 @@
         <visit>
           <visit_id>749</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -263,7 +262,7 @@
         <visit>
           <visit_id>606</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>23</watershed_id>
           <watershed_name>Wenatchee</watershed_name>
           <site>WC503432-000038</site>
           <organization>QCI</organization>
@@ -274,7 +273,7 @@
         <visit>
           <visit_id>1105</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>25</watershed_id>
           <watershed_name>Methow </watershed_name>
           <site>CBW05583-354249</site>
           <organization>QCI</organization>
@@ -316,7 +315,7 @@
         <visit>
           <visit_id>1142</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>27</watershed_id>
           <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
           <site>CAL00001-070161</site>
           <organization>QCI</organization>
@@ -362,7 +361,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>5</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -370,7 +369,7 @@
         <visit>
           <visit_id>561</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>6</watershed_id>
           <watershed_name>John Day</watershed_name>
           <site>OJD03458-000005</site>
           <organization>QCI</organization>
@@ -407,7 +406,7 @@
         <visit>
           <visit_id>784</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -449,7 +448,7 @@
         <visit>
           <visit_id>1010</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -460,7 +459,7 @@
         <visit>
           <visit_id>1011</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -502,7 +501,7 @@
         <visit>
           <visit_id>995</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>17</watershed_id>
           <watershed_name>Asotin</watershed_name>
           <site>ASW00001-NF-F1 P2BR</site>
           <organization>QCI</organization>
@@ -549,7 +548,7 @@
         <visit>
           <visit_id>696</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -586,7 +585,7 @@
         <visit>
           <visit_id>749</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -618,7 +617,7 @@
         <visit>
           <visit_id>606</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>23</watershed_id>
           <watershed_name>Wenatchee</watershed_name>
           <site>WC503432-000038</site>
           <organization>QCI</organization>
@@ -629,7 +628,7 @@
         <visit>
           <visit_id>1105</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>25</watershed_id>
           <watershed_name>Methow </watershed_name>
           <site>CBW05583-354249</site>
           <organization>QCI</organization>
@@ -671,7 +670,7 @@
         <visit>
           <visit_id>1142</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>27</watershed_id>
           <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
           <site>CAL00001-070161</site>
           <organization>QCI</organization>
@@ -717,7 +716,7 @@
       <unit>
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>84</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -725,7 +724,7 @@
         <visit>
           <visit_id>561</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>6</watershed_id>
           <watershed_name>John Day</watershed_name>
           <site>OJD03458-000005</site>
           <organization>QCI</organization>
@@ -762,7 +761,7 @@
         <visit>
           <visit_id>784</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -804,7 +803,7 @@
         <visit>
           <visit_id>1010</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -815,7 +814,7 @@
         <visit>
           <visit_id>1011</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>16</watershed_id>
           <watershed_name>Tucannon</watershed_name>
           <site>CBW05583-481459</site>
           <organization>QCI</organization>
@@ -857,7 +856,7 @@
         <visit>
           <visit_id>995</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>17</watershed_id>
           <watershed_name>Asotin</watershed_name>
           <site>ASW00001-NF-F1 P2BR</site>
           <organization>QCI</organization>
@@ -904,7 +903,7 @@
         <visit>
           <visit_id>696</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -941,7 +940,7 @@
         <visit>
           <visit_id>749</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>18</watershed_id>
           <watershed_name>South Fork Salmon</watershed_name>
           <site>CBW05583-401362</site>
           <organization>QCI</organization>
@@ -973,7 +972,7 @@
         <visit>
           <visit_id>606</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>23</watershed_id>
           <watershed_name>Wenatchee</watershed_name>
           <site>WC503432-000038</site>
           <organization>QCI</organization>
@@ -984,7 +983,7 @@
         <visit>
           <visit_id>1105</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>23</watershed_id>
           <watershed_name>Methow </watershed_name>
           <site>CBW05583-354249</site>
           <organization>QCI</organization>
@@ -1026,7 +1025,7 @@
         <visit>
           <visit_id>1142</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>27</watershed_id>
           <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
           <site>CAL00001-070161</site>
           <organization>QCI</organization>
@@ -1072,7 +1071,7 @@
       <unit>
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>8</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -1080,7 +1079,7 @@
         <visit>
           <visit_id>561</visit_id>
           <field_season>2012</field_season>
-          <watershed_id>9999999</watershed_id>
+          <watershed_id>6</watershed_id>
           <watershed_name>John Day</watershed_name>
           <site>OJD03458-000005</site>
           <organization>QCI</organization>
@@ -1427,7 +1426,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>9</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -1782,7 +1781,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>7</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2137,7 +2136,7 @@
       <unit>
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>2</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2492,7 +2491,7 @@
       <unit>
       </unit>
       <display_parent_group>Bankfull</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>433</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -2847,7 +2846,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>331</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3202,7 +3201,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>83</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3557,7 +3556,7 @@
       <unit>
       </unit>
       <display_parent_group>Bankful</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>431</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -3870,7 +3869,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>432</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -4225,7 +4224,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Shape</display_child_group>
+      <display_child_group>SiteShape</display_child_group>
       <metric_calc_type_id>465</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>
@@ -4443,7 +4442,7 @@
       <unit>
       </unit>
       <display_parent_group>Wetted</display_parent_group>
-      <display_child_group>Site Size</display_child_group>
+      <display_child_group>SiteSize</display_child_group>
       <metric_calc_type_id>4</metric_calc_type_id>
       <group_type_id>9999999</group_type_id>
       <tolerance>0.05</tolerance>

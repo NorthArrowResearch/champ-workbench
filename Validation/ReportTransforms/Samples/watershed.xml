@@ -1,827 +1,2491 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="watershed-report.xsd" generated="2016-03-30T10:11:06">
+<?xml version="1.0"?>
 <report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>9</MetricID>
-        <AvgOfMetricValue>79.93</AvgOfMetricValue>
-        <Title>Slow Water Area</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>10</MetricID>
-        <AvgOfMetricValue>4</AvgOfMetricValue>
-        <Title>Slow Water Count</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-        <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>11</MetricID>
-        <AvgOfMetricValue>31.77066</AvgOfMetricValue>
-        <Title>Slow Water Spacing</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>12</MetricID>
-        <AvgOfMetricValue>19.94669</AvgOfMetricValue>
-        <Title>Slow Water Volume</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>13</MetricID>
-        <AvgOfMetricValue>18.99243</AvgOfMetricValue>
-        <Title>Slow Water Percent</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>14</MetricID>
-        <AvgOfMetricValue>236.93</AvgOfMetricValue>
-        <Title>Fast Turbulent Area</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>15</MetricID>
-        <AvgOfMetricValue>6</AvgOfMetricValue>
-        <Title>Fast Turbulent Count</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>16</MetricID>
-        <AvgOfMetricValue>21.18044</AvgOfMetricValue>
-        <Title>Fast Turbulent Spacing</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>17</MetricID>
-        <AvgOfMetricValue>17.26994</AvgOfMetricValue>
-        <Title>Fast Turbulent Volume</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>18</MetricID>
-        <AvgOfMetricValue>56.2977</AvgOfMetricValue>
-        <Title>Fast Turbulent Percent</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>19</MetricID>
-        <AvgOfMetricValue>78.5</AvgOfMetricValue>
-        <Title>Fast NonTurbulent Area</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>20</MetricID>
-        <AvgOfMetricValue>4</AvgOfMetricValue>
-        <Title>Fast NonTurbulent Count</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>21</MetricID>
-        <AvgOfMetricValue>31.77066</AvgOfMetricValue>
-        <Title>Fast NonTurbulent Spacing</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>22</MetricID>
-        <AvgOfMetricValue>7.31849</AvgOfMetricValue>
-        <Title>Fast NonTurbulent Volume</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-        <WatershedName>John Day</WatershedName>
-        <VisitID>3437</VisitID>
-        <MetricID>23</MetricID>
-        <AvgOfMetricValue>18.65264</AvgOfMetricValue>
-        <Title>Fast NonTurbulent Percent</Title>
-        <RBTVersion>5.0.17.0</RBTVersion>
-        <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>25</MetricID>
-    <AvgOfMetricValue>-0.02433</AvgOfMetricValue>
-    <Title>Gradient</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>26</MetricID>
-    <AvgOfMetricValue>1.04432</AvgOfMetricValue>
-    <Title>Sinuosity</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>27</MetricID>
-    <AvgOfMetricValue>1.0071</AvgOfMetricValue>
-    <Title>Thalweg to Centerline Length Ratio</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>28</MetricID>
-    <AvgOfMetricValue>126.18713</AvgOfMetricValue>
-    <Title>Thalweg Site Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>29</MetricID>
-    <AvgOfMetricValue>1.04275</AvgOfMetricValue>
-    <Title>Sinuosity Via Centerline</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>30</MetricID>
-    <AvgOfMetricValue>127.08265</AvgOfMetricValue>
-    <Title>Wetted Site Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>31</MetricID>
-    <AvgOfMetricValue>420.85199</AvgOfMetricValue>
-    <Title>Wetted Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>32</MetricID>
-    <AvgOfMetricValue>126.28289</AvgOfMetricValue>
-    <Title>Bankfull Site Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>33</MetricID>
-    <AvgOfMetricValue>907.61752</AvgOfMetricValue>
-    <Title>Bankfull Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>34</MetricID>
-    <AvgOfMetricValue>44.5501</AvgOfMetricValue>
-    <Title>Wetted Volume</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>35</MetricID>
-    <AvgOfMetricValue>3.31164</AvgOfMetricValue>
-    <Title>Wetted Width Integrated</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>36</MetricID>
-    <AvgOfMetricValue>0.44143</AvgOfMetricValue>
-    <Title>Detrended Elevation SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>37</MetricID>
-    <AvgOfMetricValue>7.18718</AvgOfMetricValue>
-    <Title>Bankfull Width Integrated</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>39</MetricID>
-    <AvgOfMetricValue>0.1365</AvgOfMetricValue>
-    <Title>Thalweg Depth SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>40</MetricID>
-    <AvgOfMetricValue>0.83529</AvgOfMetricValue>
-    <Title>Thalweg Depth CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>45</MetricID>
-    <AvgOfMetricValue>329.03551</AvgOfMetricValue>
-    <Title>Bankfull Volume</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>64</MetricID>
-    <AvgOfMetricValue>1.04</AvgOfMetricValue>
-    <Title>Wetted Channel Mainstem Sinuosity</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>65</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Wetted Channel Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>66</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Wetted Main Channel Part Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>67</MetricID>
-    <AvgOfMetricValue>127.08</AvgOfMetricValue>
-    <Title>Wetted Main Channel Part Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>68</MetricID>
-    <AvgOfMetricValue>127.08265</AvgOfMetricValue>
-    <Title>Wetted Channel Total Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>70</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Wetted Side Channel Part Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>71</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Wetted Channel Braidedness</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>73</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Bankfull Main Channel Part Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>74</MetricID>
-    <AvgOfMetricValue>126.28289</AvgOfMetricValue>
-    <Title>Bankfull Main Channel Part Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>75</MetricID>
-    <AvgOfMetricValue>126.28289</AvgOfMetricValue>
-    <Title>Bankfull Channel Total Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>77</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Bankfull Side Channel Part Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>78</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Bankfull Channel Braidedness</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>79</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Wetted Channel Island Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>80</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Wetted Channel Qualifying Island Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>82</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Wetted Channel Qualifying Island Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>89</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Bankfull Channel Island Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>90</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Bankfull Channel Qualifying Island Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>92</MetricID>
-    <AvgOfMetricValue>0</AvgOfMetricValue>
-    <Title>Bankfull Channel Qualifying Island Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>95</MetricID>
-    <AvgOfMetricValue>4054.89485</AvgOfMetricValue>
-    <Title>Survey Extent Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>96</MetricID>
-    <AvgOfMetricValue>0.11453</AvgOfMetricValue>
-    <Title>Wetted Depth SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>99</MetricID>
-    <AvgOfMetricValue>1248.54518</AvgOfMetricValue>
-    <Title>Thalweg Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>101</MetricID>
-    <AvgOfMetricValue>0.9775</AvgOfMetricValue>
-    <Title>Thalweg SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>102</MetricID>
-    <AvgOfMetricValue>0.00078</AvgOfMetricValue>
-    <Title>Thalweg CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>136</MetricID>
-    <AvgOfMetricValue>1.55429</AvgOfMetricValue>
-    <Title>Bankfull Width SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>137</MetricID>
-    <AvgOfMetricValue>0.21946</AvgOfMetricValue>
-    <Title>Bankfull Width CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>139</MetricID>
-    <AvgOfMetricValue>7.08244</AvgOfMetricValue>
-    <Title>Bankfull Width Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>143</MetricID>
-    <AvgOfMetricValue>0.29564</AvgOfMetricValue>
-    <Title>Bankfull Width to Max Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>145</MetricID>
-    <AvgOfMetricValue>14.49997</AvgOfMetricValue>
-    <Title>Bankfull Width to Max Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>149</MetricID>
-    <AvgOfMetricValue>0.37172</AvgOfMetricValue>
-    <Title>Bankfull Width To Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>151</MetricID>
-    <AvgOfMetricValue>24.08522</AvgOfMetricValue>
-    <Title>Bankfull Width To Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>155</MetricID>
-    <AvgOfMetricValue>0.20614</AvgOfMetricValue>
-    <Title>Wetted Width CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>157</MetricID>
-    <AvgOfMetricValue>3.30768</AvgOfMetricValue>
-    <Title>Wetted Width Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>161</MetricID>
-    <AvgOfMetricValue>0.41061</AvgOfMetricValue>
-    <Title>Wetted Width to Max Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>163</MetricID>
-    <AvgOfMetricValue>23.34867</AvgOfMetricValue>
-    <Title>Wetted Width to Max Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>167</MetricID>
-    <AvgOfMetricValue>0.43168</AvgOfMetricValue>
-    <Title>Wetted Width To Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>169</MetricID>
-    <AvgOfMetricValue>36.84625</AvgOfMetricValue>
-    <Title>Wetted Width To Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3263</MetricID>
-    <AvgOfMetricValue>1.3739</AvgOfMetricValue>
-    <Title>Bankfull Depth Max</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3264</MetricID>
-    <AvgOfMetricValue>0.32777</AvgOfMetricValue>
-    <Title>Bankfull Depth Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3269</MetricID>
-    <Title>Bankfull Side Channel Width CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3271</MetricID>
-    <Title>Bankfull Side Channel Width</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3275</MetricID>
-    <Title>Bankfull Side Channel Width to Max Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3277</MetricID>
-    <Title>Bankfull Side Channel Width to Max Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3281</MetricID>
-    <Title>Bankfull Side Channel Width to Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3283</MetricID>
-    <Title>Bankfull Side Channel Width to Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3287</MetricID>
-    <Title>Wetted Side Channel Width CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3289</MetricID>
-    <Title>Wetted Side Channel Width</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3293</MetricID>
-    <Title>Wetted Side Channel Width to Max Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3295</MetricID>
-    <Title>Wetted Side Channel Width to Max Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3299</MetricID>
-    <Title>Wetted Side Channel Width to Depth Ratio CV</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3301</MetricID>
-    <Title>Wetted Side Channel Width to Depth Ratio Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3316</MetricID>
-    <AvgOfMetricValue>8.95301</AvgOfMetricValue>
-    <Title>Bankfull Width To Depth Ratio SD</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3338</MetricID>
-    <AvgOfMetricValue>1</AvgOfMetricValue>
-    <Title>Bankfull Channel Count</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3340</MetricID>
-    <AvgOfMetricValue>127.08265</AvgOfMetricValue>
-    <Title>Wetted Channel Mainstem Length</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3357</MetricID>
-    <AvgOfMetricValue>3.14756</AvgOfMetricValue>
-    <Title>Slow Water Frequency</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3358</MetricID>
-    <AvgOfMetricValue>4.72134</AvgOfMetricValue>
-    <Title>Fast Turbulent Frequency</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3359</MetricID>
-    <AvgOfMetricValue>3.14756</AvgOfMetricValue>
-    <Title>Fast NonTurbulent Frequency</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3360</MetricID>
-    <AvgOfMetricValue>0.16342</AvgOfMetricValue>
-    <Title>Thalweg Depth Avg</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3372</MetricID>
-    <AvgOfMetricValue>0.45</AvgOfMetricValue>
-    <Title>Residual Pool Depth</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3373</MetricID>
-    <AvgOfMetricValue>395.36002</AvgOfMetricValue>
-    <Title>Wetted Channel Mainstem Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3374</MetricID>
-    <Title>Wetted Large Side Channel Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3375</MetricID>
-    <Title>Wetted Small Side Channel Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
-    <watershed-report>
-    <WatershedName>John Day</WatershedName>
-    <VisitID>3437</VisitID>
-    <MetricID>3376</MetricID>
-    <Title>Wetted Side Channel Percent By Area</Title>
-    <RBTVersion>5.0.17.0</RBTVersion>
-    <LastOfResultID>37</LastOfResultID>
-    </watershed-report>
+  <date>2 Feb 2016</date>
+  <metrics>
+    <metric>
+      <name>Integrated Bankfull Width</name>
+      <unit></unit>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>6</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>6</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>4.326557</manual_result>
+          <results>
+            <result>
+              <version>5.00.05.00</version>
+              <value>4.3414</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>4.3414</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>4.3414</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>4.3414</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>4.3414</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>22.95172</manual_result>
+          <results>
+            <result>
+              <version>5.00.03.00</version>
+              <value>24.8902</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>24.8296</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>24.8296</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>24.8296</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>24.8296</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>24.8296</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>24.12372</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>27.06935</manual_result>
+          <results>
+            <result>
+              <version>5.00.03.00</version>
+              <value>28.75347</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>27.53495</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>27.53495</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>27.53495</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>27.53495</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>27.53495</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>17</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>9.664985</manual_result>
+          <results>
+            <result>
+              <version>5.00.05.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>9.69798</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.03.00</version>
+              <value>9.55098</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>7.270227</manual_result>
+          <results>
+            <result>
+              <version>5.00.05.00</version>
+              <value>7.42522</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>7.42522</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>7.42522</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>7.42522</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>7.42522</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>7.647735</manual_result>
+          <results>
+            <result>
+              <version>5.00.03.00</version>
+              <value>7.22582</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>7.75606</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>7.75606</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>7.75606</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>23</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>28.73112</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>25</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>68.7879</manual_result>
+          <results>
+            <result>
+              <version>5.00.03.00</version>
+              <value>61.07762</value>
+              <status>Fail</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>69.58774</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>69.58774</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>69.58774</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>69.58774</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>69.58774</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>27</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>4.917998</manual_result>
+          <results>
+            <result>
+              <version>5.00.05.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.05.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.10.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.13.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.14.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+            <result>
+              <version>5.00.15.00</version>
+              <value>4.94222</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Integrated Wetted Width</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>5</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>6</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.366013</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.36601</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>16.4834</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>17.34318</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>15.64242</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>16.09018</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>16.09018</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>17</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>8.078991</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>8.0502</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>7.019182</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>7.01929</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>5.925639</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>5.92564</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>23</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>22.93721</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>25</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>43.44846</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>43.45602</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>27</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>2.147502</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>2.14769</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Bankfull Area</name>
+      <unit>
+      </unit>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>84</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>6</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>497.6279</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>497.8326</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>8286.328</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>8288.061</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>8591.909</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>16</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>9920.507</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>9925.099</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>17</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>2021.809</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>2022.345</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1251.012</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1251.978</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>18</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1262.388</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1263.059</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>23</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>15104.14</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>23</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>43465.34</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>43466.69</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>27</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>597.7524</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>597.9244</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Length Bankfull</name>
+      <unit>
+      </unit>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>8</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>6</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>115.0171</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>114.671</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>361.033</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>333.7976</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>356.1602</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>366.4848</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>360.4545</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>209.189</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>208.5326</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>172.0733</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>168.6115</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>165.067</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>162.8479</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>525.7066</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>631.8748</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>624.6314</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>121.5438</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>120.9829</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Length Thalweg</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>9</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>124.7559</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>124.7559</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>385.6556</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>385.6556</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>387.408</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>393.4442</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>393.4442</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>207.8328</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>207.4404</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>161.3418</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>162.5297</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>165.4876</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>163.0681</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>576.716</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>634.5787</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>634.5787</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>136.5564</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>136.066</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Length Wetted</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>7</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>123.64</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>123.64</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>363.6694</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>345.6497</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>363.6677</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>357.3399</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>357.3399</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>207.9677</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>208.7115</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>163.2689</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>163.2665</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>162.1122</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>162.1122</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>524.9655</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>624.0291</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>624.0291</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>132.2175</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>132.206</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Sinuosity</name>
+      <unit>
+      </unit>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>2</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.175275</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.17528</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.486395</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.48639</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.491547</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.484277</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.48428</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.324408</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.32488</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.186664</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.1954</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.18589</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.18519</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.651533</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.625941</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.62594</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>2.087556</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>2.08</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Sinuosity Centerline</name>
+      <unit>
+      </unit>
+      <display_parent_group>Bankfull</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>433</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.162258</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.16226</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.389438</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.60186</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.37851</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.370921</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.37069</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.36585</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.54068</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.182244</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.18027</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.165884</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.16852</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.481401</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.57216</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.56928</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>2.030545</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>2.02553</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Water Surface Gradient</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>331</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.03411349</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.03415</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.00517988</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.00561</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.005181106</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.005334119</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.00537</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.01697672</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.01686</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.05615823</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.05402</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.05414501</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.05548</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.002683905</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.004485214</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.00476</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.0071452</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.00549</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Site Wetted Area</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>83</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>168.8939</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>168.8939</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>5994.509</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>5994.664</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>5688.643</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>5749.662</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>5749.662</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1680.169</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1680.169</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1146.014</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1146.014</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>960.6183</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>960.6183</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>12041.24</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>27113.1</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>27117.82</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>283.9374</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>283.9374</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Standard Deviation of the Detrended DEM</name>
+      <unit>
+      </unit>
+      <display_parent_group>Bankful</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>431</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.6622869</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.66229</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.4799007</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.4835667</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.48357</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.8878476</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.88785</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.82842</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.82842</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.029407</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.02941</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.9357951</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>3.589276</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>3.58928</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.7521511</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.75215</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Thalweg to Centerline Length Ratio</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>432</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.009025</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.99106</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.060457</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.89627</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.06528</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.101036</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.90824</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.9993511</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.00613</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.9881966</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1.00453</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.020821</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.99414</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.098579</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.016906</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.98338</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1.032816</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.97163</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Water Depth Standard Deviation</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteShape</display_child_group>
+      <metric_calc_type_id>465</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.2157731</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.2133063</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.2136</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.1270123</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.12788</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.1445545</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.14508</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.5885969</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.5888</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>0.1546901</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>0.15453</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+      </visits>
+    </metric>
+    <metric>
+      <name>Wetted Volume</name>
+      <unit>
+      </unit>
+      <display_parent_group>Wetted</display_parent_group>
+      <display_child_group>SiteSize</display_child_group>
+      <metric_calc_type_id>4</metric_calc_type_id>
+      <group_type_id>9999999</group_type_id>
+      <tolerance>0.05</tolerance>
+      <visits>
+        <visit>
+          <visit_id>561</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>John Day</watershed_name>
+          <site>OJD03458-000005</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>9.438771</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>10.47622</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>784</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1718.195</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1732.923</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1010</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1632.07</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1011</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Tucannon</watershed_name>
+          <site>CBW05583-481459</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>1582.663</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>1558.068</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>995</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Asotin</watershed_name>
+          <site>ASW00001-NF-F1 P2BR</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>332.17</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>336.2934</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>696</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>186.7876</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>209.1477</value>
+              <status>Fail</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>749</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>South Fork Salmon</watershed_name>
+          <site>CBW05583-401362</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>244.4708</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>245.0157</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>606</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Wenatchee</watershed_name>
+          <site>WC503432-000038</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>7259.111</manual_result>
+          <results />
+        </visit>
+        <visit>
+          <visit_id>1105</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Methow </watershed_name>
+          <site>CBW05583-354249</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>20016.75</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>20019.21</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+        <visit>
+          <visit_id>1142</visit_id>
+          <field_season>2012</field_season>
+          <watershed_id>9999999</watershed_id>
+          <watershed_name>Big-Navarro-Garcia (CA)</watershed_name>
+          <site>CAL00001-070161</site>
+          <organization>QCI</organization>
+          <crew_name>Laurel's Crew</crew_name>
+          <manual_result>44.6563</manual_result>
+          <results>
+            <result>
+              <version>5.00.15.00</version>
+              <value>44.75608</value>
+              <status>Pass</status>
+            </result>
+          </results>
+        </visit>
+       </visits>
+    </metric>
+  </metrics>
 </report>
-</dataroot>
