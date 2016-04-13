@@ -149,10 +149,10 @@
   </xsl:template>
 
   <xsl:template name="javascript">
-    <script src="tmp/watershed.js?__inline=true"></script>
+    <script src="tmp/editing-report.js?__inline=true"></script>
   </xsl:template>
     
   <xsl:template name="stylesheet">
-    <link href="tmp/watershed.css?__inline=true" rel="stylesheet" />
+    <link href="tmp/editing-report.css?__inline=true" rel="stylesheet" />
   </xsl:template>
 </xsl:stylesheet>
