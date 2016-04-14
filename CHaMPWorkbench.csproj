@@ -121,7 +121,6 @@
     </Compile>
     <Compile Include="Classes\ExceptionHandling\NARException.cs" />
     <Compile Include="Classes\FileSystem.cs" />
-    <Compile Include="Classes\ModelInputFiles\RBT_InputFileBuilder.cs" />
     <Compile Include="Classes\ModelInputFiles\InputFileBuilder_Helper.cs" />
     <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\ModelInputFiles\RBTOutputs.cs" />
@@ -200,6 +199,12 @@
     </Compile>
     <Compile Include="frmSelectVisits.Designer.cs">
       <DependentUpon>frmSelectVisits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmToolResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmToolResults.Designer.cs">
+      <DependentUpon>frmToolResults.cs</DependentUpon>
     </Compile>
     <Compile Include="GUT\frmGUTInputXMLBuilder.cs">
       <SubType>Form</SubType>
@@ -336,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectVisits.resx">
       <DependentUpon>frmSelectVisits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmToolResults.resx">
+      <DependentUpon>frmToolResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUT\frmGUTInputXMLBuilder.resx">
       <DependentUpon>frmGUTInputXMLBuilder.cs</DependentUpon>
