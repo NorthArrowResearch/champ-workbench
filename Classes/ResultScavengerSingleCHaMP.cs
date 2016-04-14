@@ -289,7 +289,7 @@ namespace CHaMPWorkbench.Classes
                     OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
                     OleDbParameter pLogSolution = dbCom.Parameters.Add("LogSolution", OleDbType.VarChar);
 
-                    foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
+                    foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/messages/message"))
                     {
                         XmlAttribute att = MessageNode.Attributes["severity"];
                         pMessageSeverity.Value = DBNull.Value;
