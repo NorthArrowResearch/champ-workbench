@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkClearOtherBatches = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdoSelectedOnly = new System.Windows.Forms.RadioButton();
             this.rdoAll = new System.Windows.Forms.RadioButton();
@@ -55,7 +56,6 @@
             this.ucRBTChangeDetection1 = new CHaMPWorkbench.RBT.InputFiles.ucRBTChangeDetection();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.chkClearOtherBatches = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -99,6 +99,18 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Site and Visit";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chkClearOtherBatches
+            // 
+            this.chkClearOtherBatches.AutoSize = true;
+            this.chkClearOtherBatches.Checked = true;
+            this.chkClearOtherBatches.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkClearOtherBatches.Location = new System.Drawing.Point(383, 15);
+            this.chkClearOtherBatches.Name = "chkClearOtherBatches";
+            this.chkClearOtherBatches.Size = new System.Drawing.Size(214, 17);
+            this.chkClearOtherBatches.TabIndex = 2;
+            this.chkClearOtherBatches.Text = "Set this as the only batch queued to run";
+            this.chkClearOtherBatches.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -359,16 +371,6 @@
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
-            // 
-            // chkClearOtherBatches
-            // 
-            this.chkClearOtherBatches.AutoSize = true;
-            this.chkClearOtherBatches.Location = new System.Drawing.Point(383, 15);
-            this.chkClearOtherBatches.Name = "chkClearOtherBatches";
-            this.chkClearOtherBatches.Size = new System.Drawing.Size(214, 17);
-            this.chkClearOtherBatches.TabIndex = 2;
-            this.chkClearOtherBatches.Text = "Set this as the only batch queued to run";
-            this.chkClearOtherBatches.UseVisualStyleBackColor = true;
             // 
             // frmRBTInputBatch
             // 
