@@ -20,19 +20,30 @@
 <div class="row">
 <div class="col-md-4"><h2>John Day</h2></div>
 <div class="col-md-4"><ul class="list-unstyled">
-<li>Current RBT Version: </li>
+<li>Current RBT Version: 5.00.15.00</li>
 <li>Report Generated: </li>
 </ul></div>
 </div>
+<div class="row">
+<div class="col-sm-4"><select multiple id="watershed-filter" name="Watershed" placeholder="Watershed"><option value="John Day">John Day</option>
+<option value="Tucannon">Tucannon</option>
+<option value="17">17</option>
+<option value="South Fork Salmon">South Fork Salmon</option>
+<option value="Wenatchee">Wenatchee</option>
+<option value="Methow ">Methow </option>
+<option value="Big-Navarro-Garcia (CA)">Big-Navarro-Garcia (CA)</option>
+<option value="Asotin">Asotin</option></select></div>
+<div class="col-sm-4"><select multiple id="season-filter" name="Season" placeholder="Season"><option value="2012">2012</option></select></div>
 </div>
-<div class="col-md-6"><img class="img"></div>
+</div>
+<div class="col-md-6"><img class="img" src="../src/img/johnday_sample.png"></div>
 </div></div>
 <div class="panel panel-default">
 <div class="panel-heading"><div class="panel-title"><h2>Site Size</h2></div></div>
 <div class="panel-body"><p>Summarize and explain what 'Site Size' means, and the types of metrics included.</p></div>
 <div class="metric">
-<h3>Bankful Metrics</h3>
-<table class="table">
+<h3>Bankfull Metrics</h3>
+<div><table class="table">
 <thead><tr>
 <th>Visit ID</th>
 <th>Field Season</th>
@@ -41,56 +52,56 @@
 <tbody>
 <tr>
 <td class="visitId">561</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>497.8326</td>
 </tr>
 <tr>
 <td class="visitId">784</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>8288.061</td>
 </tr>
 <tr>
 <td class="visitId">1010</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1011</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>9925.099</td>
 </tr>
 <tr>
 <td class="visitId">995</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>2022.345</td>
 </tr>
 <tr>
 <td class="visitId">696</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>1251.978</td>
 </tr>
 <tr>
 <td class="visitId">749</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>1263.059</td>
 </tr>
 <tr>
 <td class="visitId">606</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1105</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>43466.69</td>
 </tr>
 <tr>
 <td class="visitId">1142</td>
-<td>2012</td>
+<td class="visitId">2012</td>
 <td>597.9244</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </div>
 <div class="metric">
 <h3>Wetted Metrics</h3>
@@ -214,10 +225,11 @@
 <div class="panel-heading"><div class="panel-title"><h2>Site Shape</h2></div></div>
 <div class="panel-body"><p>Summarize and explain what 'Site Shape' means, and the types of metrics included.</p></div>
 <div class="metric">
-<h3>Bankful Metrics</h3>
+<h3>Bankfull Metrics</h3>
 <table class="table">
 <thead><tr>
 <th>Visit ID</th>
+<th>Field Season</th>
 <th>Integrated Bankfull Width</th>
 <th>Site Length Bankfull</th>
 <th>Site Sinuosity</th>
@@ -226,90 +238,23 @@
 <tbody>
 <tr>
 <td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>4.3414</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">784</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>24.8296</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1010</td>
+<td class="visitId">2012</td>
 <td></td>
 <td></td>
 <td></td>
@@ -317,34 +262,39 @@
 </tr>
 <tr>
 <td class="visitId">1011</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>27.53495</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">995</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>9.69798</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">696</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>7.42522</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">749</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>7.75606</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">606</td>
+<td class="visitId">2012</td>
 <td></td>
 <td></td>
 <td></td>
@@ -352,819 +302,16 @@
 </tr>
 <tr>
 <td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>69.58774</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>4.94222</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1177,683 +324,69 @@
 <div><table class="table">
 <thead><tr>
 <th>Visit ID</th>
+<th>Field Season</th>
 <th>Site Water Surface Gradient</th>
 <th>Water Depth Standard Deviation</th>
 </tr></thead>
 <tbody>
 <tr>
 <td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.03415</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">784</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.00561</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1010</td>
+<td class="visitId">2012</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1011</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.00537</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">995</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.01686</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">696</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.05402</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">749</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.05548</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">606</td>
+<td class="visitId">2012</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.00476</td>
 <td></td>
 </tr>
 <tr>
 <td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">561</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">784</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1010</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1011</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">995</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">696</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">749</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">606</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1105</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="visitId">1142</td>
-<td></td>
+<td class="visitId">2012</td>
+<td>0.00549</td>
 <td></td>
 </tr>
 </tbody>

@@ -6,7 +6,6 @@ var filterArgs = {
   metric:  { selector: '', value: null },
   visit:   { selector: 'td.visitId', value: null },
   version: { selector: 'td.version, th.version', value: null },
-  onlyFailures:  { selector: 'td.status', value: false },
 }
 
 // Constants for pass and fail
@@ -43,11 +42,6 @@ $(document).ready(function() {
   });
   $('select#version-filter').selectize().on('change', function(e){
     filterArgs.version.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('input#onlyFailures').on('change', function(e){    
-    filterArgs.onlyFailures.value =  $(this).is(':checked');
-    console.log(filterArgs.onlyFailures.value);
     filter();
   });
 });
@@ -111,20 +105,6 @@ var filter = function(){
           $(this).addClass('hide');
         }
       });
-
-      // Only show rows and columns containing failures'
-      // ------------------------------------------------
-      if ($(this).parent('thead').length == 0 && 
-          !hideRow && filterArgs.onlyFailures.value && 
-          filterArgs.onlyFailures.value == true){
-        hideRow = true;
-        $(this).find('td.version span.status').each(function(){
-          if (!$(this).parent('td').hasClass('hide') && 
-              $(this).text() == passfail.fail ){ 
-            hideRow = false;
-          }
-        });
-      }
 
       if (hideRow) $(this).addClass('hide');
       else rowCount++

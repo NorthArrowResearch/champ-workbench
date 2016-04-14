@@ -72,22 +72,13 @@ module.exports = function(grunt) {
       //rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
       watershed:  'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
+      //editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml'
     },
 
     // Collect all our js into one script
     concat: {
       options: {
         separator: '\n;\n',
-      },
-      rbt_manual: {
-        src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          'node_modules/selectize/dist/js/standalone/selectize.min.js',
-          'js/rbt_manual.js',
-        ],
-        dest: 'tmp/rbt_manual.js'      
       },
       //habitat: {
         //src: [
@@ -110,6 +101,16 @@ module.exports = function(grunt) {
         //],
         //dest: 'tmp/rbt.js'    
       //},
+      rbt_manual: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/selectize/dist/js/standalone/selectize.min.js',
+          'js/rbt_manual.js',
+        ],
+        dest: 'tmp/rbt_manual.js'      
+      },
       watershed: {
         src: [
           'node_modules/jquery/dist/jquery.min.js',
@@ -120,6 +121,17 @@ module.exports = function(grunt) {
           'js/watershed.js',
         ],
         dest: 'tmp/watershed.js'    
+      },
+      editing_report: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/lib/boxplot.js',
+          'js/editing_report.js',
+        ],
+        dest: 'tmp/editing_report.js'  
       }
     },
 

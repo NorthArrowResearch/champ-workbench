@@ -22,26 +22,6 @@
           <manual_result>4.326557</manual_result>
           <results>
             <result>
-              <version>5.00.05.00</version>
-              <value>4.3414</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>4.3414</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>4.3414</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
-              <value>4.3414</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
               <value>4.3414</value>
               <status>Pass</status>
@@ -58,31 +38,6 @@
           <crew_name>Laurel's Crew</crew_name>
           <manual_result>22.95172</manual_result>
           <results>
-            <result>
-              <version>5.00.03.00</version>
-              <value>24.8902</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.05.00</version>
-              <value>24.8296</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>24.8296</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>24.8296</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
-              <value>24.8296</value>
-              <status>Fail</status>
-            </result>
             <result>
               <version>5.00.15.00</version>
               <value>24.8296</value>
@@ -112,32 +67,7 @@
           <manual_result>27.06935</manual_result>
           <results>
             <result>
-              <version>5.00.03.00</version>
-              <value>28.75347</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.05.00</version>
-              <value>27.53495</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>27.53495</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
-              <value>27.53495</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
-              <value>27.53495</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
               <value>27.53495</value>
               <status>Pass</status>
             </result>
@@ -154,38 +84,8 @@
           <manual_result>9.664985</manual_result>
           <results>
             <result>
-              <version>5.00.05.00</version>
-              <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.05.00</version>
-              <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
-              <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
               <value>9.69798</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.03.00</version>
-              <value>9.55098</value>
               <status>Pass</status>
             </result>
           </results>
@@ -201,27 +101,7 @@
           <manual_result>7.270227</manual_result>
           <results>
             <result>
-              <version>5.00.05.00</version>
-              <value>7.42522</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>7.42522</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>7.42522</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
-              <value>7.42522</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
               <value>7.42522</value>
               <status>Pass</status>
             </result>
@@ -238,22 +118,7 @@
           <manual_result>7.647735</manual_result>
           <results>
             <result>
-              <version>5.00.03.00</version>
-              <value>7.22582</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>7.75606</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
-              <value>7.75606</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
               <value>7.75606</value>
               <status>Pass</status>
             </result>
@@ -281,32 +146,7 @@
           <manual_result>68.7879</manual_result>
           <results>
             <result>
-              <version>5.00.03.00</version>
-              <value>61.07762</value>
-              <status>Fail</status>
-            </result>
-            <result>
-              <version>5.00.05.00</version>
-              <value>69.58774</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>69.58774</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>69.58774</value>
-              <status>Pass</status>
-            </result>
-            <result>
               <version>5.00.15.00</version>
-              <value>69.58774</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
               <value>69.58774</value>
               <status>Pass</status>
             </result>
@@ -322,31 +162,6 @@
           <crew_name>Laurel's Crew</crew_name>
           <manual_result>4.917998</manual_result>
           <results>
-            <result>
-              <version>5.00.05.00</version>
-              <value>4.94222</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.05.00</version>
-              <value>4.94222</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.10.00</version>
-              <value>4.94222</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.13.00</version>
-              <value>4.94222</value>
-              <status>Pass</status>
-            </result>
-            <result>
-              <version>5.00.14.00</version>
-              <value>4.94222</value>
-              <status>Pass</status>
-            </result>
             <result>
               <version>5.00.15.00</version>
               <value>4.94222</value>
