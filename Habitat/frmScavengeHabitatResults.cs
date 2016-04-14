@@ -75,7 +75,6 @@ namespace CHaMPWorkbench.Habitat
             foreach (dsHabitat.SimulationResultTypesRow rType in theHabitatProject.SimulationResultTypes.Rows)
                 dTypes.Add(rType.ResultTypeID, rType.Title);
 
-            SimulationResults theResult = null;
             Dictionary<string, SimulationResults> dResults = new Dictionary<string, SimulationResults>();
             foreach (dsHabitat.SimulationResultsRow rResult in theHabitatProject.SimulationResults.Rows)
             {
