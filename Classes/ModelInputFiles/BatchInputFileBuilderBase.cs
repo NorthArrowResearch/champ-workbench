@@ -22,6 +22,22 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         protected List<BatchInputFileBuilderBase.BatchVisits> Visits;
 
+        protected int GetResults(out List<string> lExceptionMessages)
+        {
+            int nSuccessful = 0;
+            lExceptionMessages = new List<string>();
+
+            foreach (BatchVisits aVisit in Visits)
+            {
+                if (string.IsNullOrEmpty(aVisit.ExceptionMessage))
+                    nSuccessful++;
+                else
+                    lExceptionMessages.Add(aVisit.ExceptionMessage);
+            }
+
+            return nSuccessful;
+        }
+        
         public BatchInputFileBuilderBase(int nModelTypeID, string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref List<int> lVisits, string sInputFileName)
         {
             ModelTypeID = nModelTypeID;
@@ -81,8 +97,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         protected void GenerateBatchDBRecord()
         {
-
-             using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(DBCon))
+            using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(DBCon))
             {
                 dbCon.Open();
 
@@ -152,7 +167,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         /// <summary>
         /// All derived classes must implement a Run method that actually generates the input files.
         /// </summary>
-        public abstract void Run();
+        public abstract int Run(out List<string> lExceptionMessages);
 
         /// <summary>
         /// This class represents a successfully generated model input file on disk.
@@ -163,6 +178,9 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             public int VisitID { get; internal set; }
             public string InputFile { get; set; }
             public string Description { get; set; }
+
+            // Stores the eception or message iIf anything goes wrong creating this visit input file
+            public string ExceptionMessage { get; set; }
 
             public BatchVisits(int nVisitID)
             {

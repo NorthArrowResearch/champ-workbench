@@ -16,9 +16,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             m_Inputs = new GUTInputProperties(theInputs);
         }
 
-        public override void Run()
+        public override int Run(out List<string> lExceptionMessages)
         {
-
             foreach (BatchVisits aVisit in Visits)
             {
                 // Build all the input files here.
@@ -79,6 +78,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             }
 
             GenerateBatchDBRecord();
+
+            return GetResults(out lExceptionMessages);
         }
 
         private System.IO.FileInfo GenerateSubstrateCSV(int nVisitID, System.IO.DirectoryInfo dVisitFolder)

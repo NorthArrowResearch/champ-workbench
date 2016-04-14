@@ -32,7 +32,7 @@ namespace CHaMPWorkbench.RBTInputFile
                 ucConfig.ManualInitialization();
 
                 txtBatch.Text = "Batch " + DateTime.Now.ToString("yyy_MM_dd");
-                txtInputFileRoot.Text = Classes.ModelInputFiles.RBT_InputFileBuilder.m_sDefaultRBTInputXMLFileName;
+                txtInputFileRoot.Text = Classes.ModelInputFiles.RBTBatchInputfileBuilder.m_sDefaultRBTInputXMLFileName;
 #if DEBUG
                 txtBatch.Text = txtBatch.Text + "_debug";
 #endif
@@ -148,17 +148,29 @@ namespace CHaMPWorkbench.RBTInputFile
                 Classes.ModelInputFiles.RBTBatchInputfileBuilder theBatch = new Classes.ModelInputFiles.RBTBatchInputfileBuilder(m_dbCon.ConnectionString, txtBatch.Text, chkClearOtherBatches.Checked,
                               txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_lVisitIDs, txtInputFileRoot.Text, rbtConfig, rbtOutputs, true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
 
-                theBatch.Run(); // txtBatch.Text, txtInputFileRoot.Text, new System.IO.DirectoryInfo(txtMonitoringDataFolder.Text), true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
+                int nSuccess = 0;
+                List<string> lExceptionMessages;
+
+                nSuccess = theBatch.Run(out lExceptionMessages);
+
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+
+                if (nSuccess == m_lVisitIDs.Count)
+                    MessageBox.Show(string.Format("All {0} RBT input XML files were created successfully and added to the model batch called '{1}'.", nSuccess, txtBatch.Text), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    int nErrors = 0;
+                    if (lExceptionMessages is List<string>)
+                        nErrors = lExceptionMessages.Count;
+
+                    frmToolResults frm = new frmToolResults("RBT Input Files", string.Format("{0} RBT input XML files were created successfully. {1} experienced errors. Information about the errors are shown below.", nSuccess, nErrors), ref lExceptionMessages);
+                    frm.ShowDialog();
+                }
             }
             catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
-            }
-            finally
-            {
-                System.Windows.Forms.Cursor.Current = Cursors.Default;
-                MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

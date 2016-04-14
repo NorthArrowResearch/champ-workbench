@@ -9,6 +9,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
     public class RBTBatchInputfileBuilder : BatchInputFileBuilderBase
     {
+        public const string m_sDefaultRBTInputXMLFileName = "rbt_input.xml";
+
         RBTConfig m_RBTConfig;
         RBTOutputs m_RBTOutputs;
 
@@ -91,29 +93,27 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return dVisitTopoFolder;
         }
 
-        public override void Run()
+        public override int Run(out List<string> lExceptionMessages)
         {
-            int nSuccess = 0;
-            try
+            using (OleDbConnection conVisits = new OleDbConnection(DBCon))
             {
-                using (OleDbConnection conVisits = new OleDbConnection(DBCon))
+                conVisits.Open();
+
+                // This query retrieves all visits for the site. The target visit always comes first.
+                OleDbCommand dbTargetVisits = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
+                    " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
+                    " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
+                    " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
+
+                OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
+
+                foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                 {
-                    conVisits.Open();
-
-                    // This query retrieves all visits for the site. The target visit always comes first.
-                    OleDbCommand dbTargetVisits = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
-                        " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
-                        " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
-                        " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
-
-                    OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
-
-                    foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
+                    Site theSite = null;
+                    System.IO.FileInfo dInputFile = null;
+                    bool bContinue = true;
+                    try
                     {
-                        Site theSite = null;
-                        System.IO.FileInfo dInputFile = null;
-                        bool bContinue = true;
-
                         pVisitID.Value = aVisit.VisitID;
                         OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
                         while (dbRead.Read() && bContinue)
@@ -135,6 +135,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                                     // If got to here then the data paths were retrieved and point to real data that exist.
                                     dInputFile = Classes.DataFolders.RBTInputFile(OutputFolder.FullName, dVisitTopoFolder, InputFileName);
                                 }
+                                else
+                                    aVisit.ExceptionMessage = string.Format("Visit ID {0} is missing the survey geodatabase or one of the TINs.", aVisit.VisitID);
                             }
                             else
                                 AddVisitToSite(ref theSite, MonitoringDataFolder, nVisitID, false, m_bForcePrimary);
@@ -155,22 +157,23 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                             // Write the end of the file
                             CloseFile(ref xmlInput, dInputFile.Directory.FullName);
-                            nSuccess += 1;
-
+ 
                             aVisit.InputFile = dInputFile.FullName;
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        aVisit.ExceptionMessage = ex.Message;
+                    }
                 }
             }
-            catch (Exception ex)
-            {
 
-            }
-            
             GenerateBatchDBRecord();
+
+            return GetResults(out lExceptionMessages);
         }
 
-        private  void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)
+        private void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)
         {
             // Ensure that the directory exists
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sRBTInputFilePath));
