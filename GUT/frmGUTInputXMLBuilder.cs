@@ -62,7 +62,10 @@ namespace CHaMPWorkbench.GUT
 
             try
             {
-                gutBuilder.Run();
+                int nSuccess = 0;
+                List<string> lExceptionMessages;
+                
+                nSuccess = gutBuilder.Run(out lExceptionMessages);
             }
             catch (Exception ex)
             {
