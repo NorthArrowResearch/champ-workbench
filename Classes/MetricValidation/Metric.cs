@@ -115,7 +115,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
         private string MetricResultSQLStatement(bool bManualMetricValues)
         {
-            string sSQL = "SELECT V.MetricValue, R.RBTVersion";
+            string sSQL = "SELECT V.MetricValue, R.ModelVersion";
 
             switch (GroupTypeID)
             {
