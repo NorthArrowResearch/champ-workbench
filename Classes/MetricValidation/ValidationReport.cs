@@ -87,10 +87,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                 theResult.Visits += aMetric.Visits.Count;
             }
-            XmlNode nodJSON = xmlDoc.CreateElement("json");
-            // or .DeserilizeXmlNode(myJsonString, "root"); // if myJsonString does not have a root
-            nodJSON.InnerText = JsonConvert.SerializeXmlNode(nodReport);
-            nodReport.AppendChild(nodJSON);
 
             //
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +100,12 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 }
                 else
                 {
+                    // Since we need to do some Javascript magiv on top of our XSL magic we includ the entire report in JSON format
+                    // next to the xml
+                    XmlNode nodJSON = xmlDoc.CreateElement("json");
+                    nodJSON.InnerText = JsonConvert.SerializeXmlNode(nodReport);
+                    nodReport.AppendChild(nodJSON);
+
                     // When in HTML mode we need and XSL transformer to convert the XML to HTML.
                     System.Xml.Xsl.XslCompiledTransform theTransformer = new System.Xml.Xsl.XslCompiledTransform();
 
