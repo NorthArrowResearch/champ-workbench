@@ -421,7 +421,7 @@ namespace CHaMPWorkbench.Classes
                 }
                 else
                 {
-                    sSQL += "NULL";
+                    sSQL += ", NULL";
                 }
 
                 xmlAtt = dodNode.Attributes["type"];
@@ -431,7 +431,7 @@ namespace CHaMPWorkbench.Classes
                 }
                 else
                 {
-                    sSQL += "NULL";
+                    sSQL += ", NULL";
                 }
 
                 xmlAtt = dodNode.Attributes["threshold"];
@@ -441,7 +441,7 @@ namespace CHaMPWorkbench.Classes
                 }
                 else
                 {
-                    sSQL += "NULL";
+                    sSQL += ", NULL";
                 }
 
                 xmlAtt = dodNode.Attributes["spatial_coherence"];
@@ -451,7 +451,7 @@ namespace CHaMPWorkbench.Classes
                 }
                 else
                 {
-                    sSQL += "NULL";
+                    sSQL += ", NULL";
                 }
 
                 sSQL += ")";
