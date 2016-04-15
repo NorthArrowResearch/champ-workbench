@@ -8,6 +8,7 @@ module.exports = function(grunt) {
     // Grunt-sass 
     // sass (libsass) config
     sass: {
+      dist: {
         options: {
             sourceMap: true,
             relativeAssets: false,
@@ -15,28 +16,37 @@ module.exports = function(grunt) {
             sassDir: 'scss',
             cssDir: 'tmp',
             includePaths: ['node_modules/bootstrap/scss']
-        },
-        build: {
+          },
+          build: {
             files: [{
-                expand: true,
-                cwd: 'scss/',
-                src: ['**/*.scss'],
-                dest: 'tmp',
-                ext: '.css'
+              expand: true,
+              cwd: 'scss/',
+              src: ['**/*.scss'],
+              dest: 'tmp',
+              ext: '.css'
             }]
-        }
+          }
+      }
     },
 
     // Move our assets out of node_modules
     copy: {
       themes: {
-        files: [
-          { expand:true, cwd:'node_modules/selectize/dist/css', src:'selectize.bootstrap3.css', 
-            rename: function(dest, src){ return 'scss/_selectize-bootstrap3.scss'; } }
-        ],
+        files: [{
+          expand: true,
+          cwd: 'node_modules/selectize/dist/css',
+          src: 'selectize.bootstrap3.css',
+          rename: function(dest, src) {
+            return 'scss/_selectize-bootstrap3.scss';
+          }
+        }],
       },
       xsl: {
-        files: [ {expand: true, src: '*.xsl', dest: '../dist'} ]
+        files: [{
+          expand: true,
+          src: '*.xsl',
+          dest: '../dist'
+        }]
       }
     },
 
@@ -44,106 +54,111 @@ module.exports = function(grunt) {
     'regex-replace': {
       xslfiles: { //specify a target with any name
         src: ['../dist/*.xsl'],
-        actions: [
-          {
-            name: 'css',
-            search: /<link href="([^"]+.css)[^>]+>/i,
-             // m0 is the whole match. m1 is the match inside the ()
-             replace: function(m0, m1) {
-                
-                return '<style>' + fs.readFileSync(m1).toString() + '</style>';
-             },
-            flags: 'gi'
-          }, {
-            name: 'js',
-            search: /<script src="([^"]+.js)[^>]+><\/script>/i,
-             // m0 is the whole match. m1 is the match inside the ()
-             replace: function(m0,m1) {
-                return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync(m1).toString() + ']]></script>';
-             },
-            flags: 'gi'
-          }
-        ]
+        actions: [{
+          name: 'css',
+          search: /<link href="([^"]+.css)[^>]+>/i,
+          // m0 is the whole match. m1 is the match inside the ()
+          replace: function(m0, m1) {
+
+            return '<style>' + fs.readFileSync(m1).toString() + '</style>';
+          },
+          flags: 'gi'
+        }, {
+          name: 'js',
+          search: /<script src="([^"]+.js)[^>]+><\/script>/i,
+          // m0 is the whole match. m1 is the match inside the ()
+          replace: function(m0, m1) {
+            return '<script type="text/javascript" language="javascript"><![CDATA[' + fs.readFileSync(m1).toString() + ']]></script>';
+          },
+          flags: 'gi'
+        }]
       }
     },
 
     exec: {
-//      habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
-//      rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
+      habitat: 'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+      rbt: 'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
-      watershed:  'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
+      watershed: 'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
       editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml',
       processing_report: 'xsltproc -o ../Samples/processing_report.html ../dist/processing_report.xsl ../Samples/editing_report.xml'
     },
-    
+
 
     // Collect all our js into one script
     concat: {
       options: {
         separator: '\n;\n',
       },
-//      habitat: {
-//        src: [
-//          'node_modules/jquery/dist/jquery.min.js',
-//          'node_modules/tether/dist/js/tether.min.js',
-//          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-//          'node_modules/d3/d3.min.js',
-//          'js/habitat.js',
-//        ],
-//        dest: 'tmp/habitat.js'    
-//      },
-//      rbt: {
-//        src: [
-//          'node_modules/jquery/dist/jquery.min.js',
-//          'node_modules/tether/dist/js/tether.min.js',
-//          'node_modules/bootstrap/dist/js/bootstrap.min.js',
-//          'node_modules/d3/d3.min.js',
-//          'js/lib/boxplot.js',
-//          'js/rbt.js',
-//        ],
-//        dest: 'tmp/rbt.js'    
-//      },
-      rbt_manual: {
+      // BASE are the libraries that every report uses
+      base: {
         src: [
           'node_modules/jquery/dist/jquery.min.js',
           'node_modules/tether/dist/js/tether.min.js',
           'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/underscore/underscore-min.js',
+          'node_modules/moment/min/moment.min.js',
+        ],
+        dest: 'tmp/base.min.js'
+      },
+      habitat: {
+        src: [
+          'tmp/base.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/habitat.js',
+        ],
+        dest: 'tmp/habitat.js'
+      },
+      rbt: {
+        src: [
+          'tmp/base.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/lib/boxplot.js',
+          'js/rbt.js',
+        ],
+        dest: 'tmp/rbt.js'
+      },
+      gcd: {
+        src: [
+          'tmp/base.min.js',
+          'js/lib/boxplot.js',
+          'js/gcd.js',
+        ],
+        dest: 'tmp/gcd.js'
+      },
+      rbt_manual: {
+        src: [
+          'tmp/base.min.js',
           'node_modules/selectize/dist/js/standalone/selectize.min.js',
           'js/rbt_manual.js',
         ],
-        dest: 'tmp/rbt_manual.js'      
+        dest: 'tmp/rbt_manual.js'
       },
       watershed: {
         src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'tmp/base.min.js',
           'node_modules/d3/d3.min.js',
           'js/lib/boxplot.js',
           'js/watershed.js',
         ],
-        dest: 'tmp/watershed.js'    
+        dest: 'tmp/watershed.js'
       },
       editing_report: {
         src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'tmp/base.min.js',
           'node_modules/d3/d3.min.js',
           'js/lib/boxplot.js',
           'js/editing_report.js',
         ],
-        dest: 'tmp/editing_report.js'  
-      }
+        dest: 'tmp/editing_report.js'
+      },
       processing_report: {
         src: [
-          'node_modules/jquery/dist/jquery.min.js',
-          'node_modules/tether/dist/js/tether.min.js',
-          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'tmp/base.min.js',
           'node_modules/d3/d3.min.js',
           'js/processing_report.js',
         ],
-        dest: 'tmp/processing_report.js'  
+        dest: 'tmp/processing_report.js'
       }
     },
 

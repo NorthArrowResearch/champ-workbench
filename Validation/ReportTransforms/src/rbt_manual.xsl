@@ -87,6 +87,7 @@
           </xsl:for-each>
         </div>
         <xsl:call-template name="javascript" />
+        <xsl:call-template name="JSON" />
       </body>
       
     </html>
@@ -141,6 +142,10 @@
         </div>
       </div>
     </div>
+  </xsl:template>
+
+  <xsl:template name="JSON">
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/report/json"/></script>
   </xsl:template>
 
   <xsl:template name="javascript">
