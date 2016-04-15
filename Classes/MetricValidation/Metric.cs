@@ -155,6 +155,26 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodMetricUnits.InnerText = Units;
             nodMetric.AppendChild(nodMetricUnits);
 
+            // TODO: PUT A REAL VALUE IN ME
+            XmlNode nodDisplayParentGroup = xmlDoc.CreateElement("display_parent_group");
+            nodDisplayParentGroup.InnerText = "DISPLAY_PARENT_GROUP";
+            nodMetric.AppendChild(nodDisplayParentGroup);
+
+            // TODO: PUT A REAL VALUE IN ME
+            XmlNode nodDisplayChildGroup = xmlDoc.CreateElement("display_child_group");
+            nodDisplayChildGroup.InnerText = "DISPLAY_GROUP_CHILD";
+            nodMetric.AppendChild(nodDisplayChildGroup);
+
+            // TODO: PUT A REAL VALUE IN ME
+            XmlNode nodMetricCalcTypeID = xmlDoc.CreateElement("metric_calc_type_id");
+            nodMetricCalcTypeID.InnerText = "99999";
+            nodMetric.AppendChild(nodMetricCalcTypeID);
+
+            // TODO: PUT A REAL VALUE IN ME
+            XmlNode nodGroupTypeID = xmlDoc.CreateElement("group_type_id");
+            nodGroupTypeID.InnerText = "99999";
+            nodMetric.AppendChild(nodGroupTypeID);
+
             XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
             nodTolerance.InnerText = Threshold.ToString("#0.00");
             nodMetric.AppendChild(nodTolerance);

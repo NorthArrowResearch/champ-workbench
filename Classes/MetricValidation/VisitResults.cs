@@ -44,6 +44,31 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodVisitName.InnerText = this.ToString();
             nodVisit.AppendChild(nodVisitName);
 
+            XmlNode nodFieldSeason = xmlDoc.CreateElement("field_season");
+            nodFieldSeason.InnerText = VisitYear.ToString();
+            nodVisit.AppendChild(nodFieldSeason);
+
+            // TODO: PUT A REAL VALUE IN ME
+            XmlNode nodnodWaterShedID = xmlDoc.CreateElement("watershed_id");
+            nodnodWaterShedID.InnerText = "99999999999";
+            nodVisit.AppendChild(nodnodWaterShedID);
+
+            XmlNode nodnodWaterShedName = xmlDoc.CreateElement("watershed_name");
+            nodnodWaterShedName.InnerText = Watershed;
+            nodVisit.AppendChild(nodnodWaterShedName);
+
+            XmlNode nodSiteName = xmlDoc.CreateElement("site");
+            nodSiteName.InnerText = Site;
+            nodVisit.AppendChild(nodSiteName);
+
+            XmlNode nodOrganization = xmlDoc.CreateElement("organization");
+            nodOrganization.InnerText = "ORGANIZATION_NAME";
+            nodVisit.AppendChild(nodOrganization);
+
+            XmlNode nodCrewName = xmlDoc.CreateElement("crew_name");
+            nodCrewName.InnerText = "CREW_NAME";
+            nodVisit.AppendChild(nodCrewName);
+
             XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
             if (ManualResult is MetricValueBase)
                 nodManualResult.InnerText = ManualResult.ToString();
