@@ -68,39 +68,41 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      //habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
-      //rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
+//      habitat:    'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+//      rbt:        'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
       watershed:  'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
-      //editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml'
+      editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml',
+      processing_report: 'xsltproc -o ../Samples/processing_report.html ../dist/processing_report.xsl ../Samples/editing_report.xml'
     },
+    
 
     // Collect all our js into one script
     concat: {
       options: {
         separator: '\n;\n',
       },
-      //habitat: {
-        //src: [
-          //'node_modules/jquery/dist/jquery.min.js',
-          //'node_modules/tether/dist/js/tether.min.js',
-          //'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          //'node_modules/d3/d3.min.js',
-          //'js/habitat.js',
-        //],
-        //dest: 'tmp/habitat.js'    
-      //},
-      //rbt: {
-        //src: [
-          //'node_modules/jquery/dist/jquery.min.js',
-          //'node_modules/tether/dist/js/tether.min.js',
-          //'node_modules/bootstrap/dist/js/bootstrap.min.js',
-          //'node_modules/d3/d3.min.js',
-          //'js/lib/boxplot.js',
-          //'js/rbt.js',
-        //],
-        //dest: 'tmp/rbt.js'    
-      //},
+//      habitat: {
+//        src: [
+//          'node_modules/jquery/dist/jquery.min.js',
+//          'node_modules/tether/dist/js/tether.min.js',
+//          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+//          'node_modules/d3/d3.min.js',
+//          'js/habitat.js',
+//        ],
+//        dest: 'tmp/habitat.js'    
+//      },
+//      rbt: {
+//        src: [
+//          'node_modules/jquery/dist/jquery.min.js',
+//          'node_modules/tether/dist/js/tether.min.js',
+//          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+//          'node_modules/d3/d3.min.js',
+//          'js/lib/boxplot.js',
+//          'js/rbt.js',
+//        ],
+//        dest: 'tmp/rbt.js'    
+//      },
       rbt_manual: {
         src: [
           'node_modules/jquery/dist/jquery.min.js',
@@ -132,6 +134,16 @@ module.exports = function(grunt) {
           'js/editing_report.js',
         ],
         dest: 'tmp/editing_report.js'  
+      }
+      processing_report: {
+        src: [
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/tether/dist/js/tether.min.js',
+          'node_modules/bootstrap/dist/js/bootstrap.min.js',
+          'node_modules/d3/d3.min.js',
+          'js/processing_report.js',
+        ],
+        dest: 'tmp/processing_report.js'  
       }
     },
 
