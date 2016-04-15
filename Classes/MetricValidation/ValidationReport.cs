@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.OleDb;
-using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using System.Xml;
 
 namespace CHaMPWorkbench.Classes.MetricValidation
@@ -86,7 +86,11 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 aMetric.Serialize(ref xmlDoc, ref nodMetrics);
 
                 theResult.Visits += aMetric.Visits.Count;
-            }            
+            }
+            XmlNode nodJSON = xmlDoc.CreateElement("json");
+            // or .DeserilizeXmlNode(myJsonString, "root"); // if myJsonString does not have a root
+            nodJSON.InnerText = JsonConvert.SerializeXmlNode(nodReport);
+            nodReport.AppendChild(nodJSON);
 
             //
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
