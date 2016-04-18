@@ -232,4 +232,255 @@
       </record>
     </tablename>
   </table>
+  <json>{
+  "surveyGDB": {
+    "filename": "C:\\CHaMP\\MonitoringData\\2015\\JohnDay\\CBW05583-345970\\VISIT_3161\\Topo\\SurveyGeoDatabase.gdb",
+    "table": {
+      "tablename": [
+        {
+          "#text": "SurveyInfo\n      ",
+          "record": {
+            "OBJECTID": "1",
+            "SiteID": "CBW05583-345970",
+            "Watershed": "John Day",
+            "VisitType": "Initial visit",
+            "SurveyInstrument": "Total Station",
+            "Projection": "UTM Zone 11N",
+            "SurveyFile": "CBW05583-345970-20150716-ODFWJD.mjf",
+            "CHaMPGISversion": "14.00",
+            "SurveyGDBversion": "2015.01",
+            "ImportDate": "2015-07-22T09:08:42",
+            "StreamName": "Duncan Creek",
+            "Variability": "False",
+            "InstrumentModel": "TopCon Magnet v2.5.1",
+            "Organization": "ODFW",
+            "Crew": "Salgado",
+            "CoordinateType": "",
+            "ProtocolType": "CHaMP",
+            "FieldSeason": "2015",
+            "VisitID": "0",
+            "FinalTin": "tin",
+            "FinalWSETIN": "wsetin",
+            "SurveyDate": ""
+          }
+        },
+        {
+          "#text": "QaQcPoints\n      ",
+          "record": [
+            {
+              "OBJECTID": "1",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "tp",
+              "Count": "357",
+              "Unique": "1",
+              "ZminProj": "1359.5649",
+              "ZmaxProj": "1372.0052",
+              "ZrangeProj": "12.440300000002"
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "tb",
+              "Count": "92",
+              "Unique": "1",
+              "ZminProj": "1360.41439999999",
+              "ZmaxProj": "1367.7686",
+              "ZrangeProj": "7.35420000000158"
+            },
+            {
+              "OBJECTID": "3",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "to",
+              "Count": "8",
+              "Unique": "1",
+              "ZminProj": "1360.2154",
+              "ZmaxProj": "1362.6611",
+              "ZrangeProj": "2.44569999999658"
+            },
+            {
+              "OBJECTID": "4",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "bl",
+              "Count": "279",
+              "Unique": "1",
+              "ZminProj": "1359.5805",
+              "ZmaxProj": "1370.8934",
+              "ZrangeProj": "11.3129000000044"
+            },
+            {
+              "OBJECTID": "5",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "wg",
+              "Count": "50",
+              "Unique": "1",
+              "ZminProj": "1359.9114",
+              "ZmaxProj": "1367.0533",
+              "ZrangeProj": "7.14190000000235"
+            },
+            {
+              "OBJECTID": "6",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "bf",
+              "Count": "18",
+              "Unique": "1",
+              "ZminProj": "1360.4654",
+              "ZmaxProj": "1365.0509",
+              "ZrangeProj": "4.58550000000105"
+            },
+            {
+              "OBJECTID": "9",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "ql",
+              "Count": "0",
+              "Unique": "0",
+              "ZminProj": "9999999999",
+              "ZmaxProj": "-9999999999",
+              "ZrangeProj": "-19999999998"
+            }
+          ]
+        },
+        {
+          "#text": "QaQcLines\n      ",
+          "record": [
+            {
+              "OBJECTID": "1",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "tb",
+              "Count": "8",
+              "Length": "224.9261"
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "to",
+              "Count": "3",
+              "Length": "8.842936"
+            },
+            {
+              "OBJECTID": "3",
+              "TIMESTAMP": "2015-07-22T09:18:43",
+              "Code": "bl",
+              "Count": "48",
+              "Length": "723.2373"
+            },
+            {
+              "OBJECTID": "4",
+              "TIMESTAMP": "2015-07-22T09:18:435",
+              "Code": "bf",
+              "Count": "3",
+              "Length": "10.67887"
+            }
+          ]
+        },
+        {
+          "#text": "QaQcPolygons\n      ",
+          "record": [
+            {
+              "OBJECTID": "1",
+              "TIMESTEAMP": "2015-07-22T09:43:08",
+              "SurveyExtentCount": "",
+              "WaterExtentCount": "",
+              "ChannelUnitsCount": "",
+              "ChannelUnitsUnique": ""
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-22T13:35:15",
+              "SurveyExtentCount": "1",
+              "WaterExtentCount": "1",
+              "ChannelUnitsCount": "21",
+              "ChannelUnitsUnique": "21"
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-22T19:37:57",
+              "SurveyExtentCount": "1",
+              "WaterExtentCount": "1",
+              "ChannelUnitsCount": "21",
+              "ChannelUnitsUnique": "21"
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-31T18:13:42",
+              "SurveyExtentCount": "1",
+              "WaterExtentCount": "1",
+              "ChannelUnitsCount": "21",
+              "ChannelUnitsUnique": "21"
+            }
+          ]
+        },
+        {
+          "#text": "QaQcTIN\n      ",
+          "record": [
+            {
+              "OBJECTID": "1",
+              "TIMESTAMP": "2015-07-22T10:10:52",
+              "Node_Count": "1425",
+              "Node_Zmin": "1359.565",
+              "Node_Zmax": "1372.005",
+              "Nodes_Topo": "928",
+              "Nodes_Interpolated": "497",
+              "BL_Length": "1354.437",
+              "Dams": "",
+              "BL_Crossed": "",
+              "Facets": ""
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-22T10:48:19",
+              "Node_Count": "1425",
+              "Node_Zmin": "1359.565",
+              "Node_Zmax": "1372.005",
+              "Nodes_Topo": "928",
+              "Nodes_Interpolated": "497",
+              "BL_Length": "1354.437",
+              "Dams": "",
+              "BL_Crossed": "",
+              "Facets": ""
+            },
+            {
+              "OBJECTID": "3",
+              "TIMESTAMP": "2015-07-22T11:08:25",
+              "Node_Count": "1425",
+              "Node_Zmin": "1359.565",
+              "Node_Zmax": "1372.005",
+              "Nodes_Topo": "928",
+              "Nodes_Interpolated": "497",
+              "BL_Length": "1354.437",
+              "Dams": "",
+              "BL_Crossed": "",
+              "Facets": ""
+            },
+            {
+              "OBJECTID": "4",
+              "TIMESTAMP": "2015-07-22T12:50:44",
+              "Node_Count": "702",
+              "Node_Zmin": "1359.72",
+              "Node_Zmax": "1367.215",
+              "Nodes_Topo": "67",
+              "Nodes_Interpolated": "635",
+              "BL_Length": "261.3603",
+              "Dams": "",
+              "BL_Crossed": "",
+              "Facets": ""
+            },
+            {
+              "OBJECTID": "5",
+              "TIMESTAMP": "2015-07-22T13:35:16",
+              "Node_Count": "1416",
+              "Node_Zmin": "1359.565",
+              "Node_Zmax": "1372.005",
+              "Nodes_Topo": "917",
+              "Nodes_Interpolated": "499",
+              "BL_Length": "1330.328",
+              "Dams": "False",
+              "BL_Crossed": "",
+              "Facets": "False"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}</json>
 </surveyGDB>

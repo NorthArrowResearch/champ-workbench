@@ -76,8 +76,8 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      habitat: 'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
-      rbt: 'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
+      // habitat: 'xsltproc -o ../Samples/habitat.html ../dist/habitat.xsl ../Samples/habitat.xml',
+      // rbt: 'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
       watershed: 'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
       editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml',
@@ -147,6 +147,7 @@ module.exports = function(grunt) {
         src: [
           'tmp/base.min.js',
           'node_modules/d3/d3.min.js',
+          'node_modules/selectize/dist/js/standalone/selectize.min.js',
           'js/lib/boxplot.js',
           'js/editing_report.js',
         ],
@@ -172,7 +173,7 @@ module.exports = function(grunt) {
         tasks: ['copy', 'concat', 'regex-replace', 'exec']
       },
       xslt: {
-        files: ['*.xsl', '../Samples/*.xml'],
+        files: ['**/*.xsl', '../Samples/*.xml'],
         tasks: ['copy', 'regex-replace', 'exec']
       },
       scss: {

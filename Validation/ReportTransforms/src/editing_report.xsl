@@ -80,6 +80,8 @@
 
           </div>
         </div>
+        <xsl:call-template name="JSON" />
+        <xsl:call-template name="javascript" />
       </body>
     </html>
   </xsl:template>
@@ -110,6 +112,10 @@
         </div>
       </div>
     </div>
+  </xsl:template>
+
+  <xsl:template name="JSON">
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/surveyGDB/json"/></script>
   </xsl:template>
 
   <xsl:template name="javascript">

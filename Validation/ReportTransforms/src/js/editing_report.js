@@ -15,10 +15,21 @@ var passfail = {
   fail: 'Fail'
 }
 
+
+var parseJSON = function(){
+  var x = JSON.parse($('#ReportJSONData').html());
+  return x;
+}
+
+
 /**
  * Only do things when the document is ready for thing-doing
  */
 $(document).ready(function() {
+  // Go get the JSON data from the report:
+  var JSONData = parseJSON();
+  console.dir(JSONData);
+
   // Remove zero padding on version numbers
   $('#version-filter option, thead th.version span').each(function(){
     var version = $(this).text();
