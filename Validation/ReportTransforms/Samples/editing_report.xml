@@ -336,6 +336,26 @@
               "ZminProj": "9999999999",
               "ZmaxProj": "-9999999999",
               "ZrangeProj": "-19999999998"
+            },
+            {
+              "OBJECTID": "1",
+              "TIMESTAMP": "2015-07-23T10:55:12",
+              "Code": "tp",
+              "Count": "142",
+              "Unique": "1",
+              "ZminProj": "1359.5649",
+              "ZmaxProj": "1372.0052",
+              "ZrangeProj": "12.440300000002"
+            },
+            {
+              "OBJECTID": "2",
+              "TIMESTAMP": "2015-07-23T10:55:12",
+              "Code": "tb",
+              "Count": "102",
+              "Unique": "1",
+              "ZminProj": "1360.41439999999",
+              "ZmaxProj": "1367.7686",
+              "ZrangeProj": "7.35420000000158"
             }
           ]
         },

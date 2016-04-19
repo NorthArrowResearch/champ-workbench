@@ -15,12 +15,10 @@ var passfail = {
   fail: 'Fail'
 }
 
-
 var parseJSON = function(){
   var x = JSON.parse($('#ReportJSONData').html());
   return x;
 }
-
 
 /**
  * Only do things when the document is ready for thing-doing
@@ -30,6 +28,68 @@ $(document).ready(function() {
   var JSONData = parseJSON();
   console.dir(JSONData);
 
+  var test = JSONData.surveyGDB.table.tablename[0].record.Watershed;
+  console.log(test);
+  
+    
+  // extract list of values from a survey GDB table   
+  function extract(record, property) {
+      if (Array.isArray(record)) {
+       return _.pluck(record, property);
+      } else {
+        return record[property];
+        }
+      }
+
+  var table = JSONData.surveyGDB.table.tablename;
+    
+  var records = _.find(table, function(i) {
+    return i['#text'] === 'QaQcPoints\n      ';
+  });
+
+  var timestamps = extract(records.record, 'TIMESTAMP');
+  var codes = extract(records.record, 'Code');
+  var counts = extract(records.record, 'Count');
+
+  console.log(timestamps);
+  console.log(codes);
+  console.log(counts);
+
+  });
+
+//  var template = ''
+//    <table  id="surveyinfo" cclass="table">
+//        <tbody>
+//            <tr>
+//                <td>Vertical error notes:</td>
+//                <td><%=  %></td>
+//                <td>Horizontal error notes:</td>
+//                <td><%= %></td>
+//            </tr>
+//            <% for (var index = 0; index < employeeList.length; index++){ %>
+//            <% var employee = employeeList[index]; %>
+//            <% var compensation = employee.hours * employee.pay; %>
+//            <tr>
+//                <td><%= employee.name %></td>
+//                <td><%= employee.position %></td>
+//                <td><%= employee.pay %></td>
+//                <td><%= employee.hours %></td>
+//                <td><%= employee.type %></td>
+//                <td><%= compensation %></td>
+//            </tr>
+//            <% } %>
+//        </tbody>
+//    </table>
+//    ";
+
+//    $(document).ready(function() {
+//    var output = _.template(template, { employeeList : employeeList } );
+//
+//    $("#surveyinfo").html(output);
+//    });
+
+    
+    
   // Remove zero padding on version numbers
   $('#version-filter option, thead th.version span').each(function(){
     var version = $(this).text();
@@ -61,7 +121,7 @@ $(document).ready(function() {
     console.log(filterArgs.onlyFailures.value);
     filter();
   });
-});
+
 
 /**
  * Decide what to show and then show (or hide) it. Duh.

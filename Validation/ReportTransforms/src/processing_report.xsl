@@ -6,7 +6,7 @@
       <head> 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Survey Editing Report</title>
+        <title>Survey Processing Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
       <body>
@@ -17,7 +17,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h2>Survey Information</h2></div></div>
             <div class="panel-body">
-                <p>The site was surveyed using a [TopCon Magnet v2.5.1] [Total Station] by [ELR] crew [CGSHS].  LiDAR [was] merged with the survey.  It was projected to [UTM Zone 11N]. The visit was [new/successfully reoccupied]. [5] Benchmarks were shot in and [11] control points were used.  [X] locations were occupied.  [No/yes] edits were made to the raw instrument files prior to import into GIS.</p>   
+                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/table/tablename/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/table/tablename/record/Organization" /> crew <xsl:value-of select="/surveyGDB/table/tablename/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [UTM Zone 11N]. The visit type was - <xsl:value-of select="/surveyGDB/table/tablename/record/VisitType" />. [5] benchmarks were shot in and [11] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
             </div>
 
             <!-- Survey Information table -->
@@ -26,11 +26,11 @@
                 <tbody>
                   <tr>
                     <td>Vertical error notes:</td>
-                    <td></td>
+                    <td>Sample notes about vertical error in the survey.</td><!-- from new questions on survey report review -->
                   </tr>
                   <tr>
                     <td>Horizontal error notes:</td>
-                    <td></td>
+                    <td>More sample notes about horizontal error in the survey.</td><!-- from new questions on survey report review -->
                   </tr>  
                 </tbody>
               </table>
@@ -39,25 +39,27 @@
             
           <!-- Point Editing, Line Editing, and Surface Generation -->
           <div class="panel panel-default"> 
-            <div class="panel-heading"><div class="panel-title"><h2>Point Editing, Line Editing, and Surface Generation</h2></div></div>
-              <div class="panel-body">
+            <div class="panel-heading"><div class="panel-title"><h3>Point Editing, Line Editing, and Surface Generation</h3></div></div>
+              <div class="panel-body"><!-- from QaQcTIN -->
                 <p>[tin0] was the final TIN generated. The survey edits were described as [XXXX] because [XXX]. The crew rated the TIN quality as [XX] </p>   
               </div>
               <div class="panel-body">
-                <p>Final TIN Image</p>  
-                <img />
+                <img  src="../src/img/johnday_sample.png" />
+                <p>TIN surface image</p>
+                <p></p>
               </div>
           </div>
             
           <!-- Channel Features -->
           <div class="panel panel-default"> 
-            <div class="panel-heading"><div class="panel-title"><h2>Channel Features</h2></div></div>
-              <div class="panel-body">
+            <div class="panel-heading"><div class="panel-title"><h3>Channel Features</h3></div></div>
+              <div class="panel-body"><!-- from QaQcPolygons -->
                 <p>There were [2] water extent polygons and [21] unique channel units. Bars [were] evident at the site and water surface shots [were] used.</p>   
               </div>
               <div class="panel-body">
-                <p>Water Depth and Channel Units image:</p>  
-                <img />
+                <img  src="../src/img/johnday_sample.png" />
+                <p>Water Depth and Channel Units image</p>
+                <p></p>
               </div>
               
               <!-- Channel Feature table -->
@@ -65,25 +67,20 @@
               <table class="table">
                 <tbody>
                   <tr>
-                    <td># of Channel Units</td>
-                    <td></td>
+                    <td># of Channel Units</td> <!-- from QaQcPolygons -->
+                    <td></td> <!-- ChannelUnitsCount (associated with last TIMESTAMP) -->
                   </tr>
                   <tr>
-                    <td>Number of Water Extent Polygons</td>
-                    <td></td>
+                    <td>Number of Water Extent Polygons</td> <!-- from QaQcPolygons -->
+                    <td></td> <!-- WaterExtentCount (associated with last TIMESTAMP) -->
                   </tr>
                   <tr>
-                    <td>Number of Bankfull Event Polygons</td>
-                    <td></td>
+                    <td>Number of Bankfull Extent Polygons</td> <!-- from QaQcPolygons??? -->
+                    <td></td> <!-- (associated with last TIMESTAMP) -->
                   </tr>  
                 </tbody>
               </table>
             </div>
-            <div class="panel-body">
-              <p>Image of Water Depth and Channel Units:</p>  
-              <img />
-            </div>
-          </div>
 
           <!-- Point Density -->
           <div class="panel panel-default"> 
@@ -92,8 +89,9 @@
                 <p>Boilerplate information abou the survey's point density data. Two to three sentences on what it is, why we care, how to change it, etc.</p>   
               </div>
               <div class="panel-body">
-                <p>Point Density Image:</p>  
-                <img />
+                <img  src="../src/img/johnday_sample.png" />
+                <p>Point Density Image</p>
+                <p></p>
               </div>
           </div>
             
@@ -104,19 +102,23 @@
                 <p>Boilerplate information about the survey's error surface data. Two to three sentences on what it is, why we care, how to improve the quality, etc.</p>   
               </div>
               <div class="panel-body">
-                <p>Error Surface Image:</p>  
-                <img />
+                <img  src="../src/img/johnday_sample.png" />
+                <p>Error Surface Image</p>
+                <p></p>
               </div>
           </div>
         
-        </div>    
+        </div>
+        <xsl:call-template name="javascript" />
+        <xsl:call-template name="JSON" />
+        </div>
       </body>
     </html>
   </xsl:template>
 
   <xsl:template name="header">
     <div class="jumbotron">
-      <h1>Survey Editing Report</h1>
+      <h1>Survey Processing Report</h1>
       <h3>Created on: </h3>
       <div class="row">
         <div class="col-md-12">
@@ -140,6 +142,10 @@
         </div>
       </div>
     </div>
+  </xsl:template>
+    
+  <xsl:template name="JSON">
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/report/json"/></script>
   </xsl:template>
 
   <xsl:template name="javascript">
