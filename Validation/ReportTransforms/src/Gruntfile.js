@@ -8,7 +8,6 @@ module.exports = function(grunt) {
     // Grunt-sass 
     // sass (libsass) config
     sass: {
-      dist: {
         options: {
             sourceMap: true,
             relativeAssets: false,
@@ -16,17 +15,16 @@ module.exports = function(grunt) {
             sassDir: 'scss',
             cssDir: 'tmp',
             includePaths: ['node_modules/bootstrap/scss']
-          },
-          build: {
+        },
+        build: {
             files: [{
-              expand: true,
-              cwd: 'scss/',
-              src: ['**/*.scss'],
-              dest: 'tmp',
-              ext: '.css'
+                expand: true,
+                cwd: 'scss/',
+                src: ['**/*.scss'],
+                dest: 'tmp',
+                ext: '.css'
             }]
-          }
-      }
+        }
     },
 
     // Move our assets out of node_modules
@@ -173,12 +171,12 @@ module.exports = function(grunt) {
         tasks: ['copy', 'concat', 'regex-replace', 'exec']
       },
       xslt: {
-        files: ['**/*.xsl', '../Samples/*.xml'],
+        files: ['*.xsl', '../Samples/*.xml'],
         tasks: ['copy', 'regex-replace', 'exec']
       },
       scss: {
         files: ['scss/*.scss'],
-        tasks: ['build']
+        tasks: ['build', 'exec']
       }
     }
   });

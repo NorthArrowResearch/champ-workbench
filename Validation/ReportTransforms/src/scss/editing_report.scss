@@ -12,6 +12,12 @@
     padding: 20px;
 }
 
+// Table formatting
+table#node-editing-summary {
+  tr td:nth-child(1),
+  tr th:nth-child(1) { width: 150px; }
+}
+
 #light{
   thead { 
         background-color: #ccc;

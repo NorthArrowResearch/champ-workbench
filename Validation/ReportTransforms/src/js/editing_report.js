@@ -15,11 +15,6 @@ var passfail = {
   fail: 'Fail'
 }
 
-var parseJSON = function(){
-  var x = JSON.parse($('#ReportJSONData').html());
-  return x;
-}
-
 /**
  * Only do things when the document is ready for thing-doing
  */
@@ -28,187 +23,225 @@ $(document).ready(function() {
   var JSONData = parseJSON();
   console.dir(JSONData);
 
-  var test = JSONData.surveyGDB.table.tablename[0].record.Watershed;
-  console.log(test);
-  
-    
-  // extract list of values from a survey GDB table   
-  function extract(record, property) {
-      if (Array.isArray(record)) {
-       return _.pluck(record, property);
-      } else {
-        return record[property];
-        }
-      }
+  PointEditingSummary(JSONData, $('#point-editing-summary'));
+  LineEditingSummary(JSONData, $('#line-editing-summary'));
+  NodeEditingSummary(JSONData, $('#node-editing-summary'));
 
-  var table = JSONData.surveyGDB.table.tablename;
-    
-  var records = _.find(table, function(i) {
-    return i['#text'] === 'QaQcPoints\n      ';
-  });
+});
 
-  var timestamps = extract(records.record, 'TIMESTAMP');
-  var codes = extract(records.record, 'Code');
-  var counts = extract(records.record, 'Count');
+/******************************************************************************************
 
-  console.log(timestamps);
-  console.log(codes);
-  console.log(counts);
+        TABLE FUNCTIONS BELOW THIS POINT
 
-  });
-
-//  var template = ''
-//    <table  id="surveyinfo" cclass="table">
-//        <tbody>
-//            <tr>
-//                <td>Vertical error notes:</td>
-//                <td><%=  %></td>
-//                <td>Horizontal error notes:</td>
-//                <td><%= %></td>
-//            </tr>
-//            <% for (var index = 0; index < employeeList.length; index++){ %>
-//            <% var employee = employeeList[index]; %>
-//            <% var compensation = employee.hours * employee.pay; %>
-//            <tr>
-//                <td><%= employee.name %></td>
-//                <td><%= employee.position %></td>
-//                <td><%= employee.pay %></td>
-//                <td><%= employee.hours %></td>
-//                <td><%= employee.type %></td>
-//                <td><%= compensation %></td>
-//            </tr>
-//            <% } %>
-//        </tbody>
-//    </table>
-//    ";
-
-//    $(document).ready(function() {
-//    var output = _.template(template, { employeeList : employeeList } );
-//
-//    $("#surveyinfo").html(output);
-//    });
-
-    
-    
-  // Remove zero padding on version numbers
-  $('#version-filter option, thead th.version span').each(function(){
-    var version = $(this).text();
-    $(this).html(version.replace(/\.0/g, '.'));
-  });
-
-  $('td.version').each(function(){
-    if ($(this).attr('data-status') == passfail.pass){
-      $(this).addClass('pass');
-    }
-    else if ($(this).attr('data-status') == passfail.fail){
-      $(this).addClass('fail');
-    }
-  });
-  $('select#metric-filter').selectize().on('change', function(e){
-    filterArgs.metric.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#visit-filter').selectize().on('change', function(e){
-    filterArgs.visit.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#version-filter').selectize().on('change', function(e){
-    filterArgs.version.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('input#onlyFailures').on('change', function(e){    
-    filterArgs.onlyFailures.value =  $(this).is(':checked');
-    console.log(filterArgs.onlyFailures.value);
-    filter();
-  });
+******************************************************************************************/
 
 
 /**
- * Decide what to show and then show (or hide) it. Duh.
- * @return {[type]} [description]
+ * PointEditingSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
  */
-var filter = function(){
-  // Show all the things
-  $('div.metric').removeClass('hide');
-  $('table tbody tr').removeClass('hide');
-  $(filterArgs.version.selector).removeClass('hide');
+var PointEditingSummary = function(JSONData, $table){
+  // Get the jQuery node associated with this table
+  $tbody = $table.find('tbody');
+  var summaryObj = {}
 
-  // Go through and hide some of the sections
-  $('div.metric').each(function(){
-    var hideMetric = false;
-    if (filterArgs.metric.value && filterArgs.metric.value.length > 0){
-      hideMetric = true;
-      var metric = $(this).attr('data');
-      $.each(filterArgs.metric.value, function(n, val){
-        if (val == metric){
-          hideMetric = false;
-        }
-      })
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcPoints"});
+  records = dataTable.records.record;
+
+  // We have to collect the records by Code.
+  $.each(records, function(key,record){
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // This Code exists in our summary object.
+    if (summaryObj[record.Code]){
+      // If we're looking at something newer than the newest or older than the oldest
+      // then reset those points.
+      if (summaryObj[record.Code].FirstTime >= record.UnixTime){
+        summaryObj[record.Code].FirstTime = record.UnixTime;
+        summaryObj[record.Code].First = record.Count;
+      }
+      if (summaryObj[record.Code].LastTime <= record.UnixTime){
+        summaryObj[record.Code].LastTime = record.UnixTime
+        summaryObj[record.Code].Last = record.Count;
+      }
+    }
+    // We don't have a record for this code yet. Create one. 
+    else{
+      summaryObj[record.Code] = {
+        First: record.Count,
+        FirstTime: record.unixTime,
+        Last: record.Count,
+        LastTime: record.unixTime,
+      }
+    }
+  })
+
+  // Now go through and make your actual HMTL elements for the table row.
+  $.each(summaryObj, function(key,summRow){
+    var $row = $('<tr/>');
+    // Easy rows just print values from the summary table
+    $row.append($('<td></td>').text(key));
+    $row.append($('<td></td>').text(summRow.First));
+    $row.append($('<td></td>').text(summRow.Last));
+
+    // Do a little math, make a little sum. Get down tonight!
+    var delta = (summRow.Last - summRow.First) /  summRow.First * 100;
+    var added = delta >= 0 ? delta.toFixed(1) : 0;
+    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    var edited = delta == 0 ? "No" : "Yes";
+    var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
+
+    $row.append($('<td></td>').text(added));
+    $row.append($('<td></td>').text(deleted));
+    $row.append($('<td></td>').text(edited));
+    $row.append($('<td></td>').text(PointsCollected));
+
+    $tbody.append($row);
+  })
+
+}
+
+
+/**
+ * LineEditingSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
+ */
+var LineEditingSummary = function(JSONData, $table){
+  // Get the jQuery node associated with this table
+  $tbody = $table.find('tbody');
+  var summaryObj = {}
+
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcLines"});
+  records = dataTable.records.record;
+
+  // We have to collect the records by Code.
+  $.each(records, function(key,record){
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // This Code exists in our summary object.
+    if (summaryObj[record.Code]){
+      // If we're looking at something newer than the newest or older than the oldest
+      // then reset those points.
+      if (summaryObj[record.Code].FirstTime >= record.UnixTime){
+        summaryObj[record.Code].FirstTime = record.UnixTime;
+        summaryObj[record.Code].First = record.Length;
+      }
+      if (summaryObj[record.Code].LastTime <= record.UnixTime){
+        summaryObj[record.Code].LastTime = record.UnixTime
+        summaryObj[record.Code].Last = record.Length;
+      }
+    }
+    // We don't have a record for this code yet. Create one. 
+    else{
+      summaryObj[record.Code] = {
+        First: record.Count,
+        FirstTime: record.unixTime,
+        Last: record.Count,
+        LastTime: record.unixTime,
+      }
+    }
+  })
+
+  // Now go through and make your actual HMTL elements for the table row.
+  $.each(summaryObj, function(key,summRow){
+    var $row = $('<tr/>');
+    // Easy rows just print values from the summary table
+    $row.append($('<td></td>').text(key));
+    $row.append($('<td></td>').text(summRow.First));
+    $row.append($('<td></td>').text(summRow.Last));
+
+    // Do a little math, make a little sum. Get down tonight!
+    var delta = (summRow.Last - summRow.First) /  summRow.First * 100;
+    var added = delta >= 0 ? delta.toFixed(1) : 0;
+    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    var edited = delta == 0 ? "No" : "Yes";
+    var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
+
+    $row.append($('<td></td>').text(added));
+    $row.append($('<td></td>').text(deleted));
+    $row.append($('<td></td>').text(edited));
+    $row.append($('<td></td>').text(PointsCollected));
+
+    $tbody.append($row);
+  })
+
+}
+
+
+/**
+ * NodeEditingSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
+ */
+var NodeEditingSummary = function(JSONData, $table){
+  // Get the jQuery node associated with this table
+  $tbody = $table.find('tbody');
+  var summaryObj = {};
+
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcTIN"});
+  records = dataTable.records.record;
+
+  var first;
+  var last;
+
+  // We have to figure out what the first and last values should be
+  $.each(records, function(recordKey,record){
+    // Add a convenient unix timestamp that makes sorting easier
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // move our first and last pointer if the record we're looking at is newer/older
+    if (!first || first.unixTime >= record.unixTime){
+      first = record;
+    }
+    if (!last || last.unixTime <= record.unixTime){
+      last = record;
     }
 
-    // Go through and hide some of the rows
-    // ------------------------------------------------
-    var rowCount = 0;
-    $(this).find('table tr').each(function(){
-      var hideRow = false;
-      if ($(this).parent('thead').length == 0 && 
-          filterArgs.visit.value && 
-          filterArgs.visit.value.length > 0){
+  })
 
-        hideRow = true;
-        var visit = $(this).find(filterArgs.visit.selector).attr('data');
-        $.each(filterArgs.visit.value, function(n, val){
-          if (val == visit){
-            hideRow = false;
-          }
-        })
-      }
+  // These are the properties we want to print to the table
+  // it's done this way so that you can specify different names than the
+  // raw fieldname
+  var fields = {
+    BL_Crossed:"Breakline Crossed",
+    BL_Length:"Breakline Length",
+    Node_Count:"Node Count",
+    Node_Zmax:"Node Zmax",
+    Node_Zmin:"Node Zmin",
+    Nodes_Interpolated:"Nodes Interpolated",
+    Nodes_Topo:"Nodes Topo"
+  }; 
 
-      // Go through and hide some of the Columns
-      // ------------------------------------------------
-      $(this).find(filterArgs.version.selector).each(function(n,row){
-        var hideCol = false;
-        if (!hideRow && filterArgs.version.value && filterArgs.version.value.length > 0){
-          hideCol = true;
-          var version = $(this).attr('data');
-          $.each(filterArgs.version.value, function(n, val){
-            if (val == version){
-              hideCol = false;
-            }
-          })
-        }
+  // Now go through and make your actual HMTL elements for the table row.
+  $.each(fields, function(key, name){
+    var $row = $('<tr/>');
+    // Easy rows just print values from the summary table
+    $row.append($('<td></td>').text(name));
+    $row.append($('<td></td>').text(first[key] || 0));
+    $row.append($('<td></td>').text(last[key] || 0));
 
-        if (hideCol){
-          $(this).addClass('hide');
-        }
-      });
+    // Do a little math, make a little sum. Get down tonight!
+    var delta = (last[key] - first[key]) /  first[key] * 100;
+    var added = delta >= 0 ? delta.toFixed(1) : 0;
+    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
 
-      // Only show rows and columns containing failures'
-      // ------------------------------------------------
-      if ($(this).parent('thead').length == 0 && 
-          !hideRow && filterArgs.onlyFailures.value && 
-          filterArgs.onlyFailures.value == true){
-        hideRow = true;
-        $(this).find('td.version span.status').each(function(){
-          if (!$(this).parent('td').hasClass('hide') && 
-              $(this).text() == passfail.fail ){ 
-            hideRow = false;
-          }
-        });
-      }
+    $row.append($('<td></td>').text(added));
+    $row.append($('<td></td>').text(deleted));
 
-      if (hideRow) $(this).addClass('hide');
-      else rowCount++
-    });
+    $tbody.append($row);
+  })
 
-    // Now we make a decision to hide (or not) the metric
-    if (hideMetric || rowCount <= 1)
-      $(this).addClass('hide');
-
-  });
+  // Now we're going to do some replacing of nodes
+  $('#tin-last-timestamp').html(moment(first.TIMESTAMP).format('MMMM Do YYYY, h:mm:ss a'));
+  $('#tin-minutes').html(moment(last.TIMESTAMP).diff(first.TIMESTAMP, 'minutes') + " minutes");
+}
 
 
+// -------------------------------------- HELPER METHODS BELOW THIS POINT
 
-
-
+var parseJSON = function(){
+  var x = JSON.parse($('#ReportJSONData').text());
+  return x;
 }

@@ -181,7 +181,10 @@
                </div>
             </div>
         </div>
+      <xsl:call-template name="javascript" />
+      <xsl:call-template name="JSON" />
       </body>
+
     </html>
   </xsl:template>
 
@@ -234,6 +237,10 @@
         </div>
     </div>
   </xsl:template>
+
+  <xsl:template name="JSON">
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/report/json"/></script>
+  </xsl:template>    
 
   <xsl:template name="javascript">
     <script type="text/javascript" language="javascript"><![CDATA[/*! jQuery v2.2.1 | (c) jQuery Foundation | jquery.org/license */
@@ -611,10 +618,21 @@ var passfail = {
   fail: 'Fail'
 }
 
+var parseJSON = function(){
+  var x = JSON.parse($('#ReportJSONData').html());
+  return x;
+}
+
 /**
  * Only do things when the document is ready for thing-doing
  */
 $(document).ready(function() {
+  // Go get the JSON data from the report:
+  var JSONData = parseJSON();
+  console.dir(JSONData);
+
+
+    
   // Remove zero padding on version numbers
   $('#version-filter option, thead th.version span').each(function(){
     var version = $(this).text();
