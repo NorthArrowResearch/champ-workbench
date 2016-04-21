@@ -2,15 +2,6 @@
 // Anything that applies to all reports should go in _base.scss
 @import "base";
 
-.vertical-header {
-    transform-origin: center;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    position: absolute;
-    padding: 20px;
-}
 
 // Table formatting
 table#node-editing-summary {

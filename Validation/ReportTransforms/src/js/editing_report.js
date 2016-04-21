@@ -214,6 +214,10 @@ var NodeEditingSummary = function(JSONData, $table){
     Nodes_Topo:"Nodes Topo"
   }; 
 
+// var delta;
+// var added;
+// var deleted;
+
   // Now go through and make your actual HMTL elements for the table row.
   $.each(fields, function(key, name){
     var $row = $('<tr/>');
@@ -223,12 +227,21 @@ var NodeEditingSummary = function(JSONData, $table){
     $row.append($('<td></td>').text(last[key] || 0));
 
     // Do a little math, make a little sum. Get down tonight!
-    var delta = (last[key] - first[key]) /  first[key] * 100;
-    var added = delta >= 0 ? delta.toFixed(1) : 0;
-    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    delta = (last[key] - first[key]) /  first[key] * 100;
+    added = delta >= 0 ? delta.toFixed(1) : 0;
+    deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
 
-    $row.append($('<td></td>').text(added));
-    $row.append($('<td></td>').text(deleted));
+    if (!first.calcs)
+      first.calcs = {}
+    
+    first.calcs[key] = {
+      delta: delta,
+      added: added,
+      deleted: deleted
+    }
+
+    $row.append($('<td></td>').text(first.calcs[key].added));
+    $row.append($('<td></td>').text(first.calcs[key].deleted));
 
     $tbody.append($row);
   })
@@ -236,6 +249,29 @@ var NodeEditingSummary = function(JSONData, $table){
   // Now we're going to do some replacing of nodes
   $('#tin-last-timestamp').html(moment(first.TIMESTAMP).format('MMMM Do YYYY, h:mm:ss a'));
   $('#tin-minutes').html(moment(last.TIMESTAMP).diff(first.TIMESTAMP, 'minutes') + " minutes");
+  if (delta == 0) {
+    $('#nodes-delta').html('0%');
+  } else {
+    $('#nodes-delta').html(first.calcs['Node_Count'].delta.toFixed(1) + '%');
+  }
+  if (added == 0) {
+    $('#nodes-added').html('0');
+    $('#nodes-deleted').html(Math.abs(last['Node_Count'] - first['Node_Count']));
+  } else {
+    $('#nodes-added').html(Math.abs(last['Node_Count'] - first['Node_Count']));
+    $('#nodes-deleted').html('0');
+  }
+  $('#nodes-topo').html(last['Nodes_Topo']);
+  $('#nodes-not-topo').html(last['Node_Count'] - last['Nodes_Topo']);
+  $('#nodes-Zmax').html(Math.abs(last['Node_Zmax'] - first['Node_Zmax']));
+  $('#nodes-Zmin').html(Math.abs(last['Node_Zmin'] - first['Node_Zmin']));
+  $('#BL-length').html(last['BL_Length'] + ' meters');
+  if (last['BL_Crossed'] == 0) {
+    $('#BL-cross').html('0');
+  } else {
+    $('#BL-cross').html(last['BL_Crossed']);
+  }
+  
 }
 
 

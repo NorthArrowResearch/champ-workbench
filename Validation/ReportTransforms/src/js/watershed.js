@@ -1,18 +1,3 @@
-/**
- * Global registry of filters and their query strings.
- * @type {Object}
- */
-var filterArgs = {
-  metric:  { selector: '', value: null },
-  visit:   { selector: 'td.visitId', value: null },
-  version: { selector: 'td.version, th.version', value: null },
-}
-
-// Constants for pass and fail
-var passfail = {
-  pass: 'Pass', 
-  fail: 'Fail'
-}
 
 var parseJSON = function(){
   var x = JSON.parse($('#ReportJSONData').html());
@@ -28,107 +13,77 @@ $(document).ready(function() {
   console.dir(JSONData);
 
 
-    
-  // Remove zero padding on version numbers
-  $('#version-filter option, thead th.version span').each(function(){
-    var version = $(this).text();
-    $(this).html(version.replace(/\.0/g, '.'));
-  });
+  var table_metric = JSONData.report.metrics.metric;
+  var target_metrics = _.where(table_metric, {
+                      display_parent_group : 'Bankfull', display_child_group: 'SiteShape'
+                      });
+  var target_metric_names = _.pluck(target_metrics, "name");
 
-  $('td.version').each(function(){
-    if ($(this).attr('data-status') == passfail.pass){
-      $(this).addClass('pass');
+
+  function buildVisitIDArray(target_metrics, key) {
+    var attrList = [];
+    for(var i=0; i<target_metrics.length; i++) {
+      var visit_records = target_metrics[i].visits;
+      for(v in visit_records) {
+        attrList.push(_.pluck(visit_records[v], key));
+      } 
     }
-    else if ($(this).attr('data-status') == passfail.fail){
-      $(this).addClass('fail');
+    return attrList
+  }
+
+
+   var visitID_key = "visit_id"; 
+   var season_key = "field_Season";
+   visitID_list = buildVisitIDArray(target_metrics, visitID_key);
+   season_list = buildVisitIDArray(target_metrics, season_key);
+
+   console.log(visitID_list);
+   console.log(season_list);
+
+   function zip() {
+        var args = [].slice.call(arguments);
+        var shortest = args.length==0 ? [] : args.reduce(function(a,b){
+            return a.length<b.length ? a : b
+        });
+        return shortest.map(function(_,i){
+            return args.map(function(array){return array[i]})
+        });
     }
-  });
-  $('select#metric-filter').selectize().on('change', function(e){
-    filterArgs.metric.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#visit-filter').selectize().on('change', function(e){
-    filterArgs.visit.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#version-filter').selectize().on('change', function(e){
-    filterArgs.version.value = e.target.selectize.getValue();
-    filter();
-  });
+
+   visitID_list_test = visitID_list[0];
+   season_list_test = season_list[0];
+   zipped_array = zip(visitID_list_test, season_list_test);
+   console.log(visitID_list_test);
+   console.log(season_list_test);
+   console.log(zipped_array);
+
+ var template = ''
+   <table  id="surveyinfo" cclass="table">
+       <tbody>
+           <tr>
+               <td>Vertical error notes:</td>
+               <td><%=  %></td>
+               <td>Horizontal error notes:</td>
+               <td><%= %></td>
+           </tr>
+           <% for (var index = 0; index < employeeList.length; index++){ %>
+           <% var employee = employeeList[index]; %>
+           <% var compensation = employee.hours * employee.pay; %>
+           <tr>
+               <td><%= employee.name %></td>
+               <td><%= employee.position %></td>
+               <td><%= employee.pay %></td>
+               <td><%= employee.hours %></td>
+               <td><%= employee.type %></td>
+               <td><%= compensation %></td>
+           </tr>
+           <% } %>
+       </tbody>
+   </table>
+   ";"
+
+   var output = _.template(template, { employeeList : employeeList } );
+
+   $("#surveyinfo").html(output);
+
 });
-
-/**
- * Decide what to show and then show (or hide) it. Duh.
- * @return {[type]} [description]
- */
-var filter = function(){
-  // Show all the things
-  $('div.metric').removeClass('hide');
-  $('table tbody tr').removeClass('hide');
-  $(filterArgs.version.selector).removeClass('hide');
-
-  // Go through and hide some of the sections
-  $('div.metric').each(function(){
-    var hideMetric = false;
-    if (filterArgs.metric.value && filterArgs.metric.value.length > 0){
-      hideMetric = true;
-      var metric = $(this).attr('data');
-      $.each(filterArgs.metric.value, function(n, val){
-        if (val == metric){
-          hideMetric = false;
-        }
-      })
-    }
-
-    // Go through and hide some of the rows
-    // ------------------------------------------------
-    var rowCount = 0;
-    $(this).find('table tr').each(function(){
-      var hideRow = false;
-      if ($(this).parent('thead').length == 0 && 
-          filterArgs.visit.value && 
-          filterArgs.visit.value.length > 0){
-
-        hideRow = true;
-        var visit = $(this).find(filterArgs.visit.selector).attr('data');
-        $.each(filterArgs.visit.value, function(n, val){
-          if (val == visit){
-            hideRow = false;
-          }
-        })
-      }
-
-      // Go through and hide some of the Columns
-      // ------------------------------------------------
-      $(this).find(filterArgs.version.selector).each(function(n,row){
-        var hideCol = false;
-        if (!hideRow && filterArgs.version.value && filterArgs.version.value.length > 0){
-          hideCol = true;
-          var version = $(this).attr('data');
-          $.each(filterArgs.version.value, function(n, val){
-            if (val == version){
-              hideCol = false;
-            }
-          })
-        }
-
-        if (hideCol){
-          $(this).addClass('hide');
-        }
-      });
-
-      if (hideRow) $(this).addClass('hide');
-      else rowCount++
-    });
-
-    // Now we make a decision to hide (or not) the metric
-    if (hideMetric || rowCount <= 1)
-      $(this).addClass('hide');
-
-  });
-
-
-
-
-
-}
