@@ -538,6 +538,26 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\CHaMPWorkbenchLibs\Release32_630\gdal201.dll">
+      <Link>gdal201.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CHaMPWorkbenchLibs\Release32_630\Qt5Core.dll">
+      <Link>Qt5Core.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CHaMPWorkbenchLibs\Release32_630\Raster2PNG.dll">
+      <Link>Raster2PNG.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CHaMPWorkbenchLibs\Release32_630\rasterman.exe">
+      <Link>rasterman.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CHaMPWorkbenchLibs\Release32_630\RasterManager.dll">
+      <Link>RasterManager.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="CHaMP.ico" />
     <Content Include="Experimental\Kelly\Scripts\CHaMP.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputBatchProcesser.py" />
@@ -558,30 +578,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Validation\ReportTransforms\dist\rbt_manual.xsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\gdal201.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\HabitatModel.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\ModelCore.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\Qt5Core.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\Qt5Xml.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\Raster2PNG.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\rasterman.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="_Redistributables\Release64_630\RasterManager.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\docGUT.png" />

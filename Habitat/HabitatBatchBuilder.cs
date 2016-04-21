@@ -92,7 +92,9 @@ namespace CHaMPWorkbench.Habitat
                         bSimulationRecordsOK = AddFISSimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
 
                     // Need to make a quick rasterman call in order to get the rastermeta
-                    if (String.IsNullOrEmpty(rSimulation.OutputRaster))
+                    if (!String.IsNullOrEmpty(m_sD50RasterFile) &&
+                        System.IO.File.Exists( System.IO.Path.Combine(m_dD50Folder.FullName, m_sD50RasterFile)) && 
+                        !String.IsNullOrEmpty(rSimulation.OutputRaster))
                     {
                         CHaMPWorkbench.Classes.RasterMeta rmSim = new CHaMPWorkbench.Classes.RasterMeta(m_sD50RasterFile);
                         rSimulation.RasterCellSize = rmSim.CellHeight;
