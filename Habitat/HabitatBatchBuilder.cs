@@ -36,7 +36,7 @@ namespace CHaMPWorkbench.Habitat
             nSucess = nError = 0;
 
             m_CHaMPData.FillByVisitIDS(ref lVisitIDs);
-
+            CHaMPWorkbench.Classes.RasterManager.RegisterGDAL();
             foreach (HabitatModelDef theModelDef in lModels)
             {
                 foreach (RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit in m_CHaMPData.DS.CHAMP_Visits)
@@ -91,6 +91,20 @@ namespace CHaMPWorkbench.Habitat
                     else
                         bSimulationRecordsOK = AddFISSimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
 
+                    // Need to make a quick rasterman call in order to get the rastermeta
+                    if (String.IsNullOrEmpty(rSimulation.OutputRaster))
+                    {
+                        CHaMPWorkbench.Classes.RasterMeta rmSim = new CHaMPWorkbench.Classes.RasterMeta(m_sD50RasterFile);
+                        rSimulation.RasterCellSize = rmSim.CellHeight;
+                        rSimulation.RasterTop = rmSim.Top;
+                        rSimulation.RasterLeft = rmSim.Left;
+                        rSimulation.RasterCols = rmSim.Cols;
+                        rSimulation.RasterRows = rmSim.Rows;
+                        rSimulation.RasterUnits = rmSim.RasterUnits;
+                        rSimulation.RasterSpatRef = rmSim.SpatialRef;
+                    }
+
+
                     if (bSimulationRecordsOK)
                     {
                         // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
@@ -111,6 +125,7 @@ namespace CHaMPWorkbench.Habitat
                     }
                 }
             }
+            CHaMPWorkbench.Classes.RasterManager.DestroyGDAL();
         }
 
         private bool AddHSISimulationChildRecords(ref dsHabitat.SimulationsRow rSimulation, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, int nHSIID, ref bool bRasterInputs)

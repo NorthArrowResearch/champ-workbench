@@ -68,63 +68,63 @@ namespace CHaMPWorkbench.Habitat {
         
         private global::System.Data.DataRelation _relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_;
         
-        private global::System.Data.DataRelation _relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_;
-        
-        private global::System.Data.DataRelation _relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1;
-        
-        private global::System.Data.DataRelation _relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_;
-        
-        private global::System.Data.DataRelation _relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_;
+        private global::System.Data.DataRelation relationFK_LookupListItems_HSC;
         
         private global::System.Data.DataRelation _relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_;
         
-        private global::System.Data.DataRelation relationFK_LookupListItems_HSC;
+        private global::System.Data.DataRelation _relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_;
+        
+        private global::System.Data.DataRelation _relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_;
+        
+        private global::System.Data.DataRelation _relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1;
+        
+        private global::System.Data.DataRelation _relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_;
         
         private global::System.Data.DataRelation relationHSCHSCPartCategorical;
         
         private global::System.Data.DataRelation relationHSCHSCCoordinatePairs;
         
-        private global::System.Data.DataRelation _relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_;
+        private global::System.Data.DataRelation _relation_4A6603F5_545C_4BCD_8170_64647F098E3F_;
         
         private global::System.Data.DataRelation _relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_;
         
-        private global::System.Data.DataRelation _relation_4A6603F5_545C_4BCD_8170_64647F098E3F_;
-        
-        private global::System.Data.DataRelation _relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_;
+        private global::System.Data.DataRelation _relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_;
         
         private global::System.Data.DataRelation _relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_;
+        
+        private global::System.Data.DataRelation _relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_;
         
         private global::System.Data.DataRelation _relation_8E69F069_D45A_42D0_A5BB_B8ED03CF5C14_;
         
         private global::System.Data.DataRelation relationLookupListItemsProjects;
         
-        private global::System.Data.DataRelation relationSimulationsSimulationFISInputs;
-        
         private global::System.Data.DataRelation relationSimulationFISInputs_ProjectVariables;
         
-        private global::System.Data.DataRelation relationSimulationsSimulationHSCInputs;
-        
-        private global::System.Data.DataRelation relationHSICurvesSimulationHSCInputs;
+        private global::System.Data.DataRelation relationSimulationsSimulationFISInputs;
         
         private global::System.Data.DataRelation relationProjectVariablesSimulationHSCInputs;
         
-        private global::System.Data.DataRelation relationFIS_Simulations;
+        private global::System.Data.DataRelation relationHSICurvesSimulationHSCInputs;
+        
+        private global::System.Data.DataRelation relationSimulationsSimulationHSCInputs;
         
         private global::System.Data.DataRelation _relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_;
         
-        private global::System.Data.DataRelation _relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1;
+        private global::System.Data.DataRelation relationFIS_Simulations;
         
         private global::System.Data.DataRelation _relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1;
         
-        private global::System.Data.DataRelation relationUnitsProjectVariables;
-        
-        private global::System.Data.DataRelation relationVariablesProjectVariables;
+        private global::System.Data.DataRelation _relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1;
         
         private global::System.Data.DataRelation relationProjectDataSourcesProjectVariables;
         
-        private global::System.Data.DataRelation relationSimulationResultTypes_SimulationResults;
+        private global::System.Data.DataRelation relationVariablesProjectVariables;
+        
+        private global::System.Data.DataRelation relationUnitsProjectVariables;
         
         private global::System.Data.DataRelation relationSimulations_SimulationResults;
+        
+        private global::System.Data.DataRelation relationSimulationResultTypes_SimulationResults;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -735,35 +735,35 @@ namespace CHaMPWorkbench.Habitat {
                 }
             }
             this._relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_ = this.Relations["{97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0}"];
-            this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_ = this.Relations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"];
-            this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1 = this.Relations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"];
-            this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ = this.Relations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"];
-            this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ = this.Relations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"];
-            this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_ = this.Relations["{AF365712-9F37-46FB-B2D4-04A59EB51B40}"];
             this.relationFK_LookupListItems_HSC = this.Relations["FK_LookupListItems_HSC"];
+            this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_ = this.Relations["{AF365712-9F37-46FB-B2D4-04A59EB51B40}"];
+            this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ = this.Relations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"];
+            this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ = this.Relations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"];
+            this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1 = this.Relations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"];
+            this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_ = this.Relations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"];
             this.relationHSCHSCPartCategorical = this.Relations["HSCHSCPartCategorical"];
             this.relationHSCHSCCoordinatePairs = this.Relations["HSCHSCCoordinatePairs"];
-            this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ = this.Relations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"];
-            this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_ = this.Relations["{ED0C9315-B8A6-441E-B239-A087C2CF2401}"];
             this._relation_4A6603F5_545C_4BCD_8170_64647F098E3F_ = this.Relations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"];
-            this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_ = this.Relations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"];
+            this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_ = this.Relations["{ED0C9315-B8A6-441E-B239-A087C2CF2401}"];
+            this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ = this.Relations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"];
             this._relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_ = this.Relations["{E7D0CB05-3174-475D-B110-5BE1C8B47890}"];
+            this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_ = this.Relations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"];
             this._relation_8E69F069_D45A_42D0_A5BB_B8ED03CF5C14_ = this.Relations["{8E69F069-D45A-42D0-A5BB-B8ED03CF5C14}"];
             this.relationLookupListItemsProjects = this.Relations["LookupListItemsProjects"];
-            this.relationSimulationsSimulationFISInputs = this.Relations["SimulationsSimulationFISInputs"];
             this.relationSimulationFISInputs_ProjectVariables = this.Relations["SimulationFISInputs_ProjectVariables"];
-            this.relationSimulationsSimulationHSCInputs = this.Relations["SimulationsSimulationHSCInputs"];
-            this.relationHSICurvesSimulationHSCInputs = this.Relations["HSICurvesSimulationHSCInputs"];
+            this.relationSimulationsSimulationFISInputs = this.Relations["SimulationsSimulationFISInputs"];
             this.relationProjectVariablesSimulationHSCInputs = this.Relations["ProjectVariablesSimulationHSCInputs"];
-            this.relationFIS_Simulations = this.Relations["FIS_Simulations"];
+            this.relationHSICurvesSimulationHSCInputs = this.Relations["HSICurvesSimulationHSCInputs"];
+            this.relationSimulationsSimulationHSCInputs = this.Relations["SimulationsSimulationHSCInputs"];
             this._relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_ = this.Relations["{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}"];
-            this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 = this.Relations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"];
+            this.relationFIS_Simulations = this.Relations["FIS_Simulations"];
             this._relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1 = this.Relations["{91CEE3DC-EB86-4A03-947A-11F885168B8A}1"];
-            this.relationUnitsProjectVariables = this.Relations["UnitsProjectVariables"];
-            this.relationVariablesProjectVariables = this.Relations["VariablesProjectVariables"];
+            this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 = this.Relations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"];
             this.relationProjectDataSourcesProjectVariables = this.Relations["ProjectDataSourcesProjectVariables"];
-            this.relationSimulationResultTypes_SimulationResults = this.Relations["SimulationResultTypes_SimulationResults"];
+            this.relationVariablesProjectVariables = this.Relations["VariablesProjectVariables"];
+            this.relationUnitsProjectVariables = this.Relations["UnitsProjectVariables"];
             this.relationSimulations_SimulationResults = this.Relations["Simulations_SimulationResults"];
+            this.relationSimulationResultTypes_SimulationResults = this.Relations["SimulationResultTypes_SimulationResults"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -824,23 +824,16 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}", new global::System.Data.DataColumn[] {
-                        this.tableSources.SourceIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.SourceIDColumn});
-            this.tableHSC.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{6992C8CF-E5A2-403A-8678-6C82837CF257}1", new global::System.Data.DataColumn[] {
-                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.HSCVariableIDColumn});
-            this.tableHSC.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_LookupListItems_HSC", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.SpeciesIDColumn});
+                        this.tableHSC.CategoryIDColumn});
+            this.tableHSC.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("{AF365712-9F37-46FB-B2D4-04A59EB51B40}", new global::System.Data.DataColumn[] {
+                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.UnitIDColumn});
             this.tableHSC.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
@@ -852,19 +845,26 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{AF365712-9F37-46FB-B2D4-04A59EB51B40}", new global::System.Data.DataColumn[] {
-                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.UnitIDColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.SpeciesIDColumn});
             this.tableHSC.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_LookupListItems_HSC", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.CategoryIDColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("{6992C8CF-E5A2-403A-8678-6C82837CF257}1", new global::System.Data.DataColumn[] {
+                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.HSCVariableIDColumn});
             this.tableHSC.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}", new global::System.Data.DataColumn[] {
+                        this.tableSources.SourceIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.SourceIDColumn});
+            this.tableHSC.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
             fkc = new global::System.Data.ForeignKeyConstraint("HSCHSCPartCategorical", new global::System.Data.DataColumn[] {
                         this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
@@ -880,9 +880,9 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{950F669B-CEB3-42A1-97EC-3C1D89097DDA}", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("{4A6603F5-545C-4BCD-8170-64647F098E3F}", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSI.HSIMethodIDColumn});
+                        this.tableHSI.LifestageIDColumn});
             this.tableHSI.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
@@ -894,10 +894,17 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{4A6603F5-545C-4BCD-8170-64647F098E3F}", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("{950F669B-CEB3-42A1-97EC-3C1D89097DDA}", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSI.LifestageIDColumn});
+                        this.tableHSI.HSIMethodIDColumn});
             this.tableHSI.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("{E7D0CB05-3174-475D-B110-5BE1C8B47890}", new global::System.Data.DataColumn[] {
+                        this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSICurves.HSCIDColumn});
+            this.tableHSICurves.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -907,13 +914,6 @@ namespace CHaMPWorkbench.Habitat {
             this.tableHSICurves.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{E7D0CB05-3174-475D-B110-5BE1C8B47890}", new global::System.Data.DataColumn[] {
-                        this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSICurves.HSCIDColumn});
-            this.tableHSICurves.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
             fkc = new global::System.Data.ForeignKeyConstraint("{8E69F069-D45A-42D0-A5BB-B8ED03CF5C14}", new global::System.Data.DataColumn[] {
                         this.tableLookupLists.ListIDColumn}, new global::System.Data.DataColumn[] {
@@ -929,6 +929,13 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("SimulationFISInputs_ProjectVariables", new global::System.Data.DataColumn[] {
+                        this.tableProjectVariables.ProjectVariableIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationFISInputs.ProjectInputIDColumn});
+            this.tableSimulationFISInputs.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.None;
             fkc = new global::System.Data.ForeignKeyConstraint("SimulationsSimulationFISInputs", new global::System.Data.DataColumn[] {
                         this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSimulationFISInputs.SimulationIDColumn});
@@ -936,10 +943,17 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("SimulationFISInputs_ProjectVariables", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("ProjectVariablesSimulationHSCInputs", new global::System.Data.DataColumn[] {
                         this.tableProjectVariables.ProjectVariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationFISInputs.ProjectInputIDColumn});
-            this.tableSimulationFISInputs.Constraints.Add(fkc);
+                        this.tableSimulationHSCInputs.ProjectInputIDColumn});
+            this.tableSimulationHSCInputs.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("HSICurvesSimulationHSCInputs", new global::System.Data.DataColumn[] {
+                        this.tableHSICurves.HSICurveIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationHSCInputs.HSICurveIDColumn});
+            this.tableSimulationHSCInputs.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -950,17 +964,10 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("HSICurvesSimulationHSCInputs", new global::System.Data.DataColumn[] {
-                        this.tableHSICurves.HSICurveIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationHSCInputs.HSICurveIDColumn});
-            this.tableSimulationHSCInputs.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("ProjectVariablesSimulationHSCInputs", new global::System.Data.DataColumn[] {
-                        this.tableProjectVariables.ProjectVariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationHSCInputs.ProjectInputIDColumn});
-            this.tableSimulationHSCInputs.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}", new global::System.Data.DataColumn[] {
+                        this.tableHSI.HSIIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulations.HSIIDColumn});
+            this.tableSimulations.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -971,10 +978,10 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}", new global::System.Data.DataColumn[] {
-                        this.tableHSI.HSIIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulations.HSIIDColumn});
-            this.tableSimulations.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("{91CEE3DC-EB86-4A03-947A-11F885168B8A}1", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableVariables.CategoryIDColumn});
+            this.tableVariables.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -985,10 +992,17 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("{91CEE3DC-EB86-4A03-947A-11F885168B8A}1", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableVariables.CategoryIDColumn});
-            this.tableVariables.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("ProjectDataSourcesProjectVariables", new global::System.Data.DataColumn[] {
+                        this.tableProjectDataSources.DataSourceIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectVariables.DataSourceIDColumn});
+            this.tableProjectVariables.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            fkc = new global::System.Data.ForeignKeyConstraint("VariablesProjectVariables", new global::System.Data.DataColumn[] {
+                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectVariables.VariableIDColumn});
+            this.tableProjectVariables.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -999,17 +1013,10 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("VariablesProjectVariables", new global::System.Data.DataColumn[] {
-                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableProjectVariables.VariableIDColumn});
-            this.tableProjectVariables.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("ProjectDataSourcesProjectVariables", new global::System.Data.DataColumn[] {
-                        this.tableProjectDataSources.DataSourceIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableProjectVariables.DataSourceIDColumn});
-            this.tableProjectVariables.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("Simulations_SimulationResults", new global::System.Data.DataColumn[] {
+                        this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationResults.SimulationIDColumn});
+            this.tableSimulationResults.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.None;
@@ -1020,41 +1027,34 @@ namespace CHaMPWorkbench.Habitat {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("Simulations_SimulationResults", new global::System.Data.DataColumn[] {
-                        this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationResults.SimulationIDColumn});
-            this.tableSimulationResults.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.None;
             this._relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_ = new global::System.Data.DataRelation("{97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0}", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnits.DimensionIDColumn}, false);
             this.Relations.Add(this._relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_);
-            this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_ = new global::System.Data.DataRelation("{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}", new global::System.Data.DataColumn[] {
-                        this.tableSources.SourceIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.SourceIDColumn}, false);
-            this.Relations.Add(this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_);
-            this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1 = new global::System.Data.DataRelation("{6992C8CF-E5A2-403A-8678-6C82837CF257}1", new global::System.Data.DataColumn[] {
-                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.HSCVariableIDColumn}, false);
-            this.Relations.Add(this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1);
-            this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ = new global::System.Data.DataRelation("{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.SpeciesIDColumn}, false);
-            this.Relations.Add(this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_);
-            this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ = new global::System.Data.DataRelation("{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.LifeStageIDColumn}, false);
-            this.Relations.Add(this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_);
-            this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_ = new global::System.Data.DataRelation("{AF365712-9F37-46FB-B2D4-04A59EB51B40}", new global::System.Data.DataColumn[] {
-                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSC.UnitIDColumn}, false);
-            this.Relations.Add(this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_);
             this.relationFK_LookupListItems_HSC = new global::System.Data.DataRelation("FK_LookupListItems_HSC", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableHSC.CategoryIDColumn}, false);
             this.Relations.Add(this.relationFK_LookupListItems_HSC);
+            this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_ = new global::System.Data.DataRelation("{AF365712-9F37-46FB-B2D4-04A59EB51B40}", new global::System.Data.DataColumn[] {
+                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.UnitIDColumn}, false);
+            this.Relations.Add(this._relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_);
+            this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ = new global::System.Data.DataRelation("{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.LifeStageIDColumn}, false);
+            this.Relations.Add(this._relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_);
+            this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ = new global::System.Data.DataRelation("{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.SpeciesIDColumn}, false);
+            this.Relations.Add(this._relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_);
+            this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1 = new global::System.Data.DataRelation("{6992C8CF-E5A2-403A-8678-6C82837CF257}1", new global::System.Data.DataColumn[] {
+                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.HSCVariableIDColumn}, false);
+            this.Relations.Add(this._relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1);
+            this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_ = new global::System.Data.DataRelation("{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}", new global::System.Data.DataColumn[] {
+                        this.tableSources.SourceIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSC.SourceIDColumn}, false);
+            this.Relations.Add(this._relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_);
             this.relationHSCHSCPartCategorical = new global::System.Data.DataRelation("HSCHSCPartCategorical", new global::System.Data.DataColumn[] {
                         this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableHSCCategories.HSCIDColumn}, false);
@@ -1063,26 +1063,26 @@ namespace CHaMPWorkbench.Habitat {
                         this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableHSCCoordinatePairs.HSCIDColumn}, false);
             this.Relations.Add(this.relationHSCHSCCoordinatePairs);
-            this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ = new global::System.Data.DataRelation("{950F669B-CEB3-42A1-97EC-3C1D89097DDA}", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSI.HSIMethodIDColumn}, false);
-            this.Relations.Add(this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_);
-            this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_ = new global::System.Data.DataRelation("{ED0C9315-B8A6-441E-B239-A087C2CF2401}", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSI.SpeciesIDColumn}, false);
-            this.Relations.Add(this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_);
             this._relation_4A6603F5_545C_4BCD_8170_64647F098E3F_ = new global::System.Data.DataRelation("{4A6603F5-545C-4BCD-8170-64647F098E3F}", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableHSI.LifestageIDColumn}, false);
             this.Relations.Add(this._relation_4A6603F5_545C_4BCD_8170_64647F098E3F_);
-            this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_ = new global::System.Data.DataRelation("{610732A9-A6C1-42AF-92C2-0600C12B5FFE}", new global::System.Data.DataColumn[] {
-                        this.tableHSI.HSIIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableHSICurves.HSIIDColumn}, false);
-            this.Relations.Add(this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_);
+            this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_ = new global::System.Data.DataRelation("{ED0C9315-B8A6-441E-B239-A087C2CF2401}", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSI.SpeciesIDColumn}, false);
+            this.Relations.Add(this._relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_);
+            this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ = new global::System.Data.DataRelation("{950F669B-CEB3-42A1-97EC-3C1D89097DDA}", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSI.HSIMethodIDColumn}, false);
+            this.Relations.Add(this._relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_);
             this._relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_ = new global::System.Data.DataRelation("{E7D0CB05-3174-475D-B110-5BE1C8B47890}", new global::System.Data.DataColumn[] {
                         this.tableHSC.HSCIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableHSICurves.HSCIDColumn}, false);
             this.Relations.Add(this._relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_);
+            this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_ = new global::System.Data.DataRelation("{610732A9-A6C1-42AF-92C2-0600C12B5FFE}", new global::System.Data.DataColumn[] {
+                        this.tableHSI.HSIIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableHSICurves.HSIIDColumn}, false);
+            this.Relations.Add(this._relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_);
             this._relation_8E69F069_D45A_42D0_A5BB_B8ED03CF5C14_ = new global::System.Data.DataRelation("{8E69F069-D45A-42D0-A5BB-B8ED03CF5C14}", new global::System.Data.DataColumn[] {
                         this.tableLookupLists.ListIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ListIDColumn}, false);
@@ -1091,62 +1091,62 @@ namespace CHaMPWorkbench.Habitat {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableProjects.ScaleIDColumn}, false);
             this.Relations.Add(this.relationLookupListItemsProjects);
-            this.relationSimulationsSimulationFISInputs = new global::System.Data.DataRelation("SimulationsSimulationFISInputs", new global::System.Data.DataColumn[] {
-                        this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationFISInputs.SimulationIDColumn}, false);
-            this.Relations.Add(this.relationSimulationsSimulationFISInputs);
             this.relationSimulationFISInputs_ProjectVariables = new global::System.Data.DataRelation("SimulationFISInputs_ProjectVariables", new global::System.Data.DataColumn[] {
                         this.tableProjectVariables.ProjectVariableIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSimulationFISInputs.ProjectInputIDColumn}, false);
             this.Relations.Add(this.relationSimulationFISInputs_ProjectVariables);
-            this.relationSimulationsSimulationHSCInputs = new global::System.Data.DataRelation("SimulationsSimulationHSCInputs", new global::System.Data.DataColumn[] {
+            this.relationSimulationsSimulationFISInputs = new global::System.Data.DataRelation("SimulationsSimulationFISInputs", new global::System.Data.DataColumn[] {
                         this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationHSCInputs.SimulationIDColumn}, false);
-            this.Relations.Add(this.relationSimulationsSimulationHSCInputs);
-            this.relationHSICurvesSimulationHSCInputs = new global::System.Data.DataRelation("HSICurvesSimulationHSCInputs", new global::System.Data.DataColumn[] {
-                        this.tableHSICurves.HSICurveIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationHSCInputs.HSICurveIDColumn}, false);
-            this.Relations.Add(this.relationHSICurvesSimulationHSCInputs);
+                        this.tableSimulationFISInputs.SimulationIDColumn}, false);
+            this.Relations.Add(this.relationSimulationsSimulationFISInputs);
             this.relationProjectVariablesSimulationHSCInputs = new global::System.Data.DataRelation("ProjectVariablesSimulationHSCInputs", new global::System.Data.DataColumn[] {
                         this.tableProjectVariables.ProjectVariableIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSimulationHSCInputs.ProjectInputIDColumn}, false);
             this.Relations.Add(this.relationProjectVariablesSimulationHSCInputs);
-            this.relationFIS_Simulations = new global::System.Data.DataRelation("FIS_Simulations", new global::System.Data.DataColumn[] {
-                        this.tableFIS.FISIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulations.FISIDColumn}, false);
-            this.Relations.Add(this.relationFIS_Simulations);
+            this.relationHSICurvesSimulationHSCInputs = new global::System.Data.DataRelation("HSICurvesSimulationHSCInputs", new global::System.Data.DataColumn[] {
+                        this.tableHSICurves.HSICurveIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationHSCInputs.HSICurveIDColumn}, false);
+            this.Relations.Add(this.relationHSICurvesSimulationHSCInputs);
+            this.relationSimulationsSimulationHSCInputs = new global::System.Data.DataRelation("SimulationsSimulationHSCInputs", new global::System.Data.DataColumn[] {
+                        this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationHSCInputs.SimulationIDColumn}, false);
+            this.Relations.Add(this.relationSimulationsSimulationHSCInputs);
             this._relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_ = new global::System.Data.DataRelation("{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}", new global::System.Data.DataColumn[] {
                         this.tableHSI.HSIIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSimulations.HSIIDColumn}, false);
             this.Relations.Add(this._relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_);
-            this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 = new global::System.Data.DataRelation("{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1", new global::System.Data.DataColumn[] {
-                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableVariables.DimensionIDColumn}, false);
-            this.Relations.Add(this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1);
+            this.relationFIS_Simulations = new global::System.Data.DataRelation("FIS_Simulations", new global::System.Data.DataColumn[] {
+                        this.tableFIS.FISIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulations.FISIDColumn}, false);
+            this.Relations.Add(this.relationFIS_Simulations);
             this._relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1 = new global::System.Data.DataRelation("{91CEE3DC-EB86-4A03-947A-11F885168B8A}1", new global::System.Data.DataColumn[] {
                         this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableVariables.CategoryIDColumn}, false);
             this.Relations.Add(this._relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1);
-            this.relationUnitsProjectVariables = new global::System.Data.DataRelation("UnitsProjectVariables", new global::System.Data.DataColumn[] {
-                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableProjectVariables.UnitsIDColumn}, false);
-            this.Relations.Add(this.relationUnitsProjectVariables);
-            this.relationVariablesProjectVariables = new global::System.Data.DataRelation("VariablesProjectVariables", new global::System.Data.DataColumn[] {
-                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableProjectVariables.VariableIDColumn}, false);
-            this.Relations.Add(this.relationVariablesProjectVariables);
+            this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 = new global::System.Data.DataRelation("{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1", new global::System.Data.DataColumn[] {
+                        this.tableLookupListItems.ItemIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableVariables.DimensionIDColumn}, false);
+            this.Relations.Add(this._relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1);
             this.relationProjectDataSourcesProjectVariables = new global::System.Data.DataRelation("ProjectDataSourcesProjectVariables", new global::System.Data.DataColumn[] {
                         this.tableProjectDataSources.DataSourceIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableProjectVariables.DataSourceIDColumn}, false);
             this.Relations.Add(this.relationProjectDataSourcesProjectVariables);
-            this.relationSimulationResultTypes_SimulationResults = new global::System.Data.DataRelation("SimulationResultTypes_SimulationResults", new global::System.Data.DataColumn[] {
-                        this.tableSimulationResultTypes.ResultTypeIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableSimulationResults.ResultTypeIDColumn}, false);
-            this.Relations.Add(this.relationSimulationResultTypes_SimulationResults);
+            this.relationVariablesProjectVariables = new global::System.Data.DataRelation("VariablesProjectVariables", new global::System.Data.DataColumn[] {
+                        this.tableVariables.VariableIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectVariables.VariableIDColumn}, false);
+            this.Relations.Add(this.relationVariablesProjectVariables);
+            this.relationUnitsProjectVariables = new global::System.Data.DataRelation("UnitsProjectVariables", new global::System.Data.DataColumn[] {
+                        this.tableUnits.UnitIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectVariables.UnitsIDColumn}, false);
+            this.Relations.Add(this.relationUnitsProjectVariables);
             this.relationSimulations_SimulationResults = new global::System.Data.DataRelation("Simulations_SimulationResults", new global::System.Data.DataColumn[] {
                         this.tableSimulations.SimulationIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableSimulationResults.SimulationIDColumn}, false);
             this.Relations.Add(this.relationSimulations_SimulationResults);
+            this.relationSimulationResultTypes_SimulationResults = new global::System.Data.DataRelation("SimulationResultTypes_SimulationResults", new global::System.Data.DataColumn[] {
+                        this.tableSimulationResultTypes.ResultTypeIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableSimulationResults.ResultTypeIDColumn}, false);
+            this.Relations.Add(this.relationSimulationResultTypes_SimulationResults);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5366,6 +5366,20 @@ namespace CHaMPWorkbench.Habitat {
             
             private global::System.Data.DataColumn columnCHaMPWatershed;
             
+            private global::System.Data.DataColumn columnRasterTop;
+            
+            private global::System.Data.DataColumn columnRasterLeft;
+            
+            private global::System.Data.DataColumn columnRasterRows;
+            
+            private global::System.Data.DataColumn columnRasterCols;
+            
+            private global::System.Data.DataColumn columnRasterCellSize;
+            
+            private global::System.Data.DataColumn columnRasterSpatRef;
+            
+            private global::System.Data.DataColumn columnRasterUnits;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SimulationsDataTable() {
@@ -5537,6 +5551,62 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterTopColumn {
+                get {
+                    return this.columnRasterTop;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterLeftColumn {
+                get {
+                    return this.columnRasterLeft;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterRowsColumn {
+                get {
+                    return this.columnRasterRows;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterColsColumn {
+                get {
+                    return this.columnRasterCols;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterCellSizeColumn {
+                get {
+                    return this.columnRasterCellSize;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterSpatRefColumn {
+                get {
+                    return this.columnRasterSpatRef;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RasterUnitsColumn {
+                get {
+                    return this.columnRasterUnits;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -5588,7 +5658,14 @@ namespace CHaMPWorkbench.Habitat {
                         float CellSize, 
                         string OutputCSV, 
                         string CHaMPSiteName, 
-                        string CHaMPWatershed) {
+                        string CHaMPWatershed, 
+                        double RasterTop, 
+                        double RasterLeft, 
+                        double RasterRows, 
+                        double RasterCols, 
+                        double RasterCellSize, 
+                        string RasterSpatRef, 
+                        string RasterUnits) {
                 SimulationsRow rowSimulationsRow = ((SimulationsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -5607,7 +5684,14 @@ namespace CHaMPWorkbench.Habitat {
                         CellSize,
                         OutputCSV,
                         CHaMPSiteName,
-                        CHaMPWatershed};
+                        CHaMPWatershed,
+                        RasterTop,
+                        RasterLeft,
+                        RasterRows,
+                        RasterCols,
+                        RasterCellSize,
+                        RasterSpatRef,
+                        RasterUnits};
                 if ((_parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_ != null)) {
                     columnValuesArray[1] = _parentHSIRowBy_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_[0];
                 }
@@ -5660,6 +5744,13 @@ namespace CHaMPWorkbench.Habitat {
                 this.columnOutputCSV = base.Columns["OutputCSV"];
                 this.columnCHaMPSiteName = base.Columns["CHaMPSiteName"];
                 this.columnCHaMPWatershed = base.Columns["CHaMPWatershed"];
+                this.columnRasterTop = base.Columns["RasterTop"];
+                this.columnRasterLeft = base.Columns["RasterLeft"];
+                this.columnRasterRows = base.Columns["RasterRows"];
+                this.columnRasterCols = base.Columns["RasterCols"];
+                this.columnRasterCellSize = base.Columns["RasterCellSize"];
+                this.columnRasterSpatRef = base.Columns["RasterSpatRef"];
+                this.columnRasterUnits = base.Columns["RasterUnits"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5699,6 +5790,20 @@ namespace CHaMPWorkbench.Habitat {
                 base.Columns.Add(this.columnCHaMPSiteName);
                 this.columnCHaMPWatershed = new global::System.Data.DataColumn("CHaMPWatershed", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCHaMPWatershed);
+                this.columnRasterTop = new global::System.Data.DataColumn("RasterTop", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterTop);
+                this.columnRasterLeft = new global::System.Data.DataColumn("RasterLeft", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterLeft);
+                this.columnRasterRows = new global::System.Data.DataColumn("RasterRows", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterRows);
+                this.columnRasterCols = new global::System.Data.DataColumn("RasterCols", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterCols);
+                this.columnRasterCellSize = new global::System.Data.DataColumn("RasterCellSize", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterCellSize);
+                this.columnRasterSpatRef = new global::System.Data.DataColumn("RasterSpatRef", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterSpatRef);
+                this.columnRasterUnits = new global::System.Data.DataColumn("RasterUnits", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRasterUnits);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSimulationID}, true));
                 this.columnSimulationID.AutoIncrement = true;
@@ -7368,10 +7473,11 @@ namespace CHaMPWorkbench.Habitat {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnResultID}, true));
                 this.columnResultID.AutoIncrement = true;
-                this.columnResultID.AutoIncrementSeed = -1;
-                this.columnResultID.AutoIncrementStep = -1;
+                this.columnResultID.AutoIncrementSeed = 1;
                 this.columnResultID.AllowDBNull = false;
                 this.columnResultID.Unique = true;
+                this.columnSimulationID.AllowDBNull = false;
+                this.columnResultTypeID.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7671,10 +7777,10 @@ namespace CHaMPWorkbench.Habitat {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnResultTypeID}, true));
                 this.columnResultTypeID.AutoIncrement = true;
-                this.columnResultTypeID.AutoIncrementSeed = -1;
-                this.columnResultTypeID.AutoIncrementStep = -1;
+                this.columnResultTypeID.AutoIncrementSeed = 1;
                 this.columnResultTypeID.AllowDBNull = false;
                 this.columnResultTypeID.Unique = true;
+                this.columnTitle.AllowDBNull = false;
                 this.columnTitle.MaxLength = 255;
                 this.columnXPath.MaxLength = 255;
             }
@@ -8018,8 +8124,7 @@ namespace CHaMPWorkbench.Habitat {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMessageID}, true));
                 this.columnMessageID.AutoIncrement = true;
-                this.columnMessageID.AutoIncrementSeed = -1;
-                this.columnMessageID.AutoIncrementStep = -1;
+                this.columnMessageID.AutoIncrementSeed = 1;
                 this.columnMessageID.AllowDBNull = false;
                 this.columnMessageID.Unique = true;
                 this.columnDescription.MaxLength = 536870910;
@@ -8886,45 +8991,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SourcesRow SourcesRow {
+            public LookupListItemsRow LookupListItemsRowByFK_LookupListItems_HSC {
                 get {
-                    return ((SourcesRow)(this.GetParentRow(this.Table.ParentRelations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"])));
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["FK_LookupListItems_HSC"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VariablesRow VariablesRow {
-                get {
-                    return ((VariablesRow)(this.GetParentRow(this.Table.ParentRelations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow _LookupListItemsRowBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ {
-                get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow _LookupListItemsRowBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ {
-                get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_LookupListItems_HSC"]);
                 }
             }
             
@@ -8941,12 +9013,45 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow LookupListItemsRowByFK_LookupListItems_HSC {
+            public LookupListItemsRow _LookupListItemsRowBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_ {
                 get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["FK_LookupListItems_HSC"])));
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_LookupListItems_HSC"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public LookupListItemsRow _LookupListItemsRowBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_ {
+                get {
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public VariablesRow VariablesRow {
+                get {
+                    return ((VariablesRow)(this.GetParentRow(this.Table.ParentRelations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["{6992C8CF-E5A2-403A-8678-6C82837CF257}1"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public SourcesRow SourcesRow {
+                get {
+                    return ((SourcesRow)(this.GetParentRow(this.Table.ParentRelations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}"]);
                 }
             }
             
@@ -9505,12 +9610,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow _LookupListItemsRowBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ {
+            public LookupListItemsRow _LookupListItemsRowBy_4A6603F5_545C_4BCD_8170_64647F098E3F_ {
                 get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"])));
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"]);
                 }
             }
             
@@ -9527,12 +9632,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow _LookupListItemsRowBy_4A6603F5_545C_4BCD_8170_64647F098E3F_ {
+            public LookupListItemsRow _LookupListItemsRowBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_ {
                 get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"])));
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"]);
                 }
             }
             
@@ -9694,23 +9799,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HSIRow HSIRow {
-                get {
-                    return ((HSIRow)(this.GetParentRow(this.Table.ParentRelations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public HSCRow HSCRow {
                 get {
                     return ((HSCRow)(this.GetParentRow(this.Table.ParentRelations["{E7D0CB05-3174-475D-B110-5BE1C8B47890}"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["{E7D0CB05-3174-475D-B110-5BE1C8B47890}"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public HSIRow HSIRow {
+                get {
+                    return ((HSIRow)(this.GetParentRow(this.Table.ParentRelations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["{610732A9-A6C1-42AF-92C2-0600C12B5FFE}"]);
                 }
             }
             
@@ -9856,23 +9961,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VariablesRow[] _GetVariablesRowsBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1() {
-                if ((this.Table.ChildRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"] == null)) {
-                    return new VariablesRow[0];
-                }
-                else {
-                    return ((VariablesRow[])(base.GetChildRows(this.Table.ChildRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public VariablesRow[] _GetVariablesRowsBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1() {
                 if ((this.Table.ChildRelations["{91CEE3DC-EB86-4A03-947A-11F885168B8A}1"] == null)) {
                     return new VariablesRow[0];
                 }
                 else {
                     return ((VariablesRow[])(base.GetChildRows(this.Table.ChildRelations["{91CEE3DC-EB86-4A03-947A-11F885168B8A}1"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public VariablesRow[] _GetVariablesRowsBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1() {
+                if ((this.Table.ChildRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"] == null)) {
+                    return new VariablesRow[0];
+                }
+                else {
+                    return ((VariablesRow[])(base.GetChildRows(this.Table.ChildRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"])));
                 }
             }
             
@@ -9889,12 +9994,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HSIRow[] _GetHSIRowsBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_() {
-                if ((this.Table.ChildRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"] == null)) {
+            public HSIRow[] _GetHSIRowsBy_4A6603F5_545C_4BCD_8170_64647F098E3F_() {
+                if ((this.Table.ChildRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"] == null)) {
                     return new HSIRow[0];
                 }
                 else {
-                    return ((HSIRow[])(base.GetChildRows(this.Table.ChildRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"])));
+                    return ((HSIRow[])(base.GetChildRows(this.Table.ChildRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"])));
                 }
             }
             
@@ -9911,23 +10016,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HSIRow[] _GetHSIRowsBy_4A6603F5_545C_4BCD_8170_64647F098E3F_() {
-                if ((this.Table.ChildRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"] == null)) {
+            public HSIRow[] _GetHSIRowsBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_() {
+                if ((this.Table.ChildRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"] == null)) {
                     return new HSIRow[0];
                 }
                 else {
-                    return ((HSIRow[])(base.GetChildRows(this.Table.ChildRelations["{4A6603F5-545C-4BCD-8170-64647F098E3F}"])));
+                    return ((HSIRow[])(base.GetChildRows(this.Table.ChildRelations["{950F669B-CEB3-42A1-97EC-3C1D89097DDA}"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HSCRow[] _GetHSCRowsBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_() {
-                if ((this.Table.ChildRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"] == null)) {
+            public HSCRow[] GetHSCRowsByFK_LookupListItems_HSC() {
+                if ((this.Table.ChildRelations["FK_LookupListItems_HSC"] == null)) {
                     return new HSCRow[0];
                 }
                 else {
-                    return ((HSCRow[])(base.GetChildRows(this.Table.ChildRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"])));
+                    return ((HSCRow[])(base.GetChildRows(this.Table.ChildRelations["FK_LookupListItems_HSC"])));
                 }
             }
             
@@ -9944,12 +10049,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public HSCRow[] GetHSCRowsByFK_LookupListItems_HSC() {
-                if ((this.Table.ChildRelations["FK_LookupListItems_HSC"] == null)) {
+            public HSCRow[] _GetHSCRowsBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_() {
+                if ((this.Table.ChildRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"] == null)) {
                     return new HSCRow[0];
                 }
                 else {
-                    return ((HSCRow[])(base.GetChildRows(this.Table.ChildRelations["FK_LookupListItems_HSC"])));
+                    return ((HSCRow[])(base.GetChildRows(this.Table.ChildRelations["{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}"])));
                 }
             }
             
@@ -10295,23 +10400,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SimulationsRow SimulationsRow {
-                get {
-                    return ((SimulationsRow)(this.GetParentRow(this.Table.ParentRelations["SimulationsSimulationFISInputs"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["SimulationsSimulationFISInputs"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ProjectVariablesRow ProjectVariablesRow {
                 get {
                     return ((ProjectVariablesRow)(this.GetParentRow(this.Table.ParentRelations["SimulationFISInputs_ProjectVariables"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["SimulationFISInputs_ProjectVariables"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public SimulationsRow SimulationsRow {
+                get {
+                    return ((SimulationsRow)(this.GetParentRow(this.Table.ParentRelations["SimulationsSimulationFISInputs"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["SimulationsSimulationFISInputs"]);
                 }
             }
         }
@@ -10397,12 +10502,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SimulationsRow SimulationsRow {
+            public ProjectVariablesRow ProjectVariablesRow {
                 get {
-                    return ((SimulationsRow)(this.GetParentRow(this.Table.ParentRelations["SimulationsSimulationHSCInputs"])));
+                    return ((ProjectVariablesRow)(this.GetParentRow(this.Table.ParentRelations["ProjectVariablesSimulationHSCInputs"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["SimulationsSimulationHSCInputs"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["ProjectVariablesSimulationHSCInputs"]);
                 }
             }
             
@@ -10419,12 +10524,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ProjectVariablesRow ProjectVariablesRow {
+            public SimulationsRow SimulationsRow {
                 get {
-                    return ((ProjectVariablesRow)(this.GetParentRow(this.Table.ParentRelations["ProjectVariablesSimulationHSCInputs"])));
+                    return ((SimulationsRow)(this.GetParentRow(this.Table.ParentRelations["SimulationsSimulationHSCInputs"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["ProjectVariablesSimulationHSCInputs"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["SimulationsSimulationHSCInputs"]);
                 }
             }
             
@@ -10726,12 +10831,113 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public FISRow FISRow {
+            public double RasterTop {
                 get {
-                    return ((FISRow)(this.GetParentRow(this.Table.ParentRelations["FIS_Simulations"])));
+                    try {
+                        return ((double)(this[this.tableSimulations.RasterTopColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterTop\' in table \'Simulations\' is DBNull.", e);
+                    }
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FIS_Simulations"]);
+                    this[this.tableSimulations.RasterTopColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double RasterLeft {
+                get {
+                    try {
+                        return ((double)(this[this.tableSimulations.RasterLeftColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterLeft\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterLeftColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double RasterRows {
+                get {
+                    try {
+                        return ((double)(this[this.tableSimulations.RasterRowsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterRows\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterRowsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double RasterCols {
+                get {
+                    try {
+                        return ((double)(this[this.tableSimulations.RasterColsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterCols\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterColsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double RasterCellSize {
+                get {
+                    try {
+                        return ((double)(this[this.tableSimulations.RasterCellSizeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterCellSize\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterCellSizeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RasterSpatRef {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.RasterSpatRefColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterSpatRef\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterSpatRefColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RasterUnits {
+                get {
+                    try {
+                        return ((string)(this[this.tableSimulations.RasterUnitsColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RasterUnits\' in table \'Simulations\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSimulations.RasterUnitsColumn] = value;
                 }
             }
             
@@ -10743,6 +10949,17 @@ namespace CHaMPWorkbench.Habitat {
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FISRow FISRow {
+                get {
+                    return ((FISRow)(this.GetParentRow(this.Table.ParentRelations["FIS_Simulations"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FIS_Simulations"]);
                 }
             }
             
@@ -10912,6 +11129,90 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCHaMPWatershedNull() {
                 this[this.tableSimulations.CHaMPWatershedColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterTopNull() {
+                return this.IsNull(this.tableSimulations.RasterTopColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterTopNull() {
+                this[this.tableSimulations.RasterTopColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterLeftNull() {
+                return this.IsNull(this.tableSimulations.RasterLeftColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterLeftNull() {
+                this[this.tableSimulations.RasterLeftColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterRowsNull() {
+                return this.IsNull(this.tableSimulations.RasterRowsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterRowsNull() {
+                this[this.tableSimulations.RasterRowsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterColsNull() {
+                return this.IsNull(this.tableSimulations.RasterColsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterColsNull() {
+                this[this.tableSimulations.RasterColsColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterCellSizeNull() {
+                return this.IsNull(this.tableSimulations.RasterCellSizeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterCellSizeNull() {
+                this[this.tableSimulations.RasterCellSizeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterSpatRefNull() {
+                return this.IsNull(this.tableSimulations.RasterSpatRefColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterSpatRefNull() {
+                this[this.tableSimulations.RasterSpatRefColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRasterUnitsNull() {
+                return this.IsNull(this.tableSimulations.RasterUnitsColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRasterUnitsNull() {
+                this[this.tableSimulations.RasterUnitsColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11172,23 +11473,23 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LookupListItemsRow _LookupListItemsRowBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 {
-                get {
-                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public LookupListItemsRow _LookupListItemsRowBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1 {
                 get {
                     return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{91CEE3DC-EB86-4A03-947A-11F885168B8A}1"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["{91CEE3DC-EB86-4A03-947A-11F885168B8A}1"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public LookupListItemsRow _LookupListItemsRowBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1 {
+                get {
+                    return ((LookupListItemsRow)(this.GetParentRow(this.Table.ParentRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1"]);
                 }
             }
             
@@ -11338,12 +11639,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public UnitsRow UnitsRow {
+            public ProjectDataSourcesRow ProjectDataSourcesRow {
                 get {
-                    return ((UnitsRow)(this.GetParentRow(this.Table.ParentRelations["UnitsProjectVariables"])));
+                    return ((ProjectDataSourcesRow)(this.GetParentRow(this.Table.ParentRelations["ProjectDataSourcesProjectVariables"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["UnitsProjectVariables"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["ProjectDataSourcesProjectVariables"]);
                 }
             }
             
@@ -11360,12 +11661,12 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ProjectDataSourcesRow ProjectDataSourcesRow {
+            public UnitsRow UnitsRow {
                 get {
-                    return ((ProjectDataSourcesRow)(this.GetParentRow(this.Table.ParentRelations["ProjectDataSourcesProjectVariables"])));
+                    return ((UnitsRow)(this.GetParentRow(this.Table.ParentRelations["UnitsProjectVariables"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["ProjectDataSourcesProjectVariables"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["UnitsProjectVariables"]);
                 }
             }
             
@@ -11598,12 +11899,7 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int SimulationID {
                 get {
-                    try {
-                        return ((int)(this[this.tableSimulationResults.SimulationIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SimulationID\' in table \'SimulationResults\' is DBNull.", e);
-                    }
+                    return ((int)(this[this.tableSimulationResults.SimulationIDColumn]));
                 }
                 set {
                     this[this.tableSimulationResults.SimulationIDColumn] = value;
@@ -11614,12 +11910,7 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ResultTypeID {
                 get {
-                    try {
-                        return ((int)(this[this.tableSimulationResults.ResultTypeIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ResultTypeID\' in table \'SimulationResults\' is DBNull.", e);
-                    }
+                    return ((int)(this[this.tableSimulationResults.ResultTypeIDColumn]));
                 }
                 set {
                     this[this.tableSimulationResults.ResultTypeIDColumn] = value;
@@ -11644,17 +11935,6 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SimulationResultTypesRow SimulationResultTypesRow {
-                get {
-                    return ((SimulationResultTypesRow)(this.GetParentRow(this.Table.ParentRelations["SimulationResultTypes_SimulationResults"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["SimulationResultTypes_SimulationResults"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SimulationsRow SimulationsRow {
                 get {
                     return ((SimulationsRow)(this.GetParentRow(this.Table.ParentRelations["Simulations_SimulationResults"])));
@@ -11666,26 +11946,13 @@ namespace CHaMPWorkbench.Habitat {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSimulationIDNull() {
-                return this.IsNull(this.tableSimulationResults.SimulationIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSimulationIDNull() {
-                this[this.tableSimulationResults.SimulationIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsResultTypeIDNull() {
-                return this.IsNull(this.tableSimulationResults.ResultTypeIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetResultTypeIDNull() {
-                this[this.tableSimulationResults.ResultTypeIDColumn] = global::System.Convert.DBNull;
+            public SimulationResultTypesRow SimulationResultTypesRow {
+                get {
+                    return ((SimulationResultTypesRow)(this.GetParentRow(this.Table.ParentRelations["SimulationResultTypes_SimulationResults"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["SimulationResultTypes_SimulationResults"]);
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11730,12 +11997,7 @@ namespace CHaMPWorkbench.Habitat {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Title {
                 get {
-                    try {
-                        return ((string)(this[this.tableSimulationResultTypes.TitleColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Title\' in table \'SimulationResultTypes\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableSimulationResultTypes.TitleColumn]));
                 }
                 set {
                     this[this.tableSimulationResultTypes.TitleColumn] = value;
@@ -11772,18 +12034,6 @@ namespace CHaMPWorkbench.Habitat {
                 set {
                     this[this.tableSimulationResultTypes.IsUIVisibleColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsTitleNull() {
-                return this.IsNull(this.tableSimulationResultTypes.TitleColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetTitleNull() {
-                this[this.tableSimulationResultTypes.TitleColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
