@@ -17,7 +17,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h2>Survey Information</h2></div></div>
             <div class="panel-body">
-                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/table/tablename/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/table/tablename/record/Organization" /> crew <xsl:value-of select="/surveyGDB/table/tablename/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [UTM Zone 11N]. The visit type was - <xsl:value-of select="/surveyGDB/table/tablename/record/VisitType" />. [5] benchmarks were shot in and [11] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
+                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/tables/table/records/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/tables/table/records/record/Organization" /> crew <xsl:value-of select="/surveyGDB/tables/table/records/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [projection name]. The visit type was - <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" />. [X] benchmarks were shot in and [X] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
             </div>
 
             <!-- Survey Information table -->
@@ -41,7 +41,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Point Editing, Line Editing, and Surface Generation</h3></div></div>
               <div class="panel-body"><!-- from QaQcTIN -->
-                <p>[tin0] was the final TIN generated. The survey edits were described as [XXXX] because [XXX]. The crew rated the TIN quality as [XX] </p>   
+                <p>[x] was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
               </div>
               <div class="panel-body">
                 <img  src="../src/img/johnday_sample.png" />
@@ -54,7 +54,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Channel Features</h3></div></div>
               <div class="panel-body"><!-- from QaQcPolygons -->
-                <p>There were [2] water extent polygons and [21] unique channel units. Bars [were] evident at the site and water surface shots [were] used.</p>   
+                <p>The survey has <span id="poly-water-extent">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. Bars [were/were not] evident at the site and water surface shots [were/were not] used.</p> 
               </div>
               <div class="panel-body">
                 <img  src="../src/img/johnday_sample.png" />
@@ -64,23 +64,17 @@
               
               <!-- Channel Feature table -->
             <div class="metric">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td># of Channel Units</td> <!-- from QaQcPolygons -->
-                    <td></td> <!-- ChannelUnitsCount (associated with last TIMESTAMP) -->
-                  </tr>
-                  <tr>
-                    <td>Number of Water Extent Polygons</td> <!-- from QaQcPolygons -->
-                    <td></td> <!-- WaterExtentCount (associated with last TIMESTAMP) -->
-                  </tr>
-                  <tr>
-                    <td>Number of Bankfull Extent Polygons</td> <!-- from QaQcPolygons??? -->
-                    <td></td> <!-- (associated with last TIMESTAMP) -->
-                  </tr>  
-                </tbody>
-              </table>
+              <div class="row">
+                <div class="col-md-6">
+                  <h3>Channel Feature Summary</h3>
+                  <table id="channel-feature-summary" class="table">
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+          </div>
 
           <!-- Point Density -->
           <div class="panel panel-default"> 
@@ -107,11 +101,9 @@
                 <p></p>
               </div>
           </div>
-        
         </div>
         <xsl:call-template name="javascript" />
         <xsl:call-template name="JSON" />
-        </div>
       </body>
     </html>
   </xsl:template>
@@ -125,12 +117,12 @@
           <div class="row">
             <div class="col-md-12">
               <h2><xsl:value-of select="/surveyGDB/table/tablename/record/Watershed" /></h2> 
-              <h2>Site Name: <xsl:value-of select="/surveyGDB/table/tablename/record/SiteID" /></h2>
+              <h2>Site Name: <xsl:value-of select="/surveyGDB/tables/table/records/record/SiteID" /></h2>
               <ul class="list-unstyled">
-                <li>Visit ID: <xsl:value-of select="/surveyGDB/table/tablename/record/VisitID" /></li>
-                <li>Sampled: <xsl:value-of select="/surveyGDB/table/tablename/record/SurveyDate" /></li>
-                <li>Visit Type: <xsl:value-of select="/surveyGDB/table/tablename/record/VisitType" /></li>
-                <li>Instrument Type: <xsl:value-of select="/surveyGDB/table/tablename/record/SurveyInstrument" /></li>
+                <li>Visit ID: <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitID" /></li>
+                <li>Sampled: <xsl:value-of select="/surveyGDB/tables/table/records/record/SurveyDate" /></li>
+                <li>Visit Type: <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" /></li>
+                <li>Instrument Type: <xsl:value-of select="/surveyGDB/tables/table/records/record/SurveyInstrument" /></li>
               </ul>
               <h2>Processing</h2>
               <ul class="list-unstyled"></ul>
@@ -145,7 +137,7 @@
   </xsl:template>
     
   <xsl:template name="JSON">
-    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/report/json"/></script>
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/surveyGDB/json"/></script>
   </xsl:template>
 
   <xsl:template name="javascript">

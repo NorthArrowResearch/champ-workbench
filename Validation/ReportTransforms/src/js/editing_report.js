@@ -214,9 +214,6 @@ var NodeEditingSummary = function(JSONData, $table){
     Nodes_Topo:"Nodes Topo"
   }; 
 
-// var delta;
-// var added;
-// var deleted;
 
   // Now go through and make your actual HMTL elements for the table row.
   $.each(fields, function(key, name){

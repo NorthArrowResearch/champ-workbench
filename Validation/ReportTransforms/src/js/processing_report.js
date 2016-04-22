@@ -1,143 +1,85 @@
 /**
- * Global registry of filters and their query strings.
- * @type {Object}
- */
-var filterArgs = {
-  metric:  { selector: '', value: null },
-  visit:   { selector: 'td.visitId', value: null },
-  version: { selector: 'td.version, th.version', value: null },
-  onlyFailures:  { selector: 'td.status', value: false },
-}
-
-// Constants for pass and fail
-var passfail = {
-  pass: 'Pass', 
-  fail: 'Fail'
-}
-
-/**
  * Only do things when the document is ready for thing-doing
  */
 $(document).ready(function() {
-  // Remove zero padding on version numbers
-  $('#version-filter option, thead th.version span').each(function(){
-    var version = $(this).text();
-    $(this).html(version.replace(/\.0/g, '.'));
-  });
 
-  $('td.version').each(function(){
-    if ($(this).attr('data-status') == passfail.pass){
-      $(this).addClass('pass');
-    }
-    else if ($(this).attr('data-status') == passfail.fail){
-      $(this).addClass('fail');
-    }
-  });
-  $('select#metric-filter').selectize().on('change', function(e){
-    filterArgs.metric.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#visit-filter').selectize().on('change', function(e){
-    filterArgs.visit.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('select#version-filter').selectize().on('change', function(e){
-    filterArgs.version.value = e.target.selectize.getValue();
-    filter();
-  });
-  $('input#onlyFailures').on('change', function(e){    
-    filterArgs.onlyFailures.value =  $(this).is(':checked');
-    console.log(filterArgs.onlyFailures.value);
-    filter();
-  });
+  // Go get the JSON data from the report:
+  var JSONData = parseJSON();
+  console.dir(JSONData);
+
+  ChannelFeatureSummary(JSONData, $('#channel-feature-summary'));
+
 });
 
+
+/******************************************************************************************
+
+        TABLE FUNCTIONS BELOW THIS POINT
+
+******************************************************************************************/
+
 /**
- * Decide what to show and then show (or hide) it. Duh.
- * @return {[type]} [description]
+ * ChannelFeatureSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
  */
-var filter = function(){
-  // Show all the things
-  $('div.metric').removeClass('hide');
-  $('table tbody tr').removeClass('hide');
-  $(filterArgs.version.selector).removeClass('hide');
+var ChannelFeatureSummary = function(JSONData, $table){
+  // Get the jQuery node associated with this table
+  $tbody = $table.find('tbody');
+  var summaryObj = {};
 
-  // Go through and hide some of the sections
-  $('div.metric').each(function(){
-    var hideMetric = false;
-    if (filterArgs.metric.value && filterArgs.metric.value.length > 0){
-      hideMetric = true;
-      var metric = $(this).attr('data');
-      $.each(filterArgs.metric.value, function(n, val){
-        if (val == metric){
-          hideMetric = false;
-        }
-      })
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcPolygons"});
+  records = dataTable.records.record;
+
+  var first;
+  var last;
+
+  // We have to figure out what the first and last values should be
+  $.each(records, function(recordKey,record){
+    // Add a convenient unix timestamp that makes sorting easier
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // move our first and last pointer if the record we're looking at is newer/older
+    if (!first || first.unixTime >= record.unixTime){
+      first = record;
     }
-
-    // Go through and hide some of the rows
-    // ------------------------------------------------
-    var rowCount = 0;
-    $(this).find('table tr').each(function(){
-      var hideRow = false;
-      if ($(this).parent('thead').length == 0 && 
-          filterArgs.visit.value && 
-          filterArgs.visit.value.length > 0){
-
-        hideRow = true;
-        var visit = $(this).find(filterArgs.visit.selector).attr('data');
-        $.each(filterArgs.visit.value, function(n, val){
-          if (val == visit){
-            hideRow = false;
-          }
-        })
-      }
-
-      // Go through and hide some of the Columns
-      // ------------------------------------------------
-      $(this).find(filterArgs.version.selector).each(function(n,row){
-        var hideCol = false;
-        if (!hideRow && filterArgs.version.value && filterArgs.version.value.length > 0){
-          hideCol = true;
-          var version = $(this).attr('data');
-          $.each(filterArgs.version.value, function(n, val){
-            if (val == version){
-              hideCol = false;
-            }
-          })
-        }
-
-        if (hideCol){
-          $(this).addClass('hide');
-        }
-      });
-
-      // Only show rows and columns containing failures'
-      // ------------------------------------------------
-      if ($(this).parent('thead').length == 0 && 
-          !hideRow && filterArgs.onlyFailures.value && 
-          filterArgs.onlyFailures.value == true){
-        hideRow = true;
-        $(this).find('td.version span.status').each(function(){
-          if (!$(this).parent('td').hasClass('hide') && 
-              $(this).text() == passfail.fail ){ 
-            hideRow = false;
-          }
-        });
-      }
-
-      if (hideRow) $(this).addClass('hide');
-      else rowCount++
-    });
-
-    // Now we make a decision to hide (or not) the metric
-    if (hideMetric || rowCount <= 1)
-      $(this).addClass('hide');
-
-  });
+    if (!last || last.unixTime <= record.unixTime){
+      last = record;
+    }
+  })
 
 
+  // These are the properties we want to print to the table.
+  // It's done this way so that you can specify different names than 
+  // the raw fieldname.
+  var fields = {
+    ChannelUnitsCount:"Number of Channel Unit Polygons",
+    ChannelUnitsUnique: "Number of Unique Channel Units",
+    WaterExtentCount:"Number of Water Extent Polygons"
+
+    //BankfullExtentCount: "Number of Bankfull Extent Polygons"
+  };
 
 
+  // Now go through and make your actual HMTL elements for the table row.
+  $.each(fields, function(key, name){
+    var $row = $('<tr/>');
+    // Easy rows just print values from the summary table
+    $row.append($('<td></td>').text(name));
+    $row.append($('<td></td>').text(first[key] || 0));
 
+    $tbody.append($row);
+  })
+
+  // Now we're going to do some replacing of nodes
+  $('#poly-water-extent').html(first['WaterExtentCount']);
+  $('#unique-channel-units').html(first['ChannelUnitsUnique']);
+
+}
+
+// -------------------------------------- HELPER METHODS BELOW THIS POINT
+
+var parseJSON = function() {
+  var x = JSON.parse($('#ReportJSONData').text());
+  return x;
 }

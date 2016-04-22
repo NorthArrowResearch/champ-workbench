@@ -2,14 +2,10 @@
 // Anything that applies to all reports should go in _base.scss
 @import "base";
 
-.vertical-header {
-    transform-origin: center;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    position: absolute;
-    padding: 20px;
+// Table formatting
+table#channel-feature-summary {
+  tr td:nth-child(1),
+  tr th:nth-child(1) { width: 150px; }
 }
 
 #light{
