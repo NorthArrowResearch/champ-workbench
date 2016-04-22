@@ -66,7 +66,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                             Visits[aVisit.Value].ManualResult = new MetricValueBase((float)dbRead[0]);
                         else
                         {
-                            string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("RBTVersion")));
+                            string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("ModelVersion")));
                             float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
                             Visits[aVisit.Value].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
                         }
