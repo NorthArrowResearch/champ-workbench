@@ -43,8 +43,8 @@ namespace CHaMPWorkbench.Classes
         {
             if (string.IsNullOrEmpty(sResultFilePath) || !System.IO.File.Exists(sResultFilePath))
             {
-                Exception ex = new Exception("The RBT result file does not exist.");
-                ex.Data["Result File"] = sResultFilePath;
+                Exception ex = new Exception("the rbt result file does not exist.");
+                ex.Data["result file"] = sResultFilePath;
                 throw ex;
             }
 
@@ -228,7 +228,7 @@ namespace CHaMPWorkbench.Classes
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbCon);
 
                 if (nResultID > 0)
                     dbCom.Parameters.AddWithValue("ResultID", nResultID);
@@ -241,6 +241,16 @@ namespace CHaMPWorkbench.Classes
                 if (nodStatus is XmlNode)
                     if (nodStatus is XmlNode && !string.IsNullOrEmpty(nodStatus.InnerText))
                         pStatus.Value = nodStatus.InnerText;
+
+                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
+                pVisitID.Value = DBNull.Value;
+                XmlNode nodTargetVisit = xmlR.SelectSingleNode("rbt/target_visit");
+                if (nodTargetVisit is XmlNode && !string.IsNullOrEmpty(nodTargetVisit.InnerText))
+                {
+                    int nVisitID;
+                    if (int.TryParse(nodTargetVisit.InnerText, out nVisitID))
+                        pVisitID.Value = nVisitID;
+                }
 
                 dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
 
