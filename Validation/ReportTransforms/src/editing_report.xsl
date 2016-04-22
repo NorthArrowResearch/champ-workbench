@@ -100,24 +100,14 @@
 
             <!-- Image Snapshots -->
             <div class="panel panel-default"> 
-                <h2>Review Images</h2>
+              <h2>Review Images</h2>
+              <xsl:for-each select="/surveyGDB/images/image[report='survey_editing']">
                 <div class="panel-body">
-                    <img src="../src/img/johnday_sample.png"></img>
-                    <p>TIN before editing</p>
+                    <img src="{filepath}" />
+                    <p><xsl:value-of select="title" /></p>
                 </div>
-                <div class="panel-body">
-                    <img  src="../src/img/johnday_sample.png"></img>
-                    <p>TIN after editing</p>
-                </div>
-                <div class="panel-body">
-                    <img  src="../src/img/johnday_sample.png"></img>
-                    <p>WSETIN</p>
-                </div>
-                <div class="panel-body">
-                    <img id="img-review" src="../src/img/johnday_sample.png"></img>
-                    <p>Image from Crews</p>
-                </div>
-              </div>
+              </xsl:for-each>
+            </div>
               
             </div>
           </div>

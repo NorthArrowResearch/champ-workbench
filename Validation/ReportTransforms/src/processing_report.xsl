@@ -17,7 +17,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h2>Survey Information</h2></div></div>
             <div class="panel-body">
-                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/tables/table/records/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/tables/table/records/record/Organization" /> crew <xsl:value-of select="/surveyGDB/tables/table/records/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [projection name]. The visit type was - <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" />. [X] benchmarks were shot in and [X] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
+                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/tables/table/records/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/tables/table/records/record/Organization" /> crew <xsl:value-of select="/surveyGDB/tables/table/records/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [projection name]. The type of visit was - <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" />. [X] benchmarks were shot in and [X] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
             </div>
 
             <!-- Survey Information table -->
@@ -35,19 +35,20 @@
                 </tbody>
               </table>
             </div>
-          </div>
             
           <!-- Point Editing, Line Editing, and Surface Generation -->
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Point Editing, Line Editing, and Surface Generation</h3></div></div>
               <div class="panel-body"><!-- from QaQcTIN -->
-                <p>[x] was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
+                <p><xsl:value-of select="/surveyGDB/table/tablename[SurveyInfo]/record/FinalTin" /> was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
               </div>
-              <div class="panel-body">
-                <img  src="../src/img/johnday_sample.png" />
-                <p>TIN surface image</p>
-                <p></p>
-              </div>
+              <xsl:for-each select="/surveyGDB/images/image[filename='tin_surface.png']">
+                <div class="panel-body">
+                  <img src="{filepath}" />
+                  <p><xsl:value-of select="title" /></p>
+                  <p></p>
+                </div>
+              </xsl:for-each>
           </div>
             
           <!-- Channel Features -->
@@ -56,10 +57,13 @@
               <div class="panel-body"><!-- from QaQcPolygons -->
                 <p>The survey has <span id="poly-water-extent">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. Bars [were/were not] evident at the site and water surface shots [were/were not] used.</p> 
               </div>
-              <div class="panel-body">
-                <img  src="../src/img/johnday_sample.png" />
-                <p>Water Depth and Channel Units image</p>
-                <p></p>
+              <xsl:for-each select="/surveyGDB/images/image[filename='channel_features.png']">
+                <div class="panel-body">
+                  <img src="{filepath}" />
+                  <p><xsl:value-of select="title" /></p>
+                  <p></p>
+                </div>
+              </xsl:for-each>
               </div>
               
               <!-- Channel Feature table -->
@@ -82,11 +86,13 @@
               <div class="panel-body">
                 <p>Boilerplate information abou the survey's point density data. Two to three sentences on what it is, why we care, how to change it, etc.</p>   
               </div>
-              <div class="panel-body">
-                <img  src="../src/img/johnday_sample.png" />
-                <p>Point Density Image</p>
-                <p></p>
-              </div>
+              <xsl:for-each select="/surveyGDB/images/image[filename='point_density.png']">
+                <div class="panel-body">
+                  <img src="{filepath}" />
+                  <p><xsl:value-of select="title" /></p>
+                  <p></p>
+                </div>
+              </xsl:for-each>
           </div>
             
           <!-- Error Surface -->
@@ -95,13 +101,15 @@
               <div class="panel-body">
                 <p>Boilerplate information about the survey's error surface data. Two to three sentences on what it is, why we care, how to improve the quality, etc.</p>   
               </div>
-              <div class="panel-body">
-                <img  src="../src/img/johnday_sample.png" />
-                <p>Error Surface Image</p>
-                <p></p>
-              </div>
+              <xsl:for-each select="/surveyGDB/images/image[filename='error_surface.png']">
+                <div class="panel-body">
+                  <img src="{filepath}" />
+                  <p><xsl:value-of select="title" /></p>
+                  <p></p>
+                </div>
+              </xsl:for-each>
+            </div>
           </div>
-        </div>
         <xsl:call-template name="javascript" />
         <xsl:call-template name="JSON" />
       </body>
