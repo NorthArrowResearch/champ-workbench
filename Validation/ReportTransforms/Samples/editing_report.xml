@@ -3,31 +3,168 @@
   <filename>C:\CHaMP\MonitoringData\2015\JohnDay\CBW05583-345970\VISIT_3161\Topo\SurveyGeoDatabase.gdb</filename>
   <tables>
     <table>
-      <name>SurveyInfo</name>
+      <name>OrthogInfo</name>
       <records>
         <record>
           <OBJECTID>1</OBJECTID>
-          <SiteID>CBW05583-345970</SiteID>
-          <Watershed>John Day</Watershed>
-          <VisitType>Initial visit</VisitType>
-          <SurveyInstrument>Total Station</SurveyInstrument>
-          <Projection>UTM Zone 11N</Projection>
-          <SurveyFile>CBW05583-345970-20150716-ODFWJD.mjf</SurveyFile>
-          <CHaMPGISversion>14.00</CHaMPGISversion>  
-          <SurveyGDBversion>2015.01</SurveyGDBversion>
-          <ImportDate>2015-07-22T09:08:42</ImportDate><!-- reformat to 20150722 09:08:42 --> 
-          <StreamName>Duncan Creek</StreamName>  
-          <Variability>False</Variability>  
-          <InstrumentModel>TopCon Magnet v2.5.1</InstrumentModel>
-          <Organization>ODFW</Organization>
-          <Crew>Salgado</Crew>
-          <CoordinateType></CoordinateType>
-          <ProtocolType>CHaMP</ProtocolType>
-          <FieldSeason>2015</FieldSeason>
-          <VisitID>0</VisitID>
-          <FinalTin>tin</FinalTin>
-          <FinalWSETIN>wsetin</FinalWSETIN>
-          <SurveyDate></SurveyDate>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T10:27:06</Date>
+        </record>
+        <record>
+          <OBJECTID>2</OBJECTID>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T11:07:35</Date>
+        </record>
+        <record>
+          <OBJECTID>3</OBJECTID>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T11:15:19</Date>
+        </record>
+        <record>
+          <OBJECTID>4</OBJECTID>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T18:33:26</Date>
+        </record>
+        <record>
+          <OBJECTID>5</OBJECTID>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T18:48:45</Date>
+        </record>
+        <record>
+          <OBJECTID>6</OBJECTID>
+          <Left>311223</Left>
+          <Right>311367</Right>
+          <Top>4908754</Top>
+          <Bottom>4908682</Bottom>
+          <CellRes>0.1</CellRes>
+          <Rows>720</Rows>
+          <Cols>1440</Cols>
+          <Date>2015-7-22T16:32:41</Date>
+        </record>
+      </records>
+    </table>
+    <table>
+      <name>QaQcBacksightLog</name><!-- the fields need to be translated by .net int replace the space in the field name with an underscore. XML spec doesn't allow spaces -->
+      <records>
+        <record>
+          <OID>1</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm503</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.000044</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.00005</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>21</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>2</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm503</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.001</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.005</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>0</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>3</OID>
+          <OCCUPIED_POINT>bos</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm501</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.005688</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.001551</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>103</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>4</OID>
+          <OCCUPIED_POINT>bos</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm501</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.002</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.015</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>0</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>5</OID>
+          <OCCUPIED_POINT>bos</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm501</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.00335</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.002042</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>42</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>6</OID>
+          <OCCUPIED_POINT>bos</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm501</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.001</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.007</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>0</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>7</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bos</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.000651</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.002874</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>91</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>8</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bos</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.001</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.005</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>15</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>9</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bos</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.004</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.005</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>0</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
+        </record>
+        <record>
+          <OID>10</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <BACKSIGHT_POINT>bm503</BACKSIGHT_POINT>
+          <VERTICAL_ERROR>0.002853</VERTICAL_ERROR>
+          <HORIZONTAL_ERROR>0.000941</HORIZONTAL_ERROR>
+          <SIDESHOT_COUNT>106</SIDESHOT_COUNT>
+          <TOTAL_TIME></TOTAL_TIME>
         </record>
       </records>
     </table>
@@ -144,7 +281,7 @@
       <records>
         <record>
           <OBJECTID>1</OBJECTID>
-          <TIMESTEAMP>2015-07-22T09:43:08</TIMESTEAMP>
+          <TIMESTAMP>2015-07-22T09:43:08</TIMESTAMP>
           <SurveyExtentCount></SurveyExtentCount>
           <WaterExtentCount></WaterExtentCount>
           <ChannelUnitsCount></ChannelUnitsCount>
@@ -246,40 +383,441 @@
         </record>
       </records>
     </table>
+    <table>
+      <name>QaQcUncertaintySummary</name>
+      <records>
+        <record>
+          <OID>1</OID>
+          <OCCUPIED_POINT>ALL</OCCUPIED_POINT>
+          <MEAN_VDE>0.001037</MEAN_VDE>
+          <STDEV_VDE>0.000931</STDEV_VDE>
+          <MAX_VDE>0.004604</MAX_VDE>
+          <MIN_VDE>0</MIN_VDE>
+          <MEAN_HDE>0.000534</MEAN_HDE>
+          <STDEV_HDE>0.000608</STDEV_HDE>
+          <MAX_HDE>0.005408</MAX_HDE>
+          <MIN_HDE>0</MIN_HDE>
+          <MEAN_3DPQ>0.001306</MEAN_3DPQ>
+          <STDEV_3DPQ>0.000944</STDEV_3DPQ>
+          <MAX_3DPQ>0.005515</MAX_3DPQ>
+          <MIN_3DPQ>0</MIN_3DPQ>
+          <SIDESHOT_COUNT>1067</SIDESHOT_COUNT>
+        </record>
+        <record>
+          <OID>2</OID>
+          <OCCUPIED_POINT>bm501</OCCUPIED_POINT>
+          <MEAN_VDE>0.000767</MEAN_VDE>
+          <STDEV_VDE>0.000469</STDEV_VDE>
+          <MAX_VDE>0.001814</MAX_VDE>
+          <MIN_VDE>0.000025</MIN_VDE>
+          <MEAN_HDE>0.001122</MEAN_HDE>
+          <STDEV_HDE>0.001045</STDEV_HDE>
+          <MAX_HDE>0.005408</MAX_HDE>
+          <MIN_HDE>0.000029</MIN_HDE>
+          <MEAN_3DPQ>0.00155</MEAN_3DPQ>
+          <STDEV_3DPQ>0.000869</STDEV_3DPQ>
+          <MAX_3DPQ>0.005515</MAX_3DPQ>
+          <MIN_3DPQ>0.000038</MIN_3DPQ>
+          <SIDESHOT_COUNT>233</SIDESHOT_COUNT>
+        </record>
+        <record>
+          <OID>3</OID>
+          <OCCUPIED_POINT>bos</OCCUPIED_POINT>
+          <MEAN_VDE>0.001203</MEAN_VDE>
+          <STDEV_VDE>0.000592</STDEV_VDE>
+          <MAX_VDE>0.003138</MAX_VDE>
+          <MIN_VDE>0.00021</MIN_VDE>
+          <MEAN_HDE>0.000444</MEAN_HDE>
+          <STDEV_HDE>0.000261</STDEV_HDE>
+          <MAX_HDE>0.001116</MAX_HDE>
+          <MIN_HDE>0.000057</MIN_HDE>
+          <MEAN_3DPQ>0.001293</MEAN_3DPQ>
+          <STDEV_3DPQ>0.000625</STDEV_3DPQ>
+          <MAX_3DPQ>0.003252</MAX_3DPQ>
+          <MIN_3DPQ>0.000218</MIN_3DPQ>
+          <SIDESHOT_COUNT>145</SIDESHOT_COUNT>
+        </record>
+        <record>
+          <OID>4</OID>
+          <OCCUPIED_POINT>bm503</OCCUPIED_POINT>
+          <MEAN_VDE>0.001717</MEAN_VDE>
+          <STDEV_VDE>0.001099</STDEV_VDE>
+          <MAX_VDE>0.004604</MAX_VDE>
+          <MIN_VDE>0</MIN_VDE>
+          <MEAN_HDE>0.000495</MEAN_HDE>
+          <STDEV_HDE>0.00018</STDEV_HDE>
+          <MAX_HDE>0.001176</MAX_HDE>
+          <MIN_HDE>0.000094</MIN_HDE>
+          <MEAN_3DPQ>0.001838</MEAN_3DPQ>
+          <STDEV_3DPQ>0.001028</STDEV_3DPQ>
+          <MAX_3DPQ>0.004742</MAX_3DPQ>
+          <MIN_3DPQ>0.000094</MIN_3DPQ>
+          <SIDESHOT_COUNT>192</SIDESHOT_COUNT>
+        </record>
+        <record>
+          <OID>5</OID>
+          <OCCUPIED_POINT>cp501</OCCUPIED_POINT>
+          <MEAN_VDE>0.000924</MEAN_VDE>
+          <STDEV_VDE>0.001202</STDEV_VDE>
+          <MAX_VDE>0.004486</MAX_VDE>
+          <MIN_VDE>0</MIN_VDE>
+          <MEAN_HDE>0.000394</MEAN_HDE>
+          <STDEV_HDE>0.000131</STDEV_HDE>
+          <MAX_HDE>0.000731</MAX_HDE>
+          <MIN_HDE>0.000167</MIN_HDE>
+          <MEAN_3DPQ>0.001117</MEAN_3DPQ>
+          <STDEV_3DPQ>0.001106</STDEV_3DPQ>
+          <MAX_3DPQ>0.004537</MAX_3DPQ>
+          <MIN_3DPQ>0.000251</MIN_3DPQ>
+          <SIDESHOT_COUNT>299</SIDESHOT_COUNT>
+        </record>
+        <record>
+          <OID>6</OID>
+          <OCCUPIED_POINT>bm504</OCCUPIED_POINT>
+          <MEAN_VDE>0.000754</MEAN_VDE>
+          <STDEV_VDE>0.000388</STDEV_VDE>
+          <MAX_VDE>0.001883</MAX_VDE>
+          <MIN_VDE>0.000168</MIN_VDE>
+          <MEAN_HDE>0.000158</MEAN_HDE>
+          <STDEV_HDE>0.000138</STDEV_HDE>
+          <MAX_HDE>0.000479</MAX_HDE>
+          <MIN_HDE>0.000036</MIN_HDE>
+          <MEAN_3DPQ>0.000806</MEAN_3DPQ>
+          <STDEV_3DPQ>0.000336</STDEV_3DPQ>
+          <MAX_3DPQ>0.001886</MAX_3DPQ>
+          <MIN_3DPQ>0.000237</MIN_3DPQ>
+          <SIDESHOT_COUNT>196</SIDESHOT_COUNT>
+        </record>
+      </records>
+    </table>
+    <table>
+      <name>SurveyInfo</name>
+      <records>
+        <record>
+          <OBJECTID>1</OBJECTID>
+          <SiteID>CBW05583-345970</SiteID>
+          <Watershed>John Day</Watershed>
+          <VisitType>Initial visit</VisitType>
+          <SurveyInstrument>Total Station</SurveyInstrument>
+          <Projection>UTM Zone 11N</Projection>
+          <SurveyFile>CBW05583-345970-20150716-ODFWJD.mjf</SurveyFile>
+          <CHaMPGISversion>14.00</CHaMPGISversion>  
+          <SurveyGDBversion>2015.01</SurveyGDBversion>
+          <ImportDate>2015-07-22T09:08:42</ImportDate>
+          <StreamName>Duncan Creek</StreamName>  
+          <Variability>False</Variability>  
+          <InstrumentModel>TopCon Magnet v2.5.1</InstrumentModel>
+          <Organization>ODFW</Organization>
+          <Crew>Salgado</Crew>
+          <CoordinateType></CoordinateType>
+          <ProtocolType>CHaMP</ProtocolType>
+          <FieldSeason>2015</FieldSeason>
+          <VisitID>0</VisitID>
+          <FinalTin>tin</FinalTin>
+          <FinalWSETIN>wsetin</FinalWSETIN>
+          <SurveyDate></SurveyDate>
+        </record>
+      </records>
+    </table>
+    <table>
+      <name>Transformations</name>
+      <records>
+        <record>
+          <OBJECTID>1</OBJECTID>
+          <Hinge>BM 1</Hinge>
+          <Bearing>GPS BM 2</Bearing>
+          <Bearing_dH>0.442855</Bearing_dH>
+          <Bearing_dZ>2.58332</Bearing_dZ>
+          <Other_dH>-2.135551</Other_dH>
+          <Other_dZ>11.607095</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>0</Chosen>
+        </record>
+        <record>
+          <OBJECTID>2</OBJECTID>
+          <Hinge>BM 1</Hinge>
+          <Bearing>GPS BM 3</Bearing>
+          <Bearing_dH>2.855537</Bearing_dH>
+          <Bearing_dZ>0.92971</Bearing_dZ>
+          <Other_dH>9.367103</Other_dH>
+          <Other_dZ>-0.102028</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>0</Chosen>
+        </record>
+        <record>
+          <OBJECTID>3</OBJECTID>
+          <Hinge>BM 2</Hinge>
+          <Bearing>GPS BM 1</Bearing>
+          <Bearing_dH>-0.442855</Bearing_dH>
+          <Bearing_dZ>-2.58332</Bearing_dZ>
+          <Other_dH>-2.578406</Other_dH>
+          <Other_dZ>9.023775</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>0</Chosen>
+        </record>
+        <record>
+          <OBJECTID>4</OBJECTID>
+          <Hinge>BM 2</Hinge>
+          <Bearing>GPS BM 3</Bearing>
+          <Bearing_dH>-5.303842</Bearing_dH>
+          <Bearing_dZ>3.010289</Bearing_dZ>
+          <Other_dH>-7.117542</Other_dH>
+          <Other_dZ>-0.804279</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>0</Chosen>
+        </record>
+        <record>
+          <OBJECTID>5</OBJECTID>
+          <Hinge>BM 3</Hinge>
+          <Bearing>GPS BM 1</Bearing>
+          <Bearing_dH>-2.855537</Bearing_dH>
+          <Bearing_dZ>-0.92971</Bearing_dZ>
+          <Other_dH>6.511566</Other_dH>
+          <Other_dZ>-1.031737</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>0</Chosen>
+        </record>
+        <record>
+          <OBJECTID>6</OBJECTID>
+          <Hinge>BM 3</Hinge>
+          <Bearing>GPS BM 2</Bearing>
+          <Bearing_dH>5.303842</Bearing_dH>
+          <Bearing_dZ>-3.010289</Bearing_dZ>
+          <Other_dH>-1.8137</Other_dH>
+          <Other_dZ>-3.814568</Other_dZ>
+          <Viewed>1</Viewed>
+          <Chosen>1</Chosen>
+        </record>
+      </records>
+    </table>
   </tables>
+  <images>
+    <image>
+      <filename>tin_pre_edit.png</filename>
+      <filepath>../src/img/tin_pre_edit.png</filepath>
+      <title>Tin before editing</title>
+      <report>survey_editing</report>
+    </image>
+    <image>
+      <filename>tin_post_edit.png</filename>
+      <filepath>../src/img/tin_post_edit.png</filepath>
+      <title>Tin after editing</title>
+      <report>survey_editing</report>
+    </image>
+    <image>
+      <filename>wsetin.png</filename>
+      <filepath>../src/img/wsetin.png</filepath>
+      <title>Water surface tin</title>
+      <report>survey_editing</report>
+    </image>
+
+    <!-- There will be N number of snapshot nodes, based on what was captured by crew members -->
+    <image>
+      <filename>tin_snapshot01.png</filename>
+      <filepath>../src/img/tin_snapshot01.png</filepath>
+      <title>Crew snapshot</title>
+      <report>survey_editing</report>
+    </image>
+    <!-- -->
+
+    <image>
+      <filename>tin_surface.png</filename>
+      <filepath>../src/img/tin_post_edit.png</filepath>
+      <title>TIN surface image</title>
+      <report>survey_processing</report>
+    </image>
+    <image>
+      <filename>channel_features.png</filename>
+      <filepath>../src/img/channel_features.png</filepath>
+      <title>Channel units and water depth image</title>
+      <report>survey_processing</report>
+    </image>
+    <image>
+      <filename>point_density.png</filename>
+      <filepath>../src/img/point_density.png</filepath>
+      <title>Point density image</title>
+      <report>survey_processing</report>
+    </image>
+    <image>
+      <filename>error_surface.png</filename>
+      <filepath>../src/img/error_surface.png</filepath>
+      <title>Error surface image</title>
+      <report>survey_processing</report>
+    </image>
+  </images>
   <json>
 {
   "surveyGDB": {
     "filename": "C:\\CHaMP\\MonitoringData\\2015\\JohnDay\\CBW05583-345970\\VISIT_3161\\Topo\\SurveyGeoDatabase.gdb",
     "tables": {
       "table": [
-        {
-          "name": "SurveyInfo",
+        { "name": "OrthogInfo", 
           "records": {
-            "record": {
-              "OBJECTID": "1",
-              "SiteID": "CBW05583-345970",
-              "Watershed": "John Day",
-              "VisitType": "Initial visit",
-              "SurveyInstrument": "Total Station",
-              "Projection": "UTM Zone 11N",
-              "SurveyFile": "CBW05583-345970-20150716-ODFWJD.mjf",
-              "CHaMPGISversion": "14.00",
-              "SurveyGDBversion": "2015.01",
-              "ImportDate": "2015-07-22T09:08:42",
-              "StreamName": "Duncan Creek",
-              "Variability": "False",
-              "InstrumentModel": "TopCon Magnet v2.5.1",
-              "Organization": "ODFW",
-              "Crew": "Salgado",
-              "CoordinateType": "",
-              "ProtocolType": "CHaMP",
-              "FieldSeason": "2015",
-              "VisitID": "0",
-              "FinalTin": "tin",
-              "FinalWSETIN": "wsetin",
-              "SurveyDate": ""
-            }
+            "record": [
+              {
+                "OBJECTID": "1",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T10:27:06"
+              },
+              {
+                "OBJECTID": "2",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T11:07:35"
+              },
+              {
+                "OBJECTID": "3",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T11:15:19"
+              },
+              {
+                "OBJECTID": "4",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T18:33:26"
+              },
+              {
+                "OBJECTID": "5",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T18:48:45"
+              },
+              {
+                "OBJECTID": "6",
+                "Left": "311223",
+                "Right": "311367",
+                "Top": "4908754",
+                "Bottom": "4908682",
+                "CellRes": "0.1",
+                "Rows": "720",
+                "Cols": "1440",
+                "Date": "2015-7-22T16:32:41"
+              }
+            ]
+          }
+        },
+        {
+          "name": "QaQcBacksightLog",
+          "records": {
+            "record": [
+              {
+                "OID": "1",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bm503",
+                "VERTICAL_ERROR": "0.000044",
+                "HORIZONTAL_ERROR": "0.00005",
+                "SIDESHOT_COUNT": "21",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "2",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bm503",
+                "VERTICAL_ERROR": "0.001",
+                "HORIZONTAL_ERROR": "0.005",
+                "SIDESHOT_COUNT": "0",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "3",
+                "OCCUPIED_POINT": "bos",
+                "BACKSIGHT_POINT": "bm501",
+                "VERTICAL_ERROR": "0.005688",
+                "HORIZONTAL_ERROR": "0.001551",
+                "SIDESHOT_COUNT": "103",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "4",
+                "OCCUPIED_POINT": "bos",
+                "BACKSIGHT_POINT": "bm501",
+                "VERTICAL_ERROR": "0.002",
+                "HORIZONTAL_ERROR": "0.015",
+                "SIDESHOT_COUNT": "0",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "5",
+                "OCCUPIED_POINT": "bos",
+                "BACKSIGHT_POINT": "bm501",
+                "VERTICAL_ERROR": "0.00335",
+                "HORIZONTAL_ERROR": "0.002042",
+                "SIDESHOT_COUNT": "42",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "6",
+                "OCCUPIED_POINT": "bos",
+                "BACKSIGHT_POINT": "bm501",
+                "VERTICAL_ERROR": "0.001",
+                "HORIZONTAL_ERROR": "0.007",
+                "SIDESHOT_COUNT": "0",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "7",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bos",
+                "VERTICAL_ERROR": "0.000651",
+                "HORIZONTAL_ERROR": "0.002874",
+                "SIDESHOT_COUNT": "91",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "8",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bos",
+                "VERTICAL_ERROR": "0.001",
+                "HORIZONTAL_ERROR": "0.005",
+                "SIDESHOT_COUNT": "15",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "9",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bos",
+                "VERTICAL_ERROR": "0.004",
+                "HORIZONTAL_ERROR": "0.005",
+                "SIDESHOT_COUNT": "0",
+                "TOTAL_TIME": ""
+              },
+              {
+                "OID": "10",
+                "OCCUPIED_POINT": "bm501",
+                "BACKSIGHT_POINT": "bm503",
+                "VERTICAL_ERROR": "0.002853",
+                "HORIZONTAL_ERROR": "0.000941",
+                "SIDESHOT_COUNT": "106",
+                "TOTAL_TIME": ""
+              }
+            ]
           }
         },
         {
@@ -504,7 +1042,218 @@
               }
             ]
           }
-        }
+        },
+        {
+          "name": "QaQcUncertaintySummary",
+          "records": {
+            "record": [
+              {
+                "OID": "1",
+                "OCCUPIED_POINT": "ALL",
+                "MEAN_VDE": "0.001037",
+                "STDEV_VDE": "0.000931",
+                "MAX_VDE": "0.004604",
+                "MIN_VDE": "0",
+                "MEAN_HDE": "0.000534",
+                "STDEV_HDE": "0.000608",
+                "MAX_HDE": "0.005408",
+                "MIN_HDE": "0",
+                "MEAN_3DPQ": "0.001306",
+                "STDEV_3DPQ": "0.000944",
+                "MAX_3DPQ": "0.005515",
+                "MIN_3DPQ": "0",
+                "SIDESHOT_COUNT": "1067"
+              },
+              {
+                "OID": "2",
+                "OCCUPIED_POINT": "bm501",
+                "MEAN_VDE": "0.000767",
+                "STDEV_VDE": "0.000469",
+                "MAX_VDE": "0.001814",
+                "MIN_VDE": "0.000025",
+                "MEAN_HDE": "0.001122",
+                "STDEV_HDE": "0.001045",
+                "MAX_HDE": "0.005408",
+                "MIN_HDE": "0.000029",
+                "MEAN_3DPQ": "0.00155",
+                "STDEV_3DPQ": "0.000869",
+                "MAX_3DPQ": "0.005515",
+                "MIN_3DPQ": "0.000038",
+                "SIDESHOT_COUNT": "233"
+              },
+              {
+                "OID": "3",
+                "OCCUPIED_POINT": "bos",
+                "MEAN_VDE": "0.001203",
+                "STDEV_VDE": "0.000592",
+                "MAX_VDE": "0.003138",
+                "MIN_VDE": "0.00021",
+                "MEAN_HDE": "0.000444",
+                "STDEV_HDE": "0.000261",
+                "MAX_HDE": "0.001116",
+                "MIN_HDE": "0.000057",
+                "MEAN_3DPQ": "0.001293",
+                "STDEV_3DPQ": "0.000625",
+                "MAX_3DPQ": "0.003252",
+                "MIN_3DPQ": "0.000218",
+                "SIDESHOT_COUNT": "145"
+              },
+              {
+                "OID": "4",
+                "OCCUPIED_POINT": "bm503",
+                "MEAN_VDE": "0.001717",
+                "STDEV_VDE": "0.001099",
+                "MAX_VDE": "0.004604",
+                "MIN_VDE": "0",
+                "MEAN_HDE": "0.000495",
+                "STDEV_HDE": "0.00018",
+                "MAX_HDE": "0.001176",
+                "MIN_HDE": "0.000094",
+                "MEAN_3DPQ": "0.001838",
+                "STDEV_3DPQ": "0.001028",
+                "MAX_3DPQ": "0.004742",
+                "MIN_3DPQ": "0.000094",
+                "SIDESHOT_COUNT": "192"
+              },
+              {
+                "OID": "5",
+                "OCCUPIED_POINT": "cp501",
+                "MEAN_VDE": "0.000924",
+                "STDEV_VDE": "0.001202",
+                "MAX_VDE": "0.004486",
+                "MIN_VDE": "0",
+                "MEAN_HDE": "0.000394",
+                "STDEV_HDE": "0.000131",
+                "MAX_HDE": "0.000731",
+                "MIN_HDE": "0.000167",
+                "MEAN_3DPQ": "0.001117",
+                "STDEV_3DPQ": "0.001106",
+                "MAX_3DPQ": "0.004537",
+                "MIN_3DPQ": "0.000251",
+                "SIDESHOT_COUNT": "299"
+              },
+              {
+                "OID": "6",
+                "OCCUPIED_POINT": "bm504",
+                "MEAN_VDE": "0.000754",
+                "STDEV_VDE": "0.000388",
+                "MAX_VDE": "0.001883",
+                "MIN_VDE": "0.000168",
+                "MEAN_HDE": "0.000158",
+                "STDEV_HDE": "0.000138",
+                "MAX_HDE": "0.000479",
+                "MIN_HDE": "0.000036",
+                "MEAN_3DPQ": "0.000806",
+                "STDEV_3DPQ": "0.000336",
+                "MAX_3DPQ": "0.001886",
+                "MIN_3DPQ": "0.000237",
+                "SIDESHOT_COUNT": "196"
+              }
+            ]
+          }
+        },
+        {
+          "name": "SurveyInfo",
+          "records": {
+            "record": {
+              "OBJECTID": "1",
+              "SiteID": "CBW05583-345970",
+              "Watershed": "John Day",
+              "VisitType": "Initial visit",
+              "SurveyInstrument": "Total Station",
+              "Projection": "UTM Zone 11N",
+              "SurveyFile": "CBW05583-345970-20150716-ODFWJD.mjf",
+              "CHaMPGISversion": "14.00",
+              "SurveyGDBversion": "2015.01",
+              "ImportDate": "2015-07-22T09:08:42",
+              "StreamName": "Duncan Creek",
+              "Variability": "False",
+              "InstrumentModel": "TopCon Magnet v2.5.1",
+              "Organization": "ODFW",
+              "Crew": "Salgado",
+              "CoordinateType": "",
+              "ProtocolType": "CHaMP",
+              "FieldSeason": "2015",
+              "VisitID": "0",
+              "FinalTin": "tin",
+              "FinalWSETIN": "wsetin",
+              "SurveyDate": ""
+            }
+          }
+        },
+        {
+          "name": "Transformations",
+          "records": {
+            "record": [
+              {
+                "OBJECTID": "1",
+                "Hinge": "BM 1",
+                "Bearing": "GPS BM 2",
+                "Bearing_dH": "0.442855",
+                "Bearing_dZ": "2.58332",
+                "Other_dH": "-2.135551",
+                "Other_dZ": "11.607095",
+                "Viewed": "1",
+                "Chosen": "0"
+              },
+              {
+                "OBJECTID": "2",
+                "Hinge": "BM 1",
+                "Bearing": "GPS BM 3",
+                "Bearing_dH": "2.855537",
+                "Bearing_dZ": "0.92971",
+                "Other_dH": "9.367103",
+                "Other_dZ": "-0.102028",
+                "Viewed": "1",
+                "Chosen": "0"
+              },
+              {
+                "OBJECTID": "3",
+                "Hinge": "BM 2",
+                "Bearing": "GPS BM 1",
+                "Bearing_dH": "-0.442855",
+                "Bearing_dZ": "-2.58332",
+                "Other_dH": "-2.578406",
+                "Other_dZ": "9.023775",
+                "Viewed": "1",
+                "Chosen": "0"
+              },
+              {
+                "OBJECTID": "4",
+                "Hinge": "BM 2",
+                "Bearing": "GPS BM 3",
+                "Bearing_dH": "-5.303842",
+                "Bearing_dZ": "3.010289",
+                "Other_dH": "-7.117542",
+                "Other_dZ": "-0.804279",
+                "Viewed": "1",
+                "Chosen": "0"
+              },
+              {
+                "OBJECTID": "5",
+                "Hinge": "BM 3",
+                "Bearing": "GPS BM 1",
+                "Bearing_dH": "-2.855537",
+                "Bearing_dZ": "-0.92971",
+                "Other_dH": "6.511566",
+                "Other_dZ": "-1.031737",
+                "Viewed": "1",
+                "Chosen": "0"
+              },
+              {
+                "OBJECTID": "6",
+                "Hinge": "BM 3",
+                "Bearing": "GPS BM 2",
+                "Bearing_dH": "5.303842",
+                "Bearing_dZ": "-3.010289",
+                "Other_dH": "-1.8137",
+                "Other_dZ": "-3.814568",
+                "Viewed": "1",
+                "Chosen": "1"
+              }
+            ]
+          }
+        } 
       ]
     }
   }
