@@ -81,7 +81,7 @@
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.filterVisitsFromVisitIDCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterVisitsFromVisitIDCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -141,6 +141,7 @@
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1001,9 +1002,10 @@
             this.generateRBTRunForThisVisitToolStripMenuItem,
             this.toolStripSeparator12,
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
-            this.viewSiteLocationMapToolStripMenuItem});
+            this.viewSiteLocationMapToolStripMenuItem,
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 270);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 314);
             // 
             // visitPropertiesToolStripMenuItem
             // 
@@ -1112,6 +1114,13 @@
             this.viewSiteLocationMapToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.viewSiteLocationMapToolStripMenuItem.Text = "View site location map...";
             this.viewSiteLocationMapToolStripMenuItem.Click += new System.EventHandler(this.viewSiteLocationMapToolStripMenuItem_Click);
+            // 
+            // exploreSiteLevelUSGSStreamGageDataToolStripMenuItem
+            // 
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Name = "exploreSiteLevelUSGSStreamGageDataToolStripMenuItem";
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1264,6 +1273,7 @@
 
 		
 		private System.Windows.Forms.ToolStripMenuItem recordPostGCDQAQCRecordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exploreSiteLevelUSGSStreamGageDataToolStripMenuItem;
     }
 }
 

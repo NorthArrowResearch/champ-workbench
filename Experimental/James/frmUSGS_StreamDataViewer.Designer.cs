@@ -33,17 +33,15 @@
             this.cmdGetData = new System.Windows.Forms.Button();
             this.grbFigure = new System.Windows.Forms.GroupBox();
             this.lblUSGS_StreamGageNumber = new System.Windows.Forms.Label();
-            this.cmdOutputDirectory = new System.Windows.Forms.Button();
-            this.txtOutputDirectory = new System.Windows.Forms.TextBox();
             this.grbFilters = new System.Windows.Forms.GroupBox();
             this.lblSite = new System.Windows.Forms.Label();
             this.cmbCHaMPSite = new System.Windows.Forms.ComboBox();
             this.lblWatershed = new System.Windows.Forms.Label();
             this.cmbWatershed = new System.Windows.Forms.ComboBox();
             this.grbUSGS_Gage = new System.Windows.Forms.GroupBox();
+            this.lblWarningNoUSGS_Gage = new System.Windows.Forms.Label();
             this.txtUSGS_SiteNumber = new System.Windows.Forms.TextBox();
             this.lblManualUSGS_SiteNumber = new System.Windows.Forms.Label();
-            this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.cmbUSGS_Gage = new System.Windows.Forms.ComboBox();
             this.grbFigure.SuspendLayout();
             this.grbFilters.SuspendLayout();
@@ -97,27 +95,6 @@
             this.lblUSGS_StreamGageNumber.Size = new System.Drawing.Size(65, 13);
             this.lblUSGS_StreamGageNumber.TabIndex = 4;
             this.lblUSGS_StreamGageNumber.Text = "Site Number";
-            // 
-            // cmdOutputDirectory
-            // 
-            this.cmdOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOutputDirectory.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdOutputDirectory.Location = new System.Drawing.Point(715, 109);
-            this.cmdOutputDirectory.Name = "cmdOutputDirectory";
-            this.cmdOutputDirectory.Size = new System.Drawing.Size(25, 25);
-            this.cmdOutputDirectory.TabIndex = 5;
-            this.cmdOutputDirectory.UseVisualStyleBackColor = true;
-            this.cmdOutputDirectory.Click += new System.EventHandler(this.cmdOutputDirectory_Click);
-            // 
-            // txtOutputDirectory
-            // 
-            this.txtOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutputDirectory.Location = new System.Drawing.Point(107, 114);
-            this.txtOutputDirectory.Name = "txtOutputDirectory";
-            this.txtOutputDirectory.Size = new System.Drawing.Size(602, 20);
-            this.txtOutputDirectory.TabIndex = 6;
             // 
             // grbFilters
             // 
@@ -174,25 +151,32 @@
             this.cmbWatershed.Name = "cmbWatershed";
             this.cmbWatershed.Size = new System.Drawing.Size(247, 21);
             this.cmbWatershed.TabIndex = 0;
+            this.cmbWatershed.SelectedIndexChanged += new System.EventHandler(this.cmbWatershed_SelectedIndexChanged);
             // 
             // grbUSGS_Gage
             // 
             this.grbUSGS_Gage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbUSGS_Gage.Controls.Add(this.lblWarningNoUSGS_Gage);
             this.grbUSGS_Gage.Controls.Add(this.txtUSGS_SiteNumber);
             this.grbUSGS_Gage.Controls.Add(this.lblManualUSGS_SiteNumber);
-            this.grbUSGS_Gage.Controls.Add(this.lblOutputDirectory);
             this.grbUSGS_Gage.Controls.Add(this.grbFilters);
             this.grbUSGS_Gage.Controls.Add(this.cmbUSGS_Gage);
             this.grbUSGS_Gage.Controls.Add(this.lblUSGS_StreamGageNumber);
-            this.grbUSGS_Gage.Controls.Add(this.cmdOutputDirectory);
-            this.grbUSGS_Gage.Controls.Add(this.txtOutputDirectory);
             this.grbUSGS_Gage.Location = new System.Drawing.Point(15, 12);
             this.grbUSGS_Gage.Name = "grbUSGS_Gage";
             this.grbUSGS_Gage.Size = new System.Drawing.Size(746, 146);
             this.grbUSGS_Gage.TabIndex = 9;
             this.grbUSGS_Gage.TabStop = false;
             this.grbUSGS_Gage.Text = "USGS Stream Gage";
+            // 
+            // lblWarningNoUSGS_Gage
+            // 
+            this.lblWarningNoUSGS_Gage.AutoSize = true;
+            this.lblWarningNoUSGS_Gage.Location = new System.Drawing.Point(104, 120);
+            this.lblWarningNoUSGS_Gage.Name = "lblWarningNoUSGS_Gage";
+            this.lblWarningNoUSGS_Gage.Size = new System.Drawing.Size(0, 13);
+            this.lblWarningNoUSGS_Gage.TabIndex = 12;
             // 
             // txtUSGS_SiteNumber
             // 
@@ -211,15 +195,6 @@
             this.lblManualUSGS_SiteNumber.Size = new System.Drawing.Size(103, 13);
             this.lblManualUSGS_SiteNumber.TabIndex = 10;
             this.lblManualUSGS_SiteNumber.Text = "Manual Site Number";
-            // 
-            // lblOutputDirectory
-            // 
-            this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(15, 117);
-            this.lblOutputDirectory.Name = "lblOutputDirectory";
-            this.lblOutputDirectory.Size = new System.Drawing.Size(84, 13);
-            this.lblOutputDirectory.TabIndex = 9;
-            this.lblOutputDirectory.Text = "Output Directory";
             // 
             // cmbUSGS_Gage
             // 
@@ -260,8 +235,6 @@
         private System.Windows.Forms.Button cmdGetData;
         private System.Windows.Forms.GroupBox grbFigure;
         private System.Windows.Forms.Label lblUSGS_StreamGageNumber;
-        private System.Windows.Forms.Button cmdOutputDirectory;
-        private System.Windows.Forms.TextBox txtOutputDirectory;
         private System.Windows.Forms.GroupBox grbFilters;
         private System.Windows.Forms.Label lblSite;
         private System.Windows.Forms.ComboBox cmbCHaMPSite;
@@ -269,8 +242,8 @@
         private System.Windows.Forms.ComboBox cmbWatershed;
         private System.Windows.Forms.GroupBox grbUSGS_Gage;
         private System.Windows.Forms.ComboBox cmbUSGS_Gage;
-        private System.Windows.Forms.Label lblOutputDirectory;
         private System.Windows.Forms.TextBox txtUSGS_SiteNumber;
         private System.Windows.Forms.Label lblManualUSGS_SiteNumber;
+        private System.Windows.Forms.Label lblWarningNoUSGS_Gage;
     }
 }

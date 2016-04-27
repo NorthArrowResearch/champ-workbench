@@ -174,7 +174,7 @@
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\James\NumericExtensions.cs" />
-    <Compile Include="Experimental\Kelly\Classes\ExportRBTErrors.cs" />
+    <Compile Include="Experimental\James\USGS_StreamData.cs" />
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -455,6 +455,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Experimental\Kelly\Classes\" />
     <Folder Include="GCD\" />
   </ItemGroup>
   <ItemGroup>
@@ -520,7 +521,6 @@
     <Content Include="Experimental\Kelly\Scripts\HydroModelInputs.py" />
     <Content Include="Experimental\Kelly\Scripts\HydroModelOutputs.py" />
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
-
     <Content Include="Validation\ReportTransforms\dist\gcd.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -534,8 +534,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\docGUT.png" />
-
-
     <Content Include="Resources\Python\get_usgs_stream_data.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -150,19 +150,19 @@ namespace CHaMPWorkbench.Experimental.James
             }            
         }
 
-        private void cmdGetStreamData_Click(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(txtSite.Text) == false & String.IsNullOrEmpty(txtWatershed.Text) == false)
-            {
-                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, txtSite.Text, txtWatershed.Text);
-                frm.ShowDialog();
-            }
-            else
-            {
-                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
-                frm.ShowDialog();
-            }
-        }
+        //private void cmdGetStreamData_Click(object sender, EventArgs e)
+        //{
+        //    if (String.IsNullOrEmpty(txtSite.Text) == false & String.IsNullOrEmpty(txtWatershed.Text) == false)
+        //    {
+        //        Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, txtSite.Text, txtWatershed.Text);
+        //        frm.ShowDialog();
+        //    }
+        //    else
+        //    {
+        //        //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
+        //        //frm.ShowDialog();
+        //    }
+        //}
 
         private void PopulateFormInfo(DataGridViewRow drv)
         {
@@ -316,6 +316,35 @@ namespace CHaMPWorkbench.Experimental.James
             }
             dbRead.Close();
             return sReturnValue;
+        }
+
+        private void exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvGCD_Review.SelectedRows.Count > 1)
+            {
+                MessageBox.Show("USGS stream gage data can only be explored for one site at a time. Please select only one record from the table.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (dgvGCD_Review.SelectedRows.Count == 1)
+            {
+                DataRowView drv = (DataRowView)dgvGCD_Review.SelectedRows[0].DataBoundItem;
+                //DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                string sWatershedName = (string)r["WatershedName"];
+                string sSiteName = (string)r["SiteName"];
+
+                if (String.IsNullOrEmpty(sSiteName) == false & String.IsNullOrEmpty(sWatershedName) == false)
+                {
+                    Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, sSiteName, sWatershedName);
+                    frm.ShowDialog();
+                }
+                else
+                {
+                    //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
+                    //frm.ShowDialog();
+                }
+
+            }
         }
     }
 }

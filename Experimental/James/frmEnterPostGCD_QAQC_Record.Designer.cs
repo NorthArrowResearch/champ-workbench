@@ -73,9 +73,9 @@
             this.cmdSubmit = new System.Windows.Forms.Button();
             this.cmdOutputToJSON = new System.Windows.Forms.Button();
             this.grbGCD_ReviewTable = new System.Windows.Forms.GroupBox();
-            this.cmdGetStreamData = new System.Windows.Forms.Button();
             this.cmsGCD_Visit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grbResultsValid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valBudgetSegregationID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valNewVisitID)).BeginInit();
@@ -580,23 +580,13 @@
             this.grbGCD_ReviewTable.TabStop = false;
             this.grbGCD_ReviewTable.Text = "GCD Review Table";
             // 
-            // cmdGetStreamData
-            // 
-            this.cmdGetStreamData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdGetStreamData.Location = new System.Drawing.Point(406, 553);
-            this.cmdGetStreamData.Name = "cmdGetStreamData";
-            this.cmdGetStreamData.Size = new System.Drawing.Size(75, 23);
-            this.cmdGetStreamData.TabIndex = 107;
-            this.cmdGetStreamData.Text = "Stream Data";
-            this.cmdGetStreamData.UseVisualStyleBackColor = true;
-            this.cmdGetStreamData.Click += new System.EventHandler(this.cmdGetStreamData_Click);
-            // 
             // cmsGCD_Visit
             // 
             this.cmsGCD_Visit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem});
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem,
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem});
             this.cmsGCD_Visit.Name = "cmsGCD";
-            this.cmsGCD_Visit.Size = new System.Drawing.Size(318, 26);
+            this.cmsGCD_Visit.Size = new System.Drawing.Size(318, 48);
             // 
             // downloadTopoAndHydroDataFromCmorgToolStripMenuItem
             // 
@@ -606,12 +596,18 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Text = "Download Topo and Hydro Data From cm.org";
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem_Click);
             // 
+            // exploreSiteLevelUSGSStreamGageDataToolStripMenuItem
+            // 
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Name = "exploreSiteLevelUSGSStreamGageDataToolStripMenuItem";
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(317, 22);
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
+            // 
             // frmEnterPostGCD_QAQC_Record
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1159, 583);
-            this.Controls.Add(this.cmdGetStreamData);
             this.Controls.Add(this.grbGCD_ReviewTable);
             this.Controls.Add(this.cmdOutputToJSON);
             this.Controls.Add(this.cmdSubmit);
@@ -664,7 +660,6 @@
         private System.Windows.Forms.Button cmdOutputToJSON;
         private System.Windows.Forms.Label lblReasonForFlagging;
         private System.Windows.Forms.GroupBox grbGCD_ReviewTable;
-        private System.Windows.Forms.Button cmdGetStreamData;
         private System.Windows.Forms.TextBox txtReasonForFlag;
         private System.Windows.Forms.ContextMenuStrip cmsGCD_Visit;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoAndHydroDataFromCmorgToolStripMenuItem;
@@ -687,5 +682,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colEnteredBy;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDateModified;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colProcessed;
+        private System.Windows.Forms.ToolStripMenuItem exploreSiteLevelUSGSStreamGageDataToolStripMenuItem;
     }
 }
