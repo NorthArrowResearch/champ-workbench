@@ -8,7 +8,7 @@ img, svg { max-width: 100%; }
 // Table formatting
 table, table.table{
   width: 100%;
-  font-size: 10px;
+  font-size: 1.2rem;
   table-layout: fixed;
   margin-bottom: 2rem;
   tbody tr:nth-child(odd) { 
@@ -42,7 +42,7 @@ table, table.table{
   th.version,
   td.manualResult,
   td.version {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-family: Consolas, monaco, monospace;
     font-weight: normal;
   }

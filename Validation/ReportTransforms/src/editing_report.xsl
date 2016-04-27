@@ -34,7 +34,7 @@
             <table id="point-editing-summary" class="table">
               <thead>
                 <tr>
-                  <th>Edit Summary</th>
+                  <th>Code</th>
                   <th>Count, First</th>
                   <th>Count, Last</th>
                   <th>% Added</th>
@@ -54,9 +54,9 @@
             <table id="line-editing-summary" class="table">
               <thead>
                 <tr>
-                  <th>Edit Summary</th>
+                  <th>Code</th>
                   <th>Total Length, First</th>
-                  <th>Total length, Last</th>
+                  <th>Total Length, Last</th>
                   <th>% Added</th>
                   <th>% Deleted</th>
                   <th>Edited</th>
@@ -86,7 +86,7 @@
               <table id="node-editing-summary" class="table">
                 <thead>
                   <tr>
-                    <th>Edit Summary</th>
+                    <th>Code</th>
                     <th>First TIN</th>
                     <th>Last TIN</th>
                     <th>% Addition</th>

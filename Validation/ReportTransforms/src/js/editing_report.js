@@ -136,9 +136,9 @@ var LineEditingSummary = function(JSONData, $table){
     // We don't have a record for this code yet. Create one. 
     else{
       summaryObj[record.Code] = {
-        First: record.Count,
+        First: record.Length,
         FirstTime: record.unixTime,
-        Last: record.Count,
+        Last: record.Length,
         LastTime: record.unixTime,
       }
     }

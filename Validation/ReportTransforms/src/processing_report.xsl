@@ -135,7 +135,7 @@
               <h2>Processing</h2>
               <ul class="list-unstyled"></ul>
                 <li>Survey GDB Name: <xsl:value-of select="/surveyGDB/filename" /></li>
-                <li>Process with Toolbar version </li>
+                <li>Process with Toolbar version: </li>
                 <li>Total processing time: </li>
              </div>
           </div>
