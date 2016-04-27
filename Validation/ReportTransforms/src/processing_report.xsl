@@ -17,7 +17,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h2>Survey Information</h2></div></div>
             <div class="panel-body">
-                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/tables/table/records/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/tables/table/records/record/Organization" /> crew <xsl:value-of select="/surveyGDB/tables/table/records/record/Crew" />.  LiDAR [was/was not] merged with the survey.  It was projected to [projection name]. The type of visit was - <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" />. [X] benchmarks were shot in and [X] control points were used.  [X] locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
+                <p>The site was surveyed using a <xsl:value-of select="/surveyGDB/tables/table/records/record/InstrumentModel" />  by the <xsl:value-of select="/surveyGDB/tables/table/records/record/Organization" /> crew <xsl:value-of select="/surveyGDB/tables/table/records/record/Crew" />.  LiDAR [was/was not] merged with the survey.  The survey uses a <xsl:value-of select="/surveyGDB/tables/table/records/record/Projection" /> projection. The type of visit was - <xsl:value-of select="/surveyGDB/tables/table/records/record/VisitType" />. <span id="bm-points">[0]</span> benchmarks were shot in with <span id="cp-points">[0]</span> control point(s).  <span id="occ-points">[0]</span> locations were occupied.  Edits [were/were not] made to the raw instrument files prior to import into GIS.</p>   
             </div>
 
             <!-- Survey Information table -->
@@ -40,7 +40,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Point Editing, Line Editing, and Surface Generation</h3></div></div>
               <div class="panel-body"><!-- from QaQcTIN -->
-                <p><xsl:value-of select="/surveyGDB/table/tablename[SurveyInfo]/record/FinalTin" /> was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
+                <p>'<xsl:value-of select="/surveyGDB/tables/table[name='SurveyInfo']/records/record/FinalTin" />' was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
               </div>
               <xsl:for-each select="/surveyGDB/images/image[filename='tin_surface.png']">
                 <div class="panel-body">
@@ -55,7 +55,7 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Channel Features</h3></div></div>
               <div class="panel-body"><!-- from QaQcPolygons -->
-                <p>The survey has <span id="poly-water-extent">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. Bars [were/were not] evident at the site and water surface shots [were/were not] used.</p> 
+                <p>The survey has <span id="poly-water-extent">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. <span id="bar-points">[0]</span> bar points were collected at the site and <span id="wse-points">[0]</span> water surface shots were collected.</p> 
               </div>
               <xsl:for-each select="/surveyGDB/images/image[filename='channel_features.png']">
                 <div class="panel-body">

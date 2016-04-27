@@ -173,7 +173,7 @@
       <records>
         <record>
           <OBJECTID>1</OBJECTID>
-          <TIMESTAMP>2015-07-19T09:18:43</TIMESTAMP><!-- reformat to 20150722 09:18:43 -->
+          <TIMESTAMP>2015-07-19T09:18:43</TIMESTAMP>
           <Code>tp</Code>
           <Count>357</Count>
           <Unique>1</Unique>
@@ -236,6 +236,46 @@
           <TIMESTAMP>2015-07-22T09:18:43</TIMESTAMP>
           <Code>ql</Code>
           <Count>0</Count>
+          <Unique>0</Unique>
+          <ZminProj>9999999999</ZminProj>
+          <ZmaxProj>-9999999999</ZmaxProj>
+          <ZrangeProj>-19999999998</ZrangeProj>
+        </record>
+        <record>
+          <OBJECTID>107</OBJECTID>
+          <TIMESTAMP>2015-07-31T18:13:42</TIMESTAMP>
+          <Code>br</Code>
+          <Count>2</Count>
+          <Unique>0</Unique>
+          <ZminProj>9999999999</ZminProj>
+          <ZmaxProj>-9999999999</ZmaxProj>
+          <ZrangeProj>-19999999998</ZrangeProj>
+        </record>
+        <record>
+          <OBJECTID>108</OBJECTID>
+          <TIMESTAMP>2015-07-31T18:13:42</TIMESTAMP>
+          <Code>ws</Code>
+          <Count>131</Count>
+          <Unique>0</Unique>
+          <ZminProj>9999999999</ZminProj>
+          <ZmaxProj>-9999999999</ZmaxProj>
+          <ZrangeProj>-19999999998</ZrangeProj>
+        </record>
+        <record>
+          <OBJECTID>101</OBJECTID>
+          <TIMESTAMP>2015-07-31T18:13:42</TIMESTAMP>
+          <Code>bm###</Code>
+          <Count>4</Count>
+          <Unique>0</Unique>
+          <ZminProj>9999999999</ZminProj>
+          <ZmaxProj>-9999999999</ZmaxProj>
+          <ZrangeProj>-19999999998</ZrangeProj>
+        </record>
+        <record>
+          <OBJECTID>100</OBJECTID>
+          <TIMESTAMP>2015-07-31T18:13:42</TIMESTAMP>
+          <Code>cp###</Code>
+          <Count>1</Count>
           <Unique>0</Unique>
           <ZminProj>9999999999</ZminProj>
           <ZmaxProj>-9999999999</ZmaxProj>
@@ -889,6 +929,46 @@
                 "TIMESTAMP": "2015-07-22T09:18:43",
                 "Code": "ql",
                 "Count": "0",
+                "Unique": "0",
+                "ZminProj": "9999999999",
+                "ZmaxProj": "-9999999999",
+                "ZrangeProj": "-19999999998"
+              },
+              {
+                "OBJECTID": "107",
+                "TIMESTAMP": "2015-07-22T09:18:43",
+                "Code": "br",
+                "Count": "3",
+                "Unique": "0",
+                "ZminProj": "9999999999",
+                "ZmaxProj": "-9999999999",
+                "ZrangeProj": "-19999999998"
+              },
+              {
+                "OBJECTID": "108",
+                "TIMESTAMP": "2015-07-22T10:19:53",
+                "Code": "ws",
+                "Count": "131",
+                "Unique": "0",
+                "ZminProj": "9999999999",
+                "ZmaxProj": "-9999999999",
+                "ZrangeProj": "-19999999998"
+              },
+              {
+                "OBJECTID": "101",
+                "TIMESTAMP": "2015-07-22T10:19:53",
+                "Code": "bm###",
+                "Count": "4",
+                "Unique": "0",
+                "ZminProj": "9999999999",
+                "ZmaxProj": "-9999999999",
+                "ZrangeProj": "-19999999998"
+              },
+              {
+                "OBJECTID": "100",
+                "TIMESTAMP": "2015-07-22T10:19:53",
+                "Code": "cp###",
+                "Count": "1",
                 "Unique": "0",
                 "ZminProj": "9999999999",
                 "ZmaxProj": "-9999999999",

@@ -8,7 +8,9 @@ $(document).ready(function() {
   console.dir(JSONData);
 
   ChannelFeatureSummary(JSONData, $('#channel-feature-summary'));
-
+  PointEditingSummary(JSONData, $('#point-editing-summary'));
+  NodeEditingSummary(JSONData, $('#node-editing-summary'));
+  BacksightLogSummary(JSONData, $('#backsight-log-summary'))
 });
 
 
@@ -56,7 +58,6 @@ var ChannelFeatureSummary = function(JSONData, $table){
     ChannelUnitsCount:"Number of Channel Unit Polygons",
     ChannelUnitsUnique: "Number of Unique Channel Units",
     WaterExtentCount:"Number of Water Extent Polygons"
-
     //BankfullExtentCount: "Number of Bankfull Extent Polygons"
   };
 
@@ -76,6 +77,153 @@ var ChannelFeatureSummary = function(JSONData, $table){
   $('#unique-channel-units').html(first['ChannelUnitsUnique']);
 
 }
+
+
+/**
+ * PointEditingSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
+ */
+var PointEditingSummary = function(JSONData, $table){
+  var summaryObj = {};
+
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcPoints"});
+  records = dataTable.records.record;
+
+  // We have to collect the records by Code.
+  $.each(records, function(key,record){
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // This Code exists in our summary object.
+    if (summaryObj[record.Code]){
+      // If we're looking at something newer than the newest or older than the oldest
+      // then reset those points.
+      if (summaryObj[record.Code].FirstTime >= record.UnixTime){
+        summaryObj[record.Code].FirstTime = record.UnixTime;
+        summaryObj[record.Code].First = record.Count;
+      }
+      if (summaryObj[record.Code].LastTime <= record.UnixTime){
+        summaryObj[record.Code].LastTime = record.UnixTime
+        summaryObj[record.Code].Last = record.Count;
+      }
+    }
+    // We don't have a record for this code yet. Create one. 
+    else{
+      summaryObj[record.Code] = {
+        First: record.Count,
+        FirstTime: record.unixTime,
+        Last: record.Count,
+        LastTime: record.unixTime,
+      }
+    }
+  })
+  
+  // Find codes and counts for the span IDs
+  var dict_code = {}; //build a dictionary
+
+  $.each(summaryObj, function(in_key,summRow){
+    if (in_key == 'bm###') {
+      dict_code['bm'] = summRow.Last;
+    }
+    if (in_key == 'br'){
+      dict_code['br'] = summRow.Last;
+    }
+    if (in_key == 'cp###') {
+      dict_code['cp'] = summRow.Last;
+    }
+    if (in_key == 'ws') {
+      dict_code['ws'] = summRow.Last;
+    }
+    
+  })
+
+  $('#bar-points').html(dict_code['br']);
+  $('#wse-points').html(dict_code['ws']); 
+  $('#bm-points').html(dict_code['bm']);
+  $('#cp-points').html(dict_code['cp']);
+
+}
+
+/**
+ * NodeEditingSummary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
+ */
+var NodeEditingSummary = function(JSONData, $table){
+
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcTIN"});
+  records = dataTable.records.record;
+
+  var first;
+  var last;
+
+  // We have to figure out what the first and last values should be
+  $.each(records, function(recordKey,record){
+    // Add a convenient unix timestamp that makes sorting easier
+    record.unixTime = moment(record.TIMESTAMP).unix();
+    // move our first and last pointer if the record we're looking at is newer/older
+    if (!first || first.unixTime >= record.unixTime){
+      first = record;
+    }
+    if (!last || last.unixTime <= record.unixTime){
+      last = record;
+    }
+  })
+
+  // These are the properties we want to print to the table
+  // it's done this way so that you can specify different names than the
+  // raw fieldname
+  var fields = {
+    BL_Crossed:"Breakline Crossed",
+    BL_Length:"Breakline Length",
+    Node_Count:"Node Count",
+    Node_Zmax:"Node Zmax",
+    Node_Zmin:"Node Zmin",
+    Nodes_Interpolated:"Nodes Interpolated",
+    Nodes_Topo:"Nodes Topo",
+    Dams:"Dams",
+    Facets:"Facets"
+  }; 
+
+  // Now we're going to do some replacing of nodes
+  if (last['Dams'] == 'False') {
+    $('#dams-remove').html('was not');
+  } else {
+    $('#dams-remove').html('was');
+  }
+  if (last['Facets'] == 'False') {
+    $('#facets-remove').html('was not');
+  } else {
+    $('#facets-remove').html('was');
+  }
+}
+
+/**
+ * BackSightLogSummary Summary Table 
+ * @param {[type]} JSONData [description]
+ * @param {[type]} $table   [description]
+ */
+var BacksightLogSummary = function(JSONData, $table){
+  var summaryObj = {};
+
+  // Get the json data associate with this table
+  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcBacksightLog"});
+  records = dataTable.records.record;
+
+  // Find unique occupied point records
+  var backsight_pnts = [];
+
+  $.each(records, function(key, record) {
+      if ($.inArray(record.OCCUPIED_POINT , backsight_pnts) === -1) {
+          backsight_pnts.push(record.OCCUPIED_POINT);
+      }
+  });
+
+  $('#occ-points').html(backsight_pnts.length);
+
+}
+
 
 // -------------------------------------- HELPER METHODS BELOW THIS POINT
 

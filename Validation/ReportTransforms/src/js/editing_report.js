@@ -144,6 +144,7 @@ var LineEditingSummary = function(JSONData, $table){
     }
   })
 
+
   // Now go through and make your actual HMTL elements for the table row.
   $.each(summaryObj, function(key,summRow){
     var $row = $('<tr/>');
@@ -211,7 +212,9 @@ var NodeEditingSummary = function(JSONData, $table){
     Node_Zmax:"Node Zmax",
     Node_Zmin:"Node Zmin",
     Nodes_Interpolated:"Nodes Interpolated",
-    Nodes_Topo:"Nodes Topo"
+    Nodes_Topo:"Nodes Topo",
+    Dams:"Dams",
+    Facets:"Facets"
   }; 
 
 
@@ -268,7 +271,17 @@ var NodeEditingSummary = function(JSONData, $table){
   } else {
     $('#BL-cross').html(last['BL_Crossed']);
   }
-  
+  if (last['Dams'] == 'False') {
+    $('#dams-remove').html('was not');
+  } else {
+    $('#dams-remove').html('was');
+  }
+  if (last['Facets'] == 'False') {
+    $('#facets-remove').html('was not');
+  } else {
+    $('#facets-remove').html('was');
+  }
+
 }
 
 
