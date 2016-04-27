@@ -501,6 +501,7 @@
             // 
             // recordPostGCDQAQCRecordToolStripMenuItem
             // 
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Enabled = false;
             this.recordPostGCDQAQCRecordToolStripMenuItem.Name = "recordPostGCDQAQCRecordToolStripMenuItem";
             this.recordPostGCDQAQCRecordToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.recordPostGCDQAQCRecordToolStripMenuItem.Text = "Enter Post GCD QA/QC Record";
@@ -1005,7 +1006,7 @@
             this.viewSiteLocationMapToolStripMenuItem,
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 314);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 292);
             // 
             // visitPropertiesToolStripMenuItem
             // 
