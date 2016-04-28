@@ -533,9 +533,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\docGUT.png" />
-    <Content Include="Resources\Python\get_usgs_stream_data.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />
     <None Include="Resources\SelectAll.png" />
