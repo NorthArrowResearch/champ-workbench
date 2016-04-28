@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.OleDb;
+using System.Xml;
+using System.Net;
+using System.IO;
+using System.IO.Compression;
 
 namespace CHaMPWorkbench.Experimental.James
 {
@@ -19,7 +23,7 @@ namespace CHaMPWorkbench.Experimental.James
             m_dbCon = dbCon;
 
             //check and get gage id if site has one
-            m_iGageID = GetGageID(m_dbCon, sSiteName);            
+            m_iGageID = GetGageID(m_dbCon, sSiteName);
             if (m_iGageID > 0)
             {
                 m_bSiteHasGageID = true;
@@ -97,14 +101,13 @@ namespace CHaMPWorkbench.Experimental.James
             else if (m_bDatabaseHasDischargeData == false)
             {
                 //site does not have data go to use usgs api to download and load data to db
-                string sXML_Path = FetchUSGS_Data(iGageID);
-                if (System.IO.File.Exists(sXML_Path))
+                string URLString = String.Format("http://nwis.waterservices.usgs.gov/nwis/iv/?format=waterml,1.1&site={0}&parameterCd=00060&siteType=ST&startDT=2011-01-01&endDT=2016-01-01", m_iGageID.ToString());
+                string HTTPResponse = GetUrl(URLString, null, true);
+
+                m_lStreamData = LoadUSGS_XML_toDB(HTTPResponse, iGageID);
+                if (m_lStreamData.Count > 1)
                 {
-                    m_lStreamData = LoadUSGS_XML_toDB(sXML_Path, iGageID);
-                    if (m_lStreamData.Count > 1)
-                    {
-                        m_bDatabaseHasDischargeData = true;
-                    }
+                    m_bDatabaseHasDischargeData = true;
                 }
             }
             return m_lStreamData;
@@ -175,7 +178,7 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 return false;
             }
-            
+
             bool bContainsData = false;
 
             //Check if data exists in db
@@ -258,58 +261,57 @@ namespace CHaMPWorkbench.Experimental.James
             return lStreamData;
         }
 
-        private string FetchUSGS_Data(int iGageID)
+        /// <summary>
+        /// Simple routine to retrieve HTTP Content as a string with
+        /// optional POST data and GZip encoding.
+        /// </summary>
+        /// <param name="Url"></param>
+        /// <param name="PostData"></param>
+        /// <param name="GZip"></param>
+        /// <returns></returns>
+        private string GetUrl(string Url, string PostData, bool GZip)
         {
-            char cQuotes = (char)34;
-            string sPythonScriptPath = cQuotes + System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Resources\\Python\\get_usgs_stream_data.py") + cQuotes;
-            string sOutputDirectory = System.IO.Path.GetTempPath();
+            HttpWebRequest Http = (HttpWebRequest)WebRequest.Create(Url);
 
-            string sOutputPath = System.IO.Path.Combine(sOutputDirectory, String.Format("site_{0}_usgs_discharge.xml", iGageID.ToString()));
-            int iOverwrite = 0; //1 is true and 0 is false
+            if (GZip)
+                Http.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
 
-            if (System.IO.File.Exists(sOutputPath) == false)
+            if (!string.IsNullOrEmpty(PostData))
             {
-                string args = iGageID.ToString() + " " + cQuotes + sOutputPath + cQuotes + " " + iOverwrite;
+                Http.Method = "POST";
+                byte[] lbPostBuffer = Encoding.Default.GetBytes(PostData);
 
-                RunPythonScript(sPythonScriptPath, args);
+                Http.ContentLength = lbPostBuffer.Length;
 
-                if (System.IO.File.Exists(sOutputPath) == false)
-                {
-                    throw new System.IO.FileNotFoundException(String.Format("USGS Stream Data file not created."));
-                }
-
+                Stream PostStream = Http.GetRequestStream();
+                PostStream.Write(lbPostBuffer, 0, lbPostBuffer.Length);
+                PostStream.Close();
             }
 
-            return sOutputPath;
+            HttpWebResponse WebResponse = (HttpWebResponse)Http.GetResponse();
+
+            Stream responseStream = responseStream = WebResponse.GetResponseStream();
+            if (WebResponse.ContentEncoding.ToLower().Contains("gzip"))
+                responseStream = new GZipStream(responseStream, CompressionMode.Decompress);
+            else if (WebResponse.ContentEncoding.ToLower().Contains("deflate"))
+                responseStream = new DeflateStream(responseStream, CompressionMode.Decompress);
+
+            StreamReader Reader = new StreamReader(responseStream, Encoding.Default);
+
+            string Html = Reader.ReadToEnd();
+
+            WebResponse.Close();
+            responseStream.Close();
+
+            return Html;
         }
 
-        private string RunPythonScript(string pythonScriptPath, string args)
-        {
-            string sResultFile = "";
-            System.Diagnostics.ProcessStartInfo initProcess = new System.Diagnostics.ProcessStartInfo();
-            initProcess.FileName = String.Format("{0}", "C:\\Python27\\python.exe");
-            initProcess.Arguments = string.Format("{0} {1}", pythonScriptPath, args);
-            initProcess.CreateNoWindow = true;
-            initProcess.UseShellExecute = false;
-            initProcess.RedirectStandardOutput = true;
-            using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(initProcess))
-            {
-                using (System.IO.StreamReader reader = process.StandardOutput)
-                {
-                    sResultFile = reader.ReadToEnd();
-                }
-
-            }
-            return sResultFile;
-        }
-
-
-        private List<StreamFlowSample> LoadUSGS_XML_toDB(string sXML_Path, int iGageID)
+        private List<StreamFlowSample> LoadUSGS_XML_toDB(string HTTPResponse, int iGageID)
         {
             List<StreamFlowSample> lStreamData = new List<StreamFlowSample>();
             try
             {
-                var xmlDoc = System.Xml.Linq.XDocument.Load(sXML_Path);
+                var xmlDoc = System.Xml.Linq.XDocument.Parse(HTTPResponse);
                 System.Xml.Linq.XNamespace usgs_namespace = "http://www.cuahsi.org/waterML/1.1/";
 
                 DateTime queryDate = Convert.ToDateTime("2011-01-01T12:00:00.000");
