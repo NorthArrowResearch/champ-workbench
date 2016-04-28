@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.zedGraphControl = new ZedGraph.ZedGraphControl();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.cmdGetData = new System.Windows.Forms.Button();
             this.grbFigure = new System.Windows.Forms.GroupBox();
+            this.msnChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblUSGS_StreamGageNumber = new System.Windows.Forms.Label();
             this.grbFilters = new System.Windows.Forms.GroupBox();
             this.lblSite = new System.Windows.Forms.Label();
@@ -43,25 +45,15 @@
             this.txtUSGS_SiteNumber = new System.Windows.Forms.TextBox();
             this.lblManualUSGS_SiteNumber = new System.Windows.Forms.Label();
             this.cmbUSGS_Gage = new System.Windows.Forms.ComboBox();
+            this.cmsFigureOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miSaveImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grbFigure.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.msnChart)).BeginInit();
             this.grbFilters.SuspendLayout();
             this.grbUSGS_Gage.SuspendLayout();
+            this.cmsFigureOptions.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // zedGraphControl
-            // 
-            this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl.Location = new System.Drawing.Point(3, 16);
-            this.zedGraphControl.Name = "zedGraphControl";
-            this.zedGraphControl.ScrollGrace = 0D;
-            this.zedGraphControl.ScrollMaxX = 0D;
-            this.zedGraphControl.ScrollMaxY = 0D;
-            this.zedGraphControl.ScrollMaxY2 = 0D;
-            this.zedGraphControl.ScrollMinX = 0D;
-            this.zedGraphControl.ScrollMinY = 0D;
-            this.zedGraphControl.ScrollMinY2 = 0D;
-            this.zedGraphControl.Size = new System.Drawing.Size(746, 315);
-            this.zedGraphControl.TabIndex = 0;
             // 
             // cmdGetData
             // 
@@ -79,13 +71,32 @@
             this.grbFigure.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grbFigure.Controls.Add(this.zedGraphControl);
+            this.grbFigure.Controls.Add(this.msnChart);
             this.grbFigure.Location = new System.Drawing.Point(12, 193);
             this.grbFigure.Name = "grbFigure";
             this.grbFigure.Size = new System.Drawing.Size(752, 334);
             this.grbFigure.TabIndex = 2;
             this.grbFigure.TabStop = false;
             this.grbFigure.Text = "Figure";
+            // 
+            // msnChart
+            // 
+            chartArea1.Name = "ChartArea";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 94F;
+            chartArea1.Position.Width = 85F;
+            chartArea1.Position.X = 1F;
+            chartArea1.Position.Y = 3F;
+            this.msnChart.ChartAreas.Add(chartArea1);
+            this.msnChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend";
+            this.msnChart.Legends.Add(legend1);
+            this.msnChart.Location = new System.Drawing.Point(3, 16);
+            this.msnChart.Name = "msnChart";
+            this.msnChart.Size = new System.Drawing.Size(746, 315);
+            this.msnChart.TabIndex = 0;
+            this.msnChart.Text = "chart1";
+            this.msnChart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.msnChart_MouseClick);
             // 
             // lblUSGS_StreamGageNumber
             // 
@@ -151,7 +162,6 @@
             this.cmbWatershed.Name = "cmbWatershed";
             this.cmbWatershed.Size = new System.Drawing.Size(247, 21);
             this.cmbWatershed.TabIndex = 0;
-            this.cmbWatershed.SelectedIndexChanged += new System.EventHandler(this.cmbWatershed_SelectedIndexChanged);
             // 
             // grbUSGS_Gage
             // 
@@ -208,6 +218,28 @@
             this.cmbUSGS_Gage.TabIndex = 8;
             this.cmbUSGS_Gage.SelectedIndexChanged += new System.EventHandler(this.cmbUSGS_Gage_SelectedIndexChanged);
             // 
+            // cmsFigureOptions
+            // 
+            this.cmsFigureOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSaveImage,
+            this.resetZoomToolStripMenuItem});
+            this.cmsFigureOptions.Name = "contextMenuStrip1";
+            this.cmsFigureOptions.Size = new System.Drawing.Size(138, 48);
+            // 
+            // miSaveImage
+            // 
+            this.miSaveImage.Name = "miSaveImage";
+            this.miSaveImage.Size = new System.Drawing.Size(137, 22);
+            this.miSaveImage.Text = "Save Image";
+            this.miSaveImage.Click += new System.EventHandler(this.miSaveImage_Click);
+            // 
+            // resetZoomToolStripMenuItem
+            // 
+            this.resetZoomToolStripMenuItem.Name = "resetZoomToolStripMenuItem";
+            this.resetZoomToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.resetZoomToolStripMenuItem.Text = "Reset Zoom";
+            this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
+            // 
             // frmUSGS_StreamDataViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,17 +253,18 @@
             this.ShowIcon = false;
             this.Text = "USGS Stream Gage Data Viewer";
             this.grbFigure.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.msnChart)).EndInit();
             this.grbFilters.ResumeLayout(false);
             this.grbFilters.PerformLayout();
             this.grbUSGS_Gage.ResumeLayout(false);
             this.grbUSGS_Gage.PerformLayout();
+            this.cmsFigureOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ZedGraph.ZedGraphControl zedGraphControl;
         private System.Windows.Forms.Button cmdGetData;
         private System.Windows.Forms.GroupBox grbFigure;
         private System.Windows.Forms.Label lblUSGS_StreamGageNumber;
@@ -245,5 +278,9 @@
         private System.Windows.Forms.TextBox txtUSGS_SiteNumber;
         private System.Windows.Forms.Label lblManualUSGS_SiteNumber;
         private System.Windows.Forms.Label lblWarningNoUSGS_Gage;
+        private System.Windows.Forms.DataVisualization.Charting.Chart msnChart;
+        private System.Windows.Forms.ContextMenuStrip cmsFigureOptions;
+        private System.Windows.Forms.ToolStripMenuItem miSaveImage;
+        private System.Windows.Forms.ToolStripMenuItem resetZoomToolStripMenuItem;
     }
 }

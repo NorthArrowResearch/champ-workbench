@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
-using ZedGraph;
+using System.Windows.Forms.DataVisualization;
 
 namespace CHaMPWorkbench.Experimental.James
 {
@@ -46,7 +46,7 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 string sSiteName  = cmbCHaMPSite.SelectedItem.ToString();
                 //plot data
-                PlotStreamData(m_dbCon, m_USGS_StreamData.StreamData, sSiteName, iGageID);
+                PlotStreamDataMicrosoftChart(m_dbCon, m_USGS_StreamData.StreamData, sSiteName, iGageID);
             }
             else
             {
@@ -216,11 +216,8 @@ namespace CHaMPWorkbench.Experimental.James
             txtUSGS_SiteNumber.Text = sUSGS_GageNumber;
         }
 
-        private void PlotStreamData(OleDbConnection dbCon, List<StreamFlowSample> lStreamData, string sCHaMPSiteName, int iGageID)
+        private void PlotStreamDataMicrosoftChart(OleDbConnection dbCon, List<StreamFlowSample> lStreamData, string sCHaMPSiteName, int iGageID)
         {
-            //plot data
-
-
             //Get Gage Description
             string sGroupFields = " Description";
             string sSQL = "SELECT " + sGroupFields +
@@ -229,67 +226,102 @@ namespace CHaMPWorkbench.Experimental.James
 
             OleDbCommand comFS = new OleDbCommand(sSQL, dbCon);
             OleDbDataReader dbRead = comFS.ExecuteReader();
-            
+
             string sUSGS_Description = string.Empty;
             while (dbRead.Read())
             {
-                sUSGS_Description  = Convert.ToString(dbRead[0]);
+                sUSGS_Description = Convert.ToString(dbRead[0]);
             }
             dbRead.Close();
 
             //set auxillary info axis, visit labels, etc.
-            ZedGraph.GraphPane zPane = zedGraphControl.GraphPane;
+            System.Windows.Forms.DataVisualization.Charting.ChartArea pChartArea = msnChart.ChartAreas["ChartArea"];
 
-            zPane.GraphObjList.Clear();
-            zPane.CurveList.Clear();
 
-            //set and configure the axis
-            zPane.Title.Text = String.Format("USGS Gage:{0} {1} {2}", iGageID.ToString(), Environment.NewLine, sUSGS_Description);
-            zPane.XAxis.Type = ZedGraph.AxisType.Date;
-            zPane.XAxis.Scale.MajorUnit = ZedGraph.DateUnit.Year;
-            zPane.XAxis.Scale.MajorStep = .5;
-            zPane.XAxis.Scale.Format = "MM-yyyy";
-            zPane.XAxis.Scale.MinorUnit = ZedGraph.DateUnit.Month;
-            zPane.XAxis.Scale.MinorStep = 4;
-            zPane.XAxis.Scale.FontSpec.Angle = 45;
-            zPane.XAxis.Title.Text = "Date";
+            //Clear annotations and lines
+            msnChart.Annotations.Clear();
+            msnChart.Titles.Clear();
+            msnChart.Series.Clear();
+            foreach (var pSeries in msnChart.Series)
+            {
+                pSeries.Points.Clear();
+            }
+
+            //set and configure the title
+            System.Windows.Forms.DataVisualization.Charting.Title pTitle = new System.Windows.Forms.DataVisualization.Charting.Title();
+            pTitle.Name ="Title";
+            pTitle.Text = String.Format("USGS Gage:{0} {1} {2}", iGageID.ToString(), Environment.NewLine, sUSGS_Description);
+            System.Drawing.Font pTitleFont = new System.Drawing.Font("Verdana", 14f, FontStyle.Bold);
+            pTitle.Font = pTitleFont;
+            pTitle.DockedToChartArea = "ChartArea";
+            pTitle.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            pTitle.IsDockedInsideChartArea = false;
+            msnChart.Titles.Add(pTitle);
+
+            //set and configure the x-axis
+            pChartArea.AxisX.LabelStyle.Format = "MM-yyyy";
+            pChartArea.AxisX.Interval = 4;
+            pChartArea.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Months;
+            System.Drawing.Font pAxisFont = new System.Drawing.Font("Verdana", 10f, FontStyle.Bold);
+            pChartArea.AxisX.TitleFont = pAxisFont;
+            pChartArea.AxisX.LabelStyle.Angle = 45;
+            pChartArea.AxisX.Title = "Date";
             DateTime minDate = lStreamData.Min(d => d.Date.Date);
-            ZedGraph.XDate xMin = new ZedGraph.XDate(minDate.Year, minDate.Month, minDate.Day);
+            pChartArea.AxisX.Minimum = minDate.ToOADate();
+
             DateTime maxDate = lStreamData.Max(d => d.Date.Date);
-            ZedGraph.XDate xMax = new ZedGraph.XDate(maxDate.Year, maxDate.Month, maxDate.Day);
-            zPane.XAxis.Scale.Min = xMin;
-            zPane.XAxis.Scale.Max = xMax;
-            zPane.YAxis.Title.Text = "Flow (cubic feet/second)";
+            pChartArea.AxisX.Maximum = maxDate.ToOADate();
+
+
+            //set and configure the y-axis
+            pChartArea.AxisY.Title = "Flow (cubic ft/sec)";
+            pChartArea.AxisY.TitleFont = pAxisFont;
 
             //Add the survey dates for the site in question
-           sGroupFields = " V.VisitID, V.SiteID, V.SampleDate, S.SiteID, S.SiteName";
-           sCHaMPSiteName = String.Format("\"{0}\"", sCHaMPSiteName);
-           sSQL = "SELECT " + sGroupFields +
-                " FROM (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) " +
-                " WHERE S.SiteName = " + sCHaMPSiteName +
-                " ORDER BY V.SampleDate";
+            sGroupFields = " V.VisitID, V.SiteID, V.SampleDate, S.SiteID, S.SiteName";
+            sCHaMPSiteName = String.Format("\"{0}\"", sCHaMPSiteName);
+            sSQL = "SELECT " + sGroupFields +
+                 " FROM (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) " +
+                 " WHERE S.SiteName = " + sCHaMPSiteName +
+                 " ORDER BY V.SampleDate";
 
             comFS = new OleDbCommand(sSQL, dbCon);
             dbRead = comFS.ExecuteReader();
 
-            TupleList<ZedGraph.XDate, int> zVisitSampleDates = new TupleList<ZedGraph.XDate, int>();
+
+            System.Windows.Forms.DataVisualization.Charting.Series pVisitsSeries = new System.Windows.Forms.DataVisualization.Charting.Series("Visits");
+            pVisitsSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            pVisitsSeries.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            pVisitsSeries.MarkerSize = 16;
+            pVisitsSeries.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            pVisitsSeries.MarkerColor = Color.Transparent;
+            pVisitsSeries.MarkerBorderColor = Color.Red;
+            pVisitsSeries.SmartLabelStyle.Enabled = false;
+
+            TupleList<DateTime, int> pVisitSampleDates = new TupleList<DateTime, int>();
             while (dbRead.Read())
             {
-                DateTime sampleDate = Convert.ToDateTime(dbRead[2]);
+                DateTime pSampleDate = Convert.ToDateTime(dbRead[2]);
                 int iVisitID = Convert.ToInt32(dbRead[0]);
-                ZedGraph.XDate xdSample = new ZedGraph.XDate(sampleDate.Year, sampleDate.Month, sampleDate.Day);
-                zVisitSampleDates.Add(xdSample, iVisitID);
+                pVisitSampleDates.Add(pSampleDate, iVisitID);
             }
             dbRead.Close();
+
+            
 
             if (lStreamData.Count > 0)
             {
 
-                //Add stream data to PointPairList
-                ZedGraph.PointPairList zList = new ZedGraph.PointPairList();
+                //create hydrograph series and set key properties
+                System.Windows.Forms.DataVisualization.Charting.Series pHydrographSeries = new System.Windows.Forms.DataVisualization.Charting.Series("Hydrograph");
+                pHydrographSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+                pHydrographSeries.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+                pHydrographSeries.Color = Color.Blue;
+                pHydrographSeries.BorderWidth = 2;
+
                 foreach (StreamFlowSample sample in lStreamData)
                 {
-                    ZedGraph.XDate x = new ZedGraph.XDate(sample.Date.Year, sample.Date.Month, sample.Date.Day);
+                    DateTime x = sample.Date;
 
                     double y = sample.Flow;
                     if (y < 0)
@@ -297,38 +329,48 @@ namespace CHaMPWorkbench.Experimental.James
                         y = 0;
                     }
 
-                    for (int i = 0; i < zVisitSampleDates.Count; i++)
+                    for (int i = 0; i < pVisitSampleDates.Count; i++)
                     {
-                        if (x == zVisitSampleDates[i].Item1)
+                        if (x == pVisitSampleDates[i].Item1)
                         {
-                            ZedGraph.LineItem hightlightDate = new ZedGraph.LineItem("Visit " + zVisitSampleDates[i].Item2.ToString(), new double[] { x }, new double[] { y }, Color.Red, SymbolType.Circle);
-                            hightlightDate.Symbol.Size = 20;
-                            hightlightDate.Symbol.Fill = new ZedGraph.Fill(Color.Transparent);
-                            hightlightDate.Label.IsVisible = false;
-                            //http://stackoverflow.com/questions/13763420/zedgraph-how-to-label-lineitem-directly-in-chart-using-textobj
-                            ZedGraph.TextObj visitText = new ZedGraph.TextObj("Visit " + zVisitSampleDates[i].Item2.ToString(), x, y + 5, CoordType.AxisXYScale, AlignH.Left, AlignV.Center);
-                            visitText.ZOrder = ZedGraph.ZOrder.A_InFront;
-                            visitText.FontSpec.Border.IsVisible = false;
-                            visitText.FontSpec.Fill.IsVisible = false;
-                            visitText.FontSpec.Angle = 45;
-                            zPane.CurveList.Add(hightlightDate);
-                            zPane.GraphObjList.Add(visitText);
+                            //create visit data point and set key properties
+                            System.Windows.Forms.DataVisualization.Charting.DataPoint pVisitPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(pVisitSampleDates[i].Item1.ToOADate(), y);
+                            pVisitPoint.Label = "Visit " + pVisitSampleDates[i].Item2.ToString();
+                            pVisitPoint.LabelAngle = -90;
+
+                            //System.Windows.Forms.DataVisualization.Charting.TextAnnotation pVisitAnnotation = new System.Windows.Forms.DataVisualization.Charting.TextAnnotation();
+                            //pVisitAnnotation.Name = "Visit" + pVisitSampleDates[i].Item2.ToString();
+                            //pVisitAnnotation.Text = "Visit " + pVisitSampleDates[i].Item2.ToString();
+                            //pVisitAnnotation.AnchorDataPoint = pVisitPoint;
+                            //msnChart.Annotations.Add(pVisitAnnotation);
+
+                            pVisitsSeries.Points.Add(pVisitPoint);
                         }
                     }
-                    zList.Add(x, y);
+                    pHydrographSeries.Points.AddXY(x, y);
                 }
 
-                //Generate time series
-                ZedGraph.CurveItem zCurve = zPane.AddCurve("Stream Flow", zList, Color.Blue, ZedGraph.SymbolType.None);
-                zedGraphControl.IsShowPointValues = true;
-                zedGraphControl.PointValueFormat = "0.00";
-                zedGraphControl.PointDateFormat = "dd-MM-yyyy";
+                msnChart.Series.Add(pHydrographSeries);
+                msnChart.Series.Add(pVisitsSeries);
 
+                //adjust legend
+                System.Windows.Forms.DataVisualization.Charting.Legend pLegend = msnChart.Legends["Legend"];
+                pLegend.AutoFitMinFontSize = 12;
+                pLegend.DockedToChartArea = "ChartArea";
+                pLegend.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Right;
+                pLegend.IsDockedInsideChartArea = true;
 
-                //Configure figure            
-                zedGraphControl.AxisChange();
-                zedGraphControl.IsShowHScrollBar = true;
-                zedGraphControl.IsShowVScrollBar = true;
+                //set chart size
+                pChartArea.Position.Y = pChartArea.Position.Bottom;
+                pChartArea.Position.Height = 85;
+                pChartArea.Position.Width = 99;
+
+                //enable scroll and zoom
+                pChartArea.CursorX.IsUserEnabled = true;
+                pChartArea.CursorX.IsUserSelectionEnabled = true;
+                pChartArea.CursorY.IsUserEnabled = true;
+                pChartArea.CursorY.IsUserSelectionEnabled = true;
+
             }
             else
             {
@@ -336,8 +378,53 @@ namespace CHaMPWorkbench.Experimental.James
                 //                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
                 //                MessageBoxButtons.OK,
                 //                MessageBoxIcon.Information);
+
             }
 
+        }
+
+        private void msnChart_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                cmsFigureOptions.Show(Cursor.Position);
+            }
+        }
+
+        private void miSaveImage_Click(object sender, EventArgs e)
+        {
+            //TODO:save image
+            SaveFileDialog frm = new SaveFileDialog();
+            frm.Title = "Save Figure";
+            frm.Filter = "PNG Files (*.png)|*.png";
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    System.IO.FileInfo fiExport = new System.IO.FileInfo(frm.FileName);
+                    if (String.IsNullOrEmpty(frm.FileName) == false)
+                    {
+                        msnChart.SaveImage(frm.FileName, System.Drawing.Imaging.ImageFormat.Png);
+
+                        if (MessageBox.Show("Do you want to browse to the folder containing the file created?", "Export Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(fiExport.Directory.FullName);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+            }
+            
+        }
+
+        private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            msnChart.ChartAreas["ChartArea"].AxisX.ScaleView.ZoomReset(0);
+            msnChart.ChartAreas["ChartArea"].AxisY.ScaleView.ZoomReset(0);
         }
 
     }
