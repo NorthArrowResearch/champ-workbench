@@ -168,6 +168,68 @@ namespace CHaMPWorkbench.Experimental.James
             return iGageID;
         }
 
+        public bool VerifyGageID(string iGageID)
+        {
+            int iOutputParse;
+            if (!Int32.TryParse(iGageID, out iOutputParse))
+            {
+                return false;
+            }
+            
+            bool bContainsData = false;
+
+            //Check if data exists in db
+            string sGroupFields = " Description";
+            string sSQL = "SELECT " + sGroupFields +
+                          " FROM USGS_Gages  " +
+                          " WHERE GageID = " + iGageID;
+
+            OleDbCommand comFS = new OleDbCommand(sSQL, m_dbCon);
+            OleDbDataReader dbRead = comFS.ExecuteReader();
+
+            if (dbRead.HasRows)
+            {
+                //Get GageID
+                while (dbRead.Read())
+                {
+                    if (dbRead[0] != System.DBNull.Value)
+                    {
+                        bContainsData = true;
+                    }
+                }
+                dbRead.Close();
+            }
+            return bContainsData;
+        }
+
+        public bool VerifyGageID(int iGageID)
+        {
+            bool bContainsData = false;
+
+            //Check if data exists in db
+            string sGroupFields = " Description";
+            string sSQL = "SELECT " + sGroupFields +
+                          " FROM USGS_Gages  " +
+                          " WHERE GageID = " + iGageID;
+
+            OleDbCommand comFS = new OleDbCommand(sSQL, m_dbCon);
+            OleDbDataReader dbRead = comFS.ExecuteReader();
+
+            if (dbRead.HasRows)
+            {
+                //Get GageID
+                while (dbRead.Read())
+                {
+                    if (dbRead[0] != System.DBNull.Value)
+                    {
+                        bContainsData = true;
+                    }
+                }
+                dbRead.Close();
+            }
+            return bContainsData;
+        }
+
         private List<StreamFlowSample> RetreiveDischargeDataFromDB(OleDbConnection dbCon, int iGageID)
         {
             string sGroupFields = "TheDate, Discharge";

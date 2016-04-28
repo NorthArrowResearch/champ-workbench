@@ -58,11 +58,11 @@
             // cmdGetData
             // 
             this.cmdGetData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdGetData.Location = new System.Drawing.Point(686, 164);
+            this.cmdGetData.Location = new System.Drawing.Point(669, 164);
             this.cmdGetData.Name = "cmdGetData";
-            this.cmdGetData.Size = new System.Drawing.Size(75, 23);
+            this.cmdGetData.Size = new System.Drawing.Size(92, 23);
             this.cmdGetData.TabIndex = 1;
-            this.cmdGetData.Text = "Get Data";
+            this.cmdGetData.Text = "Populate Figure";
             this.cmdGetData.UseVisualStyleBackColor = true;
             this.cmdGetData.Click += new System.EventHandler(this.cmdGetData_Click);
             // 
@@ -96,6 +96,7 @@
             this.msnChart.Size = new System.Drawing.Size(746, 315);
             this.msnChart.TabIndex = 0;
             this.msnChart.Text = "chart1";
+            //this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
             this.msnChart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.msnChart_MouseClick);
             // 
             // lblUSGS_StreamGageNumber

@@ -20,6 +20,9 @@ namespace CHaMPWorkbench.Experimental.James
         public frmUSGS_StreamDataViewer(OleDbConnection dbCon, string sSiteName, string sWatershedName)
         {
             InitializeComponent();
+            this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
+            //msnChart.GetToolTipText += new System.Windows.Forms.DataVisualization.Charting.ToolTipEventHandler(msnChart_GetToolTipText);
+
             m_dbCon = dbCon;
 
             LoadVisits();
@@ -37,24 +40,54 @@ namespace CHaMPWorkbench.Experimental.James
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            //Get the selected USGS Gage number
-            int iGageID = Convert.ToInt32(txtUSGS_SiteNumber.Text);
-
-            //Get the data
-            List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
-            if (lStreamData.Count > 1)
+            if (cmbUSGS_Gage.SelectedItem == null && String.IsNullOrEmpty(txtUSGS_SiteNumber.Text) == true)
             {
-                string sSiteName  = cmbCHaMPSite.SelectedItem.ToString();
-                //plot data
-                PlotStreamDataMicrosoftChart(m_dbCon, m_USGS_StreamData.StreamData, sSiteName, iGageID);
+                MessageBox.Show("Please select a USGS gage from the drop-down menu or enter it manually into the text box.",
+                                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                return;
             }
-            else
+            if (cmbCHaMPSite.SelectedItem == null)
             {
-                //need to put something on the form that says this site has no preloaded gage, user must chose from drop-down
-                MessageBox.Show(String.Format("There is not data for USGS gage number {0}.", m_USGS_StreamData.GageNumber),
+                MessageBox.Show("Please select a CHaMP site from the drop-down menu.",
                 CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+                return;
+            }
+
+            //Check that provided gage id is valid
+            bool bGageIDValid = m_USGS_StreamData.VerifyGageID(txtUSGS_SiteNumber.Text);
+
+            if (bGageIDValid == true)
+            {
+                //Get the selected USGS Gage number
+                int iGageID = Convert.ToInt32(txtUSGS_SiteNumber.Text);
+
+                //Get the data
+                List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
+                if (lStreamData.Count > 1)
+                {
+                    string sSiteName = cmbCHaMPSite.SelectedItem.ToString();
+                    //plot data
+                    PlotStreamDataMicrosoftChart(m_dbCon, m_USGS_StreamData.StreamData, sSiteName, iGageID);
+                }
+                else
+                {
+                    //need to put something on the form that says this site has no preloaded gage, user must chose from drop-down
+                    MessageBox.Show(String.Format("There is no flow data for USGS gage number {0}.", m_USGS_StreamData.GageNumber),
+                    CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show(String.Format("The gage number provided: {0} is either invalid or does not exist in the database.", txtUSGS_SiteNumber.Text),
+                                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
             }
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
@@ -250,8 +283,8 @@ namespace CHaMPWorkbench.Experimental.James
             //set and configure the title
             System.Windows.Forms.DataVisualization.Charting.Title pTitle = new System.Windows.Forms.DataVisualization.Charting.Title();
             pTitle.Name ="Title";
-            pTitle.Text = String.Format("USGS Gage:{0} {1} {2}", iGageID.ToString(), Environment.NewLine, sUSGS_Description);
-            System.Drawing.Font pTitleFont = new System.Drawing.Font("Verdana", 14f, FontStyle.Bold);
+            pTitle.Text = String.Format("CHaMP Site: {0}{1} USGS Gage:{2}{1} {3}", sCHaMPSiteName, Environment.NewLine, iGageID.ToString(), sUSGS_Description);
+            System.Drawing.Font pTitleFont = new System.Drawing.Font("Verdana", 12f, FontStyle.Bold);
             pTitle.Font = pTitleFont;
             pTitle.DockedToChartArea = "ChartArea";
             pTitle.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
@@ -297,6 +330,7 @@ namespace CHaMPWorkbench.Experimental.James
             pVisitsSeries.MarkerColor = Color.Transparent;
             pVisitsSeries.MarkerBorderColor = Color.Red;
             pVisitsSeries.SmartLabelStyle.Enabled = false;
+            //pVisitsSeries.ToolTip = "#LABEL" + Environment.NewLine + "Date: #VALX";
 
             TupleList<DateTime, int> pVisitSampleDates = new TupleList<DateTime, int>();
             while (dbRead.Read())
@@ -318,6 +352,7 @@ namespace CHaMPWorkbench.Experimental.James
                 pHydrographSeries.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
                 pHydrographSeries.Color = Color.Blue;
                 pHydrographSeries.BorderWidth = 2;
+                //pHydrographSeries.ToolTip = "Flow: #VALY" + Environment.NewLine + "Date: #VALX";
 
                 foreach (StreamFlowSample sample in lStreamData)
                 {
@@ -337,17 +372,17 @@ namespace CHaMPWorkbench.Experimental.James
                             System.Windows.Forms.DataVisualization.Charting.DataPoint pVisitPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(pVisitSampleDates[i].Item1.ToOADate(), y);
                             pVisitPoint.Label = "Visit " + pVisitSampleDates[i].Item2.ToString();
                             pVisitPoint.LabelAngle = -90;
-
-                            //System.Windows.Forms.DataVisualization.Charting.TextAnnotation pVisitAnnotation = new System.Windows.Forms.DataVisualization.Charting.TextAnnotation();
-                            //pVisitAnnotation.Name = "Visit" + pVisitSampleDates[i].Item2.ToString();
-                            //pVisitAnnotation.Text = "Visit " + pVisitSampleDates[i].Item2.ToString();
-                            //pVisitAnnotation.AnchorDataPoint = pVisitPoint;
-                            //msnChart.Annotations.Add(pVisitAnnotation);
+                            //pVisitPoint.ToolTip = "#LABEL" + Environment.NewLine + "Date: #VALX";
 
                             pVisitsSeries.Points.Add(pVisitPoint);
                         }
                     }
-                    pHydrographSeries.Points.AddXY(x, y);
+
+                    //pHydrographSeries.Points.AddXY(x, y);
+                    System.Windows.Forms.DataVisualization.Charting.DataPoint pHydrographPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(x.ToOADate(), y);
+                    //pHydrographPoint.Label = x.ToString("dd-MM-yyyy");
+                    //pHydrographPoint.ToolTip = "Flow: #VALY" + Environment.NewLine + "Date: #VALX";
+                    pHydrographSeries.Points.Add(pHydrographPoint);
                 }
 
                 msnChart.Series.Add(pHydrographSeries);
@@ -362,7 +397,7 @@ namespace CHaMPWorkbench.Experimental.James
 
                 //set chart size
                 pChartArea.Position.Y = pChartArea.Position.Bottom;
-                pChartArea.Position.Height = 85;
+                pChartArea.Position.Height = 80;
                 pChartArea.Position.Width = 99;
 
                 //enable scroll and zoom
@@ -425,6 +460,26 @@ namespace CHaMPWorkbench.Experimental.James
         {
             msnChart.ChartAreas["ChartArea"].AxisX.ScaleView.ZoomReset(0);
             msnChart.ChartAreas["ChartArea"].AxisY.ScaleView.ZoomReset(0);
+        }
+
+
+
+        private void msnChart_GetToolTipText(object sender, System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs e)
+        {
+            switch (e.HitTestResult.ChartElementType)
+            {
+                case System.Windows.Forms.DataVisualization.Charting.ChartElementType.DataPoint:
+                    if (msnChart.Series.IndexOf("Hydrograph") != -1)
+                    {
+                        System.Windows.Forms.DataVisualization.Charting.DataPoint pPoint = msnChart.Series["Hydrograph"].Points[e.HitTestResult.PointIndex];
+                        e.Text = String.Format("Flow: {0}{1}Date: {2}", pPoint.YValues[0].ToString("N2"),
+                                                                        Environment.NewLine,
+                                                                        DateTime.FromOADate(pPoint.XValue).ToString("dd-MM-yyyy"));
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
