@@ -1187,22 +1187,12 @@ namespace CHaMPWorkbench
                 //DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                string sWatershedName = (string)r["WatershedName"];
-                string sSiteName = (string)r["SiteName"];
+                int nWatershedID = (int)r["WatershedID"];
+                int nSiteID = (int)r["SiteID"];
 
-                if (String.IsNullOrEmpty(sSiteName) == false & String.IsNullOrEmpty(sWatershedName) == false)
-                {
-                    Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, sSiteName, sWatershedName);
-                    frm.ShowDialog();
-                }
-                else
-                {
-                    //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
-                    //frm.ShowDialog();
-                }
-
+                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon.ConnectionString, nSiteID, nWatershedID);
+                frm.ShowDialog();
             }
         }
-
     }
 }

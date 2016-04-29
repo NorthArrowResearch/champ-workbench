@@ -32,15 +32,13 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.cmdGetData = new System.Windows.Forms.Button();
-            this.grbFigure = new System.Windows.Forms.GroupBox();
             this.msnChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.lblUSGS_StreamGageNumber = new System.Windows.Forms.Label();
-            this.grbFilters = new System.Windows.Forms.GroupBox();
             this.lblSite = new System.Windows.Forms.Label();
             this.cmbCHaMPSite = new System.Windows.Forms.ComboBox();
             this.lblWatershed = new System.Windows.Forms.Label();
             this.cmbWatershed = new System.Windows.Forms.ComboBox();
             this.grbUSGS_Gage = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lblWarningNoUSGS_Gage = new System.Windows.Forms.Label();
             this.txtUSGS_SiteNumber = new System.Windows.Forms.TextBox();
             this.lblManualUSGS_SiteNumber = new System.Windows.Forms.Label();
@@ -48,17 +46,15 @@
             this.cmsFigureOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miSaveImage = new System.Windows.Forms.ToolStripMenuItem();
             this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.grbFigure.SuspendLayout();
+            this.cmdClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.msnChart)).BeginInit();
-            this.grbFilters.SuspendLayout();
             this.grbUSGS_Gage.SuspendLayout();
             this.cmsFigureOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdGetData
             // 
-            this.cmdGetData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdGetData.Location = new System.Drawing.Point(669, 164);
+            this.cmdGetData.Location = new System.Drawing.Point(275, 126);
             this.cmdGetData.Name = "cmdGetData";
             this.cmdGetData.Size = new System.Drawing.Size(92, 23);
             this.cmdGetData.TabIndex = 1;
@@ -66,21 +62,12 @@
             this.cmdGetData.UseVisualStyleBackColor = true;
             this.cmdGetData.Click += new System.EventHandler(this.cmdGetData_Click);
             // 
-            // grbFigure
-            // 
-            this.grbFigure.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grbFigure.Controls.Add(this.msnChart);
-            this.grbFigure.Location = new System.Drawing.Point(12, 193);
-            this.grbFigure.Name = "grbFigure";
-            this.grbFigure.Size = new System.Drawing.Size(752, 334);
-            this.grbFigure.TabIndex = 2;
-            this.grbFigure.TabStop = false;
-            this.grbFigure.Text = "Figure";
-            // 
             // msnChart
             // 
+            this.msnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.msnChart.BorderlineColor = System.Drawing.Color.Black;
             chartArea1.Name = "ChartArea";
             chartArea1.Position.Auto = false;
             chartArea1.Position.Height = 94F;
@@ -88,134 +75,117 @@
             chartArea1.Position.X = 1F;
             chartArea1.Position.Y = 3F;
             this.msnChart.ChartAreas.Add(chartArea1);
-            this.msnChart.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend";
             this.msnChart.Legends.Add(legend1);
-            this.msnChart.Location = new System.Drawing.Point(3, 16);
+            this.msnChart.Location = new System.Drawing.Point(15, 176);
             this.msnChart.Name = "msnChart";
-            this.msnChart.Size = new System.Drawing.Size(746, 315);
+            this.msnChart.Size = new System.Drawing.Size(1177, 322);
             this.msnChart.TabIndex = 0;
             this.msnChart.Text = "chart1";
-            //this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
             this.msnChart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.msnChart_MouseClick);
-            // 
-            // lblUSGS_StreamGageNumber
-            // 
-            this.lblUSGS_StreamGageNumber.AutoSize = true;
-            this.lblUSGS_StreamGageNumber.Location = new System.Drawing.Point(15, 85);
-            this.lblUSGS_StreamGageNumber.Name = "lblUSGS_StreamGageNumber";
-            this.lblUSGS_StreamGageNumber.Size = new System.Drawing.Size(65, 13);
-            this.lblUSGS_StreamGageNumber.TabIndex = 4;
-            this.lblUSGS_StreamGageNumber.Text = "Site Number";
-            // 
-            // grbFilters
-            // 
-            this.grbFilters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grbFilters.Controls.Add(this.lblSite);
-            this.grbFilters.Controls.Add(this.cmbCHaMPSite);
-            this.grbFilters.Controls.Add(this.lblWatershed);
-            this.grbFilters.Controls.Add(this.cmbWatershed);
-            this.grbFilters.Location = new System.Drawing.Point(9, 19);
-            this.grbFilters.Name = "grbFilters";
-            this.grbFilters.Size = new System.Drawing.Size(731, 57);
-            this.grbFilters.TabIndex = 8;
-            this.grbFilters.TabStop = false;
-            this.grbFilters.Text = "CHaMP Filters";
             // 
             // lblSite
             // 
-            this.lblSite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSite.AutoSize = true;
-            this.lblSite.Location = new System.Drawing.Point(382, 22);
+            this.lblSite.Location = new System.Drawing.Point(45, 50);
             this.lblSite.Name = "lblSite";
-            this.lblSite.Size = new System.Drawing.Size(25, 13);
+            this.lblSite.Size = new System.Drawing.Size(65, 13);
             this.lblSite.TabIndex = 3;
-            this.lblSite.Text = "Site";
+            this.lblSite.Text = "CHaMP Site";
             // 
             // cmbCHaMPSite
             // 
-            this.cmbCHaMPSite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbCHaMPSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCHaMPSite.FormattingEnabled = true;
-            this.cmbCHaMPSite.Location = new System.Drawing.Point(424, 19);
+            this.cmbCHaMPSite.Location = new System.Drawing.Point(120, 46);
             this.cmbCHaMPSite.Name = "cmbCHaMPSite";
-            this.cmbCHaMPSite.Size = new System.Drawing.Size(301, 21);
+            this.cmbCHaMPSite.Size = new System.Drawing.Size(247, 21);
             this.cmbCHaMPSite.TabIndex = 2;
             this.cmbCHaMPSite.SelectedIndexChanged += new System.EventHandler(this.cmbCHaMPSite_SelectedIndexChanged);
             // 
             // lblWatershed
             // 
             this.lblWatershed.AutoSize = true;
-            this.lblWatershed.Location = new System.Drawing.Point(6, 22);
+            this.lblWatershed.Location = new System.Drawing.Point(11, 23);
             this.lblWatershed.Name = "lblWatershed";
-            this.lblWatershed.Size = new System.Drawing.Size(59, 13);
+            this.lblWatershed.Size = new System.Drawing.Size(99, 13);
             this.lblWatershed.TabIndex = 1;
-            this.lblWatershed.Text = "Watershed";
+            this.lblWatershed.Text = "CHaMP Watershed";
             // 
             // cmbWatershed
             // 
             this.cmbWatershed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWatershed.FormattingEnabled = true;
-            this.cmbWatershed.Location = new System.Drawing.Point(98, 19);
+            this.cmbWatershed.Location = new System.Drawing.Point(120, 19);
             this.cmbWatershed.Name = "cmbWatershed";
             this.cmbWatershed.Size = new System.Drawing.Size(247, 21);
             this.cmbWatershed.TabIndex = 0;
+            this.cmbWatershed.SelectedIndexChanged += new System.EventHandler(this.WatershedComboChanged);
             // 
             // grbUSGS_Gage
             // 
             this.grbUSGS_Gage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbUSGS_Gage.Controls.Add(this.linkLabel1);
+            this.grbUSGS_Gage.Controls.Add(this.lblSite);
             this.grbUSGS_Gage.Controls.Add(this.lblWarningNoUSGS_Gage);
+            this.grbUSGS_Gage.Controls.Add(this.cmbCHaMPSite);
+            this.grbUSGS_Gage.Controls.Add(this.cmdGetData);
             this.grbUSGS_Gage.Controls.Add(this.txtUSGS_SiteNumber);
+            this.grbUSGS_Gage.Controls.Add(this.lblWatershed);
             this.grbUSGS_Gage.Controls.Add(this.lblManualUSGS_SiteNumber);
-            this.grbUSGS_Gage.Controls.Add(this.grbFilters);
+            this.grbUSGS_Gage.Controls.Add(this.cmbWatershed);
             this.grbUSGS_Gage.Controls.Add(this.cmbUSGS_Gage);
-            this.grbUSGS_Gage.Controls.Add(this.lblUSGS_StreamGageNumber);
             this.grbUSGS_Gage.Location = new System.Drawing.Point(15, 12);
             this.grbUSGS_Gage.Name = "grbUSGS_Gage";
-            this.grbUSGS_Gage.Size = new System.Drawing.Size(746, 146);
+            this.grbUSGS_Gage.Size = new System.Drawing.Size(1177, 158);
             this.grbUSGS_Gage.TabIndex = 9;
             this.grbUSGS_Gage.TabStop = false;
             this.grbUSGS_Gage.Text = "USGS Stream Gage";
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(19, 77);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(91, 13);
+            this.linkLabel1.TabIndex = 13;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "USGS gage code";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // lblWarningNoUSGS_Gage
             // 
             this.lblWarningNoUSGS_Gage.AutoSize = true;
-            this.lblWarningNoUSGS_Gage.Location = new System.Drawing.Point(104, 120);
+            this.lblWarningNoUSGS_Gage.Location = new System.Drawing.Point(388, 131);
             this.lblWarningNoUSGS_Gage.Name = "lblWarningNoUSGS_Gage";
-            this.lblWarningNoUSGS_Gage.Size = new System.Drawing.Size(0, 13);
+            this.lblWarningNoUSGS_Gage.Size = new System.Drawing.Size(52, 13);
             this.lblWarningNoUSGS_Gage.TabIndex = 12;
+            this.lblWarningNoUSGS_Gage.Text = "lblManual";
             // 
             // txtUSGS_SiteNumber
             // 
-            this.txtUSGS_SiteNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUSGS_SiteNumber.Location = new System.Drawing.Point(581, 82);
+            this.txtUSGS_SiteNumber.Location = new System.Drawing.Point(120, 100);
             this.txtUSGS_SiteNumber.Name = "txtUSGS_SiteNumber";
-            this.txtUSGS_SiteNumber.Size = new System.Drawing.Size(128, 20);
+            this.txtUSGS_SiteNumber.Size = new System.Drawing.Size(247, 20);
             this.txtUSGS_SiteNumber.TabIndex = 11;
             // 
             // lblManualUSGS_SiteNumber
             // 
-            this.lblManualUSGS_SiteNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblManualUSGS_SiteNumber.AutoSize = true;
-            this.lblManualUSGS_SiteNumber.Location = new System.Drawing.Point(472, 86);
+            this.lblManualUSGS_SiteNumber.Location = new System.Drawing.Point(14, 104);
             this.lblManualUSGS_SiteNumber.Name = "lblManualUSGS_SiteNumber";
-            this.lblManualUSGS_SiteNumber.Size = new System.Drawing.Size(103, 13);
+            this.lblManualUSGS_SiteNumber.Size = new System.Drawing.Size(96, 13);
             this.lblManualUSGS_SiteNumber.TabIndex = 10;
-            this.lblManualUSGS_SiteNumber.Text = "Manual Site Number";
+            this.lblManualUSGS_SiteNumber.Text = "Manual gage code";
             // 
             // cmbUSGS_Gage
             // 
-            this.cmbUSGS_Gage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbUSGS_Gage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbUSGS_Gage.FormattingEnabled = true;
-            this.cmbUSGS_Gage.Location = new System.Drawing.Point(107, 82);
+            this.cmbUSGS_Gage.Location = new System.Drawing.Point(120, 73);
             this.cmbUSGS_Gage.Name = "cmbUSGS_Gage";
-            this.cmbUSGS_Gage.Size = new System.Drawing.Size(338, 21);
+            this.cmbUSGS_Gage.Size = new System.Drawing.Size(247, 21);
             this.cmbUSGS_Gage.TabIndex = 8;
             this.cmbUSGS_Gage.SelectedIndexChanged += new System.EventHandler(this.cmbUSGS_Gage_SelectedIndexChanged);
             // 
@@ -241,22 +211,33 @@
             this.resetZoomToolStripMenuItem.Text = "Reset Zoom";
             this.resetZoomToolStripMenuItem.Click += new System.EventHandler(this.resetZoomToolStripMenuItem_Click);
             // 
+            // cmdClose
+            // 
+            this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.cmdClose.Location = new System.Drawing.Point(1117, 504);
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.Size = new System.Drawing.Size(75, 23);
+            this.cmdClose.TabIndex = 10;
+            this.cmdClose.Text = "Close";
+            this.cmdClose.UseVisualStyleBackColor = true;
+            // 
             // frmUSGS_StreamDataViewer
             // 
+            this.AcceptButton = this.cmdClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(776, 539);
+            this.CancelButton = this.cmdClose;
+            this.ClientSize = new System.Drawing.Size(1207, 539);
+            this.Controls.Add(this.cmdClose);
+            this.Controls.Add(this.msnChart);
             this.Controls.Add(this.grbUSGS_Gage);
-            this.Controls.Add(this.grbFigure);
-            this.Controls.Add(this.cmdGetData);
             this.MinimumSize = new System.Drawing.Size(792, 577);
             this.Name = "frmUSGS_StreamDataViewer";
             this.ShowIcon = false;
             this.Text = "USGS Stream Gage Data Viewer";
-            this.grbFigure.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.frmUSGS_StreamDataViewer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.msnChart)).EndInit();
-            this.grbFilters.ResumeLayout(false);
-            this.grbFilters.PerformLayout();
             this.grbUSGS_Gage.ResumeLayout(false);
             this.grbUSGS_Gage.PerformLayout();
             this.cmsFigureOptions.ResumeLayout(false);
@@ -267,9 +248,6 @@
         #endregion
 
         private System.Windows.Forms.Button cmdGetData;
-        private System.Windows.Forms.GroupBox grbFigure;
-        private System.Windows.Forms.Label lblUSGS_StreamGageNumber;
-        private System.Windows.Forms.GroupBox grbFilters;
         private System.Windows.Forms.Label lblSite;
         private System.Windows.Forms.ComboBox cmbCHaMPSite;
         private System.Windows.Forms.Label lblWatershed;
@@ -283,5 +261,7 @@
         private System.Windows.Forms.ContextMenuStrip cmsFigureOptions;
         private System.Windows.Forms.ToolStripMenuItem miSaveImage;
         private System.Windows.Forms.ToolStripMenuItem resetZoomToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button cmdClose;
     }
 }

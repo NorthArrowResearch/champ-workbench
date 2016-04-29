@@ -41,6 +41,26 @@ namespace CHaMPWorkbench
                 txtStreamName.Text = Classes.AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID.ToString();
 
             chkAWSLoggingEnabled.Checked = CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled;
+
+            try
+            {
+                dtStart.Value = CHaMPWorkbench.Properties.Settings.Default.HydroGraphStart;
+            }
+            catch(Exception ex)
+            {
+                dtStart.Value = new DateTime(2011,1,1);
+                Console.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                dtEnd.Value = CHaMPWorkbench.Properties.Settings.Default.HydroGraphEnd;
+            }
+            catch (Exception ex)
+            {
+                dtEnd.Value = new DateTime(DateTime.Now.Year, 1, 1);
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void cmdOK_Click(object sender, EventArgs e)

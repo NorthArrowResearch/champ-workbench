@@ -335,8 +335,8 @@ namespace CHaMPWorkbench.Experimental.James
 
                 if (String.IsNullOrEmpty(sSiteName) == false & String.IsNullOrEmpty(sWatershedName) == false)
                 {
-                    Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, sSiteName, sWatershedName);
-                    frm.ShowDialog();
+                    //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, sSiteName, sWatershedName);
+                    //frm.ShowDialog();
                 }
                 else
                 {

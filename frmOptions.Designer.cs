@@ -52,6 +52,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cmdBrowsePython = new System.Windows.Forms.Button();
+            this.txtPython = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cmdBrowseGUT = new System.Windows.Forms.Button();
             this.txtGUT = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,15 +63,18 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.cmdBrowsePython = new System.Windows.Forms.Button();
-            this.txtPython = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.dtStart = new System.Windows.Forms.DateTimePicker();
+            this.dtEnd = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -262,6 +268,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.valGoogleMapZoom);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -309,6 +316,35 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Models";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cmdBrowsePython
+            // 
+            this.cmdBrowsePython.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowsePython.Location = new System.Drawing.Point(755, 77);
+            this.cmdBrowsePython.Name = "cmdBrowsePython";
+            this.cmdBrowsePython.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowsePython.TabIndex = 8;
+            this.cmdBrowsePython.Text = "Browse";
+            this.cmdBrowsePython.UseVisualStyleBackColor = true;
+            this.cmdBrowsePython.Click += new System.EventHandler(this.cmdBrowsePython_Click);
+            // 
+            // txtPython
+            // 
+            this.txtPython.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPython.Location = new System.Drawing.Point(148, 78);
+            this.txtPython.Name = "txtPython";
+            this.txtPython.Size = new System.Drawing.Size(601, 20);
+            this.txtPython.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(102, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Python";
             // 
             // cmdBrowseGUT
             // 
@@ -392,34 +428,50 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // cmdBrowsePython
+            // groupBox1
             // 
-            this.cmdBrowsePython.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowsePython.Location = new System.Drawing.Point(755, 77);
-            this.cmdBrowsePython.Name = "cmdBrowsePython";
-            this.cmdBrowsePython.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowsePython.TabIndex = 8;
-            this.cmdBrowsePython.Text = "Browse";
-            this.cmdBrowsePython.UseVisualStyleBackColor = true;
-            this.cmdBrowsePython.Click += new System.EventHandler(this.cmdBrowsePython_Click);
+            this.groupBox1.Controls.Add(this.dtEnd);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.dtStart);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Location = new System.Drawing.Point(20, 59);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(296, 87);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Hydrograph Date Range";
             // 
-            // txtPython
+            // label8
             // 
-            this.txtPython.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPython.Location = new System.Drawing.Point(148, 78);
-            this.txtPython.Name = "txtPython";
-            this.txtPython.Size = new System.Drawing.Size(601, 20);
-            this.txtPython.TabIndex = 7;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(18, 32);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Start";
             // 
-            // label3
+            // dtStart
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(102, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Python";
+            this.dtStart.Location = new System.Drawing.Point(50, 28);
+            this.dtStart.Name = "dtStart";
+            this.dtStart.Size = new System.Drawing.Size(240, 20);
+            this.dtStart.TabIndex = 1;
+            // 
+            // dtEnd
+            // 
+            this.dtEnd.Location = new System.Drawing.Point(50, 54);
+            this.dtEnd.Name = "dtEnd";
+            this.dtEnd.Size = new System.Drawing.Size(240, 20);
+            this.dtEnd.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(21, 58);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(26, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "End";
             // 
             // frmOptions
             // 
@@ -449,6 +501,8 @@
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -488,5 +542,10 @@
         private System.Windows.Forms.Button cmdBrowsePython;
         private System.Windows.Forms.TextBox txtPython;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DateTimePicker dtEnd;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DateTimePicker dtStart;
+        private System.Windows.Forms.Label label8;
     }
 }

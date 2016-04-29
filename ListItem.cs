@@ -37,7 +37,7 @@ namespace CHaMPWorkbench
                 System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    Int64 nID = (Int64)dbRead.GetValue(0);
+                    Int32 nID = (Int32)dbRead.GetValue(0);
                     int nIn = cbo.Items.Add(new ListItem(dbRead.GetString(1), (int)nID));
                     if (nID == nSelectID)
                         cbo.SelectedIndex = nIn;

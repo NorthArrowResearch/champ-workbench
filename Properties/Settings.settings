@@ -90,5 +90,11 @@
     <Setting Name="Model_Python" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="HydroGraphStart" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2011-01-01</Value>
+    </Setting>
+    <Setting Name="HydroGraphEnd" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2016-01-01</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

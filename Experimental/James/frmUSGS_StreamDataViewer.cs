@@ -11,33 +11,49 @@ using System.Windows.Forms.DataVisualization;
 
 namespace CHaMPWorkbench.Experimental.James
 {
-     public partial class frmUSGS_StreamDataViewer : Form
+    public partial class frmUSGS_StreamDataViewer : Form
     {
-        private OleDbConnection m_dbCon;
+        private string DBConnection;
+
         private int m_iGageID;
         private USGS_StreamData m_USGS_StreamData;
 
-        public frmUSGS_StreamDataViewer(OleDbConnection dbCon, string sSiteName, string sWatershedName)
+        private int m_nInitialWatershedID;
+        private int m_nInitialSiteID;
+
+        public frmUSGS_StreamDataViewer(string sDBCon, int nSiteID, int nWatershedID)
         {
             InitializeComponent();
             this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
             //msnChart.GetToolTipText += new System.Windows.Forms.DataVisualization.Charting.ToolTipEventHandler(msnChart_GetToolTipText);
 
-            m_dbCon = dbCon;
+            DBConnection = sDBCon;
+            m_nInitialSiteID = nSiteID;
+            m_nInitialWatershedID = nWatershedID;
 
-            LoadVisits();
-            cmbCHaMPSite.Text = sSiteName;
-            cmbWatershed.Text = sWatershedName;
-            //m_iGageID = iGageID;
-
-            m_USGS_StreamData = new USGS_StreamData(m_dbCon, sSiteName);
+            m_USGS_StreamData = new USGS_StreamData(sDBCon, nSiteID);
             SetStreamGageBasedOnSite(m_USGS_StreamData);
+        }
 
+        private void frmUSGS_StreamDataViewer_Load(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+            // Use the public shared method to fill a combo box with ListItems (a simple custom class of string and IDs)
+            ListItem.LoadComboWithListItems(ref cmbWatershed, DBConnection, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName", m_nInitialWatershedID);
+
+            // Fill the CHaMP sites. These will be filtered by the currently selected watershed and pre-select the current site.
+            LoadCHaMPSiteCombo(m_nInitialSiteID);
+
+            // Hook up the event that will cause the site combo to filter when the current watershed changes
+            // Note: Only hook this up after the watershed and site have been selected the first time.
+            cmbWatershed.SelectedIndexChanged += WatershedComboChanged;
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
         private void cmdGetData_Click(object sender, EventArgs e)
         {
-
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             if (cmbUSGS_Gage.SelectedItem == null && String.IsNullOrEmpty(txtUSGS_SiteNumber.Text) == true)
@@ -69,9 +85,9 @@ namespace CHaMPWorkbench.Experimental.James
                 List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
                 if (lStreamData.Count > 1)
                 {
-                    string sSiteName = cmbCHaMPSite.SelectedItem.ToString();
+                    ListItem aSite = cmbCHaMPSite.SelectedItem as ListItem;
                     //plot data
-                    PlotStreamDataMicrosoftChart(m_dbCon, m_USGS_StreamData.StreamData, sSiteName, iGageID);
+                    PlotStreamDataMicrosoftChart(m_USGS_StreamData.StreamData, aSite.Value, aSite.Text, iGageID);
                 }
                 else
                 {
@@ -93,58 +109,7 @@ namespace CHaMPWorkbench.Experimental.James
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
-        //private void cmdOutputDirectory_Click(object sender, EventArgs e)
-        //{
-        //    FolderBrowserDialog dlg = new FolderBrowserDialog();
-        //    dlg.SelectedPath = @"C:\Users\A01674762\Box Sync\CHAMP\GCD_Analysis_Meta\raw_Data\USGS\StreamGages";
-        //    if (dlg.ShowDialog() == DialogResult.OK)
-        //    {
-        //        txtOutputDirectory.Text = dlg.SelectedPath;
-        //    }
-        //}
-
-        private void LoadVisits()
-        {
-            if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
-                return;
-
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
-
-            string sSQL = "SELECT " + sGroupFields + ", Count(C.SegmentID) AS ChannelUnits" +
-                " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
-                " GROUP BY " + sGroupFields +
-                " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
-
-            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
-
-            // Load the field seasons
-            OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", m_dbCon);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
-            // Load the watersheds
-            comFS = new OleDbCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", m_dbCon);
-            dbRead = comFS.ExecuteReader();
-            cmbWatershed.Items.Add("");
-            while (dbRead.Read())
-            {
-                int nSel = cmbWatershed.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
-            }
-            dbRead.Close();
-
-            // Load the Sites
-            comFS = new OleDbCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE (SiteName Is Not Null) ORDER BY SiteName", m_dbCon);
-            dbRead = comFS.ExecuteReader();
-            cmbCHaMPSite.Items.Add("");
-            while (dbRead.Read())
-            {
-                int nSel = cmbCHaMPSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
-            }
-
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-        }
-
-        public class TupleList<T1, T2> : List<Tuple<T1, T2>>
+  public class TupleList<T1, T2> : List<Tuple<T1, T2>>
         {
             public void Add(T1 item, T2 item2)
             {
@@ -152,64 +117,66 @@ namespace CHaMPWorkbench.Experimental.James
             }
         }
 
-        public Coordinate GetCoordinate(OleDbConnection dbCon, string sValue)
+        public Coordinate GetCoordinate(int nSiteID)
         {
-            string sSQL = "SELECT Latitude, Longitude " +
-                          " FROM CHAMP_Sites" +
-                          " WHERE SiteName = @value";
-
-            OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-            dbCom.Parameters.Add(new OleDbParameter("@value", sValue));
-            dbCom.ExecuteNonQuery();
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
             var coordinate = new Coordinate(0, 0);
-            while (dbRead.Read())
+            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
             {
-                coordinate = new Coordinate(Convert.ToDouble(dbRead[0]), Convert.ToDouble(dbRead[1]));
+                dbCon.Open();
+
+                OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
+                dbCom.Parameters.Add(new OleDbParameter("@SiteID", nSiteID));
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    coordinate = new Coordinate(Convert.ToDouble(dbRead[0]), Convert.ToDouble(dbRead[1]));
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
             return coordinate;
         }
 
         private void cmbCHaMPSite_SelectedIndexChanged(object sender, EventArgs e)
         {
             cmbUSGS_Gage.Items.Clear();
-            string sCHaMP_Site = cmbCHaMPSite.SelectedItem.ToString();
-            Coordinate champCoordinate = GetCoordinate(m_dbCon, sCHaMP_Site);
 
-            string sSQL = "SELECT GageID, Latitude, Longitude " +
-                          " FROM USGS_gages";
-
-            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
-            dbCom.ExecuteNonQuery();
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            List<KeyValuePair<string, double>> lUSGS_GageSites = new List<KeyValuePair<string, double>>();
-            while (dbRead.Read())
+            if (cmbCHaMPSite.SelectedItem is ListItem)
             {
-                string usgsGageNumber = dbRead[0].ToString();
-                Coordinate usgsCoordinate = new Coordinate(Convert.ToDouble(dbRead[1]), Convert.ToDouble(dbRead[2]));
-                double distance = Math.Round(Coordinate.Distance(champCoordinate, usgsCoordinate, Coordinate.UnitsOfLength.Kilometer), 2);
-                Coordinate.CardinalPoints compass = Coordinate.Bearing(champCoordinate, usgsCoordinate).ToCardinalMark();
-                lUSGS_GageSites.Add(new KeyValuePair<string, double>(String.Format("{0}; Distance: {1} Direction: {2}", usgsGageNumber, distance, compass), distance));
+                Coordinate champCoordinate = GetCoordinate(((ListItem)cmbCHaMPSite.SelectedItem).Value);
+                List<KeyValuePair<string, double>> lUSGS_GageSites = new List<KeyValuePair<string, double>>();
+
+                using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+                {
+                    dbCon.Open();
+
+                    OleDbCommand dbCom = new OleDbCommand("SELECT GageID, Latitude, Longitude FROM USGS_Gages ORDER BY GageID", dbCon);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+
+                    while (dbRead.Read())
+                    {
+                        string usgsGageNumber = dbRead[0].ToString();
+                        Coordinate usgsCoordinate = new Coordinate(Convert.ToDouble(dbRead[1]), Convert.ToDouble(dbRead[2]));
+                        double distance = Math.Round(Coordinate.Distance(champCoordinate, usgsCoordinate, Coordinate.UnitsOfLength.Kilometer), 2);
+                        Coordinate.CardinalPoints compass = Coordinate.Bearing(champCoordinate, usgsCoordinate).ToCardinalMark();
+                        lUSGS_GageSites.Add(new KeyValuePair<string, double>(String.Format("{0}; Distance: {1} Direction: {2}", usgsGageNumber, distance, compass), distance));
+                    }
+                    dbRead.Close();
+                }
+
+                //sort in ascending order by distance from champ site 
+                var lUSGS_Sorted = lUSGS_GageSites.OrderBy(site => site.Value);
+                foreach (KeyValuePair<string, double> usgsGage in lUSGS_Sorted)
+                {
+                    cmbUSGS_Gage.Items.Add(usgsGage.Key);
+                }
+
+                //Check if there is a pre-selected USGS gage, if so select that
+                if (m_USGS_StreamData != null)
+                {
+                    m_USGS_StreamData.CheckCHaMP_SiteForAssociatedGage((cmbCHaMPSite.SelectedItem as ListItem).Value);
+                    SetStreamGageBasedOnSite(m_USGS_StreamData);
+                }
             }
-            dbRead.Close();
-
-            //sort in ascending order by distance from champ site 
-            var lUSGS_Sorted = lUSGS_GageSites.OrderBy(site => site.Value);
-
-            foreach (KeyValuePair<string, double> usgsGage in lUSGS_Sorted)
-            {
-                cmbUSGS_Gage.Items.Add(usgsGage.Key);
-            }
-
-            //Check if there is a pre-selected USGS gage, if so select that
-            if (m_USGS_StreamData != null)
-            {
-                m_USGS_StreamData.CheckCHaMP_SiteForAssociatedGage(sCHaMP_Site);
-                SetStreamGageBasedOnSite(m_USGS_StreamData);
-            }
-
-            
         }
 
         private void SetStreamGageBasedOnSite(USGS_StreamData pUSGS_StreamData)
@@ -219,7 +186,7 @@ namespace CHaMPWorkbench.Experimental.James
                 //Set selected gage to the site gage id
                 bool bFoundGage = false;
                 char splitCharacter = (char)59;
-                for (int i = 0; i < cmbUSGS_Gage.Items.Count; i++ )
+                for (int i = 0; i < cmbUSGS_Gage.Items.Count; i++)
                 {
                     if (string.Compare(cmbUSGS_Gage.Items[i].ToString().Split(splitCharacter)[0], m_USGS_StreamData.GageNumber.ToString()) == 0)
                     {
@@ -249,27 +216,26 @@ namespace CHaMPWorkbench.Experimental.James
             txtUSGS_SiteNumber.Text = sUSGS_GageNumber;
         }
 
-        private void PlotStreamDataMicrosoftChart(OleDbConnection dbCon, List<StreamFlowSample> lStreamData, string sCHaMPSiteName, int iGageID)
+        private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, int nSiteID, string sCHaMPSiteName, int iGageID)
         {
-            //Get Gage Description
-            string sGroupFields = " Description";
-            string sSQL = "SELECT " + sGroupFields +
-                          " FROM USGS_Gages  " +
-                          " WHERE GageID = " + iGageID;
-
-            OleDbCommand comFS = new OleDbCommand(sSQL, dbCon);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
-
             string sUSGS_Description = string.Empty;
-            while (dbRead.Read())
+            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
             {
-                sUSGS_Description = Convert.ToString(dbRead[0]);
+                dbCon.Open();
+
+                OleDbCommand comFS = new OleDbCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
+                comFS.Parameters.AddWithValue("@GageID", iGageID);
+                OleDbDataReader dbRead = comFS.ExecuteReader();
+
+                while (dbRead.Read())
+                {
+                    sUSGS_Description = Convert.ToString(dbRead[0]);
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
 
             //set auxillary info axis, visit labels, etc.
             System.Windows.Forms.DataVisualization.Charting.ChartArea pChartArea = msnChart.ChartAreas["ChartArea"];
-
 
             //Clear annotations and lines
             msnChart.Annotations.Clear();
@@ -282,7 +248,7 @@ namespace CHaMPWorkbench.Experimental.James
 
             //set and configure the title
             System.Windows.Forms.DataVisualization.Charting.Title pTitle = new System.Windows.Forms.DataVisualization.Charting.Title();
-            pTitle.Name ="Title";
+            pTitle.Name = "Title";
             pTitle.Text = String.Format("CHaMP Site: {0}{1} USGS Gage:{2}{1} {3}", sCHaMPSiteName, Environment.NewLine, iGageID.ToString(), sUSGS_Description);
             System.Drawing.Font pTitleFont = new System.Drawing.Font("Verdana", 12f, FontStyle.Bold);
             pTitle.Font = pTitleFont;
@@ -311,17 +277,7 @@ namespace CHaMPWorkbench.Experimental.James
             pChartArea.AxisY.TitleFont = pAxisFont;
 
             //Add the survey dates for the site in question
-            sGroupFields = " V.VisitID, V.SiteID, V.SampleDate, S.SiteID, S.SiteName";
-            sCHaMPSiteName = String.Format("\"{0}\"", sCHaMPSiteName);
-            sSQL = "SELECT " + sGroupFields +
-                 " FROM (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) " +
-                 " WHERE S.SiteName = " + sCHaMPSiteName +
-                 " ORDER BY V.SampleDate";
-
-            comFS = new OleDbCommand(sSQL, dbCon);
-            dbRead = comFS.ExecuteReader();
-
-
+            TupleList<DateTime, int> pVisitSampleDates = new TupleList<DateTime, int>();
             System.Windows.Forms.DataVisualization.Charting.Series pVisitsSeries = new System.Windows.Forms.DataVisualization.Charting.Series("Visits");
             pVisitsSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             pVisitsSeries.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
@@ -332,16 +288,23 @@ namespace CHaMPWorkbench.Experimental.James
             pVisitsSeries.SmartLabelStyle.Enabled = false;
             //pVisitsSeries.ToolTip = "#LABEL" + Environment.NewLine + "Date: #VALX";
 
-            TupleList<DateTime, int> pVisitSampleDates = new TupleList<DateTime, int>();
-            while (dbRead.Read())
+            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
             {
-                DateTime pSampleDate = Convert.ToDateTime(dbRead[2]);
-                int iVisitID = Convert.ToInt32(dbRead[0]);
-                pVisitSampleDates.Add(pSampleDate, iVisitID);
-            }
-            dbRead.Close();
+                dbCon.Open();
 
-            
+                OleDbCommand comFS = new OleDbCommand("SELECT VisitID, SampleDate FROM CHaMP_Visits WHERE SiteID = @SiteID ORDER BY SampleDate", dbCon);
+                comFS.Parameters.AddWithValue("@SiteID", nSiteID);
+                OleDbDataReader dbRead = comFS.ExecuteReader();
+
+
+                while (dbRead.Read())
+                {
+                    DateTime pSampleDate = Convert.ToDateTime(dbRead[1]);
+                    int iVisitID = Convert.ToInt32(dbRead[0]);
+                    pVisitSampleDates.Add(pSampleDate, iVisitID);
+                }
+                dbRead.Close();
+            }
 
             if (lStreamData.Count > 0)
             {
@@ -453,7 +416,7 @@ namespace CHaMPWorkbench.Experimental.James
                     Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
-            
+
         }
 
         private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,5 +445,45 @@ namespace CHaMPWorkbench.Experimental.James
             }
         }
 
+
+        /// <summary>
+        /// Fill the sites combo box based on the selected watershed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WatershedComboChanged(object sender, EventArgs e)
+        {
+            LoadCHaMPSiteCombo();
+        }
+
+        private void LoadCHaMPSiteCombo(int nSelectedSiteID = 0)
+        {
+            cmbCHaMPSite.Items.Clear();
+            if (cmbWatershed.SelectedItem is ListItem)
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+                {
+                    dbCon.Open();
+                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
+                    dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cmbWatershed.SelectedItem).Value);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        int nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
+                        int nIndex = cmbCHaMPSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), nSiteID));
+                        if (nSiteID == nSelectedSiteID)
+                            cmbCHaMPSite.SelectedIndex = nIndex;
+                    }
+                }
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://waterdata.usgs.gov/nwis");
+        }
     }
 }

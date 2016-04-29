@@ -1118,6 +1118,7 @@
             // 
             // exploreSiteLevelUSGSStreamGageDataToolStripMenuItem
             // 
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.LineGraph1;
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Name = "exploreSiteLevelUSGSStreamGageDataToolStripMenuItem";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";

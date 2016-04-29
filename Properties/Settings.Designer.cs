@@ -313,5 +313,29 @@ namespace CHaMPWorkbench.Properties {
                 this["Model_Python"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2011-01-01")]
+        public global::System.DateTime HydroGraphStart {
+            get {
+                return ((global::System.DateTime)(this["HydroGraphStart"]));
+            }
+            set {
+                this["HydroGraphStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2016-01-01")]
+        public global::System.DateTime HydroGraphEnd {
+            get {
+                return ((global::System.DateTime)(this["HydroGraphEnd"]));
+            }
+            set {
+                this["HydroGraphEnd"] = value;
+            }
+        }
     }
 }
