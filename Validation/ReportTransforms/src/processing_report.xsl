@@ -25,11 +25,11 @@
               <table class="table">
                 <tbody>
                   <tr>
-                    <td>Vertical error notes:</td>
+                    <td class="notes">Vertical error notes:</td>
                     <td>Sample notes about vertical error in the survey.</td><!-- from new questions on survey report review -->
                   </tr>
                   <tr>
-                    <td>Horizontal error notes:</td>
+                    <td class="notes">Horizontal error notes:</td>
                     <td>More sample notes about horizontal error in the survey.</td><!-- from new questions on survey report review -->
                   </tr>  
                 </tbody>
@@ -40,12 +40,12 @@
           <div class="panel panel-default"> 
             <div class="panel-heading"><div class="panel-title"><h3>Point Editing, Line Editing, and Surface Generation</h3></div></div>
               <div class="panel-body"><!-- from QaQcTIN -->
-                <p>'<xsl:value-of select="/surveyGDB/tables/table[name='SurveyInfo']/records/record/FinalTin" />' was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
+                <p>'<xsl:value-of select="/surveyGDB/tables/table/records/record/FinalTIN" />' was the final TIN generated. The survey edits were described as [XXXX] because [XXXX]. The crew rated the TIN quality as [XX] </p>   
               </div>
-              <xsl:for-each select="/surveyGDB/images/image[filename='tin_surface.png']">
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[Title='Water Surface']">
                 <div class="panel-body">
-                  <img src="{filepath}" />
-                  <p><xsl:value-of select="title" /></p>
+                  <img src="{FilePath}" />
+                  <p><xsl:value-of select="Title" /></p>
                   <p></p>
                 </div>
               </xsl:for-each>
@@ -57,10 +57,10 @@
               <div class="panel-body"><!-- from QaQcPolygons -->
                 <p>The survey has <span id="poly-water-extent">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. <span id="bar-points">[0]</span> bar points were collected at the site and <span id="wse-points">[0]</span> water surface shots were collected.</p> 
               </div>
-              <xsl:for-each select="/surveyGDB/images/image[filename='channel_features.png']">
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[Title='Bankful XSections']">
                 <div class="panel-body">
-                  <img src="{filepath}" />
-                  <p><xsl:value-of select="title" /></p>
+                  <img src="{FilePath}" />
+                  <p><xsl:value-of select="Title" /></p>
                   <p></p>
                 </div>
               </xsl:for-each>
@@ -86,10 +86,10 @@
               <div class="panel-body">
                 <p>Boilerplate information abou the survey's point density data. Two to three sentences on what it is, why we care, how to change it, etc.</p>   
               </div>
-              <xsl:for-each select="/surveyGDB/images/image[filename='point_density.png']">
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[FilePath='MapImages\PlainDEM.jpg']">
                 <div class="panel-body">
-                  <img src="{filepath}" />
-                  <p><xsl:value-of select="title" /></p>
+                  <img src="{FilePath}" />
+                  <p><xsl:value-of select="Title" /></p>
                   <p></p>
                 </div>
               </xsl:for-each>
@@ -101,10 +101,10 @@
               <div class="panel-body">
                 <p>Boilerplate information about the survey's error surface data. Two to three sentences on what it is, why we care, how to improve the quality, etc.</p>   
               </div>
-              <xsl:for-each select="/surveyGDB/images/image[filename='error_surface.png']">
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[FilePath='MapImages\ChannelUnits.jpg']">
                 <div class="panel-body">
-                  <img src="{filepath}" />
-                  <p><xsl:value-of select="title" /></p>
+                  <img src="{FilePath}" />
+                  <p><xsl:value-of select="Title" /></p>
                   <p></p>
                 </div>
               </xsl:for-each>
@@ -119,7 +119,7 @@
   <xsl:template name="header">
     <div class="jumbotron">
       <h1>Survey Processing Report</h1>
-      <h3>Created on: </h3>
+      <h3>Created on: <xsl:value-of select="/surveyGDB/xmlcreated" /></h3>
       <div class="row">
         <div class="col-md-12">
           <div class="row">
@@ -135,7 +135,7 @@
               <h2>Processing</h2>
               <ul class="list-unstyled"></ul>
                 <li>Survey GDB Name: <xsl:value-of select="/surveyGDB/filename" /></li>
-                <li>Process with Toolbar version: </li>
+                <li>Process with Toolbar version: <xsl:value-of select="/surveyGDB/toolbarVersion" /></li>
                 <li>Total processing time: </li>
              </div>
           </div>
@@ -145,7 +145,7 @@
   </xsl:template>
     
   <xsl:template name="JSON">
-    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/surveyGDB/json"/></script>
+    <script id="ReportJSONData" type="application/json"><xsl:value-of select="/surveyGDB/JSON"/></script>
   </xsl:template>
 
   <xsl:template name="javascript">

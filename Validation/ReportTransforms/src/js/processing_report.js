@@ -55,9 +55,9 @@ var ChannelFeatureSummary = function(JSONData, $table){
   // It's done this way so that you can specify different names than 
   // the raw fieldname.
   var fields = {
-    ChannelUnitsCount:"Number of Channel Unit Polygons",
-    ChannelUnitsUnique: "Number of Unique Channel Units",
-    WaterExtentCount:"Number of Water Extent Polygons"
+    ChannelUnitsCount:"# of Channel Unit Polygons",
+    ChannelUnitsUnique: "# of Unique Channel Units",
+    WaterExtentCount:"# of Water Extent Polygons"
     //BankfullExtentCount: "Number of Bankfull Extent Polygons"
   };
 
@@ -67,14 +67,14 @@ var ChannelFeatureSummary = function(JSONData, $table){
     var $row = $('<tr/>');
     // Easy rows just print values from the summary table
     $row.append($('<td></td>').text(name));
-    $row.append($('<td></td>').text(first[key] || 0));
+    $row.append($('<td></td>').text(records[key] || 0));
 
     $tbody.append($row);
   })
 
   // Now we're going to do some replacing of nodes
-  $('#poly-water-extent').html(first['WaterExtentCount']);
-  $('#unique-channel-units').html(first['ChannelUnitsUnique']);
+  $('#poly-water-extent').html(records['WaterExtentCount']);
+  $('#unique-channel-units').html(records['ChannelUnitsUnique']);
 
 }
 
@@ -138,7 +138,7 @@ var PointEditingSummary = function(JSONData, $table){
   })
 
   $('#bar-points').html(dict_code['br']);
-  $('#wse-points').html(dict_code['ws']); 
+  $('#wse-points').html(dict_code['ws']);
   $('#bm-points').html(dict_code['bm']);
   $('#cp-points').html(dict_code['cp']);
 
@@ -215,8 +215,8 @@ var BacksightLogSummary = function(JSONData, $table){
   var backsight_pnts = [];
 
   $.each(records, function(key, record) {
-      if ($.inArray(record.OCCUPIED_POINT , backsight_pnts) === -1) {
-          backsight_pnts.push(record.OCCUPIED_POINT);
+      if ($.inArray(record.OC , backsight_pnts) === -1) {
+          backsight_pnts.push(record.OC);
       }
   });
 

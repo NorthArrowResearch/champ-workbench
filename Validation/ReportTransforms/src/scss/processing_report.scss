@@ -4,8 +4,8 @@
 
 // Table formatting
 table#channel-feature-summary {
-  tr td:nth-child(1),
-  tr th:nth-child(1) { width: 150px; }
+  tr td:nth-child(1), { width: 200px; }
+  tr th:nth-child(1) { width: 300px; }
 }
 
 #light{

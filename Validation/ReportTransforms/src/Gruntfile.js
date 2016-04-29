@@ -78,8 +78,8 @@ module.exports = function(grunt) {
       // rbt: 'xsltproc -o ../Samples/rbt.html ../dist/rbt.xsl ../Samples/rbt.xml',
       rbt_manual: 'xsltproc -o ../Samples/rbt_manual.html ../dist/rbt_manual.xsl ../Samples/rbt_manual.xml',
       watershed: 'xsltproc -o ../Samples/watershed.html ../dist/watershed.xsl ../Samples/watershed.xml',
-      editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/editing_report.xml',
-      processing_report: 'xsltproc -o ../Samples/processing_report.html ../dist/processing_report.xsl ../Samples/editing_report.xml'
+      editing_report: 'xsltproc -o ../Samples/editing_report.html ../dist/editing_report.xsl ../Samples/TestReport.xml',
+      processing_report: 'xsltproc -o ../Samples/processing_report.html ../dist/processing_report.xsl ../Samples/TestReport.xml'
     },
 
 

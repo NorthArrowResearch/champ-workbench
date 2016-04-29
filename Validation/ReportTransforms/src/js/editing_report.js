@@ -263,8 +263,8 @@ var NodeEditingSummary = function(JSONData, $table){
   }
   $('#nodes-topo').html(last['Nodes_Topo']);
   $('#nodes-not-topo').html(last['Node_Count'] - last['Nodes_Topo']);
-  $('#nodes-Zmax').html(Math.abs(last['Node_Zmax'] - first['Node_Zmax']));
-  $('#nodes-Zmin').html(Math.abs(last['Node_Zmin'] - first['Node_Zmin']));
+  $('#nodes-Zmax').html((Math.abs(last['Node_Zmax'] - first['Node_Zmax'])).toFixed(2));
+  $('#nodes-Zmin').html((Math.abs(last['Node_Zmin'] - first['Node_Zmin'])).toFixed(2));
   $('#BL-length').html(last['BL_Length'] + ' meters');
   if (last['BL_Crossed'] == 0) {
     $('#BL-cross').html('0');

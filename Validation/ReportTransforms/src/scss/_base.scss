@@ -14,7 +14,7 @@ table, table.table{
   tbody tr:nth-child(odd) { 
      background-color: #eee;
   }
-  tbody tr td:nth-child(1), thead tr th:nth-child(1) { width: 50px; }
+  tbody tr td:nth-child(1), thead tr th:nth-child(1) { width: 200px; }
   //tbody tr td:nth-child(2), thead tr th:nth-child(2) { width: 300px; }
   thead { @extend .bg-inverse; }
   thead th.version {
@@ -39,6 +39,7 @@ table, table.table{
   td.pass{ color: #050; background: $brand-success; }
   td.fail{ color: #FCC; background: $brand-danger; }
 
+
   th.version,
   td.manualResult,
   td.version {
@@ -47,6 +48,8 @@ table, table.table{
     font-weight: normal;
   }
 }
+
+
 
 // Make the titles blend in with the table
 .metric{
