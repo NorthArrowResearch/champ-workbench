@@ -329,7 +329,7 @@ namespace CHaMPWorkbench.Experimental.James
                     DateTime queryDate = Convert.ToDateTime("2011-01-01T12:00:00.000");
 
                     var queryStreamData = from elem in xmlDoc.Descendants(usgs_namespace + "value")
-                                          select new StreamFlowSample(double.Parse(elem.Value), DateTime.Parse(elem.FirstAttribute.Value.ToString()));//, elem.Attribute("dateTime"));
+                                          select new StreamFlowSample(double.Parse(elem.Value), DateTime.Parse(elem.Attribute("dateTime").Value));
 
                     lStreamData = queryStreamData.ToList();
                     if (lStreamData.Count > 0)
