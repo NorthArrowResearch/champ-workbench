@@ -4,14 +4,29 @@
 
 
 // Table formatting
+table#point-editing-summary {
+  tr td:nth-child(1), { width: 50px; }
+  tr th:nth-child(1) { width: 50px; }
+}
+
+table#line-editing-summary {
+  tr td:nth-child(1), { width: 50px; }
+  tr th:nth-child(1) { width: 50px; }
+}
+
 table#node-editing-summary {
-  tr td:nth-child(1),
+  tr td:nth-child(1), { width: 100px; }
   tr th:nth-child(1) { width: 150px; }
 }
 
-#light{
-  thead { 
-        background-color: #ccc;
-        color:#777;
-    }
+.number-column {
+	text-align: right;
+}
+
+h3.bottom-pad {
+	padding: 0 0 15px 0;
+}
+
+h3.table-name {
+	font-size: 1.2em;
 }

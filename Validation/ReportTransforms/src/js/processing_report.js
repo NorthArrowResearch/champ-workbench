@@ -55,7 +55,6 @@ var ChannelFeatureSummary = function(JSONData, $table){
   // It's done this way so that you can specify different names than 
   // the raw fieldname.
   var fields = {
-    ChannelUnitsCount:"# of Channel Unit Polygons",
     ChannelUnitsUnique: "# of Unique Channel Units",
     WaterExtentCount:"# of Water Extent Polygons"
     //BankfullExtentCount: "Number of Bankfull Extent Polygons"

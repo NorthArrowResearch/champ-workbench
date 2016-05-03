@@ -79,21 +79,28 @@ var PointEditingSummary = function(JSONData, $table){
 
   // Now go through and make your actual HMTL elements for the table row.
   $.each(summaryObj, function(key,summRow){
+    var zero = 0.0;
     var $row = $('<tr/>');
     // Easy rows just print values from the summary table
     $row.append($('<td></td>').text(key));
-    $row.append($('<td></td>').text(summRow.First));
-    $row.append($('<td></td>').text(summRow.Last));
+    $row.append($('<td class="number-column"></td>').text(summRow.First));
+    $row.append($('<td class="number-column"></td>').text(summRow.Last));
 
     // Do a little math, make a little sum. Get down tonight!
-    var delta = (summRow.Last - summRow.First) /  summRow.First * 100;
-    var added = delta >= 0 ? delta.toFixed(1) : 0;
-    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    var result = ((summRow.Last - summRow.First) /  summRow.First * 100);
+    if (isNaN(result)) {
+      var delta = 0.0;
+    } else {
+      var delta = result;
+    }
+
+    var added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
+    var deleted = delta <= 0 ? delta.toFixed(1) : zero.toFixed(1);
     var edited = delta == 0 ? "No" : "Yes";
     var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
 
-    $row.append($('<td></td>').text(added));
-    $row.append($('<td></td>').text(deleted));
+    $row.append($('<td class="number-column"></td>').text(added));
+    $row.append($('<td class="number-column"></td>').text(deleted));
     $row.append($('<td></td>').text(edited));
     $row.append($('<td></td>').text(PointsCollected));
 
@@ -147,21 +154,31 @@ var LineEditingSummary = function(JSONData, $table){
 
   // Now go through and make your actual HMTL elements for the table row.
   $.each(summaryObj, function(key,summRow){
+    var zero = 0.0;
+    var summRow_first = parseFloat(summRow.First).toFixed(2);
+    var summRow_last = parseFloat(summRow.Last).toFixed(2);
+
     var $row = $('<tr/>');
     // Easy rows just print values from the summary table
     $row.append($('<td></td>').text(key));
-    $row.append($('<td></td>').text(summRow.First));
-    $row.append($('<td></td>').text(summRow.Last));
+    $row.append($('<td class="number-column"></td>').text(summRow_first));
+    $row.append($('<td class="number-column"></td>').text(summRow_last));
 
     // Do a little math, make a little sum. Get down tonight!
-    var delta = (summRow.Last - summRow.First) /  summRow.First * 100;
-    var added = delta >= 0 ? delta.toFixed(1) : 0;
-    var deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    var result = (summRow.Last - summRow.First) /  summRow.First * 100;
+    if (isNaN(result)) {
+      var delta = 0.0;
+    } else {
+      var delta = result;
+    }
+
+    var added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
+    var deleted = delta <= 0 ? delta.toFixed(1) : zero.toFixed(1);
     var edited = delta == 0 ? "No" : "Yes";
     var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
 
-    $row.append($('<td></td>').text(added));
-    $row.append($('<td></td>').text(deleted));
+    $row.append($('<td class="number-column"></td>').text(added));
+    $row.append($('<td class="number-column"></td>').text(deleted));
     $row.append($('<td></td>').text(edited));
     $row.append($('<td></td>').text(PointsCollected));
 
@@ -181,9 +198,15 @@ var NodeEditingSummary = function(JSONData, $table){
   $tbody = $table.find('tbody');
   var summaryObj = {};
 
-  // Get the json data associate with this table
-  dataTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcTIN"});
-  records = dataTable.records.record;
+  // Get the json data associated with the SurveyInfo table
+  surveyInfoTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "SurveyInfo"});
+  surveyRecord = surveyInfoTable.records.record;
+  finalTINname = surveyRecord.FinalTIN;
+
+  // Get the json data associated with the QaQcTIN table
+  tinTable = _.findWhere(JSONData.surveyGDB.tables.table, {name: "QaQcTIN"});
+  tinRecords = tinTable.records.record;
+  records = _.filter(tinRecords, function(i) {return i.TIN_Name == finalTINname;});
 
   var first;
   var last;
@@ -192,7 +215,7 @@ var NodeEditingSummary = function(JSONData, $table){
   $.each(records, function(recordKey,record){
     // Add a convenient unix timestamp that makes sorting easier
     record.unixTime = moment(record.TIMESTAMP).unix();
-    // move our first and last pointer if the record we're looking at is newer/older
+    // move our feirst and last pointer if the record we're looking at is newer/older
     if (!first || first.unixTime >= record.unixTime){
       first = record;
     }
@@ -206,8 +229,9 @@ var NodeEditingSummary = function(JSONData, $table){
   // it's done this way so that you can specify different names than the
   // raw fieldname
   var fields = {
-    BL_Crossed:"Breakline Crossed",
+    BL_Count:"BL_Count",
     BL_Length:"Breakline Length",
+    BL_Crossed:"Breakline Crossed",
     Node_Count:"Node Count",
     Node_Zmax:"Node Zmax",
     Node_Zmin:"Node Zmin",
@@ -220,16 +244,20 @@ var NodeEditingSummary = function(JSONData, $table){
 
   // Now go through and make your actual HMTL elements for the table row.
   $.each(fields, function(key, name){
+    var zero = 0.0;
+    var first_key = parseFloat(first[key]).toFixed(2);
+    var last_key = parseFloat(last[key]).toFixed(2);
+
     var $row = $('<tr/>');
     // Easy rows just print values from the summary table
     $row.append($('<td></td>').text(name));
-    $row.append($('<td></td>').text(first[key] || 0));
-    $row.append($('<td></td>').text(last[key] || 0));
+    $row.append($('<td class="number-column"></td>').text(first[key] || "NA"));
+    $row.append($('<td class="number-column"></td>').text(last[key] || "NA"));
 
     // Do a little math, make a little sum. Get down tonight!
     delta = (last[key] - first[key]) /  first[key] * 100;
-    added = delta >= 0 ? delta.toFixed(1) : 0;
-    deleted = delta <= 0 ? -delta.toFixed(1)  : 0;
+    added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
+    deleted = delta <= 0 ? delta.toFixed(1)  : zero.toFixed(1);
 
     if (!first.calcs)
       first.calcs = {}
@@ -240,11 +268,12 @@ var NodeEditingSummary = function(JSONData, $table){
       deleted: deleted
     }
 
-    $row.append($('<td></td>').text(first.calcs[key].added));
-    $row.append($('<td></td>').text(first.calcs[key].deleted));
+    $row.append($('<td class="number-column"></td>').text(first.calcs[key].added));
+    $row.append($('<td class="number-column"></td>').text(first.calcs[key].deleted));
 
     $tbody.append($row);
   })
+
 
   // Now we're going to do some replacing of nodes
   $('#tin-last-timestamp').html(moment(first.TIMESTAMP).format('MMMM Do YYYY, h:mm:ss a'));
@@ -265,11 +294,16 @@ var NodeEditingSummary = function(JSONData, $table){
   $('#nodes-not-topo').html(last['Node_Count'] - last['Nodes_Topo']);
   $('#nodes-Zmax').html((Math.abs(last['Node_Zmax'] - first['Node_Zmax'])).toFixed(2));
   $('#nodes-Zmin').html((Math.abs(last['Node_Zmin'] - first['Node_Zmin'])).toFixed(2));
-  $('#BL-length').html(last['BL_Length'] + ' meters');
+  $('#bl-length').html(last['BL_Length'] + ' meters');
   if (last['BL_Crossed'] == 0) {
-    $('#BL-cross').html('0');
+    $('#bl-cross').html('0');
   } else {
-    $('#BL-cross').html(last['BL_Crossed']);
+    $('#bl-cross').html(last['BL_Crossed']);
+  }
+  if (last['BL_Count'] == 0) {
+    $('#bl-count').html('0');
+  } else {
+    $('#bl-count').html(last['BL_Count']);
   }
   if (last['Dams'] == 'False') {
     $('#dams-remove').html('was not');

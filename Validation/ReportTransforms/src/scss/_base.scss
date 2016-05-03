@@ -20,7 +20,9 @@ table, table.table{
   thead th.version {
     border-right: 1px solid #AAA;
   }
-  th { border: none; }
+  th { border: none;
+       background-color: #313F87;
+  }
   th .label{
     font-size: 100%;
   }
@@ -56,7 +58,7 @@ table, table.table{
   h3{
     font-size: 1.3rem;
     margin-bottom: 0;
-    background: #555;
+    background: #475CC4;
     color: white;
     padding: 0.5rem;    
   }
