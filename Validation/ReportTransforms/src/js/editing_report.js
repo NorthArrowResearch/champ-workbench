@@ -77,7 +77,9 @@ var PointEditingSummary = function(JSONData, $table){
     }
   })
 
+
   // Now go through and make your actual HMTL elements for the table row.
+  var pntCount = 0;
   $.each(summaryObj, function(key,summRow){
     var zero = 0.0;
     var $row = $('<tr/>');
@@ -105,10 +107,12 @@ var PointEditingSummary = function(JSONData, $table){
     $row.append($('<td></td>').text(PointsCollected));
 
     $tbody.append($row);
+
+    pntCount = pntCount + parseFloat(summRow.Last);
   })
-
+  
+  $('#points-total').html(pntCount);
 }
-
 
 /**
  * LineEditingSummary Table 
@@ -172,8 +176,8 @@ var LineEditingSummary = function(JSONData, $table){
       var delta = result;
     }
 
-    var added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
-    var deleted = delta <= 0 ? delta.toFixed(1) : zero.toFixed(1);
+    var added = delta >= 0 ? delta.toFixed(2) : zero.toFixed(2);
+    var deleted = delta <= 0 ? delta.toFixed(2) : zero.toFixed(2);
     var edited = delta == 0 ? "No" : "Yes";
     var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
 
@@ -183,6 +187,7 @@ var LineEditingSummary = function(JSONData, $table){
     $row.append($('<td></td>').text(PointsCollected));
 
     $tbody.append($row);
+
   })
 
 }
@@ -242,22 +247,34 @@ var NodeEditingSummary = function(JSONData, $table){
   }; 
 
 
+
   // Now go through and make your actual HMTL elements for the table row.
   $.each(fields, function(key, name){
-    var zero = 0.0;
-    var first_key = parseFloat(first[key]).toFixed(2);
-    var last_key = parseFloat(last[key]).toFixed(2);
+    var zero = 0.00;
+
+    // format key values for table, if numeric
+    if(first[key] == 'True' || first[key] == 'False') {
+      var first_key_ready = first[key];
+      var last_key_ready = last[key];
+    } else {
+      var first_key = parseFloat(first[key]);
+      var last_key = parseFloat(last[key]);
+      var first_key_rnd = first_key.toFixed(2);
+      var last_key_rnd = last_key.toFixed(2);
+      var first_key_ready = parseFloat(first_key_rnd);
+      var last_key_ready = parseFloat(last_key_rnd);
+    }
 
     var $row = $('<tr/>');
     // Easy rows just print values from the summary table
     $row.append($('<td></td>').text(name));
-    $row.append($('<td class="number-column"></td>').text(first[key] || "NA"));
-    $row.append($('<td class="number-column"></td>').text(last[key] || "NA"));
+    $row.append($('<td class="number-column"></td>').text(first_key_ready || "NA"));
+    $row.append($('<td class="number-column"></td>').text(last_key_ready || "NA"));
 
     // Do a little math, make a little sum. Get down tonight!
     delta = (last[key] - first[key]) /  first[key] * 100;
-    added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
-    deleted = delta <= 0 ? delta.toFixed(1)  : zero.toFixed(1);
+    added = delta >= 0 ? delta.toFixed(2) : zero.toFixed(2);
+    deleted = delta <= 0 ? delta.toFixed(2)  : zero.toFixed(2);
 
     if (!first.calcs)
       first.calcs = {}
@@ -275,7 +292,9 @@ var NodeEditingSummary = function(JSONData, $table){
   })
 
 
+
   // Now we're going to do some replacing of nodes
+  $('#final-tin').html(finalTINname);
   $('#tin-last-timestamp').html(moment(first.TIMESTAMP).format('MMMM Do YYYY, h:mm:ss a'));
   $('#tin-minutes').html(moment(last.TIMESTAMP).diff(first.TIMESTAMP, 'minutes') + " minutes");
   if (delta == 0) {
@@ -306,14 +325,14 @@ var NodeEditingSummary = function(JSONData, $table){
     $('#bl-count').html(last['BL_Count']);
   }
   if (last['Dams'] == 'False') {
-    $('#dams-remove').html('was not');
+    $('#dams-remove').html('were not');
   } else {
-    $('#dams-remove').html('was');
+    $('#dams-remove').html('were');
   }
   if (last['Facets'] == 'False') {
-    $('#facets-remove').html('was not');
+    $('#facets-remove').html('were not');
   } else {
-    $('#facets-remove').html('was');
+    $('#facets-remove').html('were');
   }
 
 }
