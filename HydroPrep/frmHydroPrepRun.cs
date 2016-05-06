@@ -137,15 +137,32 @@ namespace CHaMPWorkbench.HydroPrep
 
                         Console.WriteLine("\n******************************************************************************");
 
-                        System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.CreateNoWindow = true;
-                        proc.StartInfo.FileName = txtExecutablePath.Text;
-                        proc.StartInfo.Arguments = aRun.InputFile;
+                        // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
+                        ProcessStartInfo psi = new ProcessStartInfo();
+                        psi.FileName = txtExecutablePath.Text;
+                        psi.WorkingDirectory = System.IO.Path.GetDirectoryName(txtExecutablePath.Text);
+                        psi.Arguments = aRun.InputFile;
+                        psi.CreateNoWindow = true;
+                        psi.UseShellExecute = true;
+                        psi.RedirectStandardOutput = false;
+                        psi.RedirectStandardError = false;
+                        psi.WindowStyle = (System.Diagnostics.ProcessWindowStyle) ((ListItem) cboWindowStyle.SelectedItem).Value;
+                        gutOutput.AppendText(String.Format("Running: {0}  {1} {2}", Environment.NewLine, txtExecutablePath.Text, psi.Arguments));
 
-                        gutOutput.AppendText(String.Format("Running: {0} {1} {2}", Environment.NewLine, txtExecutablePath.Text, proc.StartInfo.Arguments));
-
-                        System.Diagnostics.Process.Start(proc.StartInfo);
+                        System.Diagnostics.Process proc = new Process();
+                        proc.StartInfo = psi;
+                        
+                        proc.Start();
+                        //System.IO.StreamReader stdErr = proc.StandardError;
+                        proc.WaitForExit();
+                        if (proc.ExitCode != 0)
+                        {
+                            Exception ex = new Exception("Hydro Prep Error");
+                            ex.Data["Hydro Prep"] = txtExecutablePath.Text;
+                            ex.Data["Params"] = psi.Arguments;
+                            //ex.Data["Standard Error"] = stdErr.ReadToEnd();
+                            throw ex;
+                        }
 
                         // Update the batch and set it to no longer queued. Also store the completed date time.
                         pBatchID.Value = aRun.BatchRunID;
@@ -160,6 +177,10 @@ namespace CHaMPWorkbench.HydroPrep
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                     }
                 }
+
+                gutOutput.AppendText(String.Format("{0}Process complete ({1})", Environment.NewLine, DateTime.Now));
+                cmdOK.Visible = false;
+                cmdCancel.Text = "Close";
             }
         }
 
