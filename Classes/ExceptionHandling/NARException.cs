@@ -57,6 +57,9 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
 
             if (bShowUserMessage)
             {
+                // Cancel any wait cursor
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+
                 // Show the standard user interface form to the user.
                 // TODO: format the exception to plain English instead of JSON.
                 String prettyString = Classes.ExceptionHandling.NARException.ToString(theException, AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID);
