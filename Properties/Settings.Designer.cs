@@ -337,5 +337,26 @@ namespace CHaMPWorkbench.Properties {
                 this["HydroGraphEnd"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int ModelType_HydroPrep {
+            get {
+                return ((int)(this["ModelType_HydroPrep"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Model_HydroPrep {
+            get {
+                return ((string)(this["Model_HydroPrep"]));
+            }
+            set {
+                this["Model_HydroPrep"] = value;
+            }
+        }
     }
 }

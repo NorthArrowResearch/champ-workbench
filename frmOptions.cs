@@ -21,6 +21,7 @@ namespace CHaMPWorkbench
             txtOptions.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
             txtGUT.Text = CHaMPWorkbench.Properties.Settings.Default.GUTPythonPath;
             txtPython.Text = CHaMPWorkbench.Properties.Settings.Default.Model_Python;
+            txtHydroPrep.Text = CHaMPWorkbench.Properties.Settings.Default.Model_HydroPrep;
 
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
@@ -100,6 +101,22 @@ namespace CHaMPWorkbench
                 else
                 {
                     MessageBox.Show("The python path must point to the Python scripting language executable file (e.g. C:\\Python\\Python.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtHydroPrep.Text))
+            {
+                CHaMPWorkbench.Properties.Settings.Default.Model_HydroPrep = string.Empty;
+            }
+            else
+            {
+                if (System.IO.File.Exists(txtHydroPrep.Text) && txtHydroPrep.Text.ToLower().EndsWith(".exe"))
+                    CHaMPWorkbench.Properties.Settings.Default.Model_HydroPrep = txtHydroPrep.Text;
+                else
+                {
+                    MessageBox.Show("The hydraulic model preparation path must point to an executable file (e.g. C:\\CHaMP\\HydroPrep\\HydroPrep.exe)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = System.Windows.Forms.DialogResult.None;
                     return;
                 }
@@ -236,6 +253,11 @@ namespace CHaMPWorkbench
         private void cmdBrowsePython_Click(object sender, EventArgs e)
         {
             BrowseExecutable("Python", "Executables (*.exe)|*.exe", ref dlgBrowseExecutable, ref txtPython);
+        }
+
+        private void cmdBrowseHydroPrep_Click(object sender, EventArgs e)
+        {
+            BrowseExecutable("Hydro Preparation", "Executables (*.exe)|*.exe", ref dlgBrowseExecutable, ref txtHydroPrep);
         }
     }
 }

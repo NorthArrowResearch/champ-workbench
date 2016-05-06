@@ -96,5 +96,11 @@
     <Setting Name="HydroGraphEnd" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">2016-01-01</Value>
     </Setting>
+    <Setting Name="ModelType_HydroPrep" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="Model_HydroPrep" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

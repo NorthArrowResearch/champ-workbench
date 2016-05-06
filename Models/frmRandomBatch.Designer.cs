@@ -115,11 +115,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 21);
+            this.label1.Location = new System.Drawing.Point(69, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "RBT batches";
+            this.label1.Text = "Batches";
             // 
             // label2
             // 
@@ -148,7 +148,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmRandomBatch";
-            this.Text = "Queue Random Number of RBT Batch Runs";
+            this.Text = "Queue Random Number of Batch Runs";
             this.Load += new System.EventHandler(this.frmRandomBatch_Load);
             ((System.ComponentModel.ISupportInitialize)(this.valSize)).EndInit();
             this.ResumeLayout(false);

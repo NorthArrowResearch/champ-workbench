@@ -58,6 +58,11 @@
             this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hydraulicModelPreprationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildInputFilesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectBatchesToRunToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSelectedBatchesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.geomorphicUnitToolGUTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildInputFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
@@ -379,17 +384,57 @@
             // delft3DToolStripMenuItem
             // 
             this.delft3DToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cSVToRasterToolStripMenuItem});
+            this.cSVToRasterToolStripMenuItem,
+            this.hydraulicModelPreprationToolStripMenuItem});
+            this.delft3DToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.delft;
             this.delft3DToolStripMenuItem.Name = "delft3DToolStripMenuItem";
             this.delft3DToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.delft3DToolStripMenuItem.Text = "Delft 3D";
-            this.delft3DToolStripMenuItem.Visible = false;
             // 
             // cSVToRasterToolStripMenuItem
             // 
             this.cSVToRasterToolStripMenuItem.Name = "cSVToRasterToolStripMenuItem";
-            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.cSVToRasterToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.cSVToRasterToolStripMenuItem.Text = "CSV To Raster...";
+            // 
+            // hydraulicModelPreprationToolStripMenuItem
+            // 
+            this.hydraulicModelPreprationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buildInputFilesToolStripMenuItem2,
+            this.toolStripSeparator14,
+            this.selectBatchesToRunToolStripMenuItem2,
+            this.runSelectedBatchesToolStripMenuItem1});
+            this.hydraulicModelPreprationToolStripMenuItem.Name = "hydraulicModelPreprationToolStripMenuItem";
+            this.hydraulicModelPreprationToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.hydraulicModelPreprationToolStripMenuItem.Text = "Hydraulic Model Prepration";
+            // 
+            // buildInputFilesToolStripMenuItem2
+            // 
+            this.buildInputFilesToolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.xml;
+            this.buildInputFilesToolStripMenuItem2.Name = "buildInputFilesToolStripMenuItem2";
+            this.buildInputFilesToolStripMenuItem2.Size = new System.Drawing.Size(196, 22);
+            this.buildInputFilesToolStripMenuItem2.Text = "Build Input Files...";
+            this.buildInputFilesToolStripMenuItem2.Click += new System.EventHandler(this.buildInputFilesToolStripMenuItem2_Click);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(193, 6);
+            // 
+            // selectBatchesToRunToolStripMenuItem2
+            // 
+            this.selectBatchesToRunToolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.CheckControlNetwork;
+            this.selectBatchesToRunToolStripMenuItem2.Name = "selectBatchesToRunToolStripMenuItem2";
+            this.selectBatchesToRunToolStripMenuItem2.Size = new System.Drawing.Size(196, 22);
+            this.selectBatchesToRunToolStripMenuItem2.Text = "Select Batches to Run...";
+            this.selectBatchesToRunToolStripMenuItem2.Click += new System.EventHandler(this.selectBatchesToRunToolStripMenuItem2_Click);
+            // 
+            // runSelectedBatchesToolStripMenuItem1
+            // 
+            this.runSelectedBatchesToolStripMenuItem1.Name = "runSelectedBatchesToolStripMenuItem1";
+            this.runSelectedBatchesToolStripMenuItem1.Size = new System.Drawing.Size(196, 22);
+            this.runSelectedBatchesToolStripMenuItem1.Text = "Run Selected Batches...";
+            this.runSelectedBatchesToolStripMenuItem1.Click += new System.EventHandler(this.runSelectedBatchesToolStripMenuItem1_Click);
             // 
             // geomorphicUnitToolGUTToolStripMenuItem
             // 
@@ -1276,6 +1321,11 @@
 		
 		private System.Windows.Forms.ToolStripMenuItem recordPostGCDQAQCRecordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exploreSiteLevelUSGSStreamGageDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hydraulicModelPreprationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildInputFilesToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem selectBatchesToRunToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem runSelectedBatchesToolStripMenuItem1;
     }
 }
 

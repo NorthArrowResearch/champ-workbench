@@ -73,6 +73,8 @@ namespace CHaMPWorkbench
                 ModelType = (string)dbCom.ExecuteScalar();
             }
 
+            this.Text = string.Format("{0} Batches and Runs", ModelType.Trim());
+
             treBatches.CheckBoxes = true;
             LoadTree();
         }

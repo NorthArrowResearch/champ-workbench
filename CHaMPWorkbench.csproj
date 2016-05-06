@@ -108,6 +108,7 @@
     <Compile Include="Classes\ModelInputFiles\BatchInputFileBuilderBase.cs" />
     <Compile Include="Classes\ModelInputFiles\GUTInputProperties.cs" />
     <Compile Include="Classes\ModelInputFiles\GUT_BatchInputFileBuilder.cs" />
+    <Compile Include="Classes\ModelInputFiles\HydroPrepBatchBuilder.cs" />
     <Compile Include="Classes\ModelInputFiles\RBT_BatchInputfileBuilder.cs" />
     <Compile Include="Classes\BudgetSegregation.cs" />
     <Compile Include="Classes\CHaMPData.cs" />
@@ -260,10 +261,22 @@
     <Compile Include="Habitat\HabitatModelDef.cs" />
     <Compile Include="Habitat\HSProjectManager.cs" />
     <Compile Include="Habitat\Paths.cs" />
-    <Compile Include="RBT\Batches\frmRandomBatch.cs">
+    <Compile Include="HydroPrep\frmHydroPrepRun.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RBT\Batches\frmRandomBatch.Designer.cs">
+    <Compile Include="HydroPrep\frmHydroPrepRun.Designer.cs">
+      <DependentUpon>frmHydroPrepRun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HydroPrep\frmHydroPrepBatchBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HydroPrep\frmHydroPrepBatchBuilder.Designer.cs">
+      <DependentUpon>frmHydroPrepBatchBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\frmRandomBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Models\frmRandomBatch.Designer.cs">
       <DependentUpon>frmRandomBatch.cs</DependentUpon>
     </Compile>
     <Compile Include="RBT\frmRunBatches.cs">
@@ -384,7 +397,13 @@
     <EmbeddedResource Include="Habitat\frmScavengeHabitatResults.resx">
       <DependentUpon>frmScavengeHabitatResults.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RBT\Batches\frmRandomBatch.resx">
+    <EmbeddedResource Include="HydroPrep\frmHydroPrepRun.resx">
+      <DependentUpon>frmHydroPrepRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HydroPrep\frmHydroPrepBatchBuilder.resx">
+      <DependentUpon>frmHydroPrepBatchBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\frmRandomBatch.resx">
       <DependentUpon>frmRandomBatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RBT\frmRunBatches.resx">
@@ -526,6 +545,7 @@
     <Content Include="Experimental\Kelly\Scripts\ReadMe.txt" />
     <None Include="Resources\LineGraph.png" />
     <None Include="Resources\LineGraph1.png" />
+    <None Include="Resources\delft.png" />
     <Content Include="Validation\ReportTransforms\dist\gcd.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

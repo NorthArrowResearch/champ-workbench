@@ -1194,5 +1194,52 @@ namespace CHaMPWorkbench
                 frm.ShowDialog();
             }
         }
+
+        private void buildInputFilesToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            List<int> lvisitIDs = new List<int>();
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+
+                lvisitIDs.Add((int)r["VisitID"]);
+            }
+
+            if (lvisitIDs.Count > 0)
+            {
+                HydroPrep.frmHydroPrepBatchBuilder frm = new HydroPrep.frmHydroPrepBatchBuilder(m_dbCon.ConnectionString, lvisitIDs);
+
+                try
+                {
+                    frm.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("You must have at least one visit in the main grid view to create an RBT batch.");
+        }
+
+        private void selectBatchesToRunToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_HydroPrep);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
+
+        private void runSelectedBatchesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            HydroPrep.frmHydroPrepRun frm = new HydroPrep.frmHydroPrepRun(m_dbCon.ConnectionString);
+            frm.ShowDialog();
+        }
     }
 }

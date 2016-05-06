@@ -50,6 +50,11 @@
             this.valGoogleMapZoom = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dtEnd = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.dtStart = new System.Windows.Forms.DateTimePicker();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmdBrowsePython = new System.Windows.Forms.Button();
@@ -63,18 +68,16 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.dtStart = new System.Windows.Forms.DateTimePicker();
-            this.dtEnd = new System.Windows.Forms.DateTimePicker();
-            this.label9 = new System.Windows.Forms.Label();
+            this.cmdBrowseHydroPrep = new System.Windows.Forms.Button();
+            this.txtHydroPrep = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -279,6 +282,51 @@
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dtEnd);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.dtStart);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Location = new System.Drawing.Point(20, 59);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(296, 87);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Hydrograph Date Range";
+            // 
+            // dtEnd
+            // 
+            this.dtEnd.Location = new System.Drawing.Point(50, 54);
+            this.dtEnd.Name = "dtEnd";
+            this.dtEnd.Size = new System.Drawing.Size(240, 20);
+            this.dtEnd.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(21, 58);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(26, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "End";
+            // 
+            // dtStart
+            // 
+            this.dtStart.Location = new System.Drawing.Point(50, 28);
+            this.dtStart.Name = "dtStart";
+            this.dtStart.Size = new System.Drawing.Size(240, 20);
+            this.dtStart.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(18, 32);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Start";
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.txtTemp);
@@ -300,6 +348,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.cmdBrowseHydroPrep);
+            this.tabPage3.Controls.Add(this.txtHydroPrep);
+            this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.cmdBrowsePython);
             this.tabPage3.Controls.Add(this.txtPython);
             this.tabPage3.Controls.Add(this.label3);
@@ -428,50 +479,34 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // groupBox1
+            // cmdBrowseHydroPrep
             // 
-            this.groupBox1.Controls.Add(this.dtEnd);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.dtStart);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Location = new System.Drawing.Point(20, 59);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 87);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Hydrograph Date Range";
+            this.cmdBrowseHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseHydroPrep.Location = new System.Drawing.Point(755, 106);
+            this.cmdBrowseHydroPrep.Name = "cmdBrowseHydroPrep";
+            this.cmdBrowseHydroPrep.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseHydroPrep.TabIndex = 11;
+            this.cmdBrowseHydroPrep.Text = "Browse";
+            this.cmdBrowseHydroPrep.UseVisualStyleBackColor = true;
+            this.cmdBrowseHydroPrep.Click += new System.EventHandler(this.cmdBrowseHydroPrep_Click);
             // 
-            // label8
+            // txtHydroPrep
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 32);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(29, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Start";
+            this.txtHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHydroPrep.Location = new System.Drawing.Point(148, 107);
+            this.txtHydroPrep.Name = "txtHydroPrep";
+            this.txtHydroPrep.Size = new System.Drawing.Size(601, 20);
+            this.txtHydroPrep.TabIndex = 10;
             // 
-            // dtStart
+            // label10
             // 
-            this.dtStart.Location = new System.Drawing.Point(50, 28);
-            this.dtStart.Name = "dtStart";
-            this.dtStart.Size = new System.Drawing.Size(240, 20);
-            this.dtStart.TabIndex = 1;
-            // 
-            // dtEnd
-            // 
-            this.dtEnd.Location = new System.Drawing.Point(50, 54);
-            this.dtEnd.Name = "dtEnd";
-            this.dtEnd.Size = new System.Drawing.Size(240, 20);
-            this.dtEnd.TabIndex = 3;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 58);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(26, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "End";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(50, 111);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(92, 13);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "Hydro Preparation";
             // 
             // frmOptions
             // 
@@ -495,14 +530,14 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -547,5 +582,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DateTimePicker dtStart;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button cmdBrowseHydroPrep;
+        private System.Windows.Forms.TextBox txtHydroPrep;
+        private System.Windows.Forms.Label label10;
     }
 }
