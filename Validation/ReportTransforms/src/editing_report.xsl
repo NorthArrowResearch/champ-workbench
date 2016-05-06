@@ -105,8 +105,6 @@
             <!-- Image Snapshots -->
             <div class="panel panel-default"> 
               <h2>Review Images</h2>
-            <!--  <xsl:variable name="mim-id" as="xs:string*" 
-                select="'MIM_05', 'MIM_06', 'MIM_07', 'MIM_13'" /> -->
               <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[ImageCode='MIM_04' or ImageCode='MIM_05']" >
                 <div class="panel-body">
                     <img src="{FilePath}" />
