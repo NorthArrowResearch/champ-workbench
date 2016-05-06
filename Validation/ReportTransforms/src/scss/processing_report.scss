@@ -6,17 +6,18 @@
 table#channel-feature-summary {
   tr td:nth-child(1), { width: 200px; }
   tr th:nth-child(1) { width: 300px; }
-}
-
-#light{
-  thead { 
-        background-color: #ccc;
-        color:#777;
-    }
 } 
 
 h3.table-name {
 	font-size: 1.2em;
+}
+
+h3.bottom-pad {
+	padding: 0 0 15px 0;
+}
+
+h2.top-pad, h3.top-pad, h4.top-pad {
+  padding: 15px 0 0 0;
 }
 
 span.response {

@@ -57,12 +57,12 @@ var PointEditingSummary = function(JSONData, $table){
     if (summaryObj[record.Code]){
       // If we're looking at something newer than the newest or older than the oldest
       // then reset those points.
-      if (summaryObj[record.Code].FirstTime >= record.UnixTime){
-        summaryObj[record.Code].FirstTime = record.UnixTime;
+      if (summaryObj[record.Code].FirstTime >= record.unixTime){
+        summaryObj[record.Code].FirstTime = record.unixTime;
         summaryObj[record.Code].First = record.Count;
       }
-      if (summaryObj[record.Code].LastTime <= record.UnixTime){
-        summaryObj[record.Code].LastTime = record.UnixTime
+      if (summaryObj[record.Code].LastTime <= record.unixTime){
+        summaryObj[record.Code].LastTime = record.unixTime
         summaryObj[record.Code].Last = record.Count;
       }
     }
@@ -96,8 +96,8 @@ var PointEditingSummary = function(JSONData, $table){
       var delta = result;
     }
 
-    var added = delta >= 0 ? delta.toFixed(1) : zero.toFixed(1);
-    var deleted = delta <= 0 ? delta.toFixed(1) : zero.toFixed(1);
+    var added = delta >= 0 ? delta.toFixed(2) : zero.toFixed(2);
+    var deleted = delta <= 0 ? delta.toFixed(2) : zero.toFixed(2);
     var edited = delta == 0 ? "No" : "Yes";
     var PointsCollected = summRow.Last == 0 && summRow.First == 0? "No" : "Yes";
 
@@ -131,21 +131,22 @@ var LineEditingSummary = function(JSONData, $table){
   // We have to collect the records by Code.
   $.each(records, function(key,record){
     record.unixTime = moment(record.TIMESTAMP).unix();
+
     // This Code exists in our summary object.
     if (summaryObj[record.Code]){
       // If we're looking at something newer than the newest or older than the oldest
       // then reset those points.
-      if (summaryObj[record.Code].FirstTime >= record.UnixTime){
-        summaryObj[record.Code].FirstTime = record.UnixTime;
+      if (summaryObj[record.Code].FirstTime >= record.unixTime){
+        summaryObj[record.Code].FirstTime = record.unixTime;
         summaryObj[record.Code].First = record.Length;
       }
-      if (summaryObj[record.Code].LastTime <= record.UnixTime){
-        summaryObj[record.Code].LastTime = record.UnixTime
+      if (summaryObj[record.Code].LastTime <= record.unixTime){
+        summaryObj[record.Code].LastTime = record.unixTime
         summaryObj[record.Code].Last = record.Length;
       }
     }
     // We don't have a record for this code yet. Create one. 
-    else{
+    else {
       summaryObj[record.Code] = {
         First: record.Length,
         FirstTime: record.unixTime,
@@ -292,16 +293,17 @@ var NodeEditingSummary = function(JSONData, $table){
   })
 
 
-
-  // Now we're going to do some replacing of nodes
+  // Now we're going to do some replacing of spans
   $('#final-tin').html(finalTINname);
   $('#tin-last-timestamp').html(moment(first.TIMESTAMP).format('MMMM Do YYYY, h:mm:ss a'));
-  $('#tin-minutes').html(moment(last.TIMESTAMP).diff(first.TIMESTAMP, 'minutes') + " minutes");
+  $('#tin-hours').html(moment(last.TIMESTAMP).diff(first.TIMESTAMP, 'hours') + " hours");
+
   if (delta == 0) {
     $('#nodes-delta').html('0%');
   } else {
     $('#nodes-delta').html(first.calcs['Node_Count'].delta.toFixed(1) + '%');
   }
+
   if (added == 0) {
     $('#nodes-added').html('0');
     $('#nodes-deleted').html(Math.abs(last['Node_Count'] - first['Node_Count']));
@@ -309,32 +311,26 @@ var NodeEditingSummary = function(JSONData, $table){
     $('#nodes-added').html(Math.abs(last['Node_Count'] - first['Node_Count']));
     $('#nodes-deleted').html('0');
   }
+
   $('#nodes-topo').html(last['Nodes_Topo']);
   $('#nodes-not-topo').html(last['Node_Count'] - last['Nodes_Topo']);
   $('#nodes-Zmax').html((Math.abs(last['Node_Zmax'] - first['Node_Zmax'])).toFixed(2));
   $('#nodes-Zmin').html((Math.abs(last['Node_Zmin'] - first['Node_Zmin'])).toFixed(2));
-  $('#bl-length').html(last['BL_Length'] + ' meters');
+
+  var last_bl_len = parseFloat(last['BL_Length']);
+  $('#bl-length').html(last_bl_len.toFixed(2) + ' meters');
+
   if (last['BL_Crossed'] == 0) {
     $('#bl-cross').html('0');
   } else {
     $('#bl-cross').html(last['BL_Crossed']);
   }
+
   if (last['BL_Count'] == 0) {
     $('#bl-count').html('0');
   } else {
     $('#bl-count').html(last['BL_Count']);
   }
-  if (last['Dams'] == 'False') {
-    $('#dams-remove').html('were not');
-  } else {
-    $('#dams-remove').html('were');
-  }
-  if (last['Facets'] == 'False') {
-    $('#facets-remove').html('were not');
-  } else {
-    $('#facets-remove').html('were');
-  }
-
 }
 
 
