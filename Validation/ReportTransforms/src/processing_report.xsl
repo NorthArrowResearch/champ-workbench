@@ -45,6 +45,12 @@
                 </tbody>
               </table>
               <div class="panel-body"><p>Additional Survey Quality notes: </p></div>
+                <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[ImageCode='MIM_02' or ImageCode='MIM_03']" >
+                <div class="panel-body">
+                    <img src="{FilePath}" />
+                    <p><xsl:value-of select="Title" /></p>
+                </div>
+              </xsl:for-each>
             </div>
           </div>
             
@@ -54,13 +60,7 @@
               <div class="panel-body"><!-- from QaQcTIN -->
                 <p>Detailed information about the editing that occurred during post-processing of the survey can be found in the Editing Report.</p>There were rod height busts to resolve during processing: <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'SQR_04']/Response" /></span>. '<span class="response"><xsl:value-of select="/surveyGDB/tables/table/records/record/FinalTIN" /></span>' was the final TIN generated. The survey edits occurred <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'TIN_01']/Response" /></span> and the TIN quality was described as <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'TIN_08']/Response" /></span>.   
               </div>
-              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[Title='Water Surface']">
-                <div class="panel-body">
-                  <img src="{FilePath}" />
-                  <p><xsl:value-of select="Title" /></p>
-                  <p></p>
-                </div>
-              </xsl:for-each>
+
           </div>
             
           <!-- Channel Features -->
@@ -69,11 +69,10 @@
               <div class="panel-body"><!-- from QaQcPolygons -->
                 <p>The survey has <span id="poly-water-extent" class="response">[0]</span> water extent polygon(s) and <span id="unique-channel-units">[0]</span> unique channel units. Regarding side channels, <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_01']/Response" /></span>. Water flow connects all wetted areas in <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_03']/Response" /></span>. According to the processing crew, the topography beyond the survey and the extent size is described as: <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_02']/Response" /></span>. <span id="bar-points" class="response">[0]</span> bar points were collected at the site and <span id="wse-points" class="response">[0]</span> water surface shots were collected.</p> 
               </div>
-              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[Title='Bankful XSections']">
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[ImageCode='MIM_04' or ImageCode='MIM_07' or ImageCode='MIM_08' or ImageCode='MIM_09' or ImageCode='MIM_10' or ImageCode='MIM_11']" >
                 <div class="panel-body">
-                  <img src="{FilePath}" />
-                  <p><xsl:value-of select="Title" /></p>
-                  <p></p>
+                    <img src="{FilePath}" />
+                    <p><xsl:value-of select="Title" /></p>
                 </div>
               </xsl:for-each>
               
@@ -111,7 +110,6 @@
                 <p>depending on input availability, as instrumentation and processing tools have changed over the years. See <a href="#ref">Bangen et al. 2016</a>.</p>
 
                 <p>According to the processing crew, the topographic uncertainty was described as  <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_04']/Response" /></span>.</p>
-
               </div>
               <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[FilePath='MapImages\PlainDEM.jpg']">
                 <div class="panel-body">
@@ -132,7 +130,13 @@
                   <li> <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_07']/Notes" /></span></li>
                   <li>According to the processing crew, recommended areas to resurvey or collect more points would be  <span class="response"><xsl:value-of select ="/surveyGDB/tables/table/records/record[QuestionID = 'PS_08']/Response" /></span></li>
                 </ul>
-              </div>  
+              </div>
+              <xsl:for-each select="/surveyGDB/tables/table[name='MapImages']/records/record[ImageCode='MIM_01' or ImageCode='MIM_13' or ImageCode='MIM_14' or ImageCode='MIM_15']">
+                <div class="panel-body">
+                    <img src="{FilePath}" />
+                    <p><xsl:value-of select="Title" /></p>
+                </div>
+              </xsl:for-each> 
           </div>
 
           <!-- References -->
@@ -168,7 +172,7 @@
                 <li>Projection: <xsl:value-of select="/surveyGDB/tables/table/records/record/Projection" /></li>
                 <li>Survey GDB Name: <xsl:value-of select="/surveyGDB/filename" /></li>
                 <li>Toolbar Version: <xsl:value-of select="/surveyGDB/toolbarVersion" /></li>
-                <li>Survey Quality: </li>
+                <li>Survey Quality: <xsl:value-of select="/surveyGDB/tables/table/records/record[QuestionID = 'TIN_08']/Response" /></li>
                 <!-- <li>Total processing time: </li> mothball until next version--> 
               </ul>
              </div>
