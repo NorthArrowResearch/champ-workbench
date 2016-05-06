@@ -49,6 +49,7 @@ namespace CHaMPWorkbench.Classes
         // Strings to use when naming things
         private const string m_sTopoFolder = "Topo";
         private const string m_sGUTFolder = "GUT";
+        private const string m_sHydroPrepFolder = "HydroPrep";
 
         // Regex Patterns for things
         private const string m_sVisitFolder = "\\\\VISIT_{0}$";
@@ -326,6 +327,11 @@ namespace CHaMPWorkbench.Classes
         public static DirectoryInfo GUTOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
         {
             return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sGUTFolder);
+        }
+
+        public static DirectoryInfo HydroPrepFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder)
+        {
+            return ModelOutputFolder(sTopLevelOutputFolder, dVisitFolder, m_sHydroPrepFolder);
         }
 
         private static DirectoryInfo ModelOutputFolder(string sTopLevelOutputFolder, DirectoryInfo dVisitFolder, string sModelFolderName)
