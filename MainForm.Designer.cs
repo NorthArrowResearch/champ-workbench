@@ -447,6 +447,7 @@
             this.geomorphicUnitToolGUTToolStripMenuItem.Name = "geomorphicUnitToolGUTToolStripMenuItem";
             this.geomorphicUnitToolGUTToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.geomorphicUnitToolGUTToolStripMenuItem.Text = "Geomorphic Unit Tool (GUT)";
+            this.geomorphicUnitToolGUTToolStripMenuItem.Visible = false;
             // 
             // buildInputFilesToolStripMenuItem1
             // 

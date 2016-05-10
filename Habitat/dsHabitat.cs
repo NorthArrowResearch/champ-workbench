@@ -1,43 +1,4 @@
-﻿namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop
-{
-}
-namespace HMDesktop.dsHabitatTableAdapters
+﻿namespace HMDesktop.dsHabitatTableAdapters
 {
     partial class HSCTableAdapter
     {
@@ -95,10 +56,12 @@ namespace HMDesktop
 {
     
 }
-namespace HMDesktop {
-    
-    
-    public partial class dsHabitat {
+namespace HMDesktop
+{
+
+
+    public partial class dsHabitat
+    {
     }
 }
 namespace HMDesktop {

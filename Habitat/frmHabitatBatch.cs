@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
 
@@ -235,68 +231,6 @@ namespace CHaMPWorkbench.Habitat
             }
         }
 
-        //private class ViewVisit
-        //{
-        //    private int m_nVisitID;
-        //    private Int16 m_nFieldSeason;
-        //    private string m_sPanel;
-        //    private Boolean m_bIsPrimary;
-
-        //    private string m_sWatershed;
-        //    private int m_nWatershedID;
-        //    private string m_sWatershedFolder;
-
-        //    private int m_nSiteID;
-        //    private string m_sSite;
-        //    private string m_sSiteFolder;
-
-        //    private bool m_bSelected;
-
-        //    public int VisitID { get { return m_nVisitID; } }
-        //    private string m_sTopoFolder;
-        //    private string m_sSurveyGDB;
-        //    private string m_sCSVFile;
-
-        //    public int FieldSeason { get { return (int)m_nFieldSeason; } }
-        //    public string TopoFolder { get { return System.IO.Path.Combine(m_nFieldSeason.ToString(), m_sWatershedFolder, m_sSiteFolder, m_sTopoFolder); } }
-        //    public string SurveyGDB { get { return System.IO.Path.Combine(TopoFolder, m_sSurveyGDB); } }
-        //    public string HydraulicCSV { get { return System.IO.Path.Combine(TopoFolder, m_sCSVFile); } }
-
-        //    public string Watershed { get { return m_sWatershed; } }
-        //    public int WatershedID { get { return m_nWatershedID; } }
-
-        //    public string Site { get { return m_sSite; } }
-        //    public int SiteID { get { return m_nSiteID; } }
-
-        //    public bool Selected { get { return m_bSelected; } set { m_bSelected = value; } }
-        //    public string Panel { get { return m_sPanel; } }
-        //    public bool IsPrimary { get { return m_bIsPrimary; } }
-
-        //    public ViewVisit(int nVisitID, string sVisitTopoFolder, string sSurveyGDB, string sCSVFile, Int16 nFieldSeason,
-        //        int nWatershedID, string sWatershedFolder, string sWatershed,
-        //        int nSiteID, string sSite, string sSiteFolder,
-        //        string sPanel, Boolean bIsPrimary)
-        //    {
-        //        m_nVisitID = nVisitID;
-        //        m_sTopoFolder = sVisitTopoFolder;
-        //        m_sSurveyGDB = sSurveyGDB;
-        //        m_sCSVFile = sCSVFile;
-        //        m_nFieldSeason = nFieldSeason;
-
-        //        m_nWatershedID = nWatershedID;
-        //        m_sWatershed = sWatershed;
-        //        m_sWatershedFolder = sWatershedFolder;
-
-        //        m_nSiteID = nSiteID;
-        //        m_sSite = sSite;
-        //        m_sSiteFolder = sSiteFolder;
-
-        //        m_sPanel = sPanel;
-        //        m_bIsPrimary = bIsPrimary;
-        //        m_bSelected = true;
-        //    }
-        //}
-
         private void cmdHabitatModelDB_Click(object sender, EventArgs e)
         {
             OpenFileDialog frm = new OpenFileDialog();
@@ -429,7 +363,16 @@ namespace CHaMPWorkbench.Habitat
                 foreach (object obj in chkModels.CheckedItems)
                     lModels.Add((HabitatModelDef)obj);
 
-                theBuilder.BuildBatch(lVisitIDs, lModels, ref nSuccess, ref nError);
+                try
+                {
+                    theBuilder.BuildBatch(lVisitIDs, lModels, ref nSuccess, ref nError);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    return;
+                }
 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 MessageBox.Show(String.Format("Complete. {0} successful simulations added, and {1} simulations encountered errors.", nSuccess, nError), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);

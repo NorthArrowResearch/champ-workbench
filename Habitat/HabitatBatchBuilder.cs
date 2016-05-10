@@ -29,7 +29,7 @@ namespace CHaMPWorkbench.Habitat
             m_sD50RasterFile = sD50RasterFile;
 
             m_HabitatManager = new HSProjectManager(sHabitatDBPath);
-        }
+        }   
 
         public void BuildBatch(List<int> lVisitIDs, List<HabitatModelDef> lModels, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
         {
@@ -45,22 +45,32 @@ namespace CHaMPWorkbench.Habitat
                     if (!lVisitIDs.Contains(rVisit.VisitID))
                         continue;
 
+                    if (m_HabitatManager.ProjectDatabase.Projects.Count == 0)
+                        throw new Exception("Project file does not contain a project node. Did you initialize it using HMDesktop?");
+
+                    if (m_HabitatManager.ProjectDatabase.Simulations.Count > 0)
+                        throw new Exception(string.Format("Project file already contains {0} simulations. Please start with a new project file", m_HabitatManager.ProjectDatabase.Simulations.Count));
+
                     // Create the one simulation for this visit
                     dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
                     string sModelTitle;
+                    string sModelShortName;
 
                     if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
                     {
-                        sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).Title;
+                        sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
+                        sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
                         rSimulation.HSIID = theModelDef.Value;
                     }
                     else
                     {
-                        sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).Title;
+                        sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
+                        sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
                         rSimulation.FISID = theModelDef.Value;
                     }
 
                     rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
+                    rSimulation.ShortName = GetSimulationName(rVisit, sModelShortName);
                     rSimulation.CreatedBy = Environment.UserName;
                     rSimulation.CreatedOn = DateTime.Now;
                     rSimulation.RunOn = new DateTime(1970, 1, 1);
@@ -69,13 +79,16 @@ namespace CHaMPWorkbench.Habitat
                     rSimulation.OutputRaster = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "tif"));
                     rSimulation.OutputCSV = Paths.GetRelativePath(Paths.GetSpecificOutputFullPath(rSimulation.Title, "csv"));
                     rSimulation.IsQueuedToRun = true;
-                    rSimulation.CHaMPVisitID = rVisit.VisitID;
-                    rSimulation.CHaMPSiteName = rVisit.CHAMP_SitesRow.SiteName;
-                    rSimulation.CHaMPWatershed = rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName;
                     rSimulation.CellSize = (float)0.1;
 
                     // Add the simulation. Now that it's XML, the ID should not need to be retrieved.
                     m_HabitatManager.ProjectDatabase.Simulations.AddSimulationsRow(rSimulation);
+
+                    // Add the metadata we need to sort this out using scrapers.
+                    AddSimulationMetaData(ref rSimulation, "visit", rVisit.VisitID.ToString());
+                    AddSimulationMetaData(ref rSimulation, "site", rVisit.CHAMP_SitesRow.SiteName);
+                    AddSimulationMetaData(ref rSimulation, "watershed", rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName);
+                    AddSimulationMetaData(ref rSimulation, "year", rVisit.VisitYear.ToString());
 
                     // Trigger retrieval of SimulationID;
                     //m_taSimulations.Update(rSimulation);
@@ -86,18 +99,21 @@ namespace CHaMPWorkbench.Habitat
                     Boolean bRasterInputs = false;
                     bool bSimulationRecordsOK = false;
 
+                    // Create raster data source
+                    System.IO.FileInfo dD50Raster = null;
+                    Classes.DataFolders.D50Raster(m_dD50Folder, m_sD50RasterFile, rVisit.VisitID, out dD50Raster);
+
                     if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
-                        bSimulationRecordsOK = AddHSISimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
+                        bSimulationRecordsOK = AddHSISimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs, ref dD50Raster);
                     else
                         bSimulationRecordsOK = AddFISSimulationChildRecords(ref rSimulation, rVisit, theModelDef.Value, ref bRasterInputs);
 
+
                     // Need to make a quick rasterman call in order to get the rastermeta
-                    if (!String.IsNullOrEmpty(m_sD50RasterFile) &&
-                        System.IO.File.Exists( System.IO.Path.Combine(m_dD50Folder.FullName, m_sD50RasterFile)) && 
-                        !String.IsNullOrEmpty(rSimulation.OutputRaster))
+                    if (!string.IsNullOrEmpty(rSimulation.OutputRaster) && dD50Raster != null)
                     {
-                        CHaMPWorkbench.Classes.RasterMeta rmSim = new CHaMPWorkbench.Classes.RasterMeta(m_sD50RasterFile);
-                        rSimulation.RasterCellSize = rmSim.CellHeight;
+                        CHaMPWorkbench.Classes.RasterMeta rmSim = new CHaMPWorkbench.Classes.RasterMeta(dD50Raster.FullName);
+                        rSimulation.RasterCellSize = rmSim.CellWidth;
                         rSimulation.RasterTop = rmSim.Top;
                         rSimulation.RasterLeft = rmSim.Left;
                         rSimulation.RasterCols = rmSim.Cols;
@@ -112,9 +128,7 @@ namespace CHaMPWorkbench.Habitat
                         // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
                         // currently possible in the C++
                         rSimulation = m_HabitatManager.ProjectDatabase.Simulations.FindBySimulationID(nSimulationID);
-                        if (bRasterInputs)
-                            rSimulation.SetOutputCSVNull();
-                        else
+                        if (!bRasterInputs)
                             rSimulation.SetOutputRasterNull();
 
                         HSProjectManager.Instance.Save();
@@ -130,7 +144,19 @@ namespace CHaMPWorkbench.Habitat
             CHaMPWorkbench.Classes.RasterManager.DestroyGDAL();
         }
 
-        private bool AddHSISimulationChildRecords(ref dsHabitat.SimulationsRow rSimulation, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, int nHSIID, ref bool bRasterInputs)
+        private bool AddSimulationMetaData(ref dsHabitat.SimulationsRow rSimulation, string sKey, string sValue)
+        {
+            dsHabitat.SimulationMetaRow rMeta = m_HabitatManager.ProjectDatabase.SimulationMeta.NewSimulationMetaRow();
+            rMeta.SimulationsRow = rSimulation;
+            rMeta.TheKey = sKey;
+            rMeta.TheValue = sValue;
+
+            m_HabitatManager.ProjectDatabase.SimulationMeta.AddSimulationMetaRow(rMeta);
+            m_HabitatManager.ProjectDatabase.SimulationMeta.AcceptChanges();
+            return true;
+        }
+
+        private bool AddHSISimulationChildRecords(ref dsHabitat.SimulationsRow rSimulation, RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit, int nHSIID, ref bool bRasterInputs, ref System.IO.FileInfo dD50Raster)
         {
             // This is a temporary list to store the project variables. It is checked to ensure that
             // all are valid before they are actually added to the project.
@@ -147,9 +173,8 @@ namespace CHaMPWorkbench.Habitat
 
                 if (rVariable.VariableName.ToLower().Contains("substrate") || rVariable.VariableName.ToLower().Contains("d50"))
                 {
-                    // Create raster data source
-                    System.IO.FileInfo dD50Raster = null;
-                    if (Classes.DataFolders.D50Raster(m_dD50Folder, m_sD50RasterFile, rVisit.VisitID, out dD50Raster))
+
+                    if (dD50Raster != null)
                     {
                         dsHabitat.ProjectDataSourcesRow rSubstrateSource = BuildAndCopyProjectDataSource(rVisit.VisitID, "SubstrateRaster", dD50Raster.FullName, false, "raster");
                         // Create project variable

@@ -14,7 +14,7 @@
   <xs:element name="dsHabitat" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsHabitat" msprop:Generator_UserDSName="dsHabitat">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="FIS" msprop:Generator_TableClassName="FISDataTable" msprop:Generator_TableVarName="tableFIS" msprop:Generator_TablePropName="FIS" msprop:Generator_RowDeletingName="FISRowDeleting" msprop:Generator_RowChangingName="FISRowChanging" msprop:Generator_RowEvHandlerName="FISRowChangeEventHandler" msprop:Generator_RowDeletedName="FISRowDeleted" msprop:Generator_UserTableName="FIS" msprop:Generator_RowChangedName="FISRowChanged" msprop:Generator_RowEvArgName="FISRowChangeEvent" msprop:Generator_RowClassName="FISRow">
+        <xs:element name="FIS" msprop:Generator_TableClassName="FISDataTable" msprop:Generator_TableVarName="tableFIS" msprop:Generator_RowChangedName="FISRowChanged" msprop:Generator_TablePropName="FIS" msprop:Generator_RowDeletingName="FISRowDeleting" msprop:Generator_RowChangingName="FISRowChanging" msprop:Generator_RowEvHandlerName="FISRowChangeEventHandler" msprop:Generator_RowDeletedName="FISRowDeleted" msprop:Generator_RowClassName="FISRow" msprop:Generator_UserTableName="FIS" msprop:Generator_RowEvArgName="FISRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="FISID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnFISID" msprop:Generator_ColumnPropNameInRow="FISID" msprop:Generator_ColumnPropNameInTable="FISIDColumn" msprop:Generator_UserColumnName="FISID" type="xs:int" />
@@ -25,8 +25,8 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="SpeciesID" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" />
-              <xs:element name="LifeStageID" msprop:Generator_ColumnVarNameInTable="columnLifeStageID" msprop:Generator_ColumnPropNameInRow="LifeStageID" msprop:Generator_ColumnPropNameInTable="LifeStageIDColumn" msprop:Generator_UserColumnName="LifeStageID" type="xs:int" />
+              <xs:element name="SpeciesID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" />
+              <xs:element name="LifeStageID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnLifeStageID" msprop:Generator_ColumnPropNameInRow="LifeStageID" msprop:Generator_ColumnPropNameInTable="LifeStageIDColumn" msprop:Generator_UserColumnName="LifeStageID" type="xs:int" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -41,21 +41,22 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="ShortName" msprop:Generator_ColumnVarNameInTable="columnShortName" msprop:Generator_ColumnPropNameInRow="ShortName" msprop:Generator_ColumnPropNameInTable="ShortNameColumn" msprop:Generator_UserColumnName="ShortName" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Units" msprop:Generator_TableClassName="UnitsDataTable" msprop:Generator_TableVarName="tableUnits" msprop:Generator_TablePropName="Units" msprop:Generator_RowDeletingName="UnitsRowDeleting" msprop:Generator_RowChangingName="UnitsRowChanging" msprop:Generator_RowEvHandlerName="UnitsRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitsRowDeleted" msprop:Generator_UserTableName="Units" msprop:Generator_RowChangedName="UnitsRowChanged" msprop:Generator_RowEvArgName="UnitsRowChangeEvent" msprop:Generator_RowClassName="UnitsRow">
+        <xs:element name="Units" msprop:Generator_TableClassName="UnitsDataTable" msprop:Generator_TableVarName="tableUnits" msprop:Generator_RowChangedName="UnitsRowChanged" msprop:Generator_TablePropName="Units" msprop:Generator_RowDeletingName="UnitsRowDeleting" msprop:Generator_RowChangingName="UnitsRowChanging" msprop:Generator_RowEvHandlerName="UnitsRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitsRowDeleted" msprop:Generator_RowClassName="UnitsRow" msprop:Generator_UserTableName="Units" msprop:Generator_RowEvArgName="UnitsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="UnitID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitID" msprop:Generator_ColumnPropNameInRow="UnitID" msprop:Generator_ColumnPropNameInTable="UnitIDColumn" msprop:Generator_UserColumnName="UnitID" type="xs:int" />
-              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" minOccurs="0">
+              <xs:element name="UnitID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnUnitID" msprop:Generator_ColumnPropNameInRow="UnitID" msprop:Generator_ColumnPropNameInTable="UnitIDColumn" msprop:Generator_UserColumnName="UnitID" type="xs:int" />
+              <xs:element name="Title" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="DimensionID" msprop:Generator_ColumnVarNameInTable="columnDimensionID" msprop:Generator_ColumnPropNameInRow="DimensionID" msprop:Generator_ColumnPropNameInTable="DimensionIDColumn" msprop:Generator_UserColumnName="DimensionID" type="xs:int" minOccurs="0" />
+              <xs:element name="DimensionID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnDimensionID" msprop:Generator_ColumnPropNameInRow="DimensionID" msprop:Generator_ColumnPropNameInTable="DimensionIDColumn" msprop:Generator_UserColumnName="DimensionID" type="xs:int" minOccurs="0" />
               <xs:element name="Abbreviation" msprop:Generator_ColumnVarNameInTable="columnAbbreviation" msprop:Generator_ColumnPropNameInRow="Abbreviation" msprop:Generator_ColumnPropNameInTable="AbbreviationColumn" msprop:Generator_UserColumnName="Abbreviation" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -66,7 +67,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="HSC" msprop:Generator_TableClassName="HSCDataTable" msprop:Generator_TableVarName="tableHSC" msprop:Generator_TablePropName="HSC" msprop:Generator_RowDeletingName="HSCRowDeleting" msprop:Generator_RowChangingName="HSCRowChanging" msprop:Generator_RowEvHandlerName="HSCRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCRowDeleted" msprop:Generator_UserTableName="HSC" msprop:Generator_RowChangedName="HSCRowChanged" msprop:Generator_RowEvArgName="HSCRowChangeEvent" msprop:Generator_RowClassName="HSCRow">
+        <xs:element name="HSC" msprop:Generator_TableClassName="HSCDataTable" msprop:Generator_TableVarName="tableHSC" msprop:Generator_RowChangedName="HSCRowChanged" msprop:Generator_TablePropName="HSC" msprop:Generator_RowDeletingName="HSCRowDeleting" msprop:Generator_RowChangingName="HSCRowChanging" msprop:Generator_RowEvHandlerName="HSCRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCRowDeleted" msprop:Generator_RowClassName="HSCRow" msprop:Generator_UserTableName="HSC" msprop:Generator_RowEvArgName="HSCRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="HSCID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" />
@@ -77,13 +78,13 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="SpeciesID" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" minOccurs="0" />
-              <xs:element name="LifeStageID" msprop:Generator_ColumnVarNameInTable="columnLifeStageID" msprop:Generator_ColumnPropNameInRow="LifeStageID" msprop:Generator_ColumnPropNameInTable="LifeStageIDColumn" msprop:Generator_UserColumnName="LifeStageID" type="xs:int" minOccurs="0" />
-              <xs:element name="HSCVariableID" msprop:Generator_ColumnVarNameInTable="columnHSCVariableID" msprop:Generator_ColumnPropNameInRow="HSCVariableID" msprop:Generator_ColumnPropNameInTable="HSCVariableIDColumn" msprop:Generator_UserColumnName="HSCVariableID" type="xs:int" minOccurs="0" />
+              <xs:element name="SpeciesID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" minOccurs="0" />
+              <xs:element name="LifeStageID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnLifeStageID" msprop:Generator_ColumnPropNameInRow="LifeStageID" msprop:Generator_ColumnPropNameInTable="LifeStageIDColumn" msprop:Generator_UserColumnName="LifeStageID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSCVariableID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSCVariableID" msprop:Generator_ColumnPropNameInRow="HSCVariableID" msprop:Generator_ColumnPropNameInTable="HSCVariableIDColumn" msprop:Generator_UserColumnName="HSCVariableID" type="xs:int" minOccurs="0" />
               <xs:element name="MinX" msprop:Generator_ColumnVarNameInTable="columnMinX" msprop:Generator_ColumnPropNameInRow="MinX" msprop:Generator_ColumnPropNameInTable="MinXColumn" msprop:Generator_UserColumnName="MinX" type="xs:double" minOccurs="0" />
               <xs:element name="MaxX" msprop:Generator_ColumnVarNameInTable="columnMaxX" msprop:Generator_ColumnPropNameInRow="MaxX" msprop:Generator_ColumnPropNameInTable="MaxXColumn" msprop:Generator_UserColumnName="MaxX" type="xs:double" minOccurs="0" />
               <xs:element name="UnitID" msprop:Generator_ColumnVarNameInTable="columnUnitID" msprop:Generator_ColumnPropNameInRow="UnitID" msprop:Generator_ColumnPropNameInTable="UnitIDColumn" msprop:Generator_UserColumnName="UnitID" type="xs:int" minOccurs="0" />
-              <xs:element name="SourceID" msprop:Generator_ColumnVarNameInTable="columnSourceID" msprop:Generator_ColumnPropNameInRow="SourceID" msprop:Generator_ColumnPropNameInTable="SourceIDColumn" msprop:Generator_UserColumnName="SourceID" type="xs:int" minOccurs="0" />
+              <xs:element name="SourceID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSourceID" msprop:Generator_ColumnPropNameInRow="SourceID" msprop:Generator_ColumnPropNameInTable="SourceIDColumn" msprop:Generator_UserColumnName="SourceID" type="xs:int" minOccurs="0" />
               <xs:element name="Figure" msprop:Generator_ColumnVarNameInTable="columnFigure" msprop:Generator_ColumnPropNameInRow="Figure" msprop:Generator_ColumnPropNameInTable="FigureColumn" msprop:Generator_UserColumnName="Figure" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -98,7 +99,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CategoryID" msprop:Generator_ColumnVarNameInTable="columnCategoryID" msprop:Generator_ColumnPropNameInRow="CategoryID" msprop:Generator_ColumnPropNameInTable="CategoryIDColumn" msprop:Generator_UserColumnName="CategoryID" type="xs:int" minOccurs="0" />
+              <xs:element name="CategoryID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnCategoryID" msprop:Generator_ColumnPropNameInRow="CategoryID" msprop:Generator_ColumnPropNameInTable="CategoryIDColumn" msprop:Generator_UserColumnName="CategoryID" type="xs:int" minOccurs="0" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -109,11 +110,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="HSCCategories" msprop:Generator_TableClassName="HSCCategoriesDataTable" msprop:Generator_TableVarName="tableHSCCategories" msprop:Generator_TablePropName="HSCCategories" msprop:Generator_RowDeletingName="HSCCategoriesRowDeleting" msprop:Generator_RowChangingName="HSCCategoriesRowChanging" msprop:Generator_RowEvHandlerName="HSCCategoriesRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCCategoriesRowDeleted" msprop:Generator_UserTableName="HSCCategories" msprop:Generator_RowChangedName="HSCCategoriesRowChanged" msprop:Generator_RowEvArgName="HSCCategoriesRowChangeEvent" msprop:Generator_RowClassName="HSCCategoriesRow">
+        <xs:element name="HSCCategories" msprop:Generator_TableClassName="HSCCategoriesDataTable" msprop:Generator_TableVarName="tableHSCCategories" msprop:Generator_RowChangedName="HSCCategoriesRowChanged" msprop:Generator_TablePropName="HSCCategories" msprop:Generator_RowDeletingName="HSCCategoriesRowDeleting" msprop:Generator_RowChangingName="HSCCategoriesRowChanging" msprop:Generator_RowEvHandlerName="HSCCategoriesRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCCategoriesRowDeleted" msprop:Generator_RowClassName="HSCCategoriesRow" msprop:Generator_UserTableName="HSCCategories" msprop:Generator_RowEvArgName="HSCCategoriesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CategoryID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnCategoryID" msprop:Generator_ColumnPropNameInRow="CategoryID" msprop:Generator_ColumnPropNameInTable="CategoryIDColumn" msprop:Generator_UserColumnName="CategoryID" type="xs:int" />
-              <xs:element name="HSCID" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSCID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
               <xs:element name="CategoryValue" msprop:Generator_ColumnVarNameInTable="columnCategoryValue" msprop:Generator_ColumnPropNameInRow="CategoryValue" msprop:Generator_ColumnPropNameInTable="CategoryValueColumn" msprop:Generator_UserColumnName="CategoryValue" type="xs:int" minOccurs="0" />
               <xs:element name="HSValue" msprop:Generator_ColumnVarNameInTable="columnHSValue" msprop:Generator_ColumnPropNameInRow="HSValue" msprop:Generator_ColumnPropNameInTable="HSValueColumn" msprop:Generator_UserColumnName="HSValue" type="xs:double" minOccurs="0" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
@@ -126,17 +127,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="HSCCoordinatePairs" msprop:Generator_TableClassName="HSCCoordinatePairsDataTable" msprop:Generator_TableVarName="tableHSCCoordinatePairs" msprop:Generator_TablePropName="HSCCoordinatePairs" msprop:Generator_RowDeletingName="HSCCoordinatePairsRowDeleting" msprop:Generator_RowChangingName="HSCCoordinatePairsRowChanging" msprop:Generator_RowEvHandlerName="HSCCoordinatePairsRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCCoordinatePairsRowDeleted" msprop:Generator_UserTableName="HSCCoordinatePairs" msprop:Generator_RowChangedName="HSCCoordinatePairsRowChanged" msprop:Generator_RowEvArgName="HSCCoordinatePairsRowChangeEvent" msprop:Generator_RowClassName="HSCCoordinatePairsRow">
+        <xs:element name="HSCCoordinatePairs" msprop:Generator_TableClassName="HSCCoordinatePairsDataTable" msprop:Generator_TableVarName="tableHSCCoordinatePairs" msprop:Generator_RowChangedName="HSCCoordinatePairsRowChanged" msprop:Generator_TablePropName="HSCCoordinatePairs" msprop:Generator_RowDeletingName="HSCCoordinatePairsRowDeleting" msprop:Generator_RowChangingName="HSCCoordinatePairsRowChanging" msprop:Generator_RowEvHandlerName="HSCCoordinatePairsRowChangeEventHandler" msprop:Generator_RowDeletedName="HSCCoordinatePairsRowDeleted" msprop:Generator_RowClassName="HSCCoordinatePairsRow" msprop:Generator_UserTableName="HSCCoordinatePairs" msprop:Generator_RowEvArgName="HSCCoordinatePairsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CoordinatePairID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnCoordinatePairID" msprop:Generator_ColumnPropNameInRow="CoordinatePairID" msprop:Generator_ColumnPropNameInTable="CoordinatePairIDColumn" msprop:Generator_UserColumnName="CoordinatePairID" type="xs:int" />
-              <xs:element name="HSCID" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSCID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
               <xs:element name="XValue" msprop:Generator_ColumnVarNameInTable="columnXValue" msprop:Generator_ColumnPropNameInRow="XValue" msprop:Generator_ColumnPropNameInTable="XValueColumn" msprop:Generator_UserColumnName="XValue" type="xs:double" minOccurs="0" />
               <xs:element name="HSValue" msprop:Generator_ColumnVarNameInTable="columnHSValue" msprop:Generator_ColumnPropNameInRow="HSValue" msprop:Generator_ColumnPropNameInTable="HSValueColumn" msprop:Generator_UserColumnName="HSValue" type="xs:double" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="HSI" msprop:Generator_TableClassName="HSIDataTable" msprop:Generator_TableVarName="tableHSI" msprop:Generator_TablePropName="HSI" msprop:Generator_RowDeletingName="HSIRowDeleting" msprop:Generator_RowChangingName="HSIRowChanging" msprop:Generator_RowEvHandlerName="HSIRowChangeEventHandler" msprop:Generator_RowDeletedName="HSIRowDeleted" msprop:Generator_UserTableName="HSI" msprop:Generator_RowChangedName="HSIRowChanged" msprop:Generator_RowEvArgName="HSIRowChangeEvent" msprop:Generator_RowClassName="HSIRow">
+        <xs:element name="HSI" msprop:Generator_TableClassName="HSIDataTable" msprop:Generator_TableVarName="tableHSI" msprop:Generator_RowChangedName="HSIRowChanged" msprop:Generator_TablePropName="HSI" msprop:Generator_RowDeletingName="HSIRowDeleting" msprop:Generator_RowChangingName="HSIRowChanging" msprop:Generator_RowEvHandlerName="HSIRowChangeEventHandler" msprop:Generator_RowDeletedName="HSIRowDeleted" msprop:Generator_RowClassName="HSIRow" msprop:Generator_UserTableName="HSI" msprop:Generator_RowEvArgName="HSIRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="HSIID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSIID" msprop:Generator_ColumnPropNameInRow="HSIID" msprop:Generator_ColumnPropNameInTable="HSIIDColumn" msprop:Generator_UserColumnName="HSIID" type="xs:int" />
@@ -147,9 +148,9 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="SpeciesID" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" minOccurs="0" />
-              <xs:element name="LifestageID" msprop:Generator_ColumnVarNameInTable="columnLifestageID" msprop:Generator_ColumnPropNameInRow="LifestageID" msprop:Generator_ColumnPropNameInTable="LifestageIDColumn" msprop:Generator_UserColumnName="LifestageID" type="xs:int" minOccurs="0" />
-              <xs:element name="HSIMethodID" msprop:Generator_ColumnVarNameInTable="columnHSIMethodID" msprop:Generator_ColumnPropNameInRow="HSIMethodID" msprop:Generator_ColumnPropNameInTable="HSIMethodIDColumn" msprop:Generator_UserColumnName="HSIMethodID" type="xs:int" minOccurs="0" />
+              <xs:element name="SpeciesID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSpeciesID" msprop:Generator_ColumnPropNameInRow="SpeciesID" msprop:Generator_ColumnPropNameInTable="SpeciesIDColumn" msprop:Generator_UserColumnName="SpeciesID" type="xs:int" minOccurs="0" />
+              <xs:element name="LifestageID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnLifestageID" msprop:Generator_ColumnPropNameInRow="LifestageID" msprop:Generator_ColumnPropNameInTable="LifestageIDColumn" msprop:Generator_UserColumnName="LifestageID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSIMethodID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSIMethodID" msprop:Generator_ColumnPropNameInRow="HSIMethodID" msprop:Generator_ColumnPropNameInTable="HSIMethodIDColumn" msprop:Generator_UserColumnName="HSIMethodID" type="xs:int" minOccurs="0" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -157,24 +158,31 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="ShortName" msprop:Generator_ColumnVarNameInTable="columnShortName" msprop:Generator_ColumnPropNameInRow="ShortName" msprop:Generator_ColumnPropNameInTable="ShortNameColumn" msprop:Generator_UserColumnName="ShortName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="16" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="HSICurves" msprop:Generator_TableClassName="HSICurvesDataTable" msprop:Generator_TableVarName="tableHSICurves" msprop:Generator_TablePropName="HSICurves" msprop:Generator_RowDeletingName="HSICurvesRowDeleting" msprop:Generator_RowChangingName="HSICurvesRowChanging" msprop:Generator_RowEvHandlerName="HSICurvesRowChangeEventHandler" msprop:Generator_RowDeletedName="HSICurvesRowDeleted" msprop:Generator_UserTableName="HSICurves" msprop:Generator_RowChangedName="HSICurvesRowChanged" msprop:Generator_RowEvArgName="HSICurvesRowChangeEvent" msprop:Generator_RowClassName="HSICurvesRow">
+        <xs:element name="HSICurves" msprop:Generator_TableClassName="HSICurvesDataTable" msprop:Generator_TableVarName="tableHSICurves" msprop:Generator_RowChangedName="HSICurvesRowChanged" msprop:Generator_TablePropName="HSICurves" msprop:Generator_RowDeletingName="HSICurvesRowDeleting" msprop:Generator_RowChangingName="HSICurvesRowChanging" msprop:Generator_RowEvHandlerName="HSICurvesRowChangeEventHandler" msprop:Generator_RowDeletedName="HSICurvesRowDeleted" msprop:Generator_RowClassName="HSICurvesRow" msprop:Generator_UserTableName="HSICurves" msprop:Generator_RowEvArgName="HSICurvesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="HSICurveID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSICurveID" msprop:Generator_ColumnPropNameInRow="HSICurveID" msprop:Generator_ColumnPropNameInTable="HSICurveIDColumn" msprop:Generator_UserColumnName="HSICurveID" type="xs:int" />
-              <xs:element name="HSIID" msprop:Generator_ColumnVarNameInTable="columnHSIID" msprop:Generator_ColumnPropNameInRow="HSIID" msprop:Generator_ColumnPropNameInTable="HSIIDColumn" msprop:Generator_UserColumnName="HSIID" type="xs:int" minOccurs="0" />
-              <xs:element name="HSCID" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSIID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSIID" msprop:Generator_ColumnPropNameInRow="HSIID" msprop:Generator_ColumnPropNameInTable="HSIIDColumn" msprop:Generator_UserColumnName="HSIID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSCID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSCID" msprop:Generator_ColumnPropNameInRow="HSCID" msprop:Generator_ColumnPropNameInTable="HSCIDColumn" msprop:Generator_UserColumnName="HSCID" type="xs:int" minOccurs="0" />
               <xs:element name="Weight" msprop:Generator_ColumnVarNameInTable="columnWeight" msprop:Generator_ColumnPropNameInRow="Weight" msprop:Generator_ColumnPropNameInTable="WeightColumn" msprop:Generator_UserColumnName="Weight" type="xs:double" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="LookupListItems" msprop:Generator_TableClassName="LookupListItemsDataTable" msprop:Generator_TableVarName="tableLookupListItems" msprop:Generator_TablePropName="LookupListItems" msprop:Generator_RowDeletingName="LookupListItemsRowDeleting" msprop:Generator_RowChangingName="LookupListItemsRowChanging" msprop:Generator_RowEvHandlerName="LookupListItemsRowChangeEventHandler" msprop:Generator_RowDeletedName="LookupListItemsRowDeleted" msprop:Generator_UserTableName="LookupListItems" msprop:Generator_RowChangedName="LookupListItemsRowChanged" msprop:Generator_RowEvArgName="LookupListItemsRowChangeEvent" msprop:Generator_RowClassName="LookupListItemsRow">
+        <xs:element name="LookupListItems" msprop:Generator_TableClassName="LookupListItemsDataTable" msprop:Generator_TableVarName="tableLookupListItems" msprop:Generator_RowChangedName="LookupListItemsRowChanged" msprop:Generator_TablePropName="LookupListItems" msprop:Generator_RowDeletingName="LookupListItemsRowDeleting" msprop:Generator_RowChangingName="LookupListItemsRowChanging" msprop:Generator_RowEvHandlerName="LookupListItemsRowChangeEventHandler" msprop:Generator_RowDeletedName="LookupListItemsRowDeleted" msprop:Generator_RowClassName="LookupListItemsRow" msprop:Generator_UserTableName="LookupListItems" msprop:Generator_RowEvArgName="LookupListItemsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ItemID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnItemID" msprop:Generator_ColumnPropNameInRow="ItemID" msprop:Generator_ColumnPropNameInTable="ItemIDColumn" msprop:Generator_UserColumnName="ItemID" type="xs:int" />
-              <xs:element name="ListID" msprop:Generator_ColumnVarNameInTable="columnListID" msprop:Generator_ColumnPropNameInRow="ListID" msprop:Generator_ColumnPropNameInTable="ListIDColumn" msprop:Generator_UserColumnName="ListID" type="xs:int" minOccurs="0" />
+              <xs:element name="ListID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnListID" msprop:Generator_ColumnPropNameInRow="ListID" msprop:Generator_ColumnPropNameInTable="ListIDColumn" msprop:Generator_UserColumnName="ListID" type="xs:int" minOccurs="0" />
               <xs:element name="ItemName" msprop:Generator_ColumnVarNameInTable="columnItemName" msprop:Generator_ColumnPropNameInRow="ItemName" msprop:Generator_ColumnPropNameInTable="ItemNameColumn" msprop:Generator_UserColumnName="ItemName" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -185,10 +193,10 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="LookupLists" msprop:Generator_TableClassName="LookupListsDataTable" msprop:Generator_TableVarName="tableLookupLists" msprop:Generator_TablePropName="LookupLists" msprop:Generator_RowDeletingName="LookupListsRowDeleting" msprop:Generator_RowChangingName="LookupListsRowChanging" msprop:Generator_RowEvHandlerName="LookupListsRowChangeEventHandler" msprop:Generator_RowDeletedName="LookupListsRowDeleted" msprop:Generator_UserTableName="LookupLists" msprop:Generator_RowChangedName="LookupListsRowChanged" msprop:Generator_RowEvArgName="LookupListsRowChangeEvent" msprop:Generator_RowClassName="LookupListsRow">
+        <xs:element name="LookupLists" msprop:Generator_TableClassName="LookupListsDataTable" msprop:Generator_TableVarName="tableLookupLists" msprop:Generator_RowChangedName="LookupListsRowChanged" msprop:Generator_TablePropName="LookupLists" msprop:Generator_RowDeletingName="LookupListsRowDeleting" msprop:Generator_RowChangingName="LookupListsRowChanging" msprop:Generator_RowEvHandlerName="LookupListsRowChangeEventHandler" msprop:Generator_RowDeletedName="LookupListsRowDeleted" msprop:Generator_RowClassName="LookupListsRow" msprop:Generator_UserTableName="LookupLists" msprop:Generator_RowEvArgName="LookupListsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ListID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnListID" msprop:Generator_ColumnPropNameInRow="ListID" msprop:Generator_ColumnPropNameInTable="ListIDColumn" msprop:Generator_UserColumnName="ListID" type="xs:int" />
+              <xs:element name="ListID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnListID" msprop:Generator_ColumnPropNameInRow="ListID" msprop:Generator_ColumnPropNameInTable="ListIDColumn" msprop:Generator_UserColumnName="ListID" type="xs:int" />
               <xs:element name="ListName" msprop:Generator_ColumnVarNameInTable="columnListName" msprop:Generator_ColumnPropNameInRow="ListName" msprop:Generator_ColumnPropNameInTable="ListNameColumn" msprop:Generator_UserColumnName="ListName" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -199,7 +207,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Projects" msprop:Generator_TableClassName="ProjectsDataTable" msprop:Generator_TableVarName="tableProjects" msprop:Generator_TablePropName="Projects" msprop:Generator_RowDeletingName="ProjectsRowDeleting" msprop:Generator_RowChangingName="ProjectsRowChanging" msprop:Generator_RowEvHandlerName="ProjectsRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectsRowDeleted" msprop:Generator_UserTableName="Projects" msprop:Generator_RowChangedName="ProjectsRowChanged" msprop:Generator_RowEvArgName="ProjectsRowChangeEvent" msprop:Generator_RowClassName="ProjectsRow">
+        <xs:element name="Projects" msprop:Generator_TableClassName="ProjectsDataTable" msprop:Generator_TableVarName="tableProjects" msprop:Generator_RowChangedName="ProjectsRowChanged" msprop:Generator_TablePropName="Projects" msprop:Generator_RowDeletingName="ProjectsRowDeleting" msprop:Generator_RowChangingName="ProjectsRowChanging" msprop:Generator_RowEvHandlerName="ProjectsRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectsRowDeleted" msprop:Generator_RowClassName="ProjectsRow" msprop:Generator_UserTableName="Projects" msprop:Generator_RowEvArgName="ProjectsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ProjectID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnProjectID" msprop:Generator_ColumnPropNameInRow="ProjectID" msprop:Generator_ColumnPropNameInTable="ProjectIDColumn" msprop:Generator_UserColumnName="ProjectID" type="xs:int" />
@@ -210,7 +218,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="ScaleID" msprop:Generator_ColumnVarNameInTable="columnScaleID" msprop:Generator_ColumnPropNameInRow="ScaleID" msprop:Generator_ColumnPropNameInTable="ScaleIDColumn" msprop:Generator_UserColumnName="ScaleID" type="xs:int" minOccurs="0" />
+              <xs:element name="ScaleID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnScaleID" msprop:Generator_ColumnPropNameInRow="ScaleID" msprop:Generator_ColumnPropNameInTable="ScaleIDColumn" msprop:Generator_UserColumnName="ScaleID" type="xs:int" minOccurs="0" />
               <xs:element name="DateCreated" msprop:Generator_ColumnVarNameInTable="columnDateCreated" msprop:Generator_ColumnPropNameInRow="DateCreated" msprop:Generator_ColumnPropNameInTable="DateCreatedColumn" msprop:Generator_UserColumnName="DateCreated" type="xs:dateTime" minOccurs="0" />
               <xs:element name="CreatedBy" msprop:Generator_ColumnVarNameInTable="columnCreatedBy" msprop:Generator_ColumnPropNameInRow="CreatedBy" msprop:Generator_ColumnPropNameInTable="CreatedByColumn" msprop:Generator_UserColumnName="CreatedBy" minOccurs="0">
                 <xs:simpleType>
@@ -236,22 +244,22 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SimulationFISInputs" msprop:Generator_TableClassName="SimulationFISInputsDataTable" msprop:Generator_TableVarName="tableSimulationFISInputs" msprop:Generator_TablePropName="SimulationFISInputs" msprop:Generator_RowDeletingName="SimulationFISInputsRowDeleting" msprop:Generator_RowChangingName="SimulationFISInputsRowChanging" msprop:Generator_RowEvHandlerName="SimulationFISInputsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationFISInputsRowDeleted" msprop:Generator_UserTableName="SimulationFISInputs" msprop:Generator_RowChangedName="SimulationFISInputsRowChanged" msprop:Generator_RowEvArgName="SimulationFISInputsRowChangeEvent" msprop:Generator_RowClassName="SimulationFISInputsRow">
+        <xs:element name="SimulationFISInputs" msprop:Generator_TableClassName="SimulationFISInputsDataTable" msprop:Generator_TableVarName="tableSimulationFISInputs" msprop:Generator_RowChangedName="SimulationFISInputsRowChanged" msprop:Generator_TablePropName="SimulationFISInputs" msprop:Generator_RowDeletingName="SimulationFISInputsRowDeleting" msprop:Generator_RowChangingName="SimulationFISInputsRowChanging" msprop:Generator_RowEvHandlerName="SimulationFISInputsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationFISInputsRowDeleted" msprop:Generator_RowClassName="SimulationFISInputsRow" msprop:Generator_UserTableName="SimulationFISInputs" msprop:Generator_RowEvArgName="SimulationFISInputsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ProjectInputID" msprop:Generator_ColumnVarNameInTable="columnProjectInputID" msprop:Generator_ColumnPropNameInRow="ProjectInputID" msprop:Generator_ColumnPropNameInTable="ProjectInputIDColumn" msprop:Generator_UserColumnName="ProjectInputID" type="xs:int" />
-              <xs:element name="SimulationID" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
+              <xs:element name="ProjectInputID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnProjectInputID" msprop:Generator_ColumnPropNameInRow="ProjectInputID" msprop:Generator_ColumnPropNameInTable="ProjectInputIDColumn" msprop:Generator_UserColumnName="ProjectInputID" type="xs:int" />
+              <xs:element name="SimulationID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
               <xs:element name="FISInputName" msprop:Generator_ColumnVarNameInTable="columnFISInputName" msprop:Generator_ColumnPropNameInRow="FISInputName" msprop:Generator_ColumnPropNameInTable="FISInputNameColumn" msprop:Generator_UserColumnName="FISInputName" type="xs:string" />
               <xs:element name="FISPreparedPath" msprop:Generator_ColumnVarNameInTable="columnFISPreparedPath" msprop:Generator_ColumnPropNameInRow="FISPreparedPath" msprop:Generator_ColumnPropNameInTable="FISPreparedPathColumn" msprop:Generator_UserColumnName="FISPreparedPath" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SimulationHSCInputs" msprop:Generator_TableClassName="SimulationHSCInputsDataTable" msprop:Generator_TableVarName="tableSimulationHSCInputs" msprop:Generator_TablePropName="SimulationHSCInputs" msprop:Generator_RowDeletingName="SimulationHSCInputsRowDeleting" msprop:Generator_RowChangingName="SimulationHSCInputsRowChanging" msprop:Generator_RowEvHandlerName="SimulationHSCInputsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationHSCInputsRowDeleted" msprop:Generator_UserTableName="SimulationHSCInputs" msprop:Generator_RowChangedName="SimulationHSCInputsRowChanged" msprop:Generator_RowEvArgName="SimulationHSCInputsRowChangeEvent" msprop:Generator_RowClassName="SimulationHSCInputsRow">
+        <xs:element name="SimulationHSCInputs" msprop:Generator_TableClassName="SimulationHSCInputsDataTable" msprop:Generator_TableVarName="tableSimulationHSCInputs" msprop:Generator_RowChangedName="SimulationHSCInputsRowChanged" msprop:Generator_TablePropName="SimulationHSCInputs" msprop:Generator_RowDeletingName="SimulationHSCInputsRowDeleting" msprop:Generator_RowChangingName="SimulationHSCInputsRowChanging" msprop:Generator_RowEvHandlerName="SimulationHSCInputsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationHSCInputsRowDeleted" msprop:Generator_RowClassName="SimulationHSCInputsRow" msprop:Generator_UserTableName="SimulationHSCInputs" msprop:Generator_RowEvArgName="SimulationHSCInputsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ProjectInputID" msprop:Generator_ColumnVarNameInTable="columnProjectInputID" msprop:Generator_ColumnPropNameInRow="ProjectInputID" msprop:Generator_ColumnPropNameInTable="ProjectInputIDColumn" msprop:Generator_UserColumnName="ProjectInputID" type="xs:int" />
-              <xs:element name="HSICurveID" msprop:Generator_ColumnVarNameInTable="columnHSICurveID" msprop:Generator_ColumnPropNameInRow="HSICurveID" msprop:Generator_ColumnPropNameInTable="HSICurveIDColumn" msprop:Generator_UserColumnName="HSICurveID" type="xs:int" />
-              <xs:element name="SimulationID" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
+              <xs:element name="ProjectInputID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnProjectInputID" msprop:Generator_ColumnPropNameInRow="ProjectInputID" msprop:Generator_ColumnPropNameInTable="ProjectInputIDColumn" msprop:Generator_UserColumnName="ProjectInputID" type="xs:int" />
+              <xs:element name="HSICurveID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSICurveID" msprop:Generator_ColumnPropNameInRow="HSICurveID" msprop:Generator_ColumnPropNameInTable="HSICurveIDColumn" msprop:Generator_UserColumnName="HSICurveID" type="xs:int" />
+              <xs:element name="SimulationID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
               <xs:element name="HSOutputPath" msprop:Generator_ColumnVarNameInTable="columnHSOutputPath" msprop:Generator_ColumnPropNameInRow="HSOutputPath" msprop:Generator_ColumnPropNameInTable="HSOutputPathColumn" msprop:Generator_UserColumnName="HSOutputPath" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -263,12 +271,12 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Simulations" msprop:Generator_TableClassName="SimulationsDataTable" msprop:Generator_TableVarName="tableSimulations" msprop:Generator_TablePropName="Simulations" msprop:Generator_RowDeletingName="SimulationsRowDeleting" msprop:Generator_RowChangingName="SimulationsRowChanging" msprop:Generator_RowEvHandlerName="SimulationsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationsRowDeleted" msprop:Generator_UserTableName="Simulations" msprop:Generator_RowChangedName="SimulationsRowChanged" msprop:Generator_RowEvArgName="SimulationsRowChangeEvent" msprop:Generator_RowClassName="SimulationsRow">
+        <xs:element name="Simulations" msprop:Generator_TableClassName="SimulationsDataTable" msprop:Generator_TableVarName="tableSimulations" msprop:Generator_RowChangedName="SimulationsRowChanged" msprop:Generator_TablePropName="Simulations" msprop:Generator_RowDeletingName="SimulationsRowDeleting" msprop:Generator_RowChangingName="SimulationsRowChanging" msprop:Generator_RowEvHandlerName="SimulationsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationsRowDeleted" msprop:Generator_RowClassName="SimulationsRow" msprop:Generator_UserTableName="Simulations" msprop:Generator_RowEvArgName="SimulationsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="SimulationID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
-              <xs:element name="HSIID" msprop:Generator_ColumnVarNameInTable="columnHSIID" msprop:Generator_ColumnPropNameInRow="HSIID" msprop:Generator_ColumnPropNameInTable="HSIIDColumn" msprop:Generator_UserColumnName="HSIID" type="xs:int" minOccurs="0" />
-              <xs:element name="FISID" msprop:Generator_ColumnVarNameInTable="columnFISID" msprop:Generator_ColumnPropNameInRow="FISID" msprop:Generator_ColumnPropNameInTable="FISIDColumn" msprop:Generator_UserColumnName="FISID" type="xs:int" minOccurs="0" />
+              <xs:element name="HSIID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnHSIID" msprop:Generator_ColumnPropNameInRow="HSIID" msprop:Generator_ColumnPropNameInTable="HSIIDColumn" msprop:Generator_UserColumnName="HSIID" type="xs:int" minOccurs="0" />
+              <xs:element name="FISID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnFISID" msprop:Generator_ColumnPropNameInRow="FISID" msprop:Generator_ColumnPropNameInTable="FISIDColumn" msprop:Generator_UserColumnName="FISID" type="xs:int" minOccurs="0" />
               <xs:element name="CreatedBy" msprop:Generator_ColumnVarNameInTable="columnCreatedBy" msprop:Generator_ColumnPropNameInRow="CreatedBy" msprop:Generator_ColumnPropNameInTable="CreatedByColumn" msprop:Generator_UserColumnName="CreatedBy" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -277,7 +285,6 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="CreatedOn" msprop:Generator_ColumnVarNameInTable="columnCreatedOn" msprop:Generator_ColumnPropNameInRow="CreatedOn" msprop:Generator_ColumnPropNameInTable="CreatedOnColumn" msprop:Generator_UserColumnName="CreatedOn" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="CHaMPVisitID" msprop:Generator_ColumnVarNameInTable="columnCHaMPVisitID" msprop:Generator_ColumnPropNameInRow="CHaMPVisitID" msprop:Generator_ColumnPropNameInTable="CHaMPVisitIDColumn" msprop:Generator_UserColumnName="CHaMPVisitID" type="xs:int" minOccurs="0" />
               <xs:element name="Discharge" msprop:Generator_ColumnVarNameInTable="columnDischarge" msprop:Generator_ColumnPropNameInRow="Discharge" msprop:Generator_ColumnPropNameInTable="DischargeColumn" msprop:Generator_UserColumnName="Discharge" type="xs:double" minOccurs="0" />
               <xs:element name="IsQueuedToRun" msprop:Generator_ColumnVarNameInTable="columnIsQueuedToRun" msprop:Generator_ColumnPropNameInRow="IsQueuedToRun" msprop:Generator_ColumnPropNameInTable="IsQueuedToRunColumn" msprop:Generator_UserColumnName="IsQueuedToRun" type="xs:boolean" default="true" />
               <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" minOccurs="0">
@@ -311,31 +318,24 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CHaMPSiteName" msprop:Generator_ColumnVarNameInTable="columnCHaMPSiteName" msprop:Generator_ColumnPropNameInRow="CHaMPSiteName" msprop:Generator_ColumnPropNameInTable="CHaMPSiteNameColumn" msprop:Generator_UserColumnName="CHaMPSiteName" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="CHaMPWatershed" msprop:Generator_ColumnVarNameInTable="columnCHaMPWatershed" msprop:Generator_ColumnPropNameInRow="CHaMPWatershed" msprop:Generator_ColumnPropNameInTable="CHaMPWatershedColumn" msprop:Generator_UserColumnName="CHaMPWatershed" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="RasterTop" msprop:Generator_ColumnVarNameInTable="columnRasterTop" msprop:Generator_ColumnPropNameInRow="RasterTop" msprop:Generator_ColumnPropNameInTable="RasterTopColumn" msprop:Generator_UserColumnName="RasterTop" type="xs:double" minOccurs="0" />
               <xs:element name="RasterLeft" msprop:Generator_ColumnVarNameInTable="columnRasterLeft" msprop:Generator_ColumnPropNameInRow="RasterLeft" msprop:Generator_ColumnPropNameInTable="RasterLeftColumn" msprop:Generator_UserColumnName="RasterLeft" type="xs:double" minOccurs="0" />
-              <xs:element name="RasterRows" msprop:Generator_ColumnVarNameInTable="columnRasterRows" msprop:Generator_ColumnPropNameInRow="RasterRows" msprop:Generator_ColumnPropNameInTable="RasterRowsColumn" msprop:Generator_UserColumnName="RasterRows" type="xs:double" minOccurs="0" />
-              <xs:element name="RasterCols" msprop:Generator_ColumnVarNameInTable="columnRasterCols" msprop:Generator_ColumnPropNameInRow="RasterCols" msprop:Generator_ColumnPropNameInTable="RasterColsColumn" msprop:Generator_UserColumnName="RasterCols" type="xs:double" minOccurs="0" />
+              <xs:element name="RasterRows" msprop:Generator_ColumnVarNameInTable="columnRasterRows" msprop:Generator_ColumnPropNameInRow="RasterRows" msprop:Generator_ColumnPropNameInTable="RasterRowsColumn" msprop:Generator_UserColumnName="RasterRows" type="xs:int" minOccurs="0" />
+              <xs:element name="RasterCols" msprop:Generator_ColumnVarNameInTable="columnRasterCols" msprop:Generator_ColumnPropNameInRow="RasterCols" msprop:Generator_ColumnPropNameInTable="RasterColsColumn" msprop:Generator_UserColumnName="RasterCols" type="xs:int" minOccurs="0" />
               <xs:element name="RasterCellSize" msprop:Generator_ColumnVarNameInTable="columnRasterCellSize" msprop:Generator_ColumnPropNameInRow="RasterCellSize" msprop:Generator_ColumnPropNameInTable="RasterCellSizeColumn" msprop:Generator_UserColumnName="RasterCellSize" type="xs:double" minOccurs="0" />
               <xs:element name="RasterSpatRef" msprop:Generator_ColumnVarNameInTable="columnRasterSpatRef" msprop:Generator_ColumnPropNameInRow="RasterSpatRef" msprop:Generator_ColumnPropNameInTable="RasterSpatRefColumn" msprop:Generator_UserColumnName="RasterSpatRef" type="xs:string" minOccurs="0" />
               <xs:element name="RasterUnits" msprop:Generator_ColumnVarNameInTable="columnRasterUnits" msprop:Generator_ColumnPropNameInRow="RasterUnits" msprop:Generator_ColumnPropNameInTable="RasterUnitsColumn" msprop:Generator_UserColumnName="RasterUnits" type="xs:string" minOccurs="0" />
+              <xs:element name="ShortName" msprop:Generator_ColumnVarNameInTable="columnShortName" msprop:Generator_ColumnPropNameInRow="ShortName" msprop:Generator_ColumnPropNameInTable="ShortNameColumn" msprop:Generator_UserColumnName="ShortName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Sources" msprop:Generator_TableClassName="SourcesDataTable" msprop:Generator_TableVarName="tableSources" msprop:Generator_TablePropName="Sources" msprop:Generator_RowDeletingName="SourcesRowDeleting" msprop:Generator_RowChangingName="SourcesRowChanging" msprop:Generator_RowEvHandlerName="SourcesRowChangeEventHandler" msprop:Generator_RowDeletedName="SourcesRowDeleted" msprop:Generator_UserTableName="Sources" msprop:Generator_RowChangedName="SourcesRowChanged" msprop:Generator_RowEvArgName="SourcesRowChangeEvent" msprop:Generator_RowClassName="SourcesRow">
+        <xs:element name="Sources" msprop:Generator_TableClassName="SourcesDataTable" msprop:Generator_TableVarName="tableSources" msprop:Generator_RowChangedName="SourcesRowChanged" msprop:Generator_TablePropName="Sources" msprop:Generator_RowDeletingName="SourcesRowDeleting" msprop:Generator_RowChangingName="SourcesRowChanging" msprop:Generator_RowEvHandlerName="SourcesRowChangeEventHandler" msprop:Generator_RowDeletedName="SourcesRowDeleted" msprop:Generator_RowClassName="SourcesRow" msprop:Generator_UserTableName="Sources" msprop:Generator_RowEvArgName="SourcesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="SourceID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSourceID" msprop:Generator_ColumnPropNameInRow="SourceID" msprop:Generator_ColumnPropNameInTable="SourceIDColumn" msprop:Generator_UserColumnName="SourceID" type="xs:int" />
@@ -364,10 +364,10 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Variables" msprop:Generator_TableClassName="VariablesDataTable" msprop:Generator_TableVarName="tableVariables" msprop:Generator_RowChangedName="VariablesRowChanged" msprop:Generator_TablePropName="Variables" msprop:Generator_RowDeletingName="VariablesRowDeleting" msprop:Generator_RowChangingName="VariablesRowChanging" msprop:Generator_RowEvHandlerName="VariablesRowChangeEventHandler" msprop:Generator_RowDeletedName="VariablesRowDeleted" msprop:Generator_RowClassName="VariablesRow" msprop:Generator_UserTableName="Variables" msprop:Generator_RowEvArgName="VariablesRowChangeEvent">
+        <xs:element name="Variables" msprop:Generator_TableClassName="VariablesDataTable" msprop:Generator_TableVarName="tableVariables" msprop:Generator_TablePropName="Variables" msprop:Generator_RowDeletingName="VariablesRowDeleting" msprop:Generator_RowChangingName="VariablesRowChanging" msprop:Generator_RowEvHandlerName="VariablesRowChangeEventHandler" msprop:Generator_RowDeletedName="VariablesRowDeleted" msprop:Generator_UserTableName="Variables" msprop:Generator_RowChangedName="VariablesRowChanged" msprop:Generator_RowEvArgName="VariablesRowChangeEvent" msprop:Generator_RowClassName="VariablesRow">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="VariableID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnVariableID" msprop:Generator_ColumnPropNameInRow="VariableID" msprop:Generator_ColumnPropNameInTable="VariableIDColumn" msprop:Generator_UserColumnName="VariableID" type="xs:int" />
+              <xs:element name="VariableID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnVariableID" msprop:Generator_ColumnPropNameInRow="VariableID" msprop:Generator_ColumnPropNameInTable="VariableIDColumn" msprop:Generator_UserColumnName="VariableID" type="xs:int" />
               <xs:element name="VariableName" msprop:Generator_ColumnVarNameInTable="columnVariableName" msprop:Generator_ColumnPropNameInRow="VariableName" msprop:Generator_ColumnPropNameInTable="VariableNameColumn" msprop:Generator_UserColumnName="VariableName" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -375,16 +375,16 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CategoryID" msprop:Generator_ColumnVarNameInTable="columnCategoryID" msprop:Generator_ColumnPropNameInRow="CategoryID" msprop:Generator_ColumnPropNameInTable="CategoryIDColumn" msprop:Generator_UserColumnName="CategoryID" type="xs:int" minOccurs="0" />
-              <xs:element name="DimensionID" msprop:Generator_ColumnVarNameInTable="columnDimensionID" msprop:Generator_ColumnPropNameInRow="DimensionID" msprop:Generator_ColumnPropNameInTable="DimensionIDColumn" msprop:Generator_UserColumnName="DimensionID" type="xs:int" minOccurs="0" />
+              <xs:element name="CategoryID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnCategoryID" msprop:Generator_ColumnPropNameInRow="CategoryID" msprop:Generator_ColumnPropNameInTable="CategoryIDColumn" msprop:Generator_UserColumnName="CategoryID" type="xs:int" minOccurs="0" />
+              <xs:element name="DimensionID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnDimensionID" msprop:Generator_ColumnPropNameInRow="DimensionID" msprop:Generator_ColumnPropNameInTable="DimensionIDColumn" msprop:Generator_UserColumnName="DimensionID" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ProjectVariables" msprop:Generator_TableClassName="ProjectVariablesDataTable" msprop:Generator_TableVarName="tableProjectVariables" msprop:Generator_TablePropName="ProjectVariables" msprop:Generator_RowDeletingName="ProjectVariablesRowDeleting" msprop:Generator_RowChangingName="ProjectVariablesRowChanging" msprop:Generator_RowEvHandlerName="ProjectVariablesRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectVariablesRowDeleted" msprop:Generator_UserTableName="ProjectVariables" msprop:Generator_RowChangedName="ProjectVariablesRowChanged" msprop:Generator_RowEvArgName="ProjectVariablesRowChangeEvent" msprop:Generator_RowClassName="ProjectVariablesRow">
+        <xs:element name="ProjectVariables" msprop:Generator_TableClassName="ProjectVariablesDataTable" msprop:Generator_TableVarName="tableProjectVariables" msprop:Generator_RowChangedName="ProjectVariablesRowChanged" msprop:Generator_TablePropName="ProjectVariables" msprop:Generator_RowDeletingName="ProjectVariablesRowDeleting" msprop:Generator_RowChangingName="ProjectVariablesRowChanging" msprop:Generator_RowEvHandlerName="ProjectVariablesRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectVariablesRowDeleted" msprop:Generator_RowClassName="ProjectVariablesRow" msprop:Generator_UserTableName="ProjectVariables" msprop:Generator_RowEvArgName="ProjectVariablesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ProjectVariableID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnProjectVariableID" msprop:Generator_ColumnPropNameInRow="ProjectVariableID" msprop:Generator_ColumnPropNameInTable="ProjectVariableIDColumn" msprop:Generator_UserColumnName="ProjectVariableID" type="xs:int" />
-              <xs:element name="DataSourceID" msprop:Generator_ColumnVarNameInTable="columnDataSourceID" msprop:Generator_ColumnPropNameInRow="DataSourceID" msprop:Generator_ColumnPropNameInTable="DataSourceIDColumn" msprop:Generator_UserColumnName="DataSourceID" type="xs:int" />
+              <xs:element name="DataSourceID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnDataSourceID" msprop:Generator_ColumnPropNameInRow="DataSourceID" msprop:Generator_ColumnPropNameInTable="DataSourceIDColumn" msprop:Generator_UserColumnName="DataSourceID" type="xs:int" />
               <xs:element name="VariableID" msprop:Generator_ColumnVarNameInTable="columnVariableID" msprop:Generator_ColumnPropNameInRow="VariableID" msprop:Generator_ColumnPropNameInTable="VariableIDColumn" msprop:Generator_UserColumnName="VariableID" type="xs:int" />
               <xs:element name="UnitsID" msprop:Generator_ColumnVarNameInTable="columnUnitsID" msprop:Generator_ColumnPropNameInRow="UnitsID" msprop:Generator_ColumnPropNameInTable="UnitsIDColumn" msprop:Generator_UserColumnName="UnitsID" type="xs:int" />
               <xs:element name="ValueField" msprop:Generator_ColumnVarNameInTable="columnValueField" msprop:Generator_ColumnPropNameInRow="ValueField" msprop:Generator_ColumnPropNameInTable="ValueFieldColumn" msprop:Generator_UserColumnName="ValueField" minOccurs="0">
@@ -404,11 +404,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ProjectDataSources" msprop:Generator_TableClassName="ProjectDataSourcesDataTable" msprop:Generator_TableVarName="tableProjectDataSources" msprop:Generator_TablePropName="ProjectDataSources" msprop:Generator_RowDeletingName="ProjectDataSourcesRowDeleting" msprop:Generator_RowChangingName="ProjectDataSourcesRowChanging" msprop:Generator_RowEvHandlerName="ProjectDataSourcesRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectDataSourcesRowDeleted" msprop:Generator_UserTableName="ProjectDataSources" msprop:Generator_RowChangedName="ProjectDataSourcesRowChanged" msprop:Generator_RowEvArgName="ProjectDataSourcesRowChangeEvent" msprop:Generator_RowClassName="ProjectDataSourcesRow">
+        <xs:element name="ProjectDataSources" msprop:Generator_TableClassName="ProjectDataSourcesDataTable" msprop:Generator_TableVarName="tableProjectDataSources" msprop:Generator_RowChangedName="ProjectDataSourcesRowChanged" msprop:Generator_TablePropName="ProjectDataSources" msprop:Generator_RowDeletingName="ProjectDataSourcesRowDeleting" msprop:Generator_RowChangingName="ProjectDataSourcesRowChanging" msprop:Generator_RowEvHandlerName="ProjectDataSourcesRowChangeEventHandler" msprop:Generator_RowDeletedName="ProjectDataSourcesRowDeleted" msprop:Generator_RowClassName="ProjectDataSourcesRow" msprop:Generator_UserTableName="ProjectDataSources" msprop:Generator_RowEvArgName="ProjectDataSourcesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="DataSourceID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnDataSourceID" msprop:Generator_ColumnPropNameInRow="DataSourceID" msprop:Generator_ColumnPropNameInTable="DataSourceIDColumn" msprop:Generator_UserColumnName="DataSourceID" type="xs:int" />
-              <xs:element name="DataSourceTypeID" msprop:Generator_ColumnVarNameInTable="columnDataSourceTypeID" msprop:Generator_ColumnPropNameInRow="DataSourceTypeID" msprop:Generator_ColumnPropNameInTable="DataSourceTypeIDColumn" msprop:Generator_UserColumnName="DataSourceTypeID" type="xs:int" />
+              <xs:element name="DataSourceTypeID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnDataSourceTypeID" msprop:Generator_ColumnPropNameInRow="DataSourceTypeID" msprop:Generator_ColumnPropNameInTable="DataSourceTypeIDColumn" msprop:Generator_UserColumnName="DataSourceTypeID" type="xs:int" />
               <xs:element name="OriginalPath" msprop:Generator_ColumnVarNameInTable="columnOriginalPath" msprop:Generator_ColumnPropNameInRow="OriginalPath" msprop:Generator_ColumnPropNameInTable="OriginalPathColumn" msprop:Generator_UserColumnName="OriginalPath" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -448,17 +448,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SimulationResults" msprop:Generator_TableClassName="SimulationResultsDataTable" msprop:Generator_TableVarName="tableSimulationResults" msprop:Generator_TablePropName="SimulationResults" msprop:Generator_RowDeletingName="SimulationResultsRowDeleting" msprop:Generator_RowChangingName="SimulationResultsRowChanging" msprop:Generator_RowEvHandlerName="SimulationResultsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationResultsRowDeleted" msprop:Generator_UserTableName="SimulationResults" msprop:Generator_RowChangedName="SimulationResultsRowChanged" msprop:Generator_RowEvArgName="SimulationResultsRowChangeEvent" msprop:Generator_RowClassName="SimulationResultsRow">
+        <xs:element name="SimulationResults" msprop:Generator_TableClassName="SimulationResultsDataTable" msprop:Generator_TableVarName="tableSimulationResults" msprop:Generator_RowChangedName="SimulationResultsRowChanged" msprop:Generator_TablePropName="SimulationResults" msprop:Generator_RowDeletingName="SimulationResultsRowDeleting" msprop:Generator_RowChangingName="SimulationResultsRowChanging" msprop:Generator_RowEvHandlerName="SimulationResultsRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationResultsRowDeleted" msprop:Generator_RowClassName="SimulationResultsRow" msprop:Generator_UserTableName="SimulationResults" msprop:Generator_RowEvArgName="SimulationResultsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ResultID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnResultID" msprop:Generator_ColumnPropNameInRow="ResultID" msprop:Generator_ColumnPropNameInTable="ResultIDColumn" msprop:Generator_UserColumnName="ResultID" type="xs:int" />
-              <xs:element name="SimulationID" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
-              <xs:element name="ResultTypeID" msprop:Generator_ColumnVarNameInTable="columnResultTypeID" msprop:Generator_ColumnPropNameInRow="ResultTypeID" msprop:Generator_ColumnPropNameInTable="ResultTypeIDColumn" msprop:Generator_UserColumnName="ResultTypeID" type="xs:int" />
+              <xs:element name="SimulationID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" />
+              <xs:element name="ResultTypeID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnResultTypeID" msprop:Generator_ColumnPropNameInRow="ResultTypeID" msprop:Generator_ColumnPropNameInTable="ResultTypeIDColumn" msprop:Generator_UserColumnName="ResultTypeID" type="xs:int" />
               <xs:element name="ResultValue" msprop:Generator_ColumnVarNameInTable="columnResultValue" msprop:Generator_ColumnPropNameInRow="ResultValue" msprop:Generator_ColumnPropNameInTable="ResultValueColumn" msprop:Generator_UserColumnName="ResultValue" type="xs:float" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SimulationResultTypes" msprop:Generator_TableClassName="SimulationResultTypesDataTable" msprop:Generator_TableVarName="tableSimulationResultTypes" msprop:Generator_TablePropName="SimulationResultTypes" msprop:Generator_RowDeletingName="SimulationResultTypesRowDeleting" msprop:Generator_RowChangingName="SimulationResultTypesRowChanging" msprop:Generator_RowEvHandlerName="SimulationResultTypesRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationResultTypesRowDeleted" msprop:Generator_UserTableName="SimulationResultTypes" msprop:Generator_RowChangedName="SimulationResultTypesRowChanged" msprop:Generator_RowEvArgName="SimulationResultTypesRowChangeEvent" msprop:Generator_RowClassName="SimulationResultTypesRow">
+        <xs:element name="SimulationResultTypes" msprop:Generator_TableClassName="SimulationResultTypesDataTable" msprop:Generator_TableVarName="tableSimulationResultTypes" msprop:Generator_RowChangedName="SimulationResultTypesRowChanged" msprop:Generator_TablePropName="SimulationResultTypes" msprop:Generator_RowDeletingName="SimulationResultTypesRowDeleting" msprop:Generator_RowChangingName="SimulationResultTypesRowChanging" msprop:Generator_RowEvHandlerName="SimulationResultTypesRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationResultTypesRowDeleted" msprop:Generator_RowClassName="SimulationResultTypesRow" msprop:Generator_UserTableName="SimulationResultTypes" msprop:Generator_RowEvArgName="SimulationResultTypesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ResultTypeID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnResultTypeID" msprop:Generator_ColumnPropNameInRow="ResultTypeID" msprop:Generator_ColumnPropNameInTable="ResultTypeIDColumn" msprop:Generator_UserColumnName="ResultTypeID" type="xs:int" />
@@ -480,11 +480,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SimulationLogMessages" msprop:Generator_TableClassName="SimulationLogMessagesDataTable" msprop:Generator_TableVarName="tableSimulationLogMessages" msprop:Generator_TablePropName="SimulationLogMessages" msprop:Generator_RowDeletingName="SimulationLogMessagesRowDeleting" msprop:Generator_RowChangingName="SimulationLogMessagesRowChanging" msprop:Generator_RowEvHandlerName="SimulationLogMessagesRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationLogMessagesRowDeleted" msprop:Generator_UserTableName="SimulationLogMessages" msprop:Generator_RowChangedName="SimulationLogMessagesRowChanged" msprop:Generator_RowEvArgName="SimulationLogMessagesRowChangeEvent" msprop:Generator_RowClassName="SimulationLogMessagesRow">
+        <xs:element name="SimulationLogMessages" msprop:Generator_TableClassName="SimulationLogMessagesDataTable" msprop:Generator_TableVarName="tableSimulationLogMessages" msprop:Generator_RowChangedName="SimulationLogMessagesRowChanged" msprop:Generator_TablePropName="SimulationLogMessages" msprop:Generator_RowDeletingName="SimulationLogMessagesRowDeleting" msprop:Generator_RowChangingName="SimulationLogMessagesRowChanging" msprop:Generator_RowEvHandlerName="SimulationLogMessagesRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationLogMessagesRowDeleted" msprop:Generator_RowClassName="SimulationLogMessagesRow" msprop:Generator_UserTableName="SimulationLogMessages" msprop:Generator_RowEvArgName="SimulationLogMessagesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="MessageID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnMessageID" msprop:Generator_ColumnPropNameInRow="MessageID" msprop:Generator_ColumnPropNameInTable="MessageIDColumn" msprop:Generator_UserColumnName="MessageID" type="xs:int" />
-              <xs:element name="SimulationID" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" minOccurs="0" />
+              <xs:element name="SimulationID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" minOccurs="0" />
               <xs:element name="Severity" msprop:Generator_ColumnVarNameInTable="columnSeverity" msprop:Generator_ColumnPropNameInRow="Severity" msprop:Generator_ColumnPropNameInTable="SeverityColumn" msprop:Generator_UserColumnName="Severity" type="xs:int" minOccurs="0" />
               <xs:element name="Indent" msprop:Generator_ColumnVarNameInTable="columnIndent" msprop:Generator_ColumnPropNameInRow="Indent" msprop:Generator_ColumnPropNameInTable="IndentColumn" msprop:Generator_UserColumnName="Indent" type="xs:int" minOccurs="0" />
               <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
@@ -505,7 +505,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SystemInfo" msprop:Generator_TableClassName="SystemInfoDataTable" msprop:Generator_TableVarName="tableSystemInfo" msprop:Generator_TablePropName="SystemInfo" msprop:Generator_RowDeletingName="SystemInfoRowDeleting" msprop:Generator_RowChangingName="SystemInfoRowChanging" msprop:Generator_RowEvHandlerName="SystemInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="SystemInfoRowDeleted" msprop:Generator_UserTableName="SystemInfo" msprop:Generator_RowChangedName="SystemInfoRowChanged" msprop:Generator_RowEvArgName="SystemInfoRowChangeEvent" msprop:Generator_RowClassName="SystemInfoRow">
+        <xs:element name="SystemInfo" msprop:Generator_TableClassName="SystemInfoDataTable" msprop:Generator_TableVarName="tableSystemInfo" msprop:Generator_RowChangedName="SystemInfoRowChanged" msprop:Generator_TablePropName="SystemInfo" msprop:Generator_RowDeletingName="SystemInfoRowDeleting" msprop:Generator_RowChangingName="SystemInfoRowChanging" msprop:Generator_RowEvHandlerName="SystemInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="SystemInfoRowDeleted" msprop:Generator_RowClassName="SystemInfoRow" msprop:Generator_UserTableName="SystemInfo" msprop:Generator_RowEvArgName="SystemInfoRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TheKey" msprop:Generator_ColumnVarNameInTable="columnTheKey" msprop:Generator_ColumnPropNameInRow="TheKey" msprop:Generator_ColumnPropNameInTable="TheKeyColumn" msprop:Generator_UserColumnName="TheKey">
@@ -522,6 +522,16 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SimulationMeta" msprop:Generator_TableClassName="SimulationMetaDataTable" msprop:Generator_TableVarName="tableSimulationMeta" msprop:Generator_RowChangedName="SimulationMetaRowChanged" msprop:Generator_TablePropName="SimulationMeta" msprop:Generator_RowDeletingName="SimulationMetaRowDeleting" msprop:Generator_RowChangingName="SimulationMetaRowChanging" msprop:Generator_RowEvHandlerName="SimulationMetaRowChangeEventHandler" msprop:Generator_RowDeletedName="SimulationMetaRowDeleted" msprop:Generator_RowClassName="SimulationMetaRow" msprop:Generator_UserTableName="SimulationMeta" msprop:Generator_RowEvArgName="SimulationMetaRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MetaID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnMetaID" msprop:Generator_ColumnPropNameInRow="MetaID" msprop:Generator_ColumnPropNameInTable="MetaIDColumn" msprop:Generator_UserColumnName="MetaID" type="xs:int" />
+              <xs:element name="SimulationID" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnSimulationID" msprop:Generator_ColumnPropNameInRow="SimulationID" msprop:Generator_ColumnPropNameInTable="SimulationIDColumn" msprop:Generator_UserColumnName="SimulationID" type="xs:int" minOccurs="0" />
+              <xs:element name="TheKey" msprop:Generator_ColumnVarNameInTable="columnTheKey" msprop:Generator_ColumnPropNameInRow="TheKey" msprop:Generator_ColumnPropNameInTable="TheKeyColumn" msprop:Generator_UserColumnName="TheKey" type="xs:string" minOccurs="0" />
+              <xs:element name="TheValue" msprop:Generator_ColumnVarNameInTable="columnTheValue" msprop:Generator_ColumnPropNameInRow="TheValue" msprop:Generator_ColumnPropNameInTable="TheValueColumn" msprop:Generator_UserColumnName="TheValue" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -623,123 +633,131 @@
       <xs:selector xpath=".//mstns:SimulationLogMessages" />
       <xs:field xpath="mstns:MessageID" />
     </xs:unique>
-    <xs:keyref name="Simulations_SimulationResults" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationResults" msprop:rel_Generator_ChildPropName="GetSimulationResultsRows" msprop:rel_Generator_UserRelationName="Simulations_SimulationResults" msprop:rel_Generator_ParentPropName="SimulationsRow" msprop:rel_Generator_RelationVarName="relationSimulations_SimulationResults" msprop:rel_Generator_UserParentTable="Simulations" msdata:UpdateRule="None">
-      <xs:selector xpath=".//mstns:SimulationResults" />
+    <xs:unique name="SimulationMeta_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:SimulationMeta" />
+      <xs:field xpath="mstns:MetaID" />
+    </xs:unique>
+    <xs:keyref name="FK_Simulations_SimulationMeta" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationMeta" msprop:rel_Generator_ChildPropName="GetSimulationMetaRows" msprop:rel_Generator_UserRelationName="FK_Simulations_SimulationMeta" msprop:rel_Generator_RelationVarName="relationFK_Simulations_SimulationMeta" msprop:rel_Generator_UserParentTable="Simulations" msprop:rel_Generator_ParentPropName="SimulationsRow">
+      <xs:selector xpath=".//mstns:SimulationMeta" />
       <xs:field xpath="mstns:SimulationID" />
     </xs:keyref>
-    <xs:keyref name="SimulationResultTypes_SimulationResults" refer="SimulationResultTypes_Constraint1" msprop:rel_Generator_UserChildTable="SimulationResults" msprop:rel_Generator_ChildPropName="GetSimulationResultsRows" msprop:rel_Generator_UserRelationName="SimulationResultTypes_SimulationResults" msprop:rel_Generator_ParentPropName="SimulationResultTypesRow" msprop:rel_Generator_RelationVarName="relationSimulationResultTypes_SimulationResults" msprop:rel_Generator_UserParentTable="SimulationResultTypes" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="SimulationResultTypes_SimulationResults" refer="SimulationResultTypes_Constraint1" msprop:rel_Generator_UserChildTable="SimulationResults" msprop:rel_Generator_ChildPropName="GetSimulationResultsRows" msprop:rel_Generator_UserRelationName="SimulationResultTypes_SimulationResults" msprop:rel_Generator_RelationVarName="relationSimulationResultTypes_SimulationResults" msprop:rel_Generator_UserParentTable="SimulationResultTypes" msprop:rel_Generator_ParentPropName="SimulationResultTypesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:SimulationResults" />
       <xs:field xpath="mstns:ResultTypeID" />
     </xs:keyref>
-    <xs:keyref name="ProjectDataSourcesProjectVariables" refer="ProjectDataSources_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="ProjectDataSourcesProjectVariables" msprop:rel_Generator_RelationVarName="relationProjectDataSourcesProjectVariables" msprop:rel_Generator_UserParentTable="ProjectDataSources" msprop:rel_Generator_ParentPropName="ProjectDataSourcesRow" msdata:UpdateRule="None">
-      <xs:selector xpath=".//mstns:ProjectVariables" />
-      <xs:field xpath="mstns:DataSourceID" />
+    <xs:keyref name="Simulations_SimulationResults" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationResults" msprop:rel_Generator_ChildPropName="GetSimulationResultsRows" msprop:rel_Generator_UserRelationName="Simulations_SimulationResults" msprop:rel_Generator_RelationVarName="relationSimulations_SimulationResults" msprop:rel_Generator_UserParentTable="Simulations" msprop:rel_Generator_ParentPropName="SimulationsRow" msdata:UpdateRule="None">
+      <xs:selector xpath=".//mstns:SimulationResults" />
+      <xs:field xpath="mstns:SimulationID" />
     </xs:keyref>
-    <xs:keyref name="VariablesProjectVariables" refer="Variables_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="VariablesProjectVariables" msprop:rel_Generator_RelationVarName="relationVariablesProjectVariables" msprop:rel_Generator_UserParentTable="Variables" msprop:rel_Generator_ParentPropName="VariablesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:ProjectVariables" />
-      <xs:field xpath="mstns:VariableID" />
-    </xs:keyref>
-    <xs:keyref name="UnitsProjectVariables" refer="Units_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="UnitsProjectVariables" msprop:rel_Generator_RelationVarName="relationUnitsProjectVariables" msprop:rel_Generator_UserParentTable="Units" msprop:rel_Generator_ParentPropName="UnitsRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="UnitsProjectVariables" refer="Units_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="UnitsProjectVariables" msprop:rel_Generator_ParentPropName="UnitsRow" msprop:rel_Generator_RelationVarName="relationUnitsProjectVariables" msprop:rel_Generator_UserParentTable="Units" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:ProjectVariables" />
       <xs:field xpath="mstns:UnitsID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_91CEE3DC-EB86-4A03-947A-11F885168B8A_x007D_1" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Variables" msprop:rel_Generator_ChildPropName="_GetVariablesRowsBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msprop:rel_Generator_UserRelationName="{91CEE3DC-EB86-4A03-947A-11F885168B8A}1" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msprop:rel_Generator_RelationVarName="_relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:Variables" />
-      <xs:field xpath="mstns:CategoryID" />
+    <xs:keyref name="VariablesProjectVariables" refer="Variables_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="VariablesProjectVariables" msprop:rel_Generator_ParentPropName="VariablesRow" msprop:rel_Generator_RelationVarName="relationVariablesProjectVariables" msprop:rel_Generator_UserParentTable="Variables" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:ProjectVariables" />
+      <xs:field xpath="mstns:VariableID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_055EC2AB-44D4-4673-9E46-407A92C0C6DD_x007D_1" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Variables" msprop:rel_Generator_ChildPropName="_GetVariablesRowsBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msprop:rel_Generator_UserRelationName="{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msprop:rel_Generator_RelationVarName="_relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="ProjectDataSourcesProjectVariables" refer="ProjectDataSources_Constraint1" msprop:rel_Generator_UserChildTable="ProjectVariables" msprop:rel_Generator_ChildPropName="GetProjectVariablesRows" msprop:rel_Generator_UserRelationName="ProjectDataSourcesProjectVariables" msprop:rel_Generator_ParentPropName="ProjectDataSourcesRow" msprop:rel_Generator_RelationVarName="relationProjectDataSourcesProjectVariables" msprop:rel_Generator_UserParentTable="ProjectDataSources" msdata:UpdateRule="None">
+      <xs:selector xpath=".//mstns:ProjectVariables" />
+      <xs:field xpath="mstns:DataSourceID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_055EC2AB-44D4-4673-9E46-407A92C0C6DD_x007D_1" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Variables" msprop:rel_Generator_ChildPropName="_GetVariablesRowsBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msprop:rel_Generator_UserRelationName="{055EC2AB-44D4-4673-9E46-407A92C0C6DD}1" msprop:rel_Generator_RelationVarName="_relation_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_055EC2AB_44D4_4673_9E46_407A92C0C6DD_1" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:Variables" />
       <xs:field xpath="mstns:DimensionID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2_x007D_" refer="HSI_Constraint1" msprop:rel_Generator_UserChildTable="Simulations" msprop:rel_Generator_ChildPropName="GetSimulationsRows" msprop:rel_Generator_UserRelationName="{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}" msprop:rel_Generator_RelationVarName="_relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_" msprop:rel_Generator_UserParentTable="HSI" msprop:rel_Generator_ParentPropName="HSIRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:Simulations" />
-      <xs:field xpath="mstns:HSIID" />
+    <xs:keyref name="_x007B_91CEE3DC-EB86-4A03-947A-11F885168B8A_x007D_1" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Variables" msprop:rel_Generator_ChildPropName="_GetVariablesRowsBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msprop:rel_Generator_UserRelationName="{91CEE3DC-EB86-4A03-947A-11F885168B8A}1" msprop:rel_Generator_RelationVarName="_relation_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_91CEE3DC_EB86_4A03_947A_11F885168B8A_1" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:Variables" />
+      <xs:field xpath="mstns:CategoryID" />
     </xs:keyref>
-    <xs:keyref name="FIS_Simulations" refer="Constraint1" msprop:rel_Generator_UserChildTable="Simulations" msprop:rel_Generator_ChildPropName="GetSimulationsRows" msprop:rel_Generator_UserRelationName="FIS_Simulations" msprop:rel_Generator_RelationVarName="relationFIS_Simulations" msprop:rel_Generator_UserParentTable="FIS" msprop:rel_Generator_ParentPropName="FISRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="FIS_Simulations" refer="Constraint1" msprop:rel_Generator_UserChildTable="Simulations" msprop:rel_Generator_ChildPropName="GetSimulationsRows" msprop:rel_Generator_UserRelationName="FIS_Simulations" msprop:rel_Generator_ParentPropName="FISRow" msprop:rel_Generator_RelationVarName="relationFIS_Simulations" msprop:rel_Generator_UserParentTable="FIS" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:Simulations" />
       <xs:field xpath="mstns:FISID" />
     </xs:keyref>
-    <xs:keyref name="ProjectVariablesSimulationHSCInputs" refer="ProjectVariables_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="ProjectVariablesSimulationHSCInputs" msprop:rel_Generator_RelationVarName="relationProjectVariablesSimulationHSCInputs" msprop:rel_Generator_UserParentTable="ProjectVariables" msprop:rel_Generator_ParentPropName="ProjectVariablesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:SimulationHSCInputs" />
-      <xs:field xpath="mstns:ProjectInputID" />
+    <xs:keyref name="_x007B_70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2_x007D_" refer="HSI_Constraint1" msprop:rel_Generator_UserChildTable="Simulations" msprop:rel_Generator_ChildPropName="GetSimulationsRows" msprop:rel_Generator_UserRelationName="{70582AFA-6EBA-4F69-ACBC-6DE13EEEC1F2}" msprop:rel_Generator_ParentPropName="HSIRow" msprop:rel_Generator_RelationVarName="_relation_70582AFA_6EBA_4F69_ACBC_6DE13EEEC1F2_" msprop:rel_Generator_UserParentTable="HSI" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:Simulations" />
+      <xs:field xpath="mstns:HSIID" />
     </xs:keyref>
-    <xs:keyref name="HSICurvesSimulationHSCInputs" refer="HSICurves_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="HSICurvesSimulationHSCInputs" msprop:rel_Generator_RelationVarName="relationHSICurvesSimulationHSCInputs" msprop:rel_Generator_UserParentTable="HSICurves" msprop:rel_Generator_ParentPropName="HSICurvesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="SimulationsSimulationHSCInputs" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="SimulationsSimulationHSCInputs" msprop:rel_Generator_RelationVarName="relationSimulationsSimulationHSCInputs" msprop:rel_Generator_UserParentTable="Simulations" msprop:rel_Generator_ParentPropName="SimulationsRow" msdata:UpdateRule="None">
+      <xs:selector xpath=".//mstns:SimulationHSCInputs" />
+      <xs:field xpath="mstns:SimulationID" />
+    </xs:keyref>
+    <xs:keyref name="HSICurvesSimulationHSCInputs" refer="HSICurves_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="HSICurvesSimulationHSCInputs" msprop:rel_Generator_ParentPropName="HSICurvesRow" msprop:rel_Generator_RelationVarName="relationHSICurvesSimulationHSCInputs" msprop:rel_Generator_UserParentTable="HSICurves" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:SimulationHSCInputs" />
       <xs:field xpath="mstns:HSICurveID" />
     </xs:keyref>
-    <xs:keyref name="SimulationsSimulationHSCInputs" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="SimulationsSimulationHSCInputs" msprop:rel_Generator_ParentPropName="SimulationsRow" msprop:rel_Generator_RelationVarName="relationSimulationsSimulationHSCInputs" msprop:rel_Generator_UserParentTable="Simulations" msdata:UpdateRule="None">
+    <xs:keyref name="ProjectVariablesSimulationHSCInputs" refer="ProjectVariables_Constraint1" msprop:rel_Generator_UserChildTable="SimulationHSCInputs" msprop:rel_Generator_ChildPropName="GetSimulationHSCInputsRows" msprop:rel_Generator_UserRelationName="ProjectVariablesSimulationHSCInputs" msprop:rel_Generator_ParentPropName="ProjectVariablesRow" msprop:rel_Generator_RelationVarName="relationProjectVariablesSimulationHSCInputs" msprop:rel_Generator_UserParentTable="ProjectVariables" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:SimulationHSCInputs" />
+      <xs:field xpath="mstns:ProjectInputID" />
+    </xs:keyref>
+    <xs:keyref name="SimulationsSimulationFISInputs" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationFISInputs" msprop:rel_Generator_ChildPropName="GetSimulationFISInputsRows" msprop:rel_Generator_UserRelationName="SimulationsSimulationFISInputs" msprop:rel_Generator_RelationVarName="relationSimulationsSimulationFISInputs" msprop:rel_Generator_UserParentTable="Simulations" msprop:rel_Generator_ParentPropName="SimulationsRow" msdata:UpdateRule="None">
+      <xs:selector xpath=".//mstns:SimulationFISInputs" />
       <xs:field xpath="mstns:SimulationID" />
     </xs:keyref>
-    <xs:keyref name="SimulationFISInputs_ProjectVariables" refer="ProjectVariables_Constraint1" msprop:rel_Generator_UserChildTable="SimulationFISInputs" msprop:rel_Generator_ChildPropName="GetSimulationFISInputsRows" msprop:rel_Generator_UserRelationName="SimulationFISInputs_ProjectVariables" msprop:rel_Generator_RelationVarName="relationSimulationFISInputs_ProjectVariables" msprop:rel_Generator_UserParentTable="ProjectVariables" msprop:rel_Generator_ParentPropName="ProjectVariablesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="SimulationFISInputs_ProjectVariables" refer="ProjectVariables_Constraint1" msprop:rel_Generator_UserChildTable="SimulationFISInputs" msprop:rel_Generator_ChildPropName="GetSimulationFISInputsRows" msprop:rel_Generator_UserRelationName="SimulationFISInputs_ProjectVariables" msprop:rel_Generator_ParentPropName="ProjectVariablesRow" msprop:rel_Generator_RelationVarName="relationSimulationFISInputs_ProjectVariables" msprop:rel_Generator_UserParentTable="ProjectVariables" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:SimulationFISInputs" />
       <xs:field xpath="mstns:ProjectInputID" />
     </xs:keyref>
-    <xs:keyref name="SimulationsSimulationFISInputs" refer="Simulations_Constraint1" msprop:rel_Generator_UserChildTable="SimulationFISInputs" msprop:rel_Generator_ChildPropName="GetSimulationFISInputsRows" msprop:rel_Generator_UserRelationName="SimulationsSimulationFISInputs" msprop:rel_Generator_ParentPropName="SimulationsRow" msprop:rel_Generator_RelationVarName="relationSimulationsSimulationFISInputs" msprop:rel_Generator_UserParentTable="Simulations" msdata:UpdateRule="None">
-      <xs:selector xpath=".//mstns:SimulationFISInputs" />
-      <xs:field xpath="mstns:SimulationID" />
-    </xs:keyref>
-    <xs:keyref name="LookupListItemsProjects" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Projects" msprop:rel_Generator_ChildPropName="GetProjectsRows" msprop:rel_Generator_UserRelationName="LookupListItemsProjects" msprop:rel_Generator_ParentPropName="LookupListItemsRow" msprop:rel_Generator_RelationVarName="relationLookupListItemsProjects" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="LookupListItemsProjects" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Projects" msprop:rel_Generator_ChildPropName="GetProjectsRows" msprop:rel_Generator_UserRelationName="LookupListItemsProjects" msprop:rel_Generator_RelationVarName="relationLookupListItemsProjects" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="LookupListItemsRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:Projects" />
       <xs:field xpath="mstns:ScaleID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_8E69F069-D45A-42D0-A5BB-B8ED03CF5C14_x007D_" refer="LookupLists_Constraint1" msprop:rel_Generator_UserChildTable="LookupListItems" msprop:rel_Generator_ChildPropName="GetLookupListItemsRows" msprop:rel_Generator_UserRelationName="{8E69F069-D45A-42D0-A5BB-B8ED03CF5C14}" msprop:rel_Generator_RelationVarName="_relation_8E69F069_D45A_42D0_A5BB_B8ED03CF5C14_" msprop:rel_Generator_UserParentTable="LookupLists" msprop:rel_Generator_ParentPropName="LookupListsRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="_x007B_8E69F069-D45A-42D0-A5BB-B8ED03CF5C14_x007D_" refer="LookupLists_Constraint1" msprop:rel_Generator_UserChildTable="LookupListItems" msprop:rel_Generator_ChildPropName="GetLookupListItemsRows" msprop:rel_Generator_UserRelationName="{8E69F069-D45A-42D0-A5BB-B8ED03CF5C14}" msprop:rel_Generator_ParentPropName="LookupListsRow" msprop:rel_Generator_RelationVarName="_relation_8E69F069_D45A_42D0_A5BB_B8ED03CF5C14_" msprop:rel_Generator_UserParentTable="LookupLists" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:LookupListItems" />
       <xs:field xpath="mstns:ListID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_E7D0CB05-3174-475D-B110-5BE1C8B47890_x007D_" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSICurves" msprop:rel_Generator_ChildPropName="GetHSICurvesRows" msprop:rel_Generator_UserRelationName="{E7D0CB05-3174-475D-B110-5BE1C8B47890}" msprop:rel_Generator_RelationVarName="_relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_" msprop:rel_Generator_UserParentTable="HSC" msprop:rel_Generator_ParentPropName="HSCRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSICurves" />
-      <xs:field xpath="mstns:HSCID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_610732A9-A6C1-42AF-92C2-0600C12B5FFE_x007D_" refer="HSI_Constraint1" msprop:rel_Generator_UserChildTable="HSICurves" msprop:rel_Generator_ChildPropName="GetHSICurvesRows" msprop:rel_Generator_UserRelationName="{610732A9-A6C1-42AF-92C2-0600C12B5FFE}" msprop:rel_Generator_RelationVarName="_relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_" msprop:rel_Generator_UserParentTable="HSI" msprop:rel_Generator_ParentPropName="HSIRow" msdata:UpdateRule="None">
+    <xs:keyref name="_x007B_610732A9-A6C1-42AF-92C2-0600C12B5FFE_x007D_" refer="HSI_Constraint1" msprop:rel_Generator_UserChildTable="HSICurves" msprop:rel_Generator_ChildPropName="GetHSICurvesRows" msprop:rel_Generator_UserRelationName="{610732A9-A6C1-42AF-92C2-0600C12B5FFE}" msprop:rel_Generator_ParentPropName="HSIRow" msprop:rel_Generator_RelationVarName="_relation_610732A9_A6C1_42AF_92C2_0600C12B5FFE_" msprop:rel_Generator_UserParentTable="HSI" msdata:UpdateRule="None">
       <xs:selector xpath=".//mstns:HSICurves" />
       <xs:field xpath="mstns:HSIID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_4A6603F5-545C-4BCD-8170-64647F098E3F_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_4A6603F5_545C_4BCD_8170_64647F098E3F_" msprop:rel_Generator_UserRelationName="{4A6603F5-545C-4BCD-8170-64647F098E3F}" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_4A6603F5_545C_4BCD_8170_64647F098E3F_" msprop:rel_Generator_RelationVarName="_relation_4A6603F5_545C_4BCD_8170_64647F098E3F_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSI" />
-      <xs:field xpath="mstns:LifestageID" />
+    <xs:keyref name="_x007B_E7D0CB05-3174-475D-B110-5BE1C8B47890_x007D_" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSICurves" msprop:rel_Generator_ChildPropName="GetHSICurvesRows" msprop:rel_Generator_UserRelationName="{E7D0CB05-3174-475D-B110-5BE1C8B47890}" msprop:rel_Generator_ParentPropName="HSCRow" msprop:rel_Generator_RelationVarName="_relation_E7D0CB05_3174_475D_B110_5BE1C8B47890_" msprop:rel_Generator_UserParentTable="HSC" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSICurves" />
+      <xs:field xpath="mstns:HSCID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_ED0C9315-B8A6-441E-B239-A087C2CF2401_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msprop:rel_Generator_UserRelationName="{ED0C9315-B8A6-441E-B239-A087C2CF2401}" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msprop:rel_Generator_RelationVarName="_relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSI" />
-      <xs:field xpath="mstns:SpeciesID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_950F669B-CEB3-42A1-97EC-3C1D89097DDA_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msprop:rel_Generator_UserRelationName="{950F669B-CEB3-42A1-97EC-3C1D89097DDA}" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msprop:rel_Generator_RelationVarName="_relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="_x007B_950F669B-CEB3-42A1-97EC-3C1D89097DDA_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msprop:rel_Generator_UserRelationName="{950F669B-CEB3-42A1-97EC-3C1D89097DDA}" msprop:rel_Generator_RelationVarName="_relation_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_950F669B_CEB3_42A1_97EC_3C1D89097DDA_" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:HSI" />
       <xs:field xpath="mstns:HSIMethodID" />
     </xs:keyref>
-    <xs:keyref name="HSCHSCCoordinatePairs" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSCCoordinatePairs" msprop:rel_Generator_ChildPropName="GetHSCCoordinatePairsRows" msprop:rel_Generator_UserRelationName="HSCHSCCoordinatePairs" msprop:rel_Generator_ParentPropName="HSCRow" msprop:rel_Generator_RelationVarName="relationHSCHSCCoordinatePairs" msprop:rel_Generator_UserParentTable="HSC" msdata:UpdateRule="None">
+    <xs:keyref name="_x007B_ED0C9315-B8A6-441E-B239-A087C2CF2401_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msprop:rel_Generator_UserRelationName="{ED0C9315-B8A6-441E-B239-A087C2CF2401}" msprop:rel_Generator_RelationVarName="_relation_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_ED0C9315_B8A6_441E_B239_A087C2CF2401_" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSI" />
+      <xs:field xpath="mstns:SpeciesID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_4A6603F5-545C-4BCD-8170-64647F098E3F_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSI" msprop:rel_Generator_ChildPropName="_GetHSIRowsBy_4A6603F5_545C_4BCD_8170_64647F098E3F_" msprop:rel_Generator_UserRelationName="{4A6603F5-545C-4BCD-8170-64647F098E3F}" msprop:rel_Generator_RelationVarName="_relation_4A6603F5_545C_4BCD_8170_64647F098E3F_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_4A6603F5_545C_4BCD_8170_64647F098E3F_" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSI" />
+      <xs:field xpath="mstns:LifestageID" />
+    </xs:keyref>
+    <xs:keyref name="HSCHSCCoordinatePairs" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSCCoordinatePairs" msprop:rel_Generator_ChildPropName="GetHSCCoordinatePairsRows" msprop:rel_Generator_UserRelationName="HSCHSCCoordinatePairs" msprop:rel_Generator_RelationVarName="relationHSCHSCCoordinatePairs" msprop:rel_Generator_UserParentTable="HSC" msprop:rel_Generator_ParentPropName="HSCRow" msdata:UpdateRule="None">
       <xs:selector xpath=".//mstns:HSCCoordinatePairs" />
       <xs:field xpath="mstns:HSCID" />
     </xs:keyref>
-    <xs:keyref name="HSCHSCPartCategorical" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSCCategories" msprop:rel_Generator_ChildPropName="GetHSCCategoriesRows" msprop:rel_Generator_UserRelationName="HSCHSCPartCategorical" msprop:rel_Generator_ParentPropName="HSCRow" msprop:rel_Generator_RelationVarName="relationHSCHSCPartCategorical" msprop:rel_Generator_UserParentTable="HSC" msdata:UpdateRule="None">
+    <xs:keyref name="HSCHSCPartCategorical" refer="HSC_Constraint1" msprop:rel_Generator_UserChildTable="HSCCategories" msprop:rel_Generator_ChildPropName="GetHSCCategoriesRows" msprop:rel_Generator_UserRelationName="HSCHSCPartCategorical" msprop:rel_Generator_RelationVarName="relationHSCHSCPartCategorical" msprop:rel_Generator_UserParentTable="HSC" msprop:rel_Generator_ParentPropName="HSCRow" msdata:UpdateRule="None">
       <xs:selector xpath=".//mstns:HSCCategories" />
       <xs:field xpath="mstns:HSCID" />
     </xs:keyref>
-    <xs:keyref name="FK_LookupListItems_HSC" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRowsByFK_LookupListItems_HSC" msprop:rel_Generator_UserRelationName="FK_LookupListItems_HSC" msprop:rel_Generator_RelationVarName="relationFK_LookupListItems_HSC" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="LookupListItemsRowByFK_LookupListItems_HSC" msdata:UpdateRule="None">
-      <xs:selector xpath=".//mstns:HSC" />
-      <xs:field xpath="mstns:CategoryID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_AF365712-9F37-46FB-B2D4-04A59EB51B40_x007D_" refer="Units_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{AF365712-9F37-46FB-B2D4-04A59EB51B40}" msprop:rel_Generator_ParentPropName="UnitsRow" msprop:rel_Generator_RelationVarName="_relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_" msprop:rel_Generator_UserParentTable="Units" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSC" />
-      <xs:field xpath="mstns:UnitID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="_GetHSCRowsBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msprop:rel_Generator_UserRelationName="{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}" msprop:rel_Generator_RelationVarName="_relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSC" />
-      <xs:field xpath="mstns:LifeStageID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="_GetHSCRowsBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msprop:rel_Generator_UserRelationName="{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}" msprop:rel_Generator_RelationVarName="_relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSC" />
-      <xs:field xpath="mstns:SpeciesID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_6992C8CF-E5A2-403A-8678-6C82837CF257_x007D_1" refer="Variables_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{6992C8CF-E5A2-403A-8678-6C82837CF257}1" msprop:rel_Generator_RelationVarName="_relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1" msprop:rel_Generator_UserParentTable="Variables" msprop:rel_Generator_ParentPropName="VariablesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
-      <xs:selector xpath=".//mstns:HSC" />
-      <xs:field xpath="mstns:HSCVariableID" />
-    </xs:keyref>
-    <xs:keyref name="_x007B_5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF_x007D_" refer="Sources_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}" msprop:rel_Generator_RelationVarName="_relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_" msprop:rel_Generator_UserParentTable="Sources" msprop:rel_Generator_ParentPropName="SourcesRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="_x007B_5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF_x007D_" refer="Sources_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{5DD7682C-A832-4AE0-8B23-9A82EFEBD1EF}" msprop:rel_Generator_ParentPropName="SourcesRow" msprop:rel_Generator_RelationVarName="_relation_5DD7682C_A832_4AE0_8B23_9A82EFEBD1EF_" msprop:rel_Generator_UserParentTable="Sources" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:HSC" />
       <xs:field xpath="mstns:SourceID" />
     </xs:keyref>
-    <xs:keyref name="_x007B_97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Units" msprop:rel_Generator_ChildPropName="GetUnitsRows" msprop:rel_Generator_UserRelationName="{97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0}" msprop:rel_Generator_RelationVarName="_relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_" msprop:rel_Generator_UserParentTable="LookupListItems" msprop:rel_Generator_ParentPropName="LookupListItemsRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+    <xs:keyref name="_x007B_6992C8CF-E5A2-403A-8678-6C82837CF257_x007D_1" refer="Variables_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{6992C8CF-E5A2-403A-8678-6C82837CF257}1" msprop:rel_Generator_ParentPropName="VariablesRow" msprop:rel_Generator_RelationVarName="_relation_6992C8CF_E5A2_403A_8678_6C82837CF257_1" msprop:rel_Generator_UserParentTable="Variables" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSC" />
+      <xs:field xpath="mstns:HSCVariableID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="_GetHSCRowsBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msprop:rel_Generator_UserRelationName="{583E8CBB-C62B-41A8-ADCD-F6D0FCF3DFB4}" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msprop:rel_Generator_RelationVarName="_relation_583E8CBB_C62B_41A8_ADCD_F6D0FCF3DFB4_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSC" />
+      <xs:field xpath="mstns:SpeciesID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="_GetHSCRowsBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msprop:rel_Generator_UserRelationName="{8F24E5EF-85D3-4AC0-B2C2-F3D4BE2BC575}" msprop:rel_Generator_ParentPropName="_LookupListItemsRowBy_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msprop:rel_Generator_RelationVarName="_relation_8F24E5EF_85D3_4AC0_B2C2_F3D4BE2BC575_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSC" />
+      <xs:field xpath="mstns:LifeStageID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_AF365712-9F37-46FB-B2D4-04A59EB51B40_x007D_" refer="Units_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRows" msprop:rel_Generator_UserRelationName="{AF365712-9F37-46FB-B2D4-04A59EB51B40}" msprop:rel_Generator_RelationVarName="_relation_AF365712_9F37_46FB_B2D4_04A59EB51B40_" msprop:rel_Generator_UserParentTable="Units" msprop:rel_Generator_ParentPropName="UnitsRow" msdata:UpdateRule="None" msdata:DeleteRule="None">
+      <xs:selector xpath=".//mstns:HSC" />
+      <xs:field xpath="mstns:UnitID" />
+    </xs:keyref>
+    <xs:keyref name="FK_LookupListItems_HSC" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="HSC" msprop:rel_Generator_ChildPropName="GetHSCRowsByFK_LookupListItems_HSC" msprop:rel_Generator_UserRelationName="FK_LookupListItems_HSC" msprop:rel_Generator_ParentPropName="LookupListItemsRowByFK_LookupListItems_HSC" msprop:rel_Generator_RelationVarName="relationFK_LookupListItems_HSC" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None">
+      <xs:selector xpath=".//mstns:HSC" />
+      <xs:field xpath="mstns:CategoryID" />
+    </xs:keyref>
+    <xs:keyref name="_x007B_97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0_x007D_" refer="LookupListItems_Constraint1" msprop:rel_Generator_UserChildTable="Units" msprop:rel_Generator_ChildPropName="GetUnitsRows" msprop:rel_Generator_UserRelationName="{97D7CFC4-2913-43C9-B0B5-3ACE31F7F9E0}" msprop:rel_Generator_ParentPropName="LookupListItemsRow" msprop:rel_Generator_RelationVarName="_relation_97D7CFC4_2913_43C9_B0B5_3ACE31F7F9E0_" msprop:rel_Generator_UserParentTable="LookupListItems" msdata:UpdateRule="None" msdata:DeleteRule="None">
       <xs:selector xpath=".//mstns:Units" />
       <xs:field xpath="mstns:DimensionID" />
     </xs:keyref>
