@@ -29,11 +29,42 @@ namespace CHaMPWorkbench.Habitat
             m_sD50RasterFile = sD50RasterFile;
 
             m_HabitatManager = new HSProjectManager(sHabitatDBPath);
-        }   
+        }
+
+        public void WipeConfData() {
+            m_HabitatManager.ProjectDatabase.SimulationFISInputs.Clear();
+            m_HabitatManager.ProjectDatabase.SimulationHSCInputs.Clear();
+            m_HabitatManager.ProjectDatabase.ProjectVariables.Clear();
+            m_HabitatManager.ProjectDatabase.ProjectDataSources.Clear();
+            m_HabitatManager.ProjectDatabase.SimulationMeta.Clear();
+            m_HabitatManager.ProjectDatabase.Simulations.Clear();
+            m_HabitatManager.ProjectDatabase.AcceptChanges();
+            HSProjectManager.Instance.Save();
+        }
 
         public void BuildBatch(List<int> lVisitIDs, List<HabitatModelDef> lModels, ref int nSucess, ref int nError) //, int nVelocityHSCID, int nDepthHSCID, int nSubstrateHSCID
         {
             nSucess = nError = 0;
+
+            // A Little sloppy but if you pass in a master template then it creates a project for you
+            if (m_HabitatManager.ProjectDatabase.Projects.Count == 0)
+            {
+                dsHabitat.ProjectsRow rProject = m_HabitatManager.ProjectDatabase.Projects.NewProjectsRow();
+                rProject.ProjectID = 1;
+                rProject.ScaleID = 54;
+                rProject.Computer = "JamesComputer";
+                rProject.CreatedBy = "James";
+                rProject.Description = "";
+                rProject.DateCreated = DateTime.Now;
+                rProject.Title = "myProject";
+
+                m_HabitatManager.ProjectDatabase.Projects.AddProjectsRow(rProject);
+                m_HabitatManager.ProjectDatabase.Projects.AcceptChanges();
+            }
+
+            // Erase all the previous Conf data (simulations, inputs, variables etc).
+            WipeConfData();
+
 
             m_CHaMPData.FillByVisitIDS(ref lVisitIDs);
             CHaMPWorkbench.Classes.RasterManager.RegisterGDAL();
@@ -44,12 +75,6 @@ namespace CHaMPWorkbench.Habitat
                     // Placeholder until visits are filtered at load
                     if (!lVisitIDs.Contains(rVisit.VisitID))
                         continue;
-
-                    if (m_HabitatManager.ProjectDatabase.Projects.Count == 0)
-                        throw new Exception("Project file does not contain a project node. Did you initialize it using HMDesktop?");
-
-                    if (m_HabitatManager.ProjectDatabase.Simulations.Count > 0)
-                        throw new Exception(string.Format("Project file already contains {0} simulations. Please start with a new project file", m_HabitatManager.ProjectDatabase.Simulations.Count));
 
                     // Create the one simulation for this visit
                     dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
@@ -121,16 +146,14 @@ namespace CHaMPWorkbench.Habitat
                         rSimulation.RasterUnits = rmSim.RasterUnits;
                         rSimulation.RasterSpatRef = rmSim.SpatialRef;
                     }
-
+                    else
+                    {
+                        // No valid found for creating RasterMeta. 
+                        rSimulation.SetOutputRasterNull();
+                    }
 
                     if (bSimulationRecordsOK)
                     {
-                        // Final stage of temporary fix mentioned above. Clear the output paths  for the type of output that is not
-                        // currently possible in the C++
-                        rSimulation = m_HabitatManager.ProjectDatabase.Simulations.FindBySimulationID(nSimulationID);
-                        if (!bRasterInputs)
-                            rSimulation.SetOutputRasterNull();
-
                         HSProjectManager.Instance.Save();
                         nSucess++;
                     }
