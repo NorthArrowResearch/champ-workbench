@@ -6,10 +6,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastTempFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\Temp</Value>
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="LastOutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\RBTInputOutputFiles</Value>
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="LastResultsFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">Results.xml</Value>
@@ -18,21 +18,13 @@
       <Value Profile="(Default)">Log.xml</Value>
     </Setting>
     <Setting Name="LastSourceFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\MonitoringData</Value>
-    </Setting>
-    <Setting Name="RBTWorkbenchConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\CHaMP\Workbench\Workbench.mdb&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\CHaMP\Workbench\Workbench.mdb</Value>
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="TextEditor" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\Sublime Text 2\sublime_text.exe</Value>
     </Setting>
     <Setting Name="RBTConsole" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Code\rbt\rbt-console\bin\Debug\x86\RBTConsole.exe</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RBTPathVariableActive" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -41,18 +33,10 @@
       <Value Profile="(Default)">C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs</Value>
     </Setting>
     <Setting Name="MonitoringDataFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\MonitoringData</Value>
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="InputOutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\CHaMP\RBTInputOutputFiles</Value>
-    </Setting>
-    <Setting Name="HabitatModelConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\PhilipLocal\Documents\Code\HabitatModel\habitat-model-desktop\HMDesktop\HabitatModel.accdb&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\PhilipLocal\Documents\Code\HabitatModel\habitat-model-desktop\HMDesktop\HabitatModel.accdb</Value>
+      <Value Profile="(Default)">C:\</Value>
     </Setting>
     <Setting Name="UserEmail" Type="System.String" Scope="User">
       <Value Profile="(Default)">workbench@champmonitoring.org</Value>
@@ -100,6 +84,20 @@
       <Value Profile="(Default)">40</Value>
     </Setting>
     <Setting Name="Model_HydroPrep" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RBTWorkbenchConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\CHaMP\Workbench\Workbench.mdb&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\CHaMP\Workbench\Workbench.mdb</Value>
+    </Setting>
+    <Setting Name="Model_HabitatConsole" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Habitat_Project" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

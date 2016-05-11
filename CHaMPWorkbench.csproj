@@ -245,6 +245,12 @@
       <DependentUpon>dsHabitat.xsd</DependentUpon>
     </Compile>
     <Compile Include="Habitat\FISRuleFile.cs" />
+    <Compile Include="Habitat\frmHabitatRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Habitat\frmHabitatRun.Designer.cs">
+      <DependentUpon>frmHabitatRun.cs</DependentUpon>
+    </Compile>
     <Compile Include="Habitat\frmHabitatBatch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -391,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUT\frmGUTRun.resx">
       <DependentUpon>frmGUTRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Habitat\frmHabitatRun.resx">
+      <DependentUpon>frmHabitatRun.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Habitat\frmHabitatBatch.resx">
       <DependentUpon>frmHabitatBatch.cs</DependentUpon>

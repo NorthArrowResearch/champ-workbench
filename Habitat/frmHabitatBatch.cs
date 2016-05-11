@@ -340,14 +340,31 @@ namespace CHaMPWorkbench.Habitat
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 return;
             }
-
+            HabitatBatchBuilder theBuilder = null;
             int nSuccess = 0;
             int nError = 0;
             try
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                if (string.IsNullOrWhiteSpace(txtHabitatModelDB.Text))
+                {
+                    CHaMPWorkbench.Properties.Settings.Default.Habitat_Project = string.Empty;
+                }
+                else
+                {
+                    if (System.IO.File.Exists(txtHabitatModelDB.Text) && txtHabitatModelDB.Text.ToLower().EndsWith(".xml"))
+                    {
+                        theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text, txtD50RasterFileName.Text);
+                        CHaMPWorkbench.Properties.Settings.Default.Habitat_Project = txtHabitatModelDB.Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("The habitat model must be a valid XML file (e.g. C:\\CHaMP\\MySimulations.xml)", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.DialogResult = System.Windows.Forms.DialogResult.None;
+                        return;
+                    }
+                }
 
-                HabitatBatchBuilder theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text, txtD50RasterFileName.Text);
                 List<int> lVisitIDs = new List<int>();
                 foreach (DataGridViewRow r in grdVisits.Rows)
                 {

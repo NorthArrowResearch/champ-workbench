@@ -1241,5 +1241,24 @@ namespace CHaMPWorkbench
             HydroPrep.frmHydroPrepRun frm = new HydroPrep.frmHydroPrepRun(m_dbCon.ConnectionString);
             frm.ShowDialog();
         }
+
+        private void runHabitatBatchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Habitat.frmHabitatRun frm = new Habitat.frmHabitatRun(m_dbCon.ConnectionString);
+            frm.ShowDialog();
+        }
+
+        private void scavengeHabitatResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
+            //    rbt.ShowDialog();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Classes.ExceptionHandling.NARException.HandleException(ex);
+            //}
+        }
     }
 }

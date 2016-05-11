@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "10.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\Temp")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string LastTempFolder {
             get {
                 return ((string)(this["LastTempFolder"]));
@@ -49,7 +49,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\RBTInputOutputFiles")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string LastOutputFolder {
             get {
                 return ((string)(this["LastOutputFolder"]));
@@ -85,23 +85,13 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\MonitoringData")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string LastSourceFolder {
             get {
                 return ((string)(this["LastSourceFolder"]));
             }
             set {
                 this["LastSourceFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\CHaMP\\Workbench\\Workbench.mdb")]
-        public string RBTWorkbenchConnectionString {
-            get {
-                return ((string)(this["RBTWorkbenchConnectionString"]));
             }
         }
         
@@ -119,7 +109,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Code\\rbt\\rbt-console\\bin\\Debug\\x86\\RBTConsole.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RBTConsole {
             get {
                 return ((string)(this["RBTConsole"]));
@@ -155,7 +145,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\MonitoringData")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string MonitoringDataFolder {
             get {
                 return ((string)(this["MonitoringDataFolder"]));
@@ -167,24 +157,13 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\CHaMP\\RBTInputOutputFiles")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
         public string InputOutputFolder {
             get {
                 return ((string)(this["InputOutputFolder"]));
             }
             set {
                 this["InputOutputFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\PhilipLocal\\Documents\\Code" +
-            "\\HabitatModel\\habitat-model-desktop\\HMDesktop\\HabitatModel.accdb")]
-        public string HabitatModelConnectionString {
-            get {
-                return ((string)(this["HabitatModelConnectionString"]));
             }
         }
         
@@ -356,6 +335,40 @@ namespace CHaMPWorkbench.Properties {
             }
             set {
                 this["Model_HydroPrep"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\CHaMP\\Workbench\\Workbench.mdb")]
+        public string RBTWorkbenchConnectionString {
+            get {
+                return ((string)(this["RBTWorkbenchConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Model_HabitatConsole {
+            get {
+                return ((string)(this["Model_HabitatConsole"]));
+            }
+            set {
+                this["Model_HabitatConsole"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Habitat_Project {
+            get {
+                return ((string)(this["Habitat_Project"]));
+            }
+            set {
+                this["Habitat_Project"] = value;
             }
         }
     }

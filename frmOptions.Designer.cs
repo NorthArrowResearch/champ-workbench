@@ -57,6 +57,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cmdBrowseHydroPrep = new System.Windows.Forms.Button();
+            this.txtHydroPrep = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.cmdBrowsePython = new System.Windows.Forms.Button();
             this.txtPython = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -68,9 +71,9 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.cmdBrowseHydroPrep = new System.Windows.Forms.Button();
-            this.txtHydroPrep = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.cmdBrowseHabitatConsole = new System.Windows.Forms.Button();
+            this.txtHabitatConsole = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -348,6 +351,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.cmdBrowseHabitatConsole);
+            this.tabPage3.Controls.Add(this.txtHabitatConsole);
+            this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.cmdBrowseHydroPrep);
             this.tabPage3.Controls.Add(this.txtHydroPrep);
             this.tabPage3.Controls.Add(this.label10);
@@ -367,6 +373,35 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Models";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cmdBrowseHydroPrep
+            // 
+            this.cmdBrowseHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseHydroPrep.Location = new System.Drawing.Point(755, 106);
+            this.cmdBrowseHydroPrep.Name = "cmdBrowseHydroPrep";
+            this.cmdBrowseHydroPrep.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseHydroPrep.TabIndex = 11;
+            this.cmdBrowseHydroPrep.Text = "Browse";
+            this.cmdBrowseHydroPrep.UseVisualStyleBackColor = true;
+            this.cmdBrowseHydroPrep.Click += new System.EventHandler(this.cmdBrowseHydroPrep_Click);
+            // 
+            // txtHydroPrep
+            // 
+            this.txtHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHydroPrep.Location = new System.Drawing.Point(148, 107);
+            this.txtHydroPrep.Name = "txtHydroPrep";
+            this.txtHydroPrep.Size = new System.Drawing.Size(601, 20);
+            this.txtHydroPrep.TabIndex = 10;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(50, 111);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(92, 13);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "Hydro Preparation";
             // 
             // cmdBrowsePython
             // 
@@ -479,34 +514,34 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // cmdBrowseHydroPrep
+            // cmdBrowseHabitatConsole
             // 
-            this.cmdBrowseHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseHydroPrep.Location = new System.Drawing.Point(755, 106);
-            this.cmdBrowseHydroPrep.Name = "cmdBrowseHydroPrep";
-            this.cmdBrowseHydroPrep.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseHydroPrep.TabIndex = 11;
-            this.cmdBrowseHydroPrep.Text = "Browse";
-            this.cmdBrowseHydroPrep.UseVisualStyleBackColor = true;
-            this.cmdBrowseHydroPrep.Click += new System.EventHandler(this.cmdBrowseHydroPrep_Click);
+            this.cmdBrowseHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseHabitatConsole.Location = new System.Drawing.Point(755, 135);
+            this.cmdBrowseHabitatConsole.Name = "cmdBrowseHabitatConsole";
+            this.cmdBrowseHabitatConsole.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseHabitatConsole.TabIndex = 14;
+            this.cmdBrowseHabitatConsole.Text = "Browse";
+            this.cmdBrowseHabitatConsole.UseVisualStyleBackColor = true;
+            this.cmdBrowseHabitatConsole.Click += new System.EventHandler(this.cmdBrowseHabitatConsole_Click);
             // 
-            // txtHydroPrep
+            // txtHabitatConsole
             // 
-            this.txtHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHydroPrep.Location = new System.Drawing.Point(148, 107);
-            this.txtHydroPrep.Name = "txtHydroPrep";
-            this.txtHydroPrep.Size = new System.Drawing.Size(601, 20);
-            this.txtHydroPrep.TabIndex = 10;
+            this.txtHabitatConsole.Location = new System.Drawing.Point(148, 136);
+            this.txtHabitatConsole.Name = "txtHabitatConsole";
+            this.txtHabitatConsole.Size = new System.Drawing.Size(601, 20);
+            this.txtHabitatConsole.TabIndex = 13;
             // 
-            // label10
+            // label11
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(50, 111);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(92, 13);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Hydro Preparation";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(50, 140);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 13);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "Habitat Console";
             // 
             // frmOptions
             // 
@@ -585,5 +620,8 @@
         private System.Windows.Forms.Button cmdBrowseHydroPrep;
         private System.Windows.Forms.TextBox txtHydroPrep;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button cmdBrowseHabitatConsole;
+        private System.Windows.Forms.TextBox txtHabitatConsole;
+        private System.Windows.Forms.Label label11;
     }
 }
