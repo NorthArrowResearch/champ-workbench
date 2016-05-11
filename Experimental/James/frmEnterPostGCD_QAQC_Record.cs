@@ -56,11 +56,19 @@ namespace CHaMPWorkbench.Experimental.James
             OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
             OleDbDataAdapter daGCD_Reivew = new OleDbDataAdapter(dbCom);
             DataTable dtGCD_Review = new DataTable();
-            daGCD_Reivew.Fill(dtGCD_Review);
-            dgvGCD_Review.DataSource = dtGCD_Review.AsDataView();
-            //dgvGCD_Review.Refresh();
+            try
+            {
+                daGCD_Reivew.Fill(dtGCD_Review);
+                dgvGCD_Review.DataSource = dtGCD_Review.AsDataView();
+                //dgvGCD_Review.Refresh();
 
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void cmdSubmit_Click(object sender, EventArgs e)
