@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace CHaMPWorkbench.Data
 {
@@ -62,6 +63,19 @@ namespace CHaMPWorkbench.Data
                 }
             }
 
+
+            Regex r = new Regex(@"^[a-z]:[\\/]\s*$", RegexOptions.IgnoreCase);
+            Match m = r.Match(txtFolder.Text);
+            if (m.Success)
+            {
+                DialogResult result = MessageBox.Show(string.Format("It is likely that the path you specified: \"{0}\" is the root of your drive. Are you sure you want to recursively unzip from this directory?", txtFolder.Text), "Confirmation", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+
             if (rdoDifferent.Checked)
             {
                 if (string.IsNullOrEmpty(txtOutputFolder.Text) || !System.IO.Directory.Exists(txtOutputFolder.Text))
@@ -79,11 +93,11 @@ namespace CHaMPWorkbench.Data
                 cmdOK.Enabled = false;
                 cmdCancel.Enabled = false;
                 lblStatus.Visible = true;
+                groupProgress.Visible = true;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 backgroundWorker1.WorkerReportsProgress = true;
                 backgroundWorker1.RunWorkerAsync();
 
-                //                int nCount = Process(txtFolder.Text, txtSurvey1.Text, txtSurvey2.Text, txtSurvey3.Text, txtTopoTIN.Text, txtWSTIN.Text, sHydroInputs,sHydroResults, sOutputFolder);
             }
             catch (Exception ex)
             {
@@ -100,13 +114,8 @@ namespace CHaMPWorkbench.Data
             lblETA.Visible = false;
             lblStatus.Visible = false;
             UpdateControls(sender, e);
+            groupProgress.Visible = false;
         }
-
-        //private int Process(string sTopLevelFolder, string sSurvey1, string sSurvey2, string sSurvey3, string sTopoTIN, string sWSTIN, string sHydroInputs, string sHydroResults, string sOutputFolder)
-        //{
-
-        //    return nUnpackedCount;
-        //}
 
 
         /// <summary>
@@ -130,55 +139,12 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        //private string UnZipArchive(string sFilePath, string sOutputFolder)
-        //{
-        //    string sOptions;
-
-        //    if (sFilePath.Contains(" "))
-        //    {
-        //        sOptions = " x \"" + sFilePath + "\"";
-        //    }
-        //    else
-        //    {
-        //        sOptions = " x " + sFilePath;
-        //    }
-
-        //    // If no output folder is specified then simply unzip into the same folder as the archive
-        //    if (string.IsNullOrEmpty(sOutputFolder))
-        //        sOutputFolder = Path.GetDirectoryName(sFilePath);
-        //    sOutputFolder = sOutputFolder.Trim();
-        //    System.IO.Directory.CreateDirectory(sOutputFolder);
-
-        //    if (sOutputFolder.Contains(" "))
-        //    {
-        //        sOptions += string.Format(" -o\"{0}\"", sOutputFolder);
-        //    }
-        //    else
-        //    {
-        //        sOptions += string.Format(" -o{0}", sOutputFolder);
-        //    }
-
-        //    sOptions += " -aoa";
-
-
-
-        //    System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(CHaMPWorkbench.Properties.Settings.Default.ZipPath, sOptions);
-        //    info.UseShellExecute = false;
-        //    // info.RedirectStandardOutput = true;
-        //    System.Diagnostics.Process p = new System.Diagnostics.Process();
-        //    p.StartInfo = info;
-        //    p.Start();
-        //    //p.WaitForExit();
-
-        //    //p.StandardOutput.ReadToEnd();
-        //    return "";
-        //}
-
+ 
         private void button1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
             frm.Description = "Select Top Level Output Data Folder";
-
+            cmdOK.Enabled = true;
             if (!string.IsNullOrEmpty(txtOutputFolder.Text))
             {
                 if (Directory.Exists(txtOutputFolder.Text))
@@ -211,8 +177,20 @@ namespace CHaMPWorkbench.Data
             m_dtStartTime = DateTime.Now;
             m_Status = "Building index of zip archives. This may take several minutes before progress bar commences...";
             backgroundWorker1.ReportProgress(0);
-            string[] sAllZipFiles = Directory.GetFiles(m_sTopLevelFolder, "*.zip", SearchOption.AllDirectories);
+            string[] sAllZipFiles;
+            try
+            {
+                sAllZipFiles = Directory.GetFiles(m_sTopLevelFolder, "*.zip", SearchOption.AllDirectories);
+            }
+            catch (Exception ex) {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+                return;
+            }
+            
             m_nTotalFiles = sAllZipFiles.Count<string>();
+
+            m_nFilesProcessed = 0;
+
             foreach (string sZipFile in sAllZipFiles)
             {
                 m_nFilesProcessed += 1;
@@ -311,11 +289,16 @@ namespace CHaMPWorkbench.Data
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            cmdOK.Enabled = true;
+            cmdOK.Enabled = false;
             cmdCancel.Enabled = true;
             lblStatus.Text = string.Format("Process complete. {0} zip files processed.", m_nFilesProcessed.ToString("#,##0"));
             Cursor.Current = System.Windows.Forms.Cursors.Default;
             //MessageBox.Show("Processed " + m_nFilesProcessed.ToString("#,##0"), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtFolder_TextChanged(object sender, EventArgs e)
+        {
+            cmdOK.Enabled = true;
         }
     }
 }
