@@ -76,6 +76,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 try
                 {
+                    // TODO: Philip, or someone with ACCESS needs to implement this.
                     //scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile);
                 }
                 catch (Exception ex)
