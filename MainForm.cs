@@ -350,18 +350,19 @@ namespace CHaMPWorkbench
                 " place experimental tools under their own name until they are robust and tested.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void hydroModelInputGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Experimental.Kelly.frmHydroModelInputs frm = new Experimental.Kelly.frmHydroModelInputs(m_dbCon);
-                frm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
-            }
-        }
+        // NOTE: This is possibly depprecated.
+        //private void hydroModelInputGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Experimental.Kelly.frmHydroModelInputs frm = new Experimental.Kelly.frmHydroModelInputs(m_dbCon);
+        //        frm.ShowDialog();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Classes.ExceptionHandling.NARException.HandleException(ex);
+        //    }
+        //}
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {

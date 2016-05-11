@@ -81,7 +81,6 @@
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hydroModelInputGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -572,23 +571,15 @@
             // kellyWhiteheadToolStripMenuItem
             // 
             this.kellyWhiteheadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hydroModelInputGeneratorToolStripMenuItem,
             this.extractRBTErrorsToolStripMenuItem});
             this.kellyWhiteheadToolStripMenuItem.Name = "kellyWhiteheadToolStripMenuItem";
             this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.kellyWhiteheadToolStripMenuItem.Text = "Kelly Whitehead";
             // 
-            // hydroModelInputGeneratorToolStripMenuItem
-            // 
-            this.hydroModelInputGeneratorToolStripMenuItem.Name = "hydroModelInputGeneratorToolStripMenuItem";
-            this.hydroModelInputGeneratorToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.hydroModelInputGeneratorToolStripMenuItem.Text = "Hydro Model Input Generator";
-            this.hydroModelInputGeneratorToolStripMenuItem.Click += new System.EventHandler(this.hydroModelInputGeneratorToolStripMenuItem_Click);
-            // 
             // extractRBTErrorsToolStripMenuItem
             // 
             this.extractRBTErrorsToolStripMenuItem.Name = "extractRBTErrorsToolStripMenuItem";
-            this.extractRBTErrorsToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.extractRBTErrorsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.extractRBTErrorsToolStripMenuItem.Text = "Extract RBT Errors";
             this.extractRBTErrorsToolStripMenuItem.Click += new System.EventHandler(this.extractRBTErrorsToolStripMenuItem_Click);
             // 
@@ -1258,7 +1249,6 @@
         private System.Windows.Forms.ToolStripMenuItem prepareDatabaseForDeploymentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutExperimentalToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem hydroModelInputGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateGCDProjectFromCHaMPSiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
