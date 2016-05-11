@@ -1,9 +1,3 @@
-
-var parseJSON = function(){
-  var x = JSON.parse($('#ReportJSONData').html());
-  return x;
-}
-
 /**
  * Only do things when the document is ready for thing-doing
  */
@@ -12,78 +6,72 @@ $(document).ready(function() {
   var JSONData = parseJSON();
   console.dir(JSONData);
 
-
-  var table_metric = JSONData.report.metrics.metric;
-  var target_metrics = _.where(table_metric, {
-                      display_parent_group : 'Bankfull', display_child_group: 'SiteShape'
-                      });
-  var target_metric_names = _.pluck(target_metrics, "name");
-
-
-  function buildVisitIDArray(target_metrics, key) {
-    var attrList = [];
-    for(var i=0; i<target_metrics.length; i++) {
-      var visit_records = target_metrics[i].visits;
-      for(v in visit_records) {
-        attrList.push(_.pluck(visit_records[v], key));
-      } 
-    }
-    return attrList
-  }
-
-
-   var visitID_key = "visit_id"; 
-   var season_key = "field_Season";
-   visitID_list = buildVisitIDArray(target_metrics, visitID_key);
-   season_list = buildVisitIDArray(target_metrics, season_key);
-
-   console.log(visitID_list);
-   console.log(season_list);
-
-   function zip() {
-        var args = [].slice.call(arguments);
-        var shortest = args.length==0 ? [] : args.reduce(function(a,b){
-            return a.length<b.length ? a : b
-        });
-        return shortest.map(function(_,i){
-            return args.map(function(array){return array[i]})
-        });
-    }
-
-   visitID_list_test = visitID_list[0];
-   season_list_test = season_list[0];
-   zipped_array = zip(visitID_list_test, season_list_test);
-   console.log(visitID_list_test);
-   console.log(season_list_test);
-   console.log(zipped_array);
-
- var template = ''
-   <table  id="surveyinfo" cclass="table">
-       <tbody>
-           <tr>
-               <td>Vertical error notes:</td>
-               <td><%=  %></td>
-               <td>Horizontal error notes:</td>
-               <td><%= %></td>
-           </tr>
-           <% for (var index = 0; index < employeeList.length; index++){ %>
-           <% var employee = employeeList[index]; %>
-           <% var compensation = employee.hours * employee.pay; %>
-           <tr>
-               <td><%= employee.name %></td>
-               <td><%= employee.position %></td>
-               <td><%= employee.pay %></td>
-               <td><%= employee.hours %></td>
-               <td><%= employee.type %></td>
-               <td><%= compensation %></td>
-           </tr>
-           <% } %>
-       </tbody>
-   </table>
-   ";"
-
-   var output = _.template(template, { employeeList : employeeList } );
-
-   $("#surveyinfo").html(output);
+  SiteSizeSummary(JSONData, $('#site-size-summary'));
 
 });
+
+/******************************************************************************************
+
+        TABLE FUNCTIONS BELOW THIS POINT
+
+******************************************************************************************/
+
+var SiteSizeSummary = function(JSONData, $table) {
+
+    // Get the json data associate with this grouping of metrics
+    var dataTable = JSONData.report.metrics.metric;
+    var targetMetrics = _.where(JSONData.report.metrics.metric, {
+                display_parent_group : 'Bankfull', display_child_group: 'SiteShape'});
+
+    // Populate a list with the metric names
+    var metricNames = _.pluck(targetMetrics, 'name');
+
+    // create arrays of values for populating the table
+    var visitID_key = "visit_id"; 
+    //var season_key = "field_Season";
+    var results_key = "results";
+    visitID_list = BuildVisitIDArray(targetMetrics, visitID_key);
+    //season_list = buildVisitIDArray(targetMetrics, season_key);
+    results_list = BuildVisitIDArray(targetMetrics, results_key);
+    console.log(visitID_list);
+    console.log(results_list);
+
+    // append table header columns
+    var $thead = $('<thead />');
+    var $header_row = $('<tr />');
+    for (i=0; i<metricNames.length; i++) {
+      $header_row.append($('<th></th>').text(metricNames[i]))
+      $thead.append($header_row);
+    }
+    console.log($thead);
+
+    // append tbody content
+    $tbody = $('<tbody />');
+    var $row = $('<tr />');
+    $row.append($('<td></td>').text(visitID_list[0])); //Add visit ID column
+    for (i=0; i<metricNames.length; i++) {
+      $row.append($('<td class="number-column"></td>').text(results_list[i]));
+      $tbody.append($row);
+    }
+
+    $thead.append($tbody);
+
+}
+
+// -------------------------------------- HELPER METHODS BELOW THIS POINT
+
+var parseJSON = function(){
+  var x = JSON.parse($('#ReportJSONData').html());
+  return x;
+}
+
+var BuildVisitIDArray = function(targetMetrics, key) {
+  var attrList = [];
+  for(var i=0; i<targetMetrics.length; i++) {
+    var visitRecords = targetMetrics[i].visits;
+    for(visit in visitRecords) {
+      attrList.push(_.pluck(visitRecords[visit], key));
+      }
+    }
+  return attrList
+} 

@@ -29,7 +29,7 @@
               <div class="metric">  
                   <h3>Bankfull Metrics</h3>
                   <div>
-                      <table class="table">
+                      <table id="site-size-summary" class="table">
                       </table>
                   </div>      
               </div>
