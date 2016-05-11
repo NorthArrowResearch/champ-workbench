@@ -55,8 +55,9 @@
             this.generateGCDProjectFromCHaMPSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.habitatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateBatchHabitatProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runHabitatBatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.writeSimulationResultsToCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delft3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToRasterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hydraulicModelPreprationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,8 +149,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scavengeHabitatResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -366,8 +365,7 @@
             this.generateBatchHabitatProjectToolStripMenuItem,
             this.runHabitatBatchToolStripMenuItem,
             this.toolStripSeparator15,
-            this.writeSimulationResultsToCSVFileToolStripMenuItem,
-            this.scavengeHabitatResultsToolStripMenuItem});
+            this.writeSimulationResultsToCSVFileToolStripMenuItem});
             this.habitatToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources._32_habitat_logo;
             this.habitatToolStripMenuItem.Name = "habitatToolStripMenuItem";
             this.habitatToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
@@ -376,23 +374,28 @@
             // generateBatchHabitatProjectToolStripMenuItem
             // 
             this.generateBatchHabitatProjectToolStripMenuItem.Name = "generateBatchHabitatProjectToolStripMenuItem";
-            this.generateBatchHabitatProjectToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.generateBatchHabitatProjectToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.generateBatchHabitatProjectToolStripMenuItem.Text = "Generate Batch Habitat Project...";
             this.generateBatchHabitatProjectToolStripMenuItem.Click += new System.EventHandler(this.generateBatchHabitatProjectToolStripMenuItem_Click);
-            // 
-            // writeSimulationResultsToCSVFileToolStripMenuItem
-            // 
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Name = "writeSimulationResultsToCSVFileToolStripMenuItem";
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Text = "Write simulation results to CSV file...";
-            this.writeSimulationResultsToCSVFileToolStripMenuItem.Click += new System.EventHandler(this.writeSimulationResultsToCSVFileToolStripMenuItem_Click);
             // 
             // runHabitatBatchToolStripMenuItem
             // 
             this.runHabitatBatchToolStripMenuItem.Name = "runHabitatBatchToolStripMenuItem";
-            this.runHabitatBatchToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.runHabitatBatchToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.runHabitatBatchToolStripMenuItem.Text = "Run Habitat Batch";
             this.runHabitatBatchToolStripMenuItem.Click += new System.EventHandler(this.runHabitatBatchToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(242, 6);
+            // 
+            // writeSimulationResultsToCSVFileToolStripMenuItem
+            // 
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Name = "writeSimulationResultsToCSVFileToolStripMenuItem";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Text = "Scavenge Habitat Results";
+            this.writeSimulationResultsToCSVFileToolStripMenuItem.Click += new System.EventHandler(this.writeSimulationResultsToCSVFileToolStripMenuItem_Click);
             // 
             // delft3DToolStripMenuItem
             // 
@@ -1183,18 +1186,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // scavengeHabitatResultsToolStripMenuItem
-            // 
-            this.scavengeHabitatResultsToolStripMenuItem.Name = "scavengeHabitatResultsToolStripMenuItem";
-            this.scavengeHabitatResultsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.scavengeHabitatResultsToolStripMenuItem.Text = "Scavenge Habitat Results";
-            this.scavengeHabitatResultsToolStripMenuItem.Click += new System.EventHandler(this.scavengeHabitatResultsToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator15
-            // 
-            this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size = new System.Drawing.Size(261, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1354,7 +1345,6 @@
         private System.Windows.Forms.ToolStripMenuItem runSelectedBatchesToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runHabitatBatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-        private System.Windows.Forms.ToolStripMenuItem scavengeHabitatResultsToolStripMenuItem;
     }
 }
 

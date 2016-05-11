@@ -16,7 +16,8 @@ namespace CHaMPWorkbench.Habitat
     public partial class frmHabitatRun : Form
     {
         private string DBCon;
-
+        private string m_sOutputXML;
+        private string m_sProjectXML;
         /// <summary>
         /// Create a new GUT run form.
         /// </summary>
@@ -55,6 +56,13 @@ namespace CHaMPWorkbench.Habitat
                 return false;
             }
 
+            if (m_sOutputXML.Trim() == m_sProjectXML.Trim())
+            {
+                MessageBox.Show("The Project file has the same name as the output we are trying to write.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmdBrowseProjectXML.Select();
+                return false;
+            }
+
             return true;
         }
 
@@ -66,6 +74,13 @@ namespace CHaMPWorkbench.Habitat
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            String m_sProjectXML = txtHabitatProjectXML.Text;
+            String sProjetXMLNameNoExt = System.IO.Path.GetFileNameWithoutExtension(m_sProjectXML);
+            String sProjectRoot = System.IO.Path.GetDirectoryName(m_sProjectXML);
+            String m_sOutputXML = System.IO.Path.Combine(sProjectRoot, sProjetXMLNameNoExt + "_output.xml");
+            String sHabitatExe = CHaMPWorkbench.Properties.Settings.Default.Model_HabitatConsole;
+            String sHabitatExeRoot = System.IO.Path.GetDirectoryName(sHabitatExe);
+
             if (!ValidateForm())
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
@@ -79,13 +94,7 @@ namespace CHaMPWorkbench.Habitat
                     System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                    Console.WriteLine("\n******************************************************************************");
-                    String sProjectXML = txtHabitatProjectXML.Text;
-                    String sProjetXMLNameNoExt = System.IO.Path.GetFileNameWithoutExtension(sProjectXML);
-                    String sProjectRoot = System.IO.Path.GetDirectoryName(sProjectXML);
-                    String sOutputXML = System.IO.Path.Combine(sProjectRoot, sProjetXMLNameNoExt + "_output.xml");
-                    String sHabitatExe = CHaMPWorkbench.Properties.Settings.Default.Model_HabitatConsole;
-                    String sHabitatExeRoot = System.IO.Path.GetDirectoryName(sHabitatExe);
+                    CHaMPWorkbench.Properties.Settings.Default.Habitat_Results = m_sOutputXML;
 
                     // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
                     ProcessStartInfo psi = new ProcessStartInfo();
@@ -94,7 +103,7 @@ namespace CHaMPWorkbench.Habitat
                         psi.FileName = CHaMPWorkbench.Properties.Settings.Default.Model_HabitatConsole;
                         // It goes: root def con output
                         psi.WorkingDirectory = sHabitatExeRoot;
-                        psi.Arguments = string.Format("{0} {1} {2} {3}", sProjectRoot, sProjectXML, sProjectXML, sOutputXML);
+                        psi.Arguments = string.Format("{0} {1} {2} {3}", sProjectRoot, m_sProjectXML, m_sProjectXML, m_sOutputXML);
                         psi.CreateNoWindow = false;
                         psi.UseShellExecute = true;
                         psi.RedirectStandardOutput = false;
@@ -113,7 +122,8 @@ namespace CHaMPWorkbench.Habitat
                     {
                         Exception ex = new Exception("Console Error");
                         ex.Data["Console path"] = sHabitatExe;
-                        ex.Data["Project path"] = sProjectXML;
+                        ex.Data["Project path"] = m_sProjectXML;
+                        ex.Data["Output Path"] = m_sOutputXML;
                         ex.Data["Params"] = psi.Arguments;
                         //ex.Data["Standard Error"] = stdErr.ReadToEnd();
                         throw ex;

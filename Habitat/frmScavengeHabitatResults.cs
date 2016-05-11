@@ -16,6 +16,17 @@ namespace CHaMPWorkbench.Habitat
             InitializeComponent();
         }
 
+        private void frmScavengeHabitatResults_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.Habitat_Results) && System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.Habitat_Results))
+                txtHabitatModelDB.Text = CHaMPWorkbench.Properties.Settings.Default.Habitat_Results;
+
+            if (rdoDB.Checked)
+                panelCSV.Visible = false;
+            else
+                panelCSV.Visible = true;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://habitat.northarrowresearch.com/wiki/Technical_Reference/results.html");
@@ -30,27 +41,42 @@ namespace CHaMPWorkbench.Habitat
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtCSVFile.Text))
+            if (rdoCSV.Checked && string.IsNullOrEmpty(txtCSVFile.Text))
             {
                 System.Windows.Forms.MessageBox.Show("You must specify a CSV output file to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 return;
             }
 
-            using (dsHabitat theHabitatProject = new dsHabitat())
+            if (rdoCSV.Checked)
+            {
+                using (dsHabitat theHabitatProject = new dsHabitat())
+                {
+                    try
+                    {
+                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                        string sMessage = string.Empty;
+
+                        bool bOK = ProcessFile(txtHabitatModelDB.Text, txtCSVFile.Text, out sMessage);
+                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                        if (MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+                            System.Diagnostics.Process.Start(txtCSVFile.Text);
+
+                        if (!bOK)
+                            this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                        Classes.ExceptionHandling.NARException.HandleException(ex);
+                    }
+                }
+            }
+            else if (rdoDB.Checked)
             {
                 try
                 {
-                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                    string sMessage = string.Empty;
-
-                    bool bOK = ProcessFile(txtHabitatModelDB.Text, txtCSVFile.Text, out sMessage);
-                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-                    if (MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
-                        System.Diagnostics.Process.Start(txtCSVFile.Text);
-
-                    if (!bOK)
-                        this.DialogResult = System.Windows.Forms.DialogResult.None;
+                    //scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile);
                 }
                 catch (Exception ex)
                 {
@@ -174,5 +200,14 @@ namespace CHaMPWorkbench.Habitat
                 return sResults;
             }
         }
+
+        private void radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoDB.Checked)
+                panelCSV.Visible = false;
+            else
+                panelCSV.Visible = true;
+        }
+
     }
 }

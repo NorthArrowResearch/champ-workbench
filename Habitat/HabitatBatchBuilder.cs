@@ -9,9 +9,6 @@ namespace CHaMPWorkbench.Habitat
 {
     class HabitatBatchBuilder
     {
-        private OleDbConnection m_dbWorkbenchCon;
-        private OleDbConnection m_dbHabitatCon;
-
         private Classes.CHaMPData m_CHaMPData;
         HSProjectManager m_HabitatManager;
         private System.IO.DirectoryInfo m_dHydraulicResultFolder;
@@ -186,6 +183,9 @@ namespace CHaMPWorkbench.Habitat
             List<dsHabitat.ProjectVariablesRow> lProjectVariables = new List<dsHabitat.ProjectVariablesRow>();
 
             dsHabitat.HSIRow rHSI = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(nHSIID);
+
+            AddSimulationMetaData(ref rSimulation, "species", m_HabitatManager.ProjectDatabase.LookupListItems.FindByItemID(rHSI.SpeciesID).ItemName);
+            AddSimulationMetaData(ref rSimulation, "lifestage", m_HabitatManager.ProjectDatabase.LookupListItems.FindByItemID(rHSI.LifestageID).ItemName);
 
             // Loop over all the input curves and create the necessary project data sources and inputs
             dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;

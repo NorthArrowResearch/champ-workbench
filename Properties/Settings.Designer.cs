@@ -338,16 +338,6 @@ namespace CHaMPWorkbench.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\CHaMP\\Workbench\\Workbench.mdb")]
-        public string RBTWorkbenchConnectionString {
-            get {
-                return ((string)(this["RBTWorkbenchConnectionString"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -369,6 +359,28 @@ namespace CHaMPWorkbench.Properties {
             }
             set {
                 this["Habitat_Project"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\CHaMP\\Workbench\\Workbench.mdb")]
+        public string RBTWorkbenchConnectionString {
+            get {
+                return ((string)(this["RBTWorkbenchConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Habitat_Results {
+            get {
+                return ((string)(this["Habitat_Results"]));
+            }
+            set {
+                this["Habitat_Results"] = value;
             }
         }
     }
