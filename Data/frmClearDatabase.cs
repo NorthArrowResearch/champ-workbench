@@ -62,16 +62,22 @@ namespace CHaMPWorkbench.Data
             {
                 try
                 {
-                    string sSuccess = "";
-                    string sErrors = "";
-                    clr.DoClear(ref sSuccess, ref sErrors);
+                    List<string> lMessages = new List<string>();
+                    List<string> lErrors = new List<string>();
+                    clr.DoClear(ref lMessages, ref lErrors);
 
-                    string sMessage = string.Format("Process complete. {0}.", sSuccess);
+                    string sMessage = "Process Complete.";
 
-                    if (!string.IsNullOrWhiteSpace(sErrors))
-                        sMessage += " Errors were encountered clearing the following tables: " + sErrors;
+                    if (lErrors.Count > 0)
+                    {
+                        sMessage = "Process Complete with errors.";
+                        lMessages.Add(" ");
+                        lMessages.Add("The following errors occurred:");
+                        lMessages.AddRange(lErrors);
+                    }
 
-                    MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    frmToolResults frm = new frmToolResults("CHaMP Information Cleared", sMessage, ref lMessages);
+                    frm.ShowDialog();
                 }
                 catch (Exception ex)
                 {

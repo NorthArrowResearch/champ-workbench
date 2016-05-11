@@ -31,7 +31,7 @@ namespace CHaMPWorkbench.Classes
             get { return m_sSQLStatements.Count; }
         }
 
-        public void DoClear(ref string sSuccess, ref string sError)
+        public void DoClear(ref List<string> lSuccesses, ref List<string> lErrors)
         {
             if (m_dbCon.State == System.Data.ConnectionState.Closed)
                 m_dbCon.Open();
@@ -43,19 +43,15 @@ namespace CHaMPWorkbench.Classes
                 try
                 {
                     dbCom.ExecuteNonQuery();
-                    sSuccess += m_sSQLStatements[sSQL] +", ";
+                    lSuccesses.Add(m_sSQLStatements[sSQL]);
                 }
                 catch (Exception ex)
                 {
-                    sError += sSQL + ", ";
+                    lErrors.Add(" ");
+                    lErrors.Add(String.Format("QUERY: \"{0}\"",sSQL));
+                    lErrors.Add(String.Format("Error: \"{0}\"", ex.Message));
                 }
             }
-
-            if (!string.IsNullOrWhiteSpace(sSuccess))
-                sSuccess= sSuccess.Substring(0,sSuccess.Length-2);
-
-            if (!string.IsNullOrWhiteSpace(sError))
-                sError = sError.Substring(0, sError.Length-2);
-        }        
+        }
     }
 }
