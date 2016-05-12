@@ -31,8 +31,7 @@ namespace CHaMPWorkbench.Data
 
             if (chkRBTMetrics.Checked)
             {
-                clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengeTypeID <> 2", "RBT metrics cleared"); // Does not = validation data
-                clr.AddSQLStatementToClear("DELETE FROM Metric_Results WHERE ScavengeTypeID <> 2", "RBT metrics (normalized) cleared"); // Does not = validation data (new, normalized tables)
+                clr.AddSQLStatementToClear("DELETE FROM Metric_Results WHERE ScavengeTypeID <> 2", "RBT metrics (normalized) cleared");
             }
 
             if (chkManulMetrics.Checked)
@@ -41,8 +40,7 @@ namespace CHaMPWorkbench.Data
                 switch (eResult)
                 {
                     case System.Windows.Forms.DialogResult.Yes:
-                        clr.AddSQLStatementToClear("DELETE FROM Metric_SiteMetrics WHERE ScavengeTypeID = 2", "RBT validation metrics cleared"); // Is validation data
-                        clr.AddSQLStatementToClear("DELETE FROM Metric_Results WHERE ScavengeTypeID = 2", "RBT validation metrics (normalized) cleared"); // Is validation data (and normalized)
+                        clr.AddSQLStatementToClear("DELETE FROM Metric_Results WHERE ScavengeTypeID = 2", "RBT validation metrics (normalized) cleared");
                         break;
 
                     case System.Windows.Forms.DialogResult.No:
