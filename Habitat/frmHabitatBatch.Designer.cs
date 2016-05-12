@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.chkFieldSeasons = new System.Windows.Forms.CheckedListBox();
@@ -39,7 +39,7 @@
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkWatersheds = new System.Windows.Forms.CheckedListBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabFilter = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -80,8 +80,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bindingSourceSelectedVisits = new System.Windows.Forms.BindingSource(this.components);
             this.cmdHelp = new System.Windows.Forms.Button();
+            this.cmdFilterSelectNone = new System.Windows.Forms.Button();
+            this.cmdFilterSelectAll = new System.Windows.Forms.Button();
             this.cmsSelectAllNone.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabFilter.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -130,7 +132,7 @@
             this.chkFieldSeasons.FormattingEnabled = true;
             this.chkFieldSeasons.Location = new System.Drawing.Point(3, 3);
             this.chkFieldSeasons.Name = "chkFieldSeasons";
-            this.chkFieldSeasons.Size = new System.Drawing.Size(626, 167);
+            this.chkFieldSeasons.Size = new System.Drawing.Size(626, 157);
             this.chkFieldSeasons.TabIndex = 2;
             this.chkFieldSeasons.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
@@ -164,25 +166,25 @@
             this.chkWatersheds.FormattingEnabled = true;
             this.chkWatersheds.Location = new System.Drawing.Point(3, 3);
             this.chkWatersheds.Name = "chkWatersheds";
-            this.chkWatersheds.Size = new System.Drawing.Size(626, 167);
+            this.chkWatersheds.Size = new System.Drawing.Size(626, 157);
             this.chkWatersheds.TabIndex = 5;
             this.chkWatersheds.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
-            // tabControl1
+            // tabFilter
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabSpecies);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(6, 19);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(640, 199);
-            this.tabControl1.TabIndex = 0;
+            this.tabFilter.Controls.Add(this.tabPage1);
+            this.tabFilter.Controls.Add(this.tabPage2);
+            this.tabFilter.Controls.Add(this.tabPage3);
+            this.tabFilter.Controls.Add(this.tabSpecies);
+            this.tabFilter.Controls.Add(this.tabPage4);
+            this.tabFilter.Location = new System.Drawing.Point(6, 29);
+            this.tabFilter.Name = "tabFilter";
+            this.tabFilter.SelectedIndex = 0;
+            this.tabFilter.Size = new System.Drawing.Size(640, 189);
+            this.tabFilter.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -190,7 +192,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(632, 173);
+            this.tabPage1.Size = new System.Drawing.Size(632, 163);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Field Seasons";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -201,7 +203,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(632, 173);
+            this.tabPage2.Size = new System.Drawing.Size(632, 163);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Watersheds";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -212,7 +214,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(632, 173);
+            this.tabPage3.Size = new System.Drawing.Size(632, 163);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Visit Types";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -225,7 +227,7 @@
             this.chkVisitTypes.FormattingEnabled = true;
             this.chkVisitTypes.Location = new System.Drawing.Point(3, 3);
             this.chkVisitTypes.Name = "chkVisitTypes";
-            this.chkVisitTypes.Size = new System.Drawing.Size(626, 167);
+            this.chkVisitTypes.Size = new System.Drawing.Size(626, 157);
             this.chkVisitTypes.TabIndex = 0;
             this.chkVisitTypes.SelectedIndexChanged += new System.EventHandler(this.FilterVisits);
             // 
@@ -342,14 +344,14 @@
             this.grdVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -357,25 +359,25 @@
             this.colWatershed,
             this.colSite,
             this.Visitcol});
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle8;
             this.grdVisits.Location = new System.Drawing.Point(6, 42);
             this.grdVisits.MultiSelect = false;
             this.grdVisits.Name = "grdVisits";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(640, 237);
@@ -423,7 +425,9 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.tabControl1);
+            this.groupBox1.Controls.Add(this.cmdFilterSelectNone);
+            this.groupBox1.Controls.Add(this.cmdFilterSelectAll);
+            this.groupBox1.Controls.Add(this.tabFilter);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(652, 224);
@@ -640,6 +644,26 @@
             this.cmdHelp.UseVisualStyleBackColor = true;
             this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
             // 
+            // cmdFilterSelectNone
+            // 
+            this.cmdFilterSelectNone.Location = new System.Drawing.Point(483, 11);
+            this.cmdFilterSelectNone.Name = "cmdFilterSelectNone";
+            this.cmdFilterSelectNone.Size = new System.Drawing.Size(75, 23);
+            this.cmdFilterSelectNone.TabIndex = 3;
+            this.cmdFilterSelectNone.Text = "Select None";
+            this.cmdFilterSelectNone.UseVisualStyleBackColor = true;
+            this.cmdFilterSelectNone.Click += new System.EventHandler(this.cmdFilterSelectNone_Click);
+            // 
+            // cmdFilterSelectAll
+            // 
+            this.cmdFilterSelectAll.Location = new System.Drawing.Point(564, 11);
+            this.cmdFilterSelectAll.Name = "cmdFilterSelectAll";
+            this.cmdFilterSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.cmdFilterSelectAll.TabIndex = 4;
+            this.cmdFilterSelectAll.Text = "Select All";
+            this.cmdFilterSelectAll.UseVisualStyleBackColor = true;
+            this.cmdFilterSelectAll.Click += new System.EventHandler(this.cmdFilterSelectAll_Click);
+            // 
             // frmHabitatBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -654,7 +678,7 @@
             this.Text = "Create Habitat Model Batch Run";
             this.Load += new System.EventHandler(this.frmHabitatBatch_Load);
             this.cmsSelectAllNone.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabFilter.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -684,7 +708,7 @@
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.CheckedListBox chkFieldSeasons;
         private System.Windows.Forms.CheckedListBox chkWatersheds;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabFilter;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
@@ -728,5 +752,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershed;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSite;
         private System.Windows.Forms.DataGridViewTextBoxColumn Visitcol;
+        private System.Windows.Forms.Button cmdFilterSelectNone;
+        private System.Windows.Forms.Button cmdFilterSelectAll;
     }
 }

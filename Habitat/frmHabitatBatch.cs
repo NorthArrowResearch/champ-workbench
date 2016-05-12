@@ -105,7 +105,7 @@ namespace CHaMPWorkbench.Habitat
             }
 
             sSQL += " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN CHAMP_Visits ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
+                   //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
                    " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
@@ -487,5 +487,52 @@ namespace CHaMPWorkbench.Habitat
         {
             System.Diagnostics.Process.Start("http://habitat.northarrowresearch.com/wiki/Online_Help/champ_batch_process.html");
         }
+
+        private void cmdFilterSelectNone_Click(object sender, EventArgs e)
+        {
+            FilterSelectAllNone(false);
+        }
+        private void cmdFilterSelectAll_Click(object sender, EventArgs e)
+        {
+            FilterSelectAllNone(true);
+        }
+
+        private void FilterSelectAllNone(bool bAll)
+        {
+            // Only clear the control that we are looking at.
+            switch (tabFilter.SelectedTab.Text)
+            {
+                
+                case "Field Seasons":
+                    for (int idx = 0; idx < chkFieldSeasons.Items.Count; idx++)
+                        chkFieldSeasons.SetItemCheckState(idx, ValueCheck(bAll));
+                    break;
+                case "Watersheds":
+                    for (int idx = 0; idx < chkWatersheds.Items.Count; idx++)
+                        chkWatersheds.SetItemCheckState(idx, ValueCheck(bAll));
+                    break;
+                case "Visit Types":
+                    for (int idx = 0; idx < chkVisitTypes.Items.Count; idx++)
+                        chkVisitTypes.SetItemCheckState(idx, ValueCheck(bAll));
+                    break;
+                case "Species Present":
+                    for (int idx = 0; idx < chkSpecies.Items.Count; idx++)
+                        chkSpecies.SetItemCheckState(idx, ValueCheck(bAll));
+                    break;
+                default:
+                    Console.WriteLine("NOPE");
+                    break;
+            }
+        }
+
+        private CheckState ValueCheck(bool bCheck)
+        {
+            if (bCheck)
+                return CheckState.Checked;
+            else
+                return CheckState.Unchecked;
+        }
+
+
     }
 }
