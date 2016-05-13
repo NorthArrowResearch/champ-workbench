@@ -24,22 +24,29 @@ namespace CHaMPWorkbench
         {
             lblVersion.Text =  CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            try
+            if (m_dbCon == null)
             {
-                if (m_dbCon.State != ConnectionState.Open)
-                    m_dbCon.Open();
-
-                OleDbCommand dbCom = new OleDbCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", m_dbCon);
-                String sVersion = (string)dbCom.ExecuteScalar();
-                if (String.IsNullOrWhiteSpace(sVersion))
-                    throw new Exception("Error retrieving database version");
-
-                lblDBVersion.Text = "Database version: " + sVersion;
+                lblDBVersion.Visible = false;
             }
-            catch (Exception ex)
+            else
             {
-                Exception ex2 = new Exception("Error retrieving database version.", ex);
-                Classes.ExceptionHandling.NARException.HandleException(ex2);
+                try
+                {
+                    if (m_dbCon.State != ConnectionState.Open)
+                        m_dbCon.Open();
+
+                    OleDbCommand dbCom = new OleDbCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", m_dbCon);
+                    String sVersion = (string)dbCom.ExecuteScalar();
+                    if (String.IsNullOrWhiteSpace(sVersion))
+                        throw new Exception("Error retrieving database version");
+
+                    lblDBVersion.Text = "Database version: " + sVersion;
+                }
+                catch (Exception ex)
+                {
+                    Exception ex2 = new Exception("Error retrieving database version.", ex);
+                    Classes.ExceptionHandling.NARException.HandleException(ex2);
+                }
             }
 
             lblWebSite.Text = "Web Site: " + CHaMPWorkbench.Properties.Resources.WebSiteURL;
