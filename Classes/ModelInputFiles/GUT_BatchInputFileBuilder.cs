@@ -10,8 +10,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
     {
         private GUTInputProperties m_Inputs;
 
-        public GUT_BatchInputFileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref List<int> lVisits, string sInputFileName, GUTInputProperties theInputs)
-            : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sOutputFolder, ref  lVisits, sInputFileName)
+        public GUT_BatchInputFileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<int, string> dVisits, string sInputFileName, GUTInputProperties theInputs)
+            : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sOutputFolder, ref  dVisits, sInputFileName)
         {
             m_Inputs = new GUTInputProperties(theInputs);
         }

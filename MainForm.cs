@@ -882,18 +882,11 @@ namespace CHaMPWorkbench
 
         private void generateRBTRunForThisVisitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<int> lvisitIDs = new List<int>();
-            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
-            {
-                DataRowView drv = (DataRowView)aRow.DataBoundItem;
-                DataRow r = drv.Row;
+            Dictionary<int, string> dVisits = GetSelectedVisits();
 
-                lvisitIDs.Add((int)r["VisitID"]);
-            }
-
-            if (lvisitIDs.Count > 0)
+            if (dVisits.Count > 0)
             {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, dVisits);
                 try
                 {
                     frm.ShowDialog();
@@ -934,20 +927,34 @@ namespace CHaMPWorkbench
             }
         }
 
-        private void buildInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Creates a dictionary of visits that are selected in the main grid.
+        /// </summary>
+        /// <remarks>Use this method for any tool that should take a list of visits.
+        /// e.g. input file batch builders</remarks>
+        /// <returns>Dictionary, Key is Visit ID and value is a string name for the visit:
+        /// YYYY, WatershedName, Site, Visit XXXX</returns>
+        private Dictionary<int, string> GetSelectedVisits()
         {
-            List<int> lvisitIDs = new List<int>();
+            Dictionary<int, string> dVisits = new Dictionary<int, string>();
             foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
-
-                lvisitIDs.Add((int)r["VisitID"]);
+                string sLabel = string.Format("{0}, {1}, {2}, Visit {3}", r["WatershedName"], r["VisitYear"], r["SiteName"], r["VisitID"]);
+                dVisits.Add((int)r["VisitID"], sLabel);
             }
 
-            if (lvisitIDs.Count > 0)
+            return dVisits;
+        }
+
+        private void buildInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dictionary<int, string> dVisits = GetSelectedVisits();
+
+            if (dVisits.Count > 0)
             {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, lvisitIDs);
+                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, dVisits);
 
                 try
                 {
@@ -1198,18 +1205,11 @@ namespace CHaMPWorkbench
 
         private void buildInputFilesToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            List<int> lvisitIDs = new List<int>();
-            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
-            {
-                DataRowView drv = (DataRowView)aRow.DataBoundItem;
-                DataRow r = drv.Row;
+            Dictionary<int, string> dVisits = GetSelectedVisits();
 
-                lvisitIDs.Add((int)r["VisitID"]);
-            }
-
-            if (lvisitIDs.Count > 0)
+            if (dVisits.Count > 0)
             {
-                HydroPrep.frmHydroPrepBatchBuilder frm = new HydroPrep.frmHydroPrepBatchBuilder(m_dbCon.ConnectionString, lvisitIDs);
+                HydroPrep.frmHydroPrepBatchBuilder frm = new HydroPrep.frmHydroPrepBatchBuilder(m_dbCon.ConnectionString, dVisits);
 
                 try
                 {

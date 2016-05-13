@@ -12,13 +12,13 @@ namespace CHaMPWorkbench.HydroPrep
     public partial class frmHydroPrepBatchBuilder : Form
     {
         private string m_sDBCon;
-        private List<int> m_lVisitIDs;
+        private Dictionary<int, string> m_dVisits;
 
-        public frmHydroPrepBatchBuilder(string sDBCon, List<int> lVisitIDs)
+        public frmHydroPrepBatchBuilder(string sDBCon, Dictionary<int, string> dVisits)
         {
             InitializeComponent();
             m_sDBCon = sDBCon;
-            m_lVisitIDs = lVisitIDs;
+            m_dVisits = dVisits;
         }
 
         private void frmHydroPrepBatchBuilder_Load(object sender, EventArgs e)
@@ -39,7 +39,7 @@ namespace CHaMPWorkbench.HydroPrep
 
             try
             {
-                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_sDBCon, ref m_lVisitIDs, ref lstVisits);
+                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_sDBCon, ref m_dVisits, ref lstVisits);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace CHaMPWorkbench.HydroPrep
 
         private bool ValidateForm()
         {
-            if (m_lVisitIDs.Count < 1)
+            if (m_dVisits.Count < 1)
             {
                 MessageBox.Show("You must select at least one visit to proceed. Return to the main Workbench grid and select the visits for which you want to run the model.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmdCancel.Select();
@@ -145,7 +145,7 @@ namespace CHaMPWorkbench.HydroPrep
             }
 
             Classes.ModelInputFiles.HydroPrepBatchBuilder theBuilder = new Classes.ModelInputFiles.HydroPrepBatchBuilder(m_sDBCon, txtBatch.Text, chkClearOtherBatches.Checked,
-                txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_lVisitIDs, txtInputFile.Text, txtTemp.Text);
+                txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_dVisits, txtInputFile.Text, txtTemp.Text);
 
             try
             {

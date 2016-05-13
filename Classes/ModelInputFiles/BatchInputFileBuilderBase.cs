@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return nSuccessful;
         }
         
-        public BatchInputFileBuilderBase(int nModelTypeID, string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref List<int> lVisits, string sInputFileName)
+        public BatchInputFileBuilderBase(int nModelTypeID, string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<int, string> dVisits, string sInputFileName)
         {
             ModelTypeID = nModelTypeID;
             DBCon = sDBCon;
@@ -52,8 +52,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             OutputFolder = new System.IO.DirectoryInfo(sOutputFolder);
 
             Visits = new List<BatchVisits>();
-            foreach (int nVisitID in lVisits)
-                Visits.Add(new BatchVisits(nVisitID));
+            foreach (int nVisitID in dVisits.Keys)
+                Visits.Add(new BatchVisits(nVisitID, dVisits[nVisitID]));
 
             if (string.IsNullOrEmpty(sInputFileName))
                 throw new Exception("The input file name cannot be empty.");
@@ -130,7 +130,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                                     pSummary.Value = DBNull.Value;
                                 else
                                 {
-                                    pSummary.Value = string.Format("Visit {0}", aVisit.Description);
+                                    pSummary.Value = string.Format("{0}", aVisit.Description);
                                     pSummary.Size = aVisit.Description.Length;
                                 }
 
@@ -182,12 +182,12 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             // Stores the eception or message iIf anything goes wrong creating this visit input file
             public string ExceptionMessage { get; set; }
 
-            public BatchVisits(int nVisitID)
+            public BatchVisits(int nVisitID, string sDescription)
             {
                 System.Diagnostics.Debug.Assert(nVisitID > 0, "The visit ID must be provided.");
                 VisitID = nVisitID;
                 InputFile = string.Empty;
-                Description = string.Empty;
+                Description = sDescription;
             }
 
             public BatchVisits(int nVisitID, string sInputFile, string sDescription)

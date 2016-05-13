@@ -12,13 +12,13 @@ namespace CHaMPWorkbench.GUT
     public partial class frmGUTInputXMLBuilder : Form
     {
         private string m_sDBCon;
-        private List<int> m_lVisitIDs;
+        private Dictionary<int, string> m_dVisits;
 
-        public frmGUTInputXMLBuilder(string sDBCon, List<int> lVisitIDs)
+        public frmGUTInputXMLBuilder(string sDBCon, Dictionary<int, string> dVisits)
         {
             InitializeComponent();
             m_sDBCon = sDBCon;
-            m_lVisitIDs = lVisitIDs;
+            m_dVisits = dVisits;
         }
 
         private void frmGUTInputXMLBuilder_Load(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.GUT
 
             try
             {
-                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_sDBCon, ref m_lVisitIDs, ref lstVisits);
+                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_sDBCon, ref m_dVisits, ref lstVisits);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace CHaMPWorkbench.GUT
                 valLowRelief.Value, valHighRelief.Value);
 
             Classes.ModelInputFiles.GUT_BatchInputFileBuilder gutBuilder = new Classes.ModelInputFiles.GUT_BatchInputFileBuilder(m_sDBCon, txtBatch.Text, chkClearOtherBatches.Checked,
-                txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_lVisitIDs, txtInputFile.Text, gutProperties);
+                txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_dVisits, txtInputFile.Text, gutProperties);
 
             try
             {
@@ -75,7 +75,7 @@ namespace CHaMPWorkbench.GUT
 
         private bool ValidateForm()
         {
-            if (m_lVisitIDs.Count < 1)
+            if (m_dVisits.Count < 1)
             {
                 MessageBox.Show("You must select at least one visit to proceed. Return to the main Workbench grid and select the visits for which you want to run the model.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cmdCancel.Select();

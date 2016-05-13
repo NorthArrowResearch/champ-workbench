@@ -10,8 +10,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
     {
         private string TemporaryFolder { get; set; }
 
-        public HydroPrepBatchBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sInputFolder, ref List<int> lVisits, string sInputFileName, string sTempFolder)
-            : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_HydroPrep, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sInputFolder, ref lVisits, sInputFileName)
+        public HydroPrepBatchBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sInputFolder, ref Dictionary<int, string> dVisits, string sInputFileName, string sTempFolder)
+            : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_HydroPrep, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sInputFolder, ref dVisits, sInputFileName)
         {
             TemporaryFolder = sTempFolder;
         }

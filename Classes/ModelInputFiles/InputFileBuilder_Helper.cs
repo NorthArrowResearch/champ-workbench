@@ -10,7 +10,7 @@ namespace CHaMPWorkbench.Classes
     public class InputFileBuilder_Helper
     {
 
-        public static void RefreshVisitPaths(string sDBCon, ref List<int> lVisitIDs, ref System.Windows.Forms.ListBox lstVisits)
+        public static void RefreshVisitPaths(string sDBCon, ref Dictionary<int, string> dVisits, ref System.Windows.Forms.ListBox lstVisits)
         {
             lstVisits.Items.Clear();
 
@@ -25,7 +25,7 @@ namespace CHaMPWorkbench.Classes
                 while (dbRead.Read())
                 {
                     int nVisitID = (int)dbRead["VisitID"];
-                    if (lVisitIDs.Contains<int>(nVisitID))
+                    if (dVisits.Keys.Contains<int>(nVisitID))
                     {
                         System.IO.DirectoryInfo dVisitTopoFolder = null;
 
