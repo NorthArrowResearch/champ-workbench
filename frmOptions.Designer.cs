@@ -57,6 +57,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cmdBrowseHabitatConsole = new System.Windows.Forms.Button();
+            this.txtHabitatConsole = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.cmdBrowseHydroPrep = new System.Windows.Forms.Button();
             this.txtHydroPrep = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -71,9 +74,6 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.cmdBrowseHabitatConsole = new System.Windows.Forms.Button();
-            this.txtHabitatConsole = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -374,6 +374,35 @@
             this.tabPage3.Text = "Models";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // cmdBrowseHabitatConsole
+            // 
+            this.cmdBrowseHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseHabitatConsole.Location = new System.Drawing.Point(755, 135);
+            this.cmdBrowseHabitatConsole.Name = "cmdBrowseHabitatConsole";
+            this.cmdBrowseHabitatConsole.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseHabitatConsole.TabIndex = 14;
+            this.cmdBrowseHabitatConsole.Text = "Browse";
+            this.cmdBrowseHabitatConsole.UseVisualStyleBackColor = true;
+            this.cmdBrowseHabitatConsole.Click += new System.EventHandler(this.cmdBrowseHabitatConsole_Click);
+            // 
+            // txtHabitatConsole
+            // 
+            this.txtHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHabitatConsole.Location = new System.Drawing.Point(148, 136);
+            this.txtHabitatConsole.Name = "txtHabitatConsole";
+            this.txtHabitatConsole.Size = new System.Drawing.Size(601, 20);
+            this.txtHabitatConsole.TabIndex = 13;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(50, 140);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 13);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "Habitat Console";
+            // 
             // cmdBrowseHydroPrep
             // 
             this.cmdBrowseHydroPrep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -477,7 +506,7 @@
             // 
             // cmdTestAWS
             // 
-            this.cmdTestAWS.Location = new System.Drawing.Point(20, 200);
+            this.cmdTestAWS.Location = new System.Drawing.Point(20, 88);
             this.cmdTestAWS.Name = "cmdTestAWS";
             this.cmdTestAWS.Size = new System.Drawing.Size(156, 23);
             this.cmdTestAWS.TabIndex = 4;
@@ -513,35 +542,6 @@
             this.chkAWSLoggingEnabled.Text = "Share status and error information with developers";
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
-            // 
-            // cmdBrowseHabitatConsole
-            // 
-            this.cmdBrowseHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseHabitatConsole.Location = new System.Drawing.Point(755, 135);
-            this.cmdBrowseHabitatConsole.Name = "cmdBrowseHabitatConsole";
-            this.cmdBrowseHabitatConsole.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseHabitatConsole.TabIndex = 14;
-            this.cmdBrowseHabitatConsole.Text = "Browse";
-            this.cmdBrowseHabitatConsole.UseVisualStyleBackColor = true;
-            this.cmdBrowseHabitatConsole.Click += new System.EventHandler(this.cmdBrowseHabitatConsole_Click);
-            // 
-            // txtHabitatConsole
-            // 
-            this.txtHabitatConsole.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHabitatConsole.Location = new System.Drawing.Point(148, 136);
-            this.txtHabitatConsole.Name = "txtHabitatConsole";
-            this.txtHabitatConsole.Size = new System.Drawing.Size(601, 20);
-            this.txtHabitatConsole.TabIndex = 13;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(50, 140);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 13);
-            this.label11.TabIndex = 12;
-            this.label11.Text = "Habitat Console";
             // 
             // frmOptions
             // 
