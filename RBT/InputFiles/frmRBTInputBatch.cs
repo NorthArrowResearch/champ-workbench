@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.RBTInputFile
 
                 if (m_dVisits.Count == 1)
                 {
-                    txtBatch.Text = string.Format("Visit {0}, {1} mode", m_dVisits[0], ucConfig.cboRBTMode.Text);
+                    txtBatch.Text = string.Format("Visit {0}, {1} mode", m_dVisits.Keys.First<int>(), ucConfig.cboRBTMode.Text);
                 }
             }
             catch (Exception ex)
