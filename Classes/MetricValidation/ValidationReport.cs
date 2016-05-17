@@ -175,7 +175,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, TypeID, Threshold, IsActive" +
+                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, TypeID, Threshold, MinValue, MaxValue, IsActive" +
                     " FROM Metric_Definitions" +
                     " WHERE (Title Is Not Null) AND (TypeID Is Not Null) AND (IsActive = True)" +
                     " ORDER BY Title", dbCon);
@@ -188,12 +188,22 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")))
                         nCMMetricID = dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID"));
 
+                    Nullable<double> fMinValue = new Nullable<float>();
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MinValue")))
+                        fMinValue = dbRead.GetDouble(dbRead.GetOrdinal("MinValue"));
+
+                    Nullable<double> fMaxValue = new Nullable<float>();
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MaxValue")))
+                        fMaxValue = dbRead.GetDouble(dbRead.GetOrdinal("MaxValue"));
+
                     theResult.Add((string)dbRead["Title"], new Metric(
                         (string)dbRead["Title"]
                         , (int) dbRead["MetricID"]
                         , nCMMetricID
                         , (int)dbRead["TypeID"]
                         , (float)dbRead["Threshold"]
+                        , fMinValue
+                        , fMaxValue
                         , (bool)dbRead["IsActive"]));
                 }
             }

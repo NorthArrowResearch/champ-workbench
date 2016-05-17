@@ -22,18 +22,22 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public Nullable<int> CMMetricID { get; internal set; }
         public int GroupTypeID { get; internal set; }
         public float Threshold { get; internal set; }
+        public Nullable<double> MinValue { get; internal set; }
+        public Nullable<double> MaxValue { get; internal set; }
         public bool IsActive { get; internal set; }
         public string Units { get; internal set; }
 
         public Dictionary<int, VisitResults> Visits;
 
-        public Metric(string sTitle, int nMetricID, Nullable<int> nCMMetricID, int nGroupTypeID, float fThreshold, bool bIsActive)
+        public Metric(string sTitle, int nMetricID, Nullable<int> nCMMetricID, int nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive)
         {
             Title = sTitle;
             MetricID = nMetricID;
             CMMetricID = nCMMetricID;
             GroupTypeID = nGroupTypeID;
             Threshold = fThreshold;
+            MinValue = fMinValue;
+            MaxValue = fMaxValue;
             IsActive = bIsActive;
             Units = string.Empty;
 
@@ -181,12 +185,22 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodTolerance.InnerText = Threshold.ToString("#0.00");
             nodMetric.AppendChild(nodTolerance);
 
+            XmlNode nodMinValue = xmlDoc.CreateElement("minimum");
+            if (MinValue.HasValue)
+                nodMinValue.InnerText = MinValue.Value.ToString("#0.00");
+            nodMetric.AppendChild(nodMinValue);
+
+            XmlNode nodMaxValue = xmlDoc.CreateElement("Maximum");
+            if (MaxValue.HasValue)
+                nodMaxValue.InnerText = MaxValue.Value.ToString("#0.00");
+            nodMetric.AppendChild(nodMaxValue);
+
             XmlNode nodVisits = xmlDoc.CreateElement("visits");
             nodMetric.AppendChild(nodVisits);
 
             foreach (VisitResults aVisit in Visits.Values)
             {
-                aVisit.Serialize(ref xmlDoc, ref nodVisits, Threshold);
+                aVisit.Serialize(ref xmlDoc, ref nodVisits, this);
             }
         }
     }

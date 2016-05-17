@@ -31,7 +31,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return string.Format("{0} - {1} - {2} - VisitID {3}", VisitYear, Watershed, Site, VisitID);
         }
 
-        public void Serialize(ref XmlDocument xmlDoc, ref XmlNode nodVisits, float fTolerance)
+        public void Serialize(ref XmlDocument xmlDoc, ref XmlNode nodVisits, Metric theMetric)
         {
             XmlNode nodVisit = xmlDoc.CreateElement("visit");
             nodVisits.AppendChild(nodVisit);
@@ -101,13 +101,24 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     }
                     else
                     {
-                        float fDelta = (float)Math.Abs(ManualResult.MetricValue - aResult.MetricValue);
-                        float fDiff = fDelta / ManualResult.MetricValue;
-                        if (fDiff <= fTolerance)
-                            nodStatus.InnerText = "Pass";
+                        if (theMetric.MinValue.HasValue && aResult.MetricValue < theMetric.MinValue)
+                            nodStatus.InnerText = "OUTOFRANGE_BELOW";
+                        else if (theMetric.MaxValue.HasValue && aResult.MetricValue > theMetric.MaxValue)
+                            nodStatus.InnerText = "OUTOFRANGE_ABOVE";
                         else
-                            nodStatus.InnerText = "Fail";
-
+                        {
+                            float fDelta = ManualResult.MetricValue - aResult.MetricValue;
+                            float fDiff = fDelta / ManualResult.MetricValue;
+                            if ((float)Math.Abs(fDiff) <= theMetric.Threshold)
+                                nodStatus.InnerText = "PASS";
+                            else
+                            {
+                                if (fDiff < 0)
+                                    nodStatus.InnerText = "FAIL_BELOW";
+                                else
+                                    nodStatus.InnerText = "FAIL_ABOVE";
+                            }
+                        }
                     }
                 }
                 nodResult.AppendChild(nodStatus);
