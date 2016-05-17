@@ -8,27 +8,19 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     public class VisitResults
     {
-        public int VisitID { get; internal set; }
-        public int VisitYear { get; internal set; }
-        public string Site { get; internal set; }
-        public string Watershed { get; internal set; }
-
+        public  ValidationVisitInfo  VisitInfo { get; internal set;}
         public MetricValueBase ManualResult;
         public Dictionary<string, MetricValueModel> ModelResults;
 
-        public VisitResults(int nVisitID, int nVisitYear, string sSite, string sWatershed)
+        public VisitResults(ValidationVisitInfo theVisitInfo)
         {
-            VisitID = nVisitID;
-            VisitYear = nVisitYear;
-            Site = sSite;
-            Watershed = sWatershed;
-
+            VisitInfo = theVisitInfo;
             ModelResults = new Dictionary<string, MetricValueModel>();
         }
 
         public override string ToString()
         {
-            return string.Format("{0} - {1} - {2} - VisitID {3}", VisitYear, Watershed, Site, VisitID);
+            return string.Format("{0} - {1} - {2} - VisitID {3}", VisitInfo.VisitYear, VisitInfo.Watershed, VisitInfo.Site, VisitInfo.VisitID);
         }
 
         public void Serialize(ref XmlDocument xmlDoc, ref XmlNode nodVisits, Metric theMetric)
@@ -37,7 +29,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodVisits.AppendChild(nodVisit);
 
             XmlNode nodVisitID = xmlDoc.CreateElement("visit_id");
-            nodVisitID.InnerText = VisitID.ToString();
+            nodVisitID.InnerText = VisitInfo.VisitID.ToString();
             nodVisit.AppendChild(nodVisitID);
 
             XmlNode nodVisitName = xmlDoc.CreateElement("visit_name");
@@ -45,28 +37,27 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodVisit.AppendChild(nodVisitName);
 
             XmlNode nodFieldSeason = xmlDoc.CreateElement("field_season");
-            nodFieldSeason.InnerText = VisitYear.ToString();
+            nodFieldSeason.InnerText = VisitInfo.VisitYear.ToString();
             nodVisit.AppendChild(nodFieldSeason);
 
-            // TODO: PUT A REAL VALUE IN ME
             XmlNode nodnodWaterShedID = xmlDoc.CreateElement("watershed_id");
-            nodnodWaterShedID.InnerText = "99999999999";
+            nodnodWaterShedID.InnerText = VisitInfo.WatershedID.ToString();
             nodVisit.AppendChild(nodnodWaterShedID);
 
             XmlNode nodnodWaterShedName = xmlDoc.CreateElement("watershed_name");
-            nodnodWaterShedName.InnerText = Watershed;
+            nodnodWaterShedName.InnerText = VisitInfo.Watershed;
             nodVisit.AppendChild(nodnodWaterShedName);
 
             XmlNode nodSiteName = xmlDoc.CreateElement("site");
-            nodSiteName.InnerText = Site;
+            nodSiteName.InnerText = VisitInfo.Site;
             nodVisit.AppendChild(nodSiteName);
 
             XmlNode nodOrganization = xmlDoc.CreateElement("organization");
-            nodOrganization.InnerText = "ORGANIZATION_NAME";
+            nodOrganization.InnerText = VisitInfo.Organization;
             nodVisit.AppendChild(nodOrganization);
 
             XmlNode nodCrewName = xmlDoc.CreateElement("crew_name");
-            nodCrewName.InnerText = "CREW_NAME";
+            nodCrewName.InnerText = VisitInfo.CrewName;
             nodVisit.AppendChild(nodCrewName);
 
             XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");

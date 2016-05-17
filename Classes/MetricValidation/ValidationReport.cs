@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
     {
         // Full file path to the report XSL file
         private System.IO.FileInfo m_fiReportXSL;
-        
+
         // Full file path to the output HTML report file.
         private System.IO.FileInfo m_fiOutputPath;
 
@@ -68,8 +68,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodReport.AppendChild(nodMetrics);
 
             // If there are no
-            List<ListItem> lVisitIDs = GetVisitIDs();
-            if (lVisitIDs.Count < 1)
+            Dictionary<int, ValidationVisitInfo> dVisits = GetVisitInfo();
+            if (dVisits.Count < 1)
                 return theResult;
 
             // Loop over all the validation metrics loaded.
@@ -80,8 +80,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 System.Diagnostics.Debug.Print(string.Format("Metric {0} {1}", aMetric.MetricID, aMetric.Title));
 
-                aMetric.LoadResults(DBCon, ref lVisits, true);
-                aMetric.LoadResults(DBCon, ref lVisits, false);
+                aMetric.LoadResults(DBCon, ref dVisits, true);
+                aMetric.LoadResults(DBCon, ref dVisits, false);
 
                 aMetric.Serialize(ref xmlDoc, ref nodMetrics);
 
@@ -141,31 +141,43 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private List<ListItem> GetVisitIDs()
+        private Dictionary<int, ValidationVisitInfo> GetVisitInfo()
         {
-            List<ListItem> lResult = new List<ListItem>();
+            Dictionary<int, ValidationVisitInfo> dResult = new Dictionary<int, ValidationVisitInfo>();
 
             using (OleDbConnection dbCon = new OleDbConnection(DBCon))
             {
                 dbCon.Open();
                 OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear" +
+                    " , CHaMP_Visits.Organization, CHaMP_Visits.CrewName" +
                     " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Results INNER JOIN CHAMP_Visits ON Metric_Results.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
-                    " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear", dbCon);
+                    " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHaMP_Visits.Organization, CHaMP_Visits.CrewName", dbCon);
 
                 //" WHERE (((Metric_SiteMetrics.ScavengeTypeID)=2))" +
 
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
-                    lResult.Add(new ListItem(
-                        string.Format("{0}, {1}, {2}",
-                        dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
+                {
+                    string sOrganization = string.Empty;
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("Organization")))
+                        sOrganization = dbRead.GetString(dbRead.GetOrdinal("Organization"));
+
+                    string sCrewName = string.Empty;
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("CrewName")))
+                        sCrewName = dbRead.GetString(dbRead.GetOrdinal("CrewName"));
+
+                    dResult.Add(dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
+                        dbRead.GetInt32(dbRead.GetOrdinal("VisitID")),
+                        dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")),
                         dbRead.GetString(dbRead.GetOrdinal("SiteName")),
-                        dbRead.GetInt16(dbRead.GetOrdinal("VisitYear"))),
-                        dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))
-                        ));
+                        dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
+                        dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")),
+                        sOrganization,
+                        sCrewName));
+                }
             }
 
-            return lResult;
+            return dResult;
         }
 
         private Dictionary<string, Metric> RetrieveValidationMetrics()
@@ -175,10 +187,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, TypeID, Threshold, MinValue, MaxValue, IsActive" +
-                    " FROM Metric_Definitions" +
-                    " WHERE (Title Is Not Null) AND (TypeID Is Not Null) AND (IsActive = True)" +
-                    " ORDER BY Title", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("SELECT D.MetricID, D.Title, D.CMMetricID, D.TypeID, D.Threshold, D.MinValue, D.MaxValue, D.IsActive, D.CMMetricID, MGs.Title AS MetricParentGroup, MCGs.Title AS MetricChildGroup" +
+                    " FROM (Metric_Definitions AS D LEFT JOIN LookupListItems AS MGs ON D.MetricGroupID = MGs.ItemID) LEFT JOIN LookupListItems AS MCGs ON D.MetricChannelGroupID = MCGs.ItemID" +
+                    " WHERE (D.Title Is Not Null) AND (D.TypeID Is Not Null) AND (D.IsActive = True) ORDER BY D.Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
@@ -196,15 +207,25 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("MaxValue")))
                         fMaxValue = dbRead.GetDouble(dbRead.GetOrdinal("MaxValue"));
 
+                    string sParentGroup = string.Empty; // Watershed report parent grouping
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MetricParentGroup")))
+                        sParentGroup = dbRead.GetString(dbRead.GetOrdinal("MetricParentGroup"));
+
+                    string sChildGroup = string.Empty; // Watershed report child grouping
+                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MetricChildGroup")))
+                        sChildGroup = dbRead.GetString(dbRead.GetOrdinal("MetricChildGroup"));
+
                     theResult.Add((string)dbRead["Title"], new Metric(
                         (string)dbRead["Title"]
-                        , (int) dbRead["MetricID"]
+                        , (int)dbRead["MetricID"]
                         , nCMMetricID
                         , (int)dbRead["TypeID"]
                         , (float)dbRead["Threshold"]
                         , fMinValue
                         , fMaxValue
-                        , (bool)dbRead["IsActive"]));
+                        , (bool)dbRead["IsActive"]
+                        , sParentGroup
+                        , sChildGroup));
                 }
             }
 

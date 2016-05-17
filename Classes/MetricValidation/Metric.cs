@@ -26,10 +26,13 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public Nullable<double> MaxValue { get; internal set; }
         public bool IsActive { get; internal set; }
         public string Units { get; internal set; }
+        public string ParentGroup { get; set; } // This is the parent grouping in the watershed report
+        public string ChildGroup { get; set; } // this is the child grouping in the watershed report
 
         public Dictionary<int, VisitResults> Visits;
 
-        public Metric(string sTitle, int nMetricID, Nullable<int> nCMMetricID, int nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive)
+        public Metric(string sTitle, int nMetricID, Nullable<int> nCMMetricID, int nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
+           string sGroupType, string sChannelGroup)
         {
             Title = sTitle;
             MetricID = nMetricID;
@@ -40,11 +43,13 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             MaxValue = fMaxValue;
             IsActive = bIsActive;
             Units = string.Empty;
+            ParentGroup = sGroupType;
+            ChildGroup = sChannelGroup;
 
             Visits = new Dictionary<int, VisitResults>();
         }
 
-        public void LoadResults(string sDBCon, ref List<ListItem> lvisits, bool bManualMetricValues)
+        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, bool bManualMetricValues)
         {
             using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
             {
@@ -53,28 +58,28 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 OleDbParameter pVisitID = dbCom.Parameters.Add("@VisitID", OleDbType.Integer);
                 OleDbDataReader dbRead = null;
 
-                foreach (ListItem aVisit in lvisits)
+                foreach (ValidationVisitInfo aVisit in dVisits.Values)
                 {
-                    if (!Visits.ContainsKey(aVisit.Value))
-                    {
-                        VisitResults aResult = new VisitResults(aVisit.Value, aVisit.Value, "test", "test");
-                        Visits.Add(aVisit.Value, aResult);
-                    }
-
-                    pVisitID.Value = aVisit.Value;
+                    pVisitID.Value = aVisit.VisitID;
                     System.Diagnostics.Debug.Print(dbCom.CommandText);
                     dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
+                        if (!Visits.ContainsKey(aVisit.VisitID))
+                        {
+                            VisitResults aResult = new VisitResults(aVisit);
+                            Visits.Add(aVisit.VisitID, aResult);
+                        }
+
                         if (bManualMetricValues)
                         {
-                            Visits[aVisit.Value].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
+                            Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
                         }
                         else
                         {
                             string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("ModelVersion")));
                             float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
-                            Visits[aVisit.Value].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
+                            Visits[aVisit.VisitID].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
                         }
                     }
                     dbRead.Close();
@@ -163,22 +168,22 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
             // TODO: PUT A REAL VALUE IN ME
             XmlNode nodDisplayParentGroup = xmlDoc.CreateElement("display_parent_group");
-            nodDisplayParentGroup.InnerText = "DISPLAY_PARENT_GROUP";
+            nodDisplayParentGroup.InnerText = ParentGroup;
             nodMetric.AppendChild(nodDisplayParentGroup);
 
             // TODO: PUT A REAL VALUE IN ME
             XmlNode nodDisplayChildGroup = xmlDoc.CreateElement("display_child_group");
-            nodDisplayChildGroup.InnerText = "DISPLAY_GROUP_CHILD";
+            nodDisplayChildGroup.InnerText = ChildGroup;
             nodMetric.AppendChild(nodDisplayChildGroup);
 
             // TODO: PUT A REAL VALUE IN ME
             XmlNode nodMetricCalcTypeID = xmlDoc.CreateElement("metric_calc_type_id");
-            nodMetricCalcTypeID.InnerText = "99999";
+            nodMetricCalcTypeID.InnerText = CMMetricID.ToString();
             nodMetric.AppendChild(nodMetricCalcTypeID);
 
             // TODO: PUT A REAL VALUE IN ME
             XmlNode nodGroupTypeID = xmlDoc.CreateElement("group_type_id");
-            nodGroupTypeID.InnerText = "99999";
+            nodGroupTypeID.InnerText = GroupTypeID.ToString();
             nodMetric.AppendChild(nodGroupTypeID);
 
             XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
