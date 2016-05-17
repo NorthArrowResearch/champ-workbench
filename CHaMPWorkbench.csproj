@@ -547,6 +547,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Validation\ReportTransforms\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\CHaMPWorkbenchLibs\Release32_630\gdal201.dll">
       <Link>gdal201.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -577,18 +580,6 @@
     <None Include="Resources\LineGraph.png" />
     <None Include="Resources\LineGraph1.png" />
     <None Include="Resources\delft.png" />
-    <Content Include="Validation\ReportTransforms\dist\gcd.xsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Validation\ReportTransforms\dist\habitat.xsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Validation\ReportTransforms\dist\rbt.xsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Validation\ReportTransforms\dist\rbt_manual.xsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\docGUT.png" />
     <None Include="Resources\map.png" />
     <None Include="Resources\SelectNone.png" />

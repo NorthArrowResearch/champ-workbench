@@ -74,7 +74,6 @@ namespace CHaMPWorkbench.Validation
                 string sReportFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 sReportFolder = System.IO.Path.Combine(sReportFolder, "Validation");
                 sReportFolder = System.IO.Path.Combine(sReportFolder, "ReportTransforms");
-                sReportFolder = System.IO.Path.Combine(sReportFolder, "dist");
                 System.Diagnostics.Debug.Assert(System.IO.Directory.Exists(sReportFolder), "The XSL Validation Report Folder does not exist.");
                 return sReportFolder;
             }
