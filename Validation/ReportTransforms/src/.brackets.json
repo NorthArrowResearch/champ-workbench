@@ -1,7 +1,0 @@
-{
-    "jscodehints.detectedExclusions": [
-        "/home/jesse/dev/champ-workbench/Validation/ReportTransforms/src/Gruntfile.js",
-        "jquery.js",
-        "/home/jesse/dev/champ-workbench/Validation/ReportTransforms/src/tmp/gcd.js"
-    ]
-}
