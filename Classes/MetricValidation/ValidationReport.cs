@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodReport.AppendChild(nodMetrics);
 
             // If there are no
-            Dictionary<int, ValidationVisitInfo> dVisits = GetVisitInfo();
+            Dictionary<int, ValidationVisitInfo> dVisits = GetVisitInfo(ref lVisits);
             if (dVisits.Count < 1)
                 return theResult;
 
@@ -141,7 +141,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private Dictionary<int, ValidationVisitInfo> GetVisitInfo()
+        private Dictionary<int, ValidationVisitInfo> GetVisitInfo(ref List<ListItem> lVisits)
         {
             Dictionary<int, ValidationVisitInfo> dResult = new Dictionary<int, ValidationVisitInfo>();
 
@@ -153,7 +153,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Results INNER JOIN CHAMP_Visits ON Metric_Results.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
                     " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHaMP_Visits.Organization, CHaMP_Visits.CrewName", dbCon);
 
-                //" WHERE (((Metric_SiteMetrics.ScavengeTypeID)=2))" +
 
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
@@ -166,14 +165,20 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("CrewName")))
                         sCrewName = dbRead.GetString(dbRead.GetOrdinal("CrewName"));
 
-                    dResult.Add(dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
-                        dbRead.GetInt32(dbRead.GetOrdinal("VisitID")),
-                        dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")),
-                        dbRead.GetString(dbRead.GetOrdinal("SiteName")),
-                        dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
-                        dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")),
-                        sOrganization,
-                        sCrewName));
+                    int nVisitIDFromDb = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
+
+                    if (lVisits.Find(x => x.Value == nVisitIDFromDb) != null)
+                    {
+                        dResult.Add(dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
+                            dbRead.GetInt32(dbRead.GetOrdinal("VisitID")),
+                            dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")),
+                            dbRead.GetString(dbRead.GetOrdinal("SiteName")),
+                            dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
+                            dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")),
+                            sOrganization,
+                            sCrewName));
+                    }
+
                 }
             }
 
