@@ -104,6 +104,7 @@
     <Compile Include="Classes\MetricValidation\MetricValueBase.cs" />
     <Compile Include="Classes\MetricValidation\MetricValueModel.cs" />
     <Compile Include="Classes\MetricValidation\ValidationReport.cs" />
+    <Compile Include="Classes\MetricValidation\ValidationVisitInfo.cs" />
     <Compile Include="Classes\MetricValidation\VisitResults.cs" />
     <Compile Include="Classes\ModelInputFiles\BatchInputFileBuilderBase.cs" />
     <Compile Include="Classes\ModelInputFiles\GUTInputProperties.cs" />
@@ -334,6 +335,7 @@
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.cs">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
