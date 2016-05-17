@@ -427,7 +427,7 @@ namespace CHaMPWorkbench.Data
             OleDbParameter pSumSubstrateCover = comInsert.Parameters.Add("SumSubstrateCover", OleDbType.Integer);
 
             // Now process the Channel Units
-            sSQL = "SELECT ChannelUnit.VisitID, ChannelUnit.ChannelSegment, ChannelUnit.Tier1, ChannelUnit.Tier2, ChannelUnit.ChannelUnitNumber, SubstrateCover.BouldersGT256, SubstrateCover.Cobbles65255, SubstrateCover.CoarseGravel1764, SubstrateCover.FineGravel316, SubstrateCover.Sand0062, SubstrateCover.FinesLT006, SubstrateCover.SumSubstrateCover FROM ChannelUnit LEFT JOIN SubstrateCover ON (ChannelUnit.VisitID = SubstrateCover.VisitID) AND (ChannelUnit.ChannelUnitID = SubstrateCover.ChannelUnitID) WHERE (((ChannelUnit.[VisitID]) Is Not Null) AND ((ChannelUnit.[ChannelSegment]) Is Not Null) AND ((ChannelUnit.[ChannelUnitNumber]) Is Not Null))";
+            sSQL = "SELECT ChannelUnit.VisitID, ChannelUnit.ChannelSegment_SegmentNumber AS SegmentNumber, ChannelUnit.Tier1, ChannelUnit.Tier2, ChannelUnit.ChannelUnitNumber, SubstrateCover.BouldersGT256, SubstrateCover.Cobbles65255, SubstrateCover.CoarseGravel1764, SubstrateCover.FineGravel316, SubstrateCover.Sand0062, SubstrateCover.FinesLT006, SubstrateCover.SumSubstrateCover FROM ChannelUnit LEFT JOIN SubstrateCover ON (ChannelUnit.VisitID = SubstrateCover.VisitID) AND (ChannelUnit.ChannelUnitID = SubstrateCover.ChannelUnitID) WHERE (((ChannelUnit.[VisitID]) Is Not Null) AND ((ChannelUnit.[ChannelSegment]) Is Not Null) AND ((ChannelUnit.[ChannelUnitNumber]) Is Not Null))";
             dbCom = new OleDbCommand(sSQL, dbCHaMP);
             dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
@@ -436,7 +436,7 @@ namespace CHaMPWorkbench.Data
 
                 foreach (RBTWorkbenchDataSet.CHaMP_SegmentsRow rSeg in ds.CHaMP_Segments)
                 {
-                    if (rSeg.VisitID == (int)dbRead["VisitID"] && rSeg.SegmentNumber == (int)dbRead["ChannelSegment"])
+                    if (rSeg.VisitID == (int)dbRead["VisitID"] && rSeg.SegmentNumber == (int)dbRead["SegmentNumber"])
                     {
                         System.Diagnostics.Debug.WriteLine(rSeg.VisitID.ToString() + ", " + rSeg.SegmentID.ToString());// + ", " + r.ChannelUnitNumber.ToString() + ", " + r.Tier1 + ", " + r.Tier2);
 
