@@ -190,7 +190,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 nodMinValue.InnerText = MinValue.Value.ToString("#0.00");
             nodMetric.AppendChild(nodMinValue);
 
-            XmlNode nodMaxValue = xmlDoc.CreateElement("Maximum");
+            XmlNode nodMaxValue = xmlDoc.CreateElement("maximum");
             if (MaxValue.HasValue)
                 nodMaxValue.InnerText = MaxValue.Value.ToString("#0.00");
             nodMetric.AppendChild(nodMaxValue);
