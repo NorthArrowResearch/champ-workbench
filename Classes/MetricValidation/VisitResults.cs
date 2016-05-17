@@ -71,7 +71,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
             XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
             if (ManualResult is MetricValueBase)
-                nodManualResult.InnerText = ManualResult.ToString();
+                nodManualResult.InnerText = ManualResult.MetricValue.ToString();
             nodVisit.AppendChild(nodManualResult);
 
             XmlNode nodResults = xmlDoc.CreateElement("results");
@@ -95,11 +95,20 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 XmlNode nodStatus = xmlDoc.CreateElement("status");
                 if (ManualResult is MetricValueBase)
                 {
-                    float fDiff = (float)Math.Abs((decimal)((ManualResult.MetricValue - aResult.MetricValue) / ManualResult.MetricValue));
-                    if (fDiff <= fTolerance)
-                        nodStatus.InnerText = "Pass";
+                    if (ManualResult.MetricValue == 0)
+                    {
+                        nodStatus.InnerText = "N/A";
+                    }
                     else
-                        nodStatus.InnerText = "Fail";
+                    {
+                        float fDelta = (float)Math.Abs(ManualResult.MetricValue - aResult.MetricValue);
+                        float fDiff = fDelta / ManualResult.MetricValue;
+                        if (fDiff <= fTolerance)
+                            nodStatus.InnerText = "Pass";
+                        else
+                            nodStatus.InnerText = "Fail";
+
+                    }
                 }
                 nodResult.AppendChild(nodStatus);
             }

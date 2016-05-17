@@ -63,7 +63,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     while (dbRead.Read())
                     {
                         if (bManualMetricValues)
-                            Visits[aVisit.Value].ManualResult = new MetricValueBase((float)dbRead[0]);
+                        {
+                            Visits[aVisit.Value].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
+                        }
                         else
                         {
                             string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("ModelVersion")));
@@ -183,7 +185,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodMetric.AppendChild(nodVisits);
 
             foreach (VisitResults aVisit in Visits.Values)
+            {
                 aVisit.Serialize(ref xmlDoc, ref nodVisits, Threshold);
+            }
         }
     }
 }
