@@ -255,10 +255,10 @@ namespace CHaMPWorkbench.Data
 
         private void UpdateVisits(OleDbConnection dbCHaMP, RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter da, RBTWorkbenchDataSet.CHAMP_VisitsDataTable dtWorkbench)
         {
-            String sSQL = "SELECT V.VisitID AS ID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID AS SiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName" +
+            String sSQL = "SELECT V.VisitID AS ID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID AS SiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName, V.ProtocolID" +
                         " FROM VisitInformation AS V LEFT JOIN MetricAndCovariates AS M ON M.VisitID = V.VisitID" +
                         " WHERE ( (V.[VisitID] Is Not Null) AND (V.[ProgramSiteID] Is Not Null) )" +
-                        " GROUP BY V.VisitID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName";
+                        " GROUP BY V.VisitID, V.HitchName, V.CrewName, V.VisitDate, V.ProgramSiteID, V.[Primary Visit], V.PanelName, M.VisitPhase, M.VisitStatus, M.Organization, V.AEM, V.HasStreamTempLogger, V.[Has Fish Data], V.[QC Visit], V.CategoryName, V.ProtocolID";
 
             using (OleDbCommand dbCom = new OleDbCommand(sSQL, dbCHaMP))
             {
@@ -340,6 +340,10 @@ namespace CHaMPWorkbench.Data
                     else
                         r.CategoryName = (string)dbRead["CategoryName"];
 
+                    if (System.Convert.IsDBNull(dbRead["ProtocolID"]))
+                        r.SetProtocolIDNull();
+                    else
+                        r.ProtocolID = dbRead.GetInt32(dbRead.GetOrdinal("ProtocolID"));
 
                     if (r.RowState == DataRowState.Detached)
                         dtWorkbench.AddCHAMP_VisitsRow(r);

@@ -1662,6 +1662,8 @@ namespace CHaMPWorkbench {
             
             private global::System.Data.DataColumn columnAEM;
             
+            private global::System.Data.DataColumn columnProtocolID;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_VisitsDataTable() {
@@ -1857,6 +1859,14 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ProtocolIDColumn {
+                get {
+                    return this.columnProtocolID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1911,7 +1921,8 @@ namespace CHaMPWorkbench {
                         bool HasStreamTempLogger, 
                         bool QCVisit, 
                         string Organization, 
-                        bool AEM) {
+                        bool AEM, 
+                        int ProtocolID) {
                 CHAMP_VisitsRow rowCHAMP_VisitsRow = ((CHAMP_VisitsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1933,7 +1944,8 @@ namespace CHaMPWorkbench {
                         HasStreamTempLogger,
                         QCVisit,
                         Organization,
-                        AEM};
+                        AEM,
+                        ProtocolID};
                 if ((_parentCHAMP_SitesRowBy_3B234512_3334_4E20_B9DB_CDA24E289DC9_ != null)) {
                     columnValuesArray[1] = _parentCHAMP_SitesRowBy_3B234512_3334_4E20_B9DB_CDA24E289DC9_[0];
                 }
@@ -1986,6 +1998,7 @@ namespace CHaMPWorkbench {
                 this.columnQCVisit = base.Columns["QCVisit"];
                 this.columnOrganization = base.Columns["Organization"];
                 this.columnAEM = base.Columns["AEM"];
+                this.columnProtocolID = base.Columns["ProtocolID"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2031,6 +2044,8 @@ namespace CHaMPWorkbench {
                 base.Columns.Add(this.columnOrganization);
                 this.columnAEM = new global::System.Data.DataColumn("AEM", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAEM);
+                this.columnProtocolID = new global::System.Data.DataColumn("ProtocolID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProtocolID);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnVisitID}, true));
                 this.columnVisitID.AutoIncrement = true;
@@ -3612,6 +3627,22 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ProtocolID {
+                get {
+                    try {
+                        return ((int)(this[this.tableCHAMP_Visits.ProtocolIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProtocolID\' in table \'CHAMP_Visits\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_Visits.ProtocolIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_SitesRow CHAMP_SitesRow {
                 get {
                     return ((CHAMP_SitesRow)(this.GetParentRow(this.Table.ParentRelations["{3B234512-3334-4E20-B9DB-CDA24E289DC9}"])));
@@ -3847,6 +3878,18 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetAEMNull() {
                 this[this.tableCHAMP_Visits.AEMColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsProtocolIDNull() {
+                return this.IsNull(this.tableCHAMP_Visits.ProtocolIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetProtocolIDNull() {
+                this[this.tableCHAMP_Visits.ProtocolIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5895,10 +5938,11 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             tableMapping.ColumnMappings.Add("QCVisit", "QCVisit");
             tableMapping.ColumnMappings.Add("Organization", "Organization");
             tableMapping.ColumnMappings.Add("AEM", "AEM");
+            tableMapping.ColumnMappings.Add("ProtocolID", "ProtocolID");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Visits` WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `CategoryName` IS NULL) OR (`CategoryName` = ?)) AND ((? = 1 AND `IsBridge` IS NULL) OR (`IsBridge` = ?)) AND ((? = 1 AND `VisitPhase` IS NULL) OR (`VisitPhase` = ?)) AND ((? = 1 AND `VisitStatus` IS NULL) OR (`VisitStatus` = ?)) AND ((? = 1 AND `HasFishData` IS NULL) OR (`HasFishData` = ?)) AND ((? = 1 AND `HasStreamTempLogger` IS NULL) OR (`HasStreamTempLogger` = ?)) AND ((? = 1 AND `QCVisit` IS NULL) OR (`QCVisit` = ?)) AND ((? = 1 AND `Organization` IS NULL) OR (`Organization` = ?)) AND ((? = 1 AND `AEM` IS NULL) OR (`AEM` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Visits` WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `CategoryName` IS NULL) OR (`CategoryName` = ?)) AND ((? = 1 AND `IsBridge` IS NULL) OR (`IsBridge` = ?)) AND ((? = 1 AND `VisitPhase` IS NULL) OR (`VisitPhase` = ?)) AND ((? = 1 AND `VisitStatus` IS NULL) OR (`VisitStatus` = ?)) AND ((? = 1 AND `HasFishData` IS NULL) OR (`HasFishData` = ?)) AND ((? = 1 AND `HasStreamTempLogger` IS NULL) OR (`HasStreamTempLogger` = ?)) AND ((? = 1 AND `QCVisit` IS NULL) OR (`QCVisit` = ?)) AND ((? = 1 AND `Organization` IS NULL) OR (`Organization` = ?)) AND ((? = 1 AND `AEM` IS NULL) OR (`AEM` = ?)) AND ((? = 1 AND `ProtocolID` IS NULL) OR (`ProtocolID` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, true, null));
@@ -5937,9 +5981,11 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Organization", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Organization", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_AEM", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_AEM", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO `CHAMP_Visits` (`VisitID`, `SiteID`, `ProgramSiteID`, `VisitYear`, `HitchID`, `HitchName`, `CrewName`, `SampleDate`, `IsPrimary`, `PanelName`, `CategoryName`, `IsBridge`, `VisitPhase`, `VisitStatus`, `HasFishData`, `HasStreamTempLogger`, `QCVisit`, `Organization`, `AEM`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO `CHAMP_Visits` (`VisitID`, `SiteID`, `ProgramSiteID`, `VisitYear`, `HitchID`, `HitchName`, `CrewName`, `SampleDate`, `IsPrimary`, `PanelName`, `CategoryName`, `IsBridge`, `VisitPhase`, `VisitStatus`, `HasFishData`, `HasStreamTempLogger`, `QCVisit`, `Organization`, `AEM`, `ProtocolID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
@@ -5960,9 +6006,29 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("QCVisit", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "QCVisit", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Organization", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Organization", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("AEM", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_Visits` SET `VisitID` = ?, `SiteID` = ?, `ProgramSiteID` = ?, `VisitYear` = ?, `HitchID` = ?, `HitchName` = ?, `CrewName` = ?, `SampleDate` = ?, `IsPrimary` = ?, `PanelName` = ?, `CategoryName` = ?, `IsBridge` = ?, `VisitPhase` = ?, `VisitStatus` = ?, `HasFishData` = ?, `HasStreamTempLogger` = ?, `QCVisit` = ?, `Organization` = ?, `AEM` = ? WHERE ((`VisitID` = ?) AND ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`VisitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? = 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 AND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `CategoryName` IS NULL) OR (`CategoryName` = ?)) AND ((? = 1 AND `IsBridge` IS NULL) OR (`IsBridge` = ?)) AND ((? = 1 AND `VisitPhase` IS NULL) OR (`VisitPhase` = ?)) AND ((? = 1 AND `VisitStatus` IS NULL) OR (`VisitStatus` = ?)) AND ((? = 1 AND `HasFishData` IS NULL) OR (`HasFishData` = ?)) AND ((? = 1 AND `HasStreamTempLogger` IS NULL) OR (`HasStreamTempLogger` = ?)) AND ((? = 1 AND `QCVisit` IS NULL) OR (`QCVisit` = ?)) AND ((? = 1 AND `Organization` IS NULL) OR (`Organization` = ?)) AND ((? = 1 AND `AEM` IS NULL) OR (`AEM` = ?)))";
+            this._adapter.UpdateCommand.CommandText = "UPDATE `CHAMP_Visits` SET `VisitID` = ?, `SiteID` = ?, `ProgramSiteID` = ?, `Visi" +
+                "tYear` = ?, `HitchID` = ?, `HitchName` = ?, `CrewName` = ?, `SampleDate` = ?, `I" +
+                "sPrimary` = ?, `PanelName` = ?, `CategoryName` = ?, `IsBridge` = ?, `VisitPhase`" +
+                " = ?, `VisitStatus` = ?, `HasFishData` = ?, `HasStreamTempLogger` = ?, `QCVisit`" +
+                " = ?, `Organization` = ?, `AEM` = ?, `ProtocolID` = ? WHERE ((`VisitID` = ?) AND" +
+                " ((? = 1 AND `SiteID` IS NULL) OR (`SiteID` = ?)) AND ((? = 1 AND `ProgramSiteID" +
+                "` IS NULL) OR (`ProgramSiteID` = ?)) AND ((? = 1 AND `VisitYear` IS NULL) OR (`V" +
+                "isitYear` = ?)) AND ((? = 1 AND `HitchID` IS NULL) OR (`HitchID` = ?)) AND ((? =" +
+                " 1 AND `HitchName` IS NULL) OR (`HitchName` = ?)) AND ((? = 1 AND `CrewName` IS " +
+                "NULL) OR (`CrewName` = ?)) AND ((? = 1 AND `SampleDate` IS NULL) OR (`SampleDate" +
+                "` = ?)) AND ((? = 1 AND `IsPrimary` IS NULL) OR (`IsPrimary` = ?)) AND ((? = 1 A" +
+                "ND `PanelName` IS NULL) OR (`PanelName` = ?)) AND ((? = 1 AND `CategoryName` IS " +
+                "NULL) OR (`CategoryName` = ?)) AND ((? = 1 AND `IsBridge` IS NULL) OR (`IsBridge" +
+                "` = ?)) AND ((? = 1 AND `VisitPhase` IS NULL) OR (`VisitPhase` = ?)) AND ((? = 1" +
+                " AND `VisitStatus` IS NULL) OR (`VisitStatus` = ?)) AND ((? = 1 AND `HasFishData" +
+                "` IS NULL) OR (`HasFishData` = ?)) AND ((? = 1 AND `HasStreamTempLogger` IS NULL" +
+                ") OR (`HasStreamTempLogger` = ?)) AND ((? = 1 AND `QCVisit` IS NULL) OR (`QCVisi" +
+                "t` = ?)) AND ((? = 1 AND `Organization` IS NULL) OR (`Organization` = ?)) AND ((" +
+                "? = 1 AND `AEM` IS NULL) OR (`AEM` = ?)) AND ((? = 1 AND `ProtocolID` IS NULL) O" +
+                "R (`ProtocolID` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
@@ -5983,6 +6049,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("QCVisit", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "QCVisit", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Organization", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Organization", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("AEM", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, false, null));
@@ -6020,6 +6087,8 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Organization", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Organization", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_AEM", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_AEM", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "AEM", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ProtocolID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ProtocolID", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6036,23 +6105,23 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') 
-                         AS DisplayName, PanelName, CategoryName, IsBridge, VisitPhase, VisitStatus, HasFishData, HasStreamTempLogger, QCVisit, Organization, AEM
+                         AS DisplayName, PanelName, CategoryName, IsBridge, VisitPhase, VisitStatus, HasFishData, HasStreamTempLogger, QCVisit, Organization, AEM, ProtocolID
 FROM            CHAMP_Visits
 ORDER BY VisitYear DESC, IsPrimary DESC";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT AEM, CategoryName, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (SiteID = ?) AND (SurveyGDB IS NOT NULL) AND (TopoTIN IS NOT NULL) AND (WSTIN IS NOT NULL)";
+            this._commandCollection[1].CommandText = @"SELECT AEM, CategoryName, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, ProtocolID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (SiteID = ?) AND (SurveyGDB IS NOT NULL) AND (TopoTIN IS NOT NULL) AND (WSTIN IS NOT NULL)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[2] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT AEM, CategoryName, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (VisitID = ?) ORDER BY VisitYear DESC, IsPrimary DESC";
+            this._commandCollection[2].CommandText = @"SELECT AEM, CategoryName, CrewName, Str(VisitYear) + ' - ' + HitchName + IIF(IsPrimary, ' - Primary', '') AS DisplayName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, ProtocolID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (VisitID = ?) ORDER BY VisitYear DESC, IsPrimary DESC";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitID", global::System.Data.DataRowVersion.Current, false, null));
             this._commandCollection[3] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = @"SELECT AEM, CategoryName, CrewName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (VisitYear = ?)";
+            this._commandCollection[3].CommandText = @"SELECT AEM, CategoryName, CrewName, HasFishData, HasStreamTempLogger, HitchID, HitchName, IsBridge, IsPrimary, Organization, PanelName, ProgramSiteID, ProtocolID, QCVisit, SampleDate, SiteID, VisitID, VisitPhase, VisitStatus, VisitYear FROM CHAMP_Visits WHERE (VisitYear = ?)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[3].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("VisitYear", global::System.Data.OleDb.OleDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "VisitYear", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -6186,7 +6255,8 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool Original_HasStreamTempLogger, 
                     bool Original_QCVisit, 
                     string Original_Organization, 
-                    bool Original_AEM) {
+                    bool Original_AEM, 
+                    global::System.Nullable<int> Original_ProtocolID) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_VisitID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_SiteID));
@@ -6283,6 +6353,14 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
             }
             this.Adapter.DeleteCommand.Parameters[35].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[36].Value = ((bool)(Original_AEM));
+            if ((Original_ProtocolID.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[37].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[38].Value = ((int)(Original_ProtocolID.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[37].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[38].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6322,7 +6400,8 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool HasStreamTempLogger, 
                     bool QCVisit, 
                     string Organization, 
-                    bool AEM) {
+                    bool AEM, 
+                    global::System.Nullable<int> ProtocolID) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(VisitID));
             this.Adapter.InsertCommand.Parameters[1].Value = ((int)(SiteID));
             if ((ProgramSiteID.HasValue == true)) {
@@ -6392,6 +6471,12 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                 this.Adapter.InsertCommand.Parameters[17].Value = ((string)(Organization));
             }
             this.Adapter.InsertCommand.Parameters[18].Value = ((bool)(AEM));
+            if ((ProtocolID.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[19].Value = ((int)(ProtocolID.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[19].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6432,6 +6517,7 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool QCVisit, 
                     string Organization, 
                     bool AEM, 
+                    global::System.Nullable<int> ProtocolID, 
                     int Original_VisitID, 
                     int Original_SiteID, 
                     global::System.Nullable<int> Original_ProgramSiteID, 
@@ -6450,7 +6536,8 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool Original_HasStreamTempLogger, 
                     bool Original_QCVisit, 
                     string Original_Organization, 
-                    bool Original_AEM) {
+                    bool Original_AEM, 
+                    global::System.Nullable<int> Original_ProtocolID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(VisitID));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(SiteID));
             if ((ProgramSiteID.HasValue == true)) {
@@ -6520,102 +6607,116 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                 this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(Organization));
             }
             this.Adapter.UpdateCommand.Parameters[18].Value = ((bool)(AEM));
-            this.Adapter.UpdateCommand.Parameters[19].Value = ((int)(Original_VisitID));
-            this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_SiteID));
+            if ((ProtocolID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((int)(ProtocolID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_VisitID));
+            this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_SiteID));
             if ((Original_ProgramSiteID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(Original_ProgramSiteID.Value));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(Original_ProgramSiteID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[25].Value = ((short)(Original_VisitYear));
+            this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[26].Value = ((short)(Original_VisitYear));
             if ((Original_HitchID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((int)(Original_HitchID.Value));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((int)(Original_HitchID.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
             if ((Original_HitchName == null)) {
                 throw new global::System.ArgumentNullException("Original_HitchName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((string)(Original_HitchName));
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((string)(Original_HitchName));
             }
             if ((Original_CrewName == null)) {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[31].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((string)(Original_CrewName));
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((string)(Original_CrewName));
             }
             if ((Original_SampleDate.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((System.DateTime)(Original_SampleDate.Value));
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((System.DateTime)(Original_SampleDate.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[33].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[34].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[35].Value = ((bool)(Original_IsPrimary));
+            this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[36].Value = ((bool)(Original_IsPrimary));
             if ((Original_PanelName == null)) {
-                this.Adapter.UpdateCommand.Parameters[36].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[37].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[38].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[36].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[37].Value = ((string)(Original_PanelName));
+                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[38].Value = ((string)(Original_PanelName));
             }
             if ((Original_CategoryName == null)) {
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[39].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[40].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[39].Value = ((string)(Original_CategoryName));
+                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[40].Value = ((string)(Original_CategoryName));
             }
-            this.Adapter.UpdateCommand.Parameters[40].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[41].Value = ((bool)(Original_IsBridge));
+            this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[42].Value = ((bool)(Original_IsBridge));
             if ((Original_VisitPhase == null)) {
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[43].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[44].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[43].Value = ((string)(Original_VisitPhase));
+                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[44].Value = ((string)(Original_VisitPhase));
             }
             if ((Original_VisitStatus == null)) {
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[45].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[46].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[45].Value = ((string)(Original_VisitStatus));
+                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[46].Value = ((string)(Original_VisitStatus));
             }
-            this.Adapter.UpdateCommand.Parameters[46].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[47].Value = ((bool)(Original_HasFishData));
-            this.Adapter.UpdateCommand.Parameters[48].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[49].Value = ((bool)(Original_HasStreamTempLogger));
-            this.Adapter.UpdateCommand.Parameters[50].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[51].Value = ((bool)(Original_QCVisit));
+            this.Adapter.UpdateCommand.Parameters[47].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[48].Value = ((bool)(Original_HasFishData));
+            this.Adapter.UpdateCommand.Parameters[49].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[50].Value = ((bool)(Original_HasStreamTempLogger));
+            this.Adapter.UpdateCommand.Parameters[51].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[52].Value = ((bool)(Original_QCVisit));
             if ((Original_Organization == null)) {
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[53].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[54].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_Organization));
+                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_Organization));
             }
-            this.Adapter.UpdateCommand.Parameters[54].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[55].Value = ((bool)(Original_AEM));
+            this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[56].Value = ((bool)(Original_AEM));
+            if ((Original_ProtocolID.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((int)(Original_ProtocolID.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -6655,6 +6756,7 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool QCVisit, 
                     string Organization, 
                     bool AEM, 
+                    global::System.Nullable<int> ProtocolID, 
                     int Original_VisitID, 
                     int Original_SiteID, 
                     global::System.Nullable<int> Original_ProgramSiteID, 
@@ -6673,8 +6775,9 @@ ORDER BY VisitYear DESC, IsPrimary DESC";
                     bool Original_HasStreamTempLogger, 
                     bool Original_QCVisit, 
                     string Original_Organization, 
-                    bool Original_AEM) {
-            return this.Update(Original_VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, PanelName, CategoryName, IsBridge, VisitPhase, VisitStatus, HasFishData, HasStreamTempLogger, QCVisit, Organization, AEM, Original_VisitID, Original_SiteID, Original_ProgramSiteID, Original_VisitYear, Original_HitchID, Original_HitchName, Original_CrewName, Original_SampleDate, Original_IsPrimary, Original_PanelName, Original_CategoryName, Original_IsBridge, Original_VisitPhase, Original_VisitStatus, Original_HasFishData, Original_HasStreamTempLogger, Original_QCVisit, Original_Organization, Original_AEM);
+                    bool Original_AEM, 
+                    global::System.Nullable<int> Original_ProtocolID) {
+            return this.Update(Original_VisitID, SiteID, ProgramSiteID, VisitYear, HitchID, HitchName, CrewName, SampleDate, IsPrimary, PanelName, CategoryName, IsBridge, VisitPhase, VisitStatus, HasFishData, HasStreamTempLogger, QCVisit, Organization, AEM, ProtocolID, Original_VisitID, Original_SiteID, Original_ProgramSiteID, Original_VisitYear, Original_HitchID, Original_HitchName, Original_CrewName, Original_SampleDate, Original_IsPrimary, Original_PanelName, Original_CategoryName, Original_IsBridge, Original_VisitPhase, Original_VisitStatus, Original_HasFishData, Original_HasStreamTempLogger, Original_QCVisit, Original_Organization, Original_AEM, Original_ProtocolID);
         }
     }
     
