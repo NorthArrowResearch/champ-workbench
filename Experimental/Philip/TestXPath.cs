@@ -51,7 +51,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                     {
                         XmlNode aNode = m_xml.SelectSingleNode(sXPath);
                         if (aNode == null)
-                            lInvalidXPaths.Add(((int)dbRead["MetricID"]).ToString() + "," + (string)dbRead["Title"] + "\n");
+                            lInvalidXPaths.Add(string.Format("{0}, {1}, {2}\n", dbRead["MetricID"], dbRead["Title"], sXPath));
                         else
                            System.Diagnostics.Debug.WriteLine(aNode.Name);
                     }
