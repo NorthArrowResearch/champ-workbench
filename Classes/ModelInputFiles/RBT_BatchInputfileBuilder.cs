@@ -64,30 +64,35 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                 taVisits.FillByVisitID(dsData.CHAMP_Visits, nVisitID);
 
                 RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = dsData.CHAMP_Visits.First<RBTWorkbenchDataSet.CHAMP_VisitsRow>();
-                RBTWorkbenchDataSet.CHAMP_SitesRow rSite = dsData.CHAMP_Sites.FindBySiteID(rVisit.SiteID);
-                RBTWorkbenchDataSet.CHAMP_WatershedsRow rWatershed = dsData.CHAMP_Watersheds.FindByWatershedID(rSite.WatershedID);
 
-                if (dsData.CHAMP_Visits.Rows.Count != 1)
-                    throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
-
-                System.IO.DirectoryInfo dSurveyGDB = null;
-                System.IO.DirectoryInfo dTopoTIN = null;
-                System.IO.DirectoryInfo dWSTIN = null;
-
-                if (Classes.DataFolders.SurveyGDBTopoTinWSTin(dParentTopoFolder, nVisitID, out dSurveyGDB, out dTopoTIN, out dWSTIN))
+                // Only proceed and add the visit if the associated protocol possesses topo data
+                if (rVisit.IsProtocolIDNull() || ProtocolHasTopoData(rVisit.ProtocolID))
                 {
-                    RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-                    taSegments.Connection = conVisit;
-                    taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
+                    RBTWorkbenchDataSet.CHAMP_SitesRow rSite = dsData.CHAMP_Sites.FindBySiteID(rVisit.SiteID);
+                    RBTWorkbenchDataSet.CHAMP_WatershedsRow rWatershed = dsData.CHAMP_Watersheds.FindByWatershedID(rSite.WatershedID);
 
-                    RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-                    taUnits.Connection = conVisit;
-                    taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
+                    if (dsData.CHAMP_Visits.Rows.Count != 1)
+                        throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
 
-                    Classes.DataFolders.Topo(dParentTopoFolder, nVisitID, out dVisitTopoFolder);
-                    Visit theVisit = new Visit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
+                    System.IO.DirectoryInfo dSurveyGDB = null;
+                    System.IO.DirectoryInfo dTopoTIN = null;
+                    System.IO.DirectoryInfo dWSTIN = null;
 
-                    theSite.AddVisit(theVisit);
+                    if (Classes.DataFolders.SurveyGDBTopoTinWSTin(dParentTopoFolder, nVisitID, out dSurveyGDB, out dTopoTIN, out dWSTIN))
+                    {
+                        RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+                        taSegments.Connection = conVisit;
+                        taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
+
+                        RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+                        taUnits.Connection = conVisit;
+                        taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
+
+                        Classes.DataFolders.Topo(dParentTopoFolder, nVisitID, out dVisitTopoFolder);
+                        Visit theVisit = new Visit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
+
+                        theSite.AddVisit(theVisit);
+                    }
                 }
             }
             return dVisitTopoFolder;

@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,6 +41,12 @@
             this.openDatabaseInAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSeleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterVisitsFromCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectAllVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,9 +156,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportSeleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterVisitsFromCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -233,6 +239,55 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportSeleToolStripMenuItem,
+            this.filterVisitsFromCSVFileToolStripMenuItem,
+            this.toolStripSeparator16,
+            this.selectAllVisitsToolStripMenuItem,
+            this.clearSelectionToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // exportSeleToolStripMenuItem
+            // 
+            this.exportSeleToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Save;
+            this.exportSeleToolStripMenuItem.Name = "exportSeleToolStripMenuItem";
+            this.exportSeleToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.exportSeleToolStripMenuItem.Text = "Export Selected VisitIDs to CSV file...";
+            this.exportSeleToolStripMenuItem.Click += new System.EventHandler(this.exportSeleToolStripMenuItem_Click);
+            // 
+            // filterVisitsFromCSVFileToolStripMenuItem
+            // 
+            this.filterVisitsFromCSVFileToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.selection;
+            this.filterVisitsFromCSVFileToolStripMenuItem.Name = "filterVisitsFromCSVFileToolStripMenuItem";
+            this.filterVisitsFromCSVFileToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.filterVisitsFromCSVFileToolStripMenuItem.Text = "Filter Visits from CSV file...";
+            this.filterVisitsFromCSVFileToolStripMenuItem.Click += new System.EventHandler(this.filterVisitsFromCSVFileToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(258, 6);
+            // 
+            // selectAllVisitsToolStripMenuItem
+            // 
+            this.selectAllVisitsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll21;
+            this.selectAllVisitsToolStripMenuItem.Name = "selectAllVisitsToolStripMenuItem";
+            this.selectAllVisitsToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.selectAllVisitsToolStripMenuItem.Text = "Select All Visits";
+            this.selectAllVisitsToolStripMenuItem.Click += new System.EventHandler(this.selectAllVisitsToolStripMenuItem_Click);
+            // 
+            // clearSelectionToolStripMenuItem
+            // 
+            this.clearSelectionToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone2;
+            this.clearSelectionToolStripMenuItem.Name = "clearSelectionToolStripMenuItem";
+            this.clearSelectionToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.clearSelectionToolStripMenuItem.Text = "Clear Selection";
+            this.clearSelectionToolStripMenuItem.Click += new System.EventHandler(this.clearSelectionToolStripMenuItem_Click);
             // 
             // dataToolStripMenuItem
             // 
@@ -852,6 +907,14 @@
             this.grdVisits.AllowUserToAddRows = false;
             this.grdVisits.AllowUserToDeleteRows = false;
             this.grdVisits.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colWatershedID,
@@ -874,10 +937,26 @@
             this.colSampleDate,
             this.colPanel,
             this.colCahnnelUnits});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdVisits.DefaultCellStyle = dataGridViewCellStyle2;
             this.grdVisits.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdVisits.Location = new System.Drawing.Point(0, 0);
             this.grdVisits.Name = "grdVisits";
             this.grdVisits.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdVisits.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.grdVisits.RowHeadersVisible = false;
             this.grdVisits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdVisits.Size = new System.Drawing.Size(587, 515);
@@ -1172,29 +1251,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportSeleToolStripMenuItem,
-            this.filterVisitsFromCSVFileToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // exportSeleToolStripMenuItem
-            // 
-            this.exportSeleToolStripMenuItem.Name = "exportSeleToolStripMenuItem";
-            this.exportSeleToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
-            this.exportSeleToolStripMenuItem.Text = "Export Selected VisitIDs to CSV file...";
-            this.exportSeleToolStripMenuItem.Click += new System.EventHandler(this.exportSeleToolStripMenuItem_Click);
-            // 
-            // filterVisitsFromCSVFileToolStripMenuItem
-            // 
-            this.filterVisitsFromCSVFileToolStripMenuItem.Name = "filterVisitsFromCSVFileToolStripMenuItem";
-            this.filterVisitsFromCSVFileToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
-            this.filterVisitsFromCSVFileToolStripMenuItem.Text = "Filter Visits from CSV file...";
-            this.filterVisitsFromCSVFileToolStripMenuItem.Click += new System.EventHandler(this.filterVisitsFromCSVFileToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1355,6 +1411,9 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSeleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisitsFromCSVFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem selectAllVisitsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearSelectionToolStripMenuItem;
     }
 }
 

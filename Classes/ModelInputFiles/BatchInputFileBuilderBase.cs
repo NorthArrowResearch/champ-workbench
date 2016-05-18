@@ -22,6 +22,15 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         protected List<BatchInputFileBuilderBase.BatchVisits> Visits;
 
+        // This list loads from the software settings. It helps distinguish visits that
+        // have topo data from those that dont'
+        private List<int> ProtocolsWithTopoData;
+
+        public bool ProtocolHasTopoData(int nProtocolID)
+        {
+            return ProtocolsWithTopoData.Contains<int>(nProtocolID);
+        }
+
         protected int GetResults(out List<string> lExceptionMessages)
         {
             int nSuccessful = 0;
@@ -63,6 +72,19 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     throw new Exception("The input XML file name must end with .xml");
             }
             InputFileName = sInputFileName;
+
+            // Load the protocols that possess topodata. This is used later when determining when
+            // a visit should be processed by calling ProtcolHasTopoData
+            ProtocolsWithTopoData = new List<int>();
+            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ProtocolIDsWithTopoData))
+            {
+                foreach (string sProtocolID in CHaMPWorkbench.Properties.Settings.Default.ProtocolIDsWithTopoData.Split(','))
+                {
+                    int nProtocolID = 0;
+                    if (int.TryParse(sProtocolID, out nProtocolID))
+                        ProtocolsWithTopoData.Add(nProtocolID);
+                }
+            }
         }
 
         protected System.Xml.XmlDocument CreateInputXMLDoc(string sTopLevelNode, out XmlNode nodTopLevel)

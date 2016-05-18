@@ -1356,5 +1356,15 @@ namespace CHaMPWorkbench
                 File.WriteAllText(frm.FileName, string.Join(",", lVisitIDs.ToArray<string>()));
             }
         }
+
+        private void selectAllVisitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grdVisits.SelectAll();
+        }
+
+        private void clearSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grdVisits.ClearSelection();
+        }
     }
 }

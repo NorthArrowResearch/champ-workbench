@@ -103,5 +103,8 @@
     <Setting Name="Habitat_Results" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ProtocolIDsWithTopoData" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">416,806,1880,1955,1966,2020,2030,9999</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

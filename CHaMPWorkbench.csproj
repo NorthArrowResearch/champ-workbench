@@ -549,6 +549,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SelectAll2.png" />
+    <None Include="Resources\SelectNone2.png" />
+    <None Include="Resources\Save.png" />
     <Content Include="Validation\ReportTransforms\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
