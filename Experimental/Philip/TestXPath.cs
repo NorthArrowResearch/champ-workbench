@@ -45,7 +45,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
                     sXPath = sXPath.Replace("%%CHANNEL_UNIT_NUMBER%%", "1")
                                    .Replace("%%TIER1_NAME%%", "'Fast-Turbulent'")
-                                   .Replace("%%TIER2_NAME%%", "'Rapid'");
+                                   .Replace("%%TIER2_NAME%%", "'Riffle'");
 
                     try
                     {
