@@ -12,7 +12,7 @@
       <head> 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="version" content="67c07d12ea067521f3f1c917e2b50d0f879e3802"/>
+        <meta name="version" content="cdaf02ad1ee60df0ba9cce62c549d993eb0d4379"/>
         <title>Watershed Summary Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
@@ -112,20 +112,6 @@
                     <li>Report Generated: </li>
                   </ul>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <select multiple="true" id="watershed-filter" name="Watershed" placeholder="Watershed">
-                    <xsl:for-each select="/report/metrics/metric/visits/visit/watershed_name/text()[generate-id() = generate-id(key('watershed',.)[1])]">
-                      <option>
-                        <xsl:attribute name="value">
-                          <xsl:value-of select="."/>
-                        </xsl:attribute>
-                        <xsl:value-of select="."/>
-                      </option>              
-                    </xsl:for-each>
-                  </select>
-                </div>
                 <div class="col-sm-4">
                   <select multiple="true" id="season-filter" name="Season" placeholder="Season">
                     <xsl:for-each select="/report/metrics/metric/visits/visit/field_season/text()[generate-id() = generate-id(key('season',.)[1])]">
@@ -139,8 +125,6 @@
                   </select>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6"><img class="img" src="../src/img/johnday_sample.png"></img> <!-- watershed map -->
             </div>
         </div>
     </div>
@@ -559,7 +543,7 @@ var BuildTable = function(JSONData, $table, parent_group, child_group) {
     var season_key = "field_season";
     var results_key = "value";
     visitID_list = BuildVisitIDArray(targetMetrics, visitID_key);
-    season_list = BuildVisitIDArray(targetMetrics, season_key);
+    season_list = BuildSeasonArray(targetMetrics, season_key);
     results_list = BuildResultsArray(targetMetrics);
 
     // append table header columns
@@ -601,10 +585,31 @@ var BuildVisitIDArray = function(targetMetrics, key) {
   var attrList = [];
   for(var i=0; i<targetMetrics.length; i++) {
     var visitRecords = targetMetrics[i].visits;
-    for(visit in visitRecords) {
-      attrList.push(_.pluck(visitRecords[visit], key));
+    // check to see if the visitRecords should be treated as only an 
+    // object containing an object, or as an object containing arrays
+    if (visitRecords.visit.length > 1) {
+      for(visit in visitRecords) {
+        attrList.push(_.pluck(visitRecords[visit], key));
       }
+    } else {
+      attrList.push([visitRecords.visit.visit_id]);
     }
+  }
+  return attrList
+}
+
+var BuildSeasonArray = function(targetMetrics, key) {
+  var attrList = [];
+  for(var i=0; i<targetMetrics.length; i++) {
+    var visitRecords = targetMetrics[i].visits;
+    if (visitRecords.visit.length > 1) {
+      for(visit in visitRecords) {
+        attrList.push(_.pluck(visitRecords[visit], key));
+      }
+    } else {
+      attrList.push([visitRecords.visit.field_season]);
+    }
+  }
   return attrList
 }
 
@@ -614,11 +619,17 @@ var BuildResultsArray = function(targetMetrics) {
   for(var i=0; i<targetMetrics.length; i++) {
     var visitRecords = targetMetrics[i].visits;
     var valueList = [];
-    for (var j=0; j<visitRecords.visit.length; j++) {
-      var resultRecords = visitRecords.visit[j].results;
-      for(result in resultRecords){
-        valueList.push(resultRecords.result.value);
-      }    
+    if (visitRecords.visit.length > 1) {
+      for (var j=0; j<visitRecords.visit.length; j++) {
+        var resultRecords = visitRecords.visit[j].results;
+        for(result in resultRecords){
+          valueList.push(resultRecords.result.value);
+        }    
+      }
+    } else {
+      // this only works if there are no values under the results node
+      // need to test against an xml with only one visit record, one result value
+      valueList.push([visitRecords.visit.results]);
     }
     resultValues[i] = valueList;
   }

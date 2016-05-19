@@ -12,7 +12,7 @@
       <head> 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="version" content="67c07d12ea067521f3f1c917e2b50d0f879e3802"/>
+        <meta name="version" content="cdaf02ad1ee60df0ba9cce62c549d993eb0d4379"/>
         <title>RBT Validation Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
@@ -114,7 +114,7 @@
     <div class="jumbotron">
       <h1 class="display-3">RBT Validation Report</h1>
       <p class="">Filter by: </p>
-      <div class="row">
+      <div class="row hidden-print">
         <div class="col-sm-3">
           <select multiple="true" id="metric-filter" name="Metric" placeholder="Metric">
             <xsl:for-each select="/report/metrics/metric/name/text()[generate-id() = generate-id(key('metric',.)[1])]">
@@ -157,7 +157,7 @@
           </label>
         </div>
       </div>
-      <div class="row">
+      <div class="row hidden-print">
         <div class="col-sm-3">
           <select multiple="true" id="metric-parent-filter" name="metric-parent-filter" placeholder="Metric Parent Group">
             <xsl:for-each select="/report/metrics/metric/display_parent_group/text()[generate-id() = generate-id(key('display_parent_group',.)[1])]">
