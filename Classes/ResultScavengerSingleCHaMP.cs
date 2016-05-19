@@ -178,17 +178,18 @@ namespace CHaMPWorkbench.Classes
         /// <param name="dbTrans">Database transaction</param>
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private void ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
+        private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
-                return;
+                return 0;
 
             OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
             OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
             OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
             OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
 
+            int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
             {
                 XmlNode metricNode = xmlResults.SelectSingleNode(aMetric.XPath);
@@ -201,9 +202,11 @@ namespace CHaMPWorkbench.Classes
                     else
                         pMetricValue.Value = DBNull.Value;
 
-                    dbCom.ExecuteNonQuery();
+                    nMetricsScavenged += dbCom.ExecuteNonQuery();
                 }
             }
+
+            return nMetricsScavenged;
         }
 
         public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath)
