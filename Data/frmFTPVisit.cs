@@ -111,6 +111,8 @@ namespace CHaMPWorkbench.Data
                     // No. Do nothing
                     break;
             }
+
+            cmdOK.Enabled = true;
         }
 
         private void GetCheckedFiles(ref string sPathSoFar, ref TreeNode aNode)
@@ -225,6 +227,7 @@ namespace CHaMPWorkbench.Data
             {
                 m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", m_sFiles.Count));
                 txtProgress.Text = m_sProgress.ToString();
+                cmdOK.Enabled = false;
                 backgroundWorker1.RunWorkerAsync();
             }
             catch (Exception ex)
