@@ -12,7 +12,6 @@
    echo "  UPDATING .xsl Files"
    echo "----------------------------------------------------"
    if not exist "./ReportTransforms" ( mkdir "./ReportTransforms" )
-   aws s3 cp s3://releases.northarrowresearch.com/reports/master/xsl/rbt.xsl ./ReportTransforms/rbt.xsl
    aws s3 cp s3://releases.northarrowresearch.com/reports/master/xsl/rbt_manual.xsl ./ReportTransforms/rbt_manual.xsl
    aws s3 cp s3://releases.northarrowresearch.com/reports/master/xsl/watershed.xsl ./ReportTransforms/watershed.xsl
    pause

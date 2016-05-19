@@ -68,13 +68,11 @@
             // 
             // lstReports
             // 
-            this.lstReports.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstReports.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstReports.FormattingEnabled = true;
-            this.lstReports.Location = new System.Drawing.Point(6, 19);
+            this.lstReports.Location = new System.Drawing.Point(3, 16);
             this.lstReports.Name = "lstReports";
-            this.lstReports.Size = new System.Drawing.Size(216, 186);
+            this.lstReports.Size = new System.Drawing.Size(222, 213);
             this.lstReports.TabIndex = 0;
             // 
             // groupBox1
@@ -105,13 +103,11 @@
             // 
             // lstVisits
             // 
-            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstVisits.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstVisits.FormattingEnabled = true;
-            this.lstVisits.Location = new System.Drawing.Point(6, 19);
+            this.lstVisits.Location = new System.Drawing.Point(3, 16);
             this.lstVisits.Name = "lstVisits";
-            this.lstVisits.Size = new System.Drawing.Size(216, 186);
+            this.lstVisits.Size = new System.Drawing.Size(222, 213);
             this.lstVisits.TabIndex = 0;
             // 
             // groupBox3
