@@ -41,8 +41,34 @@ namespace CHaMPWorkbench
                 {
                     m_dbCon = new System.Data.OleDb.OleDbConnection(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
                     m_dbCon.Open();
+                    CheckDBVersion();
                 }
             }
+        }
+
+        private void CheckDBVersion()
+        {
+            OleDbCommand dbCom = new OleDbCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", m_dbCon);
+            String sVersion = (string)dbCom.ExecuteScalar();
+            if (String.IsNullOrWhiteSpace(sVersion))
+                throw new Exception("Error retrieving database version");
+
+            int nVersion;
+            if (Int32.TryParse(sVersion, out nVersion) && Int32.Parse(sVersion) < CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion)
+            {
+                DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway?", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    return;
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    m_dbCon = null;
+                    return;
+                }
+
+            }
+
         }
 
         private string GetDatabasePathFromConnectionString(string sConnectionString)
@@ -117,7 +143,7 @@ namespace CHaMPWorkbench
 #if DEBUG
 
 #else
-            hydroModelInputGeneratorToolStripMenuItem.Visible = false;
+
             extractRBTErrorsToolStripMenuItem.Visible = false;
 #endif
 
