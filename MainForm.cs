@@ -35,15 +35,7 @@ namespace CHaMPWorkbench
             }
 
             string sPath = GetDatabasePathFromConnectionString(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
-            if (!String.IsNullOrWhiteSpace(sPath))
-            {
-                if (System.IO.File.Exists(sPath))
-                {
-                    m_dbCon = new System.Data.OleDb.OleDbConnection(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
-                    m_dbCon.Open();
-                    CheckDBVersion();
-                }
-            }
+            OpenDatabase(sPath);
         }
 
         private void CheckDBVersion()
@@ -66,9 +58,7 @@ namespace CHaMPWorkbench
                     m_dbCon = null;
                     return;
                 }
-
             }
-
         }
 
         private string GetDatabasePathFromConnectionString(string sConnectionString)
@@ -121,6 +111,9 @@ namespace CHaMPWorkbench
                             case "closeDatabaseToolStripMenuItem":
                                 subMenu.Enabled = m_dbCon != null;
                                 break;
+
+                            case "createNewWorkbenchDatabaseToolStripMenuItem":
+                                break; // do nothing. Always enabled
 
                             default:
                                 subMenu.Enabled = m_dbCon is System.Data.OleDb.OleDbConnection;
@@ -181,8 +174,16 @@ namespace CHaMPWorkbench
                     else
                         m_dbCon.Close();
                 }
+                
+                OpenDatabase(dlg.FileName);
+            }
+        }
 
-                String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + dlg.FileName);
+        private void OpenDatabase(string sDatabasePath)
+        {
+            if (!string.IsNullOrEmpty(sDatabasePath) && System.IO.File.Exists(sDatabasePath))
+            {
+                String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabasePath);
 
                 try
                 {
@@ -1397,6 +1398,66 @@ namespace CHaMPWorkbench
         private void clearSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             grdVisits.ClearSelection();
+        }
+
+        private string CreateNewWorkbenchDB()
+        {
+            SaveFileDialog frm = new SaveFileDialog();
+            frm.Title = "Create New Workbench Database";
+            frm.Filter = "Access Databases (*.mdb)|*.mdb";
+            frm.FileName = "Workbench";
+            frm.AddExtension = true;
+            frm.OverwritePrompt = true;
+
+            string sNewDatabasePath = string.Empty;
+            if (m_dbCon is OleDbConnection)
+            {
+                sNewDatabasePath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
+                if (!string.IsNullOrEmpty(sNewDatabasePath))
+                {
+                    sNewDatabasePath = System.IO.Path.GetDirectoryName(sNewDatabasePath);
+                    if (System.IO.Directory.Exists(sNewDatabasePath))
+                        frm.InitialDirectory = sNewDatabasePath;
+                }
+            }
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // This is now the file path desired by the user.
+                sNewDatabasePath = frm.FileName;
+
+                // Build the path to the zipped master copy of the Workbench database
+                string sMaster = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                sMaster = System.IO.Path.Combine(sMaster, "WorkbenchMaster.zip");
+                if (System.IO.File.Exists(sMaster))
+                {
+                    // Build a temporary file path where the master will be unzipped.
+                    string sTemp = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(frm.FileName), CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName);
+
+                    // Unzip the master copy to the folder desired by the user.
+                    Data.frmDataUnPacker.UnZipArchive(sMaster, System.IO.Path.GetDirectoryName(sTemp));
+
+                    // If the user has requested a different name than the master then rename the file
+                    if (string.Compare(sTemp, sNewDatabasePath, true) != 0)
+                        System.IO.File.Move(sTemp, frm.FileName);
+
+                    if (!System.IO.File.Exists(frm.FileName))
+                        MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                    MessageBox.Show("Failed to find master database with software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return frm.FileName;
+        }
+
+        private void createNewWorkbenchDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string sNewDB = CreateNewWorkbenchDB();
+            if (System.IO.File.Exists(sNewDB))
+            {
+                OpenDatabase(sNewDB);
+            }
         }
     }
 }

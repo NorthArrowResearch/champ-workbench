@@ -37,6 +37,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewWorkbenchDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.openDatabaseInAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -88,8 +89,8 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gCDAnalysisWatershedLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,6 +194,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDatabaseToolStripMenuItem,
             this.closeDatabaseToolStripMenuItem,
+            this.createNewWorkbenchDatabaseToolStripMenuItem,
             this.toolStripSeparator6,
             this.openDatabaseInAccessToolStripMenuItem,
             this.toolStripSeparator7,
@@ -205,39 +207,47 @@
             // 
             this.openDatabaseToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.openDatabaseToolStripMenuItem.Name = "openDatabaseToolStripMenuItem";
-            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.openDatabaseToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.openDatabaseToolStripMenuItem.Text = "Open Database...";
             this.openDatabaseToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseToolStripMenuItem_Click);
             // 
             // closeDatabaseToolStripMenuItem
             // 
             this.closeDatabaseToolStripMenuItem.Name = "closeDatabaseToolStripMenuItem";
-            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.closeDatabaseToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.closeDatabaseToolStripMenuItem.Text = "Close Database";
             this.closeDatabaseToolStripMenuItem.Click += new System.EventHandler(this.closeDatabaseToolStripMenuItem_Click);
+            // 
+            // createNewWorkbenchDatabaseToolStripMenuItem
+            // 
+            this.createNewWorkbenchDatabaseToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.NewDatabase;
+            this.createNewWorkbenchDatabaseToolStripMenuItem.Name = "createNewWorkbenchDatabaseToolStripMenuItem";
+            this.createNewWorkbenchDatabaseToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.createNewWorkbenchDatabaseToolStripMenuItem.Text = "Create New Workbench Database...";
+            this.createNewWorkbenchDatabaseToolStripMenuItem.Click += new System.EventHandler(this.createNewWorkbenchDatabaseToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(212, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(256, 6);
             // 
             // openDatabaseInAccessToolStripMenuItem
             // 
             this.openDatabaseInAccessToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Access1;
             this.openDatabaseInAccessToolStripMenuItem.Name = "openDatabaseInAccessToolStripMenuItem";
-            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.openDatabaseInAccessToolStripMenuItem.Text = "Open Database in Access...";
             this.openDatabaseInAccessToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseInAccessToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(212, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(256, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -620,19 +630,19 @@
             this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
             // 
-            // recordPostGCDQAQCRecordToolStripMenuItem
-            // 
-            this.recordPostGCDQAQCRecordToolStripMenuItem.Name = "recordPostGCDQAQCRecordToolStripMenuItem";
-            this.recordPostGCDQAQCRecordToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
-            this.recordPostGCDQAQCRecordToolStripMenuItem.Text = "Enter Post GCD QA/QC Record";
-            this.recordPostGCDQAQCRecordToolStripMenuItem.Click += new System.EventHandler(this.recordPostGCDQAQCRecordToolStripMenuItem_Click);
-            // 
             // gCDAnalysisWatershedLevelToolStripMenuItem
             // 
             this.gCDAnalysisWatershedLevelToolStripMenuItem.Name = "gCDAnalysisWatershedLevelToolStripMenuItem";
             this.gCDAnalysisWatershedLevelToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.gCDAnalysisWatershedLevelToolStripMenuItem.Text = "GCD Metric Viewer";
             this.gCDAnalysisWatershedLevelToolStripMenuItem.Click += new System.EventHandler(this.gCDAnalysisWatershedLevelToolStripMenuItem_Click);
+            // 
+            // recordPostGCDQAQCRecordToolStripMenuItem
+            // 
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Name = "recordPostGCDQAQCRecordToolStripMenuItem";
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Text = "Enter Post GCD QA/QC Record";
+            this.recordPostGCDQAQCRecordToolStripMenuItem.Click += new System.EventHandler(this.recordPostGCDQAQCRecordToolStripMenuItem_Click);
             // 
             // kellyWhiteheadToolStripMenuItem
             // 
@@ -1423,6 +1433,7 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gCDAnalysisWatershedLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewWorkbenchDatabaseToolStripMenuItem;
     }
 }
 

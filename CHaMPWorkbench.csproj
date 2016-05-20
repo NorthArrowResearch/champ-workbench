@@ -497,6 +497,10 @@
     <None Include="RBTWorkbenchDataSet.xss">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </None>
+    <None Include="Resources\NewDatabase.png" />
+    <Content Include="WorkbenchMaster.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Experimental\Kelly\Classes\" />

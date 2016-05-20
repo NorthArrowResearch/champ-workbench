@@ -123,7 +123,7 @@ namespace CHaMPWorkbench.Data
         /// </summary>
         /// <param name="inFile">Zip archive file</param>
         /// <param name="outDir"></param>
-        private static void UnZipArchive(string inFile, string outDir)
+        public static void UnZipArchive(string inFile, string outDir)
         {
             try
             {
