@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblBudgetSegregationID = new System.Windows.Forms.Label();
             this.lblNewVisitID = new System.Windows.Forms.Label();
             this.lblOldVisitID = new System.Windows.Forms.Label();
             this.lblErrorType = new System.Windows.Forms.Label();
@@ -42,11 +41,12 @@
             this.rdoResultsValidFalse = new System.Windows.Forms.RadioButton();
             this.cboErrorType = new System.Windows.Forms.ComboBox();
             this.cboErrorDEM = new System.Windows.Forms.ComboBox();
-            this.valBudgetSegregationID = new System.Windows.Forms.NumericUpDown();
             this.valNewVisitID = new System.Windows.Forms.NumericUpDown();
             this.valOldVisitID = new System.Windows.Forms.NumericUpDown();
             this.txtComments = new System.Windows.Forms.TextBox();
             this.grbBasicGCDInfo = new System.Windows.Forms.GroupBox();
+            this.txtMask = new System.Windows.Forms.TextBox();
+            this.lblMask = new System.Windows.Forms.Label();
             this.txtOldVisitDate = new System.Windows.Forms.TextBox();
             this.txtNewVisitDate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -58,18 +58,8 @@
             this.txtReasonForFlag = new System.Windows.Forms.TextBox();
             this.lblReasonForFlagging = new System.Windows.Forms.Label();
             this.grbQAQC_Info = new System.Windows.Forms.GroupBox();
+            this.chkProcessed = new System.Windows.Forms.CheckBox();
             this.dgvGCD_Review = new System.Windows.Forms.DataGridView();
-            this.colBudgetSegregationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNewVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOldVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReasonFlag = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValidResults = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colErrorType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colErrorDEM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEnteredBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProcessed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cmdSubmit = new System.Windows.Forms.Button();
             this.cmdOutputToJSON = new System.Windows.Forms.Button();
             this.grbGCD_ReviewTable = new System.Windows.Forms.GroupBox();
@@ -77,7 +67,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grbResultsValid.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.valBudgetSegregationID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valNewVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valOldVisitID)).BeginInit();
             this.grbBasicGCDInfo.SuspendLayout();
@@ -87,19 +76,10 @@
             this.cmsGCD_Visit.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblBudgetSegregationID
-            // 
-            this.lblBudgetSegregationID.AutoSize = true;
-            this.lblBudgetSegregationID.Location = new System.Drawing.Point(9, 93);
-            this.lblBudgetSegregationID.Name = "lblBudgetSegregationID";
-            this.lblBudgetSegregationID.Size = new System.Drawing.Size(115, 13);
-            this.lblBudgetSegregationID.TabIndex = 101;
-            this.lblBudgetSegregationID.Text = "Budget Segregation ID";
-            // 
             // lblNewVisitID
             // 
             this.lblNewVisitID.AutoSize = true;
-            this.lblNewVisitID.Location = new System.Drawing.Point(174, 93);
+            this.lblNewVisitID.Location = new System.Drawing.Point(43, 93);
             this.lblNewVisitID.Name = "lblNewVisitID";
             this.lblNewVisitID.Size = new System.Drawing.Size(65, 13);
             this.lblNewVisitID.TabIndex = 102;
@@ -108,7 +88,7 @@
             // lblOldVisitID
             // 
             this.lblOldVisitID.AutoSize = true;
-            this.lblOldVisitID.Location = new System.Drawing.Point(299, 93);
+            this.lblOldVisitID.Location = new System.Drawing.Point(168, 93);
             this.lblOldVisitID.Name = "lblOldVisitID";
             this.lblOldVisitID.Size = new System.Drawing.Size(59, 13);
             this.lblOldVisitID.TabIndex = 103;
@@ -152,7 +132,7 @@
             // 
             // txtEnteredBy
             // 
-            this.txtEnteredBy.Location = new System.Drawing.Point(99, 264);
+            this.txtEnteredBy.Location = new System.Drawing.Point(84, 261);
             this.txtEnteredBy.Name = "txtEnteredBy";
             this.txtEnteredBy.Size = new System.Drawing.Size(156, 20);
             this.txtEnteredBy.TabIndex = 9;
@@ -192,10 +172,10 @@
             // 
             // cboErrorType
             // 
-            this.cboErrorType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboErrorType.FormattingEnabled = true;
             this.cboErrorType.Items.AddRange(new object[] {
-            "",
+            "None",
+            "Datum Shift",
             "Rod Height Bust",
             "Other"});
             this.cboErrorType.Location = new System.Drawing.Point(143, 41);
@@ -208,7 +188,7 @@
             this.cboErrorDEM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboErrorDEM.FormattingEnabled = true;
             this.cboErrorDEM.Items.AddRange(new object[] {
-            "",
+            "Neither",
             "New Visit",
             "Old Visit",
             "Both",
@@ -218,34 +198,10 @@
             this.cboErrorDEM.Size = new System.Drawing.Size(221, 21);
             this.cboErrorDEM.TabIndex = 7;
             // 
-            // valBudgetSegregationID
-            // 
-            this.valBudgetSegregationID.Enabled = false;
-            this.valBudgetSegregationID.Location = new System.Drawing.Point(11, 110);
-            this.valBudgetSegregationID.Maximum = new decimal(new int[] {
-            50000,
-            0,
-            0,
-            0});
-            this.valBudgetSegregationID.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.valBudgetSegregationID.Name = "valBudgetSegregationID";
-            this.valBudgetSegregationID.ReadOnly = true;
-            this.valBudgetSegregationID.Size = new System.Drawing.Size(112, 20);
-            this.valBudgetSegregationID.TabIndex = 0;
-            this.valBudgetSegregationID.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // valNewVisitID
             // 
             this.valNewVisitID.Enabled = false;
-            this.valNewVisitID.Location = new System.Drawing.Point(177, 109);
+            this.valNewVisitID.Location = new System.Drawing.Point(46, 109);
             this.valNewVisitID.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -269,7 +225,7 @@
             // valOldVisitID
             // 
             this.valOldVisitID.Enabled = false;
-            this.valOldVisitID.Location = new System.Drawing.Point(302, 109);
+            this.valOldVisitID.Location = new System.Drawing.Point(171, 109);
             this.valOldVisitID.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -302,6 +258,8 @@
             // 
             this.grbBasicGCDInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.grbBasicGCDInfo.Controls.Add(this.txtMask);
+            this.grbBasicGCDInfo.Controls.Add(this.lblMask);
             this.grbBasicGCDInfo.Controls.Add(this.txtOldVisitDate);
             this.grbBasicGCDInfo.Controls.Add(this.txtNewVisitDate);
             this.grbBasicGCDInfo.Controls.Add(this.label1);
@@ -312,8 +270,6 @@
             this.grbBasicGCDInfo.Controls.Add(this.lblSite);
             this.grbBasicGCDInfo.Controls.Add(this.txtReasonForFlag);
             this.grbBasicGCDInfo.Controls.Add(this.lblReasonForFlagging);
-            this.grbBasicGCDInfo.Controls.Add(this.lblBudgetSegregationID);
-            this.grbBasicGCDInfo.Controls.Add(this.valBudgetSegregationID);
             this.grbBasicGCDInfo.Controls.Add(this.lblOldVisitID);
             this.grbBasicGCDInfo.Controls.Add(this.valOldVisitID);
             this.grbBasicGCDInfo.Controls.Add(this.lblNewVisitID);
@@ -325,9 +281,26 @@
             this.grbBasicGCDInfo.TabStop = false;
             this.grbBasicGCDInfo.Text = "Basic GCD Info";
             // 
+            // txtMask
+            // 
+            this.txtMask.Location = new System.Drawing.Point(262, 109);
+            this.txtMask.Name = "txtMask";
+            this.txtMask.ReadOnly = true;
+            this.txtMask.Size = new System.Drawing.Size(78, 20);
+            this.txtMask.TabIndex = 114;
+            // 
+            // lblMask
+            // 
+            this.lblMask.AutoSize = true;
+            this.lblMask.Location = new System.Drawing.Point(259, 93);
+            this.lblMask.Name = "lblMask";
+            this.lblMask.Size = new System.Drawing.Size(33, 13);
+            this.lblMask.TabIndex = 113;
+            this.lblMask.Text = "Mask";
+            // 
             // txtOldVisitDate
             // 
-            this.txtOldVisitDate.Location = new System.Drawing.Point(301, 137);
+            this.txtOldVisitDate.Location = new System.Drawing.Point(170, 137);
             this.txtOldVisitDate.Name = "txtOldVisitDate";
             this.txtOldVisitDate.ReadOnly = true;
             this.txtOldVisitDate.Size = new System.Drawing.Size(78, 20);
@@ -335,7 +308,7 @@
             // 
             // txtNewVisitDate
             // 
-            this.txtNewVisitDate.Location = new System.Drawing.Point(177, 137);
+            this.txtNewVisitDate.Location = new System.Drawing.Point(46, 137);
             this.txtNewVisitDate.Name = "txtNewVisitDate";
             this.txtNewVisitDate.ReadOnly = true;
             this.txtNewVisitDate.Size = new System.Drawing.Size(78, 20);
@@ -344,7 +317,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(262, 140);
+            this.label1.Location = new System.Drawing.Point(131, 140);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 110;
@@ -353,7 +326,7 @@
             // lblNewVisitDate
             // 
             this.lblNewVisitDate.AutoSize = true;
-            this.lblNewVisitDate.Location = new System.Drawing.Point(140, 140);
+            this.lblNewVisitDate.Location = new System.Drawing.Point(9, 140);
             this.lblNewVisitDate.Name = "lblNewVisitDate";
             this.lblNewVisitDate.Size = new System.Drawing.Size(33, 13);
             this.lblNewVisitDate.TabIndex = 109;
@@ -415,6 +388,7 @@
             // 
             this.grbQAQC_Info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.grbQAQC_Info.Controls.Add(this.chkProcessed);
             this.grbQAQC_Info.Controls.Add(this.grbResultsValid);
             this.grbQAQC_Info.Controls.Add(this.lblErrorType);
             this.grbQAQC_Info.Controls.Add(this.lblVisitSourceOfError);
@@ -431,6 +405,17 @@
             this.grbQAQC_Info.TabStop = false;
             this.grbQAQC_Info.Text = "QA/QC Info";
             // 
+            // chkProcessed
+            // 
+            this.chkProcessed.AutoSize = true;
+            this.chkProcessed.Enabled = false;
+            this.chkProcessed.Location = new System.Drawing.Point(284, 264);
+            this.chkProcessed.Name = "chkProcessed";
+            this.chkProcessed.Size = new System.Drawing.Size(76, 17);
+            this.chkProcessed.TabIndex = 111;
+            this.chkProcessed.Text = "Processed";
+            this.chkProcessed.UseVisualStyleBackColor = true;
+            // 
             // dgvGCD_Review
             // 
             this.dgvGCD_Review.AllowUserToAddRows = false;
@@ -439,20 +424,7 @@
             this.dgvGCD_Review.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvGCD_Review.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvGCD_Review.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGCD_Review.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colBudgetSegregationID,
-            this.colNewVisitID,
-            this.colOldVisitID,
-            this.colReasonFlag,
-            this.colValidResults,
-            this.colErrorType,
-            this.colErrorDEM,
-            this.colComments,
-            this.colEnteredBy,
-            this.colDateModified,
-            this.colProcessed});
             this.dgvGCD_Review.Location = new System.Drawing.Point(3, 16);
             this.dgvGCD_Review.MultiSelect = false;
             this.dgvGCD_Review.Name = "dgvGCD_Review";
@@ -463,87 +435,6 @@
             this.dgvGCD_Review.TabIndex = 12;
             this.dgvGCD_Review.TabStop = false;
             this.dgvGCD_Review.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGCD_Review_CellClick);
-            // 
-            // colBudgetSegregationID
-            // 
-            this.colBudgetSegregationID.HeaderText = "Budget Segregation ID";
-            this.colBudgetSegregationID.Name = "colBudgetSegregationID";
-            this.colBudgetSegregationID.ReadOnly = true;
-            this.colBudgetSegregationID.Visible = false;
-            // 
-            // colNewVisitID
-            // 
-            this.colNewVisitID.HeaderText = "New Visit ID";
-            this.colNewVisitID.Name = "colNewVisitID";
-            this.colNewVisitID.ReadOnly = true;
-            this.colNewVisitID.Visible = false;
-            // 
-            // colOldVisitID
-            // 
-            this.colOldVisitID.HeaderText = "Old Visit ID";
-            this.colOldVisitID.Name = "colOldVisitID";
-            this.colOldVisitID.ReadOnly = true;
-            this.colOldVisitID.Visible = false;
-            // 
-            // colReasonFlag
-            // 
-            this.colReasonFlag.HeaderText = "Reason For Flag";
-            this.colReasonFlag.Name = "colReasonFlag";
-            this.colReasonFlag.ReadOnly = true;
-            this.colReasonFlag.Visible = false;
-            // 
-            // colValidResults
-            // 
-            this.colValidResults.HeaderText = "Valid Results";
-            this.colValidResults.Name = "colValidResults";
-            this.colValidResults.ReadOnly = true;
-            this.colValidResults.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colValidResults.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colValidResults.Visible = false;
-            // 
-            // colErrorType
-            // 
-            this.colErrorType.HeaderText = "Error Type";
-            this.colErrorType.Name = "colErrorType";
-            this.colErrorType.ReadOnly = true;
-            this.colErrorType.Visible = false;
-            // 
-            // colErrorDEM
-            // 
-            this.colErrorDEM.HeaderText = "Error DEM";
-            this.colErrorDEM.Name = "colErrorDEM";
-            this.colErrorDEM.ReadOnly = true;
-            this.colErrorDEM.Visible = false;
-            // 
-            // colComments
-            // 
-            this.colComments.HeaderText = "Comments";
-            this.colComments.Name = "colComments";
-            this.colComments.ReadOnly = true;
-            this.colComments.Visible = false;
-            // 
-            // colEnteredBy
-            // 
-            this.colEnteredBy.HeaderText = "Entered By";
-            this.colEnteredBy.Name = "colEnteredBy";
-            this.colEnteredBy.ReadOnly = true;
-            this.colEnteredBy.Visible = false;
-            // 
-            // colDateModified
-            // 
-            this.colDateModified.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colDateModified.HeaderText = "Date Modified";
-            this.colDateModified.Name = "colDateModified";
-            this.colDateModified.ReadOnly = true;
-            this.colDateModified.Visible = false;
-            // 
-            // colProcessed
-            // 
-            this.colProcessed.HeaderText = "Processed";
-            this.colProcessed.Name = "colProcessed";
-            this.colProcessed.ReadOnly = true;
-            this.colProcessed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colProcessed.Visible = false;
             // 
             // cmdSubmit
             // 
@@ -620,7 +511,6 @@
             this.Load += new System.EventHandler(this.frmEnterPostGCD_QAQC_Record_Load);
             this.grbResultsValid.ResumeLayout(false);
             this.grbResultsValid.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.valBudgetSegregationID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valNewVisitID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valOldVisitID)).EndInit();
             this.grbBasicGCDInfo.ResumeLayout(false);
@@ -636,7 +526,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblBudgetSegregationID;
         private System.Windows.Forms.Label lblNewVisitID;
         private System.Windows.Forms.Label lblOldVisitID;
         private System.Windows.Forms.Label lblErrorType;
@@ -649,7 +538,6 @@
         private System.Windows.Forms.RadioButton rdoResultsValidFalse;
         private System.Windows.Forms.ComboBox cboErrorType;
         private System.Windows.Forms.ComboBox cboErrorDEM;
-        private System.Windows.Forms.NumericUpDown valBudgetSegregationID;
         private System.Windows.Forms.NumericUpDown valNewVisitID;
         private System.Windows.Forms.NumericUpDown valOldVisitID;
         private System.Windows.Forms.TextBox txtComments;
@@ -671,17 +559,9 @@
         private System.Windows.Forms.TextBox txtNewVisitDate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblNewVisitDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colBudgetSegregationID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNewVisitID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colOldVisitID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colReasonFlag;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colValidResults;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colErrorType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colErrorDEM;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colComments;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEnteredBy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDateModified;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colProcessed;
         private System.Windows.Forms.ToolStripMenuItem exploreSiteLevelUSGSStreamGageDataToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtMask;
+        private System.Windows.Forms.Label lblMask;
+        private System.Windows.Forms.CheckBox chkProcessed;
     }
 }

@@ -67,6 +67,7 @@
   <PropertyGroup>
     <ApplicationIcon>CHaMP.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="AWSSDK, Version=2.3.54.2, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.2.3.54.2\lib\net35\AWSSDK.dll</HintPath>
@@ -165,6 +166,12 @@
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
+    <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\James\frmGCD_MetricsViewer.Designer.cs">
+      <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\James\frmEnterPostGCD_QAQC_Record.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -363,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
+      <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmEnterPostGCD_QAQC_Record.resx">
       <DependentUpon>frmEnterPostGCD_QAQC_Record.cs</DependentUpon>

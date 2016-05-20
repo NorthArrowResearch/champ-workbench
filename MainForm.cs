@@ -1207,6 +1207,12 @@ namespace CHaMPWorkbench
 
         }
 
+        private void gCDAnalysisWatershedLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.James.frmGCD_MetricsViewer frm = new Experimental.James.frmGCD_MetricsViewer(m_dbCon.ConnectionString);
+            frm.ShowDialog();
+        }
+
         private void exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
 

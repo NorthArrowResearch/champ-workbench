@@ -89,6 +89,7 @@
             this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gCDAnalysisWatershedLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -613,6 +614,7 @@
             // jamesHensleighToolStripMenuItem
             // 
             this.jamesHensleighToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gCDAnalysisWatershedLevelToolStripMenuItem,
             this.recordPostGCDQAQCRecordToolStripMenuItem});
             this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
             this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
@@ -620,11 +622,17 @@
             // 
             // recordPostGCDQAQCRecordToolStripMenuItem
             // 
-            this.recordPostGCDQAQCRecordToolStripMenuItem.Enabled = false;
             this.recordPostGCDQAQCRecordToolStripMenuItem.Name = "recordPostGCDQAQCRecordToolStripMenuItem";
             this.recordPostGCDQAQCRecordToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.recordPostGCDQAQCRecordToolStripMenuItem.Text = "Enter Post GCD QA/QC Record";
             this.recordPostGCDQAQCRecordToolStripMenuItem.Click += new System.EventHandler(this.recordPostGCDQAQCRecordToolStripMenuItem_Click);
+            // 
+            // gCDAnalysisWatershedLevelToolStripMenuItem
+            // 
+            this.gCDAnalysisWatershedLevelToolStripMenuItem.Name = "gCDAnalysisWatershedLevelToolStripMenuItem";
+            this.gCDAnalysisWatershedLevelToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.gCDAnalysisWatershedLevelToolStripMenuItem.Text = "GCD Metric Viewer";
+            this.gCDAnalysisWatershedLevelToolStripMenuItem.Click += new System.EventHandler(this.gCDAnalysisWatershedLevelToolStripMenuItem_Click);
             // 
             // kellyWhiteheadToolStripMenuItem
             // 
@@ -1414,6 +1422,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripMenuItem selectAllVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearSelectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gCDAnalysisWatershedLevelToolStripMenuItem;
     }
 }
 

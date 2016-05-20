@@ -14,11 +14,27 @@ namespace CHaMPWorkbench.Experimental.James
 {
     public partial class frmEnterPostGCD_QAQC_Record : Form
     {
-
         private OleDbConnection m_dbCon;
-        //private string[] m_sReasonsForFlag = {"", "Outlier Metric"};
-        private string[] m_sErrorTypes = { "", "Rod Height Bust", "Datum Shift", "Other"};
-        private string[] m_sErrorDEMs = { "", "NewVisit", "OldVisit", "Both", "Unknown"};
+        private string[] m_sErrorTypes = { "" ,"None","Rod Height Bust", "Datum Shift", "Other"};
+        private string[] m_sErrorDEMs = { "Niether", "NewVisit", "OldVisit", "Both", "Unknown"};
+        
+        //table column names
+        const string m_sFieldName_NewVisitID = "NewVisitID";
+        const string m_sFieldName_OldVisitID = "OldVisitID";
+        const string m_sFieldName_SiteID = "SiteID";
+        const string m_sFieldName_SiteName = "SiteName";
+        const string m_sFieldName_WatershedID = "WatershedID";
+        const string m_sFieldName_WatershedName = "WatershedName";
+        const string m_sFieldName_MaskValue = "MaskValueName";
+        const string m_sFieldName_FlagReason = "FlagReason";
+        const string m_sFieldName_ValidResults = "ValidResults";
+        const string m_sFieldName_ErrorType = "ErrorType";
+        const string m_sFieldName_ErrorDEM = "ErrorDEM";
+        const string m_sFieldName_Comments = "Comments";
+        const string m_sFieldName_EnteredBy = "EnteredBy";
+        const string m_sFieldName_DateModified = "DateModified";
+        const string m_sFieldName_Processed = "Processed";
+
 
         public frmEnterPostGCD_QAQC_Record(OleDbConnection dbCon)
         {
@@ -45,22 +61,35 @@ namespace CHaMPWorkbench.Experimental.James
                 return;
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-            //dgvGCD_Review.DataSource = null;
 
-            string sGroupFields = "ID,NewVisitID,OldVisitID,FlagReason,ValidResults,ErrorType,ErrorDEM,Comments,EnteredBy,DateModified,Processed";
+            string sGroupFields = @"G.NewVisitID,G.OldVisitID,S.SiteID,S.SiteName,W.WatershedID,W.WatershedName,G.MaskValueName,G.FlagReason,G.ValidResults,G.ErrorType,G.ErrorDEM,G.Comments,G.EnteredBy,G.DateModified,G.Processed";
 
-            string sSQL = "SELECT " + sGroupFields  +
-                " FROM GCD_Review" +
-                " ORDER BY DateModified";
+            string sSQL = "SELECT " + sGroupFields +
+                            @" FROM (((
+	                           GCD_Review AS G 
+	                           INNER JOIN 
+	                           CHAMP_Visits As V 
+	                           ON G.NewVisitID = V.VisitID)
+	                           INNER JOIN 
+                               CHAMP_Sites AS S
+	                           ON V.SiteID = S.SiteID)
+	                           INNER JOIN
+	                           CHAMP_Watersheds AS W 
+	                           ON S.WatershedID = W.WatershedID)
+                               ORDER BY G.DateModified";
+
 
             OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-            OleDbDataAdapter daGCD_Reivew = new OleDbDataAdapter(dbCom);
+            OleDbDataAdapter daGCD_Review = new OleDbDataAdapter(dbCom);
             DataTable dtGCD_Review = new DataTable();
             try
             {
-                daGCD_Reivew.Fill(dtGCD_Review);
+                daGCD_Review.Fill(dtGCD_Review);
                 dgvGCD_Review.DataSource = dtGCD_Review.AsDataView();
-                //dgvGCD_Review.Refresh();
+
+                //hide site and watershed ids
+                dgvGCD_Review.Columns["SiteID"].Visible = false;
+                dgvGCD_Review.Columns["WatershedID"].Visible = false;
 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
 
@@ -73,37 +102,86 @@ namespace CHaMPWorkbench.Experimental.James
 
         private void cmdSubmit_Click(object sender, EventArgs e)
         {
+            if (cboErrorDEM.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a value from the Error DEM drop-down menu.",
+                                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                return;
+            }
+
+            if (cboErrorType.SelectedItem == null && String.IsNullOrEmpty(cboErrorType.Text) == true)
+            {
+                MessageBox.Show("Please select a value or type a custom value in the Error Type drop-down menu.",
+                                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                return;
+            }
+
             if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
                 return;
+            
+                bool bSuccess = false;
+                OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+                try
+                {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                    string sSQL = @"UPDATE GCD_Review
+                                    SET NewVisitID = @new_visit_id,
+                                    OldVisitID = @old_visit_id,
+                                    MaskValueName = @mask_value_name,
+                                    FlagReason = @flag_reason,
+                                    ValidResults = @valid_results,
+                                    ErrorType = @error_type,
+                                    ErrorDEM = @error_dem,
+                                    Comments = @comments,
+                                    EnteredBy = @entered_by,
+                                    DateModified = @date_modified,
+                                    Processed = @processed
+                                    WHERE NewVisitID = @new_visit_id AND OldVisitID = @old_visit_id AND MaskValueName = @mask_value_name";
 
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-            string sSQL = "UPDATE GCD_Review" +
-                             " SET ID= @id," +
-                             " NewVisitID = @new_visit_id," +
-                             " OldVisitID = @old_visit_id," +
-                             " FlagReason = @flag_reason," +
-                             " ValidResults = @valid_results," +
-                             " ErrorType = @error_type," +
-                             " ErrorDEM = @error_dem," +
-                             " Comments = @comments," +
-                             " EnteredBy = @entered_by," +
-                             " DateModified = @date_modified," +
-                             " Processed = @processed" +
-                             " WHERE ID = @id AND NewVisitID = @new_visit_id AND OldVisitID = @old_visit_id";
+                    string sErrorType = "";
+                    if (cboErrorType.SelectedItem == null)
+                    {
+                        sErrorType = cboErrorType.Text;
+                    }
+                    else if (cboErrorType.SelectedItem != null)
+                    {
+                        sErrorType = cboErrorType.GetItemText(cboErrorType.SelectedItem);
+                    }
 
-            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
-            dbCom.Parameters.Add(new OleDbParameter("@id", valBudgetSegregationID.Value));
-            dbCom.Parameters.Add(new OleDbParameter("@new_visit_id",  valNewVisitID.Value));
-            dbCom.Parameters.Add(new OleDbParameter("@old_visit_id", valOldVisitID.Value));
-            dbCom.Parameters.Add(new OleDbParameter("@flag_reason", txtReasonForFlag.Text));
-            dbCom.Parameters.Add(new OleDbParameter("@valid_results", GetBooleanValidGCD_Results()));
-            dbCom.Parameters.Add(new OleDbParameter("@error_type", cboErrorType.SelectedItem.ToString()));
-            dbCom.Parameters.Add(new OleDbParameter("@error_dem", cboErrorDEM.SelectedItem.ToString()));
-            dbCom.Parameters.Add(new OleDbParameter("@comments", txtComments.Text));
-            dbCom.Parameters.Add(new OleDbParameter("@entered_by", txtEnteredBy.Text));
-            dbCom.Parameters.Add(new OleDbParameter("@date_modified", DateTime.Now.ToString()));
-            dbCom.Parameters.Add(new OleDbParameter("@processed", true));
-            dbCom.ExecuteNonQuery();
+                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                    dbCom.Parameters.AddWithValue("@new_visit_id",  valNewVisitID.Value);
+                    dbCom.Parameters.AddWithValue("@old_visit_id", valOldVisitID.Value);
+                    dbCom.Parameters.AddWithValue("@mask_value_name", txtMask.Text);
+                    dbCom.Parameters.AddWithValue("@flag_reason", txtReasonForFlag.Text);
+                    dbCom.Parameters.AddWithValue("@valid_results", GetBooleanValidGCD_Results());
+                    dbCom.Parameters.AddWithValue("@error_type", sErrorType);
+                    dbCom.Parameters.AddWithValue("@error_dem", cboErrorDEM.SelectedItem.ToString());
+                    dbCom.Parameters.AddWithValue("@comments", txtComments.Text);
+                    dbCom.Parameters.AddWithValue("@entered_by", txtEnteredBy.Text);
+                    dbCom.Parameters.AddWithValue("@date_modified", DateTime.Now.ToString());
+                    dbCom.Parameters.AddWithValue("@processed", true);
+                    dbCom.ExecuteNonQuery();
+                    
+                    dbTrans.Commit();
+                    bSuccess = true;
+                }
+                catch (Exception ex)
+                {
+                    dbTrans.Rollback();
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+                if (bSuccess == true)
+                {
+                    MessageBox.Show("Record was successfully updated.",
+                                CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                }
+            
             LoadVisits(m_dbCon);
 
         }
@@ -121,7 +199,8 @@ namespace CHaMPWorkbench.Experimental.James
                 {
                     Classes.AWSExporter aws = new Classes.AWSExporter();
                     System.IO.FileInfo fiExport = new System.IO.FileInfo(frm.FileName);
-                    string sSQL_Statement = "SELECT ID,NewVisitID,OldVisitID,FlagReason,ValidResults,ErrorType,ErrorDEM,Comments,EnteredBy,DateModified " +
+
+                    string sSQL_Statement = "SELECT NewVisitID, OldVisitID, MaskValueName, FlagReason, ValidResults, ErrorType, ErrorDEM, Comments, EnteredBy, DateModified, Processed " +
                         "FROM GCD_Review " +
                         "ORDER BY DateModified";
 
@@ -158,48 +237,42 @@ namespace CHaMPWorkbench.Experimental.James
             }            
         }
 
-        //private void cmdGetStreamData_Click(object sender, EventArgs e)
-        //{
-        //    if (String.IsNullOrEmpty(txtSite.Text) == false & String.IsNullOrEmpty(txtWatershed.Text) == false)
-        //    {
-        //        Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, txtSite.Text, txtWatershed.Text);
-        //        frm.ShowDialog();
-        //    }
-        //    else
-        //    {
-        //        //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
-        //        //frm.ShowDialog();
-        //    }
-        //}
-
         private void PopulateFormInfo(DataGridViewRow drv)
         {
             if (drv != null)
             {
                 
-                valBudgetSegregationID.Value = System.Convert.ToDecimal(drv.Cells[11].Value);
-                valNewVisitID.Value = System.Convert.ToDecimal(drv.Cells[12].Value);
-                valOldVisitID.Value = System.Convert.ToDecimal(drv.Cells[13].Value);
 
-                txtSite.Text = GetSiteName(m_dbCon, valNewVisitID.Value.ToString());
-                txtWatershed.Text = GetWatershedName(m_dbCon, valNewVisitID.Value.ToString());
+                valNewVisitID.Value = System.Convert.ToDecimal(drv.Cells[m_sFieldName_NewVisitID].Value);
+                valOldVisitID.Value = System.Convert.ToDecimal(drv.Cells[m_sFieldName_OldVisitID].Value);
+
+                txtSite.Text = (string)drv.Cells[m_sFieldName_SiteName].Value;
+                txtWatershed.Text = (string)drv.Cells[m_sFieldName_WatershedName].Value;
                 txtNewVisitDate.Text = Convert.ToDateTime(GetVisitDate(m_dbCon, "CHAMP_Visits", "SampleDate", "VisitID", valNewVisitID.Value.ToString())).ToString("MM/dd/yyyy");
                 txtOldVisitDate.Text = Convert.ToDateTime(GetVisitDate(m_dbCon, "CHAMP_Visits", "SampleDate", "VisitID", valOldVisitID.Value.ToString())).ToString("MM/dd/yyyy");
+                txtMask.Text = (string)drv.Cells[m_sFieldName_MaskValue].Value;
 
-                //PopulateComboBox(cboReaonForFlag, drv, drv.Cells[13].Value.ToString(), m_sReasonsForFlag);
-                txtReasonForFlag.Text = drv.Cells[14].Value.ToString();
-                if ((Boolean)drv.Cells[15].Value == true)
+                txtReasonForFlag.Text = drv.Cells[m_sFieldName_FlagReason].Value.ToString();
+                if ((Boolean)drv.Cells[m_sFieldName_ValidResults].Value == true)
                 {
                     rdoResultsValidTrue.Checked = true;
                 }
-                else if ((Boolean)drv.Cells[15].Value == false)
+                else if ((Boolean)drv.Cells[m_sFieldName_ValidResults].Value == false)
                 {
                     rdoResultsValidFalse.Checked = true;
                 }
-                PopulateComboBox(cboErrorType, drv, drv.Cells[16].Value.ToString(), m_sErrorTypes);
-                PopulateComboBox(cboErrorDEM, drv, drv.Cells[17].Value.ToString(), m_sErrorDEMs);
-                txtComments.Text = drv.Cells[18].Value.ToString();
-                txtEnteredBy.Text = drv.Cells[19].Value.ToString();
+                PopulateComboBox(cboErrorType, drv, drv.Cells[m_sFieldName_ErrorType].Value.ToString(), m_sErrorTypes);
+                PopulateComboBox(cboErrorDEM, drv, drv.Cells[m_sFieldName_ErrorDEM].Value.ToString(), m_sErrorDEMs);
+                txtComments.Text = drv.Cells[m_sFieldName_Comments].Value.ToString();
+                txtEnteredBy.Text = drv.Cells[m_sFieldName_EnteredBy].Value.ToString();
+                if ((Boolean)drv.Cells[m_sFieldName_Processed].Value == true)
+                {
+                    chkProcessed.Checked = true;
+                }
+                else if ((Boolean)drv.Cells[m_sFieldName_Processed].Value == false)
+                {
+                    chkProcessed.Checked = false;
+                }
             }
         }
 
@@ -246,7 +319,7 @@ namespace CHaMPWorkbench.Experimental.James
             if (dr is DataRow)
             {
                 //Get parameters for New Visit to feed into RetreiveVisitFolder
-               string sVisitID = dr["NewVisitID"].ToString();
+               string sVisitID = dr[m_sFieldName_NewVisitID].ToString();
                string sVisitYear = GetVisitDate(m_dbCon, "CHAMP_Visits", "VisitYear", "VisitID", sVisitID);
                string sWatershedName = GetWatershedName(m_dbCon, sVisitID);
                string sSiteName = GetSiteName(m_dbCon, sVisitID);                
@@ -259,7 +332,7 @@ namespace CHaMPWorkbench.Experimental.James
                //Old Visit
 
                //Get parameters for Old Visit to feed into RetreiveVisitFolder
-               sVisitID = dr["OldVisitID"].ToString();
+               sVisitID = dr[m_sFieldName_OldVisitID].ToString();
                sVisitYear = GetVisitDate(m_dbCon, "CHAMP_Visits", "VisitYear", "VisitID", sVisitID);               
                sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, sVisitYear, sWatershedName, sSiteName, sVisitID);
                sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear", sVisitYear, sWatershedName, sSiteName, sVisitID).Replace("\\", "/");
@@ -338,19 +411,17 @@ namespace CHaMPWorkbench.Experimental.James
                 //DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                string sWatershedName = (string)r["WatershedName"];
-                string sSiteName = (string)r["SiteName"];
+                int iWatershedID = (int)r[m_sFieldName_WatershedID];
+                int iSiteID = (int)r[m_sFieldName_SiteID];
 
-                if (String.IsNullOrEmpty(sSiteName) == false & String.IsNullOrEmpty(sWatershedName) == false)
+                if (iSiteID != null && iWatershedID != null)
                 {
-                    //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon, sSiteName, sWatershedName);
-                    //frm.ShowDialog();
-                }
-                else
-                {
-                    //Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon);
-                    //frm.ShowDialog();
-                }
+                    if (iSiteID > 0 && iWatershedID > 0)
+                    {
+                        Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon.ConnectionString, iSiteID, iWatershedID);
+                        frm.ShowDialog();
+                    }
+                 }
 
             }
         }
