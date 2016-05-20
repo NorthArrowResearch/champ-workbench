@@ -1434,17 +1434,24 @@ namespace CHaMPWorkbench
                     // Build a temporary file path where the master will be unzipped. This needs to be unique so used datetime stamp in %TEMP%
                     string sTempFolder = string.Format("{0}_{1:yyyyMMddHHmmss}", System.IO.Path.GetFileNameWithoutExtension(CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName), DateTime.Now);
                     sTempFolder = System.IO.Path.Combine(Environment.GetEnvironmentVariable("TEMP"), sTempFolder);
-                    
+
                     // Unzip the master copy to the folder desired by the user.
                     Data.frmDataUnPacker.UnZipArchive(sMaster, sTempFolder);
 
                     // If the user has requested a different name than the master then rename the file
                     string sTempFile = System.IO.Path.Combine(sTempFolder, CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName);
-                    if (string.Compare(sTempFile, sNewDatabasePath, true) != 0)
-                        System.IO.File.Move(sTempFile, frm.FileName);
+                    if (System.IO.File.Exists(sTempFile))
+                    {
+                        if (string.Compare(sTempFile, sNewDatabasePath, true) != 0)
+                            System.IO.File.Move(sTempFile, frm.FileName);
 
-                    if (!System.IO.File.Exists(frm.FileName))
-                        MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (!System.IO.File.Exists(frm.FileName))
+                            MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                        MessageBox.Show(string.Format("Failed to find master workbench database called '{0}' in unzipped temporary folder.", 
+                            CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName),
+                            CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                     MessageBox.Show("Failed to find master database with software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1452,8 +1459,6 @@ namespace CHaMPWorkbench
 
             return frm.FileName;
         }
-
-
 
         private void createNewWorkbenchDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
