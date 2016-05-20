@@ -174,7 +174,7 @@ namespace CHaMPWorkbench
                     else
                         m_dbCon.Close();
                 }
-                
+
                 OpenDatabase(dlg.FileName);
             }
         }
@@ -1431,15 +1431,17 @@ namespace CHaMPWorkbench
                 sMaster = System.IO.Path.Combine(sMaster, "WorkbenchMaster.zip");
                 if (System.IO.File.Exists(sMaster))
                 {
-                    // Build a temporary file path where the master will be unzipped.
-                    string sTemp = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(frm.FileName), CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName);
-
+                    // Build a temporary file path where the master will be unzipped. This needs to be unique so used datetime stamp in %TEMP%
+                    string sTempFolder = string.Format("{0}_{1:yyyyMMddHHmmss}", System.IO.Path.GetFileNameWithoutExtension(CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName), DateTime.Now);
+                    sTempFolder = System.IO.Path.Combine(Environment.GetEnvironmentVariable("TEMP"), sTempFolder);
+                    
                     // Unzip the master copy to the folder desired by the user.
-                    Data.frmDataUnPacker.UnZipArchive(sMaster, System.IO.Path.GetDirectoryName(sTemp));
+                    Data.frmDataUnPacker.UnZipArchive(sMaster, sTempFolder);
 
                     // If the user has requested a different name than the master then rename the file
-                    if (string.Compare(sTemp, sNewDatabasePath, true) != 0)
-                        System.IO.File.Move(sTemp, frm.FileName);
+                    string sTempFile = System.IO.Path.Combine(sTempFolder, CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName);
+                    if (string.Compare(sTempFile, sNewDatabasePath, true) != 0)
+                        System.IO.File.Move(sTempFile, frm.FileName);
 
                     if (!System.IO.File.Exists(frm.FileName))
                         MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1450,6 +1452,8 @@ namespace CHaMPWorkbench
 
             return frm.FileName;
         }
+
+
 
         private void createNewWorkbenchDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
