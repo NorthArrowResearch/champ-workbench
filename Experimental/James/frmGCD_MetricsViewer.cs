@@ -37,11 +37,7 @@ namespace CHaMPWorkbench.Experimental.James
 
         private void frmGCD_AnalysisWatershed_Load(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-            // Fill the CHaMP sites. These will be filtered by the currently selected watershed and pre-select the current site.
-            LoadCHaMPSiteCombo();
-            
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;        
 
             // Hook up the event that will cause the site combo to filter when the current watershed changes
             // Note: Only hook this up after the watershed and site have been selected the first time.
@@ -120,6 +116,10 @@ namespace CHaMPWorkbench.Experimental.James
                             }
                             iColumnIndex += 1;
                         }
+
+
+                        // Fill the CHaMP sites. These will be filtered by the currently selected watershed and pre-select the current site.
+                        LoadCHaMPSiteCombo();
 
                         //load mask combo box
                         var pMaskNames = (from DataRow row in m_dtGCD_Results.Rows
@@ -415,21 +415,40 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+                //get all sites
+                var pSitesWithData = (from DataRow row in m_dtGCD_Results.Rows
+                                            select new { SiteID = (int)row["SiteID"], SiteName = (string)row["SiteName"] }
+                                           ).Distinct();
+
+                //check if a watershed has been selected
+                int iWatershedID = 0;
+                if (cmbWatershed.SelectedItem != null)
                 {
-                    dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
-                    dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cmbWatershed.SelectedItem).Value);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
-                    cmbSite.Items.Insert(0, "");
-                    while (dbRead.Read())
+                    if (cmbWatershed.SelectedItem is ListItem)
                     {
-                        int nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
-                        int nIndex = cmbSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), nSiteID));
-                        if (nSiteID == nSelectedSiteID)
-                            cmbSite.SelectedIndex = nIndex;
+                        ListItem pSelectedWatershed = (ListItem)cmbWatershed.SelectedItem;
+                        iWatershedID = pSelectedWatershed.Value;
                     }
                 }
+
+                cmbSite.Items.Insert(0, new ListItem("", 0));
+
+                //if a watershed was selected, filter the data, otherwise use all sites which are already loaded
+                if (iWatershedID != 0)
+                {
+                    pSitesWithData = (from DataRow row in m_dtGCD_Results.Rows
+                                          where (int)row["WatershedID"] == iWatershedID
+                                          select new { SiteID = (int)row["SiteID"], SiteName = (string)row["SiteName"] }
+                                         ).Distinct();
+
+                }
+
+                //load sites into combo box
+                foreach (var pSite in pSitesWithData)
+                {
+                    cmbSite.Items.Add(new ListItem(pSite.SiteName, pSite.SiteID));
+                }
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             }
         }
