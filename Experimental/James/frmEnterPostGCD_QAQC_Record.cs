@@ -18,6 +18,9 @@ namespace CHaMPWorkbench.Experimental.James
         private string[] m_sErrorTypes = { "" ,"None","Rod Height Bust", "Datum Shift", "Other"};
         private string[] m_sErrorDEMs = { "Niether", "NewVisit", "OldVisit", "Both", "Unknown"};
         
+        //table name
+        const string m_sTableName = "GCD_Review";
+
         //table column names
         const string m_sFieldName_NewVisitID = "NewVisitID";
         const string m_sFieldName_OldVisitID = "OldVisitID";
@@ -40,6 +43,47 @@ namespace CHaMPWorkbench.Experimental.James
         {
             InitializeComponent();
             m_dbCon = dbCon;
+
+            //Check if table exists
+            var dbSchema = m_dbCon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new Object[] { null, null, null, "TABLE" });
+
+            if (!dbSchema.Rows
+                        .OfType<DataRow>()
+                        .Any(row => row.ItemArray[2].ToString().ToLower() == m_sTableName.ToLower()))
+            {
+                //create table
+                OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+                try
+                {
+
+                    string sSQL = "CREATE TABLE " + m_sTableName +
+                                            @" (NewVisitID NUMBER,
+                                             OldVisitID NUMBER,
+                                             MaskValueName CHAR(255),
+                                             FlagReason CHAR(255),
+                                             ValidResults YESNO,
+                                             ErrorType CHAR(55),
+                                             ErrorDEM CHAR(55),
+                                             Comments LONGTEXT,
+                                             EnteredBy CHAR(30),
+                                             DateModified DATETIME,
+                                             Processed YESNO DEFAULT NO,
+                                             CONSTRAINT GCD_Review_Unique_Constraint UNIQUE (NewVisitID, OldVisitID, MaskValueName),
+                                             PRIMARY KEY (NewVisitID, OldVisitID, MaskValueName));";
+                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                    dbCom.ExecuteNonQuery();
+                    dbTrans.Commit();
+
+                }
+                catch (Exception ex)
+                {
+                    dbTrans.Rollback();
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+
+            }
+
+
             LoadVisits(m_dbCon);
         }
 
