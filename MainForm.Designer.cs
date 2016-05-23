@@ -158,6 +158,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -670,7 +671,8 @@
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testXPathReferencesToolStripMenuItem,
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem,
-            this.exportAWSLookupToolStripMenuItem});
+            this.exportAWSLookupToolStripMenuItem,
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -678,7 +680,7 @@
             // testXPathReferencesToolStripMenuItem
             // 
             this.testXPathReferencesToolStripMenuItem.Name = "testXPathReferencesToolStripMenuItem";
-            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
             this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
             // 
@@ -686,14 +688,14 @@
             // 
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Enabled = false;
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Name = "queueBridgeCreekBatchesRBTRunsToolStripMenuItem";
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
             this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Click += new System.EventHandler(this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click);
             // 
             // exportAWSLookupToolStripMenuItem
             // 
             this.exportAWSLookupToolStripMenuItem.Name = "exportAWSLookupToolStripMenuItem";
-            this.exportAWSLookupToolStripMenuItem.Size = new System.Drawing.Size(276, 22);
+            this.exportAWSLookupToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.exportAWSLookupToolStripMenuItem.Text = "Export AWS Lookup...";
             this.exportAWSLookupToolStripMenuItem.Click += new System.EventHandler(this.exportAWSLookupToolStripMenuItem_Click);
             // 
@@ -1269,6 +1271,13 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // scavengeMetricsFromCmorgDownloadToolStripMenuItem
+            // 
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Name = "scavengeMetricsFromCmorgDownloadToolStripMenuItem";
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Text = "Scavenge Metrics From cm.org Download...";
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Click += new System.EventHandler(this.scavengeMetricsFromCmorgDownloadToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1434,6 +1443,7 @@
         private System.Windows.Forms.ToolStripMenuItem clearSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gCDAnalysisWatershedLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewWorkbenchDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scavengeMetricsFromCmorgDownloadToolStripMenuItem;
     }
 }
 

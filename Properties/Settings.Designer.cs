@@ -413,5 +413,14 @@ namespace CHaMPWorkbench.Properties {
                 return ((string)(this["WorkbenchMasterFileName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int ModelScavengeTypeID {
+            get {
+                return ((int)(this["ModelScavengeTypeID"]));
+            }
+        }
     }
 }

@@ -48,7 +48,17 @@ namespace CHaMPWorkbench
             int nVersion;
             if (Int32.TryParse(sVersion, out nVersion) && Int32.Parse(sVersion) < CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion)
             {
-                DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway?", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
+                // This DB is the wrong version. If it's the same DB path stored in the last used database setting, then clear 
+                // this setting to avoid the problem reoccurring
+                string sDBPath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
+                if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.DBConnection) &&
+                    string.Compare(CHaMPWorkbench.Properties.Settings.Default.DBConnection, sDBPath, true) == 0)
+                {
+                    CHaMPWorkbench.Properties.Settings.Default.DBConnection = string.Empty;
+                    CHaMPWorkbench.Properties.Settings.Default.Save();
+                }
+
+                DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway? Click \"yes\" to continue and \"no\" to stop and create a new database with the correct version from the File menu.", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     return;
@@ -56,6 +66,10 @@ namespace CHaMPWorkbench
                 else if (dialogResult == DialogResult.No)
                 {
                     m_dbCon = null;
+
+                    string sNewDBPath = CreateNewWorkbenchDB();
+
+
                     return;
                 }
             }
@@ -190,10 +204,15 @@ namespace CHaMPWorkbench
                     Console.WriteLine("Attempting to open database: " + sDB);
                     m_dbCon = new System.Data.OleDb.OleDbConnection(sDB);
                     m_dbCon.Open();
-                    CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
-                    CHaMPWorkbench.Properties.Settings.Default.Save();
-                    UpdateMenuItemStatus(menuStrip1.Items);
 
+                    // Checking the DB version will close the database if it's the wrong version.
+                    CheckDBVersion();
+                    if (m_dbCon is OleDbConnection)
+                    {
+                        CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
+                        CHaMPWorkbench.Properties.Settings.Default.Save();
+                        UpdateMenuItemStatus(menuStrip1.Items);
+                    }
                     LoadVisits();
                 }
                 catch (Exception ex)
@@ -1466,6 +1485,19 @@ namespace CHaMPWorkbench
             if (System.IO.File.Exists(sNewDB))
             {
                 OpenDatabase(sNewDB);
+            }
+        }
+
+        private void scavengeMetricsFromCmorgDownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Models.frmScavengeMetrics frm = new Models.frmScavengeMetrics(m_dbCon.ConnectionString);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
     }

@@ -112,5 +112,8 @@
     <Setting Name="WorkbenchMasterFileName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Workbench.mdb</Value>
     </Setting>
+    <Setting Name="ModelScavengeTypeID" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
