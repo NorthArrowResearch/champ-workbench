@@ -22,16 +22,26 @@ namespace CHaMPWorkbench.Classes
 
             using (OleDbConnection conWorkbench = new OleDbConnection(DBWorkbench))
             {
+                // Workbench transaction that will be rolled back should anything go wrong
                 conWorkbench.Open();
-
                 OleDbTransaction dbTrans = conWorkbench.BeginTransaction();
 
+                if (bClearExistingData)
+                {
+                    // Delete all existing scavenged cm.org metrics
+                    OleDbCommand sqlDelete = new OleDbCommand("DELETE * FROM Metric_Results WHERE ScavengeTypeID = @ScavengeTypeID", conWorkbench, dbTrans);
+                    sqlDelete.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID);
+                    sqlDelete.ExecuteNonQuery();
+                }
+
+                // SQL to insert one result record for each visit for which there are metrics.
                 OleDbCommand sqlInsertResult = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, ScavengeTypeID, VisitID) VALUES (@ResultFile, @ModelVersion, @ScavengeTypeID, @VisitID)", conWorkbench, dbTrans);
                 sqlInsertResult.Parameters.AddWithValue("@ResultFile", sDBFilePath);
                 sqlInsertResult.Parameters.AddWithValue("@ModelVersion", sModelVersion);
                 sqlInsertResult.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID);
                 OleDbParameter pVisitID = sqlInsertResult.Parameters.Add("@VisitID", OleDbType.Integer);
 
+                // SQL to insert the actual metric values.
                 OleDbCommand sqlInsertMetricValue = new OleDbCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", conWorkbench, dbTrans);
                 OleDbParameter pResultID = sqlInsertMetricValue.Parameters.Add("@ResultID", OleDbType.Integer);
                 OleDbParameter pMetricID = sqlInsertMetricValue.Parameters.Add("@MetricID", OleDbType.Integer);
@@ -39,7 +49,6 @@ namespace CHaMPWorkbench.Classes
 
                 try
                 {
-
                     // Loop over Metric_Definitions and construct dictionary of metric IDs to export field names
                     string sResultDBCon = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDBFilePath);
                     using (OleDbConnection dbExport = new OleDbConnection(sResultDBCon))
@@ -48,19 +57,21 @@ namespace CHaMPWorkbench.Classes
                         OleDbDataAdapter daResults = new OleDbDataAdapter("SELECT * FROM MetricVisitInformation", dbExport);
                         System.Data.DataTable tResults = new System.Data.DataTable();
                         daResults.Fill(tResults);
+                        lResults.Add(string.Format("{0} visits with metric identified in the CHaMP export database.", tResults.Rows.Count));
 
                         if (tResults.Rows.Count > 0)
                         {
                             // Retrieve Column names from export DB and the metric information from Metric_Definitions;
                             Dictionary<int, MetricDef> dMetrics = RetrieveMetrics(ref tResults);
+                            lResults.Add(string.Format("0 metrics matched between the CHaMP export and those in the Workbench Metric_Definitions table.", dMetrics.Count));
 
                             // Loop over rows in export
-
+                            int nResults = 0;
                             foreach (System.Data.DataRow rResult in tResults.Rows)
                             {
                                 // Create Result record
                                 pVisitID.Value = rResult["VisitID"];
-                                sqlInsertResult.ExecuteNonQuery();
+                                nResults += sqlInsertResult.ExecuteNonQuery();
 
                                 // Retrieve ResultID
                                 OleDbCommand sqlResultID = new OleDbCommand("SELECT @@Identity FROM Metric_Results", conWorkbench, dbTrans);
@@ -83,15 +94,17 @@ namespace CHaMPWorkbench.Classes
                                     }
                                 }
                             }
-
-
+                            
                             dbTrans.Commit();
+                            lResults.Add(string.Format("{0} visits inserted into the workbench with metric values.", nResults));
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     dbTrans.Rollback();
+                    lResults.Add(ex.Message);
+                    throw;
                 }
             }
 

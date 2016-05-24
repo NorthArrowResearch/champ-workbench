@@ -41,7 +41,7 @@
             // cmdBrowse
             // 
             this.cmdBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowse.Location = new System.Drawing.Point(424, 12);
+            this.cmdBrowse.Location = new System.Drawing.Point(434, 12);
             this.cmdBrowse.Name = "cmdBrowse";
             this.cmdBrowse.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowse.TabIndex = 0;
@@ -55,7 +55,7 @@
             this.label1.Location = new System.Drawing.Point(12, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 6;
             this.label1.Text = "Program metrics DB";
             // 
             // txtSourceDB
@@ -64,17 +64,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSourceDB.Location = new System.Drawing.Point(118, 13);
             this.txtSourceDB.Name = "txtSourceDB";
-            this.txtSourceDB.Size = new System.Drawing.Size(300, 20);
-            this.txtSourceDB.TabIndex = 2;
+            this.txtSourceDB.Size = new System.Drawing.Size(310, 20);
+            this.txtSourceDB.TabIndex = 7;
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(424, 103);
+            this.cmdCancel.Location = new System.Drawing.Point(434, 113);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 3;
+            this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -82,7 +82,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(343, 103);
+            this.cmdOK.Location = new System.Drawing.Point(353, 113);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 4;
@@ -96,8 +96,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtModelVersion.Location = new System.Drawing.Point(118, 41);
             this.txtModelVersion.Name = "txtModelVersion";
-            this.txtModelVersion.Size = new System.Drawing.Size(300, 20);
-            this.txtModelVersion.TabIndex = 6;
+            this.txtModelVersion.Size = new System.Drawing.Size(310, 20);
+            this.txtModelVersion.TabIndex = 2;
             // 
             // label2
             // 
@@ -105,7 +105,7 @@
             this.label2.Location = new System.Drawing.Point(39, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
-            this.label2.TabIndex = 5;
+            this.label2.TabIndex = 1;
             this.label2.Text = "Model version";
             // 
             // chkClear
@@ -114,7 +114,7 @@
             this.chkClear.Location = new System.Drawing.Point(118, 68);
             this.chkClear.Name = "chkClear";
             this.chkClear.Size = new System.Drawing.Size(279, 17);
-            this.chkClear.TabIndex = 7;
+            this.chkClear.TabIndex = 3;
             this.chkClear.Text = "Clear existing cm.org scavenged metrics before import";
             this.chkClear.UseVisualStyleBackColor = true;
             // 
@@ -133,6 +133,10 @@
             this.Controls.Add(this.txtSourceDB);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdBrowse);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(527, 176);
             this.Name = "frmScavengeMetrics";
             this.Text = "Scavenge CHaMP Metrics FROM c.morg Export";
             this.Load += new System.EventHandler(this.frmScavengeMetrics_Load);

@@ -74,8 +74,13 @@ namespace CHaMPWorkbench.Models
 
             try
             {
+                List<string> lMessages;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                theScavenger.Run(txtModelVersion.Text, "", txtSourceDB.Text, chkClear.Checked);
+                lMessages = theScavenger.Run(txtModelVersion.Text, "", txtSourceDB.Text, chkClear.Checked);
+
+                frmToolResults frm = new frmToolResults("Scavenge CHaMP Metrics", "Process complete.", ref lMessages);
+                frm.ShowDialog();
+
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             }
             catch (Exception ex)
