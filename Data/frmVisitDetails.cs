@@ -22,6 +22,9 @@ namespace CHaMPWorkbench.Data
             InitializeComponent();
             DBCon = sDBCon;
             VisitID = nVisitID;
+
+            ucMetricPlot1.DBCon = sDBCon;
+            ucMetricPlot1.VisitID = nVisitID;
         }
 
         private void ConfigureDataGrid(ref DataGridView grd)
