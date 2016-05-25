@@ -24,7 +24,21 @@ namespace CHaMPWorkbench.Data
 
         private void frmVisitDetails_Load(object sender, EventArgs e)
         {
-            LoadVisitHeader();
+            grdChannelUnits.AllowUserToAddRows = false;
+            grdChannelUnits.AllowUserToDeleteRows = false;
+            grdChannelUnits.AllowUserToResizeRows = false;
+            grdChannelUnits.RowHeadersVisible = false;
+
+            try
+            {
+                LoadVisitHeader();
+                LoadChannelUnits();
+                LoadVisitDetails();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void LoadVisitHeader()
@@ -64,7 +78,7 @@ namespace CHaMPWorkbench.Data
                         case "String":
                             sResult = dbRead.GetString(nField);
                             break;
-                            
+
                         case "Int16":
                             sResult = dbRead.GetInt16(nField).ToString();
                             break;
@@ -80,6 +94,45 @@ namespace CHaMPWorkbench.Data
                 }
             }
             return sResult;
+        }
+
+        private void LoadChannelUnits()
+        {
+            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            {
+                dbCon.Open();
+
+                string sSQL = "SELECT S.SegmentNumber AS [Segment Number], C.ChannelUnitNumber AS [Unit Number], C.Tier1, C.Tier2," +
+                     "C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover, C.Bedrock, C.LargeWoodCount" +
+                     " FROM CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID" +
+                     " WHERE (S.VisitID = @VisitID)" +
+                     " ORDER BY S.SegmentNumber, C.ChannelUnitNumber";
+                
+                OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
+                DataTable ta = new DataTable();
+                da.Fill(ta);
+
+                grdChannelUnits.DataSource = ta;
+            }
+        }
+
+        private void LoadVisitDetails()
+        {
+            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            {
+                dbCon.Open();
+
+                string sSQL = "";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
+                DataTable ta = new DataTable();
+                da.Fill(ta);
+
+
+
+            }
         }
     }
 }
