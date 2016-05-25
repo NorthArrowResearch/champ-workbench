@@ -1468,7 +1468,7 @@ namespace CHaMPWorkbench
                             MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
-                        MessageBox.Show(string.Format("Failed to find master workbench database called '{0}' in unzipped temporary folder.", 
+                        MessageBox.Show(string.Format("Failed to find master workbench database called '{0}' in unzipped temporary folder.",
                             CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName),
                             CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -1501,17 +1501,36 @@ namespace CHaMPWorkbench
             }
         }
 
+        #region VisitProperties
+
         private void grdVisits_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 DataRowView drv = (DataRowView)grdVisits.Rows[e.RowIndex].DataBoundItem;
-                if (drv.Row is DataRow)
-                {
-                    Data.frmVisitDetails frm = new Data.frmVisitDetails(m_dbCon.ConnectionString, (int)drv.Row["VisitID"]);
-                    frm.ShowDialog();
-                }
+                ShowVisitProperties(drv.Row);
             }
         }
+
+        private void visitPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow r = null;
+            if (grdVisits.SelectedRows.Count == 1)
+            {
+                DataRowView drv = (DataRowView)grdVisits.SelectedRows[0].DataBoundItem;
+                ShowVisitProperties(drv.Row);
+            }
+        }
+
+        private void ShowVisitProperties(DataRow visitRow)
+        {
+            if (visitRow is DataRow)
+            {
+                Data.frmVisitDetails frm = new Data.frmVisitDetails(m_dbCon.ConnectionString, (int)visitRow["VisitID"]);
+                frm.ShowDialog();
+            }
+        }
+
+        #endregion
     }
 }

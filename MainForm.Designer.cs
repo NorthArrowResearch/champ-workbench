@@ -1161,15 +1161,15 @@
             this.viewSiteLocationMapToolStripMenuItem,
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 292);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 314);
             // 
             // visitPropertiesToolStripMenuItem
             // 
-            this.visitPropertiesToolStripMenuItem.Enabled = false;
             this.visitPropertiesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Settings;
             this.visitPropertiesToolStripMenuItem.Name = "visitPropertiesToolStripMenuItem";
             this.visitPropertiesToolStripMenuItem.Size = new System.Drawing.Size(356, 22);
             this.visitPropertiesToolStripMenuItem.Text = "Visit Properties...";
+            this.visitPropertiesToolStripMenuItem.Click += new System.EventHandler(this.visitPropertiesToolStripMenuItem_Click);
             // 
             // browseMonitoringDataToolStripMenuItem
             // 
