@@ -172,6 +172,12 @@
     <Compile Include="Data\frmVisitDetails.Designer.cs">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\ucMetricPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\ucMetricPlot.Designer.cs">
+      <DependentUpon>ucMetricPlot.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
     <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
       <SubType>Form</SubType>
@@ -387,6 +393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ucMetricPlot.resx">
+      <DependentUpon>ucMetricPlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
       <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
