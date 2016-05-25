@@ -258,7 +258,7 @@ namespace CHaMPWorkbench.Data
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             pgrProgress.Value = e.ProgressPercentage;
-            lblETA.Visible = true;
+            //lblETA.Visible = true;
             lblStatus.Visible = true;
             lblStatus.Text = m_Status;
 
