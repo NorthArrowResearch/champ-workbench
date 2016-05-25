@@ -1500,5 +1500,18 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void grdVisits_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataRowView drv = (DataRowView)grdVisits.Rows[e.RowIndex].DataBoundItem;
+                if (drv.Row is DataRow)
+                {
+                    Data.frmVisitDetails frm = new Data.frmVisitDetails(m_dbCon.ConnectionString, (int)drv.Row["VisitID"]);
+                    frm.ShowDialog();
+                }
+            }
+        }
     }
 }

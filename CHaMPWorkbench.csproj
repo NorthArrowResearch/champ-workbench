@@ -166,6 +166,12 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmVisitDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmVisitDetails.Designer.cs">
+      <DependentUpon>frmVisitDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
     <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
       <SubType>Form</SubType>
@@ -378,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmVisitDetails.resx">
+      <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
       <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
