@@ -349,8 +349,6 @@ namespace CHaMPWorkbench
             try
             {
                 UpdateMenuItemStatus(menuStrip1.Items);
-
-                LoadVisits();
             }
             catch (Exception ex)
             {
@@ -567,8 +565,10 @@ namespace CHaMPWorkbench
                 ex2.Data["SQL Select Command"] = dbCom.CommandText;
                 throw ex2;
             }
+
+            lstFieldSeason.Items.Clear();
             // Load the field seasons
-            OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", m_dbCon);
+            OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", m_dbCon);
             OleDbDataReader dbRead = comFS.ExecuteReader();
             while (dbRead.Read())
             {

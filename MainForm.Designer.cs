@@ -892,7 +892,7 @@
             // 
             this.valVisitID.Location = new System.Drawing.Point(79, 14);
             this.valVisitID.Maximum = new decimal(new int[] {
-            5000,
+            9999,
             0,
             0,
             0});
