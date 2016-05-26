@@ -1161,7 +1161,7 @@
             this.viewSiteLocationMapToolStripMenuItem,
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem});
             this.cmsVisit.Name = "cmsVisit";
-            this.cmsVisit.Size = new System.Drawing.Size(357, 314);
+            this.cmsVisit.Size = new System.Drawing.Size(357, 292);
             // 
             // visitPropertiesToolStripMenuItem
             // 
