@@ -24,8 +24,45 @@ namespace CHaMPWorkbench.Data
         {
             PlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID);
+
+            cboModelResults.SelectedIndexChanged += PlotChanged;
+            cboPlotTypes.SelectedIndexChanged += PlotChanged;
         }
 
+        private void PlotChanged(object sender, EventArgs e)
+        {
+            PlotType thePlot = null;
+            if (cboPlotTypes.SelectedItem is PlotType)
+                thePlot = cboPlotTypes.SelectedItem as PlotType;
+            else
+                return;
+
+            ModelResult theResult = null;
+            if (cboModelResults.SelectedItem is ModelResult)
+                theResult = cboModelResults.SelectedItem as ModelResult;
+            else
+                return;
+
+            Dictionary<int, double> dXMetricValues = GetMetricValues(thePlot.XMetricID, theResult.ID);
+            Dictionary<int, double> dYMetricValues = GetMetricValues(thePlot.YMetricID, theResult.ID);
+
+        }
+
+        private Dictionary<int, double> GetMetricValues(int nMetricID, int nResultID)
+        {
+            Dictionary<int, double> dResults = new Dictionary<int, double>();
+            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            {
+                dbCon.Open();
+                OleDbCommand dbCom = new OleDbCommand("SELECT ResultID, MetricValue FROM Metric_VisitMetrics WHERE (MetricID = @MetricID) AND (MetricValue IS NOT NULL)", dbCon);
+                dbCom.Parameters.AddWithValue("@MetricID", nMetricID);
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    dResults.Add(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue")));
+            }
+
+            return dResults;
+        }
 
 
         # region HelperClasses
