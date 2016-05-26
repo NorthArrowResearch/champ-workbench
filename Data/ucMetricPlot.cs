@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CHaMPWorkbench.Data
 {
@@ -113,18 +114,22 @@ namespace CHaMPWorkbench.Data
         private class MetricValue
         {
             public int ResultID { get; internal set; }
-            public double Value { get; internal set; }
             public int WatershedID { get; internal set; }
             public int SiteID { get; internal set; }
             public int VisitID { get; internal set; }
 
-            public MetricValue(int nResultID, double fValue, int nWatershedID, int nSiteID, int nVisitID)
+            public int MetricID { get; internal set; }
+            public double Value { get; internal set; }
+
+            public MetricValue(int nResultID, int nWatershedID, int nSiteID, int nVisitID, int nMetricID, double fValue)
             {
                 ResultID = nResultID;
-                Value = fValue;
                 WatershedID = nWatershedID;
                 SiteID = nSiteID;
                 VisitID = nVisitID;
+
+                MetricID = nMetricID;
+                Value = fValue;
             }
 
             public static List<MetricValue> LoadMetricValues(string sDBCon, PlotType thePlot, ModelResult theResult)
@@ -146,11 +151,12 @@ namespace CHaMPWorkbench.Data
                     {
                         lMetricValues.Add(new MetricValue(
                             dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))
-                            , dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))
                             , dbRead.GetInt32(dbRead.GetOrdinal("WatershedID"))
                             , dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))
                             , dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))
-                            ));
+                           , dbRead.GetInt32(dbRead.GetOrdinal("MetricID"))
+                                , dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))
+                        ));
                     }
                 }
                 return lMetricValues;
@@ -187,22 +193,31 @@ namespace CHaMPWorkbench.Data
                 return Title;
             }
 
-            public ModelResult(int nID, string sModelVersion, DateTime dtRunDateTime, string sScavengeType)
+            public ModelResult(int nID, string sModelVersion, DateTime dtRunDateTime, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
             {
-                ID = nID;
-                ModelVersion = sModelVersion;
-
                 RunDateTime = dtRunDateTime;
                 HasDateTime = true;
-                ScavengeType = sScavengeType;
+
+                Init(nID, sModelVersion, sScavengeType, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitID);
             }
 
-            public ModelResult(int nID, string sModelVersion, string sScavengeType)
+            public ModelResult(int nID, string sModelVersion, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
+            {
+                Init(nID, sModelVersion, sScavengeType, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitID);
+            }
+
+            private void Init(int nID, string sModelVersion, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
             {
                 ID = nID;
                 ModelVersion = sModelVersion;
                 HasDateTime = false;
                 ScavengeType = sScavengeType;
+
+                WatershedID = nWatershedID;
+                Watershed = sWatershedName;
+                SiteID = nSiteID;
+                Site = sSiteName;
+                VisitID = nVisitID;
             }
 
             public static void LoadModelResults(ref ComboBox cbo, string sDBCon, int VisitID)
@@ -221,10 +236,28 @@ namespace CHaMPWorkbench.Data
                     {
                         ModelResult theResult = null;
                         if (dbRead.IsDBNull(dbRead.GetOrdinal("RunDateTime")))
-                            theResult = new ModelResult(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetString(dbRead.GetOrdinal("ModelVersion")), dbRead.GetString(dbRead.GetOrdinal("ScavengeType")));
+                            theResult = new ModelResult(
+                                dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("ModelVersion")) 
+                                , dbRead.GetString(dbRead.GetOrdinal("ScavengeType"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("WatershedID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("WatershedName"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))   
+                                );
                         else
-                            theResult = new ModelResult(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetString(dbRead.GetOrdinal("ModelVersion")),
-                            dbRead.GetDateTime(dbRead.GetOrdinal("RunDateTime")), dbRead.GetString(dbRead.GetOrdinal("ScavengeType")));
+                            theResult = new ModelResult(
+                                dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("ModelVersion"))
+                                , dbRead.GetDateTime(dbRead.GetOrdinal("RunDateTime"))
+                                , dbRead.GetString(dbRead.GetOrdinal("ScavengeType"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("WatershedID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("WatershedName"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))
+                                , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
+                                , dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))                                
+                                );
 
                         cbo.Items.Add(theResult);
                     }
@@ -237,21 +270,27 @@ namespace CHaMPWorkbench.Data
 
         #endregion
 
-        private void cboPlotTypes_SelectedIndexChanged(object sender, EventArgs e)
+        private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboModelResults.SelectedItem is ModelResult && cboPlotTypes.SelectedItem is PlotType)
             {
                 MetricValues = MetricValue.LoadMetricValues(DBCon, cboPlotTypes.SelectedItem as PlotType, cboModelResults.SelectedItem as ModelResult);
                 // TODO replot graph
+                UpdatePlot();
             }
         }
 
         private void UpdatePlot()
         {
-            chtData.Series.Clear;
+            chtData.Series.Clear();
 
-           series =  chtData.Series.Add("test");
+            if (MetricValues == null || MetricValues.Count < 1)
+                return;
 
+            Series theSeries = chtData.Series.Add("test");
+
+            foreach (MetricValue aValue in MetricValues)
+                theSeries.Points.Add(new DataPoint(aValue.Value, aValue.Value));
         }
     }
 }

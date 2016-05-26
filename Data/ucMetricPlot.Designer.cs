@@ -56,7 +56,7 @@
             this.cboPlotTypes.Name = "cboPlotTypes";
             this.cboPlotTypes.Size = new System.Drawing.Size(381, 21);
             this.cboPlotTypes.TabIndex = 2;
-            this.cboPlotTypes.SelectedIndexChanged += new System.EventHandler(this.cboPlotTypes_SelectedIndexChanged);
+            this.cboPlotTypes.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
             // 
             // cboModelResults
             // 
@@ -66,6 +66,7 @@
             this.cboModelResults.Name = "cboModelResults";
             this.cboModelResults.Size = new System.Drawing.Size(381, 21);
             this.cboModelResults.TabIndex = 4;
+            this.cboModelResults.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
             // 
             // label3
             // 
