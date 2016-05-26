@@ -56,6 +56,7 @@
             this.cboPlotTypes.Name = "cboPlotTypes";
             this.cboPlotTypes.Size = new System.Drawing.Size(381, 21);
             this.cboPlotTypes.TabIndex = 2;
+            this.cboPlotTypes.SelectedIndexChanged += new System.EventHandler(this.cboPlotTypes_SelectedIndexChanged);
             // 
             // cboModelResults
             // 

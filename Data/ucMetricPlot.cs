@@ -13,7 +13,9 @@ namespace CHaMPWorkbench.Data
     public partial class ucMetricPlot : UserControl
     {
         public string DBCon { get; set; }
-        public int VisitID { get; set;}
+        public int VisitID { get; set; }
+
+        private List<MetricValue> MetricValues { get; set; }
 
         public ucMetricPlot()
         {
@@ -45,7 +47,6 @@ namespace CHaMPWorkbench.Data
 
             Dictionary<int, double> dXMetricValues = GetMetricValues(thePlot.XMetricID, theResult.ID);
             Dictionary<int, double> dYMetricValues = GetMetricValues(thePlot.YMetricID, theResult.ID);
-
         }
 
         private Dictionary<int, double> GetMetricValues(int nMetricID, int nResultID)
@@ -63,7 +64,6 @@ namespace CHaMPWorkbench.Data
 
             return dResults;
         }
-
 
         # region HelperClasses
 
@@ -110,19 +110,75 @@ namespace CHaMPWorkbench.Data
             }
         }
 
+        private class MetricValue
+        {
+            public int ResultID { get; internal set; }
+            public double Value { get; internal set; }
+            public int WatershedID { get; internal set; }
+            public int SiteID { get; internal set; }
+            public int VisitID { get; internal set; }
+
+            public MetricValue(int nResultID, double fValue, int nWatershedID, int nSiteID, int nVisitID)
+            {
+                ResultID = nResultID;
+                Value = fValue;
+                WatershedID = nWatershedID;
+                SiteID = nSiteID;
+                VisitID = nVisitID;
+            }
+
+            public static List<MetricValue> LoadMetricValues(string sDBCon, PlotType thePlot, ModelResult theResult)
+            {
+                List<MetricValue> lMetricValues = new List<MetricValue>();
+
+                using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+                {
+                    dbCon.Open();
+                    OleDbCommand dbCom = new OleDbCommand("SELECT S.WatershedID, S.SiteID, V.VisitID, R.ResultID, M.MetricID, M.MetricValue" +
+                    " FROM ((CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) INNER JOIN Metric_Results AS R ON V.VisitID = R.VisitID) INNER JOIN Metric_VisitMetrics AS M ON R.ResultID = M.ResultID" +
+                    " WHERE (WatershedID = @WatershedID) AND ( (M.MetricID = @MetricID1) OR (M.MetricID = @MetricID2) ) AND (MetricValue IS NOT NULL)", dbCon);
+                    dbCom.Parameters.AddWithValue("@WatershedID", theResult.WatershedID);
+                    dbCom.Parameters.AddWithValue("@MetricID1", thePlot.XMetricID);
+                    dbCom.Parameters.AddWithValue("@MetricID2", thePlot.YMetricID);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+
+                    while (dbRead.Read())
+                    {
+                        lMetricValues.Add(new MetricValue(
+                            dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))
+                            , dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))
+                            , dbRead.GetInt32(dbRead.GetOrdinal("WatershedID"))
+                            , dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))
+                            , dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))
+                            ));
+                    }
+                }
+                return lMetricValues;
+            }
+        }
+
         private class ModelResult
         {
-            public int ID {get; internal set;}
-            public string ModelVersion { get; internal set;}
-            public string ScavengeType { get; internal set;}
+            public int ID { get; internal set; }
+            public string ModelVersion { get; internal set; }
+            public string ScavengeType { get; internal set; }
             public DateTime RunDateTime { get; internal set; }
             public bool HasDateTime { get; set; }
+
+            public int WatershedID { get; internal set; }
+            public string Watershed { get; internal set; }
+            public int SiteID { get; internal set; }
+            public string Site { get; internal set; }
+            public int VisitID { get; internal set; }
 
             public string Title
             {
                 get
                 {
-                    return string.Format("Version {0} on {1} status {2}", ModelVersion, RunDateTime, ScavengeType);
+                    if (HasDateTime)
+                        return string.Format("Version {0} on {1} status {2}", ModelVersion, RunDateTime, ScavengeType);
+                    else
+                        return string.Format("Version {0} status {1}", ModelVersion, ScavengeType);
                 }
             }
 
@@ -130,15 +186,15 @@ namespace CHaMPWorkbench.Data
             {
                 return Title;
             }
-            
+
             public ModelResult(int nID, string sModelVersion, DateTime dtRunDateTime, string sScavengeType)
             {
-                ID=nID;
-                ModelVersion =sModelVersion;
+                ID = nID;
+                ModelVersion = sModelVersion;
 
-                RunDateTime=dtRunDateTime;
+                RunDateTime = dtRunDateTime;
                 HasDateTime = true;
-                ScavengeType=sScavengeType;
+                ScavengeType = sScavengeType;
             }
 
             public ModelResult(int nID, string sModelVersion, string sScavengeType)
@@ -148,15 +204,17 @@ namespace CHaMPWorkbench.Data
                 HasDateTime = false;
                 ScavengeType = sScavengeType;
             }
-            
+
             public static void LoadModelResults(ref ComboBox cbo, string sDBCon, int VisitID)
             {
-               cbo.Items.Clear();
+                cbo.Items.Clear();
 
                 using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT Metric_Results.ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType FROM LookupListItems INNER JOIN Metric_Results ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID WHERE VisitID = @VisitID ORDER BY Metric_Results.RunDateTime DESC;", dbCon);
+                    OleDbCommand dbCom = new OleDbCommand("SELECT R.ResultID, R.ModelVersion, R.RunDateTime, L.Title AS ScavengeType, R.[VisitID], S.SiteName, S.SiteID, W.WatershedID, W.WatershedName" +
+                        " FROM CHAMP_Watersheds AS W INNER JOIN ((LookupListItems AS L INNER JOIN Metric_Results AS R ON L.ItemID = R.ScavengeTypeID) INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON R.VisitID = V.VisitID) ON W.WatershedID = S.WatershedID" +
+                        " WHERE (R.VisitID = @VisitID) ORDER BY R.RunDateTime DESC", dbCon);
                     dbCom.Parameters.AddWithValue("@VisitID", VisitID);
                     OleDbDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
@@ -167,7 +225,7 @@ namespace CHaMPWorkbench.Data
                         else
                             theResult = new ModelResult(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetString(dbRead.GetOrdinal("ModelVersion")),
                             dbRead.GetDateTime(dbRead.GetOrdinal("RunDateTime")), dbRead.GetString(dbRead.GetOrdinal("ScavengeType")));
-                            
+
                         cbo.Items.Add(theResult);
                     }
 
@@ -178,5 +236,22 @@ namespace CHaMPWorkbench.Data
         }
 
         #endregion
+
+        private void cboPlotTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboModelResults.SelectedItem is ModelResult && cboPlotTypes.SelectedItem is PlotType)
+            {
+                MetricValues = MetricValue.LoadMetricValues(DBCon, cboPlotTypes.SelectedItem as PlotType, cboModelResults.SelectedItem as ModelResult);
+                // TODO replot graph
+            }
+        }
+
+        private void UpdatePlot()
+        {
+            chtData.Series.Clear;
+
+           series =  chtData.Series.Add("test");
+
+        }
     }
 }
