@@ -95,17 +95,62 @@ namespace CHaMPWorkbench.Habitat
         /// <param name="dbTrans">Database transaction</param>
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
+        private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults,
+            int nResultID)
         {
-            
+
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
                 return 0;
 
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
-            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
-            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
+            XmlNode nodSimulation = xmlResults.SelectSingleNode("//log//simulations//simulation");
+            XmlNode nodSpecies = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='species']");
+            XmlNode nodLifestage = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='lifestage']");
+            XmlNode nodFlow = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='flow']");
+            string sSpeciesLifestage = string.Empty;
+            string sType = string.Empty;
+            string sFlow = string.Empty;
+
+            if (nodSimulation is XmlNode && !string.IsNullOrEmpty(nodSimulation.Attributes["type"].Value))
+            {
+                sType = nodSimulation.Attributes["type"].Value;
+                // Gotta go lookup the species / lifestage
+                OleDbCommand dbSpeciesLifestage = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+            }
+
+            // Could not determine lifestage or species
+            if (nodSpecies is XmlNode && !string.IsNullOrEmpty(nodSpecies.InnerText) &&
+                nodLifestage is XmlNode && !string.IsNullOrEmpty(nodLifestage.InnerText))
+            {
+                sSpeciesLifestage = string.Format("{0} {1}", nodSpecies.InnerText, nodLifestage.InnerText);
+
+                // Gotta go lookup the species / lifestage
+                OleDbCommand dbSpeciesLifestage = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+            }
+            // Could not determine flow type
+            if (nodFlow is XmlNode && !string.IsNullOrEmpty(nodFlow.InnerText))
+            {
+                sFlow = nodFlow.InnerText;
+            }
+
+            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Habitat (ResultID, ModelID, SpeciesLifeStageID, MetricID, FlowType, MetricValue) VALUES (@ResultID, @ModelID, @SpeciesLifeStageID, @MetricID, @FlowType, @MetricValue)",
+                dbTrans.Connection,
+                dbTrans);
+            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", OleDbType.Integer);
+            OleDbParameter pModelID = dbCom.Parameters.AddWithValue("@ModelID", OleDbType.Integer);
+            OleDbParameter pSpeciesLifeStageID = dbCom.Parameters.AddWithValue("@SpeciesLifeStageID", OleDbType.Integer);
+            OleDbParameter pFlowType = dbCom.Parameters.AddWithValue("@FlowType", OleDbType.WChar);
+
+            OleDbParameter pMetricID = dbCom.Parameters.AddWithValue("@MetricID", OleDbType.Integer);
             OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+
+
+
+            // TODO: LOOKUPS NECESSARY HERE
+            pResultID.Value = nResultID;
+            pModelID.Value = m_nVisitMetricTypeID;
+            pSpeciesLifeStageID.Value = 1;
+            pFlowType.Value = 1;
 
             int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
@@ -135,20 +180,22 @@ namespace CHaMPWorkbench.Habitat
         private List<ScavengeMetric> GetMetrics(int nMetricTypeID)
         {
             List<ScavengeMetric> lMetrics = new List<ScavengeMetric>();
-
             using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
             {
                 DBCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (CMMetricID Is Not Null) AND (RBTResultXMLTag Is Not Null)", DBCon);
+                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (RBTResultXMLTag Is Not Null)", DBCon);
                 dbCom.Parameters.AddWithValue("@TypeID", nMetricTypeID);
                 OleDbDataReader dbRead = dbCom.ExecuteReader();
+
                 while (dbRead.Read())
                 {
-                    lMetrics.Add(new ScavengeMetric(dbRead.GetInt32(dbRead.GetOrdinal("MetricID")),
-                        dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID")),
-                        dbRead.GetString(dbRead.GetOrdinal("Title")),
-                        dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"))));
+                    int nMetricID = dbRead.GetInt32(dbRead.GetOrdinal("MetricID"));
+                    int nCMMetricID = dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")) ? -1 : dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID"));
+                    string sTitle = dbRead.GetString(dbRead.GetOrdinal("Title"));
+                    string sXpath = dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"));
+
+                    lMetrics.Add(new ScavengeMetric(nMetricID, nCMMetricID, sTitle, sXpath));
                 }
             }
 
@@ -170,7 +217,8 @@ namespace CHaMPWorkbench.Habitat
             public ScavengeMetric(int nMetricID, int nCMMetricID, string sName, string sXPath)
             {
                 MetricID = nMetricID;
-                CMMetricID = nCMMetricID;
+                if (nCMMetricID >= 0)
+                    CMMetricID = nCMMetricID;
                 Name = sName;
                 XPath = sXPath;
             }
@@ -197,14 +245,14 @@ namespace CHaMPWorkbench.Habitat
         {
             int nResultID = 0;
 
-            XmlNode nodVersion = xmlResults.SelectSingleNode("//log//results//simulation//habitat_version");
+            XmlNode nodVersion = xmlResults.SelectSingleNode("//log//habitat_version");
             if (nodVersion is XmlNode && !string.IsNullOrEmpty(nodVersion.InnerText))
             {
-                XmlNode nodCreated = xmlResults.SelectSingleNode("//log//results//simulation//date_time_created");
+                XmlNode nodCreated = xmlResults.SelectSingleNode("//log//run_timestamp");
                 DateTime dtCreated;
                 if (nodCreated is XmlNode && !string.IsNullOrEmpty(nodCreated.InnerText) && DateTime.TryParse(nodCreated.InnerText, out dtCreated))
                 {
-                    XmlNode nodVisitID = xmlResults.SelectSingleNode("//log//results//simulation//sim_meta//meta[@key=visit]");
+                    XmlNode nodVisitID = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='visit']");
                     int nVisitID;
                     if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
                     {

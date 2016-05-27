@@ -434,5 +434,23 @@ namespace CHaMPWorkbench.Properties {
                 this["Habitat_Project_Root"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int LookupList_SpeciesLifestage {
+            get {
+                return ((int)(this["LookupList_SpeciesLifestage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int LookupList_Model {
+            get {
+                return ((int)(this["LookupList_Model"]));
+            }
+        }
     }
 }
