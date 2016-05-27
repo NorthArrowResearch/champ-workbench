@@ -13,20 +13,31 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmCustomVisit : Form
     {
+        // Names of the fields in the survey GDB channel units feature class
         private const string SurveyGDB_ChannelUnitsTableName = "Channel_Units";
         private const string SurveyGDB_UnitNumberField = "Unit_Number";
         private const string SurveyGDB_SegmentField = "Segment_Number";
         private const string SurveyGDB_Tier1Field = "Tier1";
         private const string SurveyGDB_Tier2Field = "Tier2";
 
+        // Used if the survey GDB channel units are missing tier information and the
+        // user chooses to populate with random tier types
+        private Random RandomNumber;
+
         public string DBCon { get; internal set; }
 
+        // This is the list of channel units bound to the data grid view.
         private BindingList<ChannelUnit> bsChannelUnits;
+
+        // Make the visit ID publicly available to the parent form so that
+        // it can select it in the main grid after the insert.
+        public int VisitID { get { return (int)valVisitID.Value; } }
 
         public frmCustomVisit(string sDBCon)
         {
             InitializeComponent();
             DBCon = sDBCon;
+            RandomNumber = new Random(DateTime.Now.Second);
 
             bsChannelUnits = new BindingList<ChannelUnit>();
         }
@@ -76,7 +87,22 @@ namespace CHaMPWorkbench.Data
 
         private void cboWatershed_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListItem.LoadComboWithListItems(ref cboSite, DBCon, "SELECT SiteID, SiteName FROM CHaMP_Sites ORDER BY SiteName");
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+            cboSite.Items.Clear();
+            if (cboWatershed.SelectedItem is ListItem)
+            {
+                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                {
+                    dbCon.Open();
+                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
+                    dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cboWatershed.SelectedItem).Value);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                        cboSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))));
+                }
+            }
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
         private bool ValidateForm()
@@ -341,6 +367,22 @@ namespace CHaMPWorkbench.Data
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (bsChannelUnits.Count > 0)
+            {
+                switch (MessageBox.Show("Do you want to clear the existing list of channel units and reload them from the selected survey geodatabase?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                {
+                    case System.Windows.Forms.DialogResult.No:
+                        return;
+
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+                        return;
+                }
+            }
+
+            // Clear any existing channel units
+            bsChannelUnits.Clear();
+
             FolderBrowserDialog frm = new FolderBrowserDialog();
             frm.Description = "Select Survey Geodatabase";
             frm.ShowNewFolderButton = false;
@@ -362,19 +404,17 @@ namespace CHaMPWorkbench.Data
                             return;
                         }
 
+                        FieldInfo fInfo = chTable.FieldInformation;
                         List<string> sFields = new List<string>();
-                        foreach (FieldDef aDef in chTable.FieldDefs)
+                        for (int i = 0; i < fInfo.Count; i++)
                         {
-                            if (string.Compare(aDef.Name, SurveyGDB_Tier1Field, true) == 0)
+                            if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_Tier1Field, true) == 0)
                                 sFields.Add(SurveyGDB_Tier1Field);
-
-                            if (string.Compare(aDef.Name, SurveyGDB_Tier2Field, true) == 0)
+                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_Tier2Field, true) == 0)
                                 sFields.Add(SurveyGDB_Tier2Field);
-
-                            if (string.Compare(aDef.Name, SurveyGDB_UnitNumberField, true) == 0)
+                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_UnitNumberField, true) == 0)
                                 sFields.Add(SurveyGDB_UnitNumberField);
-
-                            if (string.Compare(aDef.Name, SurveyGDB_SegmentField, true) == 0)
+                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_SegmentField, true) == 0)
                                 sFields.Add(SurveyGDB_SegmentField);
                         }
 
@@ -415,13 +455,14 @@ namespace CHaMPWorkbench.Data
                             }
 
                             int nSegment = 1;
-                            if (!attrQueryRow.IsNull(SurveyGDB_SegmentField))
+                            if (sFields.Contains(SurveyGDB_SegmentField) && !attrQueryRow.IsNull(SurveyGDB_SegmentField))
                                 nSegment = attrQueryRow.GetInteger(SurveyGDB_SegmentField);
 
                             string sTier1 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier1Field, 1);
-                            string sTier2 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier1Field, 1);
+                            string sTier2 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier2Field, 2);
 
-                            ChannelUnit ch = new ChannelUnit(attrQueryRow.GetInteger(SurveyGDB_UnitNumberField), nSegment, sTier1, sTier2);
+                            ChannelUnit ch = new ChannelUnit(attrQueryRow.GetShort(SurveyGDB_UnitNumberField), nSegment, sTier1, sTier2);
+                            bsChannelUnits.Add(ch);
                         }
                     }
                     else
@@ -438,11 +479,56 @@ namespace CHaMPWorkbench.Data
                 return theRow.GetString(sFeatureClassFieldName);
             else
             {
-                Random rnd = new Random(DateTime.Now.Second);
                 DataGridViewComboBoxColumn theCol = (DataGridViewComboBoxColumn)grdChannelUnits.Columns[string.Format("colTier{0}", nTier)];
-                int nItem = (int)(rnd.NextDouble() * ((double)theCol.Items.Count - 1));
+                int nItem = (int)Math.Round((RandomNumber.NextDouble() * ((double)theCol.Items.Count - 1)));
                 return theCol.Items[nItem].ToString();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            frmSelectVisitID frm = new frmSelectVisitID(DBCon);
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (bsChannelUnits.Count > 0)
+                {
+                    switch (MessageBox.Show("Do you want to clear the existing list of channel units and reload them from the selected survey geodatabase?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                    {
+                        case System.Windows.Forms.DialogResult.No:
+                            return;
+
+                        case System.Windows.Forms.DialogResult.Cancel:
+                            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+                            return;
+                    }
+                }
+
+                // Clear any existing channel units
+                bsChannelUnits.Clear();
+
+                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                {
+                    dbCon.Open();
+
+                    OleDbCommand dbCom = new OleDbCommand("SELECT ChannelUnitNumber, SegmentNumber, Tier1, Tier2 FROM CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbCon);
+                    dbCom.Parameters.AddWithValue("@VisitID", frm.SelectedVisitID);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        bsChannelUnits.Add(new ChannelUnit(
+                            dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber"))
+                            , dbRead.GetInt32(dbRead.GetOrdinal("SegmentNumber"))
+                            , dbRead.GetString(dbRead.GetOrdinal("Tier1"))
+                            , dbRead.GetString(dbRead.GetOrdinal("Tier2"))
+                            ));
+                    }
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This feature is not yet implemented.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

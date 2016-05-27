@@ -1538,7 +1538,13 @@ namespace CHaMPWorkbench
             try
             {
                 Data.frmCustomVisit frm = new Data.frmCustomVisit(m_dbCon.ConnectionString);
-                frm.ShowDialog();
+                if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    // TODO Scroll the main grid to the newly inserted visit.
+                    //DataTable dtVisits = (DataTable) grdVisits.DataSource;
+                    //dtVisits.fi
+                    //grdVisits.FirstDisplayedScrollingRowIndex = 
+                }
             }
             catch (Exception ex)
             {

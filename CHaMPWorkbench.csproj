@@ -73,11 +73,12 @@
       <HintPath>packages\AWSSDK.2.3.54.2\lib\net35\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Esri.FileGDBAPI">
-      <HintPath>_Redistributables\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
+    <Reference Include="Esri.FileGDBAPI, Version=1.4.0.183, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Redistributables\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>_Redistributables\DotNetZip\Ionic.Zip.dll</HintPath>
+      <HintPath>..\_Redistributables\DotNetZip\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -174,6 +175,12 @@
     </Compile>
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\frmSelectVisitID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmSelectVisitID.Designer.cs">
+      <DependentUpon>frmSelectVisitID.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmVisitDetails.cs">
       <SubType>Form</SubType>
@@ -403,6 +410,9 @@
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmSelectVisitID.resx">
+      <DependentUpon>frmSelectVisitID.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -539,6 +549,12 @@
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resources\NewDatabase.png" />
+    <Content Include="FileGDBAPI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FileGDBAPID.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

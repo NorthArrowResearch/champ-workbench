@@ -46,14 +46,14 @@
             this.grpChannelUnits = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.grdChannelUnits = new System.Windows.Forms.DataGridView();
-            this.colUnitNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSegmentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTier1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colTier2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
+            this.colUnitNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSegmentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTier1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colTier2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valFieldSeason)).BeginInit();
             this.grpChannelUnits.SuspendLayout();
@@ -97,9 +97,10 @@
             this.cboWatershed.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboWatershed.FormattingEnabled = true;
             this.cboWatershed.Location = new System.Drawing.Point(83, 45);
+            this.cboWatershed.MaxLength = 255;
             this.cboWatershed.Name = "cboWatershed";
             this.cboWatershed.Size = new System.Drawing.Size(174, 21);
-            this.cboWatershed.TabIndex = 2;
+            this.cboWatershed.TabIndex = 3;
             this.cboWatershed.SelectedIndexChanged += new System.EventHandler(this.cboWatershed_SelectedIndexChanged);
             // 
             // label2
@@ -108,7 +109,7 @@
             this.label2.Location = new System.Drawing.Point(18, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Watershed";
             // 
             // label3
@@ -117,7 +118,7 @@
             this.label3.Location = new System.Drawing.Point(52, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
-            this.label3.TabIndex = 5;
+            this.label3.TabIndex = 4;
             this.label3.Text = "Site";
             // 
             // cboSite
@@ -126,14 +127,15 @@
             this.cboSite.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboSite.FormattingEnabled = true;
             this.cboSite.Location = new System.Drawing.Point(83, 76);
+            this.cboSite.MaxLength = 255;
             this.cboSite.Name = "cboSite";
             this.cboSite.Size = new System.Drawing.Size(174, 21);
-            this.cboSite.TabIndex = 4;
+            this.cboSite.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(272, 19);
+            this.label4.Location = new System.Drawing.Point(337, 19);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 13);
             this.label4.TabIndex = 6;
@@ -141,7 +143,7 @@
             // 
             // valFieldSeason
             // 
-            this.valFieldSeason.Location = new System.Drawing.Point(344, 15);
+            this.valFieldSeason.Location = new System.Drawing.Point(408, 15);
             this.valFieldSeason.Maximum = new decimal(new int[] {
             2020,
             0,
@@ -164,7 +166,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(292, 53);
+            this.label5.Location = new System.Drawing.Point(357, 53);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 13);
             this.label5.TabIndex = 8;
@@ -174,7 +176,7 @@
             // 
             this.cboProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboProtocol.FormattingEnabled = true;
-            this.cboProtocol.Location = new System.Drawing.Point(344, 49);
+            this.cboProtocol.Location = new System.Drawing.Point(408, 49);
             this.cboProtocol.Name = "cboProtocol";
             this.cboProtocol.Size = new System.Drawing.Size(228, 21);
             this.cboProtocol.TabIndex = 9;
@@ -182,7 +184,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(272, 84);
+            this.label6.Location = new System.Drawing.Point(337, 84);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 10;
@@ -190,7 +192,8 @@
             // 
             // txtOrganization
             // 
-            this.txtOrganization.Location = new System.Drawing.Point(344, 80);
+            this.txtOrganization.Location = new System.Drawing.Point(408, 80);
+            this.txtOrganization.MaxLength = 100;
             this.txtOrganization.Name = "txtOrganization";
             this.txtOrganization.Size = new System.Drawing.Size(228, 20);
             this.txtOrganization.TabIndex = 11;
@@ -206,23 +209,26 @@
             this.grpChannelUnits.Controls.Add(this.button1);
             this.grpChannelUnits.Location = new System.Drawing.Point(13, 106);
             this.grpChannelUnits.Name = "grpChannelUnits";
-            this.grpChannelUnits.Size = new System.Drawing.Size(567, 240);
+            this.grpChannelUnits.Size = new System.Drawing.Size(623, 269);
             this.grpChannelUnits.TabIndex = 12;
             this.grpChannelUnits.TabStop = false;
             this.grpChannelUnits.Text = "Channel Units";
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(170, 20);
+            this.button3.Location = new System.Drawing.Point(226, 20);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(136, 23);
-            this.button3.TabIndex = 3;
+            this.button3.TabIndex = 0;
             this.button3.Text = "Load From Survey GDB";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // grdChannelUnits
             // 
+            this.grdChannelUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -255,57 +261,35 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.grdChannelUnits.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.grdChannelUnits.Size = new System.Drawing.Size(548, 185);
-            this.grdChannelUnits.TabIndex = 2;
+            this.grdChannelUnits.Size = new System.Drawing.Size(604, 214);
+            this.grdChannelUnits.TabIndex = 3;
             this.grdChannelUnits.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.grdChannelUnits_RowValidating);
-            // 
-            // colUnitNumber
-            // 
-            this.colUnitNumber.DataPropertyName = "UnitNumber";
-            this.colUnitNumber.HeaderText = "Unit Number";
-            this.colUnitNumber.Name = "colUnitNumber";
-            // 
-            // colSegmentNumber
-            // 
-            this.colSegmentNumber.DataPropertyName = "SegmentNumber";
-            this.colSegmentNumber.HeaderText = "Segment Number";
-            this.colSegmentNumber.Name = "colSegmentNumber";
-            // 
-            // colTier1
-            // 
-            this.colTier1.DataPropertyName = "Tier1";
-            this.colTier1.HeaderText = "Tier 1";
-            this.colTier1.Name = "colTier1";
-            // 
-            // colTier2
-            // 
-            this.colTier2.DataPropertyName = "Tier2";
-            this.colTier2.HeaderText = "Tier 2";
-            this.colTier2.Name = "colTier2";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(312, 20);
+            this.button2.Location = new System.Drawing.Point(368, 20);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(136, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "Load From Existing Visit";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(454, 20);
+            this.button1.Location = new System.Drawing.Point(510, 20);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 23);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 2;
             this.button1.Text = "Load From CSV";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(505, 352);
+            this.cmdCancel.Location = new System.Drawing.Point(561, 381);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 13;
@@ -316,13 +300,41 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(424, 352);
+            this.cmdOK.Location = new System.Drawing.Point(480, 381);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 14;
+            this.cmdOK.TabIndex = 12;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            // 
+            // colUnitNumber
+            // 
+            this.colUnitNumber.DataPropertyName = "UnitNumber";
+            this.colUnitNumber.HeaderText = "Unit Number";
+            this.colUnitNumber.Name = "colUnitNumber";
+            this.colUnitNumber.Width = 90;
+            // 
+            // colSegmentNumber
+            // 
+            this.colSegmentNumber.DataPropertyName = "SegmentNumber";
+            this.colSegmentNumber.HeaderText = "Segment Number";
+            this.colSegmentNumber.Name = "colSegmentNumber";
+            this.colSegmentNumber.Width = 120;
+            // 
+            // colTier1
+            // 
+            this.colTier1.DataPropertyName = "Tier1";
+            this.colTier1.HeaderText = "Tier 1";
+            this.colTier1.Name = "colTier1";
+            this.colTier1.Width = 175;
+            // 
+            // colTier2
+            // 
+            this.colTier2.DataPropertyName = "Tier2";
+            this.colTier2.HeaderText = "Tier 2";
+            this.colTier2.Name = "colTier2";
+            this.colTier2.Width = 175;
             // 
             // frmCustomVisit
             // 
@@ -330,7 +342,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(592, 387);
+            this.ClientSize = new System.Drawing.Size(648, 416);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.grpChannelUnits);
@@ -346,6 +358,7 @@
             this.Controls.Add(this.cboWatershed);
             this.Controls.Add(this.valVisitID);
             this.Controls.Add(this.label1);
+            this.MinimumSize = new System.Drawing.Size(608, 316);
             this.Name = "frmCustomVisit";
             this.Text = "Custom Visit";
             this.Load += new System.EventHandler(this.frmCustomVisit_Load);
