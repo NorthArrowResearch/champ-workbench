@@ -148,6 +148,12 @@
     <Compile Include="Data\frmClearDatabase.Designer.cs">
       <DependentUpon>frmClearDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmCustomVisit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmCustomVisit.Designer.cs">
+      <DependentUpon>frmCustomVisit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmDataUnPacker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -381,6 +387,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmClearDatabase.resx">
       <DependentUpon>frmClearDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmCustomVisit.resx">
+      <DependentUpon>frmCustomVisit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>

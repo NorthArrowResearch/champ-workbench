@@ -159,6 +159,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -307,6 +308,7 @@
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
             this.toolStripSeparator4,
+            this.createCustomVisitToolStripMenuItem,
             this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
@@ -1279,6 +1281,13 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // createCustomVisitToolStripMenuItem
+            // 
+            this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
+            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
+            this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1445,6 +1454,7 @@
         private System.Windows.Forms.ToolStripMenuItem gCDAnalysisWatershedLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewWorkbenchDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scavengeMetricsFromCmorgDownloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createCustomVisitToolStripMenuItem;
     }
 }
 

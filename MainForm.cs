@@ -1532,5 +1532,18 @@ namespace CHaMPWorkbench
         }
 
         #endregion
+
+        private void createCustomVisitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Data.frmCustomVisit frm = new Data.frmCustomVisit(m_dbCon.ConnectionString);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }
