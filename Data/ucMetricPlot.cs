@@ -25,6 +25,9 @@ namespace CHaMPWorkbench.Data
 
         private void ucMetricPlot_Load(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(DBCon))
+                return;
+
             PlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID, out m_dModelResults);
 
@@ -107,12 +110,14 @@ namespace CHaMPWorkbench.Data
             pChartArea.AxisX.Title = thePlot.XMetric;
             pChartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
             pChartArea.AxisX.MajorTickMark.LineColor = Color.Black;
+            pChartArea.AxisX.MinorTickMark.Enabled = true;
             pChartArea.AxisX.RoundAxisValues();
 
             pChartArea.AxisY.Title = thePlot.YMetric;
             pChartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
             pChartArea.AxisY.MajorTickMark.LineColor = Color.Black;
-
+            pChartArea.AxisY.MinorTickMark.Enabled = true;
+          
             //enable scroll and zoom
             pChartArea.CursorX.IsUserEnabled = true;
             pChartArea.CursorX.IsUserSelectionEnabled = true;

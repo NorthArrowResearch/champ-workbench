@@ -301,9 +301,12 @@ namespace CHaMPWorkbench.Data
 
         private void FilterLogMessages(object sender, EventArgs e)
         {
-            bsLogMessages.Filter = string.Empty;
-            if (cboLogMessageTypes.SelectedIndex > 0)
-                bsLogMessages.Filter = string.Format("LogSeverity = '{0}'", cboLogMessageTypes.Text.ToLower());
+            if (bsLogMessages != null)
+            {
+                bsLogMessages.Filter = string.Empty;
+                if (cboLogMessageTypes.SelectedIndex > 0)
+                    bsLogMessages.Filter = string.Format("LogSeverity = '{0}'", cboLogMessageTypes.Text.ToLower());
+            }
         }
     }
 }

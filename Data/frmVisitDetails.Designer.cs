@@ -52,14 +52,14 @@
             this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricPlot();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.grdLogMessages = new System.Windows.Forms.DataGridView();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cboLogMessageTypes = new System.Windows.Forms.ComboBox();
-            this.cboLogResults = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.colLogMessageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTyp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSeverity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cboLogMessageTypes = new System.Windows.Forms.ComboBox();
+            this.cboLogResults = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).BeginInit();
@@ -274,11 +274,13 @@
             // 
             // ucMetricPlot1
             // 
+            this.ucMetricPlot1.DBCon = null;
             this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucMetricPlot1.Location = new System.Drawing.Point(3, 3);
             this.ucMetricPlot1.Name = "ucMetricPlot1";
             this.ucMetricPlot1.Size = new System.Drawing.Size(678, 315);
             this.ucMetricPlot1.TabIndex = 0;
+            this.ucMetricPlot1.VisitID = 0;
             // 
             // tabPage4
             // 
@@ -310,6 +312,35 @@
             this.grdLogMessages.Name = "grdLogMessages";
             this.grdLogMessages.Size = new System.Drawing.Size(672, 240);
             this.grdLogMessages.TabIndex = 4;
+            // 
+            // colLogMessageID
+            // 
+            this.colLogMessageID.DataPropertyName = "LogMessageID";
+            this.colLogMessageID.HeaderText = "LogMessageID";
+            this.colLogMessageID.Name = "colLogMessageID";
+            this.colLogMessageID.ReadOnly = true;
+            this.colLogMessageID.Visible = false;
+            // 
+            // colTyp
+            // 
+            this.colTyp.DataPropertyName = "MessageType";
+            this.colTyp.HeaderText = "Type";
+            this.colTyp.Name = "colTyp";
+            this.colTyp.ReadOnly = true;
+            // 
+            // colSeverity
+            // 
+            this.colSeverity.DataPropertyName = "LogSeverity";
+            this.colSeverity.HeaderText = "Severity";
+            this.colSeverity.Name = "colSeverity";
+            this.colSeverity.ReadOnly = true;
+            // 
+            // colMessage
+            // 
+            this.colMessage.DataPropertyName = "LogMessage";
+            this.colMessage.HeaderText = "Message";
+            this.colMessage.Name = "colMessage";
+            this.colMessage.ReadOnly = true;
             // 
             // label8
             // 
@@ -351,35 +382,6 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Model result";
             // 
-            // colLogMessageID
-            // 
-            this.colLogMessageID.DataPropertyName = "LogMessageID";
-            this.colLogMessageID.HeaderText = "LogMessageID";
-            this.colLogMessageID.Name = "colLogMessageID";
-            this.colLogMessageID.ReadOnly = true;
-            this.colLogMessageID.Visible = false;
-            // 
-            // colTyp
-            // 
-            this.colTyp.DataPropertyName = "MessageType";
-            this.colTyp.HeaderText = "Type";
-            this.colTyp.Name = "colTyp";
-            this.colTyp.ReadOnly = true;
-            // 
-            // colSeverity
-            // 
-            this.colSeverity.DataPropertyName = "LogSeverity";
-            this.colSeverity.HeaderText = "Severity";
-            this.colSeverity.Name = "colSeverity";
-            this.colSeverity.ReadOnly = true;
-            // 
-            // colMessage
-            // 
-            this.colMessage.DataPropertyName = "LogMessage";
-            this.colMessage.HeaderText = "Message";
-            this.colMessage.Name = "colMessage";
-            this.colMessage.ReadOnly = true;
-            // 
             // frmVisitDetails
             // 
             this.AcceptButton = this.cmdClose;
@@ -403,7 +405,8 @@
             this.Controls.Add(this.cmdClose);
             this.MinimumSize = new System.Drawing.Size(732, 251);
             this.Name = "frmVisitDetails";
-            this.Text = "frmVisitDetails";
+            this.ShowIcon = false;
+            this.Text = "Visit Details";
             this.Load += new System.EventHandler(this.frmVisitDetails_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
