@@ -139,6 +139,11 @@ namespace CHaMPWorkbench.Data
                 return false;
             }
 
+            if (bsChannelUnits.Count < 1)
+            {
+                MessageBox.Show("No channel units defined. If you proceed and create this visit without any channel units then it will not be possible to use this 
+            }
+
             return true;
         }
 
@@ -201,56 +206,54 @@ namespace CHaMPWorkbench.Data
                     else
                         pOrganization.Value = txtOrganization.Text;
 
+                    if (comVisit.ExecuteNonQuery() != 1)
+                        throw new Exception("Failed to insert custom visit.");
+
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     // Channel segments and units
                     Dictionary<int, int> dSegmentNumbers = new Dictionary<int, int>(); // segment number key to database segment ID in DB values
 
-                    foreach (DataGridViewRow drv in grdChannelUnits.Rows)
+                    foreach (ChannelUnit ch in bsChannelUnits)
                     {
-                        foreach (ChannelUnit ch in bsChannelUnits)
+                        int nSegmentID = 0;
+                        if (dSegmentNumbers.ContainsKey(ch.SegmentNumber))
                         {
-                            int nSegmentID = 0;
-                            if (dSegmentNumbers.ContainsKey(ch.SegmentNumber))
+                            nSegmentID = dSegmentNumbers[ch.SegmentNumber];
+                        }
+                        else
+                        {
+                            // Create new segment
+                            OleDbCommand comSegment = new OleDbCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
+                            comSegment.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
+                            comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
+                            comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
+                            if (comSegment.ExecuteNonQuery() == 1)
                             {
-                                nSegmentID = dSegmentNumbers[ch.SegmentNumber];
+                                comSegment = new OleDbCommand("SELECT @@Identity FROM CHaMP_Segments", dbCon, dbTrans);
+                                nSegmentID = (int)comSegment.ExecuteScalar();
+                                dSegmentNumbers.Add(ch.SegmentNumber, nSegmentID);
                             }
                             else
-                            {
-                                // Create new segment
-                                OleDbCommand comSegment = new OleDbCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
-                                comSegment.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
-                                comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
-                                comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
-                                if (comSegment.ExecuteNonQuery() == 1)
-                                {
-                                    comSegment = new OleDbCommand("SELECT @@Identity FROM CHaMP_Segments", dbCon, dbTrans);
-                                    nSegmentID = (int)comSegment.ExecuteScalar();
-                                }
-                                else
-                                    throw new Exception(string.Format("Error inserting new channel segment {0}", ch.SegmentNumber));
-                            }
-
-                            // Now insert the channel units
-                            OleDbCommand comUnit = new OleDbCommand("INSERT INTO CHaMP_ChannelUnit (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (@SegmentID, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
-                            comUnit.Parameters.AddWithValue("@SegmentID", nSegmentID);
-                            comUnit.Parameters.AddWithValue("@ChannelUnitNumber", ch.UnitNumber);
-                            comUnit.Parameters.AddWithValue("@Tier1", ch.Tier1);
-                            comUnit.Parameters.AddWithValue("@Tier2", ch.Tier2);
-                            if (comUnit.ExecuteNonQuery() != 1)
-                                throw new Exception(string.Format("Error inserting new channel unit {0}", ch.UnitNumber));
+                                throw new Exception(string.Format("Error inserting new channel segment {0}", ch.SegmentNumber));
                         }
+
+                        // Now insert the channel units
+                        OleDbCommand comUnit = new OleDbCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (@SegmentID, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
+                        comUnit.Parameters.AddWithValue("@SegmentID", dSegmentNumbers[ch.SegmentNumber]);
+                        comUnit.Parameters.AddWithValue("@ChannelUnitNumber", ch.UnitNumber);
+                        comUnit.Parameters.AddWithValue("@Tier1", ch.Tier1);
+                        comUnit.Parameters.AddWithValue("@Tier2", ch.Tier2);
+                        if (comUnit.ExecuteNonQuery() != 1)
+                            throw new Exception(string.Format("Error inserting new channel unit {0}", ch.UnitNumber));
                     }
 
-                    if (comVisit.ExecuteNonQuery() == 1)
-                        dbTrans.Commit();
-                    else
-                        throw new Exception("Failed to insert custom visit.");
+                    dbTrans.Commit();
+                    MessageBox.Show(string.Format("Custom visit {0} inserted successfully with {1} channel units.", valVisitID.Value, bsChannelUnits.Count), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     dbTrans.Rollback();
                     Classes.ExceptionHandling.NARException.HandleException(ex);
-
                 }
             }
         }

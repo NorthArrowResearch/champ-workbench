@@ -1540,6 +1540,9 @@ namespace CHaMPWorkbench
                 Data.frmCustomVisit frm = new Data.frmCustomVisit(m_dbCon.ConnectionString);
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                    LoadVisits();
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                     // TODO Scroll the main grid to the newly inserted visit.
                     //DataTable dtVisits = (DataTable) grdVisits.DataSource;
                     //dtVisits.fi
