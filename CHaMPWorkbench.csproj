@@ -274,6 +274,7 @@
     </Compile>
     <Compile Include="Habitat\HabitatBatchBuilder.cs" />
     <Compile Include="Habitat\HabitatModelDef.cs" />
+    <Compile Include="Habitat\HabitatResultsScavenger.cs" />
     <Compile Include="Habitat\HSProjectManager.cs" />
     <Compile Include="Habitat\Paths.cs" />
     <Compile Include="HydroPrep\frmHydroPrepRun.cs">

@@ -28,46 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cmdCancel = new System.Windows.Forms.Button();
-            this.cmdOK = new System.Windows.Forms.Button();
+            this.cmdClose = new System.Windows.Forms.Button();
             this.cmdBrowseProject = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtHabitatModelDB = new System.Windows.Forms.TextBox();
+            this.txtHabitatModelFolder = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCSVFile = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cmdBrowseCSV = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cmdHelp = new System.Windows.Forms.Button();
             this.rdoDB = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rdoCSV = new System.Windows.Forms.RadioButton();
             this.panelCSV = new System.Windows.Forms.Panel();
+            this.cmdStop = new System.Windows.Forms.Button();
+            this.cmdRun = new System.Windows.Forms.Button();
+            this.prgBar = new System.Windows.Forms.ProgressBar();
+            this.BackgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.panelCSV.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cmdCancel
+            // cmdClose
             // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(399, 181);
-            this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 0;
-            this.cmdCancel.Text = "Cancel";
-            this.cmdCancel.UseVisualStyleBackColor = true;
-            // 
-            // cmdOK
-            // 
-            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(318, 181);
-            this.cmdOK.Name = "cmdOK";
-            this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 1;
-            this.cmdOK.Text = "OK";
-            this.cmdOK.UseVisualStyleBackColor = true;
-            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdClose.Location = new System.Drawing.Point(399, 209);
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.Size = new System.Drawing.Size(75, 23);
+            this.cmdClose.TabIndex = 0;
+            this.cmdClose.Text = "Close";
+            this.cmdClose.UseVisualStyleBackColor = true;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
             // 
             // cmdBrowseProject
             // 
@@ -83,20 +75,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 50);
+            this.label1.Location = new System.Drawing.Point(26, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(91, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Habitat results xml";
+            this.label1.Text = "Habitat root folder";
             // 
-            // txtHabitatModelDB
+            // txtHabitatModelFolder
             // 
-            this.txtHabitatModelDB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtHabitatModelFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHabitatModelDB.Location = new System.Drawing.Point(121, 46);
-            this.txtHabitatModelDB.Name = "txtHabitatModelDB";
-            this.txtHabitatModelDB.Size = new System.Drawing.Size(272, 20);
-            this.txtHabitatModelDB.TabIndex = 4;
+            this.txtHabitatModelFolder.Location = new System.Drawing.Point(120, 46);
+            this.txtHabitatModelFolder.Name = "txtHabitatModelFolder";
+            this.txtHabitatModelFolder.Size = new System.Drawing.Size(272, 20);
+            this.txtHabitatModelFolder.TabIndex = 4;
             // 
             // label2
             // 
@@ -136,16 +128,16 @@
             this.cmdBrowseCSV.UseVisualStyleBackColor = true;
             this.cmdBrowseCSV.Click += new System.EventHandler(this.cmdBrowseCSV_Click);
             // 
-            // button2
+            // cmdHelp
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(12, 181);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Help";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdHelp.Location = new System.Drawing.Point(12, 209);
+            this.cmdHelp.Name = "cmdHelp";
+            this.cmdHelp.Size = new System.Drawing.Size(75, 23);
+            this.cmdHelp.TabIndex = 9;
+            this.cmdHelp.Text = "Help";
+            this.cmdHelp.UseVisualStyleBackColor = true;
+            this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
             // 
             // rdoDB
             // 
@@ -192,20 +184,61 @@
             this.panelCSV.Size = new System.Drawing.Size(458, 38);
             this.panelCSV.TabIndex = 12;
             // 
+            // cmdStop
+            // 
+            this.cmdStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdStop.Location = new System.Drawing.Point(398, 181);
+            this.cmdStop.Name = "cmdStop";
+            this.cmdStop.Size = new System.Drawing.Size(75, 23);
+            this.cmdStop.TabIndex = 19;
+            this.cmdStop.Text = "Stop";
+            this.cmdStop.UseVisualStyleBackColor = true;
+            this.cmdStop.Click += new System.EventHandler(this.cmdStop_Click);
+            // 
+            // cmdRun
+            // 
+            this.cmdRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdRun.Location = new System.Drawing.Point(318, 181);
+            this.cmdRun.Name = "cmdRun";
+            this.cmdRun.Size = new System.Drawing.Size(75, 23);
+            this.cmdRun.TabIndex = 18;
+            this.cmdRun.Text = "Run";
+            this.cmdRun.UseVisualStyleBackColor = true;
+            this.cmdRun.Click += new System.EventHandler(this.cmdRun_Click);
+            // 
+            // prgBar
+            // 
+            this.prgBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.prgBar.Location = new System.Drawing.Point(16, 181);
+            this.prgBar.Name = "prgBar";
+            this.prgBar.Size = new System.Drawing.Size(296, 23);
+            this.prgBar.Step = 1;
+            this.prgBar.TabIndex = 17;
+            this.prgBar.Visible = false;
+            // 
+            // BackgroundWorker1
+            // 
+            this.BackgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.BackgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.BackgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // frmScavengeHabitatResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 216);
+            this.ClientSize = new System.Drawing.Size(486, 244);
+            this.Controls.Add(this.cmdStop);
+            this.Controls.Add(this.cmdRun);
+            this.Controls.Add(this.prgBar);
             this.Controls.Add(this.panelCSV);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtHabitatModelDB);
+            this.Controls.Add(this.txtHabitatModelFolder);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdBrowseProject);
-            this.Controls.Add(this.cmdOK);
-            this.Controls.Add(this.cmdCancel);
+            this.Controls.Add(this.cmdClose);
             this.MinimumSize = new System.Drawing.Size(502, 184);
             this.Name = "frmScavengeHabitatResults";
             this.Text = "Scavenge Habitat Results";
@@ -221,19 +254,22 @@
 
         #endregion
 
-        private System.Windows.Forms.Button cmdCancel;
-        private System.Windows.Forms.Button cmdOK;
+        private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.Button cmdBrowseProject;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtHabitatModelDB;
+        private System.Windows.Forms.TextBox txtHabitatModelFolder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCSVFile;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button cmdBrowseCSV;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cmdHelp;
         private System.Windows.Forms.RadioButton rdoDB;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rdoCSV;
         private System.Windows.Forms.Panel panelCSV;
+        internal System.Windows.Forms.Button cmdStop;
+        internal System.Windows.Forms.Button cmdRun;
+        internal System.Windows.Forms.ProgressBar prgBar;
+        internal System.ComponentModel.BackgroundWorker BackgroundWorker1;
     }
 }

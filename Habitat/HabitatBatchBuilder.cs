@@ -49,8 +49,8 @@ namespace CHaMPWorkbench.Habitat
                 dsHabitat.ProjectsRow rProject = m_HabitatManager.ProjectDatabase.Projects.NewProjectsRow();
                 rProject.ProjectID = 1;
                 rProject.ScaleID = 54;
-                rProject.Computer = "JamesComputer";
-                rProject.CreatedBy = "James";
+                rProject.Computer = "My Computer";
+                rProject.CreatedBy = "Workbench";
                 rProject.Description = "";
                 rProject.DateCreated = DateTime.Now;
                 rProject.Title = "myProject";
@@ -111,6 +111,9 @@ namespace CHaMPWorkbench.Habitat
                     AddSimulationMetaData(ref rSimulation, "site", rVisit.CHAMP_SitesRow.SiteName);
                     AddSimulationMetaData(ref rSimulation, "watershed", rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName);
                     AddSimulationMetaData(ref rSimulation, "year", rVisit.VisitYear.ToString());
+
+                    // TODO: Flow is a placeholder for now. Will need a real value eventually.
+                    AddSimulationMetaData(ref rSimulation, "flow", "");
 
                     // Trigger retrieval of SimulationID;
                     //m_taSimulations.Update(rSimulation);

@@ -74,10 +74,10 @@ namespace CHaMPWorkbench.Habitat
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            String m_sProjectXML = txtHabitatProjectXML.Text;
+            m_sProjectXML = txtHabitatProjectXML.Text;
             String sProjetXMLNameNoExt = System.IO.Path.GetFileNameWithoutExtension(m_sProjectXML);
             String sProjectRoot = System.IO.Path.GetDirectoryName(m_sProjectXML);
-            String m_sOutputXML = System.IO.Path.Combine(sProjectRoot, sProjetXMLNameNoExt + "_output.xml");
+            m_sOutputXML = System.IO.Path.Combine(sProjectRoot, sProjetXMLNameNoExt + "_output.xml");
             String sHabitatExe = CHaMPWorkbench.Properties.Settings.Default.Model_HabitatConsole;
             String sHabitatExeRoot = System.IO.Path.GetDirectoryName(sHabitatExe);
 

@@ -232,9 +232,9 @@
             // 
             this.prgBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.prgBar.Location = new System.Drawing.Point(12, 235);
+            this.prgBar.Location = new System.Drawing.Point(12, 231);
             this.prgBar.Name = "prgBar";
-            this.prgBar.Size = new System.Drawing.Size(486, 14);
+            this.prgBar.Size = new System.Drawing.Size(486, 23);
             this.prgBar.Step = 1;
             this.prgBar.TabIndex = 13;
             this.prgBar.Visible = false;

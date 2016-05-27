@@ -1017,7 +1017,7 @@ namespace CHaMPWorkbench
 
         private void writeSimulationResultsToCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults();
+            Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults(m_dbCon);
             frm.ShowDialog();
         }
 
