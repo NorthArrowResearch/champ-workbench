@@ -73,6 +73,9 @@
       <HintPath>packages\AWSSDK.2.3.54.2\lib\net35\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Esri.FileGDBAPI">
+      <HintPath>_Redistributables\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>_Redistributables\DotNetZip\Ionic.Zip.dll</HintPath>
     </Reference>

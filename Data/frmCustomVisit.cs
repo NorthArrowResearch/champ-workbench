@@ -7,11 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using Esri.FileGDB;
 
 namespace CHaMPWorkbench.Data
 {
     public partial class frmCustomVisit : Form
     {
+        private const string SurveyGDB_ChannelUnitsTableName = "Channel_Units";
+        private const string SurveyGDB_UnitNumberField = "Unit_Number";
+        private const string SurveyGDB_SegmentField = "Segment_Number";
+        private const string SurveyGDB_Tier1Field = "Tier1";
+        private const string SurveyGDB_Tier2Field = "Tier2";
+
         public string DBCon { get; internal set; }
 
         private BindingList<ChannelUnit> bsChannelUnits;
@@ -185,7 +192,7 @@ namespace CHaMPWorkbench.Data
                             {
                                 // Create new segment
                                 OleDbCommand comSegment = new OleDbCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
-                                comSegment.Parameters.AddWithValue("@VisitID", (int) valVisitID.Value);
+                                comSegment.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                                 comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
                                 comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
                                 if (comSegment.ExecuteNonQuery() == 1)
@@ -269,7 +276,7 @@ namespace CHaMPWorkbench.Data
                     e.Cancel = true;
                     return;
                 }
-            }           
+            }
         }
 
         private bool ValidateChannelUnitNumber(int nRowIndex)
@@ -330,6 +337,112 @@ namespace CHaMPWorkbench.Data
             }
 
             return true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog frm = new FolderBrowserDialog();
+            frm.Description = "Select Survey Geodatabase";
+            frm.ShowNewFolderButton = false;
+
+            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
+                frm.SelectedPath = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (frm.SelectedPath.ToLower().EndsWith(".gdb"))
+                {
+                    Geodatabase surveyGDB = Geodatabase.Open(frm.SelectedPath);
+                    Table chTable = surveyGDB.OpenTable(SurveyGDB_ChannelUnitsTableName);
+                    if (chTable is Table)
+                    {
+                        if (chTable.RowCount < 1)
+                        {
+                            MessageBox.Show("The channel unit feature class is empty.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+
+                        List<string> sFields = new List<string>();
+                        foreach (FieldDef aDef in chTable.FieldDefs)
+                        {
+                            if (string.Compare(aDef.Name, SurveyGDB_Tier1Field, true) == 0)
+                                sFields.Add(SurveyGDB_Tier1Field);
+
+                            if (string.Compare(aDef.Name, SurveyGDB_Tier2Field, true) == 0)
+                                sFields.Add(SurveyGDB_Tier2Field);
+
+                            if (string.Compare(aDef.Name, SurveyGDB_UnitNumberField, true) == 0)
+                                sFields.Add(SurveyGDB_UnitNumberField);
+
+                            if (string.Compare(aDef.Name, SurveyGDB_SegmentField, true) == 0)
+                                sFields.Add(SurveyGDB_SegmentField);
+                        }
+
+                        if (!sFields.Contains(SurveyGDB_UnitNumberField))
+                        {
+                            MessageBox.Show(string.Format("Unable to find the channel unit number field called '{0}' in the {1} feature class inside the file geodatabase.", SurveyGDB_UnitNumberField, SurveyGDB_ChannelUnitsTableName), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+
+                        if (!sFields.Contains(SurveyGDB_SegmentField))
+                        {
+                            if (MessageBox.Show(string.Format("Unable to find the segment number field called '{0}' in the feature class. Do you want to proceed and assign all channel units to segment 1?", SurveyGDB_SegmentField), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                == System.Windows.Forms.DialogResult.No)
+                                return;
+                        }
+
+                        if (!sFields.Contains(SurveyGDB_Tier1Field))
+                        {
+                            if (MessageBox.Show("The channel units feature class is missing tier 1 classifications. Do you want to assign random tier 1 classifications instead?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                == System.Windows.Forms.DialogResult.No)
+                                return;
+                        }
+
+                        if (!sFields.Contains(SurveyGDB_Tier2Field))
+                        {
+                            if (MessageBox.Show("The channel units feature class is missing tier 2 classifications. Do you want to assign random tier 2 classifications instead?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                == System.Windows.Forms.DialogResult.No)
+                                return;
+                        }
+
+                        RowCollection attrQueryRows = chTable.Search(string.Join(",", sFields), string.Empty, RowInstance.Recycle);
+                        foreach (Row attrQueryRow in attrQueryRows)
+                        {
+                            if (attrQueryRow.IsNull(SurveyGDB_UnitNumberField))
+                            {
+                                MessageBox.Show("One or more rows in the channel unit feature class possess null channel unit numbers. All features must possess a positive integer channel unit number. Unable to proceed and import channel unit information from this feature class.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+
+                            int nSegment = 1;
+                            if (!attrQueryRow.IsNull(SurveyGDB_SegmentField))
+                                nSegment = attrQueryRow.GetInteger(SurveyGDB_SegmentField);
+
+                            string sTier1 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier1Field, 1);
+                            string sTier2 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier1Field, 1);
+
+                            ChannelUnit ch = new ChannelUnit(attrQueryRow.GetInteger(SurveyGDB_UnitNumberField), nSegment, sTier1, sTier2);
+                        }
+                    }
+                    else
+                        MessageBox.Show(string.Format("Unable to find the channel units table called '{0}' in the file geodatabase.", SurveyGDB_ChannelUnitsTableName), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                    MessageBox.Show("The selected folder does not appear to be a file geodatabase.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private string GetTierName(ref List<string> theFields, Row theRow, string sFeatureClassFieldName, int nTier)
+        {
+            if (theFields.Contains(sFeatureClassFieldName) && !theRow.IsNull(sFeatureClassFieldName))
+                return theRow.GetString(sFeatureClassFieldName);
+            else
+            {
+                Random rnd = new Random(DateTime.Now.Second);
+                DataGridViewComboBoxColumn theCol = (DataGridViewComboBoxColumn)grdChannelUnits.Columns[string.Format("colTier{0}", nTier)];
+                int nItem = (int)(rnd.NextDouble() * ((double)theCol.Items.Count - 1));
+                return theCol.Items[nItem].ToString();
+            }
         }
     }
 }
