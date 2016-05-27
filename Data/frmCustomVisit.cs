@@ -141,7 +141,11 @@ namespace CHaMPWorkbench.Data
 
             if (bsChannelUnits.Count < 1)
             {
-                MessageBox.Show("No channel units defined. If you proceed and create this visit without any channel units then it will not be possible to use this 
+                switch (MessageBox.Show("If you proceed and create this visit without any channel units then it will not be possible to use this visit with the RBT or batch substrate builder. Do you want to proceed and create this visit without channel units?", "No Channel Units Defined", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                {
+                    case System.Windows.Forms.DialogResult.No:
+                        return false;
+                }
             }
 
             return true;
