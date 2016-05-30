@@ -121,13 +121,13 @@ namespace CHaMPWorkbench.Data
                 }
             }
 
-            if (cboWatershed.SelectedItem == null)
+            if (string.IsNullOrEmpty(cboWatershed.Text))
             {
                 MessageBox.Show("The custom visit must be associated with a watershed. Either select an existing watershed or enter a placeholder name if you do not have one.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
-            if (cboSite.SelectedItem == null)
+            if (string.IsNullOrEmpty(cboSite.Text))
             {
                 MessageBox.Show("The custom visit must be associated with a site. Either select an existing site or enter a placeholder name if you do not have one.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
@@ -171,14 +171,18 @@ namespace CHaMPWorkbench.Data
                         nWatershedID = ((ListItem)cboWatershed.SelectedItem).Value;
                     else
                     {
-                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO CHaMP_Watersheds (WatershedName) VALUES (@WatershedName)", dbCon, dbTrans);
-                        dbCom.Parameters.AddWithValue("@WatershedName", cboWatershed.Text);
-                        if (dbCom.ExecuteNonQuery() == 1)
-                        {
-                            dbCom = new OleDbCommand("SELECT @@Identity FROM CHaMP_Watersheds", dbCon, dbTrans);
-                            nWatershedID = (int)dbCom.ExecuteScalar();
-                        }
+                        // Watershed ID is not auto-increment.
+                        OleDbCommand dbCom = new OleDbCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
+                        object objWSID = dbCom.ExecuteScalar();
+                        if (objWSID is Int32)
+                            nWatershedID = Math.Max(nWatershedID + 1, 9000);
                         else
+                            throw new Exception("Failed to retrieve highest watershed ID from database.");
+
+                        dbCom = new OleDbCommand("INSERT INTO CHaMP_Watersheds (WatershedID, WatershedName) VALUES (@WatershedID, @WatershedName)", dbCon, dbTrans);
+                        dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
+                        dbCom.Parameters.AddWithValue("@WatershedName", cboWatershed.Text);
+                        if (dbCom.ExecuteNonQuery() != 1)
                             throw new Exception("Failed to create new watershed");
                     }
 
@@ -187,19 +191,22 @@ namespace CHaMPWorkbench.Data
                         nSiteID = ((ListItem)cboSite.SelectedItem).Value;
                     else
                     {
-                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO CHaMP_Sites (SiteName, WatershedID) VALUES (@SiteName, @WatershedID)", dbCon, dbTrans);
+                        OleDbCommand dbCom = new OleDbCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
+                        object objSID = dbCom.ExecuteScalar();
+                        if (objSID is Int32)
+                            nSiteID = Math.Max(nSiteID + 1, 9000);
+                        else
+                            throw new Exception("Failed to retrieve highest Site ID from database.");
+
+                        dbCom = new OleDbCommand("INSERT INTO CHaMP_Sites (SiteID, SiteName, WatershedID) VALUES (@SiteID, @SiteName, @WatershedID)", dbCon, dbTrans);
+                        dbCom.Parameters.AddWithValue("@SiteID", nSiteID);
                         dbCom.Parameters.AddWithValue("@SiteName", cboSite.Text);
                         dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
-                        if (dbCom.ExecuteNonQuery() == 1)
-                        {
-                            dbCom = new OleDbCommand("SELECT @@Identity FROM CHaMP_Sites", dbCon, dbTrans);
-                            nSiteID = (int)dbCom.ExecuteScalar();
-                        }
-                        else
+                        if (dbCom.ExecuteNonQuery() != 1)
                             throw new Exception("Failed to create new site");
                     }
 
-                    OleDbCommand comVisit = new OleDbCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization)", dbCon, dbTrans);
+                    OleDbCommand comVisit = new OleDbCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks)", dbCon, dbTrans);
                     comVisit.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                     comVisit.Parameters.AddWithValue("@SiteID", nSiteID);
                     comVisit.Parameters.AddWithValue("@VisitYear", (int)valFieldSeason.Value);
@@ -209,6 +216,12 @@ namespace CHaMPWorkbench.Data
                         pOrganization.Value = DBNull.Value;
                     else
                         pOrganization.Value = txtOrganization.Text;
+
+                    OleDbParameter pRemarks = comVisit.Parameters.Add("@Remarks", OleDbType.VarChar);
+                    if (string.IsNullOrEmpty(txtNotes.Text))
+                        pRemarks.Value = DBNull.Value;
+                    else
+                        pRemarks.Value = txtNotes.Text;
 
                     if (comVisit.ExecuteNonQuery() != 1)
                         throw new Exception("Failed to insert custom visit.");
@@ -257,6 +270,7 @@ namespace CHaMPWorkbench.Data
                 catch (Exception ex)
                 {
                     dbTrans.Rollback();
+                    this.DialogResult = System.Windows.Forms.DialogResult.None;
                     Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
