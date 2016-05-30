@@ -117,7 +117,7 @@ namespace CHaMPWorkbench.Data
             pChartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
             pChartArea.AxisY.MajorTickMark.LineColor = Color.Black;
             pChartArea.AxisY.MinorTickMark.Enabled = true;
-          
+
             //enable scroll and zoom
             pChartArea.CursorX.IsUserEnabled = true;
             pChartArea.CursorX.IsUserSelectionEnabled = true;
@@ -209,9 +209,9 @@ namespace CHaMPWorkbench.Data
                 get
                 {
                     if (HasDateTime)
-                        return string.Format("Version {0} on {1} status {2}", ModelVersion, RunDateTime, ScavengeType);
+                        return string.Format("Version {0} on {1} status {2} ({3})", ModelVersion, RunDateTime, ScavengeType, ID);
                     else
-                        return string.Format("Version {0} status {1}", ModelVersion, ScavengeType);
+                        return string.Format("Version {0} status {1} ({2})", ModelVersion, ScavengeType, ID);
                 }
             }
 
