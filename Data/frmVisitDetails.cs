@@ -213,7 +213,7 @@ namespace CHaMPWorkbench.Data
 
                 // So far the column headings are just the result IDs.
                 // Now replace them with nice formatting
-                OleDbCommand comResults = new OleDbCommand("SELECT Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
+                OleDbCommand comResults = new OleDbCommand("SELECT Metric_Results.ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
                     " FROM LookupListItems INNER JOIN Metric_Results ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
                     " WHERE (Metric_Results.ResultID = @VisitID)", dbCon);
                 OleDbParameter pResultID = comResults.Parameters.Add("@ResultID", OleDbType.Integer);
@@ -227,7 +227,7 @@ namespace CHaMPWorkbench.Data
                         OleDbDataReader dbRead = comResults.ExecuteReader();
                         if (dbRead.Read())
                         {
-                            aCol.ColumnName = string.Format("{0} on {1:dd MMM yy}", dbRead["ModelVersion"], dbRead["RunDateTime"]);
+                            aCol.ColumnName = string.Format("{0} on {1:dd MMM yyy} ({2})", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["ResultID"]);
                         }
                         dbRead.Close();
                     }
