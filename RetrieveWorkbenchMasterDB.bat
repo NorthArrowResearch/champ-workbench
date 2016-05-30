@@ -1,6 +1,6 @@
 @echo off
 
-SET VERSION=27
+SET VERSION=28
 
 rem ***********************************************************************
 rem In order for this to work you must have installed and configured

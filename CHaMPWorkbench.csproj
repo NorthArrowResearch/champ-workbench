@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://releases.northarrowresearch.com/CHaMPWorkbench/</InstallUrl>
-    <ApplicationRevision>69</ApplicationRevision>
+    <ApplicationRevision>70</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -75,10 +75,11 @@
     </Reference>
     <Reference Include="Esri.FileGDBAPI, Version=1.4.0.183, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_Redistributables\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
+      <HintPath>..\CHaMPWorkbenchLibs\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\_Redistributables\DotNetZip\Ionic.Zip.dll</HintPath>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CHaMPWorkbenchLibs\DotNetZip\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -540,10 +541,12 @@
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </None>
     <None Include="Resources\NewDatabase.png" />
-    <Content Include="FileGDBAPI.dll">
+    <Content Include="..\CHaMPWorkbenchLibs\FileGDBAPI\FileGDBAPI.dll">
+      <Link>FileGDBAPI.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FileGDBAPID.dll">
+    <Content Include="..\CHaMPWorkbenchLibs\FileGDBAPI\FileGDBAPID.dll">
+      <Link>FileGDBAPID.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WorkbenchMaster.zip">
