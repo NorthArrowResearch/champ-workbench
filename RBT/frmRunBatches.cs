@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.RBT
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon, CHaMPWorkbench.Properties.Settings.Default.RBTConsole, eWindow);
+            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon,txtRBTConsole.Text, eWindow);
             rbt.Run(chkScavengeResults.Checked, chkScavengeLog.Checked);
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
