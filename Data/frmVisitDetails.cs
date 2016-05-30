@@ -47,7 +47,7 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-                LoadVisitHeader();
+                LoadVisitHeaderAndNotes();
                 LoadChannelUnits();
                 LoadVisitDetails();
                 LoadMetricResults();
@@ -60,7 +60,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private void LoadVisitHeader()
+        private void LoadVisitHeaderAndNotes()
         {
             txtVisitID.Text = VisitID.ToString();
 
@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT W.WatershedName, V.VisitYear, V.Organization, V.PanelName, S.SiteName" +
+                OleDbCommand dbCom = new OleDbCommand("SELECT W.WatershedName, V.VisitYear, V.Organization, V.PanelName, S.SiteName, V.Remarks" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (V.VisitID = @VisitID)", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", VisitID);
@@ -80,6 +80,7 @@ namespace CHaMPWorkbench.Data
                     txtSite.Text = GetSafeString(ref dbRead, "SiteName");
                     txtPanel.Text = GetSafeString(ref dbRead, "PanelName");
                     txtOrganization.Text = GetSafeString(ref dbRead, "Organization");
+                    txtNotes.Text = GetSafeString(ref dbRead, "Remarks");
                 }
             }
         }

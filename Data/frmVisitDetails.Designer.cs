@@ -60,6 +60,8 @@
             this.cboLogMessageTypes = new System.Windows.Forms.ComboBox();
             this.cboLogResults = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.txtNotes = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).BeginInit();
@@ -70,6 +72,7 @@
             this.tabPage5.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).BeginInit();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdClose
@@ -195,6 +198,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(12, 77);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -382,6 +386,28 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Model result";
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.txtNotes);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(684, 321);
+            this.tabPage6.TabIndex = 6;
+            this.tabPage6.Text = "Notes";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.BackColor = System.Drawing.Color.White;
+            this.txtNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtNotes.Location = new System.Drawing.Point(3, 3);
+            this.txtNotes.Multiline = true;
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.ReadOnly = true;
+            this.txtNotes.Size = new System.Drawing.Size(678, 315);
+            this.txtNotes.TabIndex = 0;
+            // 
             // frmVisitDetails
             // 
             this.AcceptButton = this.cmdClose;
@@ -419,6 +445,8 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -458,5 +486,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTyp;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSeverity;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMessage;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TextBox txtNotes;
     }
 }
