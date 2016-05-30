@@ -227,12 +227,6 @@
     <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Experimental\Philip\frmBridgeBatchRuns.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Experimental\Philip\frmBridgeBatchRuns.Designer.cs">
-      <DependentUpon>frmBridgeBatchRuns.cs</DependentUpon>
-    </Compile>
     <Compile Include="Experimental\Philip\frmTestXPath.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -433,9 +427,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmHydroModelInputs.resx">
       <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Experimental\Philip\frmBridgeBatchRuns.resx">
-      <DependentUpon>frmBridgeBatchRuns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmTestXPath.resx">
       <DependentUpon>frmTestXPath.cs</DependentUpon>

@@ -52,6 +52,7 @@
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +97,6 @@
             this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,7 +159,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -334,6 +333,13 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(426, 6);
+            // 
+            // createCustomVisitToolStripMenuItem
+            // 
+            this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
+            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
+            this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
             // 
             // prepareDatabaseForDeploymentToolStripMenuItem
             // 
@@ -672,7 +678,6 @@
             // 
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testXPathReferencesToolStripMenuItem,
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem,
             this.exportAWSLookupToolStripMenuItem,
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
@@ -685,14 +690,6 @@
             this.testXPathReferencesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.testXPathReferencesToolStripMenuItem.Text = "Test XPath References";
             this.testXPathReferencesToolStripMenuItem.Click += new System.EventHandler(this.testXPathReferencesToolStripMenuItem_Click);
-            // 
-            // queueBridgeCreekBatchesRBTRunsToolStripMenuItem
-            // 
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Enabled = false;
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Name = "queueBridgeCreekBatchesRBTRunsToolStripMenuItem";
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Text = "Queue Bridge Creek Batches RBT Runs";
-            this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem.Click += new System.EventHandler(this.queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click);
             // 
             // exportAWSLookupToolStripMenuItem
             // 
@@ -1281,13 +1278,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // createCustomVisitToolStripMenuItem
-            // 
-            this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
-            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
-            this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
-            this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1369,7 +1359,6 @@
         private System.Windows.Forms.ToolStripMenuItem testXPathReferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem delft3DToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToRasterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem queueBridgeCreekBatchesRBTRunsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extractRBTErrorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem habitatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateBatchHabitatProjectToolStripMenuItem;

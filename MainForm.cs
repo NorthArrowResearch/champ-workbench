@@ -497,19 +497,6 @@ namespace CHaMPWorkbench
             }
         }
 
-        private void queueBridgeCreekBatchesRBTRunsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Experimental.Philip.frmBridgeBatchRuns frm = new Experimental.Philip.frmBridgeBatchRuns(m_dbCon);
-                frm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
-            }
-        }
-
         private void extractRBTErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
