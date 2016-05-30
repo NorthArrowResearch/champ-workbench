@@ -56,7 +56,7 @@
             this.cmdClose.Location = new System.Drawing.Point(399, 209);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
-            this.cmdClose.TabIndex = 0;
+            this.cmdClose.TabIndex = 13;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
@@ -67,7 +67,7 @@
             this.cmdBrowseProject.Location = new System.Drawing.Point(399, 45);
             this.cmdBrowseProject.Name = "cmdBrowseProject";
             this.cmdBrowseProject.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseProject.TabIndex = 2;
+            this.cmdBrowseProject.TabIndex = 5;
             this.cmdBrowseProject.Text = "Browse";
             this.cmdBrowseProject.UseVisualStyleBackColor = true;
             this.cmdBrowseProject.Click += new System.EventHandler(this.cmdBrowseProject_Click);
@@ -123,7 +123,7 @@
             this.cmdBrowseCSV.Location = new System.Drawing.Point(380, 6);
             this.cmdBrowseCSV.Name = "cmdBrowseCSV";
             this.cmdBrowseCSV.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseCSV.TabIndex = 6;
+            this.cmdBrowseCSV.TabIndex = 9;
             this.cmdBrowseCSV.Text = "Browse";
             this.cmdBrowseCSV.UseVisualStyleBackColor = true;
             this.cmdBrowseCSV.Click += new System.EventHandler(this.cmdBrowseCSV_Click);
@@ -134,7 +134,7 @@
             this.cmdHelp.Location = new System.Drawing.Point(12, 209);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
-            this.cmdHelp.TabIndex = 9;
+            this.cmdHelp.TabIndex = 12;
             this.cmdHelp.Text = "Help";
             this.cmdHelp.UseVisualStyleBackColor = true;
             this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
@@ -146,7 +146,7 @@
             this.rdoDB.Location = new System.Drawing.Point(13, 19);
             this.rdoDB.Name = "rdoDB";
             this.rdoDB.Size = new System.Drawing.Size(114, 17);
-            this.rdoDB.TabIndex = 10;
+            this.rdoDB.TabIndex = 6;
             this.rdoDB.TabStop = true;
             this.rdoDB.Text = "Worbench ACCDB";
             this.rdoDB.UseVisualStyleBackColor = true;
@@ -159,7 +159,7 @@
             this.groupBox1.Location = new System.Drawing.Point(16, 80);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(459, 42);
-            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabIndex = 45;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Destination";
             // 
@@ -169,7 +169,7 @@
             this.rdoCSV.Location = new System.Drawing.Point(140, 19);
             this.rdoCSV.Name = "rdoCSV";
             this.rdoCSV.Size = new System.Drawing.Size(65, 17);
-            this.rdoCSV.TabIndex = 11;
+            this.rdoCSV.TabIndex = 7;
             this.rdoCSV.Text = "CSV File";
             this.rdoCSV.UseVisualStyleBackColor = true;
             this.rdoCSV.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
@@ -182,7 +182,7 @@
             this.panelCSV.Location = new System.Drawing.Point(16, 126);
             this.panelCSV.Name = "panelCSV";
             this.panelCSV.Size = new System.Drawing.Size(458, 38);
-            this.panelCSV.TabIndex = 12;
+            this.panelCSV.TabIndex = 46;
             // 
             // cmdStop
             // 
@@ -190,7 +190,7 @@
             this.cmdStop.Location = new System.Drawing.Point(398, 181);
             this.cmdStop.Name = "cmdStop";
             this.cmdStop.Size = new System.Drawing.Size(75, 23);
-            this.cmdStop.TabIndex = 19;
+            this.cmdStop.TabIndex = 11;
             this.cmdStop.Text = "Stop";
             this.cmdStop.UseVisualStyleBackColor = true;
             this.cmdStop.Click += new System.EventHandler(this.cmdStop_Click);
@@ -201,7 +201,7 @@
             this.cmdRun.Location = new System.Drawing.Point(318, 181);
             this.cmdRun.Name = "cmdRun";
             this.cmdRun.Size = new System.Drawing.Size(75, 23);
-            this.cmdRun.TabIndex = 18;
+            this.cmdRun.TabIndex = 10;
             this.cmdRun.Text = "Run";
             this.cmdRun.UseVisualStyleBackColor = true;
             this.cmdRun.Click += new System.EventHandler(this.cmdRun_Click);
