@@ -28,7 +28,7 @@ namespace CHaMPWorkbench.Habitat
                 txtHabitatModelFolder.Text = CHaMPWorkbench.Properties.Settings.Default.Habitat_Project_Root;
             else
             {
-                txtHabitatModelFolder.Text = "C:\\";
+                txtHabitatModelFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             }
 
             if (rdoDB.Checked)

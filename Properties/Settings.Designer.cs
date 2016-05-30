@@ -444,12 +444,15 @@ namespace CHaMPWorkbench.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public int LookupList_Model {
+        public string LookupList_CHaMPModel {
             get {
-                return ((int)(this["LookupList_Model"]));
+                return ((string)(this["LookupList_CHaMPModel"]));
+            }
+            set {
+                this["LookupList_CHaMPModel"] = value;
             }
         }
     }

@@ -98,36 +98,72 @@ namespace CHaMPWorkbench.Habitat
         private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults,
             int nResultID)
         {
-
+            int nSpeciesLifestage = -1;
+            int nModelType = -1;
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
                 return 0;
 
             XmlNode nodSimulation = xmlResults.SelectSingleNode("//log//simulations//simulation");
-            XmlNode nodSpecies = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='species']");
-            XmlNode nodLifestage = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='lifestage']");
-            XmlNode nodFlow = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='flow']");
-            string sSpeciesLifestage = string.Empty;
-            string sType = string.Empty;
-            string sFlow = string.Empty;
 
+            // Get the type from the lookup table
+            string sType = string.Empty;
             if (nodSimulation is XmlNode && !string.IsNullOrEmpty(nodSimulation.Attributes["type"].Value))
             {
                 sType = nodSimulation.Attributes["type"].Value;
-                // Gotta go lookup the species / lifestage
-                OleDbCommand dbSpeciesLifestage = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+                // Gotta go lookup the CHamP Model Type
+                OleDbCommand dbTypeCom = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+                dbTypeCom.Parameters.AddWithValue("@LISTID", CHaMPWorkbench.Properties.Settings.Default.LookupList_CHaMPModel); // 'CHaMP Models' is lookup list 4
+                dbTypeCom.Parameters.AddWithValue("@TITLE", sType);
+                OleDbDataReader dbRead = dbTypeCom.ExecuteReader();
+                int counter = 0;
+                while (dbRead.Read())
+                {
+                    nModelType = dbRead.GetInt32(dbRead.GetOrdinal("ItemID"));
+                    counter++;
+                }
+                if (counter != 1)
+                    throw new Exception(String.Format("Could not find habitat model type: {0}", sType));
             }
-
-            // Could not determine lifestage or species
-            if (nodSpecies is XmlNode && !string.IsNullOrEmpty(nodSpecies.InnerText) &&
-                nodLifestage is XmlNode && !string.IsNullOrEmpty(nodLifestage.InnerText))
+            else
             {
-                sSpeciesLifestage = string.Format("{0} {1}", nodSpecies.InnerText, nodLifestage.InnerText);
+                throw new Exception("Simulation in XML file is missing \"type\" attribute");
+            }
+
+            // Try to determine the species and lifestage from the XML file.
+            XmlNode nodSpecies = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='species']");
+            XmlNode nodLifestage = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='lifestage']");
+            if (!(nodSpecies is XmlNode) || string.IsNullOrEmpty(nodSpecies.InnerText))
+            {
+                throw new Exception("Could not determine species from XML file.");
+            }
+            else if (!(nodLifestage is XmlNode) || string.IsNullOrEmpty(nodLifestage.InnerText))
+            {
+                throw new Exception("Could not determine lifestage from XML file.");
+            }
+            else
+            {
+                string sSpeciesLifestage = string.Format("{0} {1}", nodSpecies.InnerText, nodLifestage.InnerText);
 
                 // Gotta go lookup the species / lifestage
                 OleDbCommand dbSpeciesLifestage = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+                dbSpeciesLifestage.Parameters.AddWithValue("@LISTID", CHaMPWorkbench.Properties.Settings.Default.LookupList_SpeciesLifestage);  // 'Species and Lifestage' is lookup list 10
+                dbSpeciesLifestage.Parameters.AddWithValue("@TITLE", sSpeciesLifestage);
+                OleDbDataReader dbRead = dbSpeciesLifestage.ExecuteReader();
+                int counter = 0;
+                while (dbRead.Read())
+                {
+                    nSpeciesLifestage = dbRead.GetInt32(dbRead.GetOrdinal("ItemID"));
+                    counter++;
+                }
+                if (counter != 1)
+                    throw new Exception(String.Format("Could not identify species lifestage based on the XML species: \"{0}\" and lifestage: \"{1}\"", nodSpecies.InnerText, nodLifestage.InnerText));
+        
             }
-            // Could not determine flow type
+
+            // Determine the flow type from the XML
+            XmlNode nodFlow = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='flow']");
+            string sFlow = "";
             if (nodFlow is XmlNode && !string.IsNullOrEmpty(nodFlow.InnerText))
             {
                 sFlow = nodFlow.InnerText;
@@ -144,13 +180,10 @@ namespace CHaMPWorkbench.Habitat
             OleDbParameter pMetricID = dbCom.Parameters.AddWithValue("@MetricID", OleDbType.Integer);
             OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
 
-
-
-            // TODO: LOOKUPS NECESSARY HERE
             pResultID.Value = nResultID;
-            pModelID.Value = m_nVisitMetricTypeID;
-            pSpeciesLifeStageID.Value = 1;
-            pFlowType.Value = 1;
+            pModelID.Value = nModelType;
+            pSpeciesLifeStageID.Value = nSpeciesLifestage;
+            pFlowType.Value = sFlow;
 
             int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
