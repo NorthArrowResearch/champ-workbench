@@ -163,7 +163,7 @@ namespace CHaMPWorkbench.Habitat
 
             // Determine the flow type from the XML
             XmlNode nodFlow = xmlResults.SelectSingleNode("//log//simulations//simulation//sim_meta//meta[@key='flow']");
-            string sFlow = "";
+            string sFlow = CHaMPWorkbench.Properties.Settings.Default.DefaultFlow;
             if (nodFlow is XmlNode && !string.IsNullOrEmpty(nodFlow.InnerText))
             {
                 sFlow = nodFlow.InnerText;
@@ -175,9 +175,8 @@ namespace CHaMPWorkbench.Habitat
             OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", OleDbType.Integer);
             OleDbParameter pModelID = dbCom.Parameters.AddWithValue("@ModelID", OleDbType.Integer);
             OleDbParameter pSpeciesLifeStageID = dbCom.Parameters.AddWithValue("@SpeciesLifeStageID", OleDbType.Integer);
-            OleDbParameter pFlowType = dbCom.Parameters.AddWithValue("@FlowType", OleDbType.WChar);
-
             OleDbParameter pMetricID = dbCom.Parameters.AddWithValue("@MetricID", OleDbType.Integer);
+            OleDbParameter pFlowType = dbCom.Parameters.AddWithValue("@FlowType", OleDbType.WChar);
             OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
 
             pResultID.Value = nResultID;

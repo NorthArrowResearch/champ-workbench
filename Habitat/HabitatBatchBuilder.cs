@@ -112,8 +112,9 @@ namespace CHaMPWorkbench.Habitat
                     AddSimulationMetaData(ref rSimulation, "watershed", rVisit.CHAMP_SitesRow.CHAMP_WatershedsRow.WatershedName);
                     AddSimulationMetaData(ref rSimulation, "year", rVisit.VisitYear.ToString());
 
-                    // TODO: Flow is a placeholder for now. Will need a real value eventually.
-                    AddSimulationMetaData(ref rSimulation, "flow", "");
+                    // TODO: DefaultFlow is a placeholder for now. Will need a real value eventually and this value will likely
+                    // come from the CSV directory.
+                    AddSimulationMetaData(ref rSimulation, "flow", CHaMPWorkbench.Properties.Settings.Default.DefaultFlow);
 
                     // Trigger retrieval of SimulationID;
                     //m_taSimulations.Update(rSimulation);

@@ -343,6 +343,8 @@ namespace CHaMPWorkbench.Habitat
                 MessageBox.Show("Completed sucessfully", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
+            prgBar.Value = 100;
+
             // Disable the Cancel button.
             cmdRun.Enabled = true;
             cmdStop.Enabled = false;

@@ -455,5 +455,17 @@ namespace CHaMPWorkbench.Properties {
                 this["LookupList_CHaMPModel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Surveyed Flow")]
+        public string DefaultFlow {
+            get {
+                return ((string)(this["DefaultFlow"]));
+            }
+            set {
+                this["DefaultFlow"] = value;
+            }
+        }
     }
 }

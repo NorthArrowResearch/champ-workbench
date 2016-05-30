@@ -124,5 +124,8 @@
     <Setting Name="LookupList_CHaMPModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
+    <Setting Name="DefaultFlow" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Surveyed Flow</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
