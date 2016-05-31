@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.Habitat
                     else
                     {
                         sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
-                        sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
+                        sModelShortName = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
                         rSimulation.FISID = theModelDef.Value;
                     }
 
