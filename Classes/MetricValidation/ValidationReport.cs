@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// <param name="lVisits">List of visits to include in the report</param>
         /// <returns>Creates an XML file containing all the metric data for the specified
         /// visits and then uses an XSL transform to convert this file to a HTML report.</returns>
-        public ValidationReportResults Run(List<ListItem> lVisits)
+        public ValidationReportResults Run(List<ListItem> lVisits, List<ListItem> lRBTVersions)
         {
             // This return variable really just counts metrics and visits included in the report.
             ValidationReportResults theResult = new ValidationReportResults();
@@ -80,8 +80,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 System.Diagnostics.Debug.Print(string.Format("Metric {0} {1}", aMetric.MetricID, aMetric.Title));
 
-                aMetric.LoadResults(DBCon, ref dVisits, true);
-                aMetric.LoadResults(DBCon, ref dVisits, false);
+                aMetric.LoadResults(DBCon, ref dVisits, ref lRBTVersions, true);
+                aMetric.LoadResults(DBCon, ref dVisits, ref lRBTVersions, false);
 
                 aMetric.Serialize(ref xmlDoc, ref nodMetrics);
 

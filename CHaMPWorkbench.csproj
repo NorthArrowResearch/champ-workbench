@@ -106,6 +106,7 @@
     <Compile Include="Classes\AccessIDHelper.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
     <Compile Include="Classes\CHaMPMetricScavenger.cs" />
+    <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
     <Compile Include="Classes\CSVGenerators\CSVGeneratorBase.cs" />
     <Compile Include="Classes\MetricValidation\Metric.cs" />
     <Compile Include="Classes\MetricValidation\MetricValueBase.cs" />
@@ -373,18 +374,17 @@
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.cs">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Validation\frmModelValidation.cs">
+    <Compile Include="Validation\frmSelectHelper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Validation\frmModelValidation.Designer.cs">
-      <DependentUpon>frmModelValidation.cs</DependentUpon>
+    <Compile Include="Validation\frmSelectHelper.Designer.cs">
+      <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Classes\ExceptionHandling\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
@@ -502,8 +502,8 @@
     <EmbeddedResource Include="RBT\InputFiles\RBTConfiguration.resx">
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Validation\frmModelValidation.resx">
-      <DependentUpon>frmModelValidation.cs</DependentUpon>
+    <EmbeddedResource Include="Validation\frmSelectHelper.resx">
+      <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_1_TemporaryKey.pfx" />

@@ -581,7 +581,6 @@
             this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
             this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
-            this.modelValidationReportsToolStripMenuItem.Click += new System.EventHandler(this.modelValidationReportsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

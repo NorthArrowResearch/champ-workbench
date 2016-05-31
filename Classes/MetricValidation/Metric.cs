@@ -49,7 +49,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             Visits = new Dictionary<int, VisitResults>();
         }
 
-        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, bool bManualMetricValues)
+        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, ref List<ListItem> lRBTVersions, bool bManualMetricValues)
         {
             using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
             {
@@ -65,21 +65,28 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        if (!Visits.ContainsKey(aVisit.VisitID))
-                        {
-                            VisitResults aResult = new VisitResults(aVisit);
-                            Visits.Add(aVisit.VisitID, aResult);
-                        }
+                        string sRBTVersion = dbRead.GetString(dbRead.GetOrdinal("ModelVersion"));
 
-                        if (bManualMetricValues)
+                        // If This version isn't in the list then skip it
+                        if (lRBTVersions.Find(x => x.Text.Equals(sRBTVersion)) != null)
                         {
-                            Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
-                        }
-                        else
-                        {
-                            string sModelVersion = GetFormattedRBTVersion(dbRead.GetString(dbRead.GetOrdinal("ModelVersion")));
-                            float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
-                            Visits[aVisit.VisitID].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
+                            if (!Visits.ContainsKey(aVisit.VisitID))
+                            {
+                                VisitResults aResult = new VisitResults(aVisit);
+                                Visits.Add(aVisit.VisitID, aResult);
+                            }
+
+
+                            if (bManualMetricValues)
+                            {
+                                Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
+                            }
+                            else
+                            {
+                                string sModelVersion = GetFormattedRBTVersion(sRBTVersion);
+                                float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
+                                Visits[aVisit.VisitID].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
+                            }
                         }
                     }
                     dbRead.Close();
@@ -87,7 +94,12 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             }
         }
 
-        private string GetFormattedRBTVersion(string sRawRBTVersion)
+        /// <summary>
+        /// Make the RBT version pretty
+        /// </summary>
+        /// <param name="sRawRBTVersion"></param>
+        /// <returns></returns>
+        public static string GetFormattedRBTVersion(string sRawRBTVersion)
         {
             string[] sVersionParts = sRawRBTVersion.Split('.');
             List<string> lVersionParts = new List<string>();

@@ -10,6 +10,7 @@ using CHaMPWorkbench.RBTInputFile;
 using System.Deployment.Application;
 using System.Data.OleDb;
 using System.IO;
+using System.Xml;
 
 namespace CHaMPWorkbench
 {
@@ -66,10 +67,7 @@ namespace CHaMPWorkbench
                 else if (dialogResult == DialogResult.No)
                 {
                     m_dbCon = null;
-
                     string sNewDBPath = CreateNewWorkbenchDB();
-
-
                     return;
                 }
             }
@@ -95,6 +93,18 @@ namespace CHaMPWorkbench
 
             }
             return sPath;
+        }
+
+        private string ReportFolder
+        {
+            get
+            {
+                string sReportFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                sReportFolder = System.IO.Path.Combine(sReportFolder, "Validation");
+                sReportFolder = System.IO.Path.Combine(sReportFolder, "ReportTransforms");
+                System.Diagnostics.Debug.Assert(System.IO.Directory.Exists(sReportFolder), "The XSL Validation Report Folder does not exist.");
+                return sReportFolder;
+            }
         }
 
         private void UpdateMenuItemStatus(ToolStripItemCollection aMenu)
@@ -348,6 +358,7 @@ namespace CHaMPWorkbench
         {
             try
             {
+                AddXSLReportsToMenu();
                 UpdateMenuItemStatus(menuStrip1.Items);
             }
             catch (Exception ex)
@@ -358,6 +369,49 @@ namespace CHaMPWorkbench
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstSite.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+        }
+
+        private void AddXSLReportsToMenu()
+        {
+            // Now add dynimic reports into the mix
+            foreach (string sReportXSLPath in System.IO.Directory.GetFiles(ReportFolder, "*.xsl", System.IO.SearchOption.TopDirectoryOnly))
+            {
+                XmlDocument xslDoc = new XmlDocument();
+                xslDoc.Load(sReportXSLPath);
+
+                XmlNamespaceManager nsMgr = new XmlNamespaceManager(xslDoc.NameTable);
+                nsMgr.AddNamespace("xsl", "http://www.w3.org/1999/XSL/Transform");
+
+                XmlNode nodTitle = xslDoc.SelectSingleNode(@"/xsl:stylesheet/xsl:template[@match='report']/html/head/title", nsMgr);
+
+                if (nodTitle is XmlNode && !string.IsNullOrEmpty(nodTitle.InnerText))
+                {
+                    ToolStripMenuItem addReport = new ToolStripMenuItem(nodTitle.InnerText);
+                    CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem reportTag = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem(nodTitle.InnerText, sReportXSLPath);
+                    addReport.Tag = reportTag;
+                    addReport.Click += (sender, e) =>
+                    {
+                        ToolStripMenuItem reportMenu = (ToolStripMenuItem)sender;
+                        CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem reportClickTag = (CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem)reportMenu.Tag;
+                        List<ListItem> visits = GetSelectedVisitsList();
+                        CHaMPWorkbench.Classes.MetricValidation.ReportGenerator reportGenerator = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator(m_dbCon, reportClickTag, visits);
+                        try
+                        {
+                            reportGenerator.GenerateXML();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //Classes.ExceptionHandling.NARException.HandleException(ex);
+                        }
+                    };
+                    modelValidationReportsToolStripMenuItem.DropDownItems.Add(addReport);
+                }
+                else
+                {
+                    //lstReports.Items.Add(new ReportItem(System.IO.Path.GetFileNameWithoutExtension(sReportXSLPath), sReportXSLPath));
+                }
+            }
         }
 
         private void scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -981,6 +1035,21 @@ namespace CHaMPWorkbench
             return dVisits;
         }
 
+        private List<ListItem> GetSelectedVisitsList()
+        {
+            List<ListItem>lVisits = new List<ListItem>();
+            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+            {
+                DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                DataRow r = drv.Row;
+                string sLabel = string.Format("{0}, {1}, {2}, Visit {3}", r["WatershedName"], r["VisitYear"], r["SiteName"], r["VisitID"]);
+                lVisits.Add(new ListItem(sLabel, (int)r["VisitID"]));
+            }
+
+            return lVisits;
+        }
+
+
         private void buildInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dictionary<int, string> dVisits = GetSelectedVisits();
@@ -1170,22 +1239,6 @@ namespace CHaMPWorkbench
                     }
                 }
             }
-        }
-
-        private void modelValidationReportsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<ListItem> lVisits = new List<ListItem>();
-
-            foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
-            {
-                DataRowView drv = (DataRowView)aRow.DataBoundItem;
-                DataRow r = drv.Row;
-
-                lVisits.Add(new ListItem(string.Format("{0} - {1} - Visit ID {2}", (string)r["WatershedName"], (string)r["SiteName"], (int)r["VisitID"]), (int)r["VisitID"]));
-            }
-
-            Validation.frmModelValidation frm = new Validation.frmModelValidation(m_dbCon.ConnectionString, ref lVisits);
-            frm.ShowDialog();
         }
 
         private void selectBatchesToRunToolStripMenuItem1_Click(object sender, EventArgs e)
