@@ -75,24 +75,27 @@ namespace CHaMPWorkbench.Habitat
 
                     // Create the one simulation for this visit
                     dsHabitat.SimulationsRow rSimulation = m_HabitatManager.ProjectDatabase.Simulations.NewSimulationsRow();
-                    string sModelTitle;
-                    string sModelShortName;
+                    string sModelTitle = string.Empty;
+                    string sModelShortName = string.Empty;
+                    string sModelTypePrefix = string.Empty;
 
                     if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
                     {
                         sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
                         sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
+                        sModelTypePrefix = "HSI";
                         rSimulation.HSIID = theModelDef.Value;
                     }
-                    else
+                    else if (theModelDef.ModelType == HabitatModelDef.ModelTypes.FIS)
                     {
                         sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
                         sModelShortName = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
+                        sModelTypePrefix = "FIS";
                         rSimulation.FISID = theModelDef.Value;
                     }
 
-                    rSimulation.Title = GetSimulationName(rVisit, sModelTitle);
-                    rSimulation.ShortName = GetSimulationName(rVisit, sModelShortName);
+                    rSimulation.Title = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelTitle));
+                    rSimulation.ShortName = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelShortName));
                     rSimulation.CreatedBy = Environment.UserName;
                     rSimulation.CreatedOn = DateTime.Now;
                     rSimulation.RunOn = new DateTime(1970, 1, 1);
