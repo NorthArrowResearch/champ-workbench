@@ -36,8 +36,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                     // Create a second list with pretty, formatted RBT Text;
                     List<ListItem> lRBTFormatted = m_lRBTVersions.Select(x => new ListItem(Classes.MetricValidation.Metric.GetFormattedRBTVersion(x.Text), x.Value)).ToList();
-                    Validation.frmSelectHelper frmRBTPicker = new Validation.frmSelectHelper(m_lRBTVersions, "Choose one or more RBT Versions:", true);
-                    frmRBTPicker.ShowDialog();
+                    Validation.frmSelectHelper frmRBTPicker = new Validation.frmSelectHelper(m_lRBTVersions, "RBT Versions", "Choose one or more RBT Versions:", true);
+                    if (frmRBTPicker.ShowDialog() == DialogResult.Cancel)
+                        return;
 
                     // Now make equivalences between our formatted list and the unformatted one. The IDs should match so we just
                     // Have to filter one list using another.
@@ -47,8 +48,10 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     Console.WriteLine("RBT MANUAL");
                     break;
                 case "watershed.xsl":
-                    Validation.frmSelectHelper frmWatershedPicker = new Validation.frmSelectHelper(GetWatersheds(), "Choose a watershed:", false);
-                    frmWatershedPicker.ShowDialog();
+                    Validation.frmSelectHelper frmWatershedPicker = new Validation.frmSelectHelper(GetWatersheds(), "Watersheds", "Choose a watershed:", false);
+                    if (frmWatershedPicker.ShowDialog() == DialogResult.Cancel)
+                        return;
+
                     if (frmWatershedPicker.SelectedItems.Count <= 0)
                         throw new Exception("You must select at least one Watershed");
                     m_lVisits = GetWatershedVisits(frmWatershedPicker.SelectedItem.Value);
@@ -152,9 +155,15 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// Get the unique RBT versions
         /// </summary>
         /// <returns></returns>
+        /// <remarks>PGB 3 Jun 2016 - Altering this SQL query to only return model versions associated with RBT model runs.
+        /// This should now ignore manual validation data results and also cm.org download data that also store values
+        /// in the Metric_Results table. This is being done because this method is used to retrieve RBT versions for which
+        /// results exist in the database. The manual </remarks>
         private List<ListItem> GetRBTVersions()
         {
-            OleDbCommand comFS = new OleDbCommand("SELECT ModelVersion FROM Metric_Results GROUP BY ModelVersion", m_DBCon);
+            //OleDbCommand comFS = new OleDbCommand("SELECT ModelVersion FROM Metric_Results GROUP BY ModelVersion", m_DBCon);
+            OleDbCommand comFS = new OleDbCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", m_DBCon);
+            comFS.Parameters.AddWithValue("@ScavengeTypeIDModelRun", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
             OleDbDataReader dbRead = comFS.ExecuteReader();
             List<ListItem> lRBTVersions = new List<ListItem>();
             int counter = 0;

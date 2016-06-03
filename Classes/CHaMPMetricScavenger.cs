@@ -30,7 +30,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     // Delete all existing scavenged cm.org metrics
                     OleDbCommand sqlDelete = new OleDbCommand("DELETE * FROM Metric_Results WHERE ScavengeTypeID = @ScavengeTypeID", conWorkbench, dbTrans);
-                    sqlDelete.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID);
+                    sqlDelete.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_CMORG);
                     sqlDelete.ExecuteNonQuery();
                 }
 
@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes
                 OleDbCommand sqlInsertResult = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, ScavengeTypeID, VisitID) VALUES (@ResultFile, @ModelVersion, @ScavengeTypeID, @VisitID)", conWorkbench, dbTrans);
                 sqlInsertResult.Parameters.AddWithValue("@ResultFile", sDBFilePath);
                 sqlInsertResult.Parameters.AddWithValue("@ModelVersion", sModelVersion);
-                sqlInsertResult.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID);
+                sqlInsertResult.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_CMORG);
                 OleDbParameter pVisitID = sqlInsertResult.Parameters.Add("@VisitID", OleDbType.Integer);
 
                 // SQL to insert the actual metric values.

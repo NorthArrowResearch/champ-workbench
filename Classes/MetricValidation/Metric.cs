@@ -14,9 +14,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
     /// Workbench database</remarks>
     public class Metric
     {
-        // This is the LookupListID for validation runs of models (e.g. Carol's manual RBT values)
-        private const int m_nValidationScavengeTypeID = 2;
-
         public string Title { get; internal set; }
         public int MetricID { get; internal set; }
         public Nullable<int> CMMetricID { get; internal set; }
@@ -67,22 +64,22 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     {
                         string sRBTVersion = dbRead.GetString(dbRead.GetOrdinal("ModelVersion"));
 
-                        // If This version isn't in the list then skip it
-                        if (lRBTVersions.Find(x => x.Text.Equals(sRBTVersion)) != null)
+                        if (!Visits.ContainsKey(aVisit.VisitID))
                         {
-                            if (!Visits.ContainsKey(aVisit.VisitID))
+                            VisitResults aResult = new VisitResults(aVisit);
+                            Visits.Add(aVisit.VisitID, aResult);
+                        }
+                        
+                        if (bManualMetricValues)
+                        {
+                            Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
+                        }
+                        else
+                        {
+                            // If This version isn't in the list then skip it
+                            if (lRBTVersions.Find(x => x.Text.Equals(sRBTVersion)) != null)
                             {
-                                VisitResults aResult = new VisitResults(aVisit);
-                                Visits.Add(aVisit.VisitID, aResult);
-                            }
 
-
-                            if (bManualMetricValues)
-                            {
-                                Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
-                            }
-                            else
-                            {
                                 string sModelVersion = GetFormattedRBTVersion(sRBTVersion);
                                 float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
                                 Visits[aVisit.VisitID].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
@@ -158,7 +155,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     break;
             }
 
-            sSQL += string.Format(" WHERE (R.VisitID = @VisitID) AND (V.MetricID = {0}) AND (R.ScavengeTypeID {1} {2})", MetricID, (bManualMetricValues) ? "=" : "<>", m_nValidationScavengeTypeID);
+            sSQL += string.Format(" WHERE (R.VisitID = @VisitID) AND (V.MetricID = {0}) AND (R.ScavengeTypeID {1} {2})", MetricID, (bManualMetricValues) ? "=" : "<>", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
             return sSQL;
         }
 

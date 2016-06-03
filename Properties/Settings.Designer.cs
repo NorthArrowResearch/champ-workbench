@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "10.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -407,9 +407,9 @@ namespace CHaMPWorkbench.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10000")]
-        public int ModelScavengeTypeID {
+        public int ModelScavengeTypeID_CMORG {
             get {
-                return ((int)(this["ModelScavengeTypeID"]));
+                return ((int)(this["ModelScavengeTypeID_CMORG"]));
             }
         }
         
@@ -465,6 +465,24 @@ namespace CHaMPWorkbench.Properties {
             }
             set {
                 this["DefaultFlow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ModelScavengetTypeID_RBTRun {
+            get {
+                return ((int)(this["ModelScavengetTypeID_RBTRun"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int ModelScavengeTypeID_Manual {
+            get {
+                return ((int)(this["ModelScavengeTypeID_Manual"]));
             }
         }
     }

@@ -104,7 +104,7 @@
     <Setting Name="WorkbenchMasterFileName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Workbench.mdb</Value>
     </Setting>
-    <Setting Name="ModelScavengeTypeID" Type="System.Int32" Scope="Application">
+    <Setting Name="ModelScavengeTypeID_CMORG" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10000</Value>
     </Setting>
     <Setting Name="RBTWorkbenchConnectionString" Type="(Connection string)" Scope="Application">
@@ -126,6 +126,12 @@
     </Setting>
     <Setting Name="DefaultFlow" Type="System.String" Scope="User">
       <Value Profile="(Default)">Surveyed Flow</Value>
+    </Setting>
+    <Setting Name="ModelScavengetTypeID_RBTRun" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ModelScavengeTypeID_Manual" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>
 </SettingsFile>
