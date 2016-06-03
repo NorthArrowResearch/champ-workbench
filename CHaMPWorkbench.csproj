@@ -374,6 +374,7 @@
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.cs">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
