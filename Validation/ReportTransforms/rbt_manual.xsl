@@ -13,7 +13,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
-        <meta name="version" content="dfca47d738410578e2cfeb290f9a762e62f7847f"/>
+        <meta name="version" content="4d1aa1d26c5a7e870d1c944e3dd3b4896012469e"/>
         <title>RBT Validation Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
@@ -94,7 +94,7 @@
 
                     <td class="manualResult">
                       <xsl:if test="string(number(manual_result)) != 'NaN'">
-                        <xsl:value-of select="format-number(manual_result,'#.##')"/>
+                        <xsl:value-of select="format-number(manual_result,'0.##')"/>
                       </xsl:if>
                     </td>
                     <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
@@ -108,7 +108,7 @@
                         </xsl:attribute>
                         <xsl:if test="$results/result/version/text()=$version">
                           <span class="value">
-                            <xsl:value-of select="format-number($results/result[version=$version]/value,'#.##')"/>
+                            <xsl:value-of select="format-number($results/result[version=$version]/value,'0.##')"/>
                           </span>
                           <span class="tolerance">
                             ±<xsl:value-of select="$tolerance * 100"/>%
