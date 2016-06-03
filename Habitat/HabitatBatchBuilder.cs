@@ -28,13 +28,15 @@ namespace CHaMPWorkbench.Habitat
             m_HabitatManager = new HSProjectManager(sHabitatDBPath);
         }
 
-        public void WipeConfData() {
+        public void WipeConfData()
+        {
             m_HabitatManager.ProjectDatabase.SimulationFISInputs.Clear();
             m_HabitatManager.ProjectDatabase.SimulationHSCInputs.Clear();
             m_HabitatManager.ProjectDatabase.ProjectVariables.Clear();
             m_HabitatManager.ProjectDatabase.ProjectDataSources.Clear();
             m_HabitatManager.ProjectDatabase.SimulationMeta.Clear();
             m_HabitatManager.ProjectDatabase.Simulations.Clear();
+            m_HabitatManager.ProjectDatabase.SimulationLogMessages.Clear();
             m_HabitatManager.ProjectDatabase.AcceptChanges();
             HSProjectManager.Instance.Save();
         }
@@ -94,8 +96,8 @@ namespace CHaMPWorkbench.Habitat
                         rSimulation.FISID = theModelDef.Value;
                     }
 
-                    rSimulation.Title = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelTitle));
-                    rSimulation.ShortName = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelShortName));
+                    rSimulation.Title = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelTitle)).Trim();
+                    rSimulation.ShortName = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(rVisit, sModelShortName)).Trim();
                     rSimulation.CreatedBy = Environment.UserName;
                     rSimulation.CreatedOn = DateTime.Now;
                     rSimulation.RunOn = new DateTime(1970, 1, 1);
@@ -199,6 +201,7 @@ namespace CHaMPWorkbench.Habitat
             foreach (dsHabitat.HSICurvesRow rHSICurveRow in rHSI.GetHSICurvesRows())
             {
                 dsHabitat.VariablesRow rVariable = m_HabitatManager.ProjectDatabase.Variables.FindByVariableID(rHSICurveRow.HSCRow.HSCVariableID);
+
                 dsHabitat.ProjectVariablesRow rProjectVariable = null;
 
                 if (rVariable.VariableName.ToLower().Contains("substrate") || rVariable.VariableName.ToLower().Contains("d50"))
@@ -232,6 +235,8 @@ namespace CHaMPWorkbench.Habitat
                     }
                 }
 
+
+                // This happens regardless of there being duplicates
                 if (rProjectVariable != null)
                 {
                     lProjectVariables.Add(rProjectVariable);
@@ -265,6 +270,9 @@ namespace CHaMPWorkbench.Habitat
             List<dsHabitat.ProjectVariablesRow> lProjectVariables = new List<dsHabitat.ProjectVariablesRow>();
 
             dsHabitat.FISRow rFIS = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(nFISID);
+
+            AddSimulationMetaData(ref rSimulation, "species", m_HabitatManager.ProjectDatabase.LookupListItems.FindByItemID(rFIS.SpeciesID).ItemName);
+            AddSimulationMetaData(ref rSimulation, "lifestage", m_HabitatManager.ProjectDatabase.LookupListItems.FindByItemID(rFIS.LifeStageID).ItemName);
 
             // Loop over all the input curves and create the necessary project data sources and inputs
             dsHabitat.ProjectDataSourcesRow rCSVDataSource = null;
@@ -351,7 +359,7 @@ namespace CHaMPWorkbench.Habitat
             string sSiteName = Paths.RemoveDangerousCharacters(rVisit.CHAMP_SitesRow.SiteName);
             sHSIName = Paths.RemoveDangerousCharacters(sHSIName);
 
-            string sResult = string.Format("{0}_VISIT_{1}_{2}", sSiteName, rVisit.VisitID.ToString(), sHSIName);
+            string sResult = string.Format("{0}_VISIT_{1}_{2}", sSiteName, rVisit.VisitID.ToString(), sHSIName).Trim();
             return sResult;
         }
 
@@ -365,7 +373,7 @@ namespace CHaMPWorkbench.Habitat
         /// <returns>Remember that this is used for both CSV and raster data sources</returns>
         private dsHabitat.ProjectDataSourcesRow BuildAndCopyProjectDataSource(int nVisitID, string sDataSourceName, string sOriginalPath, Boolean bCopySingleFile, string sProjectInputType)
         {
-            sDataSourceName = string.Format(String.Format("{0}_VisitID{1}", sDataSourceName, nVisitID));
+            sDataSourceName = string.Format(String.Format("{0}_VisitID{1}", sDataSourceName, nVisitID)).Trim();
             // check that the project data source does not already exist for this combination of visit ID and data source.
             string sProjectDataSourcePath = Paths.GetSpecificInputFullPath(sDataSourceName, System.IO.Path.GetExtension(sOriginalPath));
             string sRelativeProjectDataSourcePath = Paths.GetRelativePath(sProjectDataSourcePath);
@@ -385,7 +393,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 sFileName = System.IO.Path.GetFileNameWithoutExtension(sProjectDataSourcePath);
                 if (i > 0)
-                    sFileName = string.Format("{0}_{1}", sFileName, i);
+                    sFileName = string.Format("{0}_{1}", sFileName, i).Trim();
 
                 sProjectDataSourcePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sProjectDataSourcePath), sFileName);
                 sProjectDataSourcePath = System.IO.Path.ChangeExtension(sProjectDataSourcePath, System.IO.Path.GetExtension(sOriginalPath));
@@ -455,17 +463,18 @@ namespace CHaMPWorkbench.Habitat
 
         private dsHabitat.ProjectVariablesRow BuildProjectVariable(int nVisitID, string sValueField, string sVariableTitle, int nUnitID, int nVariableID, int nProjectDataSourceID)
         {
-            sVariableTitle = string.Format("VisitID {0} - {1}", nVisitID, sVariableTitle);
+
+            string sFinalVariableTitle = string.Format("VisitID {0} - {1}", nVisitID, sVariableTitle).Trim();
 
             foreach (dsHabitat.ProjectVariablesRow rPV in m_HabitatManager.ProjectDatabase.ProjectVariables.Rows)
             {
-                if (string.Compare(sVariableTitle, rPV.Title, true) == 0)
+                if (string.Compare(sFinalVariableTitle.Trim(), rPV.Title.Trim(), true) == 0)
                     return rPV;
             }
 
             dsHabitat.ProjectVariablesRow rProjectVariable = m_HabitatManager.ProjectDatabase.ProjectVariables.NewProjectVariablesRow();
             rProjectVariable.DataSourceID = nProjectDataSourceID;
-            rProjectVariable.Title = sVariableTitle;
+            rProjectVariable.Title = sFinalVariableTitle;
             rProjectVariable.UnitsID = nUnitID;
             rProjectVariable.VariableID = nVariableID;
 
