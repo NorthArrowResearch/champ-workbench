@@ -383,15 +383,12 @@ namespace CHaMPWorkbench.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("29")]
         public int MinimumDBVersion {
             get {
                 return ((int)(this["MinimumDBVersion"]));
-            }
-            set {
-                this["MinimumDBVersion"] = value;
             }
         }
         
