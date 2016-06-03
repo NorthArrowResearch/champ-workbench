@@ -21,27 +21,18 @@ namespace CHaMPWorkbench.Validation
             get{ return SelectedItems.First(); }
         }
 
-        public frmSelectHelper(List<ListItem> incomingList, string sHelperText, bool bAllowMultiple)
+        public frmSelectHelper(List<ListItem> incomingList, string sFormTitle, string sHelperText, bool bAllowMultiple)
         {
             InitializeComponent();
+            this.Text = sFormTitle;
             label1.Text = sHelperText;
             listSelector.SelectionMode = bAllowMultiple ? SelectionMode.MultiSimple : SelectionMode.One;
             listSelector.Items.AddRange(incomingList.ToArray());
         }
 
-
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.SelectedItems = listSelector.SelectedItems.Cast<ListItem>().ToList();
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
     }
 }
