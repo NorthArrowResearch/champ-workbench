@@ -672,7 +672,7 @@ namespace CHaMPWorkbench
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
         {
             // Only add filter if not all the items are checked and there is some filtering to do
-            if (lst.CheckedItems.Count == lst.Items.Count)
+            if (lst.CheckedItems.Count == 0 || lst.CheckedItems.Count == lst.Items.Count)
                 return;
 
             string sValueList = "";
