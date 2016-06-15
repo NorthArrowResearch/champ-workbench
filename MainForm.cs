@@ -633,8 +633,7 @@ namespace CHaMPWorkbench
             dbRead = comFS.ExecuteReader();
             while (dbRead.Read())
             {
-                int nSel = lstSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
-                lstSite.SetItemChecked(nSel, true);
+                int nSel = lstSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]),false);
             }
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
