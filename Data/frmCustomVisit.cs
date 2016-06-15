@@ -175,7 +175,7 @@ namespace CHaMPWorkbench.Data
                         OleDbCommand dbCom = new OleDbCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
                         object objWSID = dbCom.ExecuteScalar();
                         if (objWSID is Int32)
-                            nWatershedID = Math.Max(nWatershedID + 1, 9000);
+                            nWatershedID = Math.Max(((int) objWSID)+ 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest watershed ID from database.");
 
@@ -194,7 +194,7 @@ namespace CHaMPWorkbench.Data
                         OleDbCommand dbCom = new OleDbCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
                         object objSID = dbCom.ExecuteScalar();
                         if (objSID is Int32)
-                            nSiteID = Math.Max(nSiteID + 1, 9000);
+                            nSiteID = Math.Max(((int) objSID)+ 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest Site ID from database.");
 
