@@ -241,8 +241,9 @@ namespace CHaMPWorkbench
             try
             {
                 lstFieldSeason.Items.Clear();
-                lstSite.Items.Clear();
                 lstWatershed.Items.Clear();
+                txtSiteName.Text = string.Empty;
+                txtStreamName.Text = string.Empty;
 
                 DataView dv = (System.Data.DataView)grdVisits.DataSource;
                 dv.Table.Clear();
@@ -367,7 +368,6 @@ namespace CHaMPWorkbench
             }
 
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
-            this.lstSite.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
         }
 
@@ -584,7 +584,7 @@ namespace CHaMPWorkbench
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
+            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, S.StreamName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
 
             string sSQL = "SELECT " + sGroupFields + ", Count(C.SegmentID) AS ChannelUnits" +
                 " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
@@ -607,34 +607,9 @@ namespace CHaMPWorkbench
                 throw ex2;
             }
 
-            lstFieldSeason.Items.Clear();
-            // Load the field seasons
-            OleDbCommand comFS = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", m_dbCon);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
-            while (dbRead.Read())
-            {
-                int nSel = lstFieldSeason.Items.Add(new ListItem(((Int16)dbRead[0]).ToString(), (Int16)dbRead[0]));
-                lstFieldSeason.SetItemChecked(nSel, true);
-            }
-            dbRead.Close();
-
-            // Load the watersheds
-            comFS = new OleDbCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", m_dbCon);
-            dbRead = comFS.ExecuteReader();
-            while (dbRead.Read())
-            {
-                int nSel = lstWatershed.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
-                lstWatershed.SetItemChecked(nSel, true);
-            }
-            dbRead.Close();
-
-            // Load the Sites
-            comFS = new OleDbCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE (SiteName Is Not Null) ORDER BY SiteName", m_dbCon);
-            dbRead = comFS.ExecuteReader();
-            while (dbRead.Read())
-            {
-                int nSel = lstSite.Items.Add(new ListItem((string)dbRead[1], (int)dbRead[0]),false);
-            }
+            // Load the field seasons and watersheds
+            CheckedListItem.LoadComboWithListItems(ref lstFieldSeason, m_dbCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
+            CheckedListItem.LoadComboWithListItems(ref lstWatershed, m_dbCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
@@ -655,7 +630,22 @@ namespace CHaMPWorkbench
             {
                 AddCheckedListboxFilter(ref lstFieldSeason, ref sFilter, "VisitYear");
                 AddCheckedListboxFilter(ref lstWatershed, ref sFilter, "WatershedID");
-                AddCheckedListboxFilter(ref lstSite, ref sFilter, "SiteID");
+
+                if (!string.IsNullOrEmpty(txtSiteName.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(sFilter))
+                        sFilter += " AND ";
+
+                    sFilter += string.Format(" (SiteName LIKE '*{0}*') ", CleanFilterString(txtSiteName.Text));
+                }
+
+                if (!string.IsNullOrEmpty(txtStreamName.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(sFilter))
+                        sFilter += " AND ";
+
+                    sFilter += string.Format(" (StreamName LIKE '*{0}*') ", CleanFilterString(txtStreamName.Text));
+                }
             }
 
             if (grdVisits.DataSource is DataView)
@@ -667,6 +657,11 @@ namespace CHaMPWorkbench
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
 
+        }
+
+        private string CleanFilterString(string sOriginal)
+        {
+            return sOriginal.Replace("'", "").Replace("\"", "").Replace("*", "").Replace("(", "").Replace(")", "").Replace("[", "").Replace("]", "");
         }
 
         private void AddCheckedListboxFilter(ref CheckedListBox lst, ref string sFilter, string sPropertyName, bool bUseNameInsteadOfValue = false)
@@ -844,7 +839,6 @@ namespace CHaMPWorkbench
                 {
                     // turn off event handling
                     valVisitID.ValueChanged -= valVisitID_ValueChanged;
-                    lstSite.ItemCheck -= FilterListBoxCheckChanged;
                     lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
 
                     int nSiteID = (int)r["SiteID"];
@@ -860,43 +854,13 @@ namespace CHaMPWorkbench
                             lstWatershed.TopIndex = i;
                     }
 
-                    for (int i = 0; i < lstSite.Items.Count; i++)
-                    {
-                        lstSite.SetItemChecked(i, ((ListItem)lstSite.Items[i]).Value == nSiteID);
-                        if (((ListItem)lstSite.Items[i]).Value == nSiteID)
-                            lstSite.TopIndex = i;
-
-                    }
-
                     // turn on event handling
-                    lstSite.ItemCheck += FilterListBoxCheckChanged;
                     valVisitID.ValueChanged += valVisitID_ValueChanged;
                     lstWatershed.ItemCheck += FilterListBoxCheckChanged;
                 }
 
                 FilterVisits(sender, e);
                 chkVisitID.CheckedChanged += FilterVisits;
-            }
-            catch (Exception ex)
-            {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
-            }
-        }
-
-        private void AllNoneSitesClick(object sender, EventArgs e)
-        {
-            // turn off event handling
-            lstSite.ItemCheck -= FilterListBoxCheckChanged;
-
-            try
-            {
-                for (int i = 0; i < lstSite.Items.Count; i++)
-                    lstSite.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
-
-                // Turn on event handling
-                lstSite.ItemCheck += FilterListBoxCheckChanged;
-
-                FilterVisits(sender, e);
             }
             catch (Exception ex)
             {
@@ -1036,7 +1000,7 @@ namespace CHaMPWorkbench
 
         private List<ListItem> GetSelectedVisitsList()
         {
-            List<ListItem>lVisits = new List<ListItem>();
+            List<ListItem> lVisits = new List<ListItem>();
             foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
@@ -1145,8 +1109,9 @@ namespace CHaMPWorkbench
                         chkVisitID.CheckedChanged += new EventHandler(FilterVisits);
 
                         ClearCheckedItems(ref lstWatershed);
-                        ClearCheckedItems(ref lstSite);
                         ClearCheckedItems(ref lstFieldSeason);
+                        txtSiteName.Text = string.Empty;
+                        txtStreamName.Text = string.Empty;
 
                         string sFilter = string.Format("VisitID IN ({0})", string.Join(",", lValidVisitIDs));
                         DataView dv = (DataView)grdVisits.DataSource;
@@ -1396,8 +1361,9 @@ namespace CHaMPWorkbench
                         chkVisitID.CheckedChanged += new EventHandler(FilterVisits);
 
                         ClearCheckedItems(ref lstWatershed);
-                        ClearCheckedItems(ref lstSite);
                         ClearCheckedItems(ref lstFieldSeason);
+                        txtSiteName.Text = string.Empty;
+                        txtStreamName.Text = string.Empty;
 
                         string sFilter = string.Format("VisitID IN ({0})", string.Join(",", lValidVisitIDs));
                         DataView dv = (DataView)grdVisits.DataSource;
@@ -1592,6 +1558,11 @@ namespace CHaMPWorkbench
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
+        }
+
+        private void txtSiteName_TextChanged(object sender, EventArgs e)
+        {
+            FilterVisits(sender, e);
         }
     }
 }

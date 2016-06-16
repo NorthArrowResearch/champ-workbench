@@ -107,11 +107,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.grpSite = new System.Windows.Forms.GroupBox();
-            this.lstSite = new System.Windows.Forms.CheckedListBox();
-            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtStreamName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtSiteName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstWatershed = new System.Windows.Forms.CheckedListBox();
             this.cmsWatershed = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -126,6 +125,7 @@
             this.colWatershedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSiteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStreamName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOrganization = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colHitchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -142,6 +142,9 @@
             this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -165,13 +168,12 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.grpSite.SuspendLayout();
-            this.cmsSiteAllNone.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.cmsWatershed.SuspendLayout();
             this.grpFieldSeason.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
+            this.cmsSiteAllNone.SuspendLayout();
             this.cmsVisit.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -770,7 +772,10 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.grpSite);
+            this.splitContainer1.Panel1.Controls.Add(this.txtStreamName);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.txtSiteName);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.grpFieldSeason);
             this.splitContainer1.Panel1.Controls.Add(this.valVisitID);
@@ -783,49 +788,39 @@
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 2;
             // 
-            // grpSite
+            // txtStreamName
             // 
-            this.grpSite.Controls.Add(this.lstSite);
-            this.grpSite.Location = new System.Drawing.Point(12, 332);
-            this.grpSite.Name = "grpSite";
-            this.grpSite.Size = new System.Drawing.Size(161, 166);
-            this.grpSite.TabIndex = 4;
-            this.grpSite.TabStop = false;
-            this.grpSite.Text = "Sites";
+            this.txtStreamName.Location = new System.Drawing.Point(13, 397);
+            this.txtStreamName.Name = "txtStreamName";
+            this.txtStreamName.Size = new System.Drawing.Size(161, 20);
+            this.txtStreamName.TabIndex = 7;
+            this.txtStreamName.TextChanged += new System.EventHandler(this.txtSiteName_TextChanged);
             // 
-            // lstSite
+            // label2
             // 
-            this.lstSite.CheckOnClick = true;
-            this.lstSite.ContextMenuStrip = this.cmsSiteAllNone;
-            this.lstSite.FormattingEnabled = true;
-            this.lstSite.Location = new System.Drawing.Point(7, 20);
-            this.lstSite.Name = "lstSite";
-            this.lstSite.Size = new System.Drawing.Size(148, 139);
-            this.lstSite.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 379);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Stream name";
             // 
-            // cmsSiteAllNone
+            // txtSiteName
             // 
-            this.cmsSiteAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
-            this.cmsSiteAllNone.Name = "cmsAllNone";
-            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
+            this.txtSiteName.Location = new System.Drawing.Point(13, 351);
+            this.txtSiteName.Name = "txtSiteName";
+            this.txtSiteName.Size = new System.Drawing.Size(161, 20);
+            this.txtSiteName.TabIndex = 5;
+            this.txtSiteName.TextChanged += new System.EventHandler(this.txtSiteName_TextChanged);
             // 
-            // selectAllToolStripMenuItem
+            // label1
             // 
-            this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem.Text = "Select All";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.AllNoneSitesClick);
-            // 
-            // selectNoneToolStripMenuItem
-            // 
-            this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
-            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem.Text = "Select None";
-            this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.AllNoneSitesClick);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 333);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Site name";
             // 
             // groupBox1
             // 
@@ -946,6 +941,7 @@
             this.colWatershedName,
             this.colFieldSeason,
             this.colSiteName,
+            this.colStreamName,
             this.colVisitID,
             this.colOrganization,
             this.colHitchName,
@@ -1017,6 +1013,13 @@
             this.colSiteName.HeaderText = "Site";
             this.colSiteName.Name = "colSiteName";
             this.colSiteName.ReadOnly = true;
+            // 
+            // colStreamName
+            // 
+            this.colStreamName.DataPropertyName = "StreamName";
+            this.colStreamName.HeaderText = "Stream";
+            this.colStreamName.Name = "colStreamName";
+            this.colStreamName.ReadOnly = true;
             // 
             // colVisitID
             // 
@@ -1138,6 +1141,28 @@
             this.colCahnnelUnits.HeaderText = "Channel Units";
             this.colCahnnelUnits.Name = "colCahnnelUnits";
             this.colCahnnelUnits.ReadOnly = true;
+            // 
+            // cmsSiteAllNone
+            // 
+            this.cmsSiteAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem,
+            this.selectNoneToolStripMenuItem});
+            this.cmsSiteAllNone.Name = "cmsAllNone";
+            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            // 
+            // selectNoneToolStripMenuItem
+            // 
+            this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem.Text = "Select None";
             // 
             // cmsVisit
             // 
@@ -1300,13 +1325,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.grpSite.ResumeLayout(false);
-            this.cmsSiteAllNone.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.cmsWatershed.ResumeLayout(false);
             this.grpFieldSeason.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).EndInit();
+            this.cmsSiteAllNone.ResumeLayout(false);
             this.cmsVisit.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1383,8 +1407,6 @@
         private System.Windows.Forms.ToolStripMenuItem generateRBTRunForThisVisitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoAndHydroDataFromCmorgToolStripMenuItem;
-        private System.Windows.Forms.GroupBox grpSite;
-        private System.Windows.Forms.CheckedListBox lstSite;
         private System.Windows.Forms.ContextMenuStrip cmsSiteAllNone;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
@@ -1393,26 +1415,6 @@
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem viewSiteLocationMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeSimulationResultsToCSVFileToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSiteName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colOrganization;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colHitchName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCrewName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitPhase;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitStatus;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colAEM;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsPrimary;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colQCVisit;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colHasStreamTempLogger;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colHasFishData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoryName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSiteID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
         private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectRandomNumberOfVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -1443,6 +1445,31 @@
         private System.Windows.Forms.ToolStripMenuItem createNewWorkbenchDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scavengeMetricsFromCmorgDownloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createCustomVisitToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtStreamName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtSiteName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSiteName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStreamName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOrganization;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colHitchName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCrewName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitPhase;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVisitStatus;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colAEM;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsPrimary;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colQCVisit;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colHasStreamTempLogger;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colHasFishData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoryName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSiteID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
     }
 }
 
