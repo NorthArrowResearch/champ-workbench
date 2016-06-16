@@ -438,7 +438,7 @@ namespace CHaMPWorkbench.Data
                 {
                     if (rSeg.VisitID == (int)dbRead["VisitID"] && rSeg.SegmentNumber == (int)dbRead["SegmentNumber"])
                     {
-                        System.Diagnostics.Debug.WriteLine(rSeg.VisitID.ToString() + ", " + rSeg.SegmentID.ToString());// + ", " + r.ChannelUnitNumber.ToString() + ", " + r.Tier1 + ", " + r.Tier2);
+                        //System.Diagnostics.Debug.WriteLine(rSeg.VisitID.ToString() + ", " + rSeg.SegmentID.ToString());// + ", " + r.ChannelUnitNumber.ToString() + ", " + r.Tier1 + ", " + r.Tier2);
 
                         try
                         {
@@ -571,18 +571,28 @@ namespace CHaMPWorkbench.Data
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // MetricAndCovariates fields
                 //
-                OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID SET Latitude = @Latitude, Longitude = @Longitude WHERE (V.VisitID = @VisitID)", m_dbCon);
+                OleDbCommand dbUpdate = new OleDbCommand("UPDATE CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID SET Latitude = @Latitude, Longitude = @Longitude, StreamName = @StreamName WHERE (V.VisitID = @VisitID)", m_dbCon);
                 OleDbParameter pLatitude = dbUpdate.Parameters.Add("@Latitude", OleDbType.Single);
                 OleDbParameter pLongitude = dbUpdate.Parameters.Add("@Longitude", OleDbType.Single);
+                OleDbParameter pStreamName = dbUpdate.Parameters.Add("@StreamName", OleDbType.VarChar);
                 OleDbParameter pVisitID = dbUpdate.Parameters.Add("@VisitID", OleDbType.Single);
 
-                OleDbCommand comSurveyDesign = new OleDbCommand("SELECT VisitID, LAT_DD, LON_DD FROM MetricAndCovariates WHERE (VISITID IS NOT NULL) AND (LAT_DD IS NOT NULL) AND (LON_DD IS NOT NULL)", conExport);
+                OleDbCommand comSurveyDesign = new OleDbCommand("SELECT VisitID, LAT_DD, LON_DD, Stream FROM MetricAndCovariates WHERE (VISITID IS NOT NULL) AND (LAT_DD IS NOT NULL) AND (LON_DD IS NOT NULL)", conExport);
                 OleDbDataReader dbRead = comSurveyDesign.ExecuteReader();
                 while (dbRead.Read())
                 {
                     pLatitude.Value = (Double)dbRead["LAT_DD"];
                     pLongitude.Value = (Double)dbRead["LON_DD"];
                     pVisitID.Value = (int)dbRead["VisitID"];
+
+                    if (dbRead.IsDBNull(dbRead.GetOrdinal("Stream")))
+                        pStreamName.Value = DBNull.Value;
+                    else
+                    {
+                        pStreamName.Value = dbRead.GetString(dbRead.GetOrdinal("Stream"));
+                        //pStreamName.Size = dbRead.GetString(dbRead.GetOrdinal("Stream")).Length;
+                    }
+
                     dbUpdate.ExecuteNonQuery();
                 }
                 //

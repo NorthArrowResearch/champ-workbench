@@ -1242,6 +1242,8 @@ namespace CHaMPWorkbench {
             
             private global::System.Data.DataColumn columnLongitude;
             
+            private global::System.Data.DataColumn columnStreamName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_SitesDataTable() {
@@ -1365,6 +1367,14 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn StreamNameColumn {
+                get {
+                    return this.columnStreamName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1400,7 +1410,7 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CHAMP_SitesRow AddCHAMP_SitesRow(int SiteID, CHAMP_WatershedsRow _parentCHAMP_WatershedsRowBy_B537A104_BBA9_4F91_8960_3BCF54A0D38C_, string SiteName, bool UC_Chin, bool SN_Chin, bool LC_Steel, bool MC_Steel, bool UC_Steel, bool SN_Steel, float Latitude, float Longitude) {
+            public CHAMP_SitesRow AddCHAMP_SitesRow(int SiteID, CHAMP_WatershedsRow _parentCHAMP_WatershedsRowBy_B537A104_BBA9_4F91_8960_3BCF54A0D38C_, string SiteName, bool UC_Chin, bool SN_Chin, bool LC_Steel, bool MC_Steel, bool UC_Steel, bool SN_Steel, float Latitude, float Longitude, string StreamName) {
                 CHAMP_SitesRow rowCHAMP_SitesRow = ((CHAMP_SitesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SiteID,
@@ -1413,7 +1423,8 @@ namespace CHaMPWorkbench {
                         UC_Steel,
                         SN_Steel,
                         Latitude,
-                        Longitude};
+                        Longitude,
+                        StreamName};
                 if ((_parentCHAMP_WatershedsRowBy_B537A104_BBA9_4F91_8960_3BCF54A0D38C_ != null)) {
                     columnValuesArray[1] = _parentCHAMP_WatershedsRowBy_B537A104_BBA9_4F91_8960_3BCF54A0D38C_[0];
                 }
@@ -1457,6 +1468,7 @@ namespace CHaMPWorkbench {
                 this.columnSN_Steel = base.Columns["SN_Steel"];
                 this.columnLatitude = base.Columns["Latitude"];
                 this.columnLongitude = base.Columns["Longitude"];
+                this.columnStreamName = base.Columns["StreamName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1484,11 +1496,14 @@ namespace CHaMPWorkbench {
                 base.Columns.Add(this.columnLatitude);
                 this.columnLongitude = new global::System.Data.DataColumn("Longitude", typeof(float), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLongitude);
+                this.columnStreamName = new global::System.Data.DataColumn("StreamName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStreamName);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSiteID}, true));
                 this.columnSiteID.AllowDBNull = false;
                 this.columnSiteID.Unique = true;
                 this.columnSiteName.MaxLength = 255;
+                this.columnStreamName.MaxLength = 255;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3140,6 +3155,22 @@ namespace CHaMPWorkbench {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string StreamName {
+                get {
+                    try {
+                        return ((string)(this[this.tableCHAMP_Sites.StreamNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StreamName\' in table \'CHAMP_Sites\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCHAMP_Sites.StreamNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public CHAMP_WatershedsRow CHAMP_WatershedsRow {
                 get {
                     return ((CHAMP_WatershedsRow)(this.GetParentRow(this.Table.ParentRelations["{B537A104-BBA9-4F91-8960-3BCF54A0D38C}"])));
@@ -3267,6 +3298,18 @@ namespace CHaMPWorkbench {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetLongitudeNull() {
                 this[this.tableCHAMP_Sites.LongitudeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsStreamNameNull() {
+                return this.IsNull(this.tableCHAMP_Sites.StreamNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetStreamNameNull() {
+                this[this.tableCHAMP_Sites.StreamNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5342,12 +5385,11 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             tableMapping.ColumnMappings.Add("MC_Steel", "MC_Steel");
             tableMapping.ColumnMappings.Add("UC_Steel", "UC_Steel");
             tableMapping.ColumnMappings.Add("SN_Steel", "SN_Steel");
-            tableMapping.ColumnMappings.Add("Latitude", "Latitude");
-            tableMapping.ColumnMappings.Add("Longitude", "Longitude");
+            tableMapping.ColumnMappings.Add("StreamName", "StreamName");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Sites` WHERE ((`SiteID` = ?) AND ((? = 1 AND `WatershedID` IS NULL) OR (`WatershedID` = ?)) AND ((? = 1 AND `SiteName` IS NULL) OR (`SiteName` = ?)) AND ((? = 1 AND `UC_Chin` IS NULL) OR (`UC_Chin` = ?)) AND ((? = 1 AND `SN_Chin` IS NULL) OR (`SN_Chin` = ?)) AND ((? = 1 AND `LC_Steel` IS NULL) OR (`LC_Steel` = ?)) AND ((? = 1 AND `MC_Steel` IS NULL) OR (`MC_Steel` = ?)) AND ((? = 1 AND `UC_Steel` IS NULL) OR (`UC_Steel` = ?)) AND ((? = 1 AND `SN_Steel` IS NULL) OR (`SN_Steel` = ?)) AND ((? = 1 AND `Latitude` IS NULL) OR (`Latitude` = ?)) AND ((? = 1 AND `Longitude` IS NULL) OR (`Longitude` = ?)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `CHAMP_Sites` WHERE ((`SiteID` = ?) AND ((? = 1 AND `WatershedID` IS NULL) OR (`WatershedID` = ?)) AND ((? = 1 AND `SiteName` IS NULL) OR (`SiteName` = ?)) AND ((? = 1 AND `UC_Chin` IS NULL) OR (`UC_Chin` = ?)) AND ((? = 1 AND `SN_Chin` IS NULL) OR (`SN_Chin` = ?)) AND ((? = 1 AND `LC_Steel` IS NULL) OR (`LC_Steel` = ?)) AND ((? = 1 AND `MC_Steel` IS NULL) OR (`MC_Steel` = ?)) AND ((? = 1 AND `UC_Steel` IS NULL) OR (`UC_Steel` = ?)) AND ((? = 1 AND `SN_Steel` IS NULL) OR (`SN_Steel` = ?)) AND ((? = 1 AND `StreamName` IS NULL) OR (`StreamName` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Original, true, null));
@@ -5366,15 +5408,13 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_UC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "UC_Steel", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SN_Steel", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SN_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Latitude", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Latitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Longitude", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Longitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_StreamName", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_StreamName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO `CHAMP_Sites` (`SiteID`, `WatershedID`, `SiteName`, `UC_Chin`, `SN_Ch" +
-                "in`, `LC_Steel`, `MC_Steel`, `UC_Steel`, `SN_Steel`, `Latitude`, `Longitude`) VA" +
-                "LUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "in`, `LC_Steel`, `MC_Steel`, `UC_Steel`, `SN_Steel`, `StreamName`) VALUES (?, ?," +
+                " ?, ?, ?, ?, ?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Current, false, null));
@@ -5385,11 +5425,10 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("MC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "MC_Steel", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("UC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "UC_Steel", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SN_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Latitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Longitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("StreamName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_Sites` SET `SiteID` = ?, `WatershedID` = ?, `SiteName` = ?, `UC_Chin` = ?, `SN_Chin` = ?, `LC_Steel` = ?, `MC_Steel` = ?, `UC_Steel` = ?, `SN_Steel` = ?, `Latitude` = ?, `Longitude` = ? WHERE ((`SiteID` = ?) AND ((? = 1 AND `WatershedID` IS NULL) OR (`WatershedID` = ?)) AND ((? = 1 AND `SiteName` IS NULL) OR (`SiteName` = ?)) AND ((? = 1 AND `UC_Chin` IS NULL) OR (`UC_Chin` = ?)) AND ((? = 1 AND `SN_Chin` IS NULL) OR (`SN_Chin` = ?)) AND ((? = 1 AND `LC_Steel` IS NULL) OR (`LC_Steel` = ?)) AND ((? = 1 AND `MC_Steel` IS NULL) OR (`MC_Steel` = ?)) AND ((? = 1 AND `UC_Steel` IS NULL) OR (`UC_Steel` = ?)) AND ((? = 1 AND `SN_Steel` IS NULL) OR (`SN_Steel` = ?)) AND ((? = 1 AND `Latitude` IS NULL) OR (`Latitude` = ?)) AND ((? = 1 AND `Longitude` IS NULL) OR (`Longitude` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `CHAMP_Sites` SET `SiteID` = ?, `WatershedID` = ?, `SiteName` = ?, `UC_Chin` = ?, `SN_Chin` = ?, `LC_Steel` = ?, `MC_Steel` = ?, `UC_Steel` = ?, `SN_Steel` = ?, `StreamName` = ? WHERE ((`SiteID` = ?) AND ((? = 1 AND `WatershedID` IS NULL) OR (`WatershedID` = ?)) AND ((? = 1 AND `SiteName` IS NULL) OR (`SiteName` = ?)) AND ((? = 1 AND `UC_Chin` IS NULL) OR (`UC_Chin` = ?)) AND ((? = 1 AND `SN_Chin` IS NULL) OR (`SN_Chin` = ?)) AND ((? = 1 AND `LC_Steel` IS NULL) OR (`LC_Steel` = ?)) AND ((? = 1 AND `MC_Steel` IS NULL) OR (`MC_Steel` = ?)) AND ((? = 1 AND `UC_Steel` IS NULL) OR (`UC_Steel` = ?)) AND ((? = 1 AND `SN_Steel` IS NULL) OR (`SN_Steel` = ?)) AND ((? = 1 AND `StreamName` IS NULL) OR (`StreamName` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Current, false, null));
@@ -5400,8 +5439,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("MC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "MC_Steel", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("UC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "UC_Steel", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("SN_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Latitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Longitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("StreamName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SiteID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SiteID", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Original, false, null));
@@ -5419,10 +5457,8 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_UC_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "UC_Steel", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_SN_Steel", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Original, true, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_SN_Steel", global::System.Data.OleDb.OleDbType.Boolean, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "SN_Steel", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Latitude", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Latitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Latitude", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Longitude", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Longitude", global::System.Data.OleDb.OleDbType.Double, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Longitude", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_StreamName", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Original, true, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_StreamName", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "StreamName", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5439,13 +5475,13 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT SiteID, WatershedID, SiteName, UC_Chin, SN_Chin, LC_Steel, MC_Steel, UC_St" +
-                "eel, SN_Steel, Latitude, Longitude FROM CHAMP_Sites ORDER BY SiteName";
+                "eel, SN_Steel, StreamName FROM CHAMP_Sites ORDER BY SiteName";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT LC_Steel, Latitude, Longitude, MC_Steel, SN_Chin, SN_Steel, SiteID, SiteNa" +
-                "me, UC_Chin, UC_Steel, WatershedID FROM CHAMP_Sites WHERE (WatershedID = ?) ORDE" +
-                "R BY SiteName";
+            this._commandCollection[1].CommandText = "SELECT LC_Steel, MC_Steel, SN_Chin, SN_Steel, SiteID, SiteName, StreamName, UC_Ch" +
+                "in, UC_Steel, WatershedID FROM CHAMP_Sites WHERE (WatershedID = ?) ORDER BY Site" +
+                "Name";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.OleDb.OleDbParameter("WatershedID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "WatershedID", global::System.Data.DataRowVersion.Current, false, null));
         }
@@ -5515,7 +5551,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_SiteID, int Original_WatershedID, string Original_SiteName, bool Original_UC_Chin, bool Original_SN_Chin, bool Original_LC_Steel, bool Original_MC_Steel, bool Original_UC_Steel, bool Original_SN_Steel, global::System.Nullable<double> Original_Latitude, global::System.Nullable<double> Original_Longitude) {
+        public virtual int Delete(int Original_SiteID, int Original_WatershedID, string Original_SiteName, bool Original_UC_Chin, bool Original_SN_Chin, bool Original_LC_Steel, bool Original_MC_Steel, bool Original_UC_Steel, bool Original_SN_Steel, string Original_StreamName) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_SiteID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_WatershedID));
@@ -5538,21 +5574,13 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this.Adapter.DeleteCommand.Parameters[14].Value = ((bool)(Original_UC_Steel));
             this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
             this.Adapter.DeleteCommand.Parameters[16].Value = ((bool)(Original_SN_Steel));
-            if ((Original_Latitude.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[18].Value = ((double)(Original_Latitude.Value));
-            }
-            else {
+            if ((Original_StreamName == null)) {
                 this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
-            if ((Original_Longitude.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[20].Value = ((double)(Original_Longitude.Value));
-            }
             else {
-                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[20].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[18].Value = ((string)(Original_StreamName));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -5574,7 +5602,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int SiteID, int WatershedID, string SiteName, bool UC_Chin, bool SN_Chin, bool LC_Steel, bool MC_Steel, bool UC_Steel, bool SN_Steel, global::System.Nullable<double> Latitude, global::System.Nullable<double> Longitude) {
+        public virtual int Insert(int SiteID, int WatershedID, string SiteName, bool UC_Chin, bool SN_Chin, bool LC_Steel, bool MC_Steel, bool UC_Steel, bool SN_Steel, string StreamName) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(SiteID));
             this.Adapter.InsertCommand.Parameters[1].Value = ((int)(WatershedID));
             if ((SiteName == null)) {
@@ -5589,17 +5617,11 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this.Adapter.InsertCommand.Parameters[6].Value = ((bool)(MC_Steel));
             this.Adapter.InsertCommand.Parameters[7].Value = ((bool)(UC_Steel));
             this.Adapter.InsertCommand.Parameters[8].Value = ((bool)(SN_Steel));
-            if ((Latitude.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((double)(Latitude.Value));
-            }
-            else {
+            if ((StreamName == null)) {
                 this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
-            if ((Longitude.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[10].Value = ((double)(Longitude.Value));
-            }
             else {
-                this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(StreamName));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -5631,8 +5653,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
                     bool MC_Steel, 
                     bool UC_Steel, 
                     bool SN_Steel, 
-                    global::System.Nullable<double> Latitude, 
-                    global::System.Nullable<double> Longitude, 
+                    string StreamName, 
                     int Original_SiteID, 
                     int Original_WatershedID, 
                     string Original_SiteName, 
@@ -5642,8 +5663,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
                     bool Original_MC_Steel, 
                     bool Original_UC_Steel, 
                     bool Original_SN_Steel, 
-                    global::System.Nullable<double> Original_Latitude, 
-                    global::System.Nullable<double> Original_Longitude) {
+                    string Original_StreamName) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(SiteID));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(WatershedID));
             if ((SiteName == null)) {
@@ -5658,55 +5678,41 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
             this.Adapter.UpdateCommand.Parameters[6].Value = ((bool)(MC_Steel));
             this.Adapter.UpdateCommand.Parameters[7].Value = ((bool)(UC_Steel));
             this.Adapter.UpdateCommand.Parameters[8].Value = ((bool)(SN_Steel));
-            if ((Latitude.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((double)(Latitude.Value));
-            }
-            else {
+            if ((StreamName == null)) {
                 this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
-            if ((Longitude.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((double)(Longitude.Value));
-            }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(StreamName));
             }
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_SiteID));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_WatershedID));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_SiteID));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_WatershedID));
             if ((Original_SiteName == null)) {
                 throw new global::System.ArgumentNullException("Original_SiteName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_SiteName));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_SiteName));
             }
-            this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[17].Value = ((bool)(Original_UC_Chin));
-            this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[19].Value = ((bool)(Original_SN_Chin));
-            this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((bool)(Original_LC_Steel));
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[23].Value = ((bool)(Original_MC_Steel));
-            this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[25].Value = ((bool)(Original_UC_Steel));
-            this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
-            this.Adapter.UpdateCommand.Parameters[27].Value = ((bool)(Original_SN_Steel));
-            if ((Original_Latitude.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((double)(Original_Latitude.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[29].Value = global::System.DBNull.Value;
-            }
-            if ((Original_Longitude.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((double)(Original_Longitude.Value));
+            this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[16].Value = ((bool)(Original_UC_Chin));
+            this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[18].Value = ((bool)(Original_SN_Chin));
+            this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[20].Value = ((bool)(Original_LC_Steel));
+            this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((bool)(Original_MC_Steel));
+            this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[24].Value = ((bool)(Original_UC_Steel));
+            this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[26].Value = ((bool)(Original_SN_Steel));
+            if ((Original_StreamName == null)) {
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[31].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((string)(Original_StreamName));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -5737,8 +5743,7 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
                     bool MC_Steel, 
                     bool UC_Steel, 
                     bool SN_Steel, 
-                    global::System.Nullable<double> Latitude, 
-                    global::System.Nullable<double> Longitude, 
+                    string StreamName, 
                     int Original_SiteID, 
                     int Original_WatershedID, 
                     string Original_SiteName, 
@@ -5748,9 +5753,8 @@ WHERE        (CHAMP_Visits.VisitYear = ?)";
                     bool Original_MC_Steel, 
                     bool Original_UC_Steel, 
                     bool Original_SN_Steel, 
-                    global::System.Nullable<double> Original_Latitude, 
-                    global::System.Nullable<double> Original_Longitude) {
-            return this.Update(Original_SiteID, WatershedID, SiteName, UC_Chin, SN_Chin, LC_Steel, MC_Steel, UC_Steel, SN_Steel, Latitude, Longitude, Original_SiteID, Original_WatershedID, Original_SiteName, Original_UC_Chin, Original_SN_Chin, Original_LC_Steel, Original_MC_Steel, Original_UC_Steel, Original_SN_Steel, Original_Latitude, Original_Longitude);
+                    string Original_StreamName) {
+            return this.Update(Original_SiteID, WatershedID, SiteName, UC_Chin, SN_Chin, LC_Steel, MC_Steel, UC_Steel, SN_Steel, StreamName, Original_SiteID, Original_WatershedID, Original_SiteName, Original_UC_Chin, Original_SN_Chin, Original_LC_Steel, Original_MC_Steel, Original_UC_Steel, Original_SN_Steel, Original_StreamName);
         }
     }
     
