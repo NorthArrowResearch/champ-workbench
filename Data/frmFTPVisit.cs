@@ -13,9 +13,9 @@ namespace CHaMPWorkbench.Data
     public partial class frmFTPVisit : Form
     {
         private int m_nVisitID;
-        private string m_sRemoteRoot;
-        private string m_sLocalRoot;
-        private const string m_sFTPTopLevelFolder = "ftp://ftp.geooptix.com/ByYear";
+        private string m_sVisitRelativePath;
+        private const string m_sFTPTopLevelFolder_CHaMP = "ftp.geooptix.com";
+        private const string m_sFTPTopLevelFolder_AEM = "ftp.aemonitoring.org";
 
         private List<string> m_sFiles;
         private string m_sCurrentFile;
@@ -23,13 +23,14 @@ namespace CHaMPWorkbench.Data
         private bool m_bCreateFolders;
         private StringBuilder m_sProgress;
 
-        public frmFTPVisit(int nVisitID, string sRemoteFolder, string sLocalFolder)
+        public frmFTPVisit(int nVisitID, string sFullLocalPathToVisit)
         {
             InitializeComponent();
             m_nVisitID = nVisitID;
 
-            m_sLocalRoot = sLocalFolder;
-            m_sRemoteRoot = sRemoteFolder;
+            m_sVisitRelativePath = sFullLocalPathToVisit.Replace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, "");
+            m_sVisitRelativePath = m_sVisitRelativePath.TrimStart(System.IO.Path.DirectorySeparatorChar);
+
             m_sCurrentFile = string.Empty;
             m_bOverwrite = false;
             m_bCreateFolders = true;
@@ -64,8 +65,8 @@ namespace CHaMPWorkbench.Data
             backgroundWorker1.WorkerReportsProgress = true;
             chkCreateDir.Checked = m_bCreateFolders;
             checkBox1.Checked = m_bOverwrite;
-            txtRemote.Text = m_sRemoteRoot;
-            txtLocalFolder.Text = m_sLocalRoot;
+            txtLocalFolder.Text = System.IO.Path.Combine(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, m_sVisitRelativePath);
+            UpdateRemotePath();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -139,15 +140,14 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-
         /// <summary>
         /// https://msdn.microsoft.com/en-us/library/ms229711%28v=vs.110%29.aspx
         /// </summary>
         /// <param name="sRelativePath"></param>
         private void FTPFile(string sRelativePath)
         {
-            string sFTPFile = System.IO.Path.Combine(m_sRemoteRoot, sRelativePath).Replace("\\", "/");
-            string sLocalFile = System.IO.Path.Combine(m_sLocalRoot, sRelativePath);
+            string sFTPFile = System.IO.Path.Combine(txtRemote.Text, sRelativePath).Replace("\\", "/");
+            string sLocalFile = System.IO.Path.Combine(txtLocalFolder.Text, sRelativePath);
 
             if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(sLocalFile)))
             {
@@ -213,7 +213,6 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
-            m_sLocalRoot = txtLocalFolder.Text;
 
             m_sFiles = new List<string>();
             foreach (TreeNode aNode in treFiles.Nodes)
@@ -243,6 +242,21 @@ namespace CHaMPWorkbench.Data
             {
                 txtLocalFolder.Text = frm.SelectedPath;
             }
+        }
+
+        private void rdoAEM_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateRemotePath();
+        }
+
+        private void UpdateRemotePath()
+        {
+            string sRemoteRoot = m_sFTPTopLevelFolder_CHaMP;
+            if (rdoAEM.Checked)
+                sRemoteRoot = m_sFTPTopLevelFolder_AEM;
+
+            UriBuilder theRemotePath = new UriBuilder("ftp", sRemoteRoot, -1, System.IO.Path.Combine("ByYear", m_sVisitRelativePath));
+            txtRemote.Text = theRemotePath.ToString();
         }
     }
 }

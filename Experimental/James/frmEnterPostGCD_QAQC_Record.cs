@@ -369,8 +369,7 @@ namespace CHaMPWorkbench.Experimental.James
                string sSiteName = GetSiteName(m_dbCon, sVisitID);                
 
                string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, sVisitYear, sWatershedName, sSiteName, sVisitID);
-               string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear", sVisitYear, sWatershedName, sSiteName, sVisitID).Replace("\\", "/");
-               Data.frmFTPVisit frmNewVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sFTPFolder, sTopoFolder);
+               Data.frmFTPVisit frmNewVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sTopoFolder);
                frmNewVisitData.ShowDialog();
   
                //Old Visit
@@ -379,8 +378,7 @@ namespace CHaMPWorkbench.Experimental.James
                sVisitID = dr[m_sFieldName_OldVisitID].ToString();
                sVisitYear = GetVisitDate(m_dbCon, "CHAMP_Visits", "VisitYear", "VisitID", sVisitID);               
                sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, sVisitYear, sWatershedName, sSiteName, sVisitID);
-               sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear", sVisitYear, sWatershedName, sSiteName, sVisitID).Replace("\\", "/");
-               Data.frmFTPVisit frmOldVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sFTPFolder, sTopoFolder);
+               Data.frmFTPVisit frmOldVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sTopoFolder);
                frmOldVisitData.ShowDialog();
             }
 

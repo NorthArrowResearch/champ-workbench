@@ -44,13 +44,16 @@
             this.grpProgress = new System.Windows.Forms.GroupBox();
             this.txtProgress = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.rdoCHaMP = new System.Windows.Forms.RadioButton();
+            this.rdoAEM = new System.Windows.Forms.RadioButton();
             this.grpProgress.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 17);
+            this.label1.Location = new System.Drawing.Point(27, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 0;
@@ -59,7 +62,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 44);
+            this.label2.Location = new System.Drawing.Point(16, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 1;
@@ -69,7 +72,7 @@
             // 
             this.txtLocalFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLocalFolder.Location = new System.Drawing.Point(95, 13);
+            this.txtLocalFolder.Location = new System.Drawing.Point(95, 36);
             this.txtLocalFolder.Name = "txtLocalFolder";
             this.txtLocalFolder.Size = new System.Drawing.Size(409, 20);
             this.txtLocalFolder.TabIndex = 2;
@@ -78,7 +81,7 @@
             // 
             this.txtRemote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRemote.Location = new System.Drawing.Point(95, 40);
+            this.txtRemote.Location = new System.Drawing.Point(95, 64);
             this.txtRemote.Name = "txtRemote";
             this.txtRemote.ReadOnly = true;
             this.txtRemote.Size = new System.Drawing.Size(438, 20);
@@ -111,9 +114,9 @@
             this.treFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treFiles.Location = new System.Drawing.Point(12, 114);
+            this.treFiles.Location = new System.Drawing.Point(12, 144);
             this.treFiles.Name = "treFiles";
-            this.treFiles.Size = new System.Drawing.Size(521, 281);
+            this.treFiles.Size = new System.Drawing.Size(521, 251);
             this.treFiles.TabIndex = 6;
             this.treFiles.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treFiles_AfterCheck);
             // 
@@ -122,7 +125,7 @@
             this.chkCreateDir.AutoSize = true;
             this.chkCreateDir.Checked = true;
             this.chkCreateDir.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCreateDir.Location = new System.Drawing.Point(95, 67);
+            this.chkCreateDir.Location = new System.Drawing.Point(95, 92);
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
             this.chkCreateDir.TabIndex = 7;
@@ -132,7 +135,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(95, 91);
+            this.checkBox1.Location = new System.Drawing.Point(95, 117);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(130, 17);
             this.checkBox1.TabIndex = 8;
@@ -153,7 +156,7 @@
             // 
             this.cmdBrowseLocal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdBrowseLocal.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 12);
+            this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 35);
             this.cmdBrowseLocal.Name = "cmdBrowseLocal";
             this.cmdBrowseLocal.Size = new System.Drawing.Size(23, 23);
             this.cmdBrowseLocal.TabIndex = 10;
@@ -199,11 +202,47 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(43, 13);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Program";
+            // 
+            // rdoCHaMP
+            // 
+            this.rdoCHaMP.AutoSize = true;
+            this.rdoCHaMP.Checked = true;
+            this.rdoCHaMP.Location = new System.Drawing.Point(95, 11);
+            this.rdoCHaMP.Name = "rdoCHaMP";
+            this.rdoCHaMP.Size = new System.Drawing.Size(62, 17);
+            this.rdoCHaMP.TabIndex = 14;
+            this.rdoCHaMP.TabStop = true;
+            this.rdoCHaMP.Text = "CHaMP";
+            this.rdoCHaMP.UseVisualStyleBackColor = true;
+            // 
+            // rdoAEM
+            // 
+            this.rdoAEM.AutoSize = true;
+            this.rdoAEM.Location = new System.Drawing.Point(168, 11);
+            this.rdoAEM.Name = "rdoAEM";
+            this.rdoAEM.Size = new System.Drawing.Size(48, 17);
+            this.rdoAEM.TabIndex = 15;
+            this.rdoAEM.TabStop = true;
+            this.rdoAEM.Text = "AEM";
+            this.rdoAEM.UseVisualStyleBackColor = true;
+            this.rdoAEM.CheckedChanged += new System.EventHandler(this.rdoAEM_CheckedChanged);
+            // 
             // frmFTPVisit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(545, 618);
+            this.Controls.Add(this.rdoAEM);
+            this.Controls.Add(this.rdoCHaMP);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.grpProgress);
             this.Controls.Add(this.cmdBrowseLocal);
             this.Controls.Add(this.cmdHelp);
@@ -245,5 +284,8 @@
         private System.Windows.Forms.GroupBox grpProgress;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox txtProgress;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton rdoCHaMP;
+        private System.Windows.Forms.RadioButton rdoAEM;
     }
 }

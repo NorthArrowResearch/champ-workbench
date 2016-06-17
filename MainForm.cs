@@ -865,8 +865,7 @@ namespace CHaMPWorkbench
                 if (r is DataRow)
                 {
                     string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                    string sFTPFolder = "ftp://" + RetrieveVisitFolder("ftp.geooptix.com/ByYear").Replace("\\", "/");
-                    Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sFTPFolder, sTopoFolder);
+                    Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sTopoFolder);
                     frm.ShowDialog();
                 }
             }
