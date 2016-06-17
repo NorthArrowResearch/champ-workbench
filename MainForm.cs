@@ -584,7 +584,7 @@ namespace CHaMPWorkbench
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, S.StreamName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData";
+            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, S.StreamName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData, V.IsPrimary";
 
             string sSQL = "SELECT " + sGroupFields + ", Count(C.SegmentID) AS ChannelUnits" +
                 " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
@@ -645,6 +645,14 @@ namespace CHaMPWorkbench
                         sFilter += " AND ";
 
                     sFilter += string.Format(" (StreamName LIKE '*{0}*') ", CleanFilterString(txtStreamName.Text));
+                }
+
+                if (rdoPrimary.Checked)
+                {
+                    if (!string.IsNullOrWhiteSpace(sFilter))
+                        sFilter += " AND ";
+
+                    sFilter += " (IsPrimary <> 0) ";
                 }
             }
 
@@ -1560,9 +1568,16 @@ namespace CHaMPWorkbench
             }
         }
 
-        private void txtSiteName_TextChanged(object sender, EventArgs e)
+        private void ControlChange_FilterVisits(object sender, EventArgs e)
         {
             FilterVisits(sender, e);
+        }
+
+        private void manageQueriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserQueries.frmManageQueries frm = new UserQueries.frmManageQueries(m_dbCon.ConnectionString);
+            frm.ShowDialog();
+            // TODO reload query menu items
         }
     }
 }

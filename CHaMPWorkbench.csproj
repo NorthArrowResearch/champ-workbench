@@ -381,6 +381,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="UserQueries\frmManageQueries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserQueries\frmManageQueries.Designer.cs">
+      <DependentUpon>frmManageQueries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserQueries\frmQueryProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserQueries\frmQueryProperties.Designer.cs">
+      <DependentUpon>frmQueryProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Validation\frmSelectHelper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -503,6 +515,12 @@
     <EmbeddedResource Include="RBT\InputFiles\RBTConfiguration.resx">
       <DependentUpon>RBTConfiguration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserQueries\frmManageQueries.resx">
+      <DependentUpon>frmManageQueries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserQueries\frmQueryProperties.resx">
+      <DependentUpon>frmQueryProperties.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Validation\frmSelectHelper.resx">
       <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </EmbeddedResource>
@@ -550,6 +568,9 @@
       <Link>FileGDBAPID.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\query.png" />
+    <None Include="Resources\Add.png" />
+    <None Include="Resources\Delete.png" />
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

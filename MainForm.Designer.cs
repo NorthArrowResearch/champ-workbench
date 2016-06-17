@@ -83,6 +83,9 @@
             this.runSelectedBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,6 +110,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rdoAll = new System.Windows.Forms.RadioButton();
+            this.rdoPrimary = new System.Windows.Forms.RadioButton();
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtSiteName = new System.Windows.Forms.TextBox();
@@ -168,6 +174,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.cmsWatershed.SuspendLayout();
             this.grpFieldSeason.SuspendLayout();
@@ -361,6 +368,7 @@
             this.geomorphicUnitToolGUTToolStripMenuItem,
             this.toolStripSeparator8,
             this.modelValidationReportsToolStripMenuItem,
+            this.userQueriesToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -584,6 +592,28 @@
             this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
             // 
+            // userQueriesToolStripMenuItem
+            // 
+            this.userQueriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageQueriesToolStripMenuItem,
+            this.toolStripSeparator17});
+            this.userQueriesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.query;
+            this.userQueriesToolStripMenuItem.Name = "userQueriesToolStripMenuItem";
+            this.userQueriesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.userQueriesToolStripMenuItem.Text = "User Queries";
+            // 
+            // manageQueriesToolStripMenuItem
+            // 
+            this.manageQueriesToolStripMenuItem.Name = "manageQueriesToolStripMenuItem";
+            this.manageQueriesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.manageQueriesToolStripMenuItem.Text = "Manage Queries...";
+            this.manageQueriesToolStripMenuItem.Click += new System.EventHandler(this.manageQueriesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(166, 6);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -772,6 +802,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.txtStreamName);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.txtSiteName);
@@ -788,13 +819,47 @@
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 2;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rdoAll);
+            this.groupBox2.Controls.Add(this.rdoPrimary);
+            this.groupBox2.Location = new System.Drawing.Point(12, 423);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(162, 48);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Primary";
+            // 
+            // rdoAll
+            // 
+            this.rdoAll.AutoSize = true;
+            this.rdoAll.Checked = true;
+            this.rdoAll.Location = new System.Drawing.Point(15, 19);
+            this.rdoAll.Name = "rdoAll";
+            this.rdoAll.Size = new System.Drawing.Size(36, 17);
+            this.rdoAll.TabIndex = 1;
+            this.rdoAll.TabStop = true;
+            this.rdoAll.Text = "All";
+            this.rdoAll.UseVisualStyleBackColor = true;
+            // 
+            // rdoPrimary
+            // 
+            this.rdoPrimary.AutoSize = true;
+            this.rdoPrimary.Location = new System.Drawing.Point(72, 19);
+            this.rdoPrimary.Name = "rdoPrimary";
+            this.rdoPrimary.Size = new System.Drawing.Size(81, 17);
+            this.rdoPrimary.TabIndex = 0;
+            this.rdoPrimary.Text = "Primary only";
+            this.rdoPrimary.UseVisualStyleBackColor = true;
+            this.rdoPrimary.CheckedChanged += new System.EventHandler(this.ControlChange_FilterVisits);
+            // 
             // txtStreamName
             // 
             this.txtStreamName.Location = new System.Drawing.Point(13, 397);
             this.txtStreamName.Name = "txtStreamName";
             this.txtStreamName.Size = new System.Drawing.Size(161, 20);
             this.txtStreamName.TabIndex = 7;
-            this.txtStreamName.TextChanged += new System.EventHandler(this.txtSiteName_TextChanged);
+            this.txtStreamName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
             // label2
             // 
@@ -811,7 +876,7 @@
             this.txtSiteName.Name = "txtSiteName";
             this.txtSiteName.Size = new System.Drawing.Size(161, 20);
             this.txtSiteName.TabIndex = 5;
-            this.txtSiteName.TextChanged += new System.EventHandler(this.txtSiteName_TextChanged);
+            this.txtSiteName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
             // label1
             // 
@@ -1325,6 +1390,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.cmsWatershed.ResumeLayout(false);
             this.grpFieldSeason.ResumeLayout(false);
@@ -1470,6 +1537,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rdoAll;
+        private System.Windows.Forms.RadioButton rdoPrimary;
+        private System.Windows.Forms.ToolStripMenuItem userQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
     }
 }
 
