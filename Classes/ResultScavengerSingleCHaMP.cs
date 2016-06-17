@@ -77,6 +77,8 @@ namespace CHaMPWorkbench.Classes
                     if (nResultID > 0)
                     {
                         ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
+                        ScavengeTierMetrics(ref dbTrans, ref xmlResults, 1, 4, 5, nResultID); // Tier 1 is Metric Group ID LookupListItem = 4 and the values (e.g. Slow/Pool) are stored in ListID = 5
+                        ScavengeTierMetrics(ref dbTrans, ref xmlResults, 2, 5, 11, nResultID); // Tier 2 is Metric Group ID LookupListItem = 5 and the values (e.g. rapid) are stored in ListID = 11
                         Scavenge_ChangeDetection(ref dbTrans, xmlResults, nResultID);
                         dbTrans.Commit();
                     }
@@ -203,6 +205,65 @@ namespace CHaMPWorkbench.Classes
                         pMetricValue.Value = DBNull.Value;
 
                     nMetricsScavenged += dbCom.ExecuteNonQuery();
+                }
+            }
+
+            return nMetricsScavenged;
+        }
+
+        /// <summary>
+        /// Performs the actual retrieval of metric values from the result XML file and inserts them into the database
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="xmlResults">RBT result XML document</param>
+        /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
+        /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
+        private int ScavengeTierMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nTier, int nMetricGroupID, int nLookupListIDTierValues, int nResultID)
+        {
+            List<ScavengeMetric> lVisitMetrics = GetMetrics(nMetricGroupID);
+            if (lVisitMetrics.Count < 1)
+                return 0;
+
+            // The metric definition XPaths for tier metrics contain a wildcard that needs to be replaced when searching the XML results.
+            string sTierWildCard = string.Format("%%TIER{0}_NAME%%", nTier);
+
+            // Build a dictionary of the tier values ("rapid", "Beaver Pool", Off Channel etc) for the specified Metric Group.
+            // These will be substituted for the wildcard string above.
+            Dictionary<string, int> dTierValues = new Dictionary<string, int>();
+            OleDbCommand comTierValues = new OleDbCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = @ListID", dbTrans.Connection, dbTrans);
+            comTierValues.Parameters.AddWithValue("@ListID", nLookupListIDTierValues);
+            OleDbDataReader dbRead = comTierValues.ExecuteReader();
+            while (dbRead.Read())
+                dTierValues.Add(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt32(dbRead.GetOrdinal("ItemID")));
+
+            // Prepare the query to insert the tier metric value
+            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_TierMetrics (ResultID, MetricID, TierID, MetricValue) VALUES (@ResultID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
+            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
+            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
+            OleDbParameter pTierID = dbCom.Parameters.Add("@TierID", OleDbType.Integer);
+            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+
+            int nMetricsScavenged = 0;
+            foreach (ScavengeMetric aMetric in lVisitMetrics)
+            {
+                foreach (string sTierName in dTierValues.Keys)
+                {
+                    // Tier metric XPaths have wildcards that need to be replaced with the tier value name (e.g. "rapid")
+                    string sXPath = aMetric.XPath.Replace(sTierWildCard, sTierName);
+                    pMetricID.Value = dTierValues[sTierName];
+
+                    XmlNode metricNode = xmlResults.SelectSingleNode(sXPath);
+                    if (metricNode is XmlNode)
+                    {
+                        pMetricID.Value = aMetric.MetricID;
+                        double fMetricValue;
+                        if (!string.IsNullOrEmpty(metricNode.InnerText) && double.TryParse(metricNode.InnerText, out fMetricValue))
+                            pMetricValue.Value = fMetricValue;
+                        else
+                            pMetricValue.Value = DBNull.Value;
+
+                        nMetricsScavenged += dbCom.ExecuteNonQuery();
+                    }
                 }
             }
 
