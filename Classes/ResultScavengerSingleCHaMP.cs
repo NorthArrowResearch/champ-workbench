@@ -73,12 +73,14 @@ namespace CHaMPWorkbench.Classes
                 try
                 {
                     // Insert the result file record and retrieve the unique ID that represents that result.
-                    nResultID = InsertResultRecord(ref dbTrans, sResultFilePath, ref xmlResults);
+                    int nVisitID = 0;
+                    nResultID = InsertResultRecord(ref dbTrans, sResultFilePath, ref xmlResults, out nVisitID);
                     if (nResultID > 0)
                     {
                         ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
                         ScavengeTierMetrics(ref dbTrans, ref xmlResults, 1, 4, 5, nResultID); // Tier 1 is Metric Group ID LookupListItem = 4 and the values (e.g. Slow/Pool) are stored in ListID = 5
                         ScavengeTierMetrics(ref dbTrans, ref xmlResults, 2, 5, 11, nResultID); // Tier 2 is Metric Group ID LookupListItem = 5 and the values (e.g. rapid) are stored in ListID = 11
+                        ScavengeChannelUnitrMetrics(ref dbTrans, ref xmlResults, nVisitID, nResultID);
                         Scavenge_ChangeDetection(ref dbTrans, xmlResults, nResultID);
                         dbTrans.Commit();
                     }
@@ -135,9 +137,10 @@ namespace CHaMPWorkbench.Classes
         /// <returns>The ID of the RBT result file record. This is used as the foreign key for inserting metrics.</returns>
         /// <remarks>
         /// This method only saves the record if the RBT version, run date time and VisitID values can be obtained from the result XML file.</remarks>
-        private int InsertResultRecord(ref OleDbTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults)
+        private int InsertResultRecord(ref OleDbTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults, out int nVisitID)
         {
             int nResultID = 0;
+            nVisitID = 0;
 
             XmlNode nodVersion = xmlResults.SelectSingleNode("//rbt_results//meta_data//rbt_version");
             if (nodVersion is XmlNode && !string.IsNullOrEmpty(nodVersion.InnerText))
@@ -147,7 +150,6 @@ namespace CHaMPWorkbench.Classes
                 if (nodCreated is XmlNode && !string.IsNullOrEmpty(nodCreated.InnerText) && DateTime.TryParse(nodCreated.InnerText, out dtCreated))
                 {
                     XmlNode nodVisitID = xmlResults.SelectSingleNode("//rbt_results//metric_results//visitid");
-                    int nVisitID;
                     if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
                     {
                         OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
@@ -225,7 +227,7 @@ namespace CHaMPWorkbench.Classes
                 return 0;
 
             // The metric definition XPaths for tier metrics contain a wildcard that needs to be replaced when searching the XML results.
-            string sTierWildCard = string.Format("%%TIER{0}_NAME%%", nTier);
+            string sWildCard = string.Format("%%TIER{0}_NAME%%", nTier);
 
             // Build a dictionary of the tier values ("rapid", "Beaver Pool", Off Channel etc) for the specified Metric Group.
             // These will be substituted for the wildcard string above.
@@ -249,8 +251,71 @@ namespace CHaMPWorkbench.Classes
                 foreach (string sTierName in dTierValues.Keys)
                 {
                     // Tier metric XPaths have wildcards that need to be replaced with the tier value name (e.g. "rapid")
-                    string sXPath = aMetric.XPath.Replace(sTierWildCard, sTierName);
-                    pMetricID.Value = dTierValues[sTierName];
+                    string sXPath = aMetric.XPath.Replace(sWildCard, string.Format("'{0}'", sTierName));
+                    pTierID.Value = dTierValues[sTierName];
+
+                    XmlNode metricNode = xmlResults.SelectSingleNode(sXPath);
+                    if (metricNode is XmlNode)
+                    {
+                        pMetricID.Value = aMetric.MetricID;
+                        double fMetricValue;
+                        if (!string.IsNullOrEmpty(metricNode.InnerText) && double.TryParse(metricNode.InnerText, out fMetricValue))
+                            pMetricValue.Value = fMetricValue;
+                        else
+                            pMetricValue.Value = DBNull.Value;
+
+                        nMetricsScavenged += dbCom.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            return nMetricsScavenged;
+        }
+
+        /// <summary>
+        /// Performs the actual retrieval of metric values from the result XML file and inserts them into the database
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="xmlResults">RBT result XML document</param>
+        /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
+        /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
+        private int ScavengeChannelUnitrMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nVisitID, int nResultID)
+        {
+            // channel unit metrics are LookupList ItemID 6 (cm.org GroupTypeID = 2)
+            List<ScavengeMetric> lVisitMetrics = GetMetrics(6);
+            if (lVisitMetrics.Count < 1)
+                return 0;
+
+            // Build a dictionary of the channel units for this visit. Key is channel unit number (crew defined) to value of ChannelUnitID (workbench DB ID)
+            Dictionary<int, int> dChannelUnits = new Dictionary<int, int>();
+            OleDbCommand comTierValues = new OleDbCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber" +
+                " FROM CHAMP_Visits AS V INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID" +
+                " WHERE (V.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbTrans.Connection, dbTrans);
+            comTierValues.Parameters.AddWithValue("@VisitID", nVisitID);
+            OleDbDataReader dbRead = comTierValues.ExecuteReader();
+            while (dbRead.Read())
+                dChannelUnits.Add(dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitID")));
+
+            // Prepare the query to insert the tier metric value
+            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_ChannelUnitMetrics (ResultID, MetricID, ChannelUnitID, ChannelUnitNumber, MetricValue) VALUES (@ResultID, @MetricID, @ChannelUnitID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);
+            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
+            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
+            OleDbParameter pChannelUnitID = dbCom.Parameters.Add("@ChannelUnitID", OleDbType.Integer);
+            OleDbParameter pChannelUnitNumber = dbCom.Parameters.Add("@ChannelUnitNumber", OleDbType.Integer);
+            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+
+            int nMetricsScavenged = 0;
+            foreach (ScavengeMetric aMetric in lVisitMetrics)
+            {
+                foreach (int nChannelUnitNumber in dChannelUnits.Keys)
+                {
+                    // The metric definition XPaths for channel unit metrics contain a wildcard that needs to be replaced when searching the XML results.
+                    string sWildCard = string.Format("%%CHANNEL_UNIT_NUMBER%%", nChannelUnitNumber);
+
+                    // Tier metric XPaths have wildcards that need to be replaced with the tier value name (e.g. "rapid")
+                    string sXPath = aMetric.XPath.Replace(sWildCard, string.Format("'{0}'", nChannelUnitNumber));
+                    pChannelUnitID.Value = dChannelUnits[nChannelUnitNumber];
+                    pChannelUnitNumber.Value = nChannelUnitNumber;
 
                     XmlNode metricNode = xmlResults.SelectSingleNode(sXPath);
                     if (metricNode is XmlNode)
