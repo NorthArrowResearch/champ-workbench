@@ -73,7 +73,7 @@ namespace CHaMPWorkbench
             }
         }
 
-        private string GetDatabasePathFromConnectionString(string sConnectionString)
+        public static string GetDatabasePathFromConnectionString(string sConnectionString)
         {
             string sPath = "";
             if (!String.IsNullOrWhiteSpace(sConnectionString))
@@ -360,6 +360,7 @@ namespace CHaMPWorkbench
             try
             {
                 AddXSLReportsToMenu();
+                AddUserQueriesToMenu();
                 UpdateMenuItemStatus(menuStrip1.Items);
             }
             catch (Exception ex)
@@ -410,6 +411,38 @@ namespace CHaMPWorkbench
                 else
                 {
                     //lstReports.Items.Add(new ReportItem(System.IO.Path.GetFileNameWithoutExtension(sReportXSLPath), sReportXSLPath));
+                }
+            }
+        }
+
+        private void AddUserQueriesToMenu()
+        {
+            using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                OleDbCommand dbCom = new OleDbCommand("SELECT QueryID, Title, QueryText FROM User_Queries", dbCon);
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    try
+                    {
+                        ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
+
+                        // Build a tag that contains everything the query needs to run
+                        mnuQuery.Tag = new UserQueries.frmQueryProperties.UserQueryTag(
+                            m_dbCon.ConnectionString,
+                            dbRead.GetString(dbRead.GetOrdinal("QueryText")),
+                            dbRead.GetInt32(dbRead.GetOrdinal("QueryID")),
+                            dbRead.GetString(dbRead.GetOrdinal("Title")));
+
+                        mnuQuery.Click += UserQueries.frmQueryProperties.RunUserQuery;
+                        userQueriesToolStripMenuItem.DropDownItems.Add(mnuQuery);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.Print("Error adding user query menu item: " + ex.Message);
+                    }
                 }
             }
         }

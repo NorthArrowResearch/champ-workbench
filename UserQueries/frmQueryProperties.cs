@@ -15,8 +15,6 @@ namespace CHaMPWorkbench.UserQueries
         private string DBCon { get; set; }
         public int ID { get; internal set; }
 
-        private List<string> ForbiddenStrings = new List<string> { "insert", "update", "delete", "drop", "alter" };
-
         public frmQueryProperties(string sDBCon, int nID = 0)
         {
             InitializeComponent();
@@ -48,14 +46,21 @@ namespace CHaMPWorkbench.UserQueries
 
         private void cmdVerify_Click(object sender, EventArgs e)
         {
-            VerifyQuery(true);
+            VerifyQuery(DBCon, txtQueryText.Text, true);
         }
 
-        private bool VerifyQuery(bool bShowSuccessMessage)
+        /// <summary>
+        /// Check that a particular query string is valid and not nefarious
+        /// </summary>
+        /// <param name="bShowSuccessMessage"></param>
+        /// <returns>This method needs to be static so that the code that
+        /// actually runs the user query (see bottom of file) can access it.</returns>
+        private static bool VerifyQuery(string sDBCon, string sSQL, bool bShowSuccessMessage)
         {
+            List<string> ForbiddenStrings = new List<string> { "insert", "update", "delete", "drop", "alter" };
             string sMessageBoxTitle = "Validation Failed";
 
-            if (string.IsNullOrEmpty(txtQueryText.Text))
+            if (string.IsNullOrEmpty(sSQL))
             {
                 MessageBox.Show("You must enter a query string to proceed.", sMessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
@@ -63,7 +68,7 @@ namespace CHaMPWorkbench.UserQueries
 
             foreach (string sWord in ForbiddenStrings)
             {
-                if (txtQueryText.Text.ToLower().Contains(sWord))
+                if (sSQL.ToLower().Contains(sWord))
                 {
                     MessageBox.Show(string.Format("The query text contains the forbidden word '{0}' The following words are not allowed in the query text string {1}.", sWord, string.Join(", ", ForbiddenStrings)), sMessageBoxTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
@@ -72,10 +77,10 @@ namespace CHaMPWorkbench.UserQueries
 
             try
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand(txtQueryText.Text, dbCon);
+                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
                     dbCom.ExecuteScalar();
 
                     if (bShowSuccessMessage)
@@ -156,10 +161,115 @@ namespace CHaMPWorkbench.UserQueries
                 return false;
             }
 
-            if (!VerifyQuery(false))
+            if (!VerifyQuery(DBCon, txtQueryText.Text, false))
                 return false;
 
             return true;
+        }
+
+        public static void RunUserQuery(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem)
+            {
+                UserQueryTag uqTag = (sender as ToolStripMenuItem).Tag as UserQueryTag;
+                if (VerifyQuery(uqTag.DBCon, uqTag.SQL, false))
+                {
+                    SaveFileDialog frm = new SaveFileDialog();
+                    frm.Title = "Save User Query To CSV File";
+                    frm.Filter = "Comma Separated Value File (*.csv)|*.csv";
+
+                    frm.InitialDirectory = System.IO.Path.GetDirectoryName(MainForm.GetDatabasePathFromConnectionString(uqTag.DBCon));
+                    frm.FileName = uqTag.DefaultFileName;
+
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        int nRecords = 0;
+                        using (OleDbConnection dbCon = new OleDbConnection(uqTag.DBCon))
+                        {
+                            dbCon.Open();
+
+                            OleDbDataAdapter dbDA = new OleDbDataAdapter(uqTag.SQL, dbCon);
+                            DataTable dt = new DataTable();
+                            nRecords = dbDA.Fill(dt);
+
+                            StringBuilder sb = new StringBuilder();
+                            IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+                            sb.AppendLine(string.Join(",", columnNames));
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                                sb.AppendLine(string.Join(",", fields));
+                            }
+
+                            System.IO.File.WriteAllText(frm.FileName, sb.ToString());
+                        }
+
+                        if (System.IO.File.Exists(frm.FileName))
+                        {
+                            if (MessageBox.Show(string.Format("{0} line(s) written to file. Do you want to open the file produced?", nRecords), "User Query Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+                                == DialogResult.Yes)
+                            {
+                                System.Diagnostics.Process.Start(frm.FileName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public class UserQueryTag
+        {
+            public string DBCon { get; internal set; }
+            public string SQL { get; internal set; }
+            public int ID { get; internal set; }
+            public string Title { get; internal set; }
+
+            public string DefaultFileName
+            {
+                get
+                {
+                    string sResult = Title;
+                    foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+                        sResult = sResult.Replace(c.ToString(), "");
+                    
+                    sResult = sResult.Replace("-", "");
+                    sResult = sResult.Replace("_", "");
+                    sResult = sResult.Replace(" ", "");
+                    sResult = sResult.Replace(".", "");
+                    sResult = sResult.Replace("!", "");
+                    sResult = sResult.Replace("@", "");
+                    sResult = sResult.Replace("#", "");
+                    sResult = sResult.Replace("$", "");
+                    sResult = sResult.Replace("%", "");
+                    sResult = sResult.Replace("^", "");
+                    sResult = sResult.Replace("&", "");
+                    sResult = sResult.Replace("*", "");
+                    sResult = sResult.Replace("(", "");
+                    sResult = sResult.Replace(")", "");
+                    sResult = sResult.Replace("+", "");
+                    sResult = sResult.Replace("=", "");
+                    sResult = sResult.Replace("'", "");
+                    sResult = sResult.Replace("~", "");
+                    sResult = sResult.Replace("`", "");
+                    sResult = sResult.Replace("{", "");
+                    sResult = sResult.Replace("}", "");
+                    sResult = sResult.Replace("[", "");
+                    sResult = sResult.Replace("]", "");
+                    sResult = sResult.Replace(";", "");
+                    sResult = sResult.Replace(",", "");
+
+                    return sResult;
+                }
+            }
+
+            public UserQueryTag(string sDBCon, string sSQL, int nID, string sTitle)
+            {
+                DBCon = sDBCon;
+                SQL = sSQL;
+                ID = nID;
+                Title = sTitle;
+            }
         }
     }
 }
