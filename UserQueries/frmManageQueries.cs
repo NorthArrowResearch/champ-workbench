@@ -10,14 +10,19 @@ using System.Data.OleDb;
 
 namespace CHaMPWorkbench.UserQueries
 {
+ 
     public partial class frmManageQueries : Form
     {
         private string DBCon { get; set; }
+   
+        // Intialized as false and set to true whenever any query is added, edited or deleted
+        public bool UserQueriesChanged { get; internal set;}
 
         public frmManageQueries(string sDBCon)
         {
             InitializeComponent();
             DBCon = sDBCon;
+            UserQueriesChanged = false;
         }
 
         private void frmManageQueries_Load(object sender, EventArgs e)
@@ -54,6 +59,7 @@ namespace CHaMPWorkbench.UserQueries
             frmQueryProperties frm = new frmQueryProperties(DBCon, 0);
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                UserQueriesChanged = true;
                 LoadData();
             }
         }
@@ -67,6 +73,7 @@ namespace CHaMPWorkbench.UserQueries
                 frmQueryProperties frm = new frmQueryProperties(DBCon, (int)selRow.Row["QueryID"]);
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    UserQueriesChanged = true;
                     LoadData();
                 }
             }
@@ -101,6 +108,7 @@ namespace CHaMPWorkbench.UserQueries
                         dbCom.ExecuteNonQuery();
 
                         MessageBox.Show("User query deleted successfully.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UserQueriesChanged = true;
                         LoadData();
                     }
 

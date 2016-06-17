@@ -417,6 +417,14 @@ namespace CHaMPWorkbench
 
         private void AddUserQueriesToMenu()
         {
+            // This method is called when the main menu first loads and also 
+            // whenever the user query management form is closed and changes were made.
+            // Clear out any user queries before inserting them back in. 
+            // Work backwards through the list and also keep the first two items
+            // which are the management form and a separator
+            for (int i = userQueriesToolStripMenuItem.DropDownItems.Count - 1; i > 1; i--)
+                userQueriesToolStripMenuItem.DropDownItems.RemoveAt(i);
+
             using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
             {
                 dbCon.Open();
@@ -1610,7 +1618,11 @@ namespace CHaMPWorkbench
         {
             UserQueries.frmManageQueries frm = new UserQueries.frmManageQueries(m_dbCon.ConnectionString);
             frm.ShowDialog();
-            // TODO reload query menu items
+
+            if (frm.UserQueriesChanged)
+            {
+                AddUserQueriesToMenu();
+            }
         }
     }
 }
