@@ -425,31 +425,34 @@ namespace CHaMPWorkbench
             for (int i = userQueriesToolStripMenuItem.DropDownItems.Count - 1; i > 1; i--)
                 userQueriesToolStripMenuItem.DropDownItems.RemoveAt(i);
 
-            using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+            if (m_dbCon is OleDbConnection)
             {
-                dbCon.Open();
-
-                OleDbCommand dbCom = new OleDbCommand("SELECT QueryID, Title, QueryText FROM User_Queries", dbCon);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
+                using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
                 {
-                    try
-                    {
-                        ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
+                    dbCon.Open();
 
-                        // Build a tag that contains everything the query needs to run
-                        mnuQuery.Tag = new UserQueries.frmQueryProperties.UserQueryTag(
-                            m_dbCon.ConnectionString,
-                            dbRead.GetString(dbRead.GetOrdinal("QueryText")),
-                            dbRead.GetInt32(dbRead.GetOrdinal("QueryID")),
-                            dbRead.GetString(dbRead.GetOrdinal("Title")));
-
-                        mnuQuery.Click += UserQueries.frmQueryProperties.RunUserQuery;
-                        userQueriesToolStripMenuItem.DropDownItems.Add(mnuQuery);
-                    }
-                    catch (Exception ex)
+                    OleDbCommand dbCom = new OleDbCommand("SELECT QueryID, Title, QueryText FROM User_Queries", dbCon);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
                     {
-                        System.Diagnostics.Debug.Print("Error adding user query menu item: " + ex.Message);
+                        try
+                        {
+                            ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
+
+                            // Build a tag that contains everything the query needs to run
+                            mnuQuery.Tag = new UserQueries.frmQueryProperties.UserQueryTag(
+                                m_dbCon.ConnectionString,
+                                dbRead.GetString(dbRead.GetOrdinal("QueryText")),
+                                dbRead.GetInt32(dbRead.GetOrdinal("QueryID")),
+                                dbRead.GetString(dbRead.GetOrdinal("Title")));
+
+                            mnuQuery.Click += UserQueries.frmQueryProperties.RunUserQuery;
+                            userQueriesToolStripMenuItem.DropDownItems.Add(mnuQuery);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.Print("Error adding user query menu item: " + ex.Message);
+                        }
                     }
                 }
             }
