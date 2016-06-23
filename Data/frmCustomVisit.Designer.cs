@@ -83,7 +83,7 @@
             0,
             0});
             this.valVisitID.Minimum = new decimal(new int[] {
-            9000,
+            1,
             0,
             0,
             0});
