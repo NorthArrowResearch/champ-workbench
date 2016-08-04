@@ -1626,5 +1626,63 @@ namespace CHaMPWorkbench
                 AddUserQueriesToMenu();
             }
         }
+
+        private void generateChannelUnitCSVFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (grdVisits.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("There are no visits selected in the main grid. Select one or more visits for which you want to generate channel unit CSV files.", "No Visits Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else
+            {
+                if (MessageBox.Show(string.Format("This process will generate {0} new channel unit CSV files for the selected visits. It will overwrite any existing channel unit CSV files for the selected visits, should they already exist," +
+                    " and create the necessary folders should they not already exist. Are you sure that you want to create {0} channel unit CSV files?", grdVisits.SelectedRows.Count), "Generate Channel Unit CSVs", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
+            if (string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) || !System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
+            {
+                MessageBox.Show("The top level monitoring data path must be set before this tool is run. Go to the Tools > Options menu to set this folder before attempting to use this tool.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
+                Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(m_dbCon.ConnectionString);
+                int nComplete = 0;
+                foreach (DataGridViewRow r in grdVisits.SelectedRows)
+                {
+                    DataRowView drv = (DataRowView)r.DataBoundItem;
+                    System.IO.DirectoryInfo dTopoFolder = null;
+                    System.IO.DirectoryInfo dMonitoringDataFolder = new DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
+                    Classes.DataFolders.Topo(dMonitoringDataFolder, (int)drv["VisitID"], out dTopoFolder);
+                    if (dTopoFolder is System.IO.DirectoryInfo)
+                    {
+                        if (!dTopoFolder.Exists)
+                            dTopoFolder.Create();
+
+                        System.IO.FileInfo fiCSV = new FileInfo(System.IO.Path.Combine(dTopoFolder.FullName, "ChannelUnits.csv"));
+                        fiCSV = csv.Run((int)drv["VisitID"], fiCSV.FullName);
+                        if (fiCSV.Exists)
+                            nComplete++;
+                    }
+                }
+
+                MessageBox.Show(string.Format("Process complete. {0} channel unit CSV file(s) created.", nComplete), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+            finally
+            {
+                System.Windows.Forms.Cursor.Current = Cursors.Default;
+            }
+        }
     }
 }
