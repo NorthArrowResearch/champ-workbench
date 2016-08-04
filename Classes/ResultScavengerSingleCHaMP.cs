@@ -345,6 +345,8 @@ namespace CHaMPWorkbench.Classes
             try
             {
                 xmlR.Load(sLogFile);
+
+
             }
             catch (Exception ex)
             {
@@ -357,7 +359,7 @@ namespace CHaMPWorkbench.Classes
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo)", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo, DateRun, ModelVersion) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo, @DateRun, @ModelVersion)", dbCon);
 
                 if (nResultID > 0)
                     dbCom.Parameters.AddWithValue("ResultID", nResultID);
@@ -405,6 +407,29 @@ namespace CHaMPWorkbench.Classes
                         pMeta.Size = xMeta.InnerXml.Length;
                     }
                 }
+
+                XmlNode xDateRun = xmlR.SelectSingleNode("rbt/meta_data/date_time_created");
+                OleDbParameter pDateRun = dbCom.Parameters.Add("DateRun", OleDbType.VarChar);
+                pDateRun.Value = DBNull.Value;
+                DateTime dtDaterun;
+                if (xDateRun is XmlNode && !string.IsNullOrEmpty(xDateRun.InnerText) && DateTime.TryParse(xDateRun.InnerText, out dtDaterun))
+                {
+                    pDateRun.Value = dtDaterun;
+                    pDateRun.Size = xDateRun.InnerXml.Length;
+                }
+
+                XmlNode xModelVersion = xmlR.SelectSingleNode("rbt/meta_data/rbt_version");
+                OleDbParameter pModelVersion = dbCom.Parameters.Add("ModelVersion", OleDbType.VarChar);
+                pModelVersion.Value = DBNull.Value;
+                if (xModelVersion is XmlNode)
+                {
+                    if (!string.IsNullOrEmpty(xModelVersion.InnerXml))
+                    {
+                        pModelVersion.Value = xModelVersion.InnerXml;
+                        pModelVersion.Size = xModelVersion.InnerXml.Length;
+                    }
+                }
+
                 dbCom.ExecuteNonQuery();
                 //
                 // Get the ID of this log file entry
