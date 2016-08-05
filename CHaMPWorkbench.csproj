@@ -525,7 +525,6 @@
       <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="CHaMPWorkbench_1_TemporaryKey.pfx" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>
