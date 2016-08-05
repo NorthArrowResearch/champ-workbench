@@ -31,62 +31,39 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
                     string sUnit;
                     List<string> lUnits = new List<string>();
-                    lUnits.Add("Watershed" +
-                        ",SiteID" +
-                        ",SampleDate" +
-                        ",VisitID" +
-                        ",MeasureNbr" +
-                        ",Crew" +
-                        ",VisitPhase" +
-                        ",VisitStatus" +
-                        ",StreamName" +
-                        ",Panel" +
-                        ",ChannelUnitID" +
+                    lUnits.Add("VisitID" +
+                        ",SiteName" +
+                        ",UnitID" +
                         ",UnitNumber" +
-                        ",ChannelSegment" +
-                        ",SegmentNumber" +
                         ",Tier1" +
                         ",Tier2" +
-                        ",FieldNotes" +
-                        ",CountOfPebbles" +
-                        ",DataUpdateNotes" +
                         ",PercentFlow" +
                         ",SideChannelPresent" +
                         ",InQualifyingSideChannel" +
+                        ",Bedrock" +
                         ",BouldersGT256" +
                         ",Cobbles65_255" +
                         ",CoarseGravel17_64" +
                         ",FineGravel3_16" +
                         ",Sand006_2" +
                         ",FinesLT006" +
-                        ",SumSubstrateCover"
+                        ",SumSubstrateCover" +
+                        ",SegmentNumber" +
+                        ",ChannelSegment"
                      );
 
                     while (dbRead.Read())
                     {
-                        sUnit = AddStringField(ref dbRead, "WatershedName", false);
+                        sUnit = string.Format("{0}", nVisitID);
                         sUnit += AddStringField(ref dbRead, "SiteName");
-                        sUnit += AddStringField(ref dbRead, "SampleDate");
-                        sUnit += string.Format(",{0}", nVisitID);
-                        sUnit += ",1"; // Measure
-                        sUnit += AddStringField(ref dbRead, "CrewName");
-                        sUnit += ",1"; // Visit Phase
-                        sUnit += ",1"; // Visit Status
-                        sUnit += ","; // Stream Name
-                        sUnit += AddStringField(ref dbRead, "PanelName");
                         sUnit += AddNumericField(ref dbRead, "ChannelUnitID");
                         sUnit += AddNumericField(ref dbRead, "ChannelUnitNumber");
-                        sUnit += AddStringField(ref dbRead, "SegmentName");
-                        sUnit += AddNumericField(ref dbRead, "SegmentNumber");
                         sUnit += AddStringField(ref dbRead, "Tier1");
                         sUnit += AddStringField(ref dbRead, "Tier2");
-                        sUnit += ",";
-                        sUnit += ",0"; // Pebbles
-                        sUnit += ",";
                         sUnit += ",0"; // Percent Flow
                         sUnit += ",0"; // Side channel Present
                         sUnit += ",0"; // In qualifying side channel
-
+                        sUnit += ",0"; // Bedrock
                         sUnit += AddNumericField(ref dbRead, "BouldersGT256");
                         sUnit += AddNumericField(ref dbRead, "Cobbles65255");
                         sUnit += AddNumericField(ref dbRead, "CoarseGravel1764");
@@ -94,6 +71,9 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
                         sUnit += AddNumericField(ref dbRead, "Sand0062");
                         sUnit += AddNumericField(ref dbRead, "FinesLT006");
                         sUnit += AddNumericField(ref dbRead, "SumSubstrateCover");
+                        sUnit += AddNumericField(ref dbRead, "SegmentNumber");
+                        sUnit += AddStringField(ref dbRead, "SegmentName");
+
                         lUnits.Add(sUnit);
                     }
                     dbRead.Close();
@@ -110,7 +90,7 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
             System.IO.FileInfo fiCSV = null;
             if (System.IO.File.Exists(sFilePath))
-               fiCSV =  new System.IO.FileInfo(sFilePath);
+                fiCSV = new System.IO.FileInfo(sFilePath);
 
             return fiCSV;
         }
