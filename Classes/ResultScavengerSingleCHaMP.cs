@@ -335,7 +335,19 @@ namespace CHaMPWorkbench.Classes
             return nMetricsScavenged;
         }
 
-        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sDBCon"></param>
+        /// <param name="nResultID"></param>
+        /// <param name="sLogFile"></param>
+        /// <param name="sResultFilePath"></param>
+        /// <param name="nBatchRunID">Optional identifier for the batch run that generated this log</param>
+        /// <remarks>The BatchRunID was added on 5 Aug 2016 and requested by Carol. It will be absent when a
+        /// log file is scavenged from disk. But it should be present when the log file was generated as part
+        /// of a workbench batch run. This is helpful for SFR to trace back what purpose / model was being done
+        /// when a log file was generated.</remarks>
+        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath, int nBatchRunID = 0)
         {
             if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
                 return;
@@ -359,7 +371,7 @@ namespace CHaMPWorkbench.Classes
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo, DateRun, ModelVersion) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo, @DateRun, @ModelVersion)", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo, DateRun, ModelVersion, BatchRunID) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo, @DateRun, @ModelVersion, @BatchRunID)", dbCon);
 
                 if (nResultID > 0)
                     dbCom.Parameters.AddWithValue("ResultID", nResultID);
@@ -429,6 +441,11 @@ namespace CHaMPWorkbench.Classes
                         pModelVersion.Size = xModelVersion.InnerXml.Length;
                     }
                 }
+
+                OleDbParameter pBatchID = dbCom.Parameters.Add("BatchRunID", OleDbType.Integer);
+                pBatchID.Value = DBNull.Value;
+                if (nBatchRunID > 0)
+                    pBatchID.Value = nBatchRunID;
 
                 dbCom.ExecuteNonQuery();
                 //

@@ -150,7 +150,7 @@ namespace CHaMPWorkbench.Classes
                         {
                             XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
                             if (aNode is XmlNode)
-                                scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile);
+                                scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile, aRun.ID);
                         }
                     }
                 }
