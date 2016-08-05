@@ -53,10 +53,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A7D4181289B0234AA93B5BC9CEF560FD075B0917</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D4179E4A054449A906711BE863400E3C1D145E65</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CHaMPWorkbench_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>CHaMPWorkbench_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -374,7 +374,6 @@
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.cs">
       <DependentUpon>RBTWorkbenchDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RBTWorkbenchDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -525,6 +524,7 @@
       <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>
