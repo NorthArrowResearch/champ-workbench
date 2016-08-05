@@ -15,3 +15,4 @@ _ReSharper.*
 Ankh.NoLoad
 
 WorkbenchMaster.zip
+*.pfx
