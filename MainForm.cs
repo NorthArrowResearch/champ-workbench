@@ -1703,5 +1703,11 @@ namespace CHaMPWorkbench
             Data.frmMetricGrid frm = new Data.frmMetricGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
             frm.ShowDialog();
         }
+
+        private void metricReviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmMetricReview frm = new Data.frmMetricReview(m_dbCon.ConnectionString, GetSelectedVisitsList());
+            frm.ShowDialog();
+        }
     }
 }

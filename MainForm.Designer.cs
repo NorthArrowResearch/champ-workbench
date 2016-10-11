@@ -172,6 +172,7 @@
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricReviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -376,6 +377,7 @@
             this.userQueriesToolStripMenuItem,
             this.userFeedbackToolStripMenuItem,
             this.metricResultsToolStripMenuItem,
+            this.metricReviewToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -1404,6 +1406,13 @@
             this.metricResultsToolStripMenuItem.Text = "Metric Results...";
             this.metricResultsToolStripMenuItem.Click += new System.EventHandler(this.metricResultsToolStripMenuItem_Click);
             // 
+            // metricReviewToolStripMenuItem
+            // 
+            this.metricReviewToolStripMenuItem.Name = "metricReviewToolStripMenuItem";
+            this.metricReviewToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.metricReviewToolStripMenuItem.Text = "Metric Review...";
+            this.metricReviewToolStripMenuItem.Click += new System.EventHandler(this.metricReviewToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1584,6 +1593,7 @@
         private System.Windows.Forms.ToolStripMenuItem userFeedbackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem metricResultsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricReviewToolStripMenuItem;
     }
 }
 

@@ -11,9 +11,19 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmMetricReview : Form
     {
-        public frmMetricReview()
+        public string DBCon { get; internal set; }
+        private List<ListItem> Visits { get; set; }
+
+        public frmMetricReview(string sDBCon, List<ListItem> lVisits)
         {
             InitializeComponent();
+            DBCon = sDBCon;
+            Visits = lVisits;
+            ucMetricGrid1.VisitIDs = lVisits;
+            ucMetricGrid1.DBCon = sDBCon;
+
+            ucMetricPlot1.DBCon = sDBCon;
+            ucMetricPlot1.VisitID = 1;
         }
     }
 }

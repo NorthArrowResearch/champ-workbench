@@ -30,10 +30,16 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
+            this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
+            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricPlot();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +53,10 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ucMetricGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(892, 555);
             this.splitContainer1.SplitterDistance = 297;
             this.splitContainer1.TabIndex = 0;
@@ -56,9 +66,48 @@
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.ucUserFeedback1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.ucMetricPlot1);
             this.splitContainer2.Size = new System.Drawing.Size(892, 297);
             this.splitContainer2.SplitterDistance = 297;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // ucUserFeedback1
+            // 
+            this.ucUserFeedback1.DBCon = null;
+            this.ucUserFeedback1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucUserFeedback1.Location = new System.Drawing.Point(0, 0);
+            this.ucUserFeedback1.LogID = 0;
+            this.ucUserFeedback1.MinimumSize = new System.Drawing.Size(573, 250);
+            this.ucUserFeedback1.Name = "ucUserFeedback1";
+            this.ucUserFeedback1.Size = new System.Drawing.Size(573, 297);
+            this.ucUserFeedback1.TabIndex = 0;
+            // 
+            // ucMetricGrid1
+            // 
+            this.ucMetricGrid1.DBCon = null;
+            this.ucMetricGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucMetricGrid1.Location = new System.Drawing.Point(0, 0);
+            this.ucMetricGrid1.Name = "ucMetricGrid1";
+            this.ucMetricGrid1.Size = new System.Drawing.Size(892, 254);
+            this.ucMetricGrid1.TabIndex = 0;
+            this.ucMetricGrid1.VisitIDs = null;
+            // 
+            // ucMetricPlot1
+            // 
+            this.ucMetricPlot1.DBCon = null;
+            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
+            this.ucMetricPlot1.Name = "ucMetricPlot1";
+            this.ucMetricPlot1.Size = new System.Drawing.Size(591, 297);
+            this.ucMetricPlot1.TabIndex = 0;
+            this.ucMetricPlot1.VisitID = 0;
             // 
             // frmMetricReview
             // 
@@ -69,8 +118,11 @@
             this.Name = "frmMetricReview";
             this.Text = "frmMetricReview";
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -81,5 +133,8 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private ucUserFeedback ucUserFeedback1;
+        private ucMetricPlot ucMetricPlot1;
+        private ucMetricGrid ucMetricGrid1;
     }
 }

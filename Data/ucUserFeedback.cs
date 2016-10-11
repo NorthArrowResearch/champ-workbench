@@ -23,6 +23,9 @@ namespace CHaMPWorkbench.Data
 
         private void ucUserFeedback_Load(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(DBCon))
+                return;
+                
             int nQualityID = 0;
             int nWatershedID = 0;
             int nSiteID = 0;
