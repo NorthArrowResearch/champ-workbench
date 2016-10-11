@@ -178,6 +178,18 @@
     <Compile Include="Data\frmImportCHaMPInfo.Designer.cs">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmMetricGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmMetricGrid.Designer.cs">
+      <DependentUpon>frmMetricGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\frmMetricReview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmMetricReview.Designer.cs">
+      <DependentUpon>frmMetricReview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmSelectVisitID.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +207,12 @@
     </Compile>
     <Compile Include="Data\frmVisitDetails.Designer.cs">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ucMetricGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\ucMetricGrid.Designer.cs">
+      <DependentUpon>ucMetricGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\ucMetricPlot.cs">
       <SubType>UserControl</SubType>
@@ -429,6 +447,12 @@
     <EmbeddedResource Include="Data\frmImportCHaMPInfo.resx">
       <DependentUpon>frmImportCHaMPInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmMetricGrid.resx">
+      <DependentUpon>frmMetricGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmMetricReview.resx">
+      <DependentUpon>frmMetricReview.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\frmSelectVisitID.resx">
       <DependentUpon>frmSelectVisitID.cs</DependentUpon>
     </EmbeddedResource>
@@ -437,6 +461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ucMetricGrid.resx">
+      <DependentUpon>ucMetricGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricPlot.resx">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>

@@ -87,6 +87,8 @@
             this.userQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.userFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewUserFeedbackItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -169,8 +171,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewUserFeedbackItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -374,6 +375,7 @@
             this.generateChannelUnitCSVFilesToolStripMenuItem,
             this.userQueriesToolStripMenuItem,
             this.userFeedbackToolStripMenuItem,
+            this.metricResultsToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -626,6 +628,21 @@
             // 
             this.toolStripSeparator17.Name = "toolStripSeparator17";
             this.toolStripSeparator17.Size = new System.Drawing.Size(166, 6);
+            // 
+            // userFeedbackToolStripMenuItem
+            // 
+            this.userFeedbackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createNewUserFeedbackItemToolStripMenuItem});
+            this.userFeedbackToolStripMenuItem.Name = "userFeedbackToolStripMenuItem";
+            this.userFeedbackToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.userFeedbackToolStripMenuItem.Text = "User Feedback";
+            // 
+            // createNewUserFeedbackItemToolStripMenuItem
+            // 
+            this.createNewUserFeedbackItemToolStripMenuItem.Name = "createNewUserFeedbackItemToolStripMenuItem";
+            this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.createNewUserFeedbackItemToolStripMenuItem.Text = "Create New User Feedback Item...";
+            this.createNewUserFeedbackItemToolStripMenuItem.Click += new System.EventHandler(this.createNewUserFeedbackItemToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1380,20 +1397,12 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // userFeedbackToolStripMenuItem
+            // metricResultsToolStripMenuItem
             // 
-            this.userFeedbackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewUserFeedbackItemToolStripMenuItem});
-            this.userFeedbackToolStripMenuItem.Name = "userFeedbackToolStripMenuItem";
-            this.userFeedbackToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.userFeedbackToolStripMenuItem.Text = "User Feedback";
-            // 
-            // createNewUserFeedbackItemToolStripMenuItem
-            // 
-            this.createNewUserFeedbackItemToolStripMenuItem.Name = "createNewUserFeedbackItemToolStripMenuItem";
-            this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.createNewUserFeedbackItemToolStripMenuItem.Text = "Create New User Feedback Item...";
-            this.createNewUserFeedbackItemToolStripMenuItem.Click += new System.EventHandler(this.createNewUserFeedbackItemToolStripMenuItem_Click);
+            this.metricResultsToolStripMenuItem.Name = "metricResultsToolStripMenuItem";
+            this.metricResultsToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.metricResultsToolStripMenuItem.Text = "Metric Results...";
+            this.metricResultsToolStripMenuItem.Click += new System.EventHandler(this.metricResultsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1574,6 +1583,7 @@
         private System.Windows.Forms.ToolStripMenuItem generateChannelUnitCSVFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userFeedbackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricResultsToolStripMenuItem;
     }
 }
 

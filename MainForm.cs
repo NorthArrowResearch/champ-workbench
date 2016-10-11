@@ -1697,5 +1697,11 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void metricResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmMetricGrid frm = new Data.frmMetricGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
+            frm.ShowDialog();
+        }
     }
 }
