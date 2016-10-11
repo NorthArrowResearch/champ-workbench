@@ -61,5 +61,23 @@ namespace CHaMPWorkbench.Data
                 }
             }
         }
+
+        public void ExportDataToCSV(System.IO.FileInfo fiExport)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            DataTable dt = (DataTable)grdData.DataSource;
+            string[] columnNames = dt.Columns.Cast<DataColumn>().Select(column => column.ColumnName).ToArray();
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string[] fields = row.ItemArray.Select(field => field.ToString()).
+                                                ToArray();
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            System.IO.File.WriteAllText(fiExport.FullName, sb.ToString());
+        }
     }
 }
