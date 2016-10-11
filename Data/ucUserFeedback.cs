@@ -23,6 +23,14 @@ namespace CHaMPWorkbench.Data
 
         private void ucUserFeedback_Load(object sender, EventArgs e)
         {
+            if (!(this.Parent is Form))
+            {
+                // Placed in metric review user control. Hide the cancel button
+                cmdCancel.Visible = false;
+                cmdOK.Left = cmdCancel.Left;
+            }
+
+
             if (string.IsNullOrEmpty(DBCon))
                 return;
                 

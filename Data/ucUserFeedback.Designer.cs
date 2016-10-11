@@ -87,7 +87,7 @@
             this.cboItemReviewed.Location = new System.Drawing.Point(84, 97);
             this.cboItemReviewed.MaxLength = 255;
             this.cboItemReviewed.Name = "cboItemReviewed";
-            this.cboItemReviewed.Size = new System.Drawing.Size(483, 21);
+            this.cboItemReviewed.Size = new System.Drawing.Size(200, 21);
             this.cboItemReviewed.TabIndex = 7;
             // 
             // label3
@@ -103,7 +103,7 @@
             // 
             this.cboWatershed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboWatershed.FormattingEnabled = true;
-            this.cboWatershed.Location = new System.Drawing.Point(367, 5);
+            this.cboWatershed.Location = new System.Drawing.Point(84, 124);
             this.cboWatershed.Name = "cboWatershed";
             this.cboWatershed.Size = new System.Drawing.Size(200, 21);
             this.cboWatershed.TabIndex = 9;
@@ -111,7 +111,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(305, 9);
+            this.label4.Location = new System.Drawing.Point(22, 128);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 8;
@@ -121,7 +121,7 @@
             // 
             this.cboSite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSite.FormattingEnabled = true;
-            this.cboSite.Location = new System.Drawing.Point(367, 34);
+            this.cboSite.Location = new System.Drawing.Point(84, 153);
             this.cboSite.Name = "cboSite";
             this.cboSite.Size = new System.Drawing.Size(200, 21);
             this.cboSite.TabIndex = 11;
@@ -130,7 +130,7 @@
             // 
             this.cboVisit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboVisit.FormattingEnabled = true;
-            this.cboVisit.Location = new System.Drawing.Point(367, 64);
+            this.cboVisit.Location = new System.Drawing.Point(84, 183);
             this.cboVisit.Name = "cboVisit";
             this.cboVisit.Size = new System.Drawing.Size(200, 21);
             this.cboVisit.TabIndex = 13;
@@ -138,7 +138,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(339, 38);
+            this.label5.Location = new System.Drawing.Point(56, 157);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(25, 13);
             this.label5.TabIndex = 10;
@@ -147,7 +147,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(338, 68);
+            this.label6.Location = new System.Drawing.Point(55, 187);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 13);
             this.label6.TabIndex = 12;
@@ -174,7 +174,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 134);
+            this.label8.Location = new System.Drawing.Point(7, 218);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(60, 13);
             this.label8.TabIndex = 14;
@@ -185,16 +185,16 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(7, 150);
+            this.txtDescription.Location = new System.Drawing.Point(7, 234);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(560, 135);
+            this.txtDescription.Size = new System.Drawing.Size(282, 131);
             this.txtDescription.TabIndex = 14;
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(492, 291);
+            this.cmdCancel.Location = new System.Drawing.Point(214, 371);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 16;
@@ -205,7 +205,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(411, 291);
+            this.cmdOK.Location = new System.Drawing.Point(133, 371);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 15;
@@ -235,9 +235,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dtDateTime);
             this.Controls.Add(this.label1);
-            this.MinimumSize = new System.Drawing.Size(573, 250);
+            this.MinimumSize = new System.Drawing.Size(295, 300);
             this.Name = "ucUserFeedback";
-            this.Size = new System.Drawing.Size(573, 320);
+            this.Size = new System.Drawing.Size(295, 400);
             this.Load += new System.EventHandler(this.ucUserFeedback_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

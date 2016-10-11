@@ -33,19 +33,22 @@
             // 
             // ucUserFeedback1
             // 
+            this.ucUserFeedback1.DBCon = null;
             this.ucUserFeedback1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucUserFeedback1.Location = new System.Drawing.Point(0, 0);
-            this.ucUserFeedback1.MinimumSize = new System.Drawing.Size(573, 250);
+            this.ucUserFeedback1.LogID = 0;
+            this.ucUserFeedback1.MinimumSize = new System.Drawing.Size(295, 300);
             this.ucUserFeedback1.Name = "ucUserFeedback1";
-            this.ucUserFeedback1.Size = new System.Drawing.Size(573, 322);
+            this.ucUserFeedback1.Size = new System.Drawing.Size(298, 406);
             this.ucUserFeedback1.TabIndex = 0;
             // 
             // frmUserFeedback
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(573, 322);
+            this.ClientSize = new System.Drawing.Size(298, 406);
             this.Controls.Add(this.ucUserFeedback1);
+            this.MinimumSize = new System.Drawing.Size(295, 300);
             this.Name = "frmUserFeedback";
             this.Text = "User Feedback";
             this.ResumeLayout(false);

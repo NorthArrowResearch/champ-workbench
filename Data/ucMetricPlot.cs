@@ -31,6 +31,10 @@ namespace CHaMPWorkbench.Data
             PlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID, out m_dModelResults);
 
+            ListItem.LoadComboWithListItems(ref cboXAxis,  DBCon, "SELECT MetricID, DisplayNameShort FROM Metric_Definitions WHERE CMMetricID IS NOT NULL ORDER BY DisplayNameShort");
+            ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, "SELECT MetricID, DisplayNameShort FROM Metric_Definitions WHERE CMMetricID IS NOT NULL ORDER BY DisplayNameShort");
+            cboXAxis.SelectedValue = "Value";
+
             cboModelResults.SelectedIndexChanged += PlotChanged;
             cboPlotTypes.SelectedIndexChanged += PlotChanged;
         }
@@ -42,6 +46,13 @@ namespace CHaMPWorkbench.Data
                 thePlot = cboPlotTypes.SelectedItem as PlotType;
             else
                 return;
+
+            // Select the appropriate X and Y metrics
+            if (!(thePlot is CustomPlotType))
+            {
+                cboXAxis.SelectedValue = thePlot.XMetricID;
+                cboYAxis.SelectedValue = thePlot.YMetricID;
+            }
 
             ModelResult theResult = null;
             if (cboModelResults.SelectedItem is ModelResult)
@@ -71,6 +82,11 @@ namespace CHaMPWorkbench.Data
 
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lblXAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
+            cboXAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
+            lblYAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
+            cboYAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
+
             if (cboModelResults.SelectedItem is ModelResult && cboPlotTypes.SelectedItem is PlotType)
             {
                 // TODO replot graph
@@ -158,6 +174,9 @@ namespace CHaMPWorkbench.Data
             {
                 cbo.Items.Clear();
 
+                // Add the new custom plot type that enables the custom axes
+                cbo.Items.Add(new CustomPlotType("-- Custom Axes --"));
+
                 using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
                 {
                     dbCon.Open();
@@ -177,9 +196,23 @@ namespace CHaMPWorkbench.Data
                             , dbRead.GetInt32(dbRead.GetOrdinal("PlotTypeID"))));
                     }
 
-                    if (cbo.Items.Count > 0)
-                        cbo.SelectedIndex = 0;
+                    if (cbo.Items.Count > 1)
+                        cbo.SelectedIndex = 1;
                 }
+            }
+        }
+
+        class CustomPlotType : PlotType
+        {
+            public new int XMetricID { get; set; }
+            public new int YMetricID { get; set; }
+            public new string XMetric { get; internal set; }
+            public new string YMetric { get; internal set; }
+
+            public CustomPlotType(string sTitle)
+                : base(0, sTitle, 0, "", 0, "", 0)
+            {
+
             }
         }
 

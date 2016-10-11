@@ -24,6 +24,13 @@ namespace CHaMPWorkbench.Data
 
             ucMetricPlot1.DBCon = sDBCon;
             ucMetricPlot1.VisitID = 1;
+
+            ucUserFeedback1.DBCon = sDBCon;
+        }
+
+        private void frmMetricReview_Load(object sender, EventArgs e)
+        {
+            splitContainer2.SplitterDistance = this.Width - 295;
         }
     }
 }
