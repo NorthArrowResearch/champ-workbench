@@ -184,6 +184,12 @@
     <Compile Include="Data\frmSelectVisitID.Designer.cs">
       <DependentUpon>frmSelectVisitID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmUserFeedback.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmUserFeedback.Designer.cs">
+      <DependentUpon>frmUserFeedback.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmVisitDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,12 @@
     </Compile>
     <Compile Include="Data\ucMetricPlot.Designer.cs">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ucUserFeedback.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\ucUserFeedback.Designer.cs">
+      <DependentUpon>ucUserFeedback.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
     <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
@@ -420,11 +432,17 @@
     <EmbeddedResource Include="Data\frmSelectVisitID.resx">
       <DependentUpon>frmSelectVisitID.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmUserFeedback.resx">
+      <DependentUpon>frmUserFeedback.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricPlot.resx">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ucUserFeedback.resx">
+      <DependentUpon>ucUserFeedback.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
       <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
@@ -525,6 +543,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>

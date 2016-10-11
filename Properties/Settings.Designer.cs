@@ -482,5 +482,17 @@ namespace CHaMPWorkbench.Properties {
                 return ((int)(this["ModelScavengeTypeID_Manual"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultUserName {
+            get {
+                return ((string)(this["DefaultUserName"]));
+            }
+            set {
+                this["DefaultUserName"] = value;
+            }
+        }
     }
 }

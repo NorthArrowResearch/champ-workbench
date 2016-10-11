@@ -1684,5 +1684,18 @@ namespace CHaMPWorkbench
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
             }
         }
+
+        private void createNewUserFeedbackItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Data.frmUserFeedback frm = new Data.frmUserFeedback(m_dbCon.ConnectionString);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

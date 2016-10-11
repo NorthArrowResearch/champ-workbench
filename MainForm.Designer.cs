@@ -83,6 +83,7 @@
             this.runSelectedBatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.modelValidationReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateChannelUnitCSVFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
@@ -168,7 +169,8 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateChannelUnitCSVFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewUserFeedbackItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -371,6 +373,7 @@
             this.modelValidationReportsToolStripMenuItem,
             this.generateChannelUnitCSVFilesToolStripMenuItem,
             this.userQueriesToolStripMenuItem,
+            this.userFeedbackToolStripMenuItem,
             this.toolStripSeparator1,
             this.optionsToolStripMenuItem});
             this.rBTToolStripMenuItem.Name = "rBTToolStripMenuItem";
@@ -593,6 +596,14 @@
             this.modelValidationReportsToolStripMenuItem.Name = "modelValidationReportsToolStripMenuItem";
             this.modelValidationReportsToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.modelValidationReportsToolStripMenuItem.Text = "Model Validation Reports...";
+            // 
+            // generateChannelUnitCSVFilesToolStripMenuItem
+            // 
+            this.generateChannelUnitCSVFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.ConcaveHull;
+            this.generateChannelUnitCSVFilesToolStripMenuItem.Name = "generateChannelUnitCSVFilesToolStripMenuItem";
+            this.generateChannelUnitCSVFilesToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.generateChannelUnitCSVFilesToolStripMenuItem.Text = "Generate Channel Unit CSV file(s)...";
+            this.generateChannelUnitCSVFilesToolStripMenuItem.Click += new System.EventHandler(this.generateChannelUnitCSVFilesToolStripMenuItem_Click);
             // 
             // userQueriesToolStripMenuItem
             // 
@@ -1369,13 +1380,20 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // generateChannelUnitCSVFilesToolStripMenuItem
+            // userFeedbackToolStripMenuItem
             // 
-            this.generateChannelUnitCSVFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.ConcaveHull;
-            this.generateChannelUnitCSVFilesToolStripMenuItem.Name = "generateChannelUnitCSVFilesToolStripMenuItem";
-            this.generateChannelUnitCSVFilesToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.generateChannelUnitCSVFilesToolStripMenuItem.Text = "Generate Channel Unit CSV file(s)...";
-            this.generateChannelUnitCSVFilesToolStripMenuItem.Click += new System.EventHandler(this.generateChannelUnitCSVFilesToolStripMenuItem_Click);
+            this.userFeedbackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createNewUserFeedbackItemToolStripMenuItem});
+            this.userFeedbackToolStripMenuItem.Name = "userFeedbackToolStripMenuItem";
+            this.userFeedbackToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.userFeedbackToolStripMenuItem.Text = "User Feedback";
+            // 
+            // createNewUserFeedbackItemToolStripMenuItem
+            // 
+            this.createNewUserFeedbackItemToolStripMenuItem.Name = "createNewUserFeedbackItemToolStripMenuItem";
+            this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.createNewUserFeedbackItemToolStripMenuItem.Text = "Create New User Feedback Item...";
+            this.createNewUserFeedbackItemToolStripMenuItem.Click += new System.EventHandler(this.createNewUserFeedbackItemToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1554,6 +1572,8 @@
         private System.Windows.Forms.ToolStripMenuItem manageQueriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripMenuItem generateChannelUnitCSVFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
     }
 }
 
