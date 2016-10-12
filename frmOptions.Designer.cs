@@ -74,6 +74,8 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtUserName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -274,6 +276,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.txtUserName);
+            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.valGoogleMapZoom);
@@ -543,6 +547,23 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(20, 161);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(122, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Metric review user name";
+            // 
+            // txtUserName
+            // 
+            this.txtUserName.Location = new System.Drawing.Point(145, 157);
+            this.txtUserName.MaxLength = 50;
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(171, 20);
+            this.txtUserName.TabIndex = 4;
+            // 
             // frmOptions
             // 
             this.AcceptButton = this.cmdOK;
@@ -623,5 +644,7 @@
         private System.Windows.Forms.Button cmdBrowseHabitatConsole;
         private System.Windows.Forms.TextBox txtHabitatConsole;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.Label label12;
     }
 }

@@ -27,6 +27,7 @@ namespace CHaMPWorkbench
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
             txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
+            txtUserName.Text = CHaMPWorkbench.Properties.Settings.Default.DefaultUserName;
 
             valGoogleMapZoom.Value = (decimal)CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom;
 
@@ -48,9 +49,9 @@ namespace CHaMPWorkbench
             {
                 dtStart.Value = CHaMPWorkbench.Properties.Settings.Default.HydroGraphStart;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                dtStart.Value = new DateTime(2011,1,1);
+                dtStart.Value = new DateTime(2011, 1, 1);
                 Console.WriteLine(ex.Message);
             }
 
@@ -166,6 +167,8 @@ namespace CHaMPWorkbench
                 Exception exOuter = new Exception("Error saving software settings.", ex);
                 Classes.ExceptionHandling.NARException.HandleException(exOuter);
             }
+
+            CHaMPWorkbench.Properties.Settings.Default.DefaultUserName = txtUserName.Text;
 
             CHaMPWorkbench.Properties.Settings.Default.Save();
         }
