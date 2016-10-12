@@ -222,6 +222,7 @@ namespace CHaMPWorkbench
                         CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
                         CHaMPWorkbench.Properties.Settings.Default.Save();
                         UpdateMenuItemStatus(menuStrip1.Items);
+                        AddProgramsToMenu();
                     }
                     LoadVisits();
                 }
@@ -361,6 +362,7 @@ namespace CHaMPWorkbench
             {
                 AddXSLReportsToMenu();
                 AddUserQueriesToMenu();
+                AddProgramsToMenu();
                 UpdateMenuItemStatus(menuStrip1.Items);
             }
             catch (Exception ex)
@@ -1703,7 +1705,7 @@ namespace CHaMPWorkbench
             Data.frmMetricGrid frm = new Data.frmMetricGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
             frm.ShowDialog();
         }
-        
+
         private void ShowMetricReviewForm(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem)
@@ -1721,7 +1723,8 @@ namespace CHaMPWorkbench
             }
         }
 
-        private void metricReviewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+
+        private void AddProgramsToMenu()
         {
             metricReviewToolStripMenuItem.DropDownItems.Clear();
             if (m_dbCon is OleDbConnection)

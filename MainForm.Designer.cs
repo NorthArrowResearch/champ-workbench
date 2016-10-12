@@ -658,7 +658,6 @@
             this.metricReviewToolStripMenuItem.Name = "metricReviewToolStripMenuItem";
             this.metricReviewToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.metricReviewToolStripMenuItem.Text = "Metric Review...";
-            this.metricReviewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.metricReviewToolStripMenuItem_DropDownOpening);
             // 
             // toolStripSeparator1
             // 

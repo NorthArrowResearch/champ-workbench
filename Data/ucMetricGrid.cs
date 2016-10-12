@@ -72,6 +72,7 @@ namespace CHaMPWorkbench.Data
                     DataTable ta = new DataTable();
                     da.Fill(ta);
                     grdData.DataSource = ta;
+                    grdData.ClearSelection();
                 }
                 catch (Exception ex)
                 {
