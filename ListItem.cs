@@ -46,6 +46,21 @@ namespace CHaMPWorkbench
 
             return cbo.Items.Count;
         }
+
+        public static void SelectItem(ref System.Windows.Forms.ComboBox cbo, int nID)
+        {
+            for (int i = 0; i < cbo.Items.Count; i++)
+            {
+                if (cbo.Items[i] is ListItem)
+                {
+                    if (((ListItem)cbo.Items[i]).Value == nID)
+                    {
+                        cbo.SelectedIndex = i;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public class CheckedListItem : ListItem
