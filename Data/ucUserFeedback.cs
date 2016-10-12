@@ -262,6 +262,14 @@ namespace CHaMPWorkbench.Data
                 try
                 {
                     dbCom.ExecuteNonQuery();
+                    if (this.Parent is Form)
+                    {
+                        ((Form)this.Parent).DialogResult = DialogResult.OK;
+                    }
+                    else
+                    {
+                        MessageBox.Show("User feedback saved.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception ex)
                 {
