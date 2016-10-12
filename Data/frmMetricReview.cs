@@ -22,6 +22,7 @@ namespace CHaMPWorkbench.Data
             Visits = lVisits;
             ucMetricGrid1.VisitIDs = lVisits;
             ucMetricGrid1.DBCon = sDBCon;
+            ucMetricGrid1.ProgramID = theProgram.Value;
 
             ucMetricPlot1.DBCon = sDBCon;
             ucMetricPlot1.VisitID = 1;

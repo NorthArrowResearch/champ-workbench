@@ -14,6 +14,7 @@ namespace CHaMPWorkbench.Data
     {
         public string DBCon { get; set; }
         public List<ListItem> VisitIDs { get; set; }
+        public int ProgramID { get; set; }
 
         public event EventHandler SelectedVisitChanged;
 
@@ -69,10 +70,10 @@ namespace CHaMPWorkbench.Data
                     sSQL += " ORDER BY VISITID";
 
                     OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                    da.SelectCommand.Parameters.AddWithValue("ProgramID", ProgramID);
                     DataTable ta = new DataTable();
                     da.Fill(ta);
                     grdData.DataSource = ta;
-                    grdData.ClearSelection();
                 }
                 catch (Exception ex)
                 {
