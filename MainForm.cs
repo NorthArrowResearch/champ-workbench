@@ -1746,5 +1746,32 @@ namespace CHaMPWorkbench
                 }
             }
         }
+
+        private void userFeedbackItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
+
+        private void userFeedbackForAllItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(m_dbCon.ConnectionString, null);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+
+        }
     }
 }

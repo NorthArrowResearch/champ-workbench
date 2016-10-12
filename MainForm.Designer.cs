@@ -89,6 +89,8 @@
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.userFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewUserFeedbackItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userFeedbackItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userFeedbackForAllItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricReviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -634,17 +636,36 @@
             // userFeedbackToolStripMenuItem
             // 
             this.userFeedbackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewUserFeedbackItemToolStripMenuItem});
+            this.createNewUserFeedbackItemToolStripMenuItem,
+            this.userFeedbackItemsToolStripMenuItem,
+            this.userFeedbackForAllItemsToolStripMenuItem});
             this.userFeedbackToolStripMenuItem.Name = "userFeedbackToolStripMenuItem";
             this.userFeedbackToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.userFeedbackToolStripMenuItem.Text = "User Feedback";
             // 
             // createNewUserFeedbackItemToolStripMenuItem
             // 
+            this.createNewUserFeedbackItemToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.user_comment;
             this.createNewUserFeedbackItemToolStripMenuItem.Name = "createNewUserFeedbackItemToolStripMenuItem";
-            this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.createNewUserFeedbackItemToolStripMenuItem.Text = "Create New User Feedback Item...";
             this.createNewUserFeedbackItemToolStripMenuItem.Click += new System.EventHandler(this.createNewUserFeedbackItemToolStripMenuItem_Click);
+            // 
+            // userFeedbackItemsToolStripMenuItem
+            // 
+            this.userFeedbackItemsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.user_comment;
+            this.userFeedbackItemsToolStripMenuItem.Name = "userFeedbackItemsToolStripMenuItem";
+            this.userFeedbackItemsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.userFeedbackItemsToolStripMenuItem.Text = "User Feedback For Selected Visits...";
+            this.userFeedbackItemsToolStripMenuItem.Click += new System.EventHandler(this.userFeedbackItemsToolStripMenuItem_Click);
+            // 
+            // userFeedbackForAllItemsToolStripMenuItem
+            // 
+            this.userFeedbackForAllItemsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.user_comment;
+            this.userFeedbackForAllItemsToolStripMenuItem.Name = "userFeedbackForAllItemsToolStripMenuItem";
+            this.userFeedbackForAllItemsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.userFeedbackForAllItemsToolStripMenuItem.Text = "User Feedback for All Items...";
+            this.userFeedbackForAllItemsToolStripMenuItem.Click += new System.EventHandler(this.userFeedbackForAllItemsToolStripMenuItem_Click);
             // 
             // metricResultsToolStripMenuItem
             // 
@@ -1593,6 +1614,8 @@
         private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem metricResultsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem metricReviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackForAllItemsToolStripMenuItem;
     }
 }
 

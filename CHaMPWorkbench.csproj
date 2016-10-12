@@ -202,6 +202,12 @@
     <Compile Include="Data\frmUserFeedback.Designer.cs">
       <DependentUpon>frmUserFeedback.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmUserFeedbackGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmUserFeedbackGrid.Designer.cs">
+      <DependentUpon>frmUserFeedbackGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmVisitDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,6 +231,12 @@
     </Compile>
     <Compile Include="Data\ucUserFeedback.Designer.cs">
       <DependentUpon>ucUserFeedback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ucUserFeedbackGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\ucUserFeedbackGrid.Designer.cs">
+      <DependentUpon>ucUserFeedbackGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
     <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
@@ -459,6 +471,9 @@
     <EmbeddedResource Include="Data\frmUserFeedback.resx">
       <DependentUpon>frmUserFeedback.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmUserFeedbackGrid.resx">
+      <DependentUpon>frmUserFeedbackGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -470,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucUserFeedback.resx">
       <DependentUpon>ucUserFeedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ucUserFeedbackGrid.resx">
+      <DependentUpon>ucUserFeedbackGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
       <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
@@ -616,6 +634,8 @@
     <None Include="Resources\query.png" />
     <None Include="Resources\Add.png" />
     <None Include="Resources\Delete.png" />
+    <None Include="Resources\edit.png" />
+    <None Include="Resources\user_comment.png" />
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

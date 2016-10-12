@@ -11,10 +11,11 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmUserFeedback : Form
     {
-        public frmUserFeedback(string sDBCon)
+        public frmUserFeedback(string sDBCon, int nLogID = 0)
         {
             InitializeComponent();
             ucUserFeedback1.DBCon = sDBCon;
+            ucUserFeedback1.LogID = nLogID;
         }
     }
 }
