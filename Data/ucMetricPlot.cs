@@ -15,8 +15,23 @@ namespace CHaMPWorkbench.Data
     {
         public string DBCon { get; set; }
         public int VisitID { get; set; }
+        public ListItem Program { get; set; }
 
         private Dictionary<int, ModelResult> m_dModelResults;
+
+        public event EventHandler SelectedPlotChanged;
+
+        public string CurrentPlotTitle
+        {
+            get
+            {
+                string sPlotType = string.Empty;
+                if (cboPlotTypes.SelectedItem is PlotType)
+                    sPlotType = ((PlotType)cboPlotTypes.SelectedItem).Title;
+
+                return sPlotType;
+            }
+        }
 
         public ucMetricPlot()
         {
@@ -31,9 +46,11 @@ namespace CHaMPWorkbench.Data
             PlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID, out m_dModelResults);
 
-            ListItem.LoadComboWithListItems(ref cboXAxis,  DBCon, "SELECT MetricID, DisplayNameShort FROM Metric_Definitions WHERE CMMetricID IS NOT NULL ORDER BY DisplayNameShort");
-            ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, "SELECT MetricID, DisplayNameShort FROM Metric_Definitions WHERE CMMetricID IS NOT NULL ORDER BY DisplayNameShort");
-            cboXAxis.SelectedValue = "Value";
+            string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
+                " WHERE(D.TypeID = 3) AND (P.ProgramID = {0}) GROUP BY D.MetricID, D.Title ORDER BY D.Title", Program.Value);
+
+            ListItem.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
+            ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
 
             cboModelResults.SelectedIndexChanged += PlotChanged;
             cboPlotTypes.SelectedIndexChanged += PlotChanged;
@@ -62,6 +79,10 @@ namespace CHaMPWorkbench.Data
 
             Dictionary<int, double> dXMetricValues = GetMetricValues(thePlot.XMetricID, theResult.ID);
             Dictionary<int, double> dYMetricValues = GetMetricValues(thePlot.YMetricID, theResult.ID);
+
+            EventHandler handler = this.SelectedPlotChanged;
+            if (handler != null)
+                handler(this, e);
         }
 
         private Dictionary<int, double> GetMetricValues(int nMetricID, int nResultID)

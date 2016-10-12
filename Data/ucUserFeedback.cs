@@ -15,6 +15,18 @@ namespace CHaMPWorkbench.Data
         public string DBCon { get; set; }
         public int LogID { get; set; }
 
+        public string ItemReviewed
+        {
+            get
+            {
+                return cboItemReviewed.Text;
+            }
+            set
+            {
+                cboItemReviewed.Text = value;
+            }
+        }
+
         public ucUserFeedback()
         {
             InitializeComponent();

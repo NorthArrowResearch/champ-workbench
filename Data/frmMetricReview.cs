@@ -26,6 +26,7 @@ namespace CHaMPWorkbench.Data
 
             ucMetricPlot1.DBCon = sDBCon;
             ucMetricPlot1.VisitID = 1;
+            ucMetricPlot1.Program = theProgram;
 
             ucUserFeedback1.DBCon = sDBCon;
 
@@ -39,12 +40,18 @@ namespace CHaMPWorkbench.Data
             splitContainer2.SplitterDistance = this.Width - 295;
 
             ucMetricGrid1.SelectedVisitChanged += HandleSelectedVisitChangedInGrid;
+            ucMetricPlot1.SelectedPlotChanged += HandleSelectedPlotChanged;
         }
 
         public void HandleSelectedVisitChangedInGrid(object sender, EventArgs e)
         {
             // TODO: the user changed the selected visit in the grid view.
             ucUserFeedback1.SelectVisit(ucMetricGrid1.SelectedVisit);
+        }
+
+        public void HandleSelectedPlotChanged(object sender, EventArgs e)
+        {
+            ucUserFeedback1.ItemReviewed = string.Format("Plot: {0}", ucMetricPlot1.CurrentPlotTitle);
         }
     }
 }
