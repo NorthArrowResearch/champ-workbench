@@ -1703,11 +1703,45 @@ namespace CHaMPWorkbench
             Data.frmMetricGrid frm = new Data.frmMetricGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
             frm.ShowDialog();
         }
-
-        private void metricReviewToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        private void ShowMetricReviewForm(object sender, EventArgs e)
         {
-            Data.frmMetricReview frm = new Data.frmMetricReview(m_dbCon.ConnectionString, GetSelectedVisitsList());
-            frm.ShowDialog();
+            if (sender is ToolStripMenuItem)
+            {
+                try
+                {
+                    ListItem aProgram = (sender as ToolStripMenuItem).Tag as ListItem;
+                    Data.frmMetricReview frm = new Data.frmMetricReview(m_dbCon.ConnectionString, GetSelectedVisitsList(), aProgram);
+                    frm.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+            }
+        }
+
+        private void metricReviewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            metricReviewToolStripMenuItem.DropDownItems.Clear();
+            if (m_dbCon is OleDbConnection)
+            {
+                using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+                {
+                    dbCon.Open();
+                    OleDbCommand dbCom = new OleDbCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = 12 ORDER BY Title", dbCon);
+                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
+
+                        // Build a tag that contains everything the query needs to run
+                        mnuQuery.Tag = new ListItem(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt32(dbRead.GetOrdinal("ItemID")));
+                        mnuQuery.Click += this.ShowMetricReviewForm;
+                        metricReviewToolStripMenuItem.DropDownItems.Add(mnuQuery);
+                    }
+                }
+            }
         }
     }
 }

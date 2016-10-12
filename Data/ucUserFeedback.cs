@@ -276,5 +276,23 @@ namespace CHaMPWorkbench.Data
             tmp.Close();
             tmp.Dispose();
         }
+
+        public void SelectVisit(int nVisitID)
+        {
+            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            {
+                dbCon.Open();
+                OleDbCommand dbCom = new OleDbCommand("SELECT S.WatershedID, S.SiteID FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                if (!dbRead.Read())
+                    throw new Exception(string.Format("Error retrieving watershed and site ID for visit {0}", nVisitID));
+
+                // The event handlers will ensure the comboboxes are reloaded with the correct items as the assignment occurs
+                ListItem.SelectItem(ref cboWatershed, dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")));
+                ListItem.SelectItem(ref cboSite, dbRead.GetInt32(dbRead.GetOrdinal("SiteID")));
+                ListItem.SelectItem(ref cboVisit, nVisitID);
+            }
+        }
     }
 }

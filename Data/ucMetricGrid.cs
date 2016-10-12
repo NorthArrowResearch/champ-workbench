@@ -15,15 +15,37 @@ namespace CHaMPWorkbench.Data
         public string DBCon { get; set; }
         public List<ListItem> VisitIDs { get; set; }
 
+        public event EventHandler SelectedVisitChanged;
+
+        public int SelectedVisit
+        {
+            get
+            {
+                int nVisitID = 0;
+                if (!string.IsNullOrEmpty(DBCon))
+                {
+                    if (grdData.SelectedRows.Count == 1)
+                    {
+                        DataRowView drv = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
+                        DataRow aRow = drv.Row;
+                        nVisitID = (int)aRow["VisitID"];
+                    }
+                }
+                return nVisitID;
+            }
+        }
+
         public ucMetricGrid()
         {
             InitializeComponent();
 
             grdData.AllowUserToAddRows = false;
             grdData.AllowUserToDeleteRows = false;
+            grdData.ReadOnly = true;
             grdData.AllowUserToResizeRows = false;
             grdData.RowHeadersVisible = false;
             grdData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grdData.MultiSelect = false;
             grdData.Dock = DockStyle.Fill;
         }
 
@@ -78,6 +100,13 @@ namespace CHaMPWorkbench.Data
             }
 
             System.IO.File.WriteAllText(fiExport.FullName, sb.ToString());
+        }
+
+        private void grdData_SelectionChanged(object sender, EventArgs e)
+        {
+            EventHandler handler = this.SelectedVisitChanged;
+            if (handler != null)
+                handler(this, e);
         }
     }
 }

@@ -89,6 +89,8 @@
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.userFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewUserFeedbackItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricReviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,8 +173,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.metricResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.metricReviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -645,6 +645,20 @@
             this.createNewUserFeedbackItemToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.createNewUserFeedbackItemToolStripMenuItem.Text = "Create New User Feedback Item...";
             this.createNewUserFeedbackItemToolStripMenuItem.Click += new System.EventHandler(this.createNewUserFeedbackItemToolStripMenuItem_Click);
+            // 
+            // metricResultsToolStripMenuItem
+            // 
+            this.metricResultsToolStripMenuItem.Name = "metricResultsToolStripMenuItem";
+            this.metricResultsToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.metricResultsToolStripMenuItem.Text = "Metric Results...";
+            this.metricResultsToolStripMenuItem.Click += new System.EventHandler(this.metricResultsToolStripMenuItem_Click);
+            // 
+            // metricReviewToolStripMenuItem
+            // 
+            this.metricReviewToolStripMenuItem.Name = "metricReviewToolStripMenuItem";
+            this.metricReviewToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.metricReviewToolStripMenuItem.Text = "Metric Review...";
+            this.metricReviewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.metricReviewToolStripMenuItem_DropDownOpening);
             // 
             // toolStripSeparator1
             // 
@@ -1398,20 +1412,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(355, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
-            // 
-            // metricResultsToolStripMenuItem
-            // 
-            this.metricResultsToolStripMenuItem.Name = "metricResultsToolStripMenuItem";
-            this.metricResultsToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.metricResultsToolStripMenuItem.Text = "Metric Results...";
-            this.metricResultsToolStripMenuItem.Click += new System.EventHandler(this.metricResultsToolStripMenuItem_Click);
-            // 
-            // metricReviewToolStripMenuItem
-            // 
-            this.metricReviewToolStripMenuItem.Name = "metricReviewToolStripMenuItem";
-            this.metricReviewToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.metricReviewToolStripMenuItem.Text = "Metric Review...";
-            this.metricReviewToolStripMenuItem.Click += new System.EventHandler(this.metricReviewToolStripMenuItem_Click);
             // 
             // MainForm
             // 

@@ -39,6 +39,7 @@
             this.grdData.Name = "grdData";
             this.grdData.Size = new System.Drawing.Size(240, 150);
             this.grdData.TabIndex = 0;
+            this.grdData.SelectionChanged += new System.EventHandler(this.grdData_SelectionChanged);
             // 
             // ucMetricGrid
             // 
