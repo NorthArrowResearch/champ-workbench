@@ -281,6 +281,10 @@ namespace CHaMPWorkbench.Data
                     else
                     {
                         MessageBox.Show("User feedback saved.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Now clear the form to make it ready for the next item.
+                        txtDescription.Text = string.Empty;
+                        cboQualityRating.SelectedIndex = -1;
                     }
                 }
                 catch (Exception ex)
