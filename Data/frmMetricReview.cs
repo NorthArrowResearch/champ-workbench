@@ -26,6 +26,7 @@ namespace CHaMPWorkbench.Data
 
             ucMetricPlot1.DBCon = sDBCon;
             ucMetricPlot1.HighlightedVisitID = 1;
+            ucMetricPlot1.VisitIDs = lVisits.Select(n => n.Value).ToList<int>();
             ucMetricPlot1.Program = theProgram;
 
             ucUserFeedback1.DBCon = sDBCon;
@@ -47,6 +48,7 @@ namespace CHaMPWorkbench.Data
         {
             // TODO: the user changed the selected visit in the grid view.
             ucUserFeedback1.SelectVisit(ucMetricGrid1.SelectedVisit);
+            ucMetricPlot1.HighlightedVisitID = ucMetricGrid1.SelectedVisit;
         }
 
         public void HandleSelectedPlotChanged(object sender, EventArgs e)

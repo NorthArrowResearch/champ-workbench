@@ -43,9 +43,11 @@
             // 
             // chtData
             // 
+            this.chtData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.Name = "ChartArea1";
             this.chtData.ChartAreas.Add(chartArea1);
-            this.chtData.Dock = System.Windows.Forms.DockStyle.Bottom;
             legend1.Name = "Legend1";
             this.chtData.Legends.Add(legend1);
             this.chtData.Location = new System.Drawing.Point(0, 73);
@@ -66,6 +68,7 @@
             this.cboYAxis.Name = "cboYAxis";
             this.cboYAxis.Size = new System.Drawing.Size(220, 21);
             this.cboYAxis.TabIndex = 15;
+            this.cboYAxis.SelectedIndexChanged += new System.EventHandler(this.MetricCombo_SelectedIndexChanged);
             // 
             // cboXAxis
             // 
@@ -75,6 +78,7 @@
             this.cboXAxis.Name = "cboXAxis";
             this.cboXAxis.Size = new System.Drawing.Size(220, 21);
             this.cboXAxis.TabIndex = 14;
+            this.cboXAxis.SelectedIndexChanged += new System.EventHandler(this.MetricCombo_SelectedIndexChanged);
             // 
             // lblYAxis
             // 
