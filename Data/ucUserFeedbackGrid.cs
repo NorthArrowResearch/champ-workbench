@@ -160,11 +160,12 @@ namespace CHaMPWorkbench.Data
             deleteSelectedUserFeedbackToolStripMenuItem.Enabled = grdData.SelectedRows.Count == 1;
         }
 
-        private void grdData_MouseDown(object sender, MouseEventArgs e)
+        private void grdData_MouseClick(object sender, MouseEventArgs e)
         {
             var hti = grdData.HitTest(e.X, e.Y);
             grdData.ClearSelection();
-            grdData.Rows[hti.RowIndex].Selected = true;
+            if (hti.RowY > 1 && hti.ColumnX > 0)
+                grdData.Rows[hti.RowIndex].Selected = true;
         }
     }
 }

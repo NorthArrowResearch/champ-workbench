@@ -70,6 +70,7 @@ namespace CHaMPWorkbench.Data
 
                     nQualityID = dbRead.GetInt32(dbRead.GetOrdinal("QualityRatingID"));
                     txtUserName.Text = dbRead.GetString(dbRead.GetOrdinal("UserName"));
+                    cboItemReviewed.Text = dbRead.GetString(dbRead.GetOrdinal("ItemReviewed"));
 
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("Description")))
                         txtDescription.Text = dbRead.GetString(dbRead.GetOrdinal("Description"));
@@ -231,7 +232,6 @@ namespace CHaMPWorkbench.Data
                 if (LogID > 0)
                 {
                     dbCom = new OleDbCommand("UPDATE LogFeedback SET UserName = @UserName, QualityRatingID = @QualityRatingID, ItemReviewed = @ItemReviewed, WatershedID = @WatershedID, SiteID = @SiteID, VisitID = @VisitID, Description = @Description, ReviewedOn = @ReviewedON WHERE LogID = @LogID", dbCon);
-                    dbCom.Parameters.AddWithValue("LogID", LogID);
                 }
                 else
                     dbCom = new OleDbCommand("INSERT INTO LogFeedback (UserName, QualityRatingID, ItemReviewed, WatershedID, SiteID, VisitID, Description, ReviewedOn)" +
@@ -270,6 +270,9 @@ namespace CHaMPWorkbench.Data
 
                 OleDbParameter pReviewedOn = dbCom.Parameters.Add("ReviewedOn", OleDbType.Date);
                 pReviewedOn.Value = dtDateTime.Value;
+
+                if (LogID > 0)
+                    dbCom.Parameters.AddWithValue("LogID", LogID);
 
                 try
                 {

@@ -46,6 +46,7 @@
             this.grdData.Size = new System.Drawing.Size(482, 308);
             this.grdData.TabIndex = 0;
             this.grdData.SelectionChanged += new System.EventHandler(this.grdData_SelectionChanged);
+            this.grdData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.grdData_MouseClick);
             this.grdData.MouseDown += new System.Windows.Forms.MouseEventHandler(this.grdData_MouseDown);
             // 
             // cmsUserFeedback
