@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricPlot();
             this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
+            this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
+            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricReviewPlot();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,16 +61,6 @@
             this.splitContainer1.SplitterDistance = 297;
             this.splitContainer1.TabIndex = 0;
             // 
-            // ucMetricGrid1
-            // 
-            this.ucMetricGrid1.DBCon = null;
-            this.ucMetricGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucMetricGrid1.Location = new System.Drawing.Point(0, 0);
-            this.ucMetricGrid1.Name = "ucMetricGrid1";
-            this.ucMetricGrid1.Size = new System.Drawing.Size(892, 254);
-            this.ucMetricGrid1.TabIndex = 0;
-            this.ucMetricGrid1.VisitIDs = null;
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -91,26 +81,40 @@
             this.splitContainer2.SplitterDistance = 297;
             this.splitContainer2.TabIndex = 0;
             // 
-            // ucMetricPlot1
-            // 
-            this.ucMetricPlot1.DBCon = null;
-            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
-            this.ucMetricPlot1.Name = "ucMetricPlot1";
-            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 297);
-            this.ucMetricPlot1.TabIndex = 0;
-            this.ucMetricPlot1.VisitID = 0;
-            // 
             // ucUserFeedback1
             // 
             this.ucUserFeedback1.DBCon = null;
             this.ucUserFeedback1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucUserFeedback1.ItemReviewed = "";
             this.ucUserFeedback1.Location = new System.Drawing.Point(0, 0);
             this.ucUserFeedback1.LogID = 0;
             this.ucUserFeedback1.MinimumSize = new System.Drawing.Size(295, 300);
             this.ucUserFeedback1.Name = "ucUserFeedback1";
             this.ucUserFeedback1.Size = new System.Drawing.Size(591, 300);
             this.ucUserFeedback1.TabIndex = 0;
+            // 
+            // ucMetricGrid1
+            // 
+            this.ucMetricGrid1.DBCon = null;
+            this.ucMetricGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucMetricGrid1.Location = new System.Drawing.Point(0, 0);
+            this.ucMetricGrid1.Name = "ucMetricGrid1";
+            this.ucMetricGrid1.ProgramID = 0;
+            this.ucMetricGrid1.Size = new System.Drawing.Size(892, 254);
+            this.ucMetricGrid1.TabIndex = 0;
+            this.ucMetricGrid1.VisitIDs = null;
+            // 
+            // ucMetricPlot1
+            // 
+            this.ucMetricPlot1.DBCon = null;
+            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucMetricPlot1.HighlightedVisitID = 0;
+            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
+            this.ucMetricPlot1.Name = "ucMetricPlot1";
+            this.ucMetricPlot1.Program = null;
+            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 297);
+            this.ucMetricPlot1.TabIndex = 0;
+            this.ucMetricPlot1.VisitIDs = null;
             // 
             // frmMetricReview
             // 
@@ -138,7 +142,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ucMetricGrid ucMetricGrid1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private ucMetricPlot ucMetricPlot1;
         private ucUserFeedback ucUserFeedback1;
+        private ucMetricReviewPlot ucMetricPlot1;
     }
 }

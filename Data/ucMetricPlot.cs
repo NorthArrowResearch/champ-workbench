@@ -26,8 +26,8 @@ namespace CHaMPWorkbench.Data
             get
             {
                 string sPlotType = string.Empty;
-                if (cboPlotTypes.SelectedItem is PlotType)
-                    sPlotType = ((PlotType)cboPlotTypes.SelectedItem).Title;
+                if (cboPlotTypes.SelectedItem is Classes.MetricPlotType)
+                    sPlotType = ((Classes.MetricPlotType)cboPlotTypes.SelectedItem).Title;
 
                 return sPlotType;
             }
@@ -43,11 +43,15 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(DBCon))
                 return;
 
-            PlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
+            Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID, out m_dModelResults);
 
+            string sProgramClause = string.Empty;
+            if (Program != null)
+                string.Format(" AND (P.ProgramID = {0}", Program.Value);
+
             string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
-                " WHERE(D.TypeID = 3) AND (P.ProgramID = {0}) GROUP BY D.MetricID, D.Title ORDER BY D.Title", Program.Value);
+                " WHERE(D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
 
             ListItem.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
             ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
@@ -58,18 +62,11 @@ namespace CHaMPWorkbench.Data
 
         private void PlotChanged(object sender, EventArgs e)
         {
-            PlotType thePlot = null;
-            if (cboPlotTypes.SelectedItem is PlotType)
-                thePlot = cboPlotTypes.SelectedItem as PlotType;
+            Classes.MetricPlotType thePlot = null;
+            if (cboPlotTypes.SelectedItem is Classes.MetricPlotType)
+                thePlot = cboPlotTypes.SelectedItem as Classes.MetricPlotType;
             else
                 return;
-
-            // Select the appropriate X and Y metrics
-            if (!(thePlot is CustomPlotType))
-            {
-                cboXAxis.SelectedValue = thePlot.XMetricID;
-                cboYAxis.SelectedValue = thePlot.YMetricID;
-            }
 
             ModelResult theResult = null;
             if (cboModelResults.SelectedItem is ModelResult)
@@ -103,19 +100,14 @@ namespace CHaMPWorkbench.Data
 
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblXAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
-            cboXAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
-            lblYAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
-            cboYAxis.Enabled = cboPlotTypes.SelectedItem is CustomPlotType;
-
-            if (cboModelResults.SelectedItem is ModelResult && cboPlotTypes.SelectedItem is PlotType)
+            if (cboModelResults.SelectedItem is ModelResult && cboPlotTypes.SelectedItem is Classes.MetricPlotType)
             {
                 // TODO replot graph
-                UpdatePlot(cboPlotTypes.SelectedItem as PlotType, cboModelResults.SelectedItem as ModelResult);
+                UpdatePlot(cboPlotTypes.SelectedItem as Classes.MetricPlotType, cboModelResults.SelectedItem as ModelResult);
             }
         }
 
-        private void UpdatePlot(PlotType thePlot, ModelResult theResult)
+        private void UpdatePlot(Classes.MetricPlotType thePlot, ModelResult theResult)
         {
             chtData.Series.Clear();
 
@@ -163,79 +155,6 @@ namespace CHaMPWorkbench.Data
         }
 
         # region HelperClasses
-
-        private class PlotType
-        {
-            public int PlotID { get; internal set; }
-            public string Title { get; internal set; }
-            public int XMetricID { get; internal set; }
-            public string XMetric { get; internal set; }
-            public int YMetricID { get; internal set; }
-            public string YMetric { get; internal set; }
-            public int PlotTypeID { get; internal set; }
-
-            public PlotType(int nPlotID, string sTitle, int nXMetricID, string sXMetric, int nYMetricID, string sYMetric, int nPlotTypeID)
-            {
-                PlotID = nPlotID;
-                Title = sTitle;
-                XMetricID = nXMetricID;
-                XMetric = sXMetric;
-                YMetricID = nYMetricID;
-                YMetric = sYMetric;
-                PlotTypeID = nPlotTypeID;
-
-            }
-
-            public override string ToString()
-            {
-                return Title;
-            }
-
-            public static void LoadPlotTypes(ref ComboBox cbo, string sDBCon)
-            {
-                cbo.Items.Clear();
-
-                // Add the new custom plot type that enables the custom axes
-                cbo.Items.Add(new CustomPlotType("-- Custom Axes --"));
-
-                using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
-                {
-                    dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT P.PlotID, P.PlotTitle, P.XMetricID, P.YMetricID, P.PlotTypeID, Y.Title AS YTitle, X.Title AS XTitle" +
-                        " FROM (Metric_Definitions AS X INNER JOIN Metric_Plots AS P ON X.MetricID = P.XMetricID) INNER JOIN Metric_Definitions AS Y ON P.YMetricID = Y.MetricID ORDER BY P.PlotTitle", dbCon);
-
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
-                    while (dbRead.Read())
-                    {
-                        cbo.Items.Add(new PlotType(
-                            dbRead.GetInt32(dbRead.GetOrdinal("PlotID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("PlotTitle"))
-                            , dbRead.GetInt32(dbRead.GetOrdinal("XMetricID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("XTitle"))
-                            , dbRead.GetInt32(dbRead.GetOrdinal("YMetricID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("YTitle"))
-                            , dbRead.GetInt32(dbRead.GetOrdinal("PlotTypeID"))));
-                    }
-
-                    if (cbo.Items.Count > 1)
-                        cbo.SelectedIndex = 1;
-                }
-            }
-        }
-
-        class CustomPlotType : PlotType
-        {
-            public new int XMetricID { get; set; }
-            public new int YMetricID { get; set; }
-            public new string XMetric { get; internal set; }
-            public new string YMetric { get; internal set; }
-
-            public CustomPlotType(string sTitle)
-                : base(0, sTitle, 0, "", 0, "", 0)
-            {
-
-            }
-        }
 
         private class ModelResult
         {

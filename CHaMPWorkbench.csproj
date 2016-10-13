@@ -106,6 +106,7 @@
     <Compile Include="Classes\AccessIDHelper.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
     <Compile Include="Classes\CHaMPMetricScavenger.cs" />
+    <Compile Include="Classes\MetricPlotType.cs" />
     <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
     <Compile Include="Classes\CSVGenerators\CSVGeneratorBase.cs" />
     <Compile Include="Classes\MetricValidation\Metric.cs" />
@@ -225,6 +226,12 @@
     </Compile>
     <Compile Include="Data\ucMetricPlot.Designer.cs">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ucMetricReviewPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\ucMetricReviewPlot.Designer.cs">
+      <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\ucUserFeedback.cs">
       <SubType>UserControl</SubType>
@@ -482,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricPlot.resx">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ucMetricReviewPlot.resx">
+      <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucUserFeedback.resx">
       <DependentUpon>ucUserFeedback.cs</DependentUpon>

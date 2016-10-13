@@ -25,7 +25,7 @@ namespace CHaMPWorkbench.Data
             ucMetricGrid1.ProgramID = theProgram.Value;
 
             ucMetricPlot1.DBCon = sDBCon;
-            ucMetricPlot1.VisitID = 1;
+            ucMetricPlot1.HighlightedVisitID = 1;
             ucMetricPlot1.Program = theProgram;
 
             ucUserFeedback1.DBCon = sDBCon;
