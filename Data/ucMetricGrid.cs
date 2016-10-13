@@ -106,9 +106,15 @@ namespace CHaMPWorkbench.Data
 
         private void grdData_SelectionChanged(object sender, EventArgs e)
         {
-            EventHandler handler = this.SelectedVisitChanged;
-            if (handler != null)
-                handler(this, e);
+            if (grdData.SelectedRows.Count > 0)
+            {
+                if (grdData.SelectedRows[0].Index >= 0)
+                {
+                    EventHandler handler = this.SelectedVisitChanged;
+                    if (handler != null)
+                        handler(this, e);
+                }
+            }
         }
     }
 }

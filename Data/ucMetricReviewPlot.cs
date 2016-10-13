@@ -37,8 +37,8 @@ namespace CHaMPWorkbench.Data
             get
             {
                 string sPlotType = string.Empty;
-                if (cboPlotTypes.SelectedItem is Classes.MetricPlotType)
-                    sPlotType = ((Classes.MetricPlotType)cboPlotTypes.SelectedItem).Title;
+                if (cboXAxis.SelectedItem is ListItem && cboYAxis.SelectedItem is ListItem)
+                    sPlotType = string.Format("{0} by {1}", cboXAxis.SelectedItem, cboYAxis.SelectedItem);
 
                 return sPlotType;
             }
@@ -57,10 +57,10 @@ namespace CHaMPWorkbench.Data
             // Load the metrics for the current protocol
             string sProgramClause = string.Empty;
             if (Program != null)
-                string.Format(" AND (P.ProgramID = {0}", Program.Value);
+                sProgramClause = string.Format(" AND (P.ProgramID = {0})", Program.Value);
 
             string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
-                " WHERE(D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
+                " WHERE (D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
 
             ListItem.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
             ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
@@ -144,7 +144,7 @@ namespace CHaMPWorkbench.Data
             ChartArea pChartArea = chtData.ChartAreas[0];
             if (chtData.Titles.Count < 1)
                 chtData.Titles.Add("ChartTitle");
-            chtData.Titles[0].Text = string.Format("{0} by {1}", cboXAxis.SelectedItem, cboYAxis.SelectedItem);
+            chtData.Titles[0].Text = CurrentPlotTitle;
 
             pChartArea.AxisX.Title = ((ListItem)cboXAxis.SelectedItem).ToString();
             pChartArea.AxisX.RoundAxisValues();
@@ -179,9 +179,7 @@ namespace CHaMPWorkbench.Data
                 SelectMetricInCombobox(ref cboYAxis, ((Classes.MetricPlotType)cboPlotTypes.SelectedItem).YMetricID);
             }
 
-            EventHandler handler = this.SelectedPlotChanged;
-            if (handler != null)
-                handler(this, e);
+
         }
 
         private void SelectMetricInCombobox(ref ComboBox cbo, int nMetricID)
@@ -206,6 +204,11 @@ namespace CHaMPWorkbench.Data
                 lHighlightedVisit.Add(HighlightedVisitID);
                 UpdatePlot(lHighlightedVisit);
             }
+
+            // Tell parent that the plot type has changed.
+            EventHandler handler = this.SelectedPlotChanged;
+            if (handler != null)
+                handler(this, e);
         }
     }
 }

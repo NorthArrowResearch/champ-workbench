@@ -42,6 +42,9 @@ namespace CHaMPWorkbench.Data
 
             ucMetricGrid1.SelectedVisitChanged += HandleSelectedVisitChangedInGrid;
             ucMetricPlot1.SelectedPlotChanged += HandleSelectedPlotChanged;
+
+            HandleSelectedVisitChangedInGrid(null, null);
+            HandleSelectedPlotChanged(null, null);
         }
 
         public void HandleSelectedVisitChangedInGrid(object sender, EventArgs e)
