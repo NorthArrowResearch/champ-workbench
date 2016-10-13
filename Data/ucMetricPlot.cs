@@ -46,16 +46,6 @@ namespace CHaMPWorkbench.Data
             Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon);
             ModelResult.LoadModelResults(ref cboModelResults, DBCon, VisitID, out m_dModelResults);
 
-            string sProgramClause = string.Empty;
-            if (Program != null)
-                string.Format(" AND (P.ProgramID = {0}", Program.Value);
-
-            string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
-                " WHERE(D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
-
-            ListItem.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
-            ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
-
             cboModelResults.SelectedIndexChanged += PlotChanged;
             cboPlotTypes.SelectedIndexChanged += PlotChanged;
         }

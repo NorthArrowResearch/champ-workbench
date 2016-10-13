@@ -36,10 +36,6 @@
             this.cboModelResults = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chtData = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.lblXAxis = new System.Windows.Forms.Label();
-            this.lblYAxis = new System.Windows.Forms.Label();
-            this.cboXAxis = new System.Windows.Forms.ComboBox();
-            this.cboYAxis = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chtData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,50 +96,10 @@
             this.chtData.TabIndex = 5;
             this.chtData.Text = "chart1";
             // 
-            // lblXAxis
-            // 
-            this.lblXAxis.AutoSize = true;
-            this.lblXAxis.Location = new System.Drawing.Point(494, 17);
-            this.lblXAxis.Name = "lblXAxis";
-            this.lblXAxis.Size = new System.Drawing.Size(35, 13);
-            this.lblXAxis.TabIndex = 6;
-            this.lblXAxis.Text = "X axis";
-            // 
-            // lblYAxis
-            // 
-            this.lblYAxis.AutoSize = true;
-            this.lblYAxis.Location = new System.Drawing.Point(494, 44);
-            this.lblYAxis.Name = "lblYAxis";
-            this.lblYAxis.Size = new System.Drawing.Size(35, 13);
-            this.lblYAxis.TabIndex = 7;
-            this.lblYAxis.Text = "Y axis";
-            // 
-            // cboXAxis
-            // 
-            this.cboXAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboXAxis.FormattingEnabled = true;
-            this.cboXAxis.Location = new System.Drawing.Point(530, 13);
-            this.cboXAxis.Name = "cboXAxis";
-            this.cboXAxis.Size = new System.Drawing.Size(220, 21);
-            this.cboXAxis.TabIndex = 8;
-            // 
-            // cboYAxis
-            // 
-            this.cboYAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboYAxis.FormattingEnabled = true;
-            this.cboYAxis.Location = new System.Drawing.Point(530, 40);
-            this.cboYAxis.Name = "cboYAxis";
-            this.cboYAxis.Size = new System.Drawing.Size(220, 21);
-            this.cboYAxis.TabIndex = 9;
-            // 
             // ucMetricPlot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.cboYAxis);
-            this.Controls.Add(this.cboXAxis);
-            this.Controls.Add(this.lblYAxis);
-            this.Controls.Add(this.lblXAxis);
             this.Controls.Add(this.chtData);
             this.Controls.Add(this.cboModelResults);
             this.Controls.Add(this.label3);
@@ -165,9 +121,5 @@
         private System.Windows.Forms.ComboBox cboModelResults;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chtData;
-        private System.Windows.Forms.Label lblXAxis;
-        private System.Windows.Forms.Label lblYAxis;
-        private System.Windows.Forms.ComboBox cboXAxis;
-        private System.Windows.Forms.ComboBox cboYAxis;
     }
 }
