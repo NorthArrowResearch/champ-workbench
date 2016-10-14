@@ -38,7 +38,9 @@ namespace CHaMPWorkbench.UserQueries
                     {
                         txtTitle.Text = dbRead.GetString(dbRead.GetOrdinal("Title"));
                         txtQueryText.Text = dbRead.GetString(dbRead.GetOrdinal("QueryText"));
-                        txtRemarks.Text = dbRead.GetString(dbRead.GetOrdinal("Remarks"));
+
+                        if (!dbRead.IsDBNull(dbRead.GetOrdinal("Remarks")))
+                            txtRemarks.Text = dbRead.GetString(dbRead.GetOrdinal("Remarks"));
                     }
                 }
             }
