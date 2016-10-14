@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUserFeedback));
             this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
             this.SuspendLayout();
             // 
@@ -35,6 +36,7 @@
             // 
             this.ucUserFeedback1.DBCon = null;
             this.ucUserFeedback1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucUserFeedback1.ItemReviewed = "";
             this.ucUserFeedback1.Location = new System.Drawing.Point(0, 0);
             this.ucUserFeedback1.LogID = 0;
             this.ucUserFeedback1.MinimumSize = new System.Drawing.Size(295, 300);
@@ -48,6 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(298, 406);
             this.Controls.Add(this.ucUserFeedback1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(295, 300);
             this.Name = "frmUserFeedback";
             this.Text = "User Feedback";

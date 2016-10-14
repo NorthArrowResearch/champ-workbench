@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetricReview));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricReviewPlot();
             this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
             this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
-            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricReviewPlot();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,6 +82,18 @@
             this.splitContainer2.SplitterDistance = 297;
             this.splitContainer2.TabIndex = 0;
             // 
+            // ucMetricPlot1
+            // 
+            this.ucMetricPlot1.DBCon = null;
+            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucMetricPlot1.HighlightedVisitID = 0;
+            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
+            this.ucMetricPlot1.Name = "ucMetricPlot1";
+            this.ucMetricPlot1.Program = null;
+            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 297);
+            this.ucMetricPlot1.TabIndex = 0;
+            this.ucMetricPlot1.VisitIDs = null;
+            // 
             // ucUserFeedback1
             // 
             this.ucUserFeedback1.DBCon = null;
@@ -104,24 +117,13 @@
             this.ucMetricGrid1.TabIndex = 0;
             this.ucMetricGrid1.VisitIDs = null;
             // 
-            // ucMetricPlot1
-            // 
-            this.ucMetricPlot1.DBCon = null;
-            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucMetricPlot1.HighlightedVisitID = 0;
-            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
-            this.ucMetricPlot1.Name = "ucMetricPlot1";
-            this.ucMetricPlot1.Program = null;
-            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 297);
-            this.ucMetricPlot1.TabIndex = 0;
-            this.ucMetricPlot1.VisitIDs = null;
-            // 
             // frmMetricReview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 555);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMetricReview";
             this.Text = "frmMetricReview";
             this.Load += new System.EventHandler(this.frmMetricReview_Load);

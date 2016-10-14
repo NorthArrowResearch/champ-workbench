@@ -639,6 +639,7 @@
             this.createNewUserFeedbackItemToolStripMenuItem,
             this.userFeedbackItemsToolStripMenuItem,
             this.userFeedbackForAllItemsToolStripMenuItem});
+            this.userFeedbackToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.user_comment;
             this.userFeedbackToolStripMenuItem.Name = "userFeedbackToolStripMenuItem";
             this.userFeedbackToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.userFeedbackToolStripMenuItem.Text = "User Feedback";
@@ -664,7 +665,7 @@
             this.userFeedbackForAllItemsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.user_comment;
             this.userFeedbackForAllItemsToolStripMenuItem.Name = "userFeedbackForAllItemsToolStripMenuItem";
             this.userFeedbackForAllItemsToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.userFeedbackForAllItemsToolStripMenuItem.Text = "User Feedback for All Items...";
+            this.userFeedbackForAllItemsToolStripMenuItem.Text = "All User Feedback for All Entries...";
             this.userFeedbackForAllItemsToolStripMenuItem.Click += new System.EventHandler(this.userFeedbackForAllItemsToolStripMenuItem_Click);
             // 
             // metricResultsToolStripMenuItem
@@ -672,10 +673,12 @@
             this.metricResultsToolStripMenuItem.Name = "metricResultsToolStripMenuItem";
             this.metricResultsToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.metricResultsToolStripMenuItem.Text = "Metric Results...";
+            this.metricResultsToolStripMenuItem.Visible = false;
             this.metricResultsToolStripMenuItem.Click += new System.EventHandler(this.metricResultsToolStripMenuItem_Click);
             // 
             // metricReviewToolStripMenuItem
             // 
+            this.metricReviewToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.chart;
             this.metricReviewToolStripMenuItem.Name = "metricReviewToolStripMenuItem";
             this.metricReviewToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.metricReviewToolStripMenuItem.Text = "Metric Review...";

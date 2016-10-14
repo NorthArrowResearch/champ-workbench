@@ -646,6 +646,7 @@
     <None Include="Resources\Delete.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\user_comment.png" />
+    <None Include="Resources\chart.png" />
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
