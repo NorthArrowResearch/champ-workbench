@@ -51,7 +51,15 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand(MetricResultSQLStatement(bManualMetricValues), dbCon);
+
+                // PGB 17 Oct 2016. Only visit level metrics are currently implemented. Other MetricGroupIDs return
+                // an empty string.
+                string sSQL = MetricResultSQLStatement(bManualMetricValues);
+                if (string.IsNullOrEmpty(sSQL))
+                    return;
+
+                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                System.Diagnostics.Debug.Print("Broken query: {0}", dbCom.CommandText);
                 OleDbParameter pVisitID = dbCom.Parameters.Add("@VisitID", OleDbType.Integer);
                 OleDbDataReader dbRead = null;
 
@@ -144,14 +152,18 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     break;
 
                 case 4: // tier 1 metrics
-
+                    System.Diagnostics.Debug.Print("WARNING: Tier 1 metrics not yet implemented for MetricGroupID {0}." , GroupTypeID);
+                    return string.Empty;
                     break;
 
                 case 5: // tier 2 metrics
-
+                    System.Diagnostics.Debug.Print("WARNING: Tier 2 metrics not yet implemented for MetricGroupID {0}.", GroupTypeID);
+                    return string.Empty;
                     break;
 
                 case 6: // Channel unit metrics
+                    System.Diagnostics.Debug.Print("WARNING: channel unit metrics not yet implemented for MetricGroupID {0}.", GroupTypeID);
+                    return string.Empty;
                     break;
             }
 
