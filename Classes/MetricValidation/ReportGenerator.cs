@@ -85,6 +85,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     {
                         Exception ex = new Exception("Failed to generate validation report file");
                         ex.Data["Report File"] = frm.FileName;
+                        throw ex;
                     }
                 }
                 catch (Exception ex)
