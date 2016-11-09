@@ -74,6 +74,13 @@ namespace CHaMPWorkbench.Data
                     DataTable ta = new DataTable();
                     da.Fill(ta);
                     grdData.DataSource = ta;
+
+                    //
+                    foreach (DataGridViewColumn aCol in grdData.Columns)
+                    {
+                        if (!aCol.HeaderText.ToLower().EndsWith("id"))
+                            aCol.DefaultCellStyle.Format = "#,##0.000";
+                    }
                 }
                 catch (Exception ex)
                 {
