@@ -122,8 +122,9 @@ namespace CHaMPWorkbench.Data
                 dbCon.Open();
 
                 // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
-                OleDbCommand dbCom = new OleDbCommand("SELECT TOP 1 VM.MetricValue FROM Metric_Results MR INNER JOIN Metric_VisitMetrics VM ON MR.ResultID = VM.ResultID" +
-                    " WHERE (VM.MetricValue IS NOT NULL) AND (VM.MetricID = @MetricID) AND (MR.VisitID = @VisitID) ORDER BY VM.ResultID DESC", dbCon);
+                OleDbCommand dbCom = new OleDbCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
+                    " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
+                    " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
                 OleDbParameter pMetricID = dbCom.Parameters.Add("MetricID", OleDbType.Integer);
                 OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
 
