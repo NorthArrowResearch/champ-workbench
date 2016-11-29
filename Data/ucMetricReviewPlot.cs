@@ -125,9 +125,9 @@ namespace CHaMPWorkbench.Data
                 OleDbCommand dbCom = new OleDbCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
                     " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
                     " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
-                OleDbParameter pMetricID = dbCom.Parameters.Add("MetricID", OleDbType.Integer);
                 OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
-
+               OleDbParameter pMetricID = dbCom.Parameters.Add("MetricID", OleDbType.Integer);
+ 
                 double fXMetricValue, fYMetricValue = 0;
 
                 foreach (int nVisitID in theVisits)
