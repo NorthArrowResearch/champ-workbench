@@ -175,6 +175,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -779,7 +780,8 @@
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testXPathReferencesToolStripMenuItem,
             this.exportAWSLookupToolStripMenuItem,
-            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem});
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem,
+            this.exportSelectedVisitInformationToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -1436,6 +1438,13 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // exportSelectedVisitInformationToolStripMenuItem
+            // 
+            this.exportSelectedVisitInformationToolStripMenuItem.Name = "exportSelectedVisitInformationToolStripMenuItem";
+            this.exportSelectedVisitInformationToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
+            this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1619,6 +1628,7 @@
         private System.Windows.Forms.ToolStripMenuItem metricReviewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userFeedbackItemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userFeedbackForAllItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSelectedVisitInformationToolStripMenuItem;
     }
 }
 

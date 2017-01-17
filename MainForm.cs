@@ -1773,5 +1773,40 @@ namespace CHaMPWorkbench
             }
 
         }
+
+        private void exportSelectedVisitInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.SaveFileDialog frm = new System.Windows.Forms.SaveFileDialog();
+                frm.Title = "Save Visit Info CSV";
+                frm.Filter = "Comma Separated Value (CSV) Files|*.csv";
+                frm.FileName = string.Format("visit_info_{0:yyyyMMdd_HHmm}.csv", DateTime.Now);
+                frm.AddExtension = true;
+
+                if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var csv = new StringBuilder();
+                    csv.AppendLine("year,watershed,site,visitid,path");
+                    foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
+                    {
+                        DataRowView drv = (DataRowView)aRow.DataBoundItem;
+                        DataRow r = drv.Row;
+                        System.IO.DirectoryInfo dirVisit = null;
+                        Classes.DataFolders.Visit(new System.IO.DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder), (int)r["VisitID"], out dirVisit);
+                        csv.AppendLine(string.Format("{0},{1},{2},{3},{4}", r["VisitYear"], r["WatershedName"], r["SiteName"], r["VisitID"], dirVisit.FullName));
+
+                        if (MessageBox.Show("Do you want to open the CSV file?", "Process Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                            System.Diagnostics.Process.Start(frm.FileName);
+                    }
+                    File.WriteAllText(frm.FileName, csv.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+
+        }
     }
 }
