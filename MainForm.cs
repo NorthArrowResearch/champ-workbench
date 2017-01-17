@@ -1787,19 +1787,21 @@ namespace CHaMPWorkbench
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     var csv = new StringBuilder();
-                    csv.AppendLine("year,watershed,site,visitid,path");
+                    csv.AppendLine("year,watershed,site,visitid,relativepath");
                     foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
                     {
                         DataRowView drv = (DataRowView)aRow.DataBoundItem;
                         DataRow r = drv.Row;
                         System.IO.DirectoryInfo dirVisit = null;
                         Classes.DataFolders.Visit(new System.IO.DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder), (int)r["VisitID"], out dirVisit);
-                        csv.AppendLine(string.Format("{0},{1},{2},{3},{4}", r["VisitYear"], r["WatershedName"], r["SiteName"], r["VisitID"], dirVisit.FullName));
+                        string sRelativeVisitDir = dirVisit.FullName.Replace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, "");
+                        sRelativeVisitDir = sRelativeVisitDir.Replace("\\", "/");
+                        csv.AppendLine(string.Format("{0},{1},{2},{3},{4}", r["VisitYear"], r["WatershedName"], r["SiteName"], r["VisitID"], sRelativeVisitDir));
 
-                        if (MessageBox.Show("Do you want to open the CSV file?", "Process Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                            System.Diagnostics.Process.Start(frm.FileName);
                     }
                     File.WriteAllText(frm.FileName, csv.ToString());
+                    if (MessageBox.Show("Do you want to open the CSV file?", "Process Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        System.Diagnostics.Process.Start(frm.FileName);
                 }
             }
             catch (Exception ex)
