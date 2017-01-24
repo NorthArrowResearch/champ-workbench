@@ -649,8 +649,8 @@ namespace CHaMPWorkbench.Data
 
                     // 2011-2013 stored wood in the debris table. 2014 onward stores individual pieces. 
                     string[] sWoodSQLStatements = {
-                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Sum(SumLWDCount) AS LargeWoodCount FROM LargeWoodyDebris GROUP BY VisitID, ChannelUnit_ChannelUnitNumber", 
-                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Count(ChannelUnit_ChannelUnitNumber) AS LargeWoodCount FROM LargeWoodPiece GROUP BY VisitID, ChannelUnit_ChannelUnitNumber"
+                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Sum(SumLWDCount) AS LargeWoodCount FROM LargeWoodyDebris WHERE (VisitID IS NOT NULL) AND (ChannelUnit_ChannelUnitNumber IS NOT NULL) GROUP BY VisitID, ChannelUnit_ChannelUnitNumber",
+                                                      "SELECT VisitID, ChannelUnit_ChannelUnitNumber AS ChannelUnitNumber, Count(ChannelUnit_ChannelUnitNumber) AS LargeWoodCount FROM LargeWoodPiece WHERE (VisitID IS NOT NULL) AND (ChannelUnit_ChannelUnitNumber IS NOT NULL) GROUP BY VisitID, ChannelUnit_ChannelUnitNumber"
                                                   };
 
                     foreach (string sSQL in sWoodSQLStatements)
