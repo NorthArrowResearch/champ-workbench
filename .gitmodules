@@ -1,0 +1,3 @@
+[submodule "naru"]
+	path = naru
+	url = git@bitbucket.org:pipbailey/naru.git
