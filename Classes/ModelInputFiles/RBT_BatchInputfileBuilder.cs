@@ -21,8 +21,6 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         private bool m_bForcePrimary;
         private bool m_bRequiresWSTIN;
 
-        private RBTWorkbenchDataSet dsData;
-
         public RBTBatchInputfileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<int, string> dVisits, string sInputFileName, RBTConfig rbtConfig, RBTOutputs rbtOutput,
              Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN, bool bClearOtherBatches)
             : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sOutputFolder, ref dVisits, sInputFileName)
@@ -36,16 +34,6 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             m_bIncludeOtherVisits = bIncludeOtherVisits;
             m_bForcePrimary = bForcePrimary;
             m_bRequiresWSTIN = bRequireWSTIN;
-
-            dsData = new RBTWorkbenchDataSet();
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter taWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
-            taWatersheds.Connection = new SQLiteConnection(sDBCon);
-            taWatersheds.Fill(dsData.CHAMP_Watersheds);
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter taSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
-            taSites.Connection = new SQLiteConnection(sDBCon);
-            taSites.Fill(dsData.CHAMP_Sites);
         }
 
         private System.IO.DirectoryInfo AddVisitToSite(ref Classes.Site theSite, System.IO.DirectoryInfo dParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
@@ -89,7 +77,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
 
                         Classes.DataFolders.Topo(dParentTopoFolder, nVisitID, out dVisitTopoFolder);
-                        Visit theVisit = new Visit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
+                        BatchVisit theVisit = new BatchVisit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
 
                         theSite.AddVisit(theVisit);
                     }

@@ -10,26 +10,17 @@ namespace CHaMPWorkbench.Classes
     {
         private String m_sUTMZone;
         private Watershed m_Watershed;
-        private Dictionary<int, Visit> m_dVisits;
+        private Dictionary<int, BatchVisit> m_dVisits;
 
         public Site(int nID, String sName, String sUTMZone, ref Watershed aWatershed)
             : base(nID, sName)
         {
-            m_dVisits = new Dictionary<int, Visit>();
+            m_dVisits = new Dictionary<int, BatchVisit>();
             m_Watershed = aWatershed;
             m_sUTMZone = sUTMZone;
         }
 
-        public Site(RBTWorkbenchDataSet.CHAMP_SitesRow rSite)
-            : base(rSite.SiteID, rSite.SiteName)
-        {
-            m_dVisits = new Dictionary<int, Visit>();
-
-            if (!rSite.IsWatershedIDNull())
-                m_Watershed = new Watershed(rSite.CHAMP_WatershedsRow);
-        }
-
-        public void AddVisit(Visit aVisit)
+        public void AddVisit(BatchVisit aVisit)
         {
             System.Diagnostics.Debug.Assert(!m_dVisits.ContainsKey(aVisit.VisitID), "The visit already exists in the site.");
             m_dVisits.Add(aVisit.ID, aVisit);
@@ -44,7 +35,7 @@ namespace CHaMPWorkbench.Classes
             xmlFile.WriteElementString("stream_name", "");
             xmlFile.WriteElementString("sitegdb", "");
 
-            foreach (Visit aVisit in m_dVisits.Values)
+            foreach (BatchVisit aVisit in m_dVisits.Values)
                 aVisit.WriteToXML(ref xmlFile, bRequireWSTIN);
 
             xmlFile.WriteEndElement(); // site
@@ -54,13 +45,13 @@ namespace CHaMPWorkbench.Classes
         {
             get
             {
-                Visit targetVisit = null;
-                foreach (Visit v in m_dVisits.Values)
+                BatchVisit targetVisit = null;
+                foreach (BatchVisit v in m_dVisits.Values)
                     if (v.CalculateMetrics || v.ChangeDetection)
                         targetVisit = v;
 
                 string sName = "";
-                if (targetVisit is Visit)
+                if (targetVisit is BatchVisit)
                     sName = targetVisit.FieldSeason.ToString() + ", ";
 
                 if (m_Watershed is Watershed)
@@ -68,7 +59,7 @@ namespace CHaMPWorkbench.Classes
 
                 sName += this.ToString() + ", ";
 
-                if (targetVisit is Visit)
+                if (targetVisit is BatchVisit)
                 {
                     if (!string.IsNullOrWhiteSpace(targetVisit.Hitch))
                         sName += targetVisit.Hitch + ", ";
