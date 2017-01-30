@@ -6,18 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
     public partial class frmImportCHaMPInfo : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmImportCHaMPInfo(OleDbConnection dbCon)
+        public frmImportCHaMPInfo()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -63,56 +60,57 @@ namespace CHaMPWorkbench.Data
 
         private String ScavengeVisitInfo(String sDatabasePath, string sSurveyDesignDB, string sProjectMetricsDB)
         {
-            if (m_dbCon.State == ConnectionState.Closed)
-                m_dbCon.Open();
-
-            RBTWorkbenchDataSet ds = new RBTWorkbenchDataSet();
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter daWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
-            daWatersheds.Connection = m_dbCon;
-            daWatersheds.Fill(ds.CHAMP_Watersheds);
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter daSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
-            daSites.Connection = m_dbCon;
-            daSites.Fill(ds.CHAMP_Sites);
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
-            daVisits.Connection = m_dbCon;
-            daVisits.Fill(ds.CHAMP_Visits);
-
-            RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-            daSegments.Connection = m_dbCon;
-            daSegments.Fill(ds.CHaMP_Segments);
-
-            RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daChannelUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-            daChannelUnits.Connection = m_dbCon;
-            daChannelUnits.Fill(ds.CHAMP_ChannelUnits);
-
-
-            String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabasePath);
-            using (OleDbConnection dbCHaMP = new OleDbConnection(sDB))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                dbCHaMP.Open();
-                UpdateWatersheds(dbCHaMP, daWatersheds, ds.CHAMP_Watersheds);
-                UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
-                UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
-                UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
-                UpdateLargeWoodCount(dbCHaMP.ConnectionString, daWatersheds.Connection.ConnectionString);
+
+                RBTWorkbenchDataSet ds = new RBTWorkbenchDataSet();
+
+                RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter daWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
+                daWatersheds.Connection = dbCon;
+                daWatersheds.Fill(ds.CHAMP_Watersheds);
+
+                RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter daSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
+                daSites.Connection = dbCon;
+                daSites.Fill(ds.CHAMP_Sites);
+
+                RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
+                daVisits.Connection = dbCon;
+                daVisits.Fill(ds.CHAMP_Visits);
+
+                RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+                daSegments.Connection = dbCon;
+                daSegments.Fill(ds.CHaMP_Segments);
+
+                RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daChannelUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+                daChannelUnits.Connection = dbCon;
+                daChannelUnits.Fill(ds.CHAMP_ChannelUnits);
 
 
-                if (chkImportFish.Checked)
-                    UpdateSiteFishInfo(daSites, ref ds, sSurveyDesignDB);
+                String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabasePath);
+                using (sqlite dbCHaMP = new OleDbConnection(sDB))
+                {
+                    dbCHaMP.Open();
+                    UpdateWatersheds(dbCHaMP, daWatersheds, ds.CHAMP_Watersheds);
+                    UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
+                    UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
+                    UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
+                    UpdateLargeWoodCount(dbCHaMP.ConnectionString, daWatersheds.Connection.ConnectionString);
 
-                if (chkExtendedSiteInfo.Checked)
-                    UpdateExtendedSiteInfo(sProjectMetricsDB);
+
+                    if (chkImportFish.Checked)
+                        UpdateSiteFishInfo(daSites, ref ds, sSurveyDesignDB);
+
+                    if (chkExtendedSiteInfo.Checked)
+                        UpdateExtendedSiteInfo(sProjectMetricsDB);
+                }
+
+                String sMsg = "Process completed successfully.";
+                sMsg += ds.CHAMP_Watersheds.Rows.Count.ToString("#,##0") + " watersheds";
+                sMsg += ", " + ds.CHAMP_Sites.Rows.Count.ToString("#,##0") + " sites";
+                sMsg += ", " + ds.CHAMP_Visits.Rows.Count.ToString("#,##0") + " visits";
+                sMsg += ", " + ds.CHaMP_Segments.Rows.Count.ToString("#,##0") + " segments";
+                sMsg += ", " + ds.CHAMP_ChannelUnits.Rows.Count.ToString("#,##0") + " channel units.";
             }
-
-            String sMsg = "Process completed successfully.";
-            sMsg += ds.CHAMP_Watersheds.Rows.Count.ToString("#,##0") + " watersheds";
-            sMsg += ", " + ds.CHAMP_Sites.Rows.Count.ToString("#,##0") + " sites";
-            sMsg += ", " + ds.CHAMP_Visits.Rows.Count.ToString("#,##0") + " visits";
-            sMsg += ", " + ds.CHaMP_Segments.Rows.Count.ToString("#,##0") + " segments";
-            sMsg += ", " + ds.CHAMP_ChannelUnits.Rows.Count.ToString("#,##0") + " channel units.";
             return sMsg;
         }
 

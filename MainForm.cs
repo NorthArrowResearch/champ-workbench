@@ -8,16 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using CHaMPWorkbench.RBTInputFile;
 using System.Deployment.Application;
-using System.Data.OleDb;
 using System.IO;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench
 {
     public partial class MainForm : Form
     {
-        private System.Data.OleDb.OleDbConnection m_dbCon;
-
         public MainForm()
         {
             InitializeComponent();
@@ -41,34 +39,41 @@ namespace CHaMPWorkbench
 
         private void CheckDBVersion()
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", m_dbCon);
-            String sVersion = (string)dbCom.ExecuteScalar();
-            if (String.IsNullOrWhiteSpace(sVersion))
-                throw new Exception("Error retrieving database version");
-
-            int nVersion;
-            if (Int32.TryParse(sVersion, out nVersion) && Int32.Parse(sVersion) < CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion)
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                // This DB is the wrong version. If it's the same DB path stored in the last used database setting, then clear 
-                // this setting to avoid the problem reoccurring
-                string sDBPath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
-                if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.DBConnection) &&
-                    string.Compare(CHaMPWorkbench.Properties.Settings.Default.DBConnection, sDBPath, true) == 0)
-                {
-                    CHaMPWorkbench.Properties.Settings.Default.DBConnection = string.Empty;
-                    CHaMPWorkbench.Properties.Settings.Default.Save();
-                }
+                dbCon.Open();
 
-                DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway? Click \"yes\" to continue and \"no\" to stop and create a new database with the correct version from the File menu.", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                // SELECT
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", dbCon);
+                String sVersion = (string)dbCom.ExecuteScalar();
+                if (String.IsNullOrWhiteSpace(sVersion))
+                    throw new Exception("Error retrieving database version");
+
+                int nVersion;
+                if (Int32.TryParse(sVersion, out nVersion) && Int32.Parse(sVersion) < CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion)
                 {
-                    return;
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    m_dbCon = null;
-                    string sNewDBPath = CreateNewWorkbenchDB();
-                    return;
+                    // This DB is the wrong version. If it's the same DB path stored in the last used database setting, then clear 
+                    // this setting to avoid the problem reoccurring
+                    string sDBPath = GetDatabasePathFromConnectionString(DBCon.ConnectionString);
+                    if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.DBConnection) &&
+                        string.Compare(CHaMPWorkbench.Properties.Settings.Default.DBConnection, sDBPath, true) == 0)
+                    {
+                        CHaMPWorkbench.Properties.Settings.Default.DBConnection = string.Empty;
+                        CHaMPWorkbench.Properties.Settings.Default.Save();
+                    }
+
+                    DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway? Click \"yes\" to continue and \"no\" to stop and create a new database with the correct version from the File menu.", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        return;
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        DBCon.ConnectionString = null;
+                        string sNewDBPath = CreateNewWorkbenchDB();
+                        return;
+                    }
                 }
             }
         }
@@ -133,23 +138,23 @@ namespace CHaMPWorkbench
                                 break; // do nothing. Always enabled.
 
                             case "closeDatabaseToolStripMenuItem":
-                                subMenu.Enabled = m_dbCon != null;
+                                subMenu.Enabled = !string.IsNullOrEmpty(DBCon.DatabasePath);
                                 break;
 
                             case "createNewWorkbenchDatabaseToolStripMenuItem":
                                 break; // do nothing. Always enabled
 
                             default:
-                                subMenu.Enabled = m_dbCon is System.Data.OleDb.OleDbConnection;
+                                subMenu.Enabled = !string.IsNullOrEmpty(DBCon.DatabasePath);
                                 break;
                         }
                     }
                 }
 
                 // Now update the tool status strip
-                if (m_dbCon is System.Data.OleDb.OleDbConnection)
+                if (!string.IsNullOrEmpty(DBCon.DatabasePath))
                 {
-                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
+                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(DBCon.ConnectionString);
                     tssDatabasePath.Text = oCon.DataSource;
                 }
                 else
@@ -172,11 +177,10 @@ namespace CHaMPWorkbench
             dlg.Title = "Select " + CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " Database";
             dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb|All Files (*.*)|*.*";
 
-            if (m_dbCon is System.Data.OleDb.OleDbConnection)
+            if (!string.IsNullOrEmpty(DBCon.DatabasePath))
             {
-                System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
-                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(oCon.DataSource);
-                dlg.FileName = System.IO.Path.GetFileName(oCon.DataSource);
+                dlg.InitialDirectory = System.IO.Path.GetDirectoryName(DBCon.DatabasePath);
+                dlg.FileName = System.IO.Path.GetFileName(DBCon.DatabasePath);
             }
             else
             {
@@ -190,13 +194,12 @@ namespace CHaMPWorkbench
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                if (m_dbCon is System.Data.OleDb.OleDbConnection)
+                if (!string.IsNullOrEmpty(DBCon.DatabasePath))
                 {
-                    System.Data.OleDb.OleDbConnectionStringBuilder oCon = new System.Data.OleDb.OleDbConnectionStringBuilder(m_dbCon.ConnectionString);
-                    if (string.Compare(dlg.FileName, oCon.DataSource, true) == 0)
+                    if (string.Compare(dlg.FileName, DBCon.DatabasePath, true) == 0)
                         return;
                     else
-                        m_dbCon.Close();
+                        DBCon.ConnectionString = string.Empty;
                 }
 
                 OpenDatabase(dlg.FileName);
@@ -212,12 +215,11 @@ namespace CHaMPWorkbench
                 try
                 {
                     Console.WriteLine("Attempting to open database: " + sDB);
-                    m_dbCon = new System.Data.OleDb.OleDbConnection(sDB);
-                    m_dbCon.Open();
+                    DBCon.ConnectionString = sDatabasePath;
 
                     // Checking the DB version will close the database if it's the wrong version.
                     CheckDBVersion();
-                    if (m_dbCon is OleDbConnection)
+                    if (!string.IsNullOrEmpty(DBCon.ConnectionString))
                     {
                         CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
                         CHaMPWorkbench.Properties.Settings.Default.Save();
@@ -228,7 +230,7 @@ namespace CHaMPWorkbench
                 }
                 catch (Exception ex)
                 {
-                    m_dbCon = null;
+                    DBCon.ConnectionString = string.Empty;
                     Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
@@ -236,8 +238,7 @@ namespace CHaMPWorkbench
 
         private void closeDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_dbCon = null;
-            GC.Collect();
+            DBCon.CloseDatabase();
 
             try
             {
@@ -261,7 +262,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT);
+                frmSelectBatches frm = new frmSelectBatches(DBCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -274,7 +275,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                RBT.frmRunBatches frm = new RBT.frmRunBatches(m_dbCon);
+                RBT.frmRunBatches frm = new RBT.frmRunBatches();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -287,7 +288,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger(m_dbCon);
+                CHaMPWorkbench.frmRBTScavenger rbt = new frmRBTScavenger();
                 rbt.ShowDialog();
             }
             catch (Exception ex)
@@ -326,7 +327,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                frmAbout frm = new frmAbout(m_dbCon);
+                frmAbout frm = new frmAbout();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -342,17 +343,6 @@ namespace CHaMPWorkbench
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (m_dbCon is System.Data.OleDb.OleDbConnection)
-                    if (m_dbCon.State == ConnectionState.Open)
-                        m_dbCon.Close();
-            }
-            catch (Exception ex)
-            {
-                // Do nothing. Let the application quitting try to release DB connection & resoures.
-            }
-
             this.Close();
         }
 
@@ -397,7 +387,7 @@ namespace CHaMPWorkbench
                         ToolStripMenuItem reportMenu = (ToolStripMenuItem)sender;
                         CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem reportClickTag = (CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem)reportMenu.Tag;
                         List<ListItem> visits = GetSelectedVisitsList();
-                        CHaMPWorkbench.Classes.MetricValidation.ReportGenerator reportGenerator = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator(m_dbCon, reportClickTag, visits);
+                        CHaMPWorkbench.Classes.MetricValidation.ReportGenerator reportGenerator = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator(reportClickTag, visits);
                         try
                         {
                             reportGenerator.GenerateXML();
@@ -427,14 +417,14 @@ namespace CHaMPWorkbench
             for (int i = userQueriesToolStripMenuItem.DropDownItems.Count - 1; i > 1; i--)
                 userQueriesToolStripMenuItem.DropDownItems.RemoveAt(i);
 
-            if (m_dbCon is OleDbConnection)
+            if (!string.IsNullOrEmpty(DBCon.DatabasePath))
             {
-                using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                 {
                     dbCon.Open();
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT QueryID, Title, QueryText FROM User_Queries", dbCon);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT QueryID, Title, QueryText FROM User_Queries", dbCon);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         try
@@ -443,7 +433,7 @@ namespace CHaMPWorkbench
 
                             // Build a tag that contains everything the query needs to run
                             mnuQuery.Tag = new UserQueries.frmQueryProperties.UserQueryTag(
-                                m_dbCon.ConnectionString,
+                                DBCon.ConnectionString,
                                 dbRead.GetString(dbRead.GetOrdinal("QueryText")),
                                 dbRead.GetInt32(dbRead.GetOrdinal("QueryID")),
                                 dbRead.GetString(dbRead.GetOrdinal("Title")));
@@ -464,9 +454,9 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo(m_dbCon);
-                if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    LoadVisits();
+                //Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo();
+                //if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                //    LoadVisits();
             }
             catch (Exception ex)
             {
@@ -478,7 +468,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmClearDatabase frm = new Data.frmClearDatabase(m_dbCon);
+                Data.frmClearDatabase frm = new Data.frmClearDatabase();
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     LoadVisits();
             }
@@ -574,21 +564,11 @@ namespace CHaMPWorkbench
             Cursor.Current = Cursors.Default;
         }
 
-        private void openDatabaseInAccessToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_dbCon is System.Data.OleDb.OleDbConnection)
-            {
-                string sPath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
-                if (!string.IsNullOrWhiteSpace(sPath))
-                    System.Diagnostics.Process.Start(sPath);
-            }
-        }
-
         private void testXPathReferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath(m_dbCon);
+                Experimental.Philip.frmTestXPath frm = new Experimental.Philip.frmTestXPath();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -601,7 +581,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors(m_dbCon);
+                Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -614,7 +594,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch(m_dbCon);
+                Habitat.frmHabitatBatch frm = new Habitat.frmHabitatBatch();
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -625,7 +605,7 @@ namespace CHaMPWorkbench
 
         private void LoadVisits()
         {
-            if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
+            if (string.IsNullOrEmpty(DBCon.DatabasePath))
                 return;
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
@@ -637,26 +617,28 @@ namespace CHaMPWorkbench
                 " GROUP BY " + sGroupFields +
                 " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
 
-            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
-            OleDbDataAdapter daVisits = new OleDbDataAdapter(dbCom);
-            DataTable dtVisits = new DataTable();
-
-            try
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                daVisits.Fill(dtVisits);
-                grdVisits.DataSource = dtVisits.AsDataView();
-            }
-            catch (Exception ex)
-            {
-                Exception ex2 = new Exception("Error loading visits", ex);
-                ex2.Data["SQL Select Command"] = dbCom.CommandText;
-                throw ex2;
-            }
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteDataAdapter daVisits = new SQLiteDataAdapter(dbCom);
+                DataTable dtVisits = new DataTable();
 
-            // Load the field seasons and watersheds
-            CheckedListItem.LoadComboWithListItems(ref lstFieldSeason, m_dbCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
-            CheckedListItem.LoadComboWithListItems(ref lstWatershed, m_dbCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
+                try
+                {
+                    daVisits.Fill(dtVisits);
+                    grdVisits.DataSource = dtVisits.AsDataView();
+                }
+                catch (Exception ex)
+                {
+                    Exception ex2 = new Exception("Error loading visits", ex);
+                    ex2.Data["SQL Select Command"] = dbCom.CommandText;
+                    throw ex2;
+                }
 
+                // Load the field seasons and watersheds
+                CheckedListItem.LoadComboWithListItems(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
+                CheckedListItem.LoadComboWithListItems(ref lstWatershed, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
+            }
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
@@ -970,7 +952,7 @@ namespace CHaMPWorkbench
                     sTopoFolder = System.IO.Path.Combine(sTopoFolder, "Topo");
                     System.IO.Directory.CreateDirectory(sTopoFolder);
                     sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
-                    Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(m_dbCon.ConnectionString);
+                    Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(DBCon.ConnectionString);
                     csv.Run((int)r["VisitID"], sTopoFolder);
 
                     if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
@@ -989,7 +971,7 @@ namespace CHaMPWorkbench
 
             if (dVisits.Count > 0)
             {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, dVisits);
+                frmRBTInputBatch frm = new frmRBTInputBatch(dVisits);
                 try
                 {
                     frm.ShowDialog();
@@ -1010,22 +992,25 @@ namespace CHaMPWorkbench
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                try
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                 {
-                    OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", m_dbCon);
-                    dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
-                    if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
+                    try
                     {
-                        string sURL = string.Format("http://maps.google.com/?q={0},{1}&t=h&z={2}", (double)dbRead["Latitude"], (double)dbRead["Longitude"], CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom);
-                        System.Diagnostics.Process.Start(sURL);
+                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)",dbCon);
+                        dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
+                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                        if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
+                        {
+                            string sURL = string.Format("http://maps.google.com/?q={0},{1}&t=h&z={2}", (double)dbRead["Latitude"], (double)dbRead["Longitude"], CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom);
+                            System.Diagnostics.Process.Start(sURL);
+                        }
+                        else
+                            System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
-                        System.Windows.Forms.MessageBox.Show("The visit information does not possess latitude and longitude coordinates. Use the import visit information tool to refres the workbench with coordinates from CHaMP data exports.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                    catch (Exception ex)
+                    {
+                        Classes.ExceptionHandling.NARException.HandleException(ex);
+                    }
                 }
             }
         }
@@ -1072,7 +1057,7 @@ namespace CHaMPWorkbench
 
             if (dVisits.Count > 0)
             {
-                frmRBTInputBatch frm = new frmRBTInputBatch(m_dbCon, dVisits);
+                frmRBTInputBatch frm = new frmRBTInputBatch(dVisits);
 
                 try
                 {
@@ -1089,7 +1074,7 @@ namespace CHaMPWorkbench
 
         private void writeSimulationResultsToCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults(m_dbCon);
+            Habitat.frmScavengeHabitatResults frm = new Habitat.frmScavengeHabitatResults();
             frm.ShowDialog();
         }
 
@@ -1105,7 +1090,7 @@ namespace CHaMPWorkbench
                 {
                     Classes.AWSExporter aws = new Classes.AWSExporter();
                     System.IO.FileInfo fiExport = new System.IO.FileInfo(frm.FileName);
-                    int nExported = aws.Run(ref m_dbCon, fiExport);
+                    int nExported = aws.Run(fiExport);
 
                     if (MessageBox.Show(string.Format("{0:#,##0} records exported to file. Do you want to browse to the file created?", nExported), "Export Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -1262,7 +1247,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
+                frmSelectBatches frm = new frmSelectBatches(DBCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1273,21 +1258,20 @@ namespace CHaMPWorkbench
 
         private void runSelectedBatchesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GUT.frmGUTRun frm = new GUT.frmGUTRun(m_dbCon.ConnectionString);
+            GUT.frmGUTRun frm = new GUT.frmGUTRun(DBCon.ConnectionString);
             frm.ShowDialog();
         }
 
         private void recordPostGCDQAQCRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record(m_dbCon);
-            frm.ShowDialog();
-
+            //Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record();
+            //frm.ShowDialog();
         }
 
         private void gCDAnalysisWatershedLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Experimental.James.frmGCD_MetricsViewer frm = new Experimental.James.frmGCD_MetricsViewer(m_dbCon.ConnectionString);
-            frm.ShowDialog();
+            //Experimental.James.frmGCD_MetricsViewer frm = new Experimental.James.frmGCD_MetricsViewer(DBCon.ConnectionString);
+            //frm.ShowDialog();
         }
 
         private void exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1307,7 +1291,7 @@ namespace CHaMPWorkbench
                 int nWatershedID = (int)r["WatershedID"];
                 int nSiteID = (int)r["SiteID"];
 
-                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon.ConnectionString, nSiteID, nWatershedID);
+                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(DBCon.ConnectionString, nSiteID, nWatershedID);
                 frm.ShowDialog();
             }
         }
@@ -1318,7 +1302,7 @@ namespace CHaMPWorkbench
 
             if (dVisits.Count > 0)
             {
-                HydroPrep.frmHydroPrepBatchBuilder frm = new HydroPrep.frmHydroPrepBatchBuilder(m_dbCon.ConnectionString, dVisits);
+                HydroPrep.frmHydroPrepBatchBuilder frm = new HydroPrep.frmHydroPrepBatchBuilder(DBCon.ConnectionString, dVisits);
 
                 try
                 {
@@ -1337,7 +1321,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                frmSelectBatches frm = new frmSelectBatches(m_dbCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_HydroPrep);
+                frmSelectBatches frm = new frmSelectBatches(DBCon.ConnectionString, CHaMPWorkbench.Properties.Settings.Default.ModelType_HydroPrep);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1348,13 +1332,13 @@ namespace CHaMPWorkbench
 
         private void runSelectedBatchesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            HydroPrep.frmHydroPrepRun frm = new HydroPrep.frmHydroPrepRun(m_dbCon.ConnectionString);
+            HydroPrep.frmHydroPrepRun frm = new HydroPrep.frmHydroPrepRun(DBCon.ConnectionString);
             frm.ShowDialog();
         }
 
         private void runHabitatBatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Habitat.frmHabitatRun frm = new Habitat.frmHabitatRun(m_dbCon.ConnectionString);
+            Habitat.frmHabitatRun frm = new Habitat.frmHabitatRun(DBCon.ConnectionString);
             frm.ShowDialog();
         }
 
@@ -1487,9 +1471,9 @@ namespace CHaMPWorkbench
             frm.OverwritePrompt = true;
 
             string sNewDatabasePath = string.Empty;
-            if (m_dbCon is OleDbConnection)
+            if (!string.IsNullOrEmpty(DBCon.DatabasePath))
             {
-                sNewDatabasePath = GetDatabasePathFromConnectionString(m_dbCon.ConnectionString);
+                sNewDatabasePath = GetDatabasePathFromConnectionString(DBCon.ConnectionString);
                 if (!string.IsNullOrEmpty(sNewDatabasePath))
                 {
                     sNewDatabasePath = System.IO.Path.GetDirectoryName(sNewDatabasePath);
@@ -1550,7 +1534,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Models.frmScavengeMetrics frm = new Models.frmScavengeMetrics(m_dbCon.ConnectionString);
+                Models.frmScavengeMetrics frm = new Models.frmScavengeMetrics(DBCon.ConnectionString);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1584,7 +1568,7 @@ namespace CHaMPWorkbench
         {
             if (visitRow is DataRow)
             {
-                Data.frmVisitDetails frm = new Data.frmVisitDetails(m_dbCon.ConnectionString, (int)visitRow["VisitID"]);
+                Data.frmVisitDetails frm = new Data.frmVisitDetails(DBCon.ConnectionString, (int)visitRow["VisitID"]);
                 frm.ShowDialog();
             }
         }
@@ -1595,7 +1579,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmCustomVisit frm = new Data.frmCustomVisit(m_dbCon.ConnectionString);
+                Data.frmCustomVisit frm = new Data.frmCustomVisit(DBCon.ConnectionString);
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
@@ -1620,7 +1604,7 @@ namespace CHaMPWorkbench
 
         private void manageQueriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserQueries.frmManageQueries frm = new UserQueries.frmManageQueries(m_dbCon.ConnectionString);
+            UserQueries.frmManageQueries frm = new UserQueries.frmManageQueries(DBCon.ConnectionString);
             frm.ShowDialog();
 
             if (frm.UserQueriesChanged)
@@ -1655,7 +1639,7 @@ namespace CHaMPWorkbench
             {
                 System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
-                Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(m_dbCon.ConnectionString);
+                Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(DBCon.ConnectionString);
                 int nComplete = 0;
                 foreach (DataGridViewRow r in grdVisits.SelectedRows)
                 {
@@ -1691,7 +1675,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmUserFeedback frm = new Data.frmUserFeedback(m_dbCon.ConnectionString);
+                Data.frmUserFeedback frm = new Data.frmUserFeedback(DBCon.ConnectionString);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1702,7 +1686,7 @@ namespace CHaMPWorkbench
 
         private void metricResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Data.frmMetricGrid frm = new Data.frmMetricGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
+            Data.frmMetricGrid frm = new Data.frmMetricGrid(DBCon.ConnectionString, GetSelectedVisitsList());
             frm.ShowDialog();
         }
 
@@ -1713,7 +1697,7 @@ namespace CHaMPWorkbench
                 try
                 {
                     ListItem aProgram = (sender as ToolStripMenuItem).Tag as ListItem;
-                    Data.frmMetricReview frm = new Data.frmMetricReview(m_dbCon.ConnectionString, GetSelectedVisitsList(), aProgram);
+                    Data.frmMetricReview frm = new Data.frmMetricReview(DBCon.ConnectionString, GetSelectedVisitsList(), aProgram);
                     frm.ShowDialog();
                 }
                 catch (Exception ex)
@@ -1727,13 +1711,13 @@ namespace CHaMPWorkbench
         private void AddProgramsToMenu()
         {
             metricReviewToolStripMenuItem.DropDownItems.Clear();
-            if (m_dbCon is OleDbConnection)
+            if (!string.IsNullOrEmpty(DBCon.DatabasePath))
             {
-                using (OleDbConnection dbCon = new OleDbConnection(m_dbCon.ConnectionString))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = 12 ORDER BY Title", dbCon);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = 12 ORDER BY Title", dbCon);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
@@ -1751,7 +1735,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(m_dbCon.ConnectionString, GetSelectedVisitsList());
+                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(DBCon.ConnectionString, GetSelectedVisitsList());
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -1764,7 +1748,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(m_dbCon.ConnectionString, null);
+                Data.frmUserFeedbackGrid frm = new Data.frmUserFeedbackGrid(DBCon.ConnectionString, null);
                 frm.ShowDialog();
             }
             catch (Exception ex)

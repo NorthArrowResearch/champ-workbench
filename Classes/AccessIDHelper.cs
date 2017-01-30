@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace HMUI.Classes
 {
@@ -16,7 +16,7 @@ namespace HMUI.Classes
         /// <remarks>PGB Nov 2014. This code was adapted from Beth Massi's blog
         /// http://blogs.msdn.com/b/bethmassi/archive/2009/05/14/using-tableadapters-to-insert-related-data-into-an-ms-access-database.aspx
         /// It's needed because Access doesn't automatically return the primary key of inserted items</remarks>
-        public static void SetPrimaryKey(OleDbConnection trans, OleDbRowUpdatedEventArgs e)
+        public static void SetPrimaryKey(SQLiteConnection trans, System.Data.ro  OleDbRowUpdatedEventArgs e)
         {
             if (e.Status == System.Data.UpdateStatus.Continue && e.StatementType == System.Data.StatementType.Insert)
             {
@@ -26,7 +26,7 @@ namespace HMUI.Classes
                 if (pk != null)// && pk.Count == 1)
                 {
                     System.Data.DataColumn theCol = pk[0];
-                    OleDbCommand cmdGetIdentity = new OleDbCommand("SELECT @@IDENTITY", trans); //trans.Connection, trans);
+                    SQLiteCommand cmdGetIdentity = new SQLiteCommand("SELECT @@IDENTITY", trans); //trans.Connection, trans);
                     // Execute the post-update query to fetch new @@Identity
                     e.Row[theCol.ColumnName] = Convert.ToInt32(cmdGetIdentity.ExecuteScalar()); // e.Row[0]
                     e.Row.AcceptChanges();

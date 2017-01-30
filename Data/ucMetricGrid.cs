@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -55,7 +55,7 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(DBCon))
                 return;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection (DBCon))
             {
                 dbCon.Open();
 
@@ -69,7 +69,7 @@ namespace CHaMPWorkbench.Data
 
                     sSQL += " ORDER BY VISITID";
 
-                    OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                     da.SelectCommand.Parameters.AddWithValue("ProgramID", ProgramID);
                     DataTable ta = new DataTable();
                     da.Fill(ta);

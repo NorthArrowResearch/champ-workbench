@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using HMDesktop.Classes;
 
 namespace CHaMPWorkbench.Habitat
@@ -18,9 +18,9 @@ namespace CHaMPWorkbench.Habitat
         // This is the database ID of the lookup list item for CSV data source types
         private const int m_nCSVDataSourceTypeID = 61;
 
-        public HabitatBatchBuilder(ref OleDbConnection dbWorkbench, string sHabitatDBPath, string sHydraulicResultTopLevelFolder, string sD50TopLevelFolder, string sD50RasterFile)
+        public HabitatBatchBuilder(string sHabitatDBPath, string sHydraulicResultTopLevelFolder, string sD50TopLevelFolder, string sD50RasterFile)
         {
-            m_CHaMPData = new Classes.CHaMPData(ref dbWorkbench);
+            m_CHaMPData = new Classes.CHaMPData();
             m_dHydraulicResultFolder = new System.IO.DirectoryInfo(sHydraulicResultTopLevelFolder);
             m_dD50Folder = new System.IO.DirectoryInfo(sD50TopLevelFolder);
             m_sD50RasterFile = sD50RasterFile;

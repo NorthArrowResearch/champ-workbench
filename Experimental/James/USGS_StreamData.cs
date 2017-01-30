@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 using System.Net;
 using System.IO;
@@ -145,12 +145,12 @@ namespace CHaMPWorkbench.Experimental.James
         private bool CheckIfDischargesTableContainsData(int iGageID)
         {
             bool bContainsData = false;
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
-                OleDbCommand comFS = new OleDbCommand("SELECT TheDate FROM USGS_Discharges WHERE GageID = @GageID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT TheDate FROM USGS_Discharges WHERE GageID = @GageID", dbCon);
                 comFS.Parameters.AddWithValue("@GageID", iGageID);
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
 
                 while (dbRead.Read())
                 {
@@ -173,13 +173,13 @@ namespace CHaMPWorkbench.Experimental.James
         {
             int iGageID = new int();
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
 
-                OleDbCommand comFS = new OleDbCommand("SELECT GageID FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT GageID FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
                 comFS.Parameters.AddWithValue("@SiteID", nSiteID);
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
 
                 while (dbRead.Read())
                 {
@@ -202,13 +202,13 @@ namespace CHaMPWorkbench.Experimental.James
 
             bool bContainsData = false;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
-                OleDbCommand comFS = new OleDbCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
                 comFS.Parameters.AddWithValue("@GageID", iGageID);
 
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
                 {
                     if (dbRead[0] != System.DBNull.Value)
@@ -224,12 +224,12 @@ namespace CHaMPWorkbench.Experimental.James
         public bool VerifyGageID(int iGageID)
         {
             bool bContainsData = false;
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
-                OleDbCommand comFS = new OleDbCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
                 comFS.Parameters.AddWithValue("@GageID", iGageID);
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
 
                 while (dbRead.Read())
                 {
@@ -247,13 +247,13 @@ namespace CHaMPWorkbench.Experimental.James
         private List<StreamFlowSample> RetreiveDischargeDataFromDB(int iGageID)
         {
             List<StreamFlowSample> lStreamData = new List<StreamFlowSample>();
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
-                OleDbCommand comFS = new OleDbCommand("SELECT TheDate, Discharge FROM USGS_Discharges WHERE GageID = @GageID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT TheDate, Discharge FROM USGS_Discharges WHERE GageID = @GageID", dbCon);
                 comFS.Parameters.AddWithValue("@GageID", iGageID);
 
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
                 {
                     //add each record to the list of stream sample data
@@ -316,10 +316,10 @@ namespace CHaMPWorkbench.Experimental.James
         {
             List<StreamFlowSample> lStreamData = new List<StreamFlowSample>();
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
                 dbCon.Open();
-                OleDbTransaction dbTrans = dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
                 try
                 {
@@ -347,7 +347,7 @@ namespace CHaMPWorkbench.Experimental.James
                         foreach (StreamFlowSample sample in aggregatedStreamFlow)
                         {
 
-                            OleDbCommand dbCom = new OleDbCommand("INSERT INTO USGS_Discharges (GageID, TheDate, Discharge)" +
+                            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO USGS_Discharges (GageID, TheDate, Discharge)" +
                                                                     " VALUES (@GageID, @TheDate, @Discharge)", dbTrans.Connection, dbTrans);
 
                             dbCom.Parameters.AddWithValue("@GageID", iGageID);

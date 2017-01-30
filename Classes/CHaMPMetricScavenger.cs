@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes
 {
@@ -20,41 +20,41 @@ namespace CHaMPWorkbench.Classes
         {
             List<string> lResults = new List<string>();
 
-            using (OleDbConnection conWorkbench = new OleDbConnection(DBWorkbench))
+            using (SQLiteConnection conWorkbench = new SQLiteConnection(DBWorkbench))
             {
                 // Workbench transaction that will be rolled back should anything go wrong
                 conWorkbench.Open();
-                OleDbTransaction dbTrans = conWorkbench.BeginTransaction();
+                SQLiteTransaction dbTrans = conWorkbench.BeginTransaction();
 
                 if (bClearExistingData)
                 {
                     // Delete all existing scavenged cm.org metrics
-                    OleDbCommand sqlDelete = new OleDbCommand("DELETE * FROM Metric_Results WHERE ScavengeTypeID = @ScavengeTypeID", conWorkbench, dbTrans);
+                    SQLiteCommand sqlDelete = new SQLiteCommand("DELETE * FROM Metric_Results WHERE ScavengeTypeID = @ScavengeTypeID", conWorkbench, dbTrans);
                     sqlDelete.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_CMORG);
                     sqlDelete.ExecuteNonQuery();
                 }
 
                 // SQL to insert one result record for each visit for which there are metrics.
-                OleDbCommand sqlInsertResult = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, ScavengeTypeID, VisitID) VALUES (@ResultFile, @ModelVersion, @ScavengeTypeID, @VisitID)", conWorkbench, dbTrans);
+                SQLiteCommand sqlInsertResult = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, ScavengeTypeID, VisitID) VALUES (@ResultFile, @ModelVersion, @ScavengeTypeID, @VisitID)", conWorkbench, dbTrans);
                 sqlInsertResult.Parameters.AddWithValue("@ResultFile", sDBFilePath);
                 sqlInsertResult.Parameters.AddWithValue("@ModelVersion", sModelVersion);
                 sqlInsertResult.Parameters.AddWithValue("@ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_CMORG);
-                OleDbParameter pVisitID = sqlInsertResult.Parameters.Add("@VisitID", OleDbType.Integer);
+                SQLiteParameter pVisitID = sqlInsertResult.Parameters.Add("@VisitID", System.Data.DbType.Int64);
 
                 // SQL to insert the actual metric values.
-                OleDbCommand sqlInsertMetricValue = new OleDbCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", conWorkbench, dbTrans);
-                OleDbParameter pResultID = sqlInsertMetricValue.Parameters.Add("@ResultID", OleDbType.Integer);
-                OleDbParameter pMetricID = sqlInsertMetricValue.Parameters.Add("@MetricID", OleDbType.Integer);
-                OleDbParameter pMetricValue = sqlInsertMetricValue.Parameters.Add("@MetricValue", OleDbType.Double);
+                SQLiteCommand sqlInsertMetricValue = new SQLiteCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", conWorkbench, dbTrans);
+                SQLiteParameter pResultID = sqlInsertMetricValue.Parameters.Add("@ResultID",  System.Data.DbType.Int64);
+                SQLiteParameter pMetricID = sqlInsertMetricValue.Parameters.Add("@MetricID",  System.Data.DbType.Int64);
+                SQLiteParameter pMetricValue = sqlInsertMetricValue.Parameters.Add("@MetricValue", System.Data.DbType.Double);
 
                 try
                 {
                     // Loop over Metric_Definitions and construct dictionary of metric IDs to export field names
                     string sResultDBCon = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDBFilePath);
-                    using (OleDbConnection dbExport = new OleDbConnection(sResultDBCon))
+                    using (SQLiteConnection dbExport = new SQLiteConnection(sResultDBCon))
                     {
                         dbExport.Open();
-                        OleDbDataAdapter daResults = new OleDbDataAdapter("SELECT * FROM MetricVisitInformation", dbExport);
+                        SQLiteDataAdapter daResults = new SQLiteDataAdapter("SELECT * FROM MetricVisitInformation", dbExport);
                         System.Data.DataTable tResults = new System.Data.DataTable();
                         daResults.Fill(tResults);
                         lResults.Add(string.Format("{0} visits with metric identified in the CHaMP export database.", tResults.Rows.Count));
@@ -74,7 +74,7 @@ namespace CHaMPWorkbench.Classes
                                 nResults += sqlInsertResult.ExecuteNonQuery();
 
                                 // Retrieve ResultID
-                                OleDbCommand sqlResultID = new OleDbCommand("SELECT @@Identity FROM Metric_Results", conWorkbench, dbTrans);
+                                SQLiteCommand sqlResultID = new SQLiteCommand("SELECT @@Identity FROM Metric_Results", conWorkbench, dbTrans);
                                 object objResultID = sqlResultID.ExecuteScalar();
                                 int nResultID = 0;
                                 if (int.TryParse(objResultID.ToString(), out nResultID))
@@ -115,11 +115,11 @@ namespace CHaMPWorkbench.Classes
         {
             Dictionary<int, MetricDef> dMetrics = new Dictionary<int, MetricDef>();
 
-            using (OleDbConnection dbworkbench = new OleDbConnection(DBWorkbench))
+            using (SQLiteConnection dbworkbench = new SQLiteConnection(DBWorkbench))
             {
                 dbworkbench.Open();
-                OleDbCommand sqlMetrics = new OleDbCommand("SELECT MetricID, Title, DisplayNameShort FROM Metric_Definitions WHERE (CMMetricID IS NOT NULL) AND (DisplayNameShort IS NOT NULL)", dbworkbench);
-                OleDbDataReader readMetrics = sqlMetrics.ExecuteReader();
+                SQLiteCommand sqlMetrics = new SQLiteCommand("SELECT MetricID, Title, DisplayNameShort FROM Metric_Definitions WHERE (CMMetricID IS NOT NULL) AND (DisplayNameShort IS NOT NULL)", dbworkbench);
+                SQLiteDataReader readMetrics = sqlMetrics.ExecuteReader();
 
                 while (readMetrics.Read())
                 {

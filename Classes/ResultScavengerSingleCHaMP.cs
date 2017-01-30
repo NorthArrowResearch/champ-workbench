@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 
 namespace CHaMPWorkbench.Classes
@@ -62,13 +62,13 @@ namespace CHaMPWorkbench.Classes
             }
 
             int nResultID = 0;
-            using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
+            using (SQLiteConnection DBCon = new SQLiteConnection(m_sDBCon))
             {
                 // Open the database and use a transaction for this entire RBT result file.
                 // If anything goes wrong with any metric then the whole file is abandoned
                 // and no changes are stored to the database.
                 DBCon.Open();
-                OleDbTransaction dbTrans = DBCon.BeginTransaction();
+                SQLiteTransaction dbTrans = DBCon.BeginTransaction();
 
                 try
                 {
@@ -109,13 +109,13 @@ namespace CHaMPWorkbench.Classes
         {
             List<ScavengeMetric> lMetrics = new List<ScavengeMetric>();
 
-            using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
+            using (SQLiteConnection DBCon = new SQLiteConnection(m_sDBCon))
             {
                 DBCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (CMMetricID Is Not Null) AND (RBTResultXMLTag Is Not Null)", DBCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (CMMetricID Is Not Null) AND (RBTResultXMLTag Is Not Null)", DBCon);
                 dbCom.Parameters.AddWithValue("@TypeID", nMetricTypeID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     lMetrics.Add(new ScavengeMetric(dbRead.GetInt32(dbRead.GetOrdinal("MetricID")),
@@ -137,7 +137,7 @@ namespace CHaMPWorkbench.Classes
         /// <returns>The ID of the RBT result file record. This is used as the foreign key for inserting metrics.</returns>
         /// <remarks>
         /// This method only saves the record if the RBT version, run date time and VisitID values can be obtained from the result XML file.</remarks>
-        private int InsertResultRecord(ref OleDbTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults, out int nVisitID)
+        private int InsertResultRecord(ref SQLiteTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults, out int nVisitID)
         {
             int nResultID = 0;
             nVisitID = 0;
@@ -152,7 +152,7 @@ namespace CHaMPWorkbench.Classes
                     XmlNode nodVisitID = xmlResults.SelectSingleNode("//rbt_results//metric_results//visitid");
                     if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
                     {
-                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
+                        SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
                             " VALUES (@ResultFile, @ModelVersion, @VisitID, @RBTRunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
 
                         dbCom.Parameters.AddWithValue("@ResultFile", sResultFile);
@@ -163,7 +163,7 @@ namespace CHaMPWorkbench.Classes
 
                         dbCom.ExecuteNonQuery();
 
-                        dbCom = new OleDbCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
+                        dbCom = new SQLiteCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
                         object objResultID = dbCom.ExecuteScalar();
                         if (objResultID != null && objResultID != DBNull.Value && objResultID is int)
                         {
@@ -182,16 +182,16 @@ namespace CHaMPWorkbench.Classes
         /// <param name="dbTrans">Database transaction</param>
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
+        private int ScavengeVisitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
                 return 0;
 
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
-            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
-            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
-            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
+            SQLiteParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("@MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", System.Data.DbType.Double);
 
             int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
@@ -220,7 +220,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeTierMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nTier, int nMetricGroupID, int nLookupListIDTierValues, int nResultID)
+        private int ScavengeTierMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nTier, int nMetricGroupID, int nLookupListIDTierValues, int nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(nMetricGroupID);
             if (lVisitMetrics.Count < 1)
@@ -232,18 +232,18 @@ namespace CHaMPWorkbench.Classes
             // Build a dictionary of the tier values ("rapid", "Beaver Pool", Off Channel etc) for the specified Metric Group.
             // These will be substituted for the wildcard string above.
             Dictionary<string, int> dTierValues = new Dictionary<string, int>();
-            OleDbCommand comTierValues = new OleDbCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = @ListID", dbTrans.Connection, dbTrans);
+            SQLiteCommand comTierValues = new SQLiteCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = @ListID", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@ListID", nLookupListIDTierValues);
-            OleDbDataReader dbRead = comTierValues.ExecuteReader();
+            SQLiteDataReader dbRead = comTierValues.ExecuteReader();
             while (dbRead.Read())
                 dTierValues.Add(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt32(dbRead.GetOrdinal("ItemID")));
 
             // Prepare the query to insert the tier metric value
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_TierMetrics (ResultID, MetricID, TierID, MetricValue) VALUES (@ResultID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
-            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
-            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
-            OleDbParameter pTierID = dbCom.Parameters.Add("@TierID", OleDbType.Integer);
-            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_TierMetrics (ResultID, MetricID, TierID, MetricValue) VALUES (@ResultID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
+            SQLiteParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("@MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pTierID = dbCom.Parameters.Add("@TierID", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", System.Data.DbType.Double);
 
             int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
@@ -279,7 +279,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeChannelUnitrMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults, int nVisitID, int nResultID)
+        private int ScavengeChannelUnitrMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nVisitID, int nResultID)
         {
             // channel unit metrics are LookupList ItemID 6 (cm.org GroupTypeID = 2)
             List<ScavengeMetric> lVisitMetrics = GetMetrics(6);
@@ -288,21 +288,21 @@ namespace CHaMPWorkbench.Classes
 
             // Build a dictionary of the channel units for this visit. Key is channel unit number (crew defined) to value of ChannelUnitID (workbench DB ID)
             Dictionary<int, int> dChannelUnits = new Dictionary<int, int>();
-            OleDbCommand comTierValues = new OleDbCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber" +
+            SQLiteCommand comTierValues = new SQLiteCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber" +
                 " FROM CHAMP_Visits AS V INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID" +
                 " WHERE (V.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@VisitID", nVisitID);
-            OleDbDataReader dbRead = comTierValues.ExecuteReader();
+            SQLiteDataReader dbRead = comTierValues.ExecuteReader();
             while (dbRead.Read())
                 dChannelUnits.Add(dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitID")));
 
             // Prepare the query to insert the tier metric value
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_ChannelUnitMetrics (ResultID, MetricID, ChannelUnitID, ChannelUnitNumber, MetricValue) VALUES (@ResultID, @MetricID, @ChannelUnitID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);
-            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
-            OleDbParameter pMetricID = dbCom.Parameters.Add("@MetricID", OleDbType.Integer);
-            OleDbParameter pChannelUnitID = dbCom.Parameters.Add("@ChannelUnitID", OleDbType.Integer);
-            OleDbParameter pChannelUnitNumber = dbCom.Parameters.Add("@ChannelUnitNumber", OleDbType.Integer);
-            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_ChannelUnitMetrics (ResultID, MetricID, ChannelUnitID, ChannelUnitNumber, MetricValue) VALUES (@ResultID, @MetricID, @ChannelUnitID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);
+            SQLiteParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", nResultID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("@MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pChannelUnitID = dbCom.Parameters.Add("@ChannelUnitID", System.Data.DbType.Int64);
+            SQLiteParameter pChannelUnitNumber = dbCom.Parameters.Add("@ChannelUnitNumber", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", System.Data.DbType.Double);
 
             int nMetricsScavenged = 0;
             foreach (ScavengeMetric aMetric in lVisitMetrics)
@@ -367,25 +367,25 @@ namespace CHaMPWorkbench.Classes
                 throw ex2;
             }
 
-            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo, DateRun, ModelVersion, BatchRunID) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo, @DateRun, @ModelVersion, @BatchRunID)", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO LogFiles (ResultID, Status, VisitID, LogfilePath, ResultFilePath, MetaDataInfo, DateRun, ModelVersion, BatchRunID) VALUES (@ResultID, @Status, @VisitID, @LogFilePath, @ResultFilePath, @MetaDataInfo, @DateRun, @ModelVersion, @BatchRunID)", dbCon);
 
                 if (nResultID > 0)
                     dbCom.Parameters.AddWithValue("ResultID", nResultID);
                 else
                     dbCom.Parameters.AddWithValue("ResultID", DBNull.Value);
 
-                OleDbParameter pStatus = dbCom.Parameters.Add("Status", OleDbType.VarChar);
+                SQLiteParameter pStatus = dbCom.Parameters.Add("Status", System.Data.DbType.String);
                 pStatus.Value = DBNull.Value;
                 XmlNode nodStatus = xmlR.SelectSingleNode("rbt/status");
                 if (nodStatus is XmlNode)
                     if (nodStatus is XmlNode && !string.IsNullOrEmpty(nodStatus.InnerText))
                         pStatus.Value = nodStatus.InnerText;
 
-                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", System.Data.DbType.Int64);
                 pVisitID.Value = DBNull.Value;
                 XmlNode nodTargetVisit = xmlR.SelectSingleNode("rbt/target_visit");
                 if (nodTargetVisit is XmlNode && !string.IsNullOrEmpty(nodTargetVisit.InnerText))
@@ -397,7 +397,7 @@ namespace CHaMPWorkbench.Classes
 
                 dbCom.Parameters.AddWithValue("LogFilePath", sLogFile);
 
-                OleDbParameter pResultFile = dbCom.Parameters.Add("ResultFilePath", OleDbType.VarChar);
+                SQLiteParameter pResultFile = dbCom.Parameters.Add("ResultFilePath", System.Data.DbType.String);
                 if (string.IsNullOrEmpty(sResultFilePath))
                 {
                     pResultFile.Value = DBNull.Value;
@@ -409,7 +409,7 @@ namespace CHaMPWorkbench.Classes
                 }
 
                 XmlNode xMeta = xmlR.SelectSingleNode("rbt/meta_data");
-                OleDbParameter pMeta = dbCom.Parameters.Add("MetaDataInfo", OleDbType.VarChar);
+                SQLiteParameter pMeta = dbCom.Parameters.Add("MetaDataInfo", System.Data.DbType.String);
                 pMeta.Value = DBNull.Value;
                 if (xMeta is XmlNode)
                 {
@@ -421,7 +421,7 @@ namespace CHaMPWorkbench.Classes
                 }
 
                 XmlNode xDateRun = xmlR.SelectSingleNode("rbt/meta_data/date_time_created");
-                OleDbParameter pDateRun = dbCom.Parameters.Add("DateRun", OleDbType.VarChar);
+                SQLiteParameter pDateRun = dbCom.Parameters.Add("DateRun", System.Data.DbType.String);
                 pDateRun.Value = DBNull.Value;
                 DateTime dtDaterun;
                 if (xDateRun is XmlNode && !string.IsNullOrEmpty(xDateRun.InnerText) && DateTime.TryParse(xDateRun.InnerText, out dtDaterun))
@@ -431,7 +431,7 @@ namespace CHaMPWorkbench.Classes
                 }
 
                 XmlNode xModelVersion = xmlR.SelectSingleNode("rbt/meta_data/rbt_version");
-                OleDbParameter pModelVersion = dbCom.Parameters.Add("ModelVersion", OleDbType.VarChar);
+                SQLiteParameter pModelVersion = dbCom.Parameters.Add("ModelVersion",  System.Data.DbType.String);
                 pModelVersion.Value = DBNull.Value;
                 if (xModelVersion is XmlNode)
                 {
@@ -442,7 +442,7 @@ namespace CHaMPWorkbench.Classes
                     }
                 }
 
-                OleDbParameter pBatchID = dbCom.Parameters.Add("BatchRunID", OleDbType.Integer);
+                SQLiteParameter pBatchID = dbCom.Parameters.Add("BatchRunID", System.Data.DbType.Int64);
                 pBatchID.Value = DBNull.Value;
                 if (nBatchRunID > 0)
                     pBatchID.Value = nBatchRunID;
@@ -451,24 +451,24 @@ namespace CHaMPWorkbench.Classes
                 //
                 // Get the ID of this log file entry
                 //
-                dbCom = new OleDbCommand("SELECT @@Identity FROM LogFiles", dbCon);
+                dbCom = new SQLiteCommand("SELECT @@Identity FROM LogFiles", dbCon);
                 int nLogID = (int)dbCom.ExecuteScalar();
                 if (nLogID > 0)
                 {
                     //
                     // Now insert all the status messages and errors/warnings
                     //
-                    dbCom = new OleDbCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, SourceVisitID, TargetVisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
+                    dbCom = new SQLiteCommand("INSERT INTO LogMessages (LogID, MessageType, LogSeverity, SourceVisitID, TargetVisitID, LogDateTime, LogMessage, LogException, LogSolution)" +
                                                                     " VALUES (@LogID, @MessageType, @MessageSeverity, @SourceVisitID, @TargetVisitID, @LogDateTime, @LogMessage, @LogException, @LogSolution)", dbCon);
                     dbCom.Parameters.AddWithValue("LogID", nLogID);
-                    OleDbParameter pMessageType = dbCom.Parameters.Add("MessageType", OleDbType.VarChar);
-                    OleDbParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", OleDbType.VarChar);
-                    OleDbParameter pSourceVisitID = dbCom.Parameters.Add("SourceVisitID", OleDbType.BigInt);
-                    OleDbParameter pTargetVisitID = dbCom.Parameters.Add("TargetVisitID", OleDbType.BigInt);
-                    OleDbParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime", OleDbType.Date);
-                    OleDbParameter pLogMessage = dbCom.Parameters.Add("LogMessage", OleDbType.VarChar);
-                    OleDbParameter pLogException = dbCom.Parameters.Add("LogException", OleDbType.VarChar);
-                    OleDbParameter pLogSolution = dbCom.Parameters.Add("LogSolution", OleDbType.VarChar);
+                    SQLiteParameter pMessageType = dbCom.Parameters.Add("MessageType", System.Data.DbType.String);
+                    SQLiteParameter pMessageSeverity = dbCom.Parameters.Add("MessageSeverity", System.Data.DbType.String);
+                    SQLiteParameter pSourceVisitID = dbCom.Parameters.Add("SourceVisitID", System.Data.DbType.Int64);
+                    SQLiteParameter pTargetVisitID = dbCom.Parameters.Add("TargetVisitID", System.Data.DbType.Int64);
+                    SQLiteParameter pLogDateTime = dbCom.Parameters.Add("LogDateTime",  System.Data.DbType.DateTime);
+                    SQLiteParameter pLogMessage = dbCom.Parameters.Add("LogMessage", System.Data.DbType.String);
+                    SQLiteParameter pLogException = dbCom.Parameters.Add("LogException", System.Data.DbType.String);
+                    SQLiteParameter pLogSolution = dbCom.Parameters.Add("LogSolution", System.Data.DbType.String);
 
                     foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/messages/message"))
                     {
@@ -578,7 +578,7 @@ namespace CHaMPWorkbench.Classes
         }
 
 
-        private void Scavenge_ChangeDetection(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nResultID)
+        private void Scavenge_ChangeDetection(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, int nResultID)
         {
 
             foreach (XmlNode dodNode in xmlTopNode.SelectNodes("/rbt_results/metric_results/change_detection_results/dod"))
@@ -636,14 +636,14 @@ namespace CHaMPWorkbench.Classes
                 }
 
                 sSQL += ")";
-                OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
                 try
                 {
                     dbCom.ExecuteNonQuery();
 
                     int nChangeDetectionID = 0;
-                    dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_ChangeDetection", dbTrans.Connection, dbTrans);
-                    OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                    dbCom = new SQLiteCommand("SELECT @@IDENTITY FROM Metric_ChangeDetection", dbTrans.Connection, dbTrans);
+                    SQLiteDataReader dbRdr = dbCom.ExecuteReader();
                     if (dbRdr.Read())
                     {
                         if (!System.Convert.IsDBNull(dbRdr[0]))
@@ -661,7 +661,7 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        private void PopulateTable_BudgetSegegration(ref OleDbTransaction dbTrans, XmlNode xmlTopNode, int nChangeDetectionID)
+        private void PopulateTable_BudgetSegegration(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, int nChangeDetectionID)
         {
             //("./change_detection/dod")
             foreach (XmlNode aBudgetSegNode in xmlTopNode.ChildNodes)
@@ -677,11 +677,11 @@ namespace CHaMPWorkbench.Classes
                     sSQL += "'" + aBudgetSegNode.Name.Replace("'", "") + "'";
                     sSQL += ")";
 
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
                     dbCom.ExecuteNonQuery();
 
-                    dbCom = new OleDbCommand("SELECT @@IDENTITY FROM Metric_BudgetSegregations", dbTrans.Connection, dbTrans);
-                    OleDbDataReader dbRdr = dbCom.ExecuteReader();
+                    dbCom = new SQLiteCommand("SELECT @@IDENTITY FROM Metric_BudgetSegregations", dbTrans.Connection, dbTrans);
+                    SQLiteDataReader dbRdr = dbCom.ExecuteReader();
                     if (dbRdr.Read())
                     {
                         if (!System.Convert.IsDBNull(dbRdr[0]))
@@ -708,7 +708,7 @@ namespace CHaMPWorkbench.Classes
         }
 
 
-        private void PopulateTable_BudgetSegragationValues(OleDbTransaction dbTrans, XmlNode xmlBudgetNode, int nBudgetSegragationID, string sMaskValueName)
+        private void PopulateTable_BudgetSegragationValues(SQLiteTransaction dbTrans, XmlNode xmlBudgetNode, int nBudgetSegragationID, string sMaskValueName)
         {
             string sSQL = "INSERT INTO Metric_BudgetSegregationValues (BudgetID" + ", MaskValueName" + ", RawAreaErosion" + ", RawAreaDeposition" + ", ThresholdAreaErosion" + ", ThresholdAreaDeposition" + ", AreaDetectableChange" + ", AreaOfInterestRaw" + ", PercentAreaOfInterestDetectableChange" + ", RawVolumeErosion" + ", ThresholdVolumeErosion" + ", ErrorVolumeErosion" + ", ThresholdPercentErosion" + ", RawVolumeDeposition" + ", ThresholdVolumeDeposition" + ", ErrorVolumeDeposition" + ", ThresholdPercentDeposition" + ", RawVolumeDifference" + ", ThresholdedVolumeDifference" + ", ErrorVolumeDifference" + ", VolumeDifferencePercent" + ", AverageDepthErosionRaw" + ", AverageDepthErosionThreshold" + ", AverageDepthErosionError" + ", AverageDepthErosionPercent" + ", AverageDepthDepositionRaw" + ", AverageDepthDepositionThreshold" + ", AverageDepthDepositionError" + ", AverageDepthDepositionPercent" + ", AverageThicknessDifferenceAOIRaw" + ", AverageThicknessDifferenceAOIThresholded" + ", AverageThicknessDifferenceAOIError" + ", AverageThicknessDifferenceAOIPercent" + ", AverageNetThicknessDifferenceAOIRaw" + ", AverageNetThicknessDifferenceAOIThresholded" + ", AverageNetThicknessDifferenceAOIError" + ", AverageNetThicknessDifferenceAOIPercent" + ", AverageThicknessDifferenceADCThresholded" + ", AverageThicknessDifferenceADCError" + ", AverageThicknessDifferenceADCPercent" + ", AverageNetThicknessDifferenceADCThresholded" + ", AverageNetThicknessDifferenceADCError" + ", AverageNetThicknessDifferenceADCPercent" + ", PercentErosionRaw" + ", PercentErosionThresholded" + ", PercentDepositionRaw" + ", PercentDepositionThresholded" + ", PercentImbalanceRaw" + ", PercentImbalanceThresholded" + ", PercentNetVolumeRatioRaw" + ", PercentNetVolumeRatioThresholded" + ") VALUES (" + nBudgetSegragationID;
 
@@ -767,7 +767,7 @@ namespace CHaMPWorkbench.Classes
 
             try
             {
-                OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
                 dbCom.ExecuteNonQuery();
 
             }

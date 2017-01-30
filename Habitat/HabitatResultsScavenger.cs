@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 
 namespace CHaMPWorkbench.Habitat
@@ -55,13 +55,13 @@ namespace CHaMPWorkbench.Habitat
             }
 
             int nResultID = 0;
-            using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
+            using (SQLiteConnection DBCon = new SQLiteConnection(m_sDBCon))
             {
                 // Open the database and use a transaction for this entire Habitat result file.
                 // If anything goes wrong with any metric then the whole file is abandoned
                 // and no changes are stored to the database.
                 DBCon.Open();
-                OleDbTransaction dbTrans = DBCon.BeginTransaction();
+                SQLiteTransaction dbTrans = DBCon.BeginTransaction();
 
                 try
                 {
@@ -95,7 +95,7 @@ namespace CHaMPWorkbench.Habitat
         /// <param name="dbTrans">Database transaction</param>
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeVisitMetrics(ref OleDbTransaction dbTrans, ref XmlDocument xmlResults,
+        private int ScavengeVisitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults,
             int nResultID)
         {
             int nSpeciesLifestage = -1;
@@ -112,10 +112,10 @@ namespace CHaMPWorkbench.Habitat
             {
                 sType = nodSimulation.Attributes["type"].Value;
                 // Gotta go lookup the CHamP Model Type
-                OleDbCommand dbTypeCom = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+                SQLiteCommand dbTypeCom = new SQLiteCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
                 dbTypeCom.Parameters.AddWithValue("@LISTID", CHaMPWorkbench.Properties.Settings.Default.LookupList_CHaMPModel); // 'CHaMP Models' is lookup list 4
                 dbTypeCom.Parameters.AddWithValue("@TITLE", sType);
-                OleDbDataReader dbRead = dbTypeCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbTypeCom.ExecuteReader();
                 int counter = 0;
                 while (dbRead.Read())
                 {
@@ -146,10 +146,10 @@ namespace CHaMPWorkbench.Habitat
                 string sSpeciesLifestage = string.Format("{0} {1}", nodSpecies.InnerText, nodLifestage.InnerText);
 
                 // Gotta go lookup the species / lifestage
-                OleDbCommand dbSpeciesLifestage = new OleDbCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
+                SQLiteCommand dbSpeciesLifestage = new SQLiteCommand("SELECT ItemID FROM LookupListItems WHERE ListID = @LISTID AND Title = @TITLE", dbTrans.Connection, dbTrans);
                 dbSpeciesLifestage.Parameters.AddWithValue("@LISTID", CHaMPWorkbench.Properties.Settings.Default.LookupList_SpeciesLifestage);  // 'Species and Lifestage' is lookup list 10
                 dbSpeciesLifestage.Parameters.AddWithValue("@TITLE", sSpeciesLifestage);
-                OleDbDataReader dbRead = dbSpeciesLifestage.ExecuteReader();
+                SQLiteDataReader dbRead = dbSpeciesLifestage.ExecuteReader();
                 int counter = 0;
                 while (dbRead.Read())
                 {
@@ -158,7 +158,7 @@ namespace CHaMPWorkbench.Habitat
                 }
                 if (counter != 1)
                     throw new Exception(String.Format("Could not identify species lifestage based on the XML species: \"{0}\" and lifestage: \"{1}\"", nodSpecies.InnerText, nodLifestage.InnerText));
-        
+
             }
 
             // Determine the flow type from the XML
@@ -169,15 +169,15 @@ namespace CHaMPWorkbench.Habitat
                 sFlow = nodFlow.InnerText;
             }
 
-            OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Habitat (ResultID, ModelID, SpeciesLifeStageID, MetricID, FlowType, MetricValue) VALUES (@ResultID, @ModelID, @SpeciesLifeStageID, @MetricID, @FlowType, @MetricValue)",
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Habitat (ResultID, ModelID, SpeciesLifeStageID, MetricID, FlowType, MetricValue) VALUES (@ResultID, @ModelID, @SpeciesLifeStageID, @MetricID, @FlowType, @MetricValue)",
                 dbTrans.Connection,
                 dbTrans);
-            OleDbParameter pResultID = dbCom.Parameters.AddWithValue("@ResultID", OleDbType.Integer);
-            OleDbParameter pModelID = dbCom.Parameters.AddWithValue("@ModelID", OleDbType.Integer);
-            OleDbParameter pSpeciesLifeStageID = dbCom.Parameters.AddWithValue("@SpeciesLifeStageID", OleDbType.Integer);
-            OleDbParameter pMetricID = dbCom.Parameters.AddWithValue("@MetricID", OleDbType.Integer);
-            OleDbParameter pFlowType = dbCom.Parameters.AddWithValue("@FlowType", OleDbType.WChar);
-            OleDbParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", OleDbType.Double);
+            SQLiteParameter pResultID = dbCom.Parameters.Add("@ResultID", System.Data.DbType.Int64);
+            SQLiteParameter pModelID = dbCom.Parameters.Add("@ModelID", System.Data.DbType.Int64);
+            SQLiteParameter pSpeciesLifeStageID = dbCom.Parameters.Add("@SpeciesLifeStageID", System.Data.DbType.Int64);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("@MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pFlowType = dbCom.Parameters.Add("@FlowType", System.Data.DbType.String);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("@MetricValue", System.Data.DbType.Double);
 
             pResultID.Value = nResultID;
             pModelID.Value = nModelType;
@@ -212,13 +212,13 @@ namespace CHaMPWorkbench.Habitat
         private List<ScavengeMetric> GetMetrics(int nMetricTypeID)
         {
             List<ScavengeMetric> lMetrics = new List<ScavengeMetric>();
-            using (OleDbConnection DBCon = new OleDbConnection(m_sDBCon))
+            using (SQLiteConnection DBCon = new SQLiteConnection(m_sDBCon))
             {
                 DBCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (RBTResultXMLTag Is Not Null)", DBCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (RBTResultXMLTag Is Not Null)", DBCon);
                 dbCom.Parameters.AddWithValue("@TypeID", nMetricTypeID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                 while (dbRead.Read())
                 {
@@ -273,7 +273,7 @@ namespace CHaMPWorkbench.Habitat
         /// <returns>The ID of the RBT result file record. This is used as the foreign key for inserting metrics.</returns>
         /// <remarks>
         /// This method only saves the record if the RBT version, run date time and VisitID values can be obtained from the result XML file.</remarks>
-        private int InsertResultRecord(ref OleDbTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults)
+        private int InsertResultRecord(ref SQLiteTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults)
         {
             int nResultID = 0;
 
@@ -288,7 +288,7 @@ namespace CHaMPWorkbench.Habitat
                     int nVisitID;
                     if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
                     {
-                        OleDbCommand dbCom = new OleDbCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
+                        SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
                             " VALUES (@ResultFile, @ModelVersion, @VisitID, @RBTRunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
 
                         dbCom.Parameters.AddWithValue("@ResultFile", sResultFile);
@@ -299,7 +299,7 @@ namespace CHaMPWorkbench.Habitat
 
                         dbCom.ExecuteNonQuery();
 
-                        dbCom = new OleDbCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
+                        dbCom = new SQLiteCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
                         object objResultID = dbCom.ExecuteScalar();
                         if (objResultID != null && objResultID != DBNull.Value && objResultID is int)
                         {
@@ -311,8 +311,5 @@ namespace CHaMPWorkbench.Habitat
 
             return nResultID;
         }
-
-
     }
-
 }

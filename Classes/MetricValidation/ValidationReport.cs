@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using Newtonsoft.Json;
 using System.Xml;
 
@@ -145,16 +145,16 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         {
             Dictionary<int, ValidationVisitInfo> dResult = new Dictionary<int, ValidationVisitInfo>();
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear" +
                     " , CHaMP_Visits.Organization, CHaMP_Visits.CrewName" +
                     " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Results INNER JOIN CHAMP_Visits ON Metric_Results.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
                     " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHaMP_Visits.Organization, CHaMP_Visits.CrewName", dbCon);
 
 
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     string sOrganization = string.Empty;
@@ -188,16 +188,16 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         private Dictionary<string, Metric> RetrieveValidationMetrics()
         {
             Dictionary<string, Metric> theResult = new Dictionary<string, Metric>();
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT D.MetricID, D.Title, D.CMMetricID, D.TypeID, D.Threshold, D.MinValue, D.MaxValue, D.IsActive, D.CMMetricID, MGs.Title AS MetricParentGroup, MCGs.Title AS MetricChildGroup" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.Title, D.CMMetricID, D.TypeID, D.Threshold, D.MinValue, D.MaxValue, D.IsActive, D.CMMetricID, MGs.Title AS MetricParentGroup, MCGs.Title AS MetricChildGroup" +
                     " FROM (Metric_Definitions AS D LEFT JOIN LookupListItems AS MGs ON D.MetricGroupID = MGs.ItemID) LEFT JOIN LookupListItems AS MCGs ON D.MetricChannelGroupID = MCGs.ItemID" +
                     " WHERE (D.Title Is Not Null) AND (D.TypeID Is Not Null) AND (D.IsActive = True) ORDER BY D.Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     Nullable<int> nCMMetricID = new Nullable<int>();

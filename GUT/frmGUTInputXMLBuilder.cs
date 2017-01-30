@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.GUT
 {
@@ -91,11 +92,11 @@ namespace CHaMPWorkbench.GUT
             else
             {
                 // check that the batch name is unique
-                using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(m_sDBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(m_sDBCon))
                 {
                     dbCon.Open();
 
-                    System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT ID FROM Model_Batches WHERE BatchName = @BatchName", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ID FROM Model_Batches WHERE BatchName = @BatchName", dbCon);
                     dbCom.Parameters.AddWithValue("@BatchName", txtBatch.Text);
                     object obj = dbCom.ExecuteScalar();
                     if (obj != null & obj != DBNull.Value)

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.RBT.Batches
 {
@@ -26,14 +26,14 @@ namespace CHaMPWorkbench.RBT.Batches
         {
             try
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
 
-                    using (OleDbCommand dbCom = new OleDbCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM Model_Batches AS B INNER JOIN Model_BatchRuns AS R ON B.ID = R.BatchID WHERE R.ModelTypeID = @ModelTypeID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", dbCon))
+                    using (SQLiteCommand dbCom = new SQLiteCommand("SELECT B.ID, B.BatchName, Count(R.[BatchID]) AS Expr1 FROM Model_Batches AS B INNER JOIN Model_BatchRuns AS R ON B.ID = R.BatchID WHERE R.ModelTypeID = @ModelTypeID GROUP BY B.ID, B.BatchName ORDER BY B.BatchName", dbCon))
                     {
                         dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
-                        OleDbDataReader dbRead = dbCom.ExecuteReader();
+                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
                         while (dbRead.Read())
                             cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
                     }
@@ -81,11 +81,11 @@ namespace CHaMPWorkbench.RBT.Batches
 
             int nBatchID = ((RBTBatch)cboBatch.SelectedItem).Value;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbTransaction dbTrans = dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
                 try
                 {
                     // Set all runs to not run. Optionally restrict this query to just the current batch.
@@ -93,7 +93,7 @@ namespace CHaMPWorkbench.RBT.Batches
                     if (rdoLeaveOtherBatches.Checked)
                         sSQL += " WHERE BatchID = @BatchID";
 
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon, dbTrans);
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon, dbTrans);
 
                     if (rdoLeaveOtherBatches.Checked)
                         dbCom.Parameters.AddWithValue("@BatchID", nBatchID);
@@ -101,7 +101,7 @@ namespace CHaMPWorkbench.RBT.Batches
                     dbCom.ExecuteNonQuery();
 
                     sSQL = string.Format("UPDATE Model_BatchRuns SET Run = True WHERE ID IN (SELECT TOP {0} ID from Model_BatchRuns WHERE (BatchID = {1}) ORDER BY rnd(ID))", valSize.Value, nBatchID);
-                    dbCom = new OleDbCommand(sSQL, dbCon, dbTrans);
+                    dbCom = new SQLiteCommand(sSQL, dbCon, dbTrans);
                     dbCom.ExecuteNonQuery();
 
                     dbTrans.Commit();

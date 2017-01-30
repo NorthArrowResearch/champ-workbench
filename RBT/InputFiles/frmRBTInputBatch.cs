@@ -6,19 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.RBTInputFile
 {
     public partial class frmRBTInputBatch : Form
     {
-        private OleDbConnection m_dbCon;
-
         private Dictionary<int, string> m_dVisits;
 
-        public frmRBTInputBatch(OleDbConnection dbCon, Dictionary<int, string> dVisits)
+        public frmRBTInputBatch(Dictionary<int, string> dVisits)
         {
-            m_dbCon = dbCon;
             m_dVisits = dVisits;
             InitializeComponent();
         }
@@ -27,7 +24,7 @@ namespace CHaMPWorkbench.RBTInputFile
         {
             try
             {
-                Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_dVisits, ref lstVisits);
+                Classes.InputFileBuilder_Helper.RefreshVisitPaths(DBCon.ConnectionString, ref m_dVisits, ref lstVisits);
 
                 ucConfig.ManualInitialization();
 
@@ -145,7 +142,7 @@ namespace CHaMPWorkbench.RBTInputFile
                     rbtConfig.ChangeDetectionConfig.AddMask(aMask.MaskName);
                 }
 
-                Classes.ModelInputFiles.RBTBatchInputfileBuilder theBatch = new Classes.ModelInputFiles.RBTBatchInputfileBuilder(m_dbCon.ConnectionString, txtBatch.Text, chkClearOtherBatches.Checked,
+                Classes.ModelInputFiles.RBTBatchInputfileBuilder theBatch = new Classes.ModelInputFiles.RBTBatchInputfileBuilder(DBCon.ConnectionString, txtBatch.Text, chkClearOtherBatches.Checked,
                               txtMonitoringDataFolder.Text, txtOutputFolder.Text, ref m_dVisits, txtInputFileRoot.Text, rbtConfig, rbtOutputs, true, chkChangeDetection.Checked, true, rdoAll.Checked, true, true, chkClearOtherBatches.Checked);
 
                 int nSuccess = 0;
@@ -186,7 +183,7 @@ namespace CHaMPWorkbench.RBTInputFile
 
         private void txtMonitoringDataFolder_TextChanged(object sender, EventArgs e)
         {
-            Classes.InputFileBuilder_Helper.RefreshVisitPaths(m_dbCon.ConnectionString, ref m_dVisits, ref lstVisits);
+            Classes.InputFileBuilder_Helper.RefreshVisitPaths(DBCon.ConnectionString, ref m_dVisits, ref lstVisits);
         }
     }
 }

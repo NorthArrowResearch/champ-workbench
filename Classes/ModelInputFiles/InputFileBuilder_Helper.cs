@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace CHaMPWorkbench.Classes
@@ -14,14 +14,14 @@ namespace CHaMPWorkbench.Classes
         {
             lstVisits.Items.Clear();
 
-            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, V.VisitYear" +
                    " FROM (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
                    " WHERE (V.VisitYear Is Not Null) AND (V.VisitID Is Not Null) AND (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null)", dbCon);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     int nVisitID = (int)dbRead["VisitID"];

@@ -171,15 +171,6 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provider=Microsoft.Jet.OLEDB.4.0;Data Source=;User Id=admin;Password=;.
-        /// </summary>
-        internal static string DBConnectionStringBase {
-            get {
-                return ResourceManager.GetString("DBConnectionStringBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Delete {

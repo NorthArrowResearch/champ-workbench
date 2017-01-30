@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -117,16 +117,16 @@ namespace CHaMPWorkbench.Data
 
             visitSeries.ChartType = SeriesChartType.Point;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
                 // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
-                OleDbCommand dbCom = new OleDbCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
                     " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
                     " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
-                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
-               OleDbParameter pMetricID = dbCom.Parameters.Add("MetricID", OleDbType.Integer);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
+               SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID",  DbType.Int64);
  
                 double fXMetricValue, fYMetricValue = 0;
 
@@ -153,7 +153,7 @@ namespace CHaMPWorkbench.Data
             pChartArea.AxisY.Title = ((ListItem)cboYAxis.SelectedItem).ToString();
         }
 
-        private bool GetMetricValueFromScalar(ref OleDbCommand dbCom, ref OleDbParameter pMetric, int nMetricID, out double fMetricValue)
+        private bool GetMetricValueFromScalar(ref SQLiteCommand dbCom, ref SQLiteParameter pMetric, int nMetricID, out double fMetricValue)
         {
             fMetricValue = 0;
             bool bResult = false;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Data;
 
 namespace CHaMPWorkbench.Classes
@@ -19,15 +19,17 @@ namespace CHaMPWorkbench.Classes
         /// <param name="dbCon">Workbench database connection</param>
         /// <param name="fiExport">File name of the file to be exported.</param>
         /// <returns></returns>
-        public int Run(ref OleDbConnection dbCon, System.IO.FileInfo fiExport)
+        public int Run(System.IO.FileInfo fiExport)
         {
             DataTable dt = new DataTable();
-            using (OleDbCommand cmd = new OleDbCommand("SELECT V.VisitYear AS [Year], W.WatershedName AS Watershed, S.SiteName AS Site, V.VisitID AS Visit, V.IsPrimary, V.Discharge, V.D84, V.Organization, V.CrewName" +
-                " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
-                " GROUP BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID, V.IsPrimary, V.Discharge, V.D84, V.Organization, V.CrewName" +
-                " ORDER BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID", dbCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                SQLiteCommand cmd = new SQLiteCommand("SELECT V.VisitYear AS [Year], W.WatershedName AS Watershed, S.SiteName AS Site, V.VisitID AS Visit, V.IsPrimary, V.Discharge, V.D84, V.Organization, V.CrewName" +
+                    " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
+                    " GROUP BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID, V.IsPrimary, V.Discharge, V.D84, V.Organization, V.CrewName" +
+                    " ORDER BY V.VisitYear, W.WatershedName, S.SiteName, V.VisitID", dbCon);
+
+                SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
                 da.Fill(dt);
 
                 System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -49,18 +51,20 @@ namespace CHaMPWorkbench.Classes
                         rows.Add(row);
                     }
                     wCSV.Write(serializer.Serialize(rows));
+
                 }
 
                 return dt.Rows.Count;
             }
         }
 
-        public int Run(ref OleDbConnection dbCon, String sSQL_Statement, System.IO.FileInfo fiExport)
+        public int Run(String sSQL_Statement, System.IO.FileInfo fiExport)
         {
             DataTable dt = new DataTable();
-            using (OleDbCommand cmd = new OleDbCommand(sSQL_Statement, dbCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                SQLiteCommand cmd = new SQLiteCommand(sSQL_Statement, dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
                 da.Fill(dt);
 
                 System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();

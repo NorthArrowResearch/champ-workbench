@@ -6,18 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.RBT
 {
     public partial class frmRunBatches : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmRunBatches(OleDbConnection dbCon)
+        public frmRunBatches()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -33,16 +30,13 @@ namespace CHaMPWorkbench.RBT
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(m_dbCon,txtRBTConsole.Text, eWindow);
+            Classes.RBTBatchEngine rbt = new Classes.RBTBatchEngine(txtRBTConsole.Text, eWindow);
             rbt.Run(chkScavengeResults.Checked, chkScavengeLog.Checked);
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
         private void frmRunBatches_Load(object sender, EventArgs e)
         {
-            if (m_dbCon.State == ConnectionState.Closed)
-                m_dbCon.Open();
-
             int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
             int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
             cboWindowStyle.SelectedIndex = nHidden;
@@ -57,10 +51,12 @@ namespace CHaMPWorkbench.RBT
                 txtRBTConsole.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
 
             int nRuns = 0;
-            using (System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("SELECT Count(Model_BatchRuns.Run) AS CountOfRun" +
-                " FROM Model_Batches RIGHT JOIN Model_BatchRuns ON Model_Batches.ID = Model_BatchRuns.BatchID" +
-                " WHERE (Model_BatchRuns.Run <> 0)", m_dbCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Count(Model_BatchRuns.Run) AS CountOfRun" +
+                " FROM Model_Batches RIGHT JOIN Model_BatchRuns ON Model_Batches.ID = Model_BatchRuns.BatchID" +
+                " WHERE (Model_BatchRuns.Run <> 0)", dbCon);
+
                 nRuns = (int)dbCom.ExecuteScalar();
             }
 

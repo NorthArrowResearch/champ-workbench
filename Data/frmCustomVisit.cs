@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using Esri.FileGDB;
 
 namespace CHaMPWorkbench.Data
@@ -52,10 +52,10 @@ namespace CHaMPWorkbench.Data
 
             // Set the visit ID to the next largest available visit ID
             // Check the Visit ID doesn't already exist
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT Max(VisitID) FROM CHaMP_Visits", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(VisitID) FROM CHaMP_Visits", dbCon);
                 object obj = dbCom.ExecuteScalar();
                 if (obj != null && obj is Int32)
                 {
@@ -75,11 +75,11 @@ namespace CHaMPWorkbench.Data
         {
             DataGridViewComboBoxColumn cboCol = (DataGridViewComboBoxColumn)theCol;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand(string.Format("SELECT {0} FROM CHAMP_ChannelUnits GROUP BY {0}", sWorkbenchColName), dbCon);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteCommand dbCom = new SQLiteCommand(string.Format("SELECT {0} FROM CHAMP_ChannelUnits GROUP BY {0}", sWorkbenchColName), dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     cboCol.Items.Add(dbRead[0]);
             }
@@ -91,12 +91,12 @@ namespace CHaMPWorkbench.Data
             cboSite.Items.Clear();
             if (cboWatershed.SelectedItem is ListItem)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
                     dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cboWatershed.SelectedItem).Value);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                         cboSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))));
                 }
@@ -108,10 +108,10 @@ namespace CHaMPWorkbench.Data
         private bool ValidateForm()
         {
             // Check the Visit ID doesn't already exist
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT VisitID FROM CHaMP_Visits WHERE VisitID = @VisitID", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitID FROM CHaMP_Visits WHERE VisitID = @VisitID", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                 object obj = dbCom.ExecuteScalar();
                 if (obj != null && obj is Int32)
@@ -159,10 +159,10 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbTransaction dbTrans = dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
                 try
                 {
@@ -172,14 +172,14 @@ namespace CHaMPWorkbench.Data
                     else
                     {
                         // Watershed ID is not auto-increment.
-                        OleDbCommand dbCom = new OleDbCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
+                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
                         object objWSID = dbCom.ExecuteScalar();
                         if (objWSID is Int32)
                             nWatershedID = Math.Max(((int) objWSID)+ 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest watershed ID from database.");
 
-                        dbCom = new OleDbCommand("INSERT INTO CHaMP_Watersheds (WatershedID, WatershedName) VALUES (@WatershedID, @WatershedName)", dbCon, dbTrans);
+                        dbCom = new SQLiteCommand("INSERT INTO CHaMP_Watersheds (WatershedID, WatershedName) VALUES (@WatershedID, @WatershedName)", dbCon, dbTrans);
                         dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
                         dbCom.Parameters.AddWithValue("@WatershedName", cboWatershed.Text);
                         if (dbCom.ExecuteNonQuery() != 1)
@@ -191,14 +191,14 @@ namespace CHaMPWorkbench.Data
                         nSiteID = ((ListItem)cboSite.SelectedItem).Value;
                     else
                     {
-                        OleDbCommand dbCom = new OleDbCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
+                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
                         object objSID = dbCom.ExecuteScalar();
                         if (objSID is Int32)
                             nSiteID = Math.Max(((int) objSID)+ 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest Site ID from database.");
 
-                        dbCom = new OleDbCommand("INSERT INTO CHaMP_Sites (SiteID, SiteName, WatershedID) VALUES (@SiteID, @SiteName, @WatershedID)", dbCon, dbTrans);
+                        dbCom = new SQLiteCommand("INSERT INTO CHaMP_Sites (SiteID, SiteName, WatershedID) VALUES (@SiteID, @SiteName, @WatershedID)", dbCon, dbTrans);
                         dbCom.Parameters.AddWithValue("@SiteID", nSiteID);
                         dbCom.Parameters.AddWithValue("@SiteName", cboSite.Text);
                         dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
@@ -206,18 +206,18 @@ namespace CHaMPWorkbench.Data
                             throw new Exception("Failed to create new site");
                     }
 
-                    OleDbCommand comVisit = new OleDbCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks)", dbCon, dbTrans);
+                    SQLiteCommand comVisit = new SQLiteCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks)", dbCon, dbTrans);
                     comVisit.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                     comVisit.Parameters.AddWithValue("@SiteID", nSiteID);
                     comVisit.Parameters.AddWithValue("@VisitYear", (int)valFieldSeason.Value);
                     comVisit.Parameters.AddWithValue("@ProtocolID", ((ListItem)cboProtocol.SelectedItem).Value);
-                    OleDbParameter pOrganization = comVisit.Parameters.Add("@Organization", OleDbType.VarChar);
+                    SQLiteParameter pOrganization = comVisit.Parameters.Add("@Organization", DbType.String);
                     if (string.IsNullOrEmpty(txtOrganization.Text))
                         pOrganization.Value = DBNull.Value;
                     else
                         pOrganization.Value = txtOrganization.Text;
 
-                    OleDbParameter pRemarks = comVisit.Parameters.Add("@Remarks", OleDbType.VarChar);
+                    SQLiteParameter pRemarks = comVisit.Parameters.Add("@Remarks", DbType.String);
                     if (string.IsNullOrEmpty(txtNotes.Text))
                         pRemarks.Value = DBNull.Value;
                     else
@@ -240,13 +240,13 @@ namespace CHaMPWorkbench.Data
                         else
                         {
                             // Create new segment
-                            OleDbCommand comSegment = new OleDbCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
+                            SQLiteCommand comSegment = new SQLiteCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
                             comSegment.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                             comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
                             comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
                             if (comSegment.ExecuteNonQuery() == 1)
                             {
-                                comSegment = new OleDbCommand("SELECT @@Identity FROM CHaMP_Segments", dbCon, dbTrans);
+                                comSegment = new SQLiteCommand("SELECT @@Identity FROM CHaMP_Segments", dbCon, dbTrans);
                                 nSegmentID = (int)comSegment.ExecuteScalar();
                                 dSegmentNumbers.Add(ch.SegmentNumber, nSegmentID);
                             }
@@ -255,7 +255,7 @@ namespace CHaMPWorkbench.Data
                         }
 
                         // Now insert the channel units
-                        OleDbCommand comUnit = new OleDbCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (@SegmentID, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
+                        SQLiteCommand comUnit = new SQLiteCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (@SegmentID, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
                         comUnit.Parameters.AddWithValue("@SegmentID", dSegmentNumbers[ch.SegmentNumber]);
                         comUnit.Parameters.AddWithValue("@ChannelUnitNumber", ch.UnitNumber);
                         comUnit.Parameters.AddWithValue("@Tier1", ch.Tier1);
@@ -527,13 +527,13 @@ namespace CHaMPWorkbench.Data
                 // Clear any existing channel units
                 bsChannelUnits.Clear();
 
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT ChannelUnitNumber, SegmentNumber, Tier1, Tier2 FROM CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ChannelUnitNumber, SegmentNumber, Tier1, Tier2 FROM CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbCon);
                     dbCom.Parameters.AddWithValue("@VisitID", frm.SelectedVisitID);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         bsChannelUnits.Add(new ChannelUnit(

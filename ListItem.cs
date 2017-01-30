@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench
 {
@@ -29,12 +30,12 @@ namespace CHaMPWorkbench
         {
             cbo.Items.Clear();
 
-            using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
-                System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand(sSQL, dbCon);
-                System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     Int32 nID = (Int32)dbRead.GetValue(0);
@@ -79,12 +80,12 @@ namespace CHaMPWorkbench
         {
             lst.Items.Clear();
 
-            using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
-                System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand(sSQL, dbCon);
-                System.Data.OleDb.OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     int nID = 0;

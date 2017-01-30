@@ -6,25 +6,22 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench
 {
     public partial class frmAbout : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmAbout(OleDbConnection dbCon)
+        public frmAbout()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void frmAbout_Load(object sender, EventArgs e)
         {
-            lblVersion.Text =  CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            lblVersion.Text = CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            if (m_dbCon == null)
+            if (string.IsNullOrEmpty(DBCon.DatabasePath))
             {
                 lblDBVersion.Visible = false;
             }
@@ -32,15 +29,16 @@ namespace CHaMPWorkbench
             {
                 try
                 {
-                    if (m_dbCon.State != ConnectionState.Open)
-                        m_dbCon.Open();
+                    using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
+                    {
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", m_dbCon);
-                    String sVersion = (string)dbCom.ExecuteScalar();
-                    if (String.IsNullOrWhiteSpace(sVersion))
-                        throw new Exception("Error retrieving database version");
+                        SQLiteCommand dbCom = new SQLiteCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", dbCon);
+                        String sVersion = (string)dbCom.ExecuteScalar();
+                        if (String.IsNullOrWhiteSpace(sVersion))
+                            throw new Exception("Error retrieving database version");
+                        lblDBVersion.Text = "Database version: " + sVersion;
+                    }
 
-                    lblDBVersion.Text = "Database version: " + sVersion;
                 }
                 catch (Exception ex)
                 {
@@ -59,6 +57,6 @@ namespace CHaMPWorkbench
         private void linkLabel1_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Link.LinkData as string);
-         }
+        }
     }
 }

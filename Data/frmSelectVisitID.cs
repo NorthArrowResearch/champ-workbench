@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -32,11 +32,11 @@ namespace CHaMPWorkbench.Data
             valVisitID.Select(0, valVisitID.Text.Length);
 
             ExistingVisitIDs = new List<int>();
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT VisitID FROM CHaMP_Visits", dbCon);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitID FROM CHaMP_Visits", dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     ExistingVisitIDs.Add(dbRead.GetInt32(0));
             }

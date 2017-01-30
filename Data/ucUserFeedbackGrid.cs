@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Data
 
         private void LoadData()
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Data
 
                     sSQL += " ORDER BY F.AddedOn DESC";
 
-                    OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                     DataTable ta = new DataTable();
                     da.Fill(ta);
                     grdData.DataSource = ta;
@@ -134,10 +134,10 @@ namespace CHaMPWorkbench.Data
                     case DialogResult.Yes:
                         try
                         {
-                            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                             {
                                 dbCon.Open();
-                                OleDbCommand dbCom = new OleDbCommand("DELETE FROM LogFeedback WHERE LogID = @LogID", dbCon);
+                                SQLiteCommand dbCom = new SQLiteCommand("DELETE FROM LogFeedback WHERE LogID = @LogID", dbCon);
                                 dbCom.Parameters.AddWithValue("LogID", (int)dr["LogID"]);
                                 dbCom.ExecuteNonQuery();
                                 LoadData();

@@ -6,7 +6,7 @@ using Microsoft.VisualBasic;
 using System.Collections;
 using System.Data;
 using System.Diagnostics;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 using System.ComponentModel;
 using System.IO;
@@ -19,15 +19,13 @@ namespace CHaMPWorkbench.Classes
         private string m_sFileSearch;
         private bool m_bEmptyDatabaseBefore;
         private SearchOption m_SearchOption;
-        private OleDbConnection m_dbCon;
 
         private string m_sLogFilePattern;
 
         public List<Exception> Errors { get; internal set; }
 
-        public ResultScavengerBatch(OleDbConnection dbCon, string sTopLevelFolder, string sFileSearch, bool bRecursive, bool bEmptyDatabaseBefore, string sLogFilePattern)
+        public ResultScavengerBatch(string sTopLevelFolder, string sFileSearch, bool bRecursive, bool bEmptyDatabaseBefore, string sLogFilePattern)
         {
-            m_dbCon = dbCon;
             Errors = new System.Collections.Generic.List<System.Exception>();
 
             if (string.IsNullOrEmpty(sTopLevelFolder))
@@ -67,17 +65,13 @@ namespace CHaMPWorkbench.Classes
             if (!string.IsNullOrEmpty(m_sLogFilePattern))
                 lLogFiles = new System.Collections.Generic.List<string>(Directory.GetFiles(m_sTopLevelFolder, m_sLogFilePattern, m_SearchOption));
 
-
-            if (m_dbCon.State == ConnectionState.Closed)
-                m_dbCon.Open();
-
             if (m_bEmptyDatabaseBefore)
             {
-                ClearDatabase(ref m_dbCon);
+                ClearDatabase();
             }
 
             //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
-            ResultScavengerSingleCHaMP scavengerCHaMP = new ResultScavengerSingleCHaMP(m_dbCon.ConnectionString);
+            ResultScavengerSingleCHaMP scavengerCHaMP = new ResultScavengerSingleCHaMP(DBCon.ConnectionString);
 
             for (int i = 0; i < sResultFiles.Count(); i++)
             {
@@ -97,7 +91,7 @@ namespace CHaMPWorkbench.Classes
                         {
                             // Log exists. Process it and relate to the result.
                             // Then remove it from later indepdendant processing
-                            scavengerCHaMP.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, sLogs[j], sResultFiles[i]);
+                            scavengerCHaMP.ScavengeLogFile(DBCon.ConnectionString, nResultID, sLogs[j], sResultFiles[i]);
 
                             if (lLogFiles.Contains(sLogs[i]))
                                 lLogFiles.Remove(sLogs[i]);
@@ -148,7 +142,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     try
                     {
-                        scavengerCHaMP.ScavengeLogFile(m_dbCon.ConnectionString,  0, sLog, string.Empty);
+                        scavengerCHaMP.ScavengeLogFile(DBCon.ConnectionString,  0, sLog, string.Empty);
                     }
                     catch (Exception ex)
                     {
@@ -160,23 +154,27 @@ namespace CHaMPWorkbench.Classes
             return (sResultFiles.Count() - Errors.Count());
         }
 
-        private bool ClearDatabase(ref OleDbConnection dbCon)
+        private bool ClearDatabase()
         {
 
             bool bResult = false;
-            try
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                OleDbCommand dbCom = new OleDbCommand("DELETE * FROM Metric_SiteMetrics WHERE (VisitID Is Not NULL) AND (ScavengeTypeID <> 2)", dbCon);
-                dbCom.ExecuteNonQuery();
+                dbCon.Open();
+                try
+                {
+                    SQLiteCommand dbCom = new SQLiteCommand("DELETE * FROM Metric_SiteMetrics WHERE (VisitID Is Not NULL) AND (ScavengeTypeID <> 2)", dbCon);
+                    dbCom.ExecuteNonQuery();
 
-                dbCom = new OleDbCommand("DELETE * FROM LogFiles", dbCon);
-                dbCom.ExecuteNonQuery();
+                    dbCom = new SQLiteCommand("DELETE * FROM LogFiles", dbCon);
+                    dbCom.ExecuteNonQuery();
 
-                bResult = true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error clearing database", ex);
+                    bResult = true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error clearing database", ex);
+                }
             }
 
             return bResult;

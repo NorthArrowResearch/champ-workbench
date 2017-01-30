@@ -6,23 +6,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
     public partial class frmClearDatabase : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmClearDatabase(OleDbConnection dbCon)
+        public frmClearDatabase()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            Classes.ClearDatabase clr = new Classes.ClearDatabase(m_dbCon);
+            Classes.ClearDatabase clr = new Classes.ClearDatabase();
             if (chkRBTBatches.Checked)
                 clr.AddSQLStatementToClear("DELETE FROM Model_Batches", "Model batches cleared");
 

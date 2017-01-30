@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Threading;
@@ -56,14 +56,14 @@ namespace CHaMPWorkbench.GUT
             {
                 // Load a list of the GUT runs that are queued to run.
                 // Note that below the input files are only loaded if the input file exists on disk.
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
 
                     QueuedRuns = new List<QueuedRun>();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_BatchRuns WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0) ORDER BY Priority", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT BatchID, PrimaryVisitID, InputFile FROM Model_BatchRuns WHERE (ModelTypeID = @ModelTypeID) AND (Run <> 0) ORDER BY Priority", dbCon);
                     dbCom.Parameters.AddWithValue("ModelTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelType_GUT);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         string sInputFile = dbRead.GetString(dbRead.GetOrdinal("InputFile"));
@@ -143,13 +143,13 @@ namespace CHaMPWorkbench.GUT
                 return;
             }
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
                 // Prepare a database command to update the batches and unqueue them when they are complete.
-                OleDbCommand dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeCompleted = Now() WHERE ID = @ID", dbCon);
-                OleDbParameter pBatchID = dbCom.Parameters.Add("@ID", OleDbType.Integer);
+                SQLiteCommand dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeCompleted = Now() WHERE ID = @ID", dbCon);
+                SQLiteParameter pBatchID = dbCom.Parameters.Add("@ID", DbType.Int64);
 
                 // Loop over all the queued runs.
                 foreach (QueuedRun aRun in QueuedRuns)
@@ -174,12 +174,12 @@ namespace CHaMPWorkbench.GUT
                                 psi.CreateNoWindow = false;
                                 psi.UseShellExecute = true;
                                 psi.RedirectStandardOutput = false;
-                                psi.RedirectStandardError = false;   
+                                psi.RedirectStandardError = false;
                             }
                         }
 
                         gutOutput.AppendText(String.Format("Running: {0}  {1} {2}", Environment.NewLine, txtPython.Text, psi.Arguments));
-                        
+
                         System.Diagnostics.Process proc = new Process();
                         proc.StartInfo = psi;
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench
 {
@@ -32,14 +32,14 @@ namespace CHaMPWorkbench
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                using (OleDbCommand dbUpdateRun = new OleDbCommand("UPDATE Model_BatchRuns SET Run = ? WHERE ID = ?", dbCon))
+                using (SQLiteCommand dbUpdateRun = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = ? WHERE ID = ?", dbCon))
                 {
-                    OleDbParameter pBatchRunRun = dbUpdateRun.Parameters.Add("BatchRun", OleDbType.Boolean);
-                    OleDbParameter pRunID = dbUpdateRun.Parameters.Add("BatchID", OleDbType.Integer);
+                    SQLiteParameter pBatchRunRun = dbUpdateRun.Parameters.Add("BatchRun",  DbType.Boolean);
+                    SQLiteParameter pRunID = dbUpdateRun.Parameters.Add("BatchID", DbType.Int64);
 
                     foreach (TreeNode nodRoot in treBatches.Nodes)
                     {
@@ -65,10 +65,10 @@ namespace CHaMPWorkbench
         private void frmRunRBT_Load(object sender, EventArgs e)
         {
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT Title FROM LookupListItems WHERE ItemID = @ModelTypeID", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Title FROM LookupListItems WHERE ItemID = @ModelTypeID", dbCon);
                 dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
                 ModelType = (string)dbCom.ExecuteScalar();
             }
@@ -83,7 +83,7 @@ namespace CHaMPWorkbench
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
                 
@@ -95,13 +95,13 @@ namespace CHaMPWorkbench
                 TreeNode nodBatch = null;
                 TreeNode nodRun = null;
 
-                using (OleDbCommand dbBatches = new OleDbCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, R.Summary, R.Run" +
+                using (SQLiteCommand dbBatches = new SQLiteCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, R.Summary, R.Run" +
                     " FROM Model_Batches AS B Right JOIN Model_BatchRuns AS R ON B.ID = R.BatchID" +
                     " WHERE (R.Inputfile Is Not Null) AND (R.ModelTypeID = @ModelTypeID)" +
                     " ORDER BY R.BatchID, B.CreatedOn DESC", dbCon))
                 {
                     dbBatches.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
-                    OleDbDataReader dbRead = dbBatches.ExecuteReader();
+                    SQLiteDataReader dbRead = dbBatches.ExecuteReader();
                     while (dbRead.Read())
                     {
                         if (System.Convert.IsDBNull(dbRead["BatchID"]))

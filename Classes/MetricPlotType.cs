@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes
 {
@@ -45,7 +45,7 @@ namespace CHaMPWorkbench.Classes
         {
             cbo.Items.Clear();
 
-            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
@@ -68,12 +68,12 @@ namespace CHaMPWorkbench.Classes
                 sSQL += " ORDER BY P.PlotTitle";
 
                 System.Diagnostics.Debug.Print(sSQL);
-                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
 
                 if (nProgramID > 0)
                     dbCom.Parameters.AddWithValue("ProgramID", nProgramID);
 
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     cbo.Items.Add(new MetricPlotType(

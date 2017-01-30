@@ -19,7 +19,7 @@ namespace CHaMPWorkbench.Classes
 
         public RBTWorkbenchDataSet DS { get { return m_dsWorkbench; } }
 
-        public CHaMPData(ref System.Data.OleDb.OleDbConnection dbCon)
+        public CHaMPData()
         {
             m_dsWorkbench = new RBTWorkbenchDataSet();
 

@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Habitat
 {
     public partial class frmHabitatBatch : Form
     {
-        private OleDbConnection m_dbCon;
         private const int m_nSelectionColumnIndex = 0;
 
-        public frmHabitatBatch(OleDbConnection dbCon)
+        public frmHabitatBatch()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void frmHabitatBatch_Load(object sender, EventArgs e)
@@ -52,30 +50,42 @@ namespace CHaMPWorkbench.Habitat
 
         private void LoadFieldSeasons()
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-                chkFieldSeasons.Items.Add(new ListItem(dbRead.GetInt16(0).ToString(), dbRead.GetInt16(0)), true);
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
+            {
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    chkFieldSeasons.Items.Add(new ListItem(dbRead.GetInt16(0).ToString(), dbRead.GetInt16(0)), true);
+            }
         }
 
         private void LoadWatersheds()
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) ORDER BY WatershedName", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-                chkWatersheds.Items.Add(new ListItem((string)dbRead["WatershedName"], (int)dbRead["WatershedID"]), true);
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
+            {
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) ORDER BY WatershedName", dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    chkWatersheds.Items.Add(new ListItem((string)dbRead["WatershedName"], (int)dbRead["WatershedID"]), true);
+            }
         }
 
         private void LoadVisitTypes()
         {
-            OleDbCommand dbCom = new OleDbCommand("SELECT PanelName FROM CHAMP_Visits WHERE (CHAMP_Visits.PanelName Is Not Null) GROUP BY PanelName ORDER BY PanelName", m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-            int i = 1;
-            while (dbRead.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                ListItem l = new ListItem((string)dbRead["PanelName"], i);
-                chkVisitTypes.Items.Add(l, false);
-                i++;
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT PanelName FROM CHAMP_Visits WHERE (CHAMP_Visits.PanelName Is Not Null) GROUP BY PanelName ORDER BY PanelName", dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                int i = 1;
+                while (dbRead.Read())
+                {
+                    ListItem l = new ListItem((string)dbRead["PanelName"], i);
+                    chkVisitTypes.Items.Add(l, false);
+                    i++;
+                }
             }
         }
 
@@ -108,54 +118,57 @@ namespace CHaMPWorkbench.Habitat
                    //" WHERE ((CHAMP_Visits.Folder Is Not Null) AND (CHAMP_Visits.HydraulicModelCSV Is Not Null))" +
                    " ORDER BY CHAMP_Visits.VisitYear, CHAMP_Watersheds.WatershedName";
 
-            OleDbCommand dbCom = new OleDbCommand(sSQL, m_dbCon);
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
-
-            object[] rowArray = new object[table.Columns.Count];
-            while (dbRead.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                //System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
-                rowArray[0] = false;
-                rowArray[1] = (int)dbRead["VisitID"];
-                rowArray[2] = (int)(Int16)dbRead["FieldSeason"];
-                rowArray[3] = (bool)dbRead["IsPrimary"];
-
-                if (DBNull.Value == dbRead["PanelName"])
-                    rowArray[4] = "";
-                else
-                    rowArray[4] = (string)dbRead["PanelName"];
-
-                //if (DBNull.Value == dbRead["SurveyGDB"])
-                //    rowArray[5] = "";
-                //else
-                //    rowArray[5] = (string)dbRead["SurveyGDB"];
-
-                //rowArray[6] = (string)dbRead["VisitFolder"];
-                //rowArray[7] = (string)dbRead["HydraulicModelCSV"];
-                rowArray[5] = (string)dbRead["SiteName"];
-                rowArray[6] = (int)dbRead["WatershedID"];
-                rowArray[7] = (string)dbRead["WatershedName"];
-
-                //if (DBNull.Value == dbRead["ICRPath"])
-                //    rowArray[11] = DBNull.Value;
-                //else
-                //    rowArray[11] = (string)dbRead["ICRPath"];
-
-                int i = 8;
-                foreach (SpeciesListItem sli in chkSpecies.Items)
+                object[] rowArray = new object[table.Columns.Count];
+                while (dbRead.Read())
                 {
-                    rowArray[i] = (bool)dbRead[sli.FieldName];
-                    i++;
+                    //System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
+
+                    rowArray[0] = false;
+                    rowArray[1] = (int)dbRead["VisitID"];
+                    rowArray[2] = (int)(Int16)dbRead["FieldSeason"];
+                    rowArray[3] = (bool)dbRead["IsPrimary"];
+
+                    if (DBNull.Value == dbRead["PanelName"])
+                        rowArray[4] = "";
+                    else
+                        rowArray[4] = (string)dbRead["PanelName"];
+
+                    //if (DBNull.Value == dbRead["SurveyGDB"])
+                    //    rowArray[5] = "";
+                    //else
+                    //    rowArray[5] = (string)dbRead["SurveyGDB"];
+
+                    //rowArray[6] = (string)dbRead["VisitFolder"];
+                    //rowArray[7] = (string)dbRead["HydraulicModelCSV"];
+                    rowArray[5] = (string)dbRead["SiteName"];
+                    rowArray[6] = (int)dbRead["WatershedID"];
+                    rowArray[7] = (string)dbRead["WatershedName"];
+
+                    //if (DBNull.Value == dbRead["ICRPath"])
+                    //    rowArray[11] = DBNull.Value;
+                    //else
+                    //    rowArray[11] = (string)dbRead["ICRPath"];
+
+                    int i = 8;
+                    foreach (SpeciesListItem sli in chkSpecies.Items)
+                    {
+                        rowArray[i] = (bool)dbRead[sli.FieldName];
+                        i++;
+                    }
+
+                    table.Rows.Add(rowArray);
                 }
 
-                table.Rows.Add(rowArray);
+                //grdVisits.DataSource = null;
+                //bindingSourceSelectedVisits.DataSource = dt;
+                grdVisits.DataSource = table.AsDataView(); // lVisits;
             }
-
-            //grdVisits.DataSource = null;
-            //bindingSourceSelectedVisits.DataSource = dt;
-            grdVisits.DataSource = table.AsDataView(); // lVisits;
-
         }
 
         private void FilterVisits(object sender, EventArgs e)
@@ -354,7 +367,7 @@ namespace CHaMPWorkbench.Habitat
                 {
                     if (System.IO.File.Exists(txtHabitatModelDB.Text) && txtHabitatModelDB.Text.ToLower().EndsWith(".xml"))
                     {
-                        theBuilder = new HabitatBatchBuilder(ref m_dbCon, txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text, txtD50RasterFileName.Text);
+                        theBuilder = new HabitatBatchBuilder(txtHabitatModelDB.Text, txtMonitoringFolder.Text, txtD50TopLevel.Text, txtD50RasterFileName.Text);
                         CHaMPWorkbench.Properties.Settings.Default.Habitat_Project = txtHabitatModelDB.Text;
                     }
                     else
@@ -502,7 +515,7 @@ namespace CHaMPWorkbench.Habitat
             // Only clear the control that we are looking at.
             switch (tabFilter.SelectedTab.Text)
             {
-                
+
                 case "Field Seasons":
                     for (int idx = 0; idx < chkFieldSeasons.Items.Count; idx++)
                         chkFieldSeasons.SetItemCheckState(idx, ValueCheck(bAll));

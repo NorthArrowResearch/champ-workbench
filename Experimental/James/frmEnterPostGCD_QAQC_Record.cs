@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -14,7 +14,6 @@ namespace CHaMPWorkbench.Experimental.James
 {
     public partial class frmEnterPostGCD_QAQC_Record : Form
     {
-        private OleDbConnection m_dbCon;
         private string[] m_sErrorTypes = { "" ,"None","Rod Height Bust", "Datum Shift", "Other"};
         private string[] m_sErrorDEMs = { "Niether", "NewVisit", "OldVisit", "Both", "Unknown"};
         
@@ -39,10 +38,9 @@ namespace CHaMPWorkbench.Experimental.James
         const string m_sFieldName_Processed = "Processed";
 
 
-        public frmEnterPostGCD_QAQC_Record(OleDbConnection dbCon)
+        public frmEnterPostGCD_QAQC_Record()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
 
             //Check if table exists
             var dbSchema = m_dbCon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new Object[] { null, null, null, "TABLE" });
@@ -52,7 +50,7 @@ namespace CHaMPWorkbench.Experimental.James
                         .Any(row => row.ItemArray[2].ToString().ToLower() == m_sTableName.ToLower()))
             {
                 //create table
-                OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+                SQLiteTransaction  dbTrans = m_dbCon.BeginTransaction();
                 try
                 {
 

@@ -11,13 +11,11 @@ namespace CHaMPWorkbench
 {
     public partial class frmRBTScavenger : Form
     {
-        private System.Data.OleDb.OleDbConnection m_dbCon;
         private Classes.ResultScavengerBatch m_scavenger;
 
-        public frmRBTScavenger(System.Data.OleDb.OleDbConnection dbCon)
+        public frmRBTScavenger()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void frmRBTScavenger_Load(object sender, EventArgs e)
@@ -77,7 +75,7 @@ namespace CHaMPWorkbench
 
             try
             {
-                m_scavenger = new Classes.ResultScavengerBatch(m_dbCon, txtFolder.Text, sSearch, chkRecursive.Checked, chkEmptyDB.Checked, txtLog.Text);
+                m_scavenger = new Classes.ResultScavengerBatch(txtFolder.Text, sSearch, chkRecursive.Checked, chkEmptyDB.Checked, txtLog.Text);
 
                 prgBar.Visible = true;
                 cmdRun.Enabled = false;

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -64,15 +64,15 @@ namespace CHaMPWorkbench.Data
         {
             txtVisitID.Text = VisitID.ToString();
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT W.WatershedName, V.VisitYear, V.Organization, V.PanelName, S.SiteName, V.Remarks" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT W.WatershedName, V.VisitYear, V.Organization, V.PanelName, S.SiteName, V.Remarks" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (V.VisitID = @VisitID)", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", VisitID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 if (dbRead.Read())
                 {
                     txtFieldSeason.Text = GetSafeString(ref dbRead, "VisitYear");
@@ -85,7 +85,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private string GetSafeString(ref OleDbDataReader dbRead, string sFieldName)
+        private string GetSafeString(ref SQLiteDataReader dbRead, string sFieldName)
         {
             string sResult = string.Empty;
             int nField = dbRead.GetOrdinal(sFieldName);
@@ -118,7 +118,7 @@ namespace CHaMPWorkbench.Data
 
         private void LoadChannelUnits()
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
@@ -128,7 +128,7 @@ namespace CHaMPWorkbench.Data
                      " WHERE (S.VisitID = @VisitID)" +
                      " ORDER BY S.SegmentNumber, C.ChannelUnitNumber";
 
-                OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                 da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
                 DataTable ta = new DataTable();
                 da.Fill(ta);
@@ -162,7 +162,7 @@ namespace CHaMPWorkbench.Data
             col2.HeaderText = "Value";
             grdVisitDetails.Columns.Add(col2);
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
@@ -170,7 +170,7 @@ namespace CHaMPWorkbench.Data
                     " FROM (CHAMP_Watersheds INNER JOIN ((CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID) ON V.VisitID = CHaMP_Segments.VisitID) ON CHAMP_Watersheds.WatershedID = S.WatershedID) INNER JOIN LookupListItems AS P ON V.ProtocolID = P.ItemID" +
                     " WHERE V.VisitID = @VisitID";
 
-                OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                 da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
                 DataTable ta = new DataTable();
                 da.Fill(ta);
@@ -195,7 +195,7 @@ namespace CHaMPWorkbench.Data
         /// </summary>
         private void LoadMetricResults()
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
@@ -206,17 +206,17 @@ namespace CHaMPWorkbench.Data
                     " GROUP BY Metric_Definitions.Title" +
                     " PIVOT Metric_VisitMetrics.ResultID";
 
-                OleDbDataAdapter da = new OleDbDataAdapter(sSQL, dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter (sSQL, dbCon);
                 //da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
                 DataTable ta = new DataTable();
                 da.Fill(ta);
 
                 // So far the column headings are just the result IDs.
                 // Now replace them with nice formatting
-                OleDbCommand comResults = new OleDbCommand("SELECT Metric_Results.ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
+                SQLiteCommand comResults = new SQLiteCommand("SELECT Metric_Results.ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
                     " FROM LookupListItems INNER JOIN Metric_Results ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
                     " WHERE (Metric_Results.ResultID = @VisitID)", dbCon);
-                OleDbParameter pResultID = comResults.Parameters.Add("@ResultID", OleDbType.Integer);
+                SQLiteParameter pResultID = comResults.Parameters.Add("@ResultID", DbType.Int64);
 
                 foreach (DataColumn aCol in ta.Columns)
                 {
@@ -224,7 +224,7 @@ namespace CHaMPWorkbench.Data
                     if (int.TryParse(aCol.ColumnName, out nResultID))
                     {
                         pResultID.Value = nResultID;
-                        OleDbDataReader dbRead = comResults.ExecuteReader();
+                        SQLiteDataReader dbRead = comResults.ExecuteReader();
                         if (dbRead.Read())
                         {
                             aCol.ColumnName = string.Format("{0} on {1:dd MMM yyy} ({2})", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["ResultID"]);
@@ -252,15 +252,15 @@ namespace CHaMPWorkbench.Data
 
             grdLogMessages.AutoGenerateColumns = false;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT LogFiles.ResultID, Metric_Results.ModelVersion, LogFiles.Status, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT LogFiles.ResultID, Metric_Results.ModelVersion, LogFiles.Status, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
                     " FROM LookupListItems INNER JOIN (Metric_Results INNER JOIN LogFiles ON Metric_Results.ResultID = LogFiles.ResultID) ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
                     " WHERE (Metric_Results.VisitID = @VisitID) ORDER BY Metric_Results.RunDateTime DESC", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", VisitID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     cboLogResults.Items.Add(new ListItem(string.Format("Version {0} on {1:dd MMM yyy} status of {2}", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["Status"]), dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))));
@@ -281,11 +281,11 @@ namespace CHaMPWorkbench.Data
 
         private void LoadLogMessages(object sender, EventArgs e)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbDataAdapter da = new OleDbDataAdapter("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
+                SQLiteDataAdapter da = new SQLiteDataAdapter ("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
                    " FROM LogFiles INNER JOIN LogMessages ON LogFiles.LogID = LogMessages.LogID" +
                    " WHERE (LogFiles.ResultID = @ResultID) ORDER BY LogMessages.LogDateTime", dbCon);
                 da.SelectCommand.Parameters.AddWithValue("@ResultID", ((ListItem)cboLogResults.SelectedItem).Value);

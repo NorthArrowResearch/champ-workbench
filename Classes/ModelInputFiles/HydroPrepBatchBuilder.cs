@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
@@ -18,15 +19,15 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         public override int Run(out List<string> lExceptionMessages)
         {
-            using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 // Query to retrieve watershed name, site name and field season
                 dbCon.Open();
-                System.Data.OleDb.OleDbCommand comVisit = new System.Data.OleDb.OleDbCommand("SELECT W.WatershedName, S.SiteName, V.VisitYear FROM " +
+                SQLiteCommand comVisit = new SQLiteCommand("SELECT W.WatershedName, S.SiteName, V.VisitYear FROM " +
                     " (CHAMP_Watersheds AS W INNER JOIN CHAMP_Sites AS S ON W.WatershedID = S.WatershedID) INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID" +
                     " WHERE (V.VisitID = @VisitID)", dbCon);
 
-                System.Data.OleDb.OleDbParameter pVisitID = comVisit.Parameters.Add("@VisitID", System.Data.OleDb.OleDbType.Integer);
+                SQLiteParameter pVisitID = comVisit.Parameters.Add("@VisitID", System.Data.DbType.Int64);
 
                 // Loop over all the visits
                 foreach (BatchVisits aVisit in Visits)
@@ -39,7 +40,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         {
                             // Retrieve the additional visit information
                             pVisitID.Value = aVisit.VisitID;
-                            System.Data.OleDb.OleDbDataReader dbRead = comVisit.ExecuteReader();
+                            SQLiteDataReader dbRead = comVisit.ExecuteReader();
                             if (dbRead.Read())
                             {
                                 System.IO.DirectoryInfo dOutputFolder = DataFolders.HydroPrepFolder(OutputFolder.FullName, dVisit);

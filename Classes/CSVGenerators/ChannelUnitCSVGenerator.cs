@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes.CSVGenerators
 {
@@ -14,11 +14,11 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
         public override System.IO.FileInfo Run(int nVisitID, string sFilePath)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, " +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, " +
                     " C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover," +
                     " W.WatershedName, V.SampleDate, V.CrewName, V.PanelName,C.ID As ChannelUnitID, S.SegmentNumber, S.SegmentName" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN ((CHAMP_Sites INNER JOIN CHAMP_Visits AS V ON CHAMP_Sites.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID) ON W.WatershedID = CHAMP_Sites.WatershedID" +
@@ -27,7 +27,7 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
                 try
                 {
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                     string sUnit;
                     List<string> lUnits = new List<string>();

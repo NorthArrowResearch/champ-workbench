@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.Specialized;
@@ -11,14 +11,12 @@ namespace CHaMPWorkbench.Classes
 
     public class RBTBatchEngine
     {
-        private OleDbConnection m_dbCon;
         private string m_sTempRBTWorkspace = "C:\\CHaMP\\TempRBTWorkspace";
         private string m_sRBTPath;
         private System.Diagnostics.ProcessWindowStyle m_eWindowStyle;
 
-        public RBTBatchEngine(OleDbConnection dbCon, String sRBTConsolePath, System.Diagnostics.ProcessWindowStyle eWindowStyle)
+        public RBTBatchEngine(String sRBTConsolePath, System.Diagnostics.ProcessWindowStyle eWindowStyle)
         {
-            m_dbCon = dbCon;
             m_eWindowStyle = eWindowStyle;
 
             if (!System.IO.File.Exists(sRBTConsolePath))
@@ -43,114 +41,116 @@ namespace CHaMPWorkbench.Classes
         ///</remarks>
         public void Run(bool bScavengeResults, bool bScavengeLog)
         {
-
-            if (m_dbCon.State == System.Data.ConnectionState.Closed)
-                m_dbCon.Open();
-            //
-            ///''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            // Get all of the active runs
-            //
-            OleDbCommand dbCom = new OleDbCommand("SELECT R.*, B.BatchName FROM Model_Batches B RIGHT JOIN Model_BatchRuns R ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", m_dbCon);
-            OleDbDataReader dbRdr = dbCom.ExecuteReader();
-            Dictionary<int, RBTRun> dFiles = new Dictionary<int, RBTRun>();
-            while (dbRdr.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                if (System.Convert.IsDBNull(dbRdr["InputFile"]))
-                    Console.WriteLine("Warning: empty input file record in database");
-                else
-                {
-                    Debug.WriteLine("RBT input file: " + (string)dbRdr["InputFile"]);
-                    int nVisitID = 0;
-                    if (!Convert.IsDBNull((int)dbRdr["PrimaryVisitID"]))
-                        nVisitID = (int)dbRdr["PrimaryVisitID"];
+                dbCon.Open();
 
-                    dFiles.Add((int)dbRdr["ID"], new RBTRun((int)dbRdr["ID"], (string)dbRdr["InputFile"], false, false, nVisitID));
+                //
+                ///''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                // Get all of the active runs
+                //
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT R.*, B.BatchName FROM Model_Batches B RIGHT JOIN Model_BatchRuns R ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", dbCon);
+                SQLiteDataReader dbRdr = dbCom.ExecuteReader();
+                Dictionary<int, RBTRun> dFiles = new Dictionary<int, RBTRun>();
+                while (dbRdr.Read())
+                {
+                    if (System.Convert.IsDBNull(dbRdr["InputFile"]))
+                        Console.WriteLine("Warning: empty input file record in database");
+                    else
+                    {
+                        Debug.WriteLine("RBT input file: " + (string)dbRdr["InputFile"]);
+                        int nVisitID = 0;
+                        if (!Convert.IsDBNull((int)dbRdr["PrimaryVisitID"]))
+                            nVisitID = (int)dbRdr["PrimaryVisitID"];
+
+                        dFiles.Add((int)dbRdr["ID"], new RBTRun((int)dbRdr["ID"], (string)dbRdr["InputFile"], false, false, nVisitID));
+                    }
                 }
-            }
-            dbRdr.Close();
+                dbRdr.Close();
 
-            string sInputFile = null;
-            foreach (RBTRun aRun in dFiles.Values)
-            {
-                sInputFile = aRun.InputFile;
-
-                dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeStarted = Now(), DateTimeCompleted = NULL WHERE ID = @ID", m_dbCon);
-                dbCom.Parameters.AddWithValue("ID", aRun.ID);
-                dbCom.ExecuteNonQuery();
-
-                if (File.Exists(sInputFile))
+                string sInputFile = null;
+                foreach (RBTRun aRun in dFiles.Values)
                 {
-                    try
-                    {
-                        if (aRun.ClearTempWorkspacePrior)
-                            ClearTempWorkspace();
+                    sInputFile = aRun.InputFile;
 
-                        //System.IO.Directory.SetCurrentDirectory(Path.GetDirectoryName(sOutputPath));
-
-                        //Console.WriteLine("Running RBT with input file: " & sOutputPath)
-                        Console.WriteLine("\n******************************************************************************");
-
-                        // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
-                        ProcessStartInfo psi = new ProcessStartInfo(m_sRBTPath);
-                        if (CHaMPWorkbench.Properties.Settings.Default.RBTPathVariableActive)
-                        {
-                            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.RBTPathVariable))
-                            {
-                                StringDictionary dictionary = psi.EnvironmentVariables;
-                                psi.EnvironmentVariables["PATH"] = "C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs";
-                                psi.UseShellExecute = false;
-                                psi.Arguments = sInputFile;
-                                psi.WindowStyle = m_eWindowStyle;
-                            }
-                        }
-                        System.Diagnostics.Process proc = new Process();
-
-                        proc.StartInfo = psi;
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.WindowStyle = m_eWindowStyle;
-
-                        if (m_eWindowStyle == System.Diagnostics.ProcessWindowStyle.Hidden)
-                            proc.StartInfo.CreateNoWindow = true;
-
-                        proc.Start();
-                        proc.WaitForExit();
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-
-                    dbCom = new OleDbCommand("UPDATE Model_BatchRuns SET DateTimeCompleted = Now() WHERE ID = @ID", m_dbCon);
+                    dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeStarted = Now(), DateTimeCompleted = NULL WHERE ID = @ID", dbCon);
                     dbCom.Parameters.AddWithValue("ID", aRun.ID);
                     dbCom.ExecuteNonQuery();
 
-                    if (aRun.ClearTempWorkspaceAfter && dFiles.Count > 0)
-                        ClearTempWorkspace();
-
-                    if (bScavengeResults || bScavengeLog)
+                    if (File.Exists(sInputFile))
                     {
-                        XmlDocument xmlR = new XmlDocument();
-                        xmlR.Load(sInputFile);
-
-                        //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
-                        ResultScavengerSingleCHaMP scavenger = new ResultScavengerSingleCHaMP(m_dbCon.ConnectionString);
-                        int nResultID = 0;
-                        string sResultFile = "";
-
-                        if (bScavengeResults)
+                        try
                         {
-                            XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/results");
-                            if (aNode is XmlNode)
+                            if (aRun.ClearTempWorkspacePrior)
+                                ClearTempWorkspace();
+
+                            //System.IO.Directory.SetCurrentDirectory(Path.GetDirectoryName(sOutputPath));
+
+                            //Console.WriteLine("Running RBT with input file: " & sOutputPath)
+                            Console.WriteLine("\n******************************************************************************");
+
+                            // http://gis.stackexchange.com/questions/108230/arcgis-geoprocessing-and-32-64-bit-architecture-issue/108788#108788
+                            ProcessStartInfo psi = new ProcessStartInfo(m_sRBTPath);
+                            if (CHaMPWorkbench.Properties.Settings.Default.RBTPathVariableActive)
                             {
-                                sResultFile = aNode.InnerText;
-                                nResultID = scavenger.ScavengeResultFile(sResultFile);
+                                if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.RBTPathVariable))
+                                {
+                                    StringDictionary dictionary = psi.EnvironmentVariables;
+                                    psi.EnvironmentVariables["PATH"] = "C:\\Python27\\ArcGISx6410.1;C:\\Python27\\ArcGISx6410.1\\DLLs";
+                                    psi.UseShellExecute = false;
+                                    psi.Arguments = sInputFile;
+                                    psi.WindowStyle = m_eWindowStyle;
+                                }
                             }
+                            System.Diagnostics.Process proc = new Process();
+
+                            proc.StartInfo = psi;
+                            proc.StartInfo.UseShellExecute = false;
+                            proc.StartInfo.WindowStyle = m_eWindowStyle;
+
+                            if (m_eWindowStyle == System.Diagnostics.ProcessWindowStyle.Hidden)
+                                proc.StartInfo.CreateNoWindow = true;
+
+                            proc.Start();
+                            proc.WaitForExit();
+                        }
+                        catch (Exception ex)
+                        {
                         }
 
-                        if (bScavengeLog)
+                        dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET DateTimeCompleted = Now() WHERE ID = @ID", dbCon);
+                        dbCom.Parameters.AddWithValue("ID", aRun.ID);
+                        dbCom.ExecuteNonQuery();
+
+                        if (aRun.ClearTempWorkspaceAfter && dFiles.Count > 0)
+                            ClearTempWorkspace();
+
+                        if (bScavengeResults || bScavengeLog)
                         {
-                            XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
-                            if (aNode is XmlNode)
-                                scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile, aRun.ID);
+                            XmlDocument xmlR = new XmlDocument();
+                            xmlR.Load(sInputFile);
+
+                            //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
+                            ResultScavengerSingleCHaMP scavenger = new ResultScavengerSingleCHaMP(dbCon.ConnectionString);
+                            int nResultID = 0;
+                            string sResultFile = "";
+
+                            if (bScavengeResults)
+                            {
+                                XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/results");
+                                if (aNode is XmlNode)
+                                {
+                                    sResultFile = aNode.InnerText;
+                                    nResultID = scavenger.ScavengeResultFile(sResultFile);
+                                }
+                            }
+
+                            if (bScavengeLog)
+                            {
+                                XmlNode aNode = xmlR.SelectSingleNode("rbt/outputs/log");
+                                if (aNode is XmlNode)
+                                    scavenger.ScavengeLogFile(dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile, aRun.ID);
+                            }
                         }
                     }
                 }

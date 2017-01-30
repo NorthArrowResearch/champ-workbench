@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
@@ -119,28 +119,28 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         protected void GenerateBatchDBRecord()
         {
-            using (System.Data.OleDb.OleDbConnection dbCon = new System.Data.OleDb.OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                System.Data.OleDb.OleDbTransaction dbTrans = dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
                 try
                 {
-                    System.Data.OleDb.OleDbCommand dbCom = new System.Data.OleDb.OleDbCommand("INSERT INTO Model_Batches (BatchName) VALUES (@BatchName)", dbCon, dbTrans);
+                    SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Model_Batches (BatchName) VALUES (@BatchName)", dbTrans.Connection, dbTrans);
                     dbCom.Parameters.AddWithValue("@BatchName", BatchName);
                     dbCom.ExecuteNonQuery();
 
-                    dbCom = new System.Data.OleDb.OleDbCommand("SELECT @@Identity", dbCon, dbTrans);
+                    dbCom = new SQLiteCommand("SELECT @@Identity", dbCon, dbTrans);
                     object objBatchID = dbCom.ExecuteScalar();
                     if (objBatchID != null && objBatchID is int)
                     {
-                        dbCom = new System.Data.OleDb.OleDbCommand("INSERT INTO Model_BatchRuns (BatchID, ModelTypeID, PrimaryVisitID, Summary, InputFile) VALUES (@BatchID, @ModelTypeID, @PrimaryVisitID, @Summary, @InputFile)", dbCon, dbTrans);
+                        dbCom = new SQLiteCommand("INSERT INTO Model_BatchRuns (BatchID, ModelTypeID, PrimaryVisitID, Summary, InputFile) VALUES (@BatchID, @ModelTypeID, @PrimaryVisitID, @Summary, @InputFile)", dbCon, dbTrans);
                         dbCom.Parameters.AddWithValue("@BatchID", (int)objBatchID);
                         dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
-                        System.Data.OleDb.OleDbParameter pVisitID = dbCom.Parameters.Add("@PrimaryVisitID", System.Data.OleDb.OleDbType.Integer);
-                        System.Data.OleDb.OleDbParameter pSummary = dbCom.Parameters.Add("@Summary", System.Data.OleDb.OleDbType.VarChar);
-                        System.Data.OleDb.OleDbParameter pInputFile = dbCom.Parameters.Add("@InputFile", System.Data.OleDb.OleDbType.VarChar);
+                        SQLiteParameter pVisitID = dbCom.Parameters.Add("@PrimaryVisitID", System.Data.DbType.Int64   );
+                        SQLiteParameter pSummary = dbCom.Parameters.Add("@Summary",  System.Data.DbType.String);
+                        SQLiteParameter pInputFile = dbCom.Parameters.Add("@InputFile",  System.Data.DbType.String);
 
                         foreach (BatchVisits aVisit in Visits)
                         {
@@ -166,7 +166,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         if (MakeOnlyBatch)
                         {
                             // Make all existing RBT batches set to NOT run
-                            dbCom = new System.Data.OleDb.OleDbCommand("UPDATE Model_BatchRuns SET Run = False WHERE (BatchID <> @BatchID) AND (ModelTypeID = @ModelTypeID)", dbCon, dbTrans);
+                            dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = False WHERE (BatchID <> @BatchID) AND (ModelTypeID = @ModelTypeID)", dbCon, dbTrans);
                             dbCom.Parameters.AddWithValue("@BatchID", (int)objBatchID);
                             dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
                             dbCom.ExecuteNonQuery();

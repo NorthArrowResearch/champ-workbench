@@ -255,7 +255,6 @@
             this.openDatabaseInAccessToolStripMenuItem.Name = "openDatabaseInAccessToolStripMenuItem";
             this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.openDatabaseInAccessToolStripMenuItem.Text = "Open Database in Access...";
-            this.openDatabaseInAccessToolStripMenuItem.Click += new System.EventHandler(this.openDatabaseInAccessToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 

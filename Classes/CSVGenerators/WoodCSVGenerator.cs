@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes.CSVGenerators
 {
@@ -16,16 +16,16 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
         public override System.IO.FileInfo Run(int nVisitID, string sFilePath)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT C.ChannelUnitNumber, C.LargeWoodCount FROM CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID WHERE (S.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT C.ChannelUnitNumber, C.LargeWoodCount FROM CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID WHERE (S.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbCon);
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
 
                 try
                 {
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                     string sUnit;
                     List<string> lUnits = new List<string>();

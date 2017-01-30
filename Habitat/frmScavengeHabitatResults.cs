@@ -5,20 +5,16 @@ using System.Windows.Forms;
 using System.Xml;
 using System.ComponentModel;
 using System.IO;
-using System.Data;
-using System.Data.OleDb;
 
 namespace CHaMPWorkbench.Habitat
 {
     public partial class frmScavengeHabitatResults : Form
     {
-        private System.Data.OleDb.OleDbConnection m_dbCon;
         private Classes.ResultScavengerBatch m_scavenger;
 
-        public frmScavengeHabitatResults(System.Data.OleDb.OleDbConnection dbCon)
+        public frmScavengeHabitatResults()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void frmScavengeHabitatResults_Load(object sender, EventArgs e)
@@ -214,7 +210,7 @@ namespace CHaMPWorkbench.Habitat
                 {
                     // TODO: Philip, or someone with ACCESS needs to implement this.
                     //scavenger.ScavengeLogFile(m_dbCon.ConnectionString, nResultID, aNode.InnerText, sResultFile);
-                    m_scavenger = new Classes.ResultScavengerBatch(m_dbCon, txtHabitatModelFolder.Text, "HSResults*.xml", true, false, "");
+                    m_scavenger = new Classes.ResultScavengerBatch(txtHabitatModelFolder.Text, "HSResults*.xml", true, false, "");
 
                     prgBar.Visible = true;
                     cmdRun.Enabled = false;
@@ -262,12 +258,9 @@ namespace CHaMPWorkbench.Habitat
             List<Exception> Errors = new List<Exception>();
             int nProcessed = 0;
             string[] sResultFiles = Directory.GetFiles(txtHabitatModelFolder.Text, "HSResults.xml", SearchOption.AllDirectories);
-
-            if (m_dbCon.State == ConnectionState.Closed)
-                m_dbCon.Open();
-
+                        
             //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
-            HabitatResultsScavenger scavengerHabitat = new HabitatResultsScavenger(m_dbCon.ConnectionString);
+            HabitatResultsScavenger scavengerHabitat = new HabitatResultsScavenger(DBCon.ConnectionString);
 
             for (int i = 0; i < sResultFiles.Count(); i++)
             {

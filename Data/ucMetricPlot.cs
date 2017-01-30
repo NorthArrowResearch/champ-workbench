@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CHaMPWorkbench.Data
@@ -75,12 +75,12 @@ namespace CHaMPWorkbench.Data
         private Dictionary<int, double> GetMetricValues(int nMetricID, int nResultID)
         {
             Dictionary<int, double> dResults = new Dictionary<int, double>();
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT ResultID, MetricValue FROM Metric_VisitMetrics WHERE (MetricID = @MetricID) AND (MetricValue IS NOT NULL)", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT ResultID, MetricValue FROM Metric_VisitMetrics WHERE (MetricID = @MetricID) AND (MetricValue IS NOT NULL)", dbCon);
                 dbCom.Parameters.AddWithValue("@MetricID", nMetricID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     dResults.Add(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue")));
             }
@@ -217,23 +217,21 @@ namespace CHaMPWorkbench.Data
                 cbo.Items.Clear();
                 dModelResults = new Dictionary<int, ModelResult>();
 
-                using (OleDbConnection conResults = new OleDbConnection(sDBCon))
+                using (SQLiteConnection conResults = new SQLiteConnection(sDBCon))
                 {
                     conResults.Open();
-                    OleDbCommand comResults = new OleDbCommand("SELECT R.ResultID, R.ModelVersion, R.RunDateTime, L.Title AS ScavengeType, R.VisitID, S.SiteName, S.SiteID, W.WatershedID, W.WatershedName" +
+                    SQLiteCommand comResults = new SQLiteCommand("SELECT R.ResultID, R.ModelVersion, R.RunDateTime, L.Title AS ScavengeType, R.VisitID, S.SiteName, S.SiteID, W.WatershedID, W.WatershedName" +
 " FROM LookupListItems AS L INNER JOIN (CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN (Metric_Results AS R INNER JOIN CHAMP_Visits AS V ON R.VisitID = V.VisitID) ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) ON L.ItemID = R.ScavengeTypeID" +
 " WHERE (((W.WatershedID) In (SELECT SS.WatershedID FROM CHAMP_Sites AS SS INNER JOIN CHAMP_Visits AS VV ON SS.SiteID = VV.SiteID WHERE (((VV.VisitID)=@VisitID)))))" +
 " ORDER BY R.RunDateTime DESC", conResults);
                     comResults.Parameters.AddWithValue("@VisitID", VisitID);
 
-                    using (OleDbConnection conMetricValues = new OleDbConnection(sDBCon))
+                    using (SQLiteConnection conMetricValues = new SQLiteConnection(sDBCon))
                     {
                         conMetricValues.Open();
-                        OleDbCommand comMetricValues = new OleDbCommand("SELECT MetricID, MetricValue FROM Metric_VisitMetrics WHERE (ResultID = @ResultID) AND (MetricValue IS NOT NULL)", conMetricValues);
-                        OleDbParameter pResultID = comMetricValues.Parameters.Add("@ResultID", OleDbType.Integer);
-
-
-                        OleDbDataReader rdResults = comResults.ExecuteReader();
+                        SQLiteCommand comMetricValues = new SQLiteCommand("SELECT MetricID, MetricValue FROM Metric_VisitMetrics WHERE (ResultID = @ResultID) AND (MetricValue IS NOT NULL)", conMetricValues);
+                        SQLiteParameter pResultID = comMetricValues.Parameters.Add("@ResultID", DbType.Int64);
+                        SQLiteDataReader rdResults = comResults.ExecuteReader();
                         while (rdResults.Read())
                         {
                             int nResultID = rdResults.GetInt32(rdResults.GetOrdinal("ResultID"));
@@ -265,7 +263,7 @@ namespace CHaMPWorkbench.Data
 
                             // Now add the metric values to this result
                             pResultID.Value = nResultID;
-                            OleDbDataReader rdMetricValues = comMetricValues.ExecuteReader();
+                            SQLiteDataReader rdMetricValues = comMetricValues.ExecuteReader();
                             while (rdMetricValues.Read())
                                 theResult.SetMetricValue(rdMetricValues.GetInt32(rdMetricValues.GetOrdinal("MetricID")), rdMetricValues.GetDouble(rdMetricValues.GetOrdinal("MetricValue")));
                             rdMetricValues.Close();

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.UserQueries
 {
@@ -41,10 +41,10 @@ namespace CHaMPWorkbench.UserQueries
             grdData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grdData.MultiSelect = false;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbDataAdapter da = new OleDbDataAdapter("SELECT User_Queries.QueryID, User_Queries.Title, Left([QueryText],50) AS QueryText, User_Queries.CreatedOn FROM User_Queries ORDER BY Title", dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter("SELECT User_Queries.QueryID, User_Queries.Title, Left([QueryText],50) AS QueryText, User_Queries.CreatedOn FROM User_Queries ORDER BY Title", dbCon);
                 DataTable ta = new DataTable();
                 da.Fill(ta);
 
@@ -99,11 +99,11 @@ namespace CHaMPWorkbench.UserQueries
 
                 try
                 {
-                    using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                    using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                     {
                         dbCon.Open();
 
-                        OleDbCommand dbCom = new OleDbCommand("DELETE FROM User_Queries WHERE QueryID = @QueryID", dbCon);
+                        SQLiteCommand dbCom = new SQLiteCommand("DELETE FROM User_Queries WHERE QueryID = @QueryID", dbCon);
                         dbCom.Parameters.AddWithValue("@ID", selRow.Row["QueryID"]);
                         dbCom.ExecuteNonQuery();
 

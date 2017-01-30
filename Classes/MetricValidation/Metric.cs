@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes.MetricValidation
 {
@@ -48,7 +48,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
         public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, ref List<ListItem> lRBTVersions, bool bManualMetricValues)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
 
@@ -58,10 +58,10 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 if (string.IsNullOrEmpty(sSQL))
                     return;
 
-                OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
                 System.Diagnostics.Debug.Print("Broken query: {0}", dbCom.CommandText);
-                OleDbParameter pVisitID = dbCom.Parameters.Add("@VisitID", OleDbType.Integer);
-                OleDbDataReader dbRead = null;
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("@VisitID", System.Data.DbType.Int64);
+                SQLiteDataReader dbRead = null;
 
                 foreach (ValidationVisitInfo aVisit in dVisits.Values)
                 {
@@ -124,7 +124,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return string.Join(".", lVersionParts.ToArray<string>());
         }
 
-        private float GetMetricValue(ref OleDbDataReader dbRead, int nOrdinal)
+        private float GetMetricValue(ref SQLiteDataReader dbRead, int nOrdinal)
         {
             float fResult = 0;
             object objValue = dbRead[0];

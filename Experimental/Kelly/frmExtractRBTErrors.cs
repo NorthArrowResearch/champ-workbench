@@ -6,18 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Experimental.Kelly
 {
     public partial class frmExtractRBTErrors : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmExtractRBTErrors(OleDbConnection dbCon)
+        public frmExtractRBTErrors()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void btnBrowseInputDB_Click(object sender, EventArgs e)
@@ -70,52 +67,50 @@ namespace CHaMPWorkbench.Experimental.Kelly
         }
         private String extractRBTErrors(string sDatabase)
         {
-            if (m_dbCon.State == ConnectionState.Closed)
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                m_dbCon.Open();
-            }
-            RBTWorkbenchDataSet ds = new RBTWorkbenchDataSet();
+                RBTWorkbenchDataSet ds = new RBTWorkbenchDataSet();
 
-            RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter daWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
-            daWatersheds.Connection = m_dbCon;
-            daWatersheds.Fill(ds.CHAMP_Watersheds);
+                RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter daWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
+                daWatersheds.Connection = dbCon;
+                daWatersheds.Fill(ds.CHAMP_Watersheds);
 
-            RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter daSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
-            daSites.Connection = m_dbCon;
-            daSites.Fill(ds.CHAMP_Sites);
+                RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter daSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
+                daSites.Connection =dbCon;
+                daSites.Fill(ds.CHAMP_Sites);
 
-            RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
-            daVisits.Connection = m_dbCon;
-            daVisits.Fill(ds.CHAMP_Visits);
+                RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter daVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
+                daVisits.Connection = dbCon;
+                daVisits.Fill(ds.CHAMP_Visits);
 
-            RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-            daSegments.Connection = m_dbCon;
-            daSegments.Fill(ds.CHaMP_Segments);
+                RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter daSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
+                daSegments.Connection = dbCon;
+                daSegments.Fill(ds.CHaMP_Segments);
 
-            RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daChannelUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-            daChannelUnits.Connection = m_dbCon;
-            daChannelUnits.Fill(ds.CHAMP_ChannelUnits);
+                RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter daChannelUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
+                daChannelUnits.Connection = dbCon;
+                daChannelUnits.Fill(ds.CHAMP_ChannelUnits);
 
-            String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabase);
-            using (OleDbConnection dbCHaMP = new OleDbConnection(sDB))
-            {
-                dbCHaMP.Open();
-
-                String sSQL = "";
-                using (OleDbCommand dbCom = new OleDbCommand(sSQL, dbCHaMP))
+                String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabase);
+                using (SQLiteConnection dbCHaMP = new SQLiteConnection(sDB))
                 {
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
-                    while (dbRead.Read())
-                    {
+                    dbCHaMP.Open();
 
-                        //UpdateWatersheds(dbCHaMP, daWatersheds, ds.CHAMP_Watersheds);
-                        //UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
-                        //UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
-                        //UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
+                    String sSQL = "";
+                    using (SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCHaMP))
+                    {
+                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                        while (dbRead.Read())
+                        {
+
+                            //UpdateWatersheds(dbCHaMP, daWatersheds, ds.CHAMP_Watersheds);
+                            //UpdateSites(dbCHaMP, daSites, ds.CHAMP_Sites);
+                            //UpdateVisits(dbCHaMP, daVisits, ds.CHAMP_Visits);
+                            //UpdateSegmentsAndUnits(dbCHaMP, daSegments, daChannelUnits, ds);
+                        }
                     }
                 }
             }
-
 
             return "true";
         }

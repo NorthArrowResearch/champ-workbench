@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Windows.Forms.DataVisualization;
 
 namespace CHaMPWorkbench.Experimental.James
@@ -120,13 +120,13 @@ namespace CHaMPWorkbench.Experimental.James
         public Coordinate GetCoordinate(int nSiteID)
         {
             var coordinate = new Coordinate(0, 0);
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = new OleDbCommand("SELECT Latitude, Longitude FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
-                dbCom.Parameters.Add(new OleDbParameter("@SiteID", nSiteID));
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
+                dbCom.Parameters.Add(new SQLiteParameter("@SiteID", nSiteID));
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     coordinate = new Coordinate(Convert.ToDouble(dbRead[0]), Convert.ToDouble(dbRead[1]));
@@ -145,12 +145,12 @@ namespace CHaMPWorkbench.Experimental.James
                 Coordinate champCoordinate = GetCoordinate(((ListItem)cmbCHaMPSite.SelectedItem).Value);
                 List<KeyValuePair<string, double>> lUSGS_GageSites = new List<KeyValuePair<string, double>>();
 
-                using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
                 {
                     dbCon.Open();
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT GageID, Latitude, Longitude FROM USGS_Gages ORDER BY GageID", dbCon);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteCommand dbCom = new SQLiteCommand ("SELECT GageID, Latitude, Longitude FROM USGS_Gages ORDER BY GageID", dbCon);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                     while (dbRead.Read())
                     {
@@ -219,13 +219,13 @@ namespace CHaMPWorkbench.Experimental.James
         private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, int nSiteID, string sCHaMPSiteName, int iGageID)
         {
             string sUSGS_Description = string.Empty;
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
             {
                 dbCon.Open();
 
-                OleDbCommand comFS = new OleDbCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT Description FROM USGS_Gages WHERE GageID = @GageID", dbCon);
                 comFS.Parameters.AddWithValue("@GageID", iGageID);
-                OleDbDataReader dbRead = comFS.ExecuteReader();
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
 
                 while (dbRead.Read())
                 {
@@ -288,15 +288,14 @@ namespace CHaMPWorkbench.Experimental.James
             pVisitsSeries.SmartLabelStyle.Enabled = false;
             //pVisitsSeries.ToolTip = "#LABEL" + Environment.NewLine + "Date: #VALX";
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
             {
                 dbCon.Open();
 
-                OleDbCommand comFS = new OleDbCommand("SELECT VisitID, SampleDate FROM CHaMP_Visits WHERE SiteID = @SiteID ORDER BY SampleDate", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand ("SELECT VisitID, SampleDate FROM CHaMP_Visits WHERE SiteID = @SiteID ORDER BY SampleDate", dbCon);
                 comFS.Parameters.AddWithValue("@SiteID", nSiteID);
-                OleDbDataReader dbRead = comFS.ExecuteReader();
-
-
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
+                
                 while (dbRead.Read())
                 {
                     DateTime pSampleDate = Convert.ToDateTime(dbRead[1]);
@@ -463,12 +462,12 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
                     dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cmbWatershed.SelectedItem).Value);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         int nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));

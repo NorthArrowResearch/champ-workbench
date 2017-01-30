@@ -6,14 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.UserQueries
 {
     public partial class frmQueryProperties : Form
     {
         private string DBCon { get; set; }
-        public int ID { get; internal set; }
+        public long ID { get; internal set; }
 
         public frmQueryProperties(string sDBCon, int nID = 0)
         {
@@ -27,13 +27,13 @@ namespace CHaMPWorkbench.UserQueries
 
             if (ID > 0)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT Title, QueryText, Remarks FROM User_Queries WHERE QueryID = @QueryID", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT Title, QueryText, Remarks FROM User_Queries WHERE QueryID = @QueryID", dbCon);
                     dbCom.Parameters.AddWithValue("@QueryID", ID);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     if (dbRead.Read())
                     {
                         txtTitle.Text = dbRead.GetString(dbRead.GetOrdinal("Title"));
@@ -79,10 +79,10 @@ namespace CHaMPWorkbench.UserQueries
 
             try
             {
-                using (OleDbConnection dbCon = new OleDbConnection(sDBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
                     dbCom.ExecuteScalar();
 
                     if (bShowSuccessMessage)
@@ -110,23 +110,23 @@ namespace CHaMPWorkbench.UserQueries
 
             try
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = null;
+                    SQLiteCommand dbCom = null;
 
                     if (ID < 1)
-                        dbCom = new OleDbCommand("INSERT INTO User_Queries (Title, QueryText, Remarks, CreatedBy) VALUES (@Title, @QueryText, @Remarks, @CreatedBy)", dbCon);
+                        dbCom = new SQLiteCommand("INSERT INTO User_Queries (Title, QueryText, Remarks, CreatedBy) VALUES (@Title, @QueryText, @Remarks, @CreatedBy)", dbCon);
                     else
-                        dbCom = new OleDbCommand("UPDATE User_Queries SET Title = @Title, QueryText = @QueryText, Remarks = @Remarks WHERE QueryID = @QueryID", dbCon);
+                        dbCom = new SQLiteCommand("UPDATE User_Queries SET Title = @Title, QueryText = @QueryText, Remarks = @Remarks WHERE QueryID = @QueryID", dbCon);
 
                     dbCom.Parameters.AddWithValue("@Title", txtTitle.Text);
 
-                    OleDbParameter pQueryText = dbCom.Parameters.Add("@QueryText", OleDbType.VarChar);
+                    SQLiteParameter pQueryText = dbCom.Parameters.Add("@QueryText", DbType.String);
                     pQueryText.Value = txtQueryText.Text;
                     pQueryText.Size = txtQueryText.Text.Length;
 
-                    OleDbParameter pRemarks = dbCom.Parameters.Add("@Remarks", OleDbType.VarChar);
+                    SQLiteParameter pRemarks = dbCom.Parameters.Add("@Remarks", DbType.String);
                     if (string.IsNullOrEmpty(txtRemarks.Text))
                         pRemarks.Value = DBNull.Value;
                     else
@@ -143,8 +143,8 @@ namespace CHaMPWorkbench.UserQueries
                     int nAffected = dbCom.ExecuteNonQuery();
                     if (nAffected == 1)
                     {
-                        dbCom = new OleDbCommand("SELECT @@Identity FROM User_Queries", dbCon);
-                        ID = (int)dbCom.ExecuteScalar();
+                        dbCom = new SQLiteCommand("SELECT @@Identity FROM User_Queries", dbCon);
+                        ID = (long)dbCom.ExecuteScalar();
                     }
                 }
             }
@@ -186,11 +186,11 @@ namespace CHaMPWorkbench.UserQueries
                     if (frm.ShowDialog() == DialogResult.OK)
                     {
                         int nRecords = 0;
-                        using (OleDbConnection dbCon = new OleDbConnection(uqTag.DBCon))
+                        using (SQLiteConnection dbCon = new SQLiteConnection(uqTag.DBCon))
                         {
                             dbCon.Open();
 
-                            OleDbDataAdapter dbDA = new OleDbDataAdapter(uqTag.SQL, dbCon);
+                            SQLiteDataAdapter dbDA = new SQLiteDataAdapter(uqTag.SQL, dbCon);
                             DataTable dt = new DataTable();
                             nRecords = dbDA.Fill(dt);
 

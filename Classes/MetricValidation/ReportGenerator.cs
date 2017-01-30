@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -10,15 +10,13 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     class ReportGenerator
     {
-        private OleDbConnection m_DBCon;
         private List<ListItem> m_lVisits;
         // The RBT versions is a dictionary object with the properties <formattedString, rawString>
         private List<ListItem> m_lRBTVersions;
         private ReportItem m_sXSLReport;
 
-        public ReportGenerator(OleDbConnection dbCon, ReportItem xslReport, List<ListItem> lVisits)
+        public ReportGenerator(ReportItem xslReport, List<ListItem> lVisits)
         {
-            m_DBCon = dbCon;
             m_sXSLReport = xslReport;
             m_lVisits = lVisits;
             m_lRBTVersions = GetRBTVersions(); // Default to all RBT Versions
@@ -74,7 +72,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 try
                 {
-                    Classes.MetricValidation.ValidationReport report = new Classes.MetricValidation.ValidationReport(m_DBCon.ConnectionString, m_sXSLReport.FilePath, new System.IO.FileInfo(frm.FileName));
+                    Classes.MetricValidation.ValidationReport report = new Classes.MetricValidation.ValidationReport(DBCon.ConnectionString, m_sXSLReport.FilePath, new System.IO.FileInfo(frm.FileName));
                     Classes.MetricValidation.ValidationReport.ValidationReportResults theResults = report.Run(m_lVisits, m_lRBTVersions);
 
                     if (System.IO.File.Exists(frm.FileName))
@@ -103,15 +101,19 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         private List<ListItem> GetWatershedVisits(int nWatershedID)
         {
             List<ListItem> lWatershedVisits = new List<ListItem>();
-            OleDbCommand comFS = new OleDbCommand("SELECT V.VisitID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", m_DBCon);
-            comFS.Parameters.AddWithValue("@WATERSHEDID", nWatershedID);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
-            while (dbRead.Read())
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                int nVisitID = (int)dbRead[0];
-                lWatershedVisits.Add(new ListItem(nVisitID.ToString(), nVisitID));
+                SQLiteCommand comFS = new SQLiteCommand("SELECT V.VisitID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", dbCon);
+                comFS.Parameters.AddWithValue("@WATERSHEDID", nWatershedID);
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    int nVisitID = (int)dbRead[0];
+                    lWatershedVisits.Add(new ListItem(nVisitID.ToString(), nVisitID));
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
             return lWatershedVisits;
         }
 
@@ -141,14 +143,17 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// <returns></returns>
         private List<ListItem> GetWatersheds()
         {
-            OleDbCommand comFS = new OleDbCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", m_DBCon);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
             List<ListItem> lWatersheds = new List<ListItem>();
-            while (dbRead.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                lWatersheds.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
+                SQLiteCommand comFS = new SQLiteCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", dbCon);
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    lWatersheds.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
             return lWatersheds;
         }
 
@@ -162,19 +167,21 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// results exist in the database. The manual </remarks>
         private List<ListItem> GetRBTVersions()
         {
-            //OleDbCommand comFS = new OleDbCommand("SELECT ModelVersion FROM Metric_Results GROUP BY ModelVersion", m_DBCon);
-            OleDbCommand comFS = new OleDbCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", m_DBCon);
-            comFS.Parameters.AddWithValue("@ScavengeTypeIDModelRun", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
-            OleDbDataReader dbRead = comFS.ExecuteReader();
             List<ListItem> lRBTVersions = new List<ListItem>();
-            int counter = 0;
-            while (dbRead.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                counter++;
-                string sRBTVersion = (string)dbRead[0];
-                lRBTVersions.Add(new ListItem(sRBTVersion, counter));
+                SQLiteCommand comFS = new SQLiteCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", dbCon);
+                comFS.Parameters.AddWithValue("@ScavengeTypeIDModelRun", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
+                SQLiteDataReader dbRead = comFS.ExecuteReader();
+                int counter = 0;
+                while (dbRead.Read())
+                {
+                    counter++;
+                    string sRBTVersion = (string)dbRead[0];
+                    lRBTVersions.Add(new ListItem(sRBTVersion, counter));
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
             return lRBTVersions;
         }
 

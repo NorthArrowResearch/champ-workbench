@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Data
 {
@@ -53,13 +53,13 @@ namespace CHaMPWorkbench.Data
 
             if (LogID > 0)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
 
-                    OleDbCommand dbCom = new OleDbCommand("SELECT UserName, QualityRatingID, ItemReviewed, WatershedID, SiteID, VisitID, Description, ReviewedOn FROM LogFeedback WHERE LogID = @LogID", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT UserName, QualityRatingID, ItemReviewed, WatershedID, SiteID, VisitID, Description, ReviewedOn FROM LogFeedback WHERE LogID = @LogID", dbCon);
                     dbCom.Parameters.AddWithValue("LogID", LogID);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     if (!dbRead.Read())
                     {
                         Exception ex = new Exception("Failed to retrieve user feedback item from database.");
@@ -161,12 +161,12 @@ namespace CHaMPWorkbench.Data
             cboVisit.Items.Clear();
             if (nWatershedID > 0)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection (DBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
                     dbCom.Parameters.AddWithValue("WatesrhedID", nWatershedID);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         cboSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))));
@@ -198,12 +198,12 @@ namespace CHaMPWorkbench.Data
             cboVisit.Items.Clear();
             if (nSiteID > 0)
             {
-                using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
-                    OleDbCommand dbCom = new OleDbCommand("SELECT VisitID, VisitYear, Organization FROM CHAMP_Visits WHERE SiteID = @SiteID ORDER BY CHAMP_Visits.VisitID", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitID, VisitYear, Organization FROM CHAMP_Visits WHERE SiteID = @SiteID ORDER BY CHAMP_Visits.VisitID", dbCon);
                     dbCom.Parameters.AddWithValue("SiteID", nSiteID);
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         string sVisit = string.Format("VisitID {0} in {1}", dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")));
@@ -224,42 +224,42 @@ namespace CHaMPWorkbench.Data
             if (!ValidateForm())
                 return;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                OleDbCommand dbCom = null;
+                SQLiteCommand dbCom = null;
                 if (LogID > 0)
                 {
-                    dbCom = new OleDbCommand("UPDATE LogFeedback SET UserName = @UserName, QualityRatingID = @QualityRatingID, ItemReviewed = @ItemReviewed, WatershedID = @WatershedID, SiteID = @SiteID, VisitID = @VisitID, Description = @Description, ReviewedOn = @ReviewedON WHERE LogID = @LogID", dbCon);
+                    dbCom = new SQLiteCommand("UPDATE LogFeedback SET UserName = @UserName, QualityRatingID = @QualityRatingID, ItemReviewed = @ItemReviewed, WatershedID = @WatershedID, SiteID = @SiteID, VisitID = @VisitID, Description = @Description, ReviewedOn = @ReviewedON WHERE LogID = @LogID", dbCon);
                 }
                 else
-                    dbCom = new OleDbCommand("INSERT INTO LogFeedback (UserName, QualityRatingID, ItemReviewed, WatershedID, SiteID, VisitID, Description, ReviewedOn)" +
+                    dbCom = new SQLiteCommand("INSERT INTO LogFeedback (UserName, QualityRatingID, ItemReviewed, WatershedID, SiteID, VisitID, Description, ReviewedOn)" +
                         " VALUES (@UserName, @QualityRatingID, @ItemReviewed, @WatershedID, @SiteID, @VisitID, @Description, @ReviewedOn)", dbCon);
 
                 dbCom.Parameters.AddWithValue("UserName", txtUserName.Text);
                 dbCom.Parameters.AddWithValue("QualityRatingID", ((ListItem)cboQualityRating.SelectedItem).Value);
                 dbCom.Parameters.AddWithValue("ItemReviewed", cboItemReviewed.Text);
 
-                OleDbParameter pWatershedID = dbCom.Parameters.Add("WatershedID", OleDbType.Integer);
+                SQLiteParameter pWatershedID = dbCom.Parameters.Add("WatershedID", DbType.Int64);
                 if (cboWatershed.SelectedItem is ListItem)
                     pWatershedID.Value = ((ListItem)cboWatershed.SelectedItem).Value;
                 else
                     pWatershedID.Value = DBNull.Value;
 
-                OleDbParameter pSiteID = dbCom.Parameters.Add("SiteID", OleDbType.Integer);
+                SQLiteParameter pSiteID = dbCom.Parameters.Add("SiteID", DbType.Int64);
                 if (cboSite.SelectedItem is ListItem)
                     pSiteID.Value = ((ListItem)cboSite.SelectedItem).Value;
                 else
                     pSiteID.Value = DBNull.Value;
 
-                OleDbParameter pVisitID = dbCom.Parameters.Add("VisitID", OleDbType.Integer);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
                 if (cboVisit.SelectedItem is ListItem)
                     pVisitID.Value = ((ListItem)cboVisit.SelectedItem).Value;
                 else
                     pVisitID.Value = DBNull.Value;
 
-                OleDbParameter pDescription = dbCom.Parameters.Add("Description", OleDbType.LongVarChar);
+                SQLiteParameter pDescription = dbCom.Parameters.Add("Description", DbType.String);
                 if (string.IsNullOrEmpty(txtDescription.Text))
                     pDescription.Value = DBNull.Value;
                 else
@@ -268,7 +268,7 @@ namespace CHaMPWorkbench.Data
                     pDescription.Size = txtDescription.Text.Length;
                 }
 
-                OleDbParameter pReviewedOn = dbCom.Parameters.Add("ReviewedOn", OleDbType.Date);
+                SQLiteParameter pReviewedOn = dbCom.Parameters.Add("ReviewedOn",  DbType.DateTime);
                 pReviewedOn.Value = dtDateTime.Value;
 
                 if (LogID > 0)
@@ -306,12 +306,12 @@ namespace CHaMPWorkbench.Data
 
         public void SelectVisit(int nVisitID)
         {
-            using (OleDbConnection dbCon = new OleDbConnection(DBCon))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                OleDbCommand dbCom = new OleDbCommand("SELECT S.WatershedID, S.SiteID FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT S.WatershedID, S.SiteID FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", dbCon);
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
-                OleDbDataReader dbRead = dbCom.ExecuteReader();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 if (!dbRead.Read())
                     throw new Exception(string.Format("Error retrieving watershed and site ID for visit {0}", nVisitID));
 

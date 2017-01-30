@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Xml;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
@@ -40,11 +40,11 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             dsData = new RBTWorkbenchDataSet();
 
             RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter taWatersheds = new RBTWorkbenchDataSetTableAdapters.CHAMP_WatershedsTableAdapter();
-            taWatersheds.Connection = new OleDbConnection(sDBCon);
+            taWatersheds.Connection = new SQLiteConnection(sDBCon);
             taWatersheds.Fill(dsData.CHAMP_Watersheds);
 
             RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter taSites = new RBTWorkbenchDataSetTableAdapters.CHAMP_SitesTableAdapter();
-            taSites.Connection = new OleDbConnection(sDBCon);
+            taSites.Connection = new SQLiteConnection(sDBCon);
             taSites.Fill(dsData.CHAMP_Sites);
         }
 
@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         {
             System.IO.DirectoryInfo dVisitTopoFolder = null;
 
-            using (OleDbConnection conVisit = new OleDbConnection(DBCon))
+            using (SQLiteConnection conVisit = new SQLiteConnection(DBCon))
             {
                 conVisit.Open();
 
@@ -100,17 +100,17 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         public override int Run(out List<string> lExceptionMessages)
         {
-            using (OleDbConnection conVisits = new OleDbConnection(DBCon))
+            using (SQLiteConnection conVisits = new SQLiteConnection(DBCon))
             {
                 conVisits.Open();
 
                 // This query retrieves all visits for the site. The target visit always comes first.
-                OleDbCommand dbTargetVisits = new OleDbCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
+                SQLiteCommand dbTargetVisits = new SQLiteCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
                     " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
 
-                OleDbParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", OleDbType.Integer);
+                SQLiteParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", System.Data.DbType.Int64);
 
                 foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                 {
@@ -120,7 +120,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     try
                     {
                         pVisitID.Value = aVisit.VisitID;
-                        OleDbDataReader dbRead = dbTargetVisits.ExecuteReader();
+                        SQLiteDataReader dbRead = dbTargetVisits.ExecuteReader();
                         while (dbRead.Read() && bContinue)
                         {
                             int nVisitID = (int)dbRead["VisitID"];

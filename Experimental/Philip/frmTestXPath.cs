@@ -6,18 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Experimental.Philip
 {
     public partial class frmTestXPath : Form
     {
-        private OleDbConnection m_dbCon;
-
-        public frmTestXPath(OleDbConnection dbCon)
+        public frmTestXPath()
         {
             InitializeComponent();
-            m_dbCon = dbCon;
         }
 
         private void UpdateControls()
@@ -92,7 +89,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
             try
             {
-                Experimental.Philip.TestXPath theTester = new Experimental.Philip.TestXPath(m_dbCon, txtResultFile.Text);
+                Experimental.Philip.TestXPath theTester = new Experimental.Philip.TestXPath(txtResultFile.Text);
                 int nProcessed = theTester.RunTest(ref lExceptions, sWhereClause);
                 if (lExceptions.Count < 1)
                     MessageBox.Show("All active metrics possess valid XPath values.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
