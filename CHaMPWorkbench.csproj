@@ -165,7 +165,7 @@
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
     <Compile Include="Classes\ResultScavengerSingleCHaMP.cs" />
-    <Compile Include="Classes\Site.cs" />
+    <Compile Include="Classes\BatchSite.cs" />
     <Compile Include="Classes\BatchVisit.cs" />
     <Compile Include="Classes\DataFolders.cs" />
     <Compile Include="Classes\Visit.cs" />
@@ -366,6 +366,8 @@
     <Compile Include="naru\db\CheckedItem.cs" />
     <Compile Include="naru\db\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
+    <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
+    <Compile Include="naru\ui\SortableBindingList.cs" />
     <Compile Include="RasterMan\Rasterman.cs" />
     <Compile Include="RasterMan\RasterMeta.cs" />
     <Compile Include="HydroPrep\frmHydroPrepRun.Designer.cs">

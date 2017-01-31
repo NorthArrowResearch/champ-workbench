@@ -36,7 +36,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             m_bRequiresWSTIN = bRequireWSTIN;
         }
 
-        private System.IO.DirectoryInfo AddVisitToSite(ref Classes.Site theSite, System.IO.DirectoryInfo dParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
+        private System.IO.DirectoryInfo AddVisitToSite(ref Classes.BatchSite theSite, System.IO.DirectoryInfo dParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
         {
             System.IO.DirectoryInfo dVisitTopoFolder = null;
 
@@ -102,7 +102,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                 foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                 {
-                    Site theSite = null;
+                    BatchSite theSite = null;
                     System.IO.FileInfo dInputFile = null;
                     bool bContinue = true;
                     try
@@ -120,7 +120,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                                 if (dbRead["UTMZone"] != DBNull.Value)
                                     sUTMZone = (string)dbRead["UTMZone"];
 
-                                theSite = new Site(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
+                                theSite = new BatchSite(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
 
                                 System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, MonitoringDataFolder, aVisit.VisitID, true, m_bForcePrimary);
                                 if (dVisitTopoFolder is System.IO.DirectoryInfo)

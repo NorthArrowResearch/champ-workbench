@@ -6,13 +6,13 @@ using System.Xml;
 
 namespace CHaMPWorkbench.Classes
 {
-    class Site : NamedDBObject
+    class BatchSite : NamedDBObject
     {
         private String m_sUTMZone;
         private Watershed m_Watershed;
         private Dictionary<int, BatchVisit> m_dVisits;
 
-        public Site(int nID, String sName, String sUTMZone, ref Watershed aWatershed)
+        public BatchSite(int nID, String sName, String sUTMZone, ref Watershed aWatershed)
             : base(nID, sName)
         {
             m_dVisits = new Dictionary<int, BatchVisit>();

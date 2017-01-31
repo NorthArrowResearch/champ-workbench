@@ -1,84 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes
 {
-    class ChannelUnit : NamedDBObject
+    class ChannelUnit : naru.db.NamedObject
     {
-        private String m_sTier1;
-        private String m_sTier2;
-        private int m_nChannelUnitNumber;
+        public String Tier1 { get; internal set; }
+        public String Tier2 { get; internal set; }
+        public long ChannelUnitNumber { get; internal set; }
 
-        private int m_nBedrock;
-        private int m_nBouldersGT256;
-        private int m_nCobbles65255;
-        private int m_nCoarseGravel1764;
-        private int m_nFineGravel316;
-        private int m_nSand0062;
-        private int m_nFinesLT006;
-        private int m_nSumSubstrateCover;
+        public Nullable<long> Bedrock { get; internal set; }
+        public Nullable<long> BouldersGT256 { get; internal set; }
+        public Nullable<long> Cobbles65255 { get; internal set; }
+        public Nullable<long> CoarseGravel1764 { get; internal set; }
+        public Nullable<long> FineGravel316 { get; internal set; }
+        public Nullable<long> Sand0062 { get; internal set; }
+        public Nullable<long> FinesLT006 { get; internal set; }
+        public Nullable<long> SumSubstrateCover { get; internal set; }
+        public Nullable<long> LargeWoodCount { get; internal set; }
 
         public ChannelUnit(int nID, int nChannelUnitNumber, String sName, String sTier1, String sTier2)
             : base(nID, sName)
         {
-            m_sTier1 = sTier1;
-            m_sTier2 = sTier2;
-            m_nChannelUnitNumber = nChannelUnitNumber;
+            Tier1 = sTier1;
+            Tier2 = sTier2;
+            ChannelUnitNumber = nChannelUnitNumber;
         }
 
-        public ChannelUnit(RBTWorkbenchDataSet.CHAMP_ChannelUnitsRow rUnit)
-            : base(rUnit.ID, rUnit.Tier1 + " - " + rUnit.Tier2)
+        public ChannelUnit(long nID, long nChannelUnitNumber, String sName, String sTier1, String sTier2,
+             Nullable<long> nBedrock, Nullable<long> nBouldersGT256, Nullable<long> nCobbles65255
+            , Nullable<long> nCoarseGravel1764, Nullable<long> nFineGravel316, Nullable<long> nSand0062
+            , Nullable<long> nFinesLT006, Nullable<long> nSumSubstrateCover, Nullable<long> nLargeWoodCount)
+            : base(nID, sName)
         {
-            m_sTier1 = rUnit.Tier1;
-            m_sTier2 = rUnit.Tier2;
-            m_nChannelUnitNumber = rUnit.ChannelUnitNumber;
+            Tier1 = sTier1;
+            Tier2 = sTier2;
+            ChannelUnitNumber = nChannelUnitNumber;
 
-            if (!rUnit.IsBedrockNull())
-                m_nBedrock= rUnit.Bedrock;
-            
-            if (!rUnit.IsBouldersGT256Null())
-                m_nBouldersGT256 = rUnit.BouldersGT256;
-
-            if (!rUnit.IsCobbles65255Null())
-                m_nCobbles65255 = rUnit.Cobbles65255;
-
-            if (!rUnit.IsCoarseGravel1764Null())
-                m_nCoarseGravel1764 = rUnit.CoarseGravel1764;
-
-            if (!rUnit.IsFineGravel316Null())
-                m_nFineGravel316 = rUnit.FineGravel316;
-
-            if (!rUnit.IsSand0062Null())
-                m_nSand0062 = rUnit.Sand0062;
-
-            if (!rUnit.IsFinesLT006Null())
-                m_nFinesLT006 = rUnit.FinesLT006;
-
-            if (!rUnit.IsSumSubstrateCoverNull())
-                m_nSumSubstrateCover = rUnit.SumSubstrateCover;
+            Bedrock = nBedrock;
+            BouldersGT256 = nBouldersGT256;
+            Cobbles65255 = nCobbles65255;
+            CoarseGravel1764 = nCoarseGravel1764;
+            FineGravel316 = nFineGravel316;
+            Sand0062 = nSand0062;
+            FinesLT006 = nFinesLT006;
+            SumSubstrateCover = nSumSubstrateCover;
+            LargeWoodCount = nLargeWoodCount;
         }
 
+        public static Dictionary<long, ChannelUnit> Load(string sDBCon, long nSegmentID)
+        {
+            Dictionary<long, ChannelUnit> Segments = new Dictionary<long, ChannelUnit>();
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
+            {
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM CHaMP_ChannelUnits WHERE SegmentID = @SegmentID ORDER BY ChannelUnitNumber", dbCon);
+                dbCom.Parameters.AddWithValue("SegmentID", nSegmentID);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    long nID = dbRead.GetInt64(dbRead.GetOrdinal("ID"));
+                    long nCU = dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber"));
+                    Segments[nID] = new ChannelUnit(nID
+                        , nCU
+                        , nCU.ToString()
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier1")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier2")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Bedrock")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "BouldersGT256")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Cobbles65255")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "CoarseGravel1764")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "FineGravel316")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Sand0062")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "FinesLT006")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "SumSubstrateCover")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "LargeWoodCount"));
+                }
+            }
+            return Segments;
+        }
+        
         public void WriteToXML(ref XmlTextWriter xFile)
         {
             xFile.WriteStartElement("unit");
             xFile.WriteElementString("id", ID.ToString());
-            xFile.WriteElementString("unit_number", m_nChannelUnitNumber.ToString());
-            xFile.WriteElementString("tier1", m_sTier1);
-            xFile.WriteElementString("tier2", m_sTier2);
+            xFile.WriteElementString("unit_number", ChannelUnitNumber.ToString());
+            xFile.WriteElementString("tier1", Tier1);
+            xFile.WriteElementString("tier2", Tier2);
 
-            if (m_nSumSubstrateCover > 0)
+            if (SumSubstrateCover > 0)
             {
-                xFile.WriteElementString("bedrock", m_nBedrock.ToString());
-                xFile.WriteElementString("bouldersgt256", m_nBouldersGT256.ToString());
-                xFile.WriteElementString("cobbles65255", m_nCobbles65255.ToString());
-                xFile.WriteElementString("coarsegravel1764", m_nCoarseGravel1764.ToString());
-                xFile.WriteElementString("finegravel316", m_nFineGravel316.ToString());
-                xFile.WriteElementString("sand0062", m_nSand0062.ToString());
-                xFile.WriteElementString("fineslt006", m_nFinesLT006.ToString());
-                xFile.WriteElementString("sumsubstratecolver", m_nSumSubstrateCover.ToString());
+                xFile.WriteElementString("bedrock", Bedrock.ToString());
+                xFile.WriteElementString("bouldersgt256", BouldersGT256.ToString());
+                xFile.WriteElementString("cobbles65255", Cobbles65255.ToString());
+                xFile.WriteElementString("coarsegravel1764", CoarseGravel1764.ToString());
+                xFile.WriteElementString("finegravel316", FineGravel316.ToString());
+                xFile.WriteElementString("sand0062", Sand0062.ToString());
+                xFile.WriteElementString("fineslt006", FinesLT006.ToString());
+                xFile.WriteElementString("sumsubstratecolver", SumSubstrateCover.ToString());
             }
             else
             {
@@ -86,12 +107,12 @@ namespace CHaMPWorkbench.Classes
                 xFile.WriteElementString("bouldersgt256", "");
                 xFile.WriteElementString("cobbles65255", "");
                 xFile.WriteElementString("coarsegravel1764", "");
-                xFile.WriteElementString("finegravel316","");
+                xFile.WriteElementString("finegravel316", "");
                 xFile.WriteElementString("sand0062", "");
                 xFile.WriteElementString("fineslt006", "");
                 xFile.WriteElementString("sumsubstratecolver", "");
             }
-            
+
             xFile.WriteEndElement(); // unit
         }
     }

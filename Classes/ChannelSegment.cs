@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Classes
 {
-    class ChannelSegment : NamedDBObject
+    public class ChannelSegment : naru.db.NamedObject
     {
-        private int m_nNumber;
-        private Dictionary<int, ChannelUnit> m_dChannelUnits;
+        private long m_nNumber;
+        private Dictionary<long, ChannelUnit> m_dChannelUnits;
 
-        public int Number
+        public long Number
         {
             get
             {
@@ -19,19 +18,29 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        public ChannelSegment(int nID, String sName, int nNumber)
+        public ChannelSegment(long nID, String sName, long nNumber)
             : base(nID, sName)
         {
             m_nNumber = nNumber;
-            m_dChannelUnits = new Dictionary<int,ChannelUnit>();
+            m_dChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
         }
 
-        public ChannelSegment(RBTWorkbenchDataSet.CHaMP_SegmentsRow rSegment) : this(rSegment.SegmentID, rSegment.SegmentName, rSegment.SegmentNumber)
+        public static Dictionary<long, ChannelSegment> Load(string sDBCon, long nVisitID)
         {
-            foreach (RBTWorkbenchDataSet.CHAMP_ChannelUnitsRow rUnit in rSegment.GetCHAMP_ChannelUnitsRows())
+            Dictionary<long, ChannelSegment> Segments = new Dictionary<long, ChannelSegment>();
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
-                m_dChannelUnits.Add(rUnit.ID, new ChannelUnit(rUnit));
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM WHERE VisitID = @VisitID ORDER BY SegmentNumber", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    long nID = dbRead.GetInt64(dbRead.GetOrdinal("SegmentID"));
+                    Segments[nID] = new ChannelSegment(nID, dbRead.GetString(dbRead.GetOrdinal("SegmentName")), dbRead.GetInt64(dbRead.GetOrdinal("SegmentNumber")));
+                }
             }
+            return Segments;
         }
 
         public void WriteToXML(ref XmlTextWriter xFile)
