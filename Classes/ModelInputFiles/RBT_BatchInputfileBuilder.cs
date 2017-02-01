@@ -36,162 +36,89 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             m_bRequiresWSTIN = bRequireWSTIN;
         }
 
-        private System.IO.DirectoryInfo AddVisitToSite(ref Classes.BatchSite theSite, System.IO.DirectoryInfo dParentTopoFolder, int nVisitID, bool bTarget, bool bForcePrimary)
-        {
-            System.IO.DirectoryInfo dVisitTopoFolder = null;
-
-            using (SQLiteConnection conVisit = new SQLiteConnection(DBCon))
-            {
-                conVisit.Open();
-
-                dsData.CHAMP_ChannelUnits.Clear();
-                dsData.CHaMP_Segments.Clear();
-
-                RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter taVisits = new RBTWorkbenchDataSetTableAdapters.CHAMP_VisitsTableAdapter();
-                taVisits.Connection = conVisit;
-                taVisits.FillByVisitID(dsData.CHAMP_Visits, nVisitID);
-
-                RBTWorkbenchDataSet.CHAMP_VisitsRow rVisit = dsData.CHAMP_Visits.First<RBTWorkbenchDataSet.CHAMP_VisitsRow>();
-
-                // Only proceed and add the visit if the associated protocol possesses topo data
-                if (rVisit.IsProtocolIDNull() || ProtocolHasTopoData(rVisit.ProtocolID))
-                {
-                    RBTWorkbenchDataSet.CHAMP_SitesRow rSite = dsData.CHAMP_Sites.FindBySiteID(rVisit.SiteID);
-                    RBTWorkbenchDataSet.CHAMP_WatershedsRow rWatershed = dsData.CHAMP_Watersheds.FindByWatershedID(rSite.WatershedID);
-
-                    if (dsData.CHAMP_Visits.Rows.Count != 1)
-                        throw new Exception(string.Format("Failed to find visit {0} information", nVisitID));
-
-                    System.IO.DirectoryInfo dSurveyGDB = null;
-                    System.IO.DirectoryInfo dTopoTIN = null;
-                    System.IO.DirectoryInfo dWSTIN = null;
-
-                    if (Classes.DataFolders.SurveyGDBTopoTinWSTin(dParentTopoFolder, nVisitID, out dSurveyGDB, out dTopoTIN, out dWSTIN))
-                    {
-                        RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter taSegments = new RBTWorkbenchDataSetTableAdapters.CHaMP_SegmentsTableAdapter();
-                        taSegments.Connection = conVisit;
-                        taSegments.FillByVisitID(dsData.CHaMP_Segments, nVisitID);
-
-                        RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter taUnits = new RBTWorkbenchDataSetTableAdapters.CHAMP_ChannelUnitsTableAdapter();
-                        taUnits.Connection = conVisit;
-                        taUnits.FillByVisitID(dsData.CHAMP_ChannelUnits, nVisitID);
-
-                        Classes.DataFolders.Topo(dParentTopoFolder, nVisitID, out dVisitTopoFolder);
-                        BatchVisit theVisit = new BatchVisit(rVisit, dSurveyGDB.FullName, dTopoTIN.FullName, dWSTIN.FullName, bTarget, bTarget, bTarget, bTarget, bForcePrimary);
-
-                        theSite.AddVisit(theVisit);
-                    }
-                }
-            }
-            return dVisitTopoFolder;
-        }
-
         public override int Run(out List<string> lExceptionMessages)
         {
             using (SQLiteConnection conVisits = new SQLiteConnection(DBCon))
             {
                 conVisits.Open();
 
-                // This query retrieves all visits for the site. The target visit always comes first.
+                // This query retrieves all visits at the same site as a specified target visit. The target visit always comes first.
                 SQLiteCommand dbTargetVisits = new SQLiteCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
                     " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
-
                 SQLiteParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", System.Data.DbType.Int64);
 
                 foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                 {
-                    BatchSite theSite = null;
+                    XmlDocument xmlDoc = new XmlDocument();
+                    XmlNode nodTopLevel = xmlDoc.CreateElement("rbt");
+                    xmlDoc.AppendChild(nodTopLevel);
+
+                    //Create an XML declaration. 
+                    XmlDeclaration xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
+                    xmlDoc.InsertBefore(xmldecl, nodTopLevel);
+
+                    XmlNode nodSites = xmlDoc.CreateElement("sites");
+                    nodTopLevel.AppendChild(nodSites);
+
+                    // Prepare the site XML node.
+                    XmlNode nodSite = null;
+
+                    // Prepare the RBT input file path. This will only get set if the target visit has topo data.
                     System.IO.FileInfo dInputFile = null;
-                    bool bContinue = true;
-                    try
-                    {
-                        pVisitID.Value = aVisit.VisitID;
-                        SQLiteDataReader dbRead = dbTargetVisits.ExecuteReader();
-                        while (dbRead.Read() && bContinue)
-                        {
-                            int nVisitID = (int)dbRead["VisitID"];
 
-                            if (theSite == null)
+                    pVisitID.Value = aVisit.VisitID;
+                    SQLiteDataReader dbRead = dbTargetVisits.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        CHaMPData.Visit visitAtSite = CHaMPData.Visit.Load(DBCon, dbRead.GetInt64(dbRead.GetOrdinal("VisitID")));
+
+                        // If the site node is null then no visits have been added yet. Therefore the first one is the target visit.
+                        if (nodSite == null)
+                        {
+                            System.IO.DirectoryInfo diVisit = null;
+                            if (Classes.DataFolders.Visit(MonitoringDataFolder, visitAtSite.ID, out diVisit))
                             {
-                                Watershed theWatershed = new Watershed(0, (string)dbRead["WatershedName"]);
-                                string sUTMZone = string.Empty;
-                                if (dbRead["UTMZone"] != DBNull.Value)
-                                    sUTMZone = (string)dbRead["UTMZone"];
+                                dInputFile = Classes.DataFolders.RBTInputFile(OutputFolder.FullName, diVisit, InputFileName);
 
-                                theSite = new BatchSite(0, (string)dbRead["SiteName"], sUTMZone, ref theWatershed);
+                                nodSite = visitAtSite.Site.CreateXMLNode(ref xmlDoc);
+                                nodSites.AppendChild(nodSite);
 
-                                System.IO.DirectoryInfo dVisitTopoFolder = AddVisitToSite(ref theSite, MonitoringDataFolder, aVisit.VisitID, true, m_bForcePrimary);
-                                if (dVisitTopoFolder is System.IO.DirectoryInfo)
-                                {
-                                    // If got to here then the data paths were retrieved and point to real data that exist.
-                                    dInputFile = Classes.DataFolders.RBTInputFile(OutputFolder.FullName, dVisitTopoFolder, InputFileName);
-                                }
+                                // Add the target visit
+                                XmlNode nodVisit = visitAtSite.CreateXMLNode(ref xmlDoc, MonitoringDataFolder, m_bRequiresWSTIN, m_bCalculateMetrics, m_bChangeDetection, true);
+                                if (nodVisit is XmlNode)
+                                    nodSite.AppendChild(nodVisit);
                                 else
-                                    aVisit.ExceptionMessage = string.Format("Visit ID {0} is missing the survey geodatabase or one of the TINs.", aVisit.VisitID);
+                                {
+                                    // Quit this target visit if the target visit failed to generate an XML tag.
+                                    break;
+                                }
                             }
-                            else
-                                AddVisitToSite(ref theSite, MonitoringDataFolder, nVisitID, false, m_bForcePrimary);
-
-                            bContinue = m_bIncludeOtherVisits;
                         }
-                        dbRead.Close();
-
-                        if (dInputFile is System.IO.FileInfo)
+                        else
                         {
-                            dInputFile.Directory.Create();
-                            XmlTextWriter xmlInput;
-                            CreateFile(dInputFile.FullName, out xmlInput);
-
-                            xmlInput.WriteStartElement("sites");
-                            theSite.WriteToXML(xmlInput, MonitoringDataFolder.FullName, m_bRequiresWSTIN);
-                            xmlInput.WriteEndElement(); // sites
-
-                            // Write the end of the file
-                            CloseFile(ref xmlInput, dInputFile.Directory.FullName);
- 
-                            aVisit.InputFile = dInputFile.FullName;
+                            // this is another visit to the same site as the target visit. Add it, but turn off metrics etc.
+                            XmlNode nodVisit = visitAtSite.CreateXMLNode(ref xmlDoc, MonitoringDataFolder, false, false, visitAtSite.IsPrimary, visitAtSite.IsPrimary);
+                            if (nodVisit is XmlNode)
+                                nodSite.AppendChild(nodVisit);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        aVisit.ExceptionMessage = ex.Message;
-                    }
+
+                    // Outputs XML node
+                    nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, OutputFolder.FullName));
+
+                    // Model configuration XML node
+                    nodTopLevel.AppendChild(m_RBTConfig.CreateXMLNode(ref xmlDoc));
+                    
+                    System.IO.Directory.CreateDirectory(dInputFile.DirectoryName);
+                    xmlDoc.Save(dInputFile.FullName);
                 }
             }
 
             GenerateBatchDBRecord();
 
             return GetResults(out lExceptionMessages);
-        }
-
-        private void CreateFile(string sRBTInputFilePath, out XmlTextWriter xmlInput)
-        {
-            // Ensure that the directory exists
-            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sRBTInputFilePath));
-
-            xmlInput = new System.Xml.XmlTextWriter(sRBTInputFilePath, System.Text.Encoding.UTF8);
-            xmlInput.Formatting = System.Xml.Formatting.Indented;
-            xmlInput.Indentation = 4;
-            xmlInput.WriteStartElement("rbt");
-
-            xmlInput.WriteStartElement("metadata");
-            xmlInput.WriteStartElement("created");
-            xmlInput.WriteElementString("tool", System.Reflection.Assembly.GetExecutingAssembly().FullName);
-            xmlInput.WriteElementString("date", DateTime.Now.ToString());
-            xmlInput.WriteEndElement(); // created
-            xmlInput.WriteEndElement(); // metadata
-        }
-
-        private void CloseFile(ref XmlTextWriter xmlInput, String sOutputFolder)
-        {
-            m_RBTOutputs.WriteToXML(xmlInput, sOutputFolder);
-            m_RBTConfig.WriteToXML(xmlInput);
-
-            xmlInput.WriteEndElement(); // rbt
-
-            xmlInput.Close();
         }
     }
 }

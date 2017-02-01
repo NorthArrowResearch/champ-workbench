@@ -125,6 +125,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CHaMPData\SiteBasic.cs" />
+    <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
     <Compile Include="Classes\CHaMPMetricScavenger.cs" />
     <Compile Include="Classes\DBCon.cs" />
@@ -143,8 +145,8 @@
     <Compile Include="Classes\ModelInputFiles\HydroPrepBatchBuilder.cs" />
     <Compile Include="Classes\ModelInputFiles\RBT_BatchInputfileBuilder.cs" />
     <Compile Include="Classes\BudgetSegregation.cs" />
-    <Compile Include="Classes\ChannelSegment.cs" />
-    <Compile Include="Classes\ChannelUnit.cs" />
+    <Compile Include="CHaMPData\ChannelSegment.cs" />
+    <Compile Include="CHaMPData\ChannelUnit.cs" />
     <Compile Include="Classes\CSVGenerators\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
     <Compile Include="Classes\ModelInputFiles\RBTConfig.cs" />
@@ -165,11 +167,10 @@
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
     <Compile Include="Classes\ResultScavengerSingleCHaMP.cs" />
-    <Compile Include="Classes\BatchSite.cs" />
-    <Compile Include="Classes\BatchVisit.cs" />
     <Compile Include="Classes\DataFolders.cs" />
-    <Compile Include="Classes\Visit.cs" />
-    <Compile Include="Classes\Watershed.cs" />
+    <Compile Include="CHaMPData\Site.cs" />
+    <Compile Include="CHaMPData\Visit.cs" />
+    <Compile Include="CHaMPData\Watershed.cs" />
     <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
     <Compile Include="Data\frmClearDatabase.cs">
       <SubType>Form</SubType>
@@ -368,6 +369,7 @@
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
+    <Compile Include="naru\xml\XMLHelpers.cs" />
     <Compile Include="RasterMan\Rasterman.cs" />
     <Compile Include="RasterMan\RasterMeta.cs" />
     <Compile Include="HydroPrep\frmHydroPrepRun.Designer.cs">
@@ -590,7 +592,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
       <DependentUpon>dsHabitat.xsd</DependentUpon>

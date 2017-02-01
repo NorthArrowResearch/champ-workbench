@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using naru.xml;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
@@ -45,21 +47,15 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         #endregion
 
-
-        public void WriteToXML(System.Xml.XmlTextWriter xmlFile, String sOutputfolder)
+        public XmlNode CreateXMLNode(ref XmlDocument xmlDoc, string sOutputFolder)
         {
-            if (string.IsNullOrEmpty(OutputFolder))
-            {
-                throw new Exception("The output folder should be set before this method is called.");
-            }
+            XmlNode nodOutputs = xmlDoc.CreateElement("outputs");
+            XMLHelpers.AddNode(ref xmlDoc, ref nodOutputs, "results", System.IO.Path.Combine(sOutputFolder, ResultFile));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodOutputs, "log", System.IO.Path.Combine(sOutputFolder, LogFile));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodOutputs, "temp_workspace", TempFolder);
+            XMLHelpers.AddNode(ref xmlDoc, ref nodOutputs, "artifacts_path", sOutputFolder);
 
-            xmlFile.WriteStartElement("outputs");
-            xmlFile.WriteElementString("results", System.IO.Path.Combine(sOutputfolder, ResultFile));
-            xmlFile.WriteElementString("log", System.IO.Path.Combine(sOutputfolder, LogFile));
-            xmlFile.WriteElementString("temp_workspace", TempFolder);
-            xmlFile.WriteElementString("artifacts_path", sOutputfolder);
-            xmlFile.WriteEndElement();
-            // outputs
+            return nodOutputs;
         }
     }
 }

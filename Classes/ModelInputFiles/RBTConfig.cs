@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using naru.xml;
 
 namespace CHaMPWorkbench.Classes.ModelInputFiles
 {
@@ -49,7 +50,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         private double m_fInitialCrossSectionLength = 50;
 
         private RBTConfig_ChangeDetection m_ChangeDetection;
-                
+
         #region "Properties"
 
         public RBTModes Mode
@@ -218,7 +219,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         {
             get { return m_ChangeDetection; }
         }
-       
+
         #endregion
 
         public RBTConfig()
@@ -226,72 +227,62 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             m_ChangeDetection = new RBTConfig_ChangeDetection();
         }
 
-        /// <summary>
-        /// Write the current settings to an RBT input XML file
-        /// </summary>
-        /// <param name="xmlFile">XML text writer for the input file</param>
-        /// <remarks></remarks>
-
-        public void WriteToXML(System.Xml.XmlTextWriter xmlFile)
+        public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
-            xmlFile.WriteStartElement("parameters");
-            xmlFile.WriteElementString("rbt_mode", ((int) Mode).ToString());
+            XmlNode nodParameters = xmlDoc.CreateElement("parameters");
+
+           XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "rbt_mode", ((int)Mode).ToString());
 
             string sModes = "";
             foreach (RBTModes eMode in Enum.GetValues(typeof(RBTModes)))
                 sModes += eMode.ToString().Replace("_", " ") + " = " + ((int)eMode).ToString() + ", ";
-            xmlFile.WriteComment(sModes.Substring(0, sModes.Length - 2));
+            nodParameters.AppendChild(xmlDoc.CreateComment(sModes.Substring(0, sModes.Length - 2)));
 
-            xmlFile.WriteElementString("clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
-            xmlFile.WriteElementString("require_orthogonal_rasters", RequireOrthogDEMs.ToString());
-            xmlFile.WriteElementString("raster_cell_size", CellSize.ToString("#0.00"));
-            xmlFile.WriteElementString("raster_precision", Precision.ToString("#0.00"));
-            xmlFile.WriteElementString("raster_buffer", RasterBuffer.ToString("#"));
-            xmlFile.WriteElementString("preserve_artifacts", PreserveArtifcats.ToString());
-            xmlFile.WriteElementString("xs_station_spacing", CrossSectionStationSpacing.ToString("#.00"));
-            xmlFile.WriteElementString("zip_change_detection_results", CreateZip.ToString());
-            xmlFile.WriteElementString("precision_format_string", PrecisionFormatString);
-            xmlFile.WriteElementString("max_river_width", MaxRiverWidth.ToString("#"));
-            xmlFile.WriteElementString("cross_section_std_filter", CrossSectionFiltering.ToString("#"));
-            xmlFile.WriteElementString("min_bar_area", MinBarArea.ToString("#"));
-            xmlFile.WriteElementString("thalweg_pool_weight", ThalwegPoolWeight.ToString("#"));
-            xmlFile.WriteElementString("thalweg_smoothing_tolerance", ThalwegSmoothWeight.ToString("#"));
-            xmlFile.WriteElementString("bank_angle_buffer_size", BankAngleBuffer.ToString("#"));
-            xmlFile.WriteElementString("error_raster_point_density_kernel", ErrorRasterKernal.ToString("#"));
-            xmlFile.WriteElementString("chart_width", ChartWidth.ToString("#"));
-            xmlFile.WriteElementString("chart_height", ChartHeight.ToString("#"));
-            xmlFile.WriteElementString("initial_cross_section_extension", InitialCrossSectionLength.ToString());
-            xmlFile.WriteElementString("output_profile_values", OutputProfileValues.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "clear_temp_workspace", ClearTempWorkspaceAfter.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "require_orthogonal_rasters", RequireOrthogDEMs.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "raster_cell_size", CellSize.ToString("#0.00"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "raster_precision", Precision.ToString("#0.00"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "raster_buffer", RasterBuffer.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "preserve_artifacts", PreserveArtifcats.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "xs_station_spacing", CrossSectionStationSpacing.ToString("#.00"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "zip_change_detection_results", CreateZip.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "precision_format_string", PrecisionFormatString);
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "max_river_width", MaxRiverWidth.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "cross_section_std_filter", CrossSectionFiltering.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "min_bar_area", MinBarArea.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "thalweg_pool_weight", ThalwegPoolWeight.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "thalweg_smoothing_tolerance", ThalwegSmoothWeight.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "bank_angle_buffer_size", BankAngleBuffer.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "error_raster_point_density_kernel", ErrorRasterKernal.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "chart_width", ChartWidth.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "chart_height", ChartHeight.ToString("#"));
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "initial_cross_section_extension", InitialCrossSectionLength.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "output_profile_values", OutputProfileValues.ToString());
 
-            xmlFile.WriteElementString("esri_product_code", ESRIProduct.ToString());
-            xmlFile.WriteComment("Engine or Desktop = 100, ArcGIS Desktop = 1, Engine = 2, ArcGIS Reader = 3, ArcGIS Server = 5");
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "esri_product_code", ESRIProduct.ToString());
+            nodParameters.AppendChild(xmlDoc.CreateComment("Engine or Desktop = 100, ArcGIS Desktop = 1, Engine = 2, ArcGIS Reader = 3, ArcGIS Server = 5"));
 
-            xmlFile.WriteElementString("esri_license_level", ArcGISLicense.ToString());
-            xmlFile.WriteComment("Basic = 40, Standard = 50, Advanced = 60, Server = 30, Engine = 10, Engine Geodatabase = 20");
+            XMLHelpers.AddNode(ref xmlDoc, ref nodParameters, "esri_license_level", ArcGISLicense.ToString());
+            nodParameters.AppendChild(xmlDoc.CreateComment("Basic = 40, Standard = 50, Advanced = 60, Server = 30, Engine = 10, Engine Geodatabase = 20"));
 
-            xmlFile.WriteStartElement("intervals");
+            XmlNode nodIntervals = xmlDoc.CreateElement("intervals");
+            nodParameters.AppendChild(nodIntervals);
 
-            xmlFile.WriteStartElement("interval");
-            xmlFile.WriteAttributeString("type", "distance");
-            xmlFile.WriteString(m_fCrossSectionSpacing.ToString());
-            xmlFile.WriteEndElement();
-            // interval
+            nodIntervals.AppendChild(CreateIntervalNode(ref xmlDoc, ref nodIntervals, "distance", m_fCrossSectionSpacing));
 
-            xmlFile.WriteStartElement("interval");
-            xmlFile.WriteAttributeString("type", "ratio");
-            xmlFile.WriteAttributeString("offset", "5");
-            xmlFile.WriteString("20");
-            xmlFile.WriteEndElement();
-            // interval
+            XmlNode nodRatio = CreateIntervalNode(ref xmlDoc, ref nodIntervals, "ratio", 20.0);
+            XMLHelpers.AddAttribute(ref xmlDoc, ref nodRatio, "offset", "5");
 
-            xmlFile.WriteEndElement();
-            // intervals
+            nodParameters.AppendChild(m_ChangeDetection.CreateXMLNode(ref xmlDoc));
 
-            m_ChangeDetection.WriteToXML(xmlFile);
+            return nodParameters;
+        }
 
-            xmlFile.WriteEndElement();
-            // parameters
-
+        private XmlNode CreateIntervalNode(ref XmlDocument xmlDoc, ref XmlNode nodIntervals, string sType, double fValue)
+        {
+            XmlNode nodInterval = XMLHelpers.AddNode(ref xmlDoc, ref nodIntervals, "Interval", fValue.ToString());
+            XMLHelpers.AddAttribute(ref xmlDoc, ref nodInterval, "type", sType);
+            return nodInterval;
         }
     }
 }

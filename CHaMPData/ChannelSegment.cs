@@ -2,27 +2,20 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Data.SQLite;
+using naru.xml;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.CHaMPData
 {
     public class ChannelSegment : naru.db.NamedObject
     {
-        private long m_nNumber;
-        private Dictionary<long, ChannelUnit> m_dChannelUnits;
-
-        public long Number
-        {
-            get
-            {
-                return m_nNumber;
-            }
-        }
+        public long ChannelSegmentNumber { get; internal set; }
+        public Dictionary<long, ChannelUnit> ChannelUnits { get; internal set; }
 
         public ChannelSegment(long nID, String sName, long nNumber)
             : base(nID, sName)
         {
-            m_nNumber = nNumber;
-            m_dChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
+            ChannelSegmentNumber = nNumber;
+            ChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
         }
 
         public static Dictionary<long, ChannelSegment> Load(string sDBCon, long nVisitID)
@@ -43,20 +36,17 @@ namespace CHaMPWorkbench.Classes
             return Segments;
         }
 
-        public void WriteToXML(ref XmlTextWriter xFile)
+        public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
-            xFile.WriteStartElement("segment");
-            xFile.WriteElementString("id", ID.ToString());
-            xFile.WriteElementString("segment_number", Number.ToString());
-            xFile.WriteElementString("segment_type", this.ToString());
+            XmlNode nodSegment = xmlDoc.CreateElement("segment");
+            XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "id", ID.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_number", ChannelSegmentNumber.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_type", this.ToString());
+            XmlNode nodChannelUnits = XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "channel_units");
+            foreach (ChannelUnit ch in ChannelUnits.Values)
+                nodChannelUnits.AppendChild(ch.CreateXMLNode(ref xmlDoc));
 
-            xFile.WriteStartElement("channel_units");
-            foreach (ChannelUnit ch in m_dChannelUnits.Values)
-                ch.WriteToXML(ref xFile);
-
-            xFile.WriteEndElement(); // channel units
-
-            xFile.WriteEndElement(); // Segment
+            return nodSegment;
         }
     }
 }

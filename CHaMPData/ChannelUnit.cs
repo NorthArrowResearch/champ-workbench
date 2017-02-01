@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Data.SQLite;
+using naru.xml;
 
-namespace CHaMPWorkbench.Classes
+namespace CHaMPWorkbench.CHaMPData
 {
-    class ChannelUnit : naru.db.NamedObject
+    public class ChannelUnit : naru.db.NamedObject
     {
         public String Tier1 { get; internal set; }
         public String Tier2 { get; internal set; }
@@ -81,39 +82,34 @@ namespace CHaMPWorkbench.Classes
             }
             return Segments;
         }
-        
-        public void WriteToXML(ref XmlTextWriter xFile)
+
+        public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
-            xFile.WriteStartElement("unit");
-            xFile.WriteElementString("id", ID.ToString());
-            xFile.WriteElementString("unit_number", ChannelUnitNumber.ToString());
-            xFile.WriteElementString("tier1", Tier1);
-            xFile.WriteElementString("tier2", Tier2);
+            XmlNode nodUnit = xmlDoc.CreateElement("unit");
 
-            if (SumSubstrateCover > 0)
-            {
-                xFile.WriteElementString("bedrock", Bedrock.ToString());
-                xFile.WriteElementString("bouldersgt256", BouldersGT256.ToString());
-                xFile.WriteElementString("cobbles65255", Cobbles65255.ToString());
-                xFile.WriteElementString("coarsegravel1764", CoarseGravel1764.ToString());
-                xFile.WriteElementString("finegravel316", FineGravel316.ToString());
-                xFile.WriteElementString("sand0062", Sand0062.ToString());
-                xFile.WriteElementString("fineslt006", FinesLT006.ToString());
-                xFile.WriteElementString("sumsubstratecolver", SumSubstrateCover.ToString());
-            }
-            else
-            {
-                xFile.WriteElementString("bedrock", "");
-                xFile.WriteElementString("bouldersgt256", "");
-                xFile.WriteElementString("cobbles65255", "");
-                xFile.WriteElementString("coarsegravel1764", "");
-                xFile.WriteElementString("finegravel316", "");
-                xFile.WriteElementString("sand0062", "");
-                xFile.WriteElementString("fineslt006", "");
-                xFile.WriteElementString("sumsubstratecolver", "");
-            }
+            XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "id", ID.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "unit_number", ChannelUnitNumber.ToString());
+            XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "tier1", Tier1);
+            XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "tier2", Tier2);
 
-            xFile.WriteEndElement(); // unit
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "bedrock", Bedrock);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "bouldersgt256", BouldersGT256);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "cobbles65255", Cobbles65255);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "coarsegravel1764", CoarseGravel1764);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "finegravel316", FineGravel316);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "sand0062", Sand0062);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "fineslt006", FinesLT006);
+            AppendSedimentBin(ref xmlDoc, ref nodUnit, "sumsubstratecolver", SumSubstrateCover);
+
+            return nodUnit;
+        }
+
+        private void AppendSedimentBin(ref XmlDocument xmlDoc, ref XmlNode nodUnit, string sNodeTag, Nullable<long> nValue)
+        {
+            XmlNode nodBin = xmlDoc.CreateElement(sNodeTag);
+            if (nValue.HasValue)
+                nodBin.InnerText = nValue.Value.ToString();
+            nodUnit.AppendChild(nodBin);
         }
     }
 }

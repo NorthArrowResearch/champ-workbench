@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace CHaMPWorkbench.Classes
 {
@@ -18,7 +19,7 @@ namespace CHaMPWorkbench.Classes
             m_lBudgetMasks.Add("channel");
             m_lBudgetMasks.Add("bankfull_union");
 
-            m_fThreshold = 80;         
+            m_fThreshold = 80;
         }
 
         public double Threshold
@@ -39,42 +40,33 @@ namespace CHaMPWorkbench.Classes
                     m_lBudgetMasks.Add(sMask);
         }
 
-        public void WriteToXML(System.Xml.XmlTextWriter xmlFile)
+        public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
-            xmlFile.WriteStartElement("change_detection");
-            xmlFile.WriteAttributeString("calculate", "true");
+            XmlNode nodCD = xmlDoc.CreateElement("change_detection");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodCD, "calculate", "true");
 
-            xmlFile.WriteStartElement("error");
-            xmlFile.WriteAttributeString("fis", "CHaMP_2013.fis");
+            XmlNode nodError = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodCD, "error");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodError, "fis", "CHaMP_2013.fis");
 
-            xmlFile.WriteStartElement("input");
-            xmlFile.WriteAttributeString("type", "slope");
-            xmlFile.WriteEndElement();
+            XmlNode nodSlope = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodError, "input");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodSlope, "type", "slope");
 
-            xmlFile.WriteStartElement("input");
-            xmlFile.WriteAttributeString("type", "pointdensity");
-            xmlFile.WriteEndElement();
+            XmlNode nodPointDensity = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodError, "input");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodSlope, "type", "pointdensity");
 
-            xmlFile.WriteEndElement(); //error           
+            XmlNode nodDoD = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodCD, "dod");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodDoD, "type", "probabilistic");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodDoD, "threshold", Math.Round(m_fThreshold / 100, 2).ToString());
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodDoD, "spatialcoherence", "0");
 
-            xmlFile.WriteStartElement("dod");
-            xmlFile.WriteAttributeString("type", "probabilistic");
-            xmlFile.WriteAttributeString("threshold", Math.Round(m_fThreshold /100, 2).ToString());
-            xmlFile.WriteAttributeString("spatialcoherence", "0");
-            xmlFile.WriteEndElement();
-            //Dod
-
-            xmlFile.WriteStartElement("budget_segregations");
+            XmlNode nodBS = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodCD, "budget_segregations");
             foreach (string sMask in m_lBudgetMasks)
             {
-                xmlFile.WriteStartElement("budget_segregation");
-                xmlFile.WriteAttributeString("mask", sMask);
-                xmlFile.WriteEndElement();
+                XmlNode nodMask = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodBS, "budget_segregation");
+                naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodMask, "mask", sMask);
             }
-            xmlFile.WriteEndElement(); //budget_segregations
 
-            xmlFile.WriteEndElement(); //change_detection            
+            return nodCD;
         }
-
     }
 }

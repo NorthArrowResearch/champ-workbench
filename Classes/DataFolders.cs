@@ -73,7 +73,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="nVisitID">Unique Visit ID</param>
         /// <param name="dVisitFolder">Output, full absolute folder path to the visit. Null if does not exist.</param>
         /// <returns>True if the visit folder is valid and exists, otherwise false.</returns>
-        public static bool Visit(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dVisitFolder)
+        public static bool Visit(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dVisitFolder)
         {
             dVisitFolder = null;
 
@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="nVisitID">Unique Visit ID</param>
         /// <param name="dTopoFolder">Output, full absolute folder path to the TopoFolder within the visit folder. Null if does not exist.</param>
         /// <returns>True if the topo folder is valid and exists, otherwise false.</returns>
-        public static bool Topo(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dTopoFolder)
+        public static bool Topo(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dTopoFolder)
         {
             DirectoryInfo dVisitFolder = null;
             dTopoFolder = null;
@@ -109,7 +109,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="nVisitID">Unique Visit ID</param>
         /// <param name="dSurveyGDB">Output, full absolute folder path to the TopoFolder within the visit folder. Null if does not exist.</param>
         /// <returns>True if the survey GDB is valid and exists, otherwise false.</returns>
-        public static bool SurveyGDB(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB)
+        public static bool SurveyGDB(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dSurveyGDB)
         {
             dSurveyGDB = null;
             DirectoryInfo dTopoFolder = null;
@@ -124,7 +124,7 @@ namespace CHaMPWorkbench.Classes
                 return FolderFindRecursive(dTopoFolder, m_sSurveyGDBFolder, out dSurveyGDB, 2);
         }
 
-        public static bool HydroResultCSV(DirectoryInfo dTopLevelFolder, int nVisitID, out FileInfo dHydroResultCSV)
+        public static bool HydroResultCSV(DirectoryInfo dTopLevelFolder, long nVisitID, out FileInfo dHydroResultCSV)
         {
             dHydroResultCSV = null;
             DirectoryInfo dTopoFolder = null;
@@ -147,7 +147,7 @@ namespace CHaMPWorkbench.Classes
 
         }
 
-        public static bool D50Raster(DirectoryInfo dTopLevelFolder, string sD50RasterFile, int nVisitID, out FileInfo d50RasterFile)
+        public static bool D50Raster(DirectoryInfo dTopLevelFolder, string sD50RasterFile, long nVisitID, out FileInfo d50RasterFile)
         {
             d50RasterFile = null;
             DirectoryInfo dTopoFolder = null;
@@ -172,7 +172,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="nVisitID">Unique Visit ID</param>
         /// <param name="dTopoTin">Output, full absolute folder path to the topo TIN. Null if does not exist.</param>
         /// <returns>True if the topo TIN is valid and exists, otherwise null</returns>
-        public static bool TopoTIN(DirectoryInfo dTopoLevelFolder, int nVisitID, out DirectoryInfo dTopoTin)
+        public static bool TopoTIN(DirectoryInfo dTopoLevelFolder, long nVisitID, out DirectoryInfo dTopoTin)
         {
             return TinFolder(dTopoLevelFolder, nVisitID, m_sTopoTINSearch, out dTopoTin);
         }
@@ -184,7 +184,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="nVisitID">Unique Visit ID</param>
         /// <param name="dWaterSurfaceTIN">Output, full absolute path to the water surface TIN. Null if does not exist</param>
         /// <returns>True if the topo TIN is valid and exists, otherwise Null.</returns>
-        public static bool WaterSurfaceTIN(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dWaterSurfaceTIN)
+        public static bool WaterSurfaceTIN(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dWaterSurfaceTIN)
         {
             return TinFolder(dTopLevelFolder, nVisitID, m_sWSTINFolder, out dWaterSurfaceTIN);
         }
@@ -198,7 +198,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="sTinSearchPattern">Semi colon concatenated list of wildcarded paths for TIN name. See class constants</param>
         /// <param name="dTIN">Output, full absolute path to the TIN. Null if does not exist</param>
         /// <returns>True if the TIN is found, orthwise Null</returns>
-        private static bool TinFolder(DirectoryInfo dTopLevelFolder, int nVisitID, string sTinZipFile, out DirectoryInfo dTIN)
+        private static bool TinFolder(DirectoryInfo dTopLevelFolder, long nVisitID, string sTinZipFile, out DirectoryInfo dTIN)
         {
             dTIN = null;
             DirectoryInfo dTopoFolder = null;
@@ -237,7 +237,7 @@ namespace CHaMPWorkbench.Classes
         /// <returns>True if both the survey GDB and topo tin exist. False if either is missing.</returns>
         /// <remarks>Note that this method will find either path regardless of whether one is missing.
         /// The return value will only be true if both paths exist though</remarks>
-        public static bool SurveyGDBTopoTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN)
+        public static bool SurveyGDBTopoTin(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN)
         {
             dSurveyGDB = null;
             dTopoTIN = null;
@@ -259,7 +259,7 @@ namespace CHaMPWorkbench.Classes
         /// <returns>True if all three paths exist. False if any one is missing</returns>
         /// <remarks>Note that this method will find and return any paths that exist even if one or more are missing.
         /// But the return value will only be true if all three are found and exist</remarks>
-        public static bool SurveyGDBTopoTinWSTin(DirectoryInfo dTopLevelFolder, int nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN, out DirectoryInfo dWSETIN)
+        public static bool SurveyGDBTopoTinWSTin(DirectoryInfo dTopLevelFolder, long nVisitID, out DirectoryInfo dSurveyGDB, out DirectoryInfo dTopoTIN, out DirectoryInfo dWSETIN)
         {
             dSurveyGDB = null;
             dTopoTIN = null;
