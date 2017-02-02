@@ -367,6 +367,7 @@ namespace CHaMPWorkbench
 
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+            this.lstPrograms.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
         }
 
         private void AddXSLReportsToMenu()
@@ -637,6 +638,7 @@ namespace CHaMPWorkbench
                 // Load the field seasons and watersheds
                 naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CAST(VisitYear AS text) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
                 naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstWatershed, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
+                naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstPrograms, DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms ORDER BY Title", false);
             }
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
@@ -657,6 +659,7 @@ namespace CHaMPWorkbench
             {
                 AddCheckedListboxFilter(ref lstFieldSeason, ref sFilter, "VisitYear");
                 AddCheckedListboxFilter(ref lstWatershed, ref sFilter, "WatershedID");
+                AddCheckedListboxFilter(ref lstPrograms, ref sFilter, "ProgramID");
 
                 if (!string.IsNullOrEmpty(txtSiteName.Text))
                 {
@@ -876,12 +879,12 @@ namespace CHaMPWorkbench
                     lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
                     txtSiteName.TextChanged -= ControlChange_FilterVisits;
                     txtStreamName.TextChanged -= ControlChange_FilterVisits;
-                    
+
                     long nSiteID = (long)r["SiteID"];
                     txtSiteName.Text = (string)r["SiteName"];
                     txtStreamName.Text = string.Empty;
                     long nWatershedID = (long)r["WatershedID"];
-                    
+
 
                     for (int i = 0; i < lstFieldSeason.Items.Count; i++)
                         lstFieldSeason.SetItemChecked(i, true);
@@ -1451,7 +1454,7 @@ namespace CHaMPWorkbench
                 {
                     DataRowView drv = (DataRowView)aRow.DataBoundItem;
                     DataRow r = drv.Row;
-                    lVisitIDs.Add(((int)r["VisitID"]).ToString());
+                    lVisitIDs.Add(((long)r["VisitID"]).ToString());
                 }
 
                 File.WriteAllText(frm.FileName, string.Join(",", lVisitIDs.ToArray<string>()));
