@@ -143,7 +143,7 @@ namespace CHaMPWorkbench.UserQueries
                     int nAffected = dbCom.ExecuteNonQuery();
                     if (nAffected == 1)
                     {
-                        dbCom = new SQLiteCommand("SELECT @@Identity FROM User_Queries", dbCon);
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbCon);
                         ID = (long)dbCom.ExecuteScalar();
                     }
                 }

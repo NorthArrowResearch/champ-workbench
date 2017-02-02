@@ -299,7 +299,7 @@ namespace CHaMPWorkbench.Habitat
 
                         dbCom.ExecuteNonQuery();
 
-                        dbCom = new SQLiteCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                         object objResultID = dbCom.ExecuteScalar();
                         if (objResultID != null && objResultID != DBNull.Value && objResultID is int)
                         {

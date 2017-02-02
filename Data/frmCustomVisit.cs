@@ -46,6 +46,7 @@ namespace CHaMPWorkbench.Data
         {
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboProtocol, DBCon, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 8 ORDER BY Title");
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName");
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboProgram, DBCon, "SELECT ProgramID, Title FROM LookupPrograms ORDER BY Title");
 
             if (DateTime.Now.Year >= valFieldSeason.Minimum && DateTime.Now.Year <= valFieldSeason.Maximum)
                 valFieldSeason.Value = DateTime.Now.Year;
@@ -139,6 +140,12 @@ namespace CHaMPWorkbench.Data
                 return false;
             }
 
+            if (cboProgram.SelectedIndex < 0)
+            {
+                MessageBox.Show("You must select a program for the custom visit.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
             if (bsChannelUnits.Count < 1)
             {
                 switch (MessageBox.Show("If you proceed and create this visit without any channel units then it will not be possible to use this visit with the RBT or batch substrate builder. Do you want to proceed and create this visit without channel units?", "No Channel Units Defined", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
@@ -206,11 +213,12 @@ namespace CHaMPWorkbench.Data
                             throw new Exception("Failed to create new site");
                     }
 
-                    SQLiteCommand comVisit = new SQLiteCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks)", dbCon, dbTrans);
+                    SQLiteCommand comVisit = new SQLiteCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks, ProgramID) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks, @ProgramID)", dbCon, dbTrans);
                     comVisit.Parameters.AddWithValue("@VisitID", (long)valVisitID.Value);
                     comVisit.Parameters.AddWithValue("@SiteID", nSiteID);
-                    comVisit.Parameters.AddWithValue("@VisitYear", (int)valFieldSeason.Value);
+                    comVisit.Parameters.AddWithValue("@VisitYear", (long)valFieldSeason.Value);
                     comVisit.Parameters.AddWithValue("@ProtocolID", ((naru.db.NamedObject)cboProtocol.SelectedItem).ID);
+                    comVisit.Parameters.AddWithValue("@ProgramID", ((naru.db.NamedObject)cboProgram.SelectedItem).ID);
                     SQLiteParameter pOrganization = comVisit.Parameters.Add("@Organization", DbType.String);
                     if (string.IsNullOrEmpty(txtOrganization.Text))
                         pOrganization.Value = DBNull.Value;
@@ -246,7 +254,7 @@ namespace CHaMPWorkbench.Data
                             comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
                             if (comSegment.ExecuteNonQuery() == 1)
                             {
-                                comSegment = new SQLiteCommand("SELECT @@Identity FROM CHaMP_Segments", dbCon, dbTrans);
+                                comSegment = new SQLiteCommand("SELECT @@last_insert_rowid()", dbCon, dbTrans);
                                 nSegmentID = (int)comSegment.ExecuteScalar();
                                 dSegmentNumbers.Add(ch.SegmentNumber, nSegmentID);
                             }

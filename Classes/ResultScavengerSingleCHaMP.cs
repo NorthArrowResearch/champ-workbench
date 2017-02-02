@@ -163,7 +163,7 @@ namespace CHaMPWorkbench.Classes
 
                         dbCom.ExecuteNonQuery();
 
-                        dbCom = new SQLiteCommand("SELECT @@Identity FROM Metric_Results", dbTrans.Connection, dbTrans);
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                         object objResultID = dbCom.ExecuteScalar();
                         if (objResultID != null && objResultID != DBNull.Value && objResultID is int)
                         {
@@ -451,7 +451,7 @@ namespace CHaMPWorkbench.Classes
                 //
                 // Get the ID of this log file entry
                 //
-                dbCom = new SQLiteCommand("SELECT @@Identity FROM LogFiles", dbCon);
+                dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbCon);
                 int nLogID = (int)dbCom.ExecuteScalar();
                 if (nLogID > 0)
                 {
@@ -642,7 +642,7 @@ namespace CHaMPWorkbench.Classes
                     dbCom.ExecuteNonQuery();
 
                     int nChangeDetectionID = 0;
-                    dbCom = new SQLiteCommand("SELECT @@IDENTITY FROM Metric_ChangeDetection", dbTrans.Connection, dbTrans);
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                     SQLiteDataReader dbRdr = dbCom.ExecuteReader();
                     if (dbRdr.Read())
                     {
@@ -680,7 +680,7 @@ namespace CHaMPWorkbench.Classes
                     SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
                     dbCom.ExecuteNonQuery();
 
-                    dbCom = new SQLiteCommand("SELECT @@IDENTITY FROM Metric_BudgetSegregations", dbTrans.Connection, dbTrans);
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                     SQLiteDataReader dbRdr = dbCom.ExecuteReader();
                     if (dbRdr.Read())
                     {

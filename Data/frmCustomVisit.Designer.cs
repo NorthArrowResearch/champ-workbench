@@ -57,6 +57,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txtNotes = new System.Windows.Forms.TextBox();
+            this.cboProgram = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valFieldSeason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).BeginInit();
@@ -104,8 +106,8 @@
             this.cboWatershed.Location = new System.Drawing.Point(83, 45);
             this.cboWatershed.MaxLength = 255;
             this.cboWatershed.Name = "cboWatershed";
-            this.cboWatershed.Size = new System.Drawing.Size(174, 21);
-            this.cboWatershed.TabIndex = 3;
+            this.cboWatershed.Size = new System.Drawing.Size(222, 21);
+            this.cboWatershed.TabIndex = 5;
             this.cboWatershed.SelectedIndexChanged += new System.EventHandler(this.cboWatershed_SelectedIndexChanged);
             // 
             // label2
@@ -114,7 +116,7 @@
             this.label2.Location = new System.Drawing.Point(18, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 4;
             this.label2.Text = "Watershed";
             // 
             // label3
@@ -123,7 +125,7 @@
             this.label3.Location = new System.Drawing.Point(52, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 6;
             this.label3.Text = "Site";
             // 
             // cboSite
@@ -134,21 +136,21 @@
             this.cboSite.Location = new System.Drawing.Point(83, 76);
             this.cboSite.MaxLength = 255;
             this.cboSite.Name = "cboSite";
-            this.cboSite.Size = new System.Drawing.Size(174, 21);
-            this.cboSite.TabIndex = 5;
+            this.cboSite.Size = new System.Drawing.Size(222, 21);
+            this.cboSite.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(337, 19);
+            this.label4.Location = new System.Drawing.Point(162, 19);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 13);
-            this.label4.TabIndex = 6;
+            this.label4.TabIndex = 2;
             this.label4.Text = "Field season";
             // 
             // valFieldSeason
             // 
-            this.valFieldSeason.Location = new System.Drawing.Point(408, 15);
+            this.valFieldSeason.Location = new System.Drawing.Point(233, 15);
             this.valFieldSeason.Maximum = new decimal(new int[] {
             2020,
             0,
@@ -161,7 +163,7 @@
             0});
             this.valFieldSeason.Name = "valFieldSeason";
             this.valFieldSeason.Size = new System.Drawing.Size(72, 20);
-            this.valFieldSeason.TabIndex = 7;
+            this.valFieldSeason.TabIndex = 3;
             this.valFieldSeason.Value = new decimal(new int[] {
             2011,
             0,
@@ -171,37 +173,37 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(357, 53);
+            this.label5.Location = new System.Drawing.Point(335, 53);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 13);
-            this.label5.TabIndex = 8;
+            this.label5.TabIndex = 10;
             this.label5.Text = "Protocol";
             // 
             // cboProtocol
             // 
             this.cboProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboProtocol.FormattingEnabled = true;
-            this.cboProtocol.Location = new System.Drawing.Point(408, 49);
+            this.cboProtocol.Location = new System.Drawing.Point(384, 49);
             this.cboProtocol.Name = "cboProtocol";
-            this.cboProtocol.Size = new System.Drawing.Size(228, 21);
-            this.cboProtocol.TabIndex = 9;
+            this.cboProtocol.Size = new System.Drawing.Size(252, 21);
+            this.cboProtocol.TabIndex = 11;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(337, 84);
+            this.label6.Location = new System.Drawing.Point(315, 84);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
-            this.label6.TabIndex = 10;
+            this.label6.TabIndex = 12;
             this.label6.Text = "Organization";
             // 
             // txtOrganization
             // 
-            this.txtOrganization.Location = new System.Drawing.Point(408, 80);
+            this.txtOrganization.Location = new System.Drawing.Point(384, 80);
             this.txtOrganization.MaxLength = 100;
             this.txtOrganization.Name = "txtOrganization";
-            this.txtOrganization.Size = new System.Drawing.Size(228, 20);
-            this.txtOrganization.TabIndex = 11;
+            this.txtOrganization.Size = new System.Drawing.Size(252, 20);
+            this.txtOrganization.TabIndex = 13;
             // 
             // button3
             // 
@@ -312,7 +314,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(557, 444);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 14;
+            this.cmdCancel.TabIndex = 16;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -323,7 +325,7 @@
             this.cmdOK.Location = new System.Drawing.Point(476, 444);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 13;
+            this.cmdOK.TabIndex = 15;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -339,7 +341,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(624, 329);
-            this.tabControl1.TabIndex = 12;
+            this.tabControl1.TabIndex = 14;
             // 
             // tabPage1
             // 
@@ -376,6 +378,24 @@
             this.txtNotes.Size = new System.Drawing.Size(610, 297);
             this.txtNotes.TabIndex = 0;
             // 
+            // cboProgram
+            // 
+            this.cboProgram.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboProgram.FormattingEnabled = true;
+            this.cboProgram.Location = new System.Drawing.Point(384, 15);
+            this.cboProgram.Name = "cboProgram";
+            this.cboProgram.Size = new System.Drawing.Size(252, 21);
+            this.cboProgram.TabIndex = 9;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(335, 19);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Program";
+            // 
             // frmCustomVisit
             // 
             this.AcceptButton = this.cmdOK;
@@ -383,6 +403,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(644, 479);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cboProgram);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
@@ -442,5 +464,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox txtNotes;
+        private System.Windows.Forms.ComboBox cboProgram;
+        private System.Windows.Forms.Label label7;
     }
 }

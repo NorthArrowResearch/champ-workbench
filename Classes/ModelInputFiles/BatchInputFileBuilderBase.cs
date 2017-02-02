@@ -131,7 +131,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     dbCom.Parameters.AddWithValue("@BatchName", BatchName);
                     dbCom.ExecuteNonQuery();
 
-                    dbCom = new SQLiteCommand("SELECT @@Identity", dbCon, dbTrans);
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbCon, dbTrans);
                     object objBatchID = dbCom.ExecuteScalar();
                     if (objBatchID != null && objBatchID is int)
                     {
