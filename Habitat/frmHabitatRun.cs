@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 try
                 {
-                    System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+                    System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((naru.db.NamedObject)cboWindowStyle.SelectedItem).ID;
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                     CHaMPWorkbench.Properties.Settings.Default.Habitat_Results = m_sOutputXML;

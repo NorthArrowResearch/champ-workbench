@@ -30,7 +30,7 @@ namespace CHaMPWorkbench.Classes
                         System.IO.DirectoryInfo dVisitTopoFolder = null;
 
                         string sPath = string.Format("{0}\\{1}\\{2}\\VISIT_{3}", dbRead["VisitYear"], dbRead["WatershedName"].ToString().Replace(" ", ""), dbRead["SiteName"].ToString().Replace(" ", ""), nVisitID);
-                        lstVisits.Items.Add(new ListItem(sPath, (int)dbRead["VisitID"]));
+                        lstVisits.Items.Add(new naru.db.NamedObject((long)dbRead["VisitID"], sPath));
                     }
                 }
             }

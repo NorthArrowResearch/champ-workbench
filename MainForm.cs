@@ -175,12 +175,15 @@ namespace CHaMPWorkbench
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select " + CHaMPWorkbench.Properties.Resources.MyApplicationNameLong + " Database";
-            dlg.Filter = "Access Databases (*.mdb, *.accdb)|*.mdb;*.accdb|All Files (*.*)|*.*";
+            dlg.Filter = "SQLite Databases (*.db, *.sqlite)|*.db;*.sqlite|All Files (*.*)|*.*";
 
             if (!string.IsNullOrEmpty(DBCon.DatabasePath))
             {
                 dlg.InitialDirectory = System.IO.Path.GetDirectoryName(DBCon.DatabasePath);
-                dlg.FileName = System.IO.Path.GetFileName(DBCon.DatabasePath);
+
+                // Don't default to Access paths
+                if (!(DBCon.DatabasePath.ToLower().EndsWith(".mdb") || DBCon.DatabasePath.ToLower().EndsWith("accdb")))
+                    dlg.FileName = System.IO.Path.GetFileName(DBCon.DatabasePath);
             }
             else
             {
@@ -210,6 +213,10 @@ namespace CHaMPWorkbench
         {
             if (!string.IsNullOrEmpty(sDatabasePath) && System.IO.File.Exists(sDatabasePath))
             {
+                // Temporary code to avoid attempting to open Access databases by mistake.
+                if (sDatabasePath.ToLower().EndsWith(".mdb") || sDatabasePath.ToLower().EndsWith("accdb"))
+                    return;
+
                 try
                 {
                     Console.WriteLine("Attempting to open database: " + sDatabasePath);
@@ -384,7 +391,7 @@ namespace CHaMPWorkbench
                     {
                         ToolStripMenuItem reportMenu = (ToolStripMenuItem)sender;
                         CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem reportClickTag = (CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem)reportMenu.Tag;
-                        List<ListItem> visits = GetSelectedVisitsList();
+                        List<naru.db.NamedObject> visits = GetSelectedVisitsList();
                         CHaMPWorkbench.Classes.MetricValidation.ReportGenerator reportGenerator = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator(reportClickTag, visits);
                         try
                         {
@@ -635,8 +642,8 @@ namespace CHaMPWorkbench
                 }
 
                 // Load the field seasons and watersheds
-                CheckedListItem.LoadComboWithListItems(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
-                CheckedListItem.LoadComboWithListItems(ref lstWatershed, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
+                naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
+                naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstWatershed, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
             }
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
@@ -706,12 +713,12 @@ namespace CHaMPWorkbench
                 return;
 
             string sValueList = "";
-            foreach (ListItem l in lst.CheckedItems)
+            foreach (naru.db.NamedObject l in lst.CheckedItems)
             {
                 if (bUseNameInsteadOfValue)
                     sValueList += "'" + l.ToString() + "', ";
                 else
-                    sValueList += l.Value.ToString() + ", ";
+                    sValueList += l.ID.ToString() + ", ";
             }
 
             if (!string.IsNullOrWhiteSpace(sValueList))
@@ -883,8 +890,8 @@ namespace CHaMPWorkbench
 
                     for (int i = 0; i < lstWatershed.Items.Count; i++)
                     {
-                        lstWatershed.SetItemChecked(i, ((ListItem)lstWatershed.Items[i]).Value == nWatershedID);
-                        if (((ListItem)lstWatershed.Items[i]).Value == nWatershedID)
+                        lstWatershed.SetItemChecked(i, ((naru.db.NamedObject)lstWatershed.Items[i]).ID == nWatershedID);
+                        if (((naru.db.NamedObject)lstWatershed.Items[i]).ID == nWatershedID)
                             lstWatershed.TopIndex = i;
                     }
 
@@ -995,7 +1002,7 @@ namespace CHaMPWorkbench
                 {
                     try
                     {
-                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)",dbCon);
+                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", dbCon);
                         dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
                         SQLiteDataReader dbRead = dbCom.ExecuteReader();
                         if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
@@ -1035,15 +1042,15 @@ namespace CHaMPWorkbench
             return dVisits;
         }
 
-        private List<ListItem> GetSelectedVisitsList()
+        private List<naru.db.NamedObject> GetSelectedVisitsList()
         {
-            List<ListItem> lVisits = new List<ListItem>();
+            List<naru.db.NamedObject> lVisits = new List<naru.db.NamedObject>();
             foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
                 string sLabel = string.Format("{0}, {1}, {2}, Visit {3}", r["WatershedName"], r["VisitYear"], r["SiteName"], r["VisitID"]);
-                lVisits.Add(new ListItem(sLabel, (int)r["VisitID"]));
+                lVisits.Add(new naru.db.NamedObject((long)r["VisitID"], sLabel));
             }
 
             return lVisits;
@@ -1695,7 +1702,7 @@ namespace CHaMPWorkbench
             {
                 try
                 {
-                    ListItem aProgram = (sender as ToolStripMenuItem).Tag as ListItem;
+                    naru.db.NamedObject aProgram = (sender as ToolStripMenuItem).Tag as naru.db.NamedObject;
                     Data.frmMetricReview frm = new Data.frmMetricReview(DBCon.ConnectionString, GetSelectedVisitsList(), aProgram);
                     frm.ShowDialog();
                 }
@@ -1722,7 +1729,7 @@ namespace CHaMPWorkbench
                         ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
 
                         // Build a tag that contains everything the query needs to run
-                        mnuQuery.Tag = new ListItem(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt32(dbRead.GetOrdinal("ItemID")));
+                        mnuQuery.Tag = new naru.db.NamedObject(dbRead.GetInt32(dbRead.GetOrdinal("ItemID")), dbRead.GetString(dbRead.GetOrdinal("Title")));
                         mnuQuery.Click += this.ShowMetricReviewForm;
                         metricReviewToolStripMenuItem.DropDownItems.Add(mnuQuery);
                     }

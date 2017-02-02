@@ -81,17 +81,17 @@ namespace CHaMPWorkbench.Habitat
 
                     if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
                     {
-                        sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
-                        sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID(theModelDef.Value).ShortName;
+                        sModelTitle = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID((int) theModelDef.ID).ShortName;
+                        sModelShortName = m_HabitatManager.ProjectDatabase.HSI.FindByHSIID((int) theModelDef.ID).ShortName;
                         sModelTypePrefix = "HSI";
-                        rSimulation.HSIID = theModelDef.Value;
+                        rSimulation.HSIID = (int) theModelDef.ID;
                     }
                     else if (theModelDef.ModelType == HabitatModelDef.ModelTypes.FIS)
                     {
-                        sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
-                        sModelShortName = m_HabitatManager.ProjectDatabase.FIS.FindByFISID(theModelDef.Value).ShortName;
+                        sModelTitle = m_HabitatManager.ProjectDatabase.FIS.FindByFISID((int) theModelDef.ID).ShortName;
+                        sModelShortName = m_HabitatManager.ProjectDatabase.FIS.FindByFISID((int) theModelDef.ID).ShortName;
                         sModelTypePrefix = "FIS";
-                        rSimulation.FISID = theModelDef.Value;
+                        rSimulation.FISID = (int) theModelDef.ID;
                     }
 
                     rSimulation.Title = string.Format("{0}_{1}", sModelTypePrefix, GetSimulationName(aVisit, sModelTitle)).Trim();
@@ -133,9 +133,9 @@ namespace CHaMPWorkbench.Habitat
                     Classes.DataFolders.D50Raster(m_dD50Folder, m_sD50RasterFile, aVisit.ID, out dD50Raster);
 
                     if (theModelDef.ModelType == HabitatModelDef.ModelTypes.HSI)
-                        bSimulationRecordsOK = AddHSISimulationChildRecords(ref rSimulation, aVisit, theModelDef.Value, ref bRasterInputs, ref dD50Raster);
+                        bSimulationRecordsOK = AddHSISimulationChildRecords(ref rSimulation, aVisit, theModelDef.ID, ref bRasterInputs, ref dD50Raster);
                     else
-                        bSimulationRecordsOK = AddFISSimulationChildRecords(ref rSimulation, aVisit, theModelDef.Value, ref bRasterInputs);
+                        bSimulationRecordsOK = AddFISSimulationChildRecords(ref rSimulation, aVisit, theModelDef.ID, ref bRasterInputs);
 
 
                     // Need to make a quick rasterman call in order to get the rastermeta

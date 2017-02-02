@@ -13,8 +13,8 @@ namespace CHaMPWorkbench.Data
     public partial class ucMetricGrid : UserControl
     {
         public string DBCon { get; set; }
-        public List<ListItem> VisitIDs { get; set; }
-        public int ProgramID { get; set; }
+        public List<naru.db.NamedObject> VisitIDs { get; set; }
+        public long ProgramID { get; set; }
 
         public event EventHandler SelectedVisitChanged;
 
@@ -65,7 +65,7 @@ namespace CHaMPWorkbench.Data
 
                     string sSQL = "SELECT * FROM qryVisitMetrics_Final";
                     if (VisitIDs.Count > 0)
-                        sSQL = string.Format("{0} WHERE VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.Value.ToString()).ToArray()));
+                        sSQL = string.Format("{0} WHERE VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
                     sSQL += " ORDER BY VISITID";
 

@@ -15,7 +15,7 @@ namespace CHaMPWorkbench.Data
     {
         public string DBCon { get; set; }
         public int VisitID { get; set; }
-        public ListItem Program { get; set; }
+        public naru.db.NamedObject Program { get; set; }
 
         private Dictionary<int, ModelResult> m_dModelResults;
 

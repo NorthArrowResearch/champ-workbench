@@ -35,8 +35,8 @@ namespace CHaMPWorkbench.HydroPrep
                 txtExecutablePath.Text = CHaMPWorkbench.Properties.Settings.Default.Model_HydroPrep;
 
             // Default the DOS window that will appear to either normal (visible) or hidden.
-            int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
-            int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
+            int nHidden = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Hidden, "Hidden"));
+            int nNormal = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Normal, "Normal"));
             cboWindowStyle.SelectedIndex = nHidden;
 
             cmdOK.Select();
@@ -132,7 +132,7 @@ namespace CHaMPWorkbench.HydroPrep
                 {
                     try
                     {
-                        System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+                        System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((naru.db.NamedObject)cboWindowStyle.SelectedItem).ID;
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                         Console.WriteLine("\n******************************************************************************");
@@ -146,7 +146,7 @@ namespace CHaMPWorkbench.HydroPrep
                         psi.UseShellExecute = true;
                         psi.RedirectStandardOutput = false;
                         psi.RedirectStandardError = false;
-                        psi.WindowStyle = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+                        psi.WindowStyle = (System.Diagnostics.ProcessWindowStyle)((naru.db.NamedObject)cboWindowStyle.SelectedItem).ID;
                         gutOutput.AppendText(String.Format("Running: {0}  {1} {2}", Environment.NewLine, txtExecutablePath.Text, psi.Arguments));
 
                         System.Diagnostics.Process proc = new Process();

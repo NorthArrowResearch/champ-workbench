@@ -13,7 +13,7 @@ namespace CHaMPWorkbench.Data
     public partial class ucUserFeedbackGrid : UserControl
     {
         public string DBCon { get; set; }
-        public List<ListItem> VisitIDs { get; set; }
+        public List<naru.db.NamedObject> VisitIDs { get; set; }
 
         public ucUserFeedbackGrid()
         {
@@ -63,8 +63,8 @@ namespace CHaMPWorkbench.Data
                     string sSQL = "SELECT F.LogID, F.UserName, LookupListItems.Title AS QualityRating, F.ItemReviewed, W.WatershedName, S.SiteName, F.VisitID, F.ReviewedOn, F.AddedOn" +
                         " FROM((CHAMP_Visits AS V RIGHT JOIN(CHAMP_Watersheds AS W RIGHT JOIN LogFeedback AS F ON W.WatershedID = F.WatershedID) ON V.VisitID = F.VisitID) LEFT JOIN CHAMP_Sites AS S ON F.SiteID = S.SiteID) INNER JOIN LookupListItems ON F.QualityRatingID = LookupListItems.ItemID";
 
-                    if (VisitIDs is List<ListItem> && VisitIDs.Count > 0)
-                        sSQL = string.Format("{0} WHERE F.VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.Value.ToString()).ToArray()));
+                    if (VisitIDs is List<naru.db.NamedObject> && VisitIDs.Count > 0)
+                        sSQL = string.Format("{0} WHERE F.VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
                     sSQL += " ORDER BY F.AddedOn DESC";
 

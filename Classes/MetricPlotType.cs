@@ -41,7 +41,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="sDBCon"></param>
         /// <param name="nProgramID">If ProgramID provided then only plots that used X and Y metrics that are
         /// both part of the specified program are loaded. All plots are loaded if no ProgramID provided.</param>
-        public static void LoadPlotTypes(ref ComboBox cbo, string sDBCon, int nProgramID = 0)
+        public static void LoadPlotTypes(ref ComboBox cbo, string sDBCon, long nProgramID = 0)
         {
             cbo.Items.Clear();
 

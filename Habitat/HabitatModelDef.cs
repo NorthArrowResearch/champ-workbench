@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CHaMPWorkbench.Habitat
 {
-    public class HabitatModelDef : ListItem
+    public class HabitatModelDef : naru.db.NamedObject
     {
         public enum ModelTypes
         {
@@ -19,8 +19,8 @@ namespace CHaMPWorkbench.Habitat
         private string m_sSpecies;
         private string m_sLifeStage;
 
-        public HabitatModelDef(int nModelID, ModelTypes eModelType, string sTitle, string sSpecies, string sLifeStage)
-            : base(sTitle, nModelID)
+        public HabitatModelDef(long nModelID, ModelTypes eModelType, string sTitle, string sSpecies, string sLifeStage)
+            : base(nModelID, sTitle)
         {
             m_eModelType = eModelType;
             m_sSpecies = sSpecies;
@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.Habitat
             if (m_eModelType == ModelTypes.FIS)
                 sType="FIS";
             
-            return string.Format("{0} ({1}, {2}, {3})", base.Text, sType, m_sSpecies, m_sLifeStage);
+            return string.Format("{0} ({1}, {2}, {3})", base.Name, sType, m_sSpecies, m_sLifeStage);
         }
     }
 }

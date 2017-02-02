@@ -48,14 +48,14 @@ namespace CHaMPWorkbench.RBT.Batches
                 cboBatch.SelectedIndex = 0;
         }
 
-        private class RBTBatch : ListItem
+        private class RBTBatch : naru.db.NamedObject
         {
             private int m_nRuns;
 
             public int Runs { get { return m_nRuns; } }
 
-            public RBTBatch(int nBatchID, string sBatchName, int nRuns)
-                : base(sBatchName, nBatchID)
+            public RBTBatch(long nBatchID, string sBatchName, int nRuns)
+                : base(nBatchID, sBatchName)
             {
                 m_nRuns = nRuns;
             }
@@ -79,7 +79,7 @@ namespace CHaMPWorkbench.RBT.Batches
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
 
-            int nBatchID = ((RBTBatch)cboBatch.SelectedItem).Value;
+            long nBatchID = ((RBTBatch)cboBatch.SelectedItem).ID;
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {

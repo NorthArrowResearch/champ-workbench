@@ -14,17 +14,17 @@ namespace CHaMPWorkbench.Data
     public partial class ucMetricReviewPlot : UserControl
     {
         public string DBCon { get; set; }
-        public ListItem Program { get; set; }
-        public List<int> VisitIDs { get; set; }
-        private int m_nHighlightedVisitID;
+        public naru.db.NamedObject Program { get; set; }
+        public List<long> VisitIDs { get; set; }
+        private long m_nHighlightedVisitID;
 
-        public int HighlightedVisitID
+        public long HighlightedVisitID
         {
             get { return m_nHighlightedVisitID; }
             set
             {
                 m_nHighlightedVisitID = value;
-                List<int> lHighlightedVisit = new List<int>();
+                List<long> lHighlightedVisit = new List<long>();
                 lHighlightedVisit.Add(m_nHighlightedVisitID);
                 UpdatePlot(lHighlightedVisit);
             }
@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Data
             get
             {
                 string sPlotType = string.Empty;
-                if (cboXAxis.SelectedItem is ListItem && cboYAxis.SelectedItem is ListItem)
+                if (cboXAxis.SelectedItem is naru.db.NamedObject && cboYAxis.SelectedItem is naru.db.NamedObject)
                     sPlotType = string.Format("{0} by {1}", cboXAxis.SelectedItem, cboYAxis.SelectedItem);
 
                 return sPlotType;
@@ -57,16 +57,16 @@ namespace CHaMPWorkbench.Data
             // Load the metrics for the current protocol
             string sProgramClause = string.Empty;
             if (Program != null)
-                sProgramClause = string.Format(" AND (P.ProgramID = {0})", Program.Value);
+                sProgramClause = string.Format(" AND (P.ProgramID = {0})", Program.ID);
 
             string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
                 " WHERE (D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
 
-            ListItem.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
-            ListItem.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
 
             // Load the plot types. Do this after the X and Y combos to ensure they update when the initial plot type is selected
-            Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon, Program.Value);
+            Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon, Program.ID);
 
             // Basic, unchanging plot configuration
             ChartArea pChartArea = chtData.ChartAreas[0];
@@ -85,7 +85,7 @@ namespace CHaMPWorkbench.Data
             pChartArea.CursorY.IsUserSelectionEnabled = true;
         }
 
-        private void UpdatePlot(List<int> theVisits)
+        private void UpdatePlot(List<long> theVisits)
         {
             if (string.IsNullOrEmpty(DBCon) || cboXAxis.SelectedItem == null || cboYAxis.SelectedItem == null || theVisits == null)
                 return;
@@ -134,8 +134,8 @@ namespace CHaMPWorkbench.Data
                 {
                     pVisitID.Value = nVisitID;
 
-                    if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((ListItem)cboXAxis.SelectedItem).Value, out fXMetricValue) &&
-                        GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((ListItem)cboYAxis.SelectedItem).Value, out fYMetricValue))
+                    if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboXAxis.SelectedItem).ID, out fXMetricValue) &&
+                        GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboYAxis.SelectedItem).ID, out fYMetricValue))
                     {
                         visitSeries.Points.AddXY(fXMetricValue, fYMetricValue);
                     }
@@ -147,13 +147,13 @@ namespace CHaMPWorkbench.Data
                 chtData.Titles.Add("ChartTitle");
             chtData.Titles[0].Text = CurrentPlotTitle;
 
-            pChartArea.AxisX.Title = ((ListItem)cboXAxis.SelectedItem).ToString();
+            pChartArea.AxisX.Title = ((naru.db.NamedObject)cboXAxis.SelectedItem).ToString();
             pChartArea.AxisX.RoundAxisValues();
 
-            pChartArea.AxisY.Title = ((ListItem)cboYAxis.SelectedItem).ToString();
+            pChartArea.AxisY.Title = ((naru.db.NamedObject)cboYAxis.SelectedItem).ToString();
         }
 
-        private bool GetMetricValueFromScalar(ref SQLiteCommand dbCom, ref SQLiteParameter pMetric, int nMetricID, out double fMetricValue)
+        private bool GetMetricValueFromScalar(ref SQLiteCommand dbCom, ref SQLiteParameter pMetric, long nMetricID, out double fMetricValue)
         {
             fMetricValue = 0;
             bool bResult = false;
@@ -183,11 +183,11 @@ namespace CHaMPWorkbench.Data
 
         }
 
-        private void SelectMetricInCombobox(ref ComboBox cbo, int nMetricID)
+        private void SelectMetricInCombobox(ref ComboBox cbo, long nMetricID)
         {
             for (int i = 0; i < cbo.Items.Count; i++)
             {
-                if (((ListItem)cbo.Items[i]).Value == nMetricID)
+                if (((naru.db.NamedObject)cbo.Items[i]).ID == nMetricID)
                 {
                     cbo.SelectedIndex = i;
                     return;
@@ -201,7 +201,7 @@ namespace CHaMPWorkbench.Data
             UpdatePlot(VisitIDs);
             if (HighlightedVisitID > 0)
             {
-                List<int> lHighlightedVisit = new List<int>();
+                List<long> lHighlightedVisit = new List<long>();
                 lHighlightedVisit.Add(HighlightedVisitID);
                 UpdatePlot(lHighlightedVisit);
             }

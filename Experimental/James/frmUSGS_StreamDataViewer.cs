@@ -40,7 +40,7 @@ namespace CHaMPWorkbench.Experimental.James
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             // Use the public shared method to fill a combo box with ListItems (a simple custom class of string and IDs)
-            ListItem.LoadComboWithListItems(ref cmbWatershed, DBConnection, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName", m_nInitialWatershedID);
+           naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cmbWatershed, DBConnection, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName", m_nInitialWatershedID);
 
             // Fill the CHaMP sites. These will be filtered by the currently selected watershed and pre-select the current site.
             LoadCHaMPSiteCombo(m_nInitialSiteID);
@@ -85,9 +85,9 @@ namespace CHaMPWorkbench.Experimental.James
                 List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
                 if (lStreamData.Count > 1)
                 {
-                    ListItem aSite = cmbCHaMPSite.SelectedItem as ListItem;
+                    naru.db.NamedObject aSite = cmbCHaMPSite.SelectedItem as naru.db.NamedObject;
                     //plot data
-                    PlotStreamDataMicrosoftChart(m_USGS_StreamData.StreamData, aSite.Value, aSite.Text, iGageID);
+                    PlotStreamDataMicrosoftChart(m_USGS_StreamData.StreamData, aSite.ID, aSite.Name, iGageID);
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace CHaMPWorkbench.Experimental.James
             }
         }
 
-        public Coordinate GetCoordinate(int nSiteID)
+        public Coordinate GetCoordinate(long nSiteID)
         {
             var coordinate = new Coordinate(0, 0);
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
@@ -140,9 +140,9 @@ namespace CHaMPWorkbench.Experimental.James
         {
             cmbUSGS_Gage.Items.Clear();
 
-            if (cmbCHaMPSite.SelectedItem is ListItem)
+            if (cmbCHaMPSite.SelectedItem is naru.db.NamedObject)
             {
-                Coordinate champCoordinate = GetCoordinate(((ListItem)cmbCHaMPSite.SelectedItem).Value);
+                Coordinate champCoordinate = GetCoordinate(((naru.db.NamedObject)cmbCHaMPSite.SelectedItem).ID);
                 List<KeyValuePair<string, double>> lUSGS_GageSites = new List<KeyValuePair<string, double>>();
 
                 using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
@@ -173,7 +173,7 @@ namespace CHaMPWorkbench.Experimental.James
                 //Check if there is a pre-selected USGS gage, if so select that
                 if (m_USGS_StreamData != null)
                 {
-                    m_USGS_StreamData.CheckCHaMP_SiteForAssociatedGage((cmbCHaMPSite.SelectedItem as ListItem).Value);
+                    m_USGS_StreamData.CheckCHaMP_SiteForAssociatedGage((cmbCHaMPSite.SelectedItem as naru.db.NamedObject).ID);
                     SetStreamGageBasedOnSite(m_USGS_StreamData);
                 }
             }
@@ -216,7 +216,7 @@ namespace CHaMPWorkbench.Experimental.James
             txtUSGS_SiteNumber.Text = sUSGS_GageNumber;
         }
 
-        private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, int nSiteID, string sCHaMPSiteName, int iGageID)
+        private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, long nSiteID, string sCHaMPSiteName, int iGageID)
         {
             string sUSGS_Description = string.Empty;
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
@@ -458,7 +458,7 @@ namespace CHaMPWorkbench.Experimental.James
         private void LoadCHaMPSiteCombo(int nSelectedSiteID = 0)
         {
             cmbCHaMPSite.Items.Clear();
-            if (cmbWatershed.SelectedItem is ListItem)
+            if (cmbWatershed.SelectedItem is naru.db.NamedObject)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -466,12 +466,12 @@ namespace CHaMPWorkbench.Experimental.James
                 {
                     dbCon.Open();
                     SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
-                    dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cmbWatershed.SelectedItem).Value);
+                    dbCom.Parameters.AddWithValue("@WatershedID", ((naru.db.NamedObject)cmbWatershed.SelectedItem).ID);
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        int nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
-                        int nIndex = cmbCHaMPSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), nSiteID));
+                        long nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
+                        int nIndex = cmbCHaMPSite.Items.Add(new naru.db.NamedObject(nSiteID, dbRead.GetString(dbRead.GetOrdinal("SiteName"))));
                         if (nSiteID == nSelectedSiteID)
                             cmbCHaMPSite.SelectedIndex = nIndex;
                     }

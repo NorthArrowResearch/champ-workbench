@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// <param name="lVisits">List of visits to include in the report</param>
         /// <returns>Creates an XML file containing all the metric data for the specified
         /// visits and then uses an XSL transform to convert this file to a HTML report.</returns>
-        public ValidationReportResults Run(List<ListItem> lVisits, List<ListItem> lRBTVersions)
+        public ValidationReportResults Run(List<naru.db.NamedObject> lVisits, List<naru.db.NamedObject> lRBTVersions)
         {
             // This return variable really just counts metrics and visits included in the report.
             ValidationReportResults theResult = new ValidationReportResults();
@@ -141,7 +141,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private Dictionary<int, ValidationVisitInfo> GetVisitInfo(ref List<ListItem> lVisits)
+        private Dictionary<int, ValidationVisitInfo> GetVisitInfo(ref List<naru.db.NamedObject> lVisits)
         {
             Dictionary<int, ValidationVisitInfo> dResult = new Dictionary<int, ValidationVisitInfo>();
 
@@ -167,7 +167,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                     int nVisitIDFromDb = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
 
-                    if (lVisits.Find(x => x.Value == nVisitIDFromDb) != null)
+                    if (lVisits.Find(x => x.ID == nVisitIDFromDb) != null)
                     {
                         dResult.Add(dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
                             dbRead.GetInt32(dbRead.GetOrdinal("VisitID")),

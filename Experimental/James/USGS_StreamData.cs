@@ -69,7 +69,7 @@ namespace CHaMPWorkbench.Experimental.James
             get { return m_bSiteHasGageID; }
         }
 
-        public void CheckCHaMP_SiteForAssociatedGage(int nSiteID)
+        public void CheckCHaMP_SiteForAssociatedGage(long nSiteID)
         {
             //check and get gage id if site has one
             m_iGageID = GetGageID(nSiteID);
@@ -169,7 +169,7 @@ namespace CHaMPWorkbench.Experimental.James
         /// </summary>
         /// <param name="sCHaMPSiteName"></param>
         /// <returns></returns>
-        private int GetGageID(int nSiteID)
+        private int GetGageID(long nSiteID)
         {
             int iGageID = new int();
 

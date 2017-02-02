@@ -406,7 +406,6 @@
     <Compile Include="RBT\InputFiles\frmRBTInputBatch.Designer.cs">
       <DependentUpon>frmRBTInputBatch.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

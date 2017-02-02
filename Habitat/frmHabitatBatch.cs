@@ -50,43 +50,17 @@ namespace CHaMPWorkbench.Habitat
 
         private void LoadFieldSeasons()
         {
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
-            {
-                dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", dbCon);
-                SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                    chkFieldSeasons.Items.Add(new ListItem(dbRead.GetInt16(0).ToString(), dbRead.GetInt16(0)), true);
-            }
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkFieldSeasons, DBCon.ConnectionString, "SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", true);
         }
 
         private void LoadWatersheds()
         {
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
-            {
-                dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) ORDER BY WatershedName", dbCon);
-                SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                    chkWatersheds.Items.Add(new ListItem((string)dbRead["WatershedName"], (int)dbRead["WatershedID"]), true);
-            }
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkWatersheds, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) ORDER BY WatershedName", true);
         }
 
         private void LoadVisitTypes()
         {
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
-            {
-                dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT PanelName FROM CHAMP_Visits WHERE (CHAMP_Visits.PanelName Is Not Null) GROUP BY PanelName ORDER BY PanelName", dbCon);
-                SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                int i = 1;
-                while (dbRead.Read())
-                {
-                    ListItem l = new ListItem((string)dbRead["PanelName"], i);
-                    chkVisitTypes.Items.Add(l, false);
-                    i++;
-                }
-            }
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkVisitTypes, DBCon.ConnectionString, "SELECT 1, PanelName FROM CHAMP_Visits WHERE (CHAMP_Visits.PanelName Is Not Null) GROUP BY PanelName ORDER BY PanelName", false);
         }
 
         private void LoadAllVisits()
@@ -227,12 +201,12 @@ namespace CHaMPWorkbench.Habitat
                 return;
 
             string sValueList = "";
-            foreach (ListItem l in lst.CheckedItems)
+            foreach (naru.db.CheckedItem l in lst.CheckedItems)
             {
                 if (bUseNameInsteadOfValue)
                     sValueList += "'" + l.ToString() + "', ";
                 else
-                    sValueList += l.Value.ToString() + ", ";
+                    sValueList += l.ID.ToString() + ", ";
             }
 
             if (!string.IsNullOrWhiteSpace(sValueList))
@@ -333,14 +307,14 @@ namespace CHaMPWorkbench.Habitat
             }
         }
 
-        private class SpeciesListItem : ListItem
+        private class SpeciesListItem : naru.db.NamedObject
         {
             private string m_sFieldName;
 
             public string FieldName { get { return m_sFieldName; } }
 
-            public SpeciesListItem(string sName, string sFieldName, int nValue)
-                : base(sName, nValue)
+            public SpeciesListItem(string sName, string sFieldName, long nValue)
+                : base(nValue, sName)
             {
                 m_sFieldName = sFieldName;
             }

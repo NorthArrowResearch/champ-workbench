@@ -11,7 +11,7 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmUserFeedbackGrid : Form
     {
-        public frmUserFeedbackGrid(string sDBCon, List<ListItem> lVisitIDS)
+        public frmUserFeedbackGrid(string sDBCon, List<naru.db.NamedObject> lVisitIDS)
         {
             InitializeComponent();
             ucUserFeedbackGrid1.DBCon = sDBCon;

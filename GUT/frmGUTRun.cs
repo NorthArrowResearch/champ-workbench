@@ -46,8 +46,8 @@ namespace CHaMPWorkbench.GUT
             cboModes.SelectedIndex = cboModes.Items.Add("All");
 
             // Default the DOS window that will appear to either normal (visible) or hidden.
-            int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
-            int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
+            int nHidden = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Hidden, "Hidden"));
+            int nNormal = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Normal, "Hidden"));
             cboWindowStyle.SelectedIndex = nNormal;
 
             cmdOK.Select();
@@ -156,7 +156,7 @@ namespace CHaMPWorkbench.GUT
                 {
                     try
                     {
-                        System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+                        System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((naru.db.NamedObject)cboWindowStyle.SelectedItem).ID;
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                         string sGUTMode = cboModes.SelectedItem.ToString().ToLower().Replace(" ", "");
 

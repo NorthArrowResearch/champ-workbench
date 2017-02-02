@@ -46,7 +46,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             Visits = new Dictionary<int, VisitResults>();
         }
 
-        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, ref List<ListItem> lRBTVersions, bool bManualMetricValues)
+        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, ref List<naru.db.NamedObject> lRBTVersions, bool bManualMetricValues)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
@@ -85,7 +85,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                         else
                         {
                             // If This version isn't in the list then skip it
-                            if (lRBTVersions.Find(x => x.Text.Equals(sRBTVersion)) != null)
+                            if (lRBTVersions.Find(x => x.Name.Equals(sRBTVersion)) != null)
                             {
 
                                 string sModelVersion = GetFormattedRBTVersion(sRBTVersion);

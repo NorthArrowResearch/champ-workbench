@@ -263,7 +263,7 @@ namespace CHaMPWorkbench.Data
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    cboLogResults.Items.Add(new ListItem(string.Format("Version {0} on {1:dd MMM yyy} status of {2}", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["Status"]), dbRead.GetInt32(dbRead.GetOrdinal("ResultID"))));
+                    cboLogResults.Items.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("ResultID")), string.Format("Version {0} on {1:dd MMM yyy} status of {2}", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["Status"])));
                 }
 
                 cboLogResults.SelectedIndexChanged += LoadLogMessages;
@@ -288,7 +288,7 @@ namespace CHaMPWorkbench.Data
                 SQLiteDataAdapter da = new SQLiteDataAdapter ("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
                    " FROM LogFiles INNER JOIN LogMessages ON LogFiles.LogID = LogMessages.LogID" +
                    " WHERE (LogFiles.ResultID = @ResultID) ORDER BY LogMessages.LogDateTime", dbCon);
-                da.SelectCommand.Parameters.AddWithValue("@ResultID", ((ListItem)cboLogResults.SelectedItem).Value);
+                da.SelectCommand.Parameters.AddWithValue("@ResultID", ((naru.db.NamedObject)cboLogResults.SelectedItem).ID);
 
                 DataTable taLogMessages = new DataTable();
                 da.Fill(taLogMessages);

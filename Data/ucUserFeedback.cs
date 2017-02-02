@@ -45,7 +45,7 @@ namespace CHaMPWorkbench.Data
 
             if (string.IsNullOrEmpty(DBCon))
                 return;
-                
+
             int nQualityID = 0;
             int nWatershedID = 0;
             int nSiteID = 0;
@@ -95,13 +95,13 @@ namespace CHaMPWorkbench.Data
                 dtDateTime.Value = DateTime.Now;
             }
 
-            ListItem.LoadComboWithListItems(ref cboQualityRating, DBCon, "SELECT ItemID, Title FROM LookupListITems WHERE ListID = 13", nQualityID);
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboQualityRating, DBCon, "SELECT ItemID, Title FROM LookupListITems WHERE ListID = 13", nQualityID);
 
             // Note that selecting a watershed will trigger loading of site. And site will trigger loading of visit
             cboWatershed.SelectedIndexChanged += new System.EventHandler(this.Watershed_SelectedIndexChanged);
             cboSite.SelectedIndexChanged += new System.EventHandler(this.Site_SelectedIndexChanged);
 
-            ListItem.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds ORDER BY WatershedName", nWatershedID);
+           naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds ORDER BY WatershedName", nWatershedID);
             if (nWatershedID > 0)
             {
                 if (nSiteID > 0)
@@ -123,7 +123,7 @@ namespace CHaMPWorkbench.Data
                 return false;
             }
 
-            if (!(cboQualityRating.SelectedItem is ListItem))
+            if (!(cboQualityRating.SelectedItem is naru.db.NamedObject))
             {
                 MessageBox.Show("You must select a quality rating to store user feedback.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cboQualityRating.Select();
@@ -155,13 +155,13 @@ namespace CHaMPWorkbench.Data
 
         #region Watershed, Site and Visit Changes
 
-        private void LoadSites(int nWatershedID = 0)
+        private void LoadSites(long nWatershedID = 0)
         {
             cboSite.Items.Clear();
             cboVisit.Items.Clear();
             if (nWatershedID > 0)
             {
-                using (SQLiteConnection dbCon = new SQLiteConnection (DBCon))
+                using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
                     SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
@@ -169,7 +169,7 @@ namespace CHaMPWorkbench.Data
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        cboSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))));
+                        cboSite.Items.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("SiteID")), dbRead.GetString(dbRead.GetOrdinal("SiteName"))));
                     }
                 }
             }
@@ -177,23 +177,23 @@ namespace CHaMPWorkbench.Data
 
         private void Watershed_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int nWatershedID = 0;
-            if (cboWatershed.SelectedItem is ListItem)
-                nWatershedID = ((ListItem)cboWatershed.SelectedItem).Value;
+            long nWatershedID = 0;
+            if (cboWatershed.SelectedItem is naru.db.NamedObject)
+                nWatershedID = ((naru.db.NamedObject)cboWatershed.SelectedItem).ID;
 
             LoadSites(nWatershedID);
         }
 
         private void Site_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int nSiteID = 0;
-            if (cboSite.SelectedItem is ListItem)
-                nSiteID = ((ListItem)cboSite.SelectedItem).Value;
+            long nSiteID = 0;
+            if (cboSite.SelectedItem is naru.db.NamedObject)
+                nSiteID = ((naru.db.NamedObject)cboSite.SelectedItem).ID;
 
             LoadVisits(nSiteID);
         }
 
-        private void LoadVisits(int nSiteID = 0)
+        private void LoadVisits(long nSiteID = 0)
         {
             cboVisit.Items.Clear();
             if (nSiteID > 0)
@@ -210,7 +210,7 @@ namespace CHaMPWorkbench.Data
                         if (!dbRead.IsDBNull(dbRead.GetOrdinal("Organization")))
                             sVisit = string.Format("{0} by {1}", sVisit, dbRead.GetString(dbRead.GetOrdinal("Organization")));
 
-                        cboVisit.Items.Add(new ListItem(sVisit, dbRead.GetInt32(dbRead.GetOrdinal("VisitID"))));
+                        cboVisit.Items.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), sVisit));
                     }
                 }
             }
@@ -238,24 +238,24 @@ namespace CHaMPWorkbench.Data
                         " VALUES (@UserName, @QualityRatingID, @ItemReviewed, @WatershedID, @SiteID, @VisitID, @Description, @ReviewedOn)", dbCon);
 
                 dbCom.Parameters.AddWithValue("UserName", txtUserName.Text);
-                dbCom.Parameters.AddWithValue("QualityRatingID", ((ListItem)cboQualityRating.SelectedItem).Value);
+                dbCom.Parameters.AddWithValue("QualityRatingID", ((naru.db.NamedObject)cboQualityRating.SelectedItem).ID);
                 dbCom.Parameters.AddWithValue("ItemReviewed", cboItemReviewed.Text);
 
                 SQLiteParameter pWatershedID = dbCom.Parameters.Add("WatershedID", DbType.Int64);
-                if (cboWatershed.SelectedItem is ListItem)
-                    pWatershedID.Value = ((ListItem)cboWatershed.SelectedItem).Value;
+                if (cboWatershed.SelectedItem is naru.db.NamedObject)
+                    pWatershedID.Value = ((naru.db.NamedObject)cboWatershed.SelectedItem).ID;
                 else
                     pWatershedID.Value = DBNull.Value;
 
                 SQLiteParameter pSiteID = dbCom.Parameters.Add("SiteID", DbType.Int64);
-                if (cboSite.SelectedItem is ListItem)
-                    pSiteID.Value = ((ListItem)cboSite.SelectedItem).Value;
+                if (cboSite.SelectedItem is naru.db.NamedObject)
+                    pSiteID.Value = ((naru.db.NamedObject)cboSite.SelectedItem).ID;
                 else
                     pSiteID.Value = DBNull.Value;
 
                 SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
-                if (cboVisit.SelectedItem is ListItem)
-                    pVisitID.Value = ((ListItem)cboVisit.SelectedItem).Value;
+                if (cboVisit.SelectedItem is naru.db.NamedObject)
+                    pVisitID.Value = ((naru.db.NamedObject)cboVisit.SelectedItem).ID;
                 else
                     pVisitID.Value = DBNull.Value;
 
@@ -268,7 +268,7 @@ namespace CHaMPWorkbench.Data
                     pDescription.Size = txtDescription.Text.Length;
                 }
 
-                SQLiteParameter pReviewedOn = dbCom.Parameters.Add("ReviewedOn",  DbType.DateTime);
+                SQLiteParameter pReviewedOn = dbCom.Parameters.Add("ReviewedOn", DbType.DateTime);
                 pReviewedOn.Value = dtDateTime.Value;
 
                 if (LogID > 0)
@@ -316,9 +316,9 @@ namespace CHaMPWorkbench.Data
                     throw new Exception(string.Format("Error retrieving watershed and site ID for visit {0}", nVisitID));
 
                 // The event handlers will ensure the comboboxes are reloaded with the correct items as the assignment occurs
-                ListItem.SelectItem(ref cboWatershed, dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")));
-                ListItem.SelectItem(ref cboSite, dbRead.GetInt32(dbRead.GetOrdinal("SiteID")));
-                ListItem.SelectItem(ref cboVisit, nVisitID);
+                naru.db.sqlite.NamedObject.SelectItem(ref cboWatershed, dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")));
+                naru.db.sqlite.NamedObject.SelectItem(ref cboSite, dbRead.GetInt32(dbRead.GetOrdinal("SiteID")));
+                naru.db.sqlite.NamedObject.SelectItem(ref cboVisit, nVisitID);
             }
         }
     }

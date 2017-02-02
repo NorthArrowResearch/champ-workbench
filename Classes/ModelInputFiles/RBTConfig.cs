@@ -24,8 +24,8 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         private string m_sLogFile = "Log.xml";
         private RBTModes m_nMode = RBTModes.Calculate_Metrics;
-        private int m_nESRIProduct;
-        private int m_nArcGISLicense;
+        private long m_nESRIProduct;
+        private long m_nArcGISLicense;
         private string m_sPrecisionFormatString = "0.0####";
         private int m_nChartHeight = 1000;
         private int m_nChartWidth = 1000;
@@ -59,13 +59,13 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             set { m_nMode = value; }
         }
 
-        public int ESRIProduct
+        public long ESRIProduct
         {
             get { return m_nESRIProduct; }
             set { m_nESRIProduct = value; }
         }
 
-        public int ArcGISLicense
+        public long ArcGISLicense
         {
             get { return m_nArcGISLicense; }
             set { m_nArcGISLicense = value; }

@@ -10,12 +10,12 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     class ReportGenerator
     {
-        private List<ListItem> m_lVisits;
+        private List<naru.db.NamedObject> m_lVisits;
         // The RBT versions is a dictionary object with the properties <formattedString, rawString>
-        private List<ListItem> m_lRBTVersions;
+        private List<naru.db.NamedObject> m_lRBTVersions;
         private ReportItem m_sXSLReport;
 
-        public ReportGenerator(ReportItem xslReport, List<ListItem> lVisits)
+        public ReportGenerator(ReportItem xslReport, List<naru.db.NamedObject> lVisits)
         {
             m_sXSLReport = xslReport;
             m_lVisits = lVisits;
@@ -33,14 +33,14 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                         throw new Exception("No RBT Versions were found");
 
                     // Create a second list with pretty, formatted RBT Text;
-                    List<ListItem> lRBTFormatted = m_lRBTVersions.Select(x => new ListItem(Classes.MetricValidation.Metric.GetFormattedRBTVersion(x.Text), x.Value)).ToList();
+                    List<naru.db.NamedObject> lRBTFormatted = m_lRBTVersions.Select(x => new naru.db.NamedObject(x.ID, Classes.MetricValidation.Metric.GetFormattedRBTVersion(x.Name))).ToList();
                     Validation.frmSelectHelper frmRBTPicker = new Validation.frmSelectHelper(m_lRBTVersions, "RBT Versions", "Choose one or more RBT Versions:", true);
                     if (frmRBTPicker.ShowDialog() == DialogResult.Cancel)
                         return;
 
                     // Now make equivalences between our formatted list and the unformatted one. The IDs should match so we just
                     // Have to filter one list using another.
-                    m_lRBTVersions = m_lRBTVersions.Where(item => frmRBTPicker.SelectedItems.Any(formattedItem => formattedItem.Value.Equals(item.Value))).ToList();
+                    m_lRBTVersions = m_lRBTVersions.Where(item => frmRBTPicker.SelectedItems.Any(formattedItem => formattedItem.ID.Equals(item.ID))).ToList();
                     if (m_lRBTVersions.Count <= 0)
                         throw new Exception("You must select at least one RBT Version");
                     Console.WriteLine("RBT MANUAL");
@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                     if (frmWatershedPicker.SelectedItems.Count <= 0)
                         throw new Exception("You must select at least one Watershed");
-                    m_lVisits = GetWatershedVisits(frmWatershedPicker.SelectedItem.Value);
+                    m_lVisits = GetWatershedVisits(frmWatershedPicker.SelectedItem.ID);
                     Console.WriteLine("WATERSHED");
                     break;
                 default:
@@ -98,9 +98,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// </summary>
         /// <param name="nWatershedID"></param>
         /// <returns></returns>
-        private List<ListItem> GetWatershedVisits(int nWatershedID)
+        private List<naru.db.NamedObject> GetWatershedVisits(long nWatershedID)
         {
-            List<ListItem> lWatershedVisits = new List<ListItem>();
+            List<naru.db.NamedObject> lWatershedVisits = new List<naru.db.NamedObject>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
@@ -108,10 +108,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 comFS.Parameters.AddWithValue("@WATERSHEDID", nWatershedID);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
-                {
-                    int nVisitID = (int)dbRead[0];
-                    lWatershedVisits.Add(new ListItem(nVisitID.ToString(), nVisitID));
-                }
+                    lWatershedVisits.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")).ToString()));
                 dbRead.Close();
             }
             return lWatershedVisits;
@@ -141,16 +138,16 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// Get a list of Watersheds for The report
         /// </summary>
         /// <returns></returns>
-        private List<ListItem> GetWatersheds()
+        private List<naru.db.NamedObject> GetWatersheds()
         {
-            List<ListItem> lWatersheds = new List<ListItem>();
+            List<naru.db.NamedObject> lWatersheds = new List<naru.db.NamedObject>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
                 SQLiteCommand comFS = new SQLiteCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", dbCon);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    lWatersheds.Add(new ListItem((string)dbRead[1], (int)dbRead[0]));
+                    lWatersheds.Add(new naru.db.NamedObject((long)dbRead[0], (string)dbRead[1]));
                 }
                 dbRead.Close();
             }
@@ -165,20 +162,20 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// This should now ignore manual validation data results and also cm.org download data that also store values
         /// in the Metric_Results table. This is being done because this method is used to retrieve RBT versions for which
         /// results exist in the database. The manual </remarks>
-        private List<ListItem> GetRBTVersions()
+        private List<naru.db.NamedObject> GetRBTVersions()
         {
-            List<ListItem> lRBTVersions = new List<ListItem>();
+            List<naru.db.NamedObject> lRBTVersions = new List<naru.db.NamedObject>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
                 SQLiteCommand comFS = new SQLiteCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", dbCon);
                 comFS.Parameters.AddWithValue("@ScavengeTypeIDModelRun", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
-                int counter = 0;
+                long counter = 0;
                 while (dbRead.Read())
                 {
                     counter++;
                     string sRBTVersion = (string)dbRead[0];
-                    lRBTVersions.Add(new ListItem(sRBTVersion, counter));
+                    lRBTVersions.Add(new naru.db.NamedObject(counter, sRBTVersion));
                 }
                 dbRead.Close();
             }

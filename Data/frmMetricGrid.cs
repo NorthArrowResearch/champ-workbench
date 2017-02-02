@@ -13,7 +13,7 @@ namespace CHaMPWorkbench.Data
     {
         public string DBCon { get; set; }
 
-        public frmMetricGrid(string sDBCon, List<ListItem> lVisitIDs)
+        public frmMetricGrid(string sDBCon, List<naru.db.NamedObject> lVisitIDs)
         {
             InitializeComponent();
             this.Text = "Metric Results";

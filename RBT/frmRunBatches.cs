@@ -26,7 +26,7 @@ namespace CHaMPWorkbench.RBT
                 return;
             }
 
-            System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((ListItem)cboWindowStyle.SelectedItem).Value;
+            System.Diagnostics.ProcessWindowStyle eWindow = (System.Diagnostics.ProcessWindowStyle)((naru.db.NamedObject)cboWindowStyle.SelectedItem).ID;
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -37,8 +37,8 @@ namespace CHaMPWorkbench.RBT
 
         private void frmRunBatches_Load(object sender, EventArgs e)
         {
-            int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
-            int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
+            int nHidden = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Hidden, "Hidden"));
+            int nNormal = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Normal, "Normal"));
             cboWindowStyle.SelectedIndex = nHidden;
 
             if (string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.RBTConsole) || !System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.RBTConsole))

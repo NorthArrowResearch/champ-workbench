@@ -12,21 +12,21 @@ namespace CHaMPWorkbench.Data
     public partial class frmMetricReview : Form
     {
         public string DBCon { get; internal set; }
-        private List<ListItem> Visits { get; set; }
-        public ListItem Program { get; internal set; }
+        private List<naru.db.NamedObject> Visits { get; set; }
+        public naru.db.NamedObject Program { get; internal set; }
 
-        public frmMetricReview(string sDBCon, List<ListItem> lVisits, ListItem theProgram)
+        public frmMetricReview(string sDBCon, List<naru.db.NamedObject> lVisits, naru.db.NamedObject theProgram)
         {
             InitializeComponent();
             DBCon = sDBCon;
             Visits = lVisits;
             ucMetricGrid1.VisitIDs = lVisits;
             ucMetricGrid1.DBCon = sDBCon;
-            ucMetricGrid1.ProgramID = theProgram.Value;
+            ucMetricGrid1.ProgramID = theProgram.ID;
 
             ucMetricPlot1.DBCon = sDBCon;
             ucMetricPlot1.HighlightedVisitID = 1;
-            ucMetricPlot1.VisitIDs = lVisits.Select(n => n.Value).ToList<int>();
+            ucMetricPlot1.VisitIDs = lVisits.Select(n => n.ID).ToList<long>();
             ucMetricPlot1.Program = theProgram;
 
             ucUserFeedback1.DBCon = sDBCon;
@@ -36,7 +36,7 @@ namespace CHaMPWorkbench.Data
 
         private void frmMetricReview_Load(object sender, EventArgs e)
         {
-            this.Text = string.Format("{0} Metric Review", Program.Text);
+            this.Text = string.Format("{0} Metric Review", Program.Name);
 
             splitContainer2.SplitterDistance = this.Width - 295;
 

@@ -40,22 +40,22 @@ namespace CHaMPWorkbench
 
 
             foreach (Classes.ModelInputFiles.RBTConfig.RBTModes eMode in Enum.GetValues(typeof(Classes.ModelInputFiles.RBTConfig.RBTModes)))
-                cboRBTMode.Items.Add(new ListItem(eMode.ToString().Replace("_"," "), (int)eMode));
+                cboRBTMode.Items.Add(new naru.db.NamedObject((int)eMode, eMode.ToString().Replace("_"," ")));
             cboRBTMode.SelectedIndex = 1;
 
-            cboESRIProduct.Items.Add(new ListItem("Engine or Desktop", 100));
-            cboESRIProduct.Items.Add(new ListItem("ArcGIS Desktop", 1));
-            cboESRIProduct.Items.Add(new ListItem("Engine", 2));
-            cboESRIProduct.Items.Add(new ListItem("ArcGIS Reader", 3));
-            cboESRIProduct.Items.Add(new ListItem("ArcGIS Server", 5));
+            cboESRIProduct.Items.Add(new naru.db.NamedObject(100, "Engine or Desktop"));
+            cboESRIProduct.Items.Add(new naru.db.NamedObject(1, "ArcGIS Desktop"));
+            cboESRIProduct.Items.Add(new naru.db.NamedObject(2, "Engine"));
+            cboESRIProduct.Items.Add(new naru.db.NamedObject(3, "ArcGIS Reader"));
+            cboESRIProduct.Items.Add(new naru.db.NamedObject(5, "ArcGIS Server"));
             cboESRIProduct.SelectedIndex = 0;
 
-            cboLicense.Items.Add(new ListItem("Basic", 40));
-            cboLicense.Items.Add(new ListItem("Standard", 50));
-            cboLicense.Items.Add(new ListItem("Advanced", 60));
-            cboLicense.Items.Add(new ListItem("Server", 30));
-            cboLicense.Items.Add(new ListItem("Engine", 10));
-            cboLicense.Items.Add(new ListItem("Engine Geodatabase", 20));
+            cboLicense.Items.Add(new naru.db.NamedObject(40, "Basic"));
+            cboLicense.Items.Add(new naru.db.NamedObject(50, "Standard"));
+            cboLicense.Items.Add(new naru.db.NamedObject(60, "Advanced"));
+            cboLicense.Items.Add(new naru.db.NamedObject(30, "Server"));
+            cboLicense.Items.Add(new naru.db.NamedObject(10, "Engine"));
+            cboLicense.Items.Add(new naru.db.NamedObject(20, "Engine Geodatabase"));
             cboLicense.SelectedIndex = 2;
 
             String sTemp = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
@@ -66,7 +66,7 @@ namespace CHaMPWorkbench
         public bool ValidateForm(string sStreamName, string sUTMZone, string sWatershed)
         {
             // If Not cboRBTMode.SelectedItem Is Nothing Then
-            if (((ListItem)cboRBTMode.SelectedItem).Value == 30)
+            if (((naru.db.NamedObject)cboRBTMode.SelectedItem).ID == 30)
             {
                 if (string.IsNullOrEmpty(sStreamName))
                 {
@@ -214,9 +214,9 @@ namespace CHaMPWorkbench
         public CHaMPWorkbench.Classes.ModelInputFiles.RBTConfig GetRBTConfig()
         {
             Classes.ModelInputFiles.RBTConfig aConfig = new Classes.ModelInputFiles.RBTConfig();
-            aConfig.Mode = (Classes.ModelInputFiles.RBTConfig.RBTModes)((ListItem)cboRBTMode.SelectedItem).Value;
-            aConfig.ESRIProduct = ((ListItem)cboESRIProduct.SelectedItem).Value;
-            aConfig.ArcGISLicense = ((ListItem)cboLicense.SelectedItem).Value;
+            aConfig.Mode = (Classes.ModelInputFiles.RBTConfig.RBTModes)((naru.db.NamedObject)cboRBTMode.SelectedItem).ID;
+            aConfig.ESRIProduct = ((naru.db.NamedObject)cboESRIProduct.SelectedItem).ID;
+            aConfig.ArcGISLicense = ((naru.db.NamedObject)cboLicense.SelectedItem).ID;
             aConfig.PrecisionFormatString = txtPrecisionFormatString.Text;
             aConfig.ChartHeight = Convert.ToInt32(valChartHeight.Value);
             aConfig.ChartWidth = Convert.ToInt32(valChartWidth.Value);

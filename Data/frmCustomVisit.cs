@@ -44,8 +44,8 @@ namespace CHaMPWorkbench.Data
 
         private void frmCustomVisit_Load(object sender, EventArgs e)
         {
-            ListItem.LoadComboWithListItems(ref cboProtocol, DBCon, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 8 ORDER BY Title");
-            ListItem.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName");
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboProtocol, DBCon, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 8 ORDER BY Title");
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName");
 
             if (DateTime.Now.Year >= valFieldSeason.Minimum && DateTime.Now.Year <= valFieldSeason.Maximum)
                 valFieldSeason.Value = DateTime.Now.Year;
@@ -89,16 +89,16 @@ namespace CHaMPWorkbench.Data
         {
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
             cboSite.Items.Clear();
-            if (cboWatershed.SelectedItem is ListItem)
+            if (cboWatershed.SelectedItem is naru.db.NamedObject)
             {
                 using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
                 {
                     dbCon.Open();
                     SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
-                    dbCom.Parameters.AddWithValue("@WatershedID", ((ListItem)cboWatershed.SelectedItem).Value);
+                    dbCom.Parameters.AddWithValue("@WatershedID", ((naru.db.NamedObject)cboWatershed.SelectedItem).ID);
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
-                        cboSite.Items.Add(new ListItem(dbRead.GetString(dbRead.GetOrdinal("SiteName")), dbRead.GetInt32(dbRead.GetOrdinal("SiteID"))));
+                        cboSite.Items.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("SiteID")), dbRead.GetString(dbRead.GetOrdinal("SiteName"))));
                 }
             }
 
@@ -166,16 +166,16 @@ namespace CHaMPWorkbench.Data
 
                 try
                 {
-                    int nWatershedID = 0;
-                    if (cboWatershed.SelectedItem is ListItem)
-                        nWatershedID = ((ListItem)cboWatershed.SelectedItem).Value;
+                    long nWatershedID = 0;
+                    if (cboWatershed.SelectedItem is naru.db.NamedObject)
+                        nWatershedID = ((naru.db.NamedObject)cboWatershed.SelectedItem).ID;
                     else
                     {
                         // Watershed ID is not auto-increment.
                         SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
                         object objWSID = dbCom.ExecuteScalar();
                         if (objWSID is Int32)
-                            nWatershedID = Math.Max(((int) objWSID)+ 1, 9000);
+                            nWatershedID = Math.Max(((int)objWSID) + 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest watershed ID from database.");
 
@@ -186,15 +186,15 @@ namespace CHaMPWorkbench.Data
                             throw new Exception("Failed to create new watershed");
                     }
 
-                    int nSiteID = 0;
-                    if (cboSite.SelectedItem is ListItem)
-                        nSiteID = ((ListItem)cboSite.SelectedItem).Value;
+                    long nSiteID = 0;
+                    if (cboSite.SelectedItem is naru.db.NamedObject)
+                        nSiteID = ((naru.db.NamedObject)cboSite.SelectedItem).ID;
                     else
                     {
                         SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
                         object objSID = dbCom.ExecuteScalar();
                         if (objSID is Int32)
-                            nSiteID = Math.Max(((int) objSID)+ 1, 9000);
+                            nSiteID = Math.Max(((int)objSID) + 1, 9000);
                         else
                             throw new Exception("Failed to retrieve highest Site ID from database.");
 
@@ -207,10 +207,10 @@ namespace CHaMPWorkbench.Data
                     }
 
                     SQLiteCommand comVisit = new SQLiteCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks)", dbCon, dbTrans);
-                    comVisit.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
+                    comVisit.Parameters.AddWithValue("@VisitID", (long)valVisitID.Value);
                     comVisit.Parameters.AddWithValue("@SiteID", nSiteID);
                     comVisit.Parameters.AddWithValue("@VisitYear", (int)valFieldSeason.Value);
-                    comVisit.Parameters.AddWithValue("@ProtocolID", ((ListItem)cboProtocol.SelectedItem).Value);
+                    comVisit.Parameters.AddWithValue("@ProtocolID", ((naru.db.NamedObject)cboProtocol.SelectedItem).ID);
                     SQLiteParameter pOrganization = comVisit.Parameters.Add("@Organization", DbType.String);
                     if (string.IsNullOrEmpty(txtOrganization.Text))
                         pOrganization.Value = DBNull.Value;

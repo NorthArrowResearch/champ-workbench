@@ -14,13 +14,13 @@ namespace CHaMPWorkbench.Validation
         /// <summary>
         /// The first string is the display name, the ListItem is the value (needed for formattedRBT versions)
         /// </summary>
-        public List<ListItem> SelectedItems { get; set; }
+        public List<naru.db.NamedObject> SelectedItems { get; set; }
 
-        public ListItem SelectedItem {
+        public naru.db.NamedObject SelectedItem {
             get{ return SelectedItems.First(); }
         }
 
-        public frmSelectHelper(List<ListItem> incomingList, string sFormTitle, string sHelperText, bool bAllowMultiple)
+        public frmSelectHelper(List<naru.db.NamedObject> incomingList, string sFormTitle, string sHelperText, bool bAllowMultiple)
         {
             InitializeComponent();
             this.Text = sFormTitle;
@@ -31,7 +31,7 @@ namespace CHaMPWorkbench.Validation
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.SelectedItems = listSelector.SelectedItems.Cast<ListItem>().ToList();
+            this.SelectedItems = listSelector.SelectedItems.Cast<naru.db.NamedObject>().ToList();
         }
     }
 }
