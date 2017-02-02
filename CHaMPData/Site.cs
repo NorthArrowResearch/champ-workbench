@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.CHaMPData
 {
@@ -21,7 +22,7 @@ namespace CHaMPWorkbench.CHaMPData
 
         public Site(long nSiteID, String sSiteName, long nWatershedID, string sWatershedName, string sStreamName, String sUTMZone,
             bool bUC_Chin, bool bSN_Chin, bool bLC_Steel, bool bMC_Steel, bool bUC_Steel, bool bSN_Steel,
-            double fLatitude, double fLongitude, int nGageID)
+            Nullable<double> fLatitude, Nullable<double> fLongitude, Nullable<long> nGageID)
                 : base(nSiteID, sSiteName, nWatershedID, sWatershedName, sUTMZone)
         {
             StreamName = sStreamName;
@@ -34,6 +35,39 @@ namespace CHaMPWorkbench.CHaMPData
             Longitude = fLongitude;
 
             Visits = Visit.Load(DBCon.ConnectionString);
+        }
+
+        public static Dictionary<long , Site> Load(string sDBCon)
+        {
+            Dictionary<long, Site> dResult = new Dictionary<long, Site>();
+            using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
+            {
+                dbCon.Open();
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM CHaMP_Sites ORDER BY WatershedID, SiteName", dbCon);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    long nSiteID = dbRead.GetInt64(dbRead.GetOrdinal("SiteID"));
+                    dResult[nSiteID] = new Site(nSiteID
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "SiteName")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueInt(ref dbRead, "WatershedID")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "WatershedName")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "StreamName")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "UTMZone")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "UC_Chin")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "SN_Chin")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "LC_Steel")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "MC_Steel")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "UC_Steel")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "SN_Steel")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Latitude")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Longitude")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "GageID"));
+                }
+            }
+
+            return dResult;
         }
 
         public string NameForDatabaseBatch(ref Visit targetVisit)
