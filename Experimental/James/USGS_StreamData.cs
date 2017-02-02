@@ -13,12 +13,12 @@ namespace CHaMPWorkbench.Experimental.James
     class USGS_StreamData
     {
         private string DBConnectionString;
-        private int m_iGageID;
+        private long m_iGageID;
         private bool m_bSiteHasGageID;
         private bool m_bDatabaseHasDischargeData;
         private List<StreamFlowSample> m_lStreamData = new List<StreamFlowSample>();
 
-        public USGS_StreamData(string sDBCon, int nSiteID)
+        public USGS_StreamData(string sDBCon, long nSiteID)
         {
             DBConnectionString = sDBCon;
 
@@ -54,7 +54,7 @@ namespace CHaMPWorkbench.Experimental.James
             get { return m_lStreamData; }
         }
 
-        public int GageNumber
+        public long GageNumber
         {
             get { return m_iGageID; }
         }
@@ -142,7 +142,7 @@ namespace CHaMPWorkbench.Experimental.James
         }
 
 
-        private bool CheckIfDischargesTableContainsData(int iGageID)
+        private bool CheckIfDischargesTableContainsData(long iGageID)
         {
             bool bContainsData = false;
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))

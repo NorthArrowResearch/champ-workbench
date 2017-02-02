@@ -18,10 +18,10 @@ namespace CHaMPWorkbench.Experimental.James
         private int m_iGageID;
         private USGS_StreamData m_USGS_StreamData;
 
-        private int m_nInitialWatershedID;
-        private int m_nInitialSiteID;
+        private long m_nInitialWatershedID;
+        private long m_nInitialSiteID;
 
-        public frmUSGS_StreamDataViewer(string sDBCon, int nSiteID, int nWatershedID)
+        public frmUSGS_StreamDataViewer(string sDBCon, long nSiteID, long nWatershedID)
         {
             InitializeComponent();
             this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
@@ -455,7 +455,7 @@ namespace CHaMPWorkbench.Experimental.James
             LoadCHaMPSiteCombo();
         }
 
-        private void LoadCHaMPSiteCombo(int nSelectedSiteID = 0)
+        private void LoadCHaMPSiteCombo(long nSelectedSiteID = 0)
         {
             cmbCHaMPSite.Items.Clear();
             if (cmbWatershed.SelectedItem is naru.db.NamedObject)

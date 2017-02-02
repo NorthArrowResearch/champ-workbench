@@ -1295,8 +1295,8 @@ namespace CHaMPWorkbench
                 //DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                int nWatershedID = (int)r["WatershedID"];
-                int nSiteID = (int)r["SiteID"];
+                long nWatershedID = (long)r["WatershedID"];
+                long nSiteID = (long)r["SiteID"];
 
                 Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(DBCon.ConnectionString, nSiteID, nWatershedID);
                 frm.ShowDialog();
