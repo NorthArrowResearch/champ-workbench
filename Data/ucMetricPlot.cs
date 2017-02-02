@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Data
         public long VisitID { get; set; }
         public naru.db.NamedObject Program { get; set; }
 
-        private Dictionary<int, ModelResult> m_dModelResults;
+        private Dictionary<long, ModelResult> m_dModelResults;
 
         public event EventHandler SelectedPlotChanged;
 
@@ -64,17 +64,17 @@ namespace CHaMPWorkbench.Data
             else
                 return;
 
-            Dictionary<int, double> dXMetricValues = GetMetricValues(thePlot.XMetricID, theResult.ID);
-            Dictionary<int, double> dYMetricValues = GetMetricValues(thePlot.YMetricID, theResult.ID);
+            Dictionary<long, double> dXMetricValues = GetMetricValues(thePlot.XMetricID, theResult.ID);
+            Dictionary<long, double> dYMetricValues = GetMetricValues(thePlot.YMetricID, theResult.ID);
 
             EventHandler handler = this.SelectedPlotChanged;
             if (handler != null)
                 handler(this, e);
         }
 
-        private Dictionary<int, double> GetMetricValues(int nMetricID, int nResultID)
+        private Dictionary<long, double> GetMetricValues(long nMetricID, long nResultID)
         {
-            Dictionary<int, double> dResults = new Dictionary<int, double>();
+            Dictionary<long, double> dResults = new Dictionary<long, double>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
@@ -82,7 +82,7 @@ namespace CHaMPWorkbench.Data
                 dbCom.Parameters.AddWithValue("@MetricID", nMetricID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
-                    dResults.Add(dbRead.GetInt32(dbRead.GetOrdinal("ResultID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue")));
+                    dResults.Add(dbRead.GetInt64(dbRead.GetOrdinal("ResultID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue")));
             }
 
             return dResults;
@@ -148,21 +148,21 @@ namespace CHaMPWorkbench.Data
 
         private class ModelResult
         {
-            public int ID { get; internal set; }
+            public long ID { get; internal set; }
             public string ModelVersion { get; internal set; }
             public string ScavengeType { get; internal set; }
             public DateTime RunDateTime { get; internal set; }
             public bool HasDateTime { get; set; }
 
-            public int WatershedID { get; internal set; }
+            public long WatershedID { get; internal set; }
             public string Watershed { get; internal set; }
-            public int SiteID { get; internal set; }
+            public long SiteID { get; internal set; }
             public string Site { get; internal set; }
-            public int VisitID { get; internal set; }
+            public long VisitID { get; internal set; }
 
-            public Dictionary<int, double> MetricValues { get; internal set; }
+            public Dictionary<long, double> MetricValues { get; internal set; }
 
-            public void SetMetricValue(int nMetricID, double fValue)
+            public void SetMetricValue(long nMetricID, double fValue)
             {
                 MetricValues[nMetricID] = fValue;
             }
@@ -183,7 +183,7 @@ namespace CHaMPWorkbench.Data
                 return Title;
             }
 
-            public ModelResult(int nID, string sModelVersion, DateTime dtRunDateTime, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
+            public ModelResult(long nID, string sModelVersion, DateTime dtRunDateTime, string sScavengeType, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitID)
             {
                 RunDateTime = dtRunDateTime;
                 HasDateTime = true;
@@ -191,12 +191,12 @@ namespace CHaMPWorkbench.Data
                 Init(nID, sModelVersion, sScavengeType, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitID);
             }
 
-            public ModelResult(int nID, string sModelVersion, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
+            public ModelResult(long nID, string sModelVersion, string sScavengeType, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitID)
             {
                 Init(nID, sModelVersion, sScavengeType, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitID);
             }
 
-            private void Init(int nID, string sModelVersion, string sScavengeType, int nWatershedID, string sWatershedName, int nSiteID, string sSiteName, int nVisitID)
+            private void Init(long nID, string sModelVersion, string sScavengeType, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitID)
             {
                 ID = nID;
                 ModelVersion = sModelVersion;
@@ -209,18 +209,18 @@ namespace CHaMPWorkbench.Data
                 Site = sSiteName;
                 VisitID = nVisitID;
 
-                MetricValues = new Dictionary<int, double>();
+                MetricValues = new Dictionary<long, double>();
             }
 
-            public static void LoadModelResults(ref ComboBox cbo, string sDBCon, long VisitID, out Dictionary<int, ModelResult> dModelResults)
+            public static void LoadModelResults(ref ComboBox cbo, string sDBCon, long VisitID, out Dictionary<long, ModelResult> dModelResults)
             {
                 cbo.Items.Clear();
-                dModelResults = new Dictionary<int, ModelResult>();
+                dModelResults = new Dictionary<long, ModelResult>();
 
                 using (SQLiteConnection conResults = new SQLiteConnection(sDBCon))
                 {
                     conResults.Open();
-                    SQLiteCommand comResults = new SQLiteCommand("SELECT R.ResultID, R.ModelVersion, R.RunDateTime, L.Title AS ScavengeType, R.VisitID, S.SiteName, S.SiteID, W.WatershedID, W.WatershedName" +
+                    SQLiteCommand comResults = new SQLiteCommand("SELECT R.ResultID AS ResultID, ModelVersion, RunDateTime, L.Title AS ScavengeType, R.VisitID AS VisitID, SiteName, S.SiteID AS SiteID, W.WatershedID AS WatershedID, WatershedName" +
 " FROM LookupListItems AS L INNER JOIN (CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN (Metric_Results AS R INNER JOIN CHAMP_Visits AS V ON R.VisitID = V.VisitID) ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) ON L.ItemID = R.ScavengeTypeID" +
 " WHERE (((W.WatershedID) In (SELECT SS.WatershedID FROM CHAMP_Sites AS SS INNER JOIN CHAMP_Visits AS VV ON SS.SiteID = VV.SiteID WHERE (((VV.VisitID)=@VisitID)))))" +
 " ORDER BY R.RunDateTime DESC", conResults);
@@ -234,18 +234,18 @@ namespace CHaMPWorkbench.Data
                         SQLiteDataReader rdResults = comResults.ExecuteReader();
                         while (rdResults.Read())
                         {
-                            int nResultID = rdResults.GetInt32(rdResults.GetOrdinal("ResultID"));
+                            long nResultID = rdResults.GetInt64(rdResults.GetOrdinal("ResultID"));
 
                             ModelResult theResult = null;
                             if (rdResults.IsDBNull(rdResults.GetOrdinal("RunDateTime")))
                                 theResult = new ModelResult(nResultID
                                     , rdResults.GetString(rdResults.GetOrdinal("ModelVersion"))
                                     , rdResults.GetString(rdResults.GetOrdinal("ScavengeType"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("WatershedID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("WatershedID"))
                                     , rdResults.GetString(rdResults.GetOrdinal("WatershedName"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("SiteID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("SiteID"))
                                     , rdResults.GetString(rdResults.GetOrdinal("SiteName"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("VisitID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("VisitID"))
 
 
                                     );
@@ -254,18 +254,18 @@ namespace CHaMPWorkbench.Data
                                     , rdResults.GetString(rdResults.GetOrdinal("ModelVersion"))
                                     , rdResults.GetDateTime(rdResults.GetOrdinal("RunDateTime"))
                                     , rdResults.GetString(rdResults.GetOrdinal("ScavengeType"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("WatershedID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("WatershedID"))
                                     , rdResults.GetString(rdResults.GetOrdinal("WatershedName"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("SiteID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("SiteID"))
                                     , rdResults.GetString(rdResults.GetOrdinal("SiteName"))
-                                    , rdResults.GetInt32(rdResults.GetOrdinal("VisitID"))
+                                    , rdResults.GetInt64(rdResults.GetOrdinal("VisitID"))
                                     );
 
                             // Now add the metric values to this result
                             pResultID.Value = nResultID;
                             SQLiteDataReader rdMetricValues = comMetricValues.ExecuteReader();
                             while (rdMetricValues.Read())
-                                theResult.SetMetricValue(rdMetricValues.GetInt32(rdMetricValues.GetOrdinal("MetricID")), rdMetricValues.GetDouble(rdMetricValues.GetOrdinal("MetricValue")));
+                                theResult.SetMetricValue(rdMetricValues.GetInt64(rdMetricValues.GetOrdinal("MetricID")), rdMetricValues.GetDouble(rdMetricValues.GetOrdinal("MetricValue")));
                             rdMetricValues.Close();
 
                             dModelResults.Add(theResult.ID, theResult);
