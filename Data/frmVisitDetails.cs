@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT W.WatershedName, V.VisitYear, V.Organization, V.PanelName, S.SiteName, V.Remarks" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT WatershedName, VisitYear, Organization, PanelName, SiteName, V.Remarks AS Remarks" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (V.VisitID = @VisitID)", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", VisitID);
