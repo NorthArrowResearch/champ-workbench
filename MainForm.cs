@@ -874,9 +874,14 @@ namespace CHaMPWorkbench
                     // turn off event handling
                     valVisitID.ValueChanged -= valVisitID_ValueChanged;
                     lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
-
-                    int nSiteID = (int)r["SiteID"];
-                    int nWatershedID = (int)r["WatershedID"];
+                    txtSiteName.TextChanged -= ControlChange_FilterVisits;
+                    txtStreamName.TextChanged -= ControlChange_FilterVisits;
+                    
+                    long nSiteID = (long)r["SiteID"];
+                    txtSiteName.Text = (string)r["SiteName"];
+                    txtStreamName.Text = string.Empty;
+                    long nWatershedID = (long)r["WatershedID"];
+                    
 
                     for (int i = 0; i < lstFieldSeason.Items.Count; i++)
                         lstFieldSeason.SetItemChecked(i, true);
@@ -891,6 +896,8 @@ namespace CHaMPWorkbench
                     // turn on event handling
                     valVisitID.ValueChanged += valVisitID_ValueChanged;
                     lstWatershed.ItemCheck += FilterListBoxCheckChanged;
+                    txtSiteName.TextChanged += ControlChange_FilterVisits;
+                    txtStreamName.TextChanged += ControlChange_FilterVisits;
                 }
 
                 FilterVisits(sender, e);
