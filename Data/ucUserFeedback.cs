@@ -165,7 +165,7 @@ namespace CHaMPWorkbench.Data
                 {
                     dbCon.Open();
                     SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHAMP_Sites WHERE WatershedID = @WatershedID ORDER BY SiteName", dbCon);
-                    dbCom.Parameters.AddWithValue("WatesrhedID", nWatershedID);
+                    dbCom.Parameters.AddWithValue("WatershedID", nWatershedID);
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {

@@ -60,13 +60,16 @@ namespace CHaMPWorkbench.Data
                 {
                     Cursor.Current = Cursors.WaitCursor;
 
-                    string sSQL = "SELECT F.LogID, F.UserName, LookupListItems.Title AS QualityRating, F.ItemReviewed, W.WatershedName, S.SiteName, F.VisitID, F.ReviewedOn, F.AddedOn" +
-                        " FROM((CHAMP_Visits AS V RIGHT JOIN(CHAMP_Watersheds AS W RIGHT JOIN LogFeedback AS F ON W.WatershedID = F.WatershedID) ON V.VisitID = F.VisitID) LEFT JOIN CHAMP_Sites AS S ON F.SiteID = S.SiteID) INNER JOIN LookupListItems ON F.QualityRatingID = LookupListItems.ItemID";
+                    string sVisitIDs = string.Empty;
+                    if (VisitIDs != null && VisitIDs.Count > 0)
+                        sVisitIDs = string.Format("WHERE V.VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
-                    if (VisitIDs is List<naru.db.NamedObject> && VisitIDs.Count > 0)
-                        sSQL = string.Format("{0} WHERE F.VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
-
-                    sSQL += " ORDER BY F.AddedOn DESC";
+                    string sSQL = string.Format("SELECT L.*, W.WatershedName AS WatershedName, S.SiteName as SiteName, LI.Title AS QualityRating FROM LogFeedback L" +
+                        " INNER JOIN LookupListItems LI ON L.QualityRatingID = LI.ItemID" +
+                        " LEFT JOIN CHaMP_Watersheds W ON L.WatershedID = W.WatershedID" +
+                        " LEFT JOIN CHaMP_Sites S ON L.SiteID = S.SiteID" +
+                        " LEFT JOIN CHaMP_Visits V ON L.VisitID = V.VisitID" +
+                        " {0} ORDER BY AddedOn DESC", sVisitIDs);
 
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                     DataTable ta = new DataTable();
@@ -84,7 +87,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        #region Context Menu Strip Items
+         #region Context Menu Strip Items
 
         private void addUserFeedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
