@@ -39,8 +39,6 @@
             this.closeDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewWorkbenchDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.openDatabaseInAccessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSeleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,8 +212,6 @@
             this.closeDatabaseToolStripMenuItem,
             this.createNewWorkbenchDatabaseToolStripMenuItem,
             this.toolStripSeparator6,
-            this.openDatabaseInAccessToolStripMenuItem,
-            this.toolStripSeparator7,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -248,18 +244,6 @@
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(256, 6);
-            // 
-            // openDatabaseInAccessToolStripMenuItem
-            // 
-            this.openDatabaseInAccessToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.Access1;
-            this.openDatabaseInAccessToolStripMenuItem.Name = "openDatabaseInAccessToolStripMenuItem";
-            this.openDatabaseInAccessToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.openDatabaseInAccessToolStripMenuItem.Text = "Open Database in Access...";
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(256, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -1521,8 +1505,6 @@
         private System.Windows.Forms.ToolStripMenuItem generateGCDProjectFromCHaMPSiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem openDatabaseInAccessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem testXPathReferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem delft3DToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToRasterToolStripMenuItem;

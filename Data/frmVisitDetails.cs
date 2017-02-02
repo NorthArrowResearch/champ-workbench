@@ -195,56 +195,79 @@ namespace CHaMPWorkbench.Data
         /// </summary>
         private void LoadMetricResults()
         {
+            // Create the data table and add the first column which is for the metric name.
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Metric");
+
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                string sSQL = "TRANSFORM Max(Metric_VisitMetrics.MetricValue) AS MaxOfMetricValue" +
-                    " SELECT Metric_Definitions.Title AS Metric" +
-                    " FROM Metric_Results INNER JOIN (Metric_Definitions INNER JOIN Metric_VisitMetrics ON Metric_Definitions.MetricID = Metric_VisitMetrics.MetricID) ON Metric_Results.ResultID = Metric_VisitMetrics.ResultID" +
-                    " WHERE (Metric_Results.VisitID = " + VisitID.ToString() + ")" +
-                    " GROUP BY Metric_Definitions.Title" +
-                    " PIVOT Metric_VisitMetrics.ResultID";
-
-                SQLiteDataAdapter da = new SQLiteDataAdapter (sSQL, dbCon);
-                //da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
-                DataTable ta = new DataTable();
-                da.Fill(ta);
-
-                // So far the column headings are just the result IDs.
-                // Now replace them with nice formatting
-                SQLiteCommand comResults = new SQLiteCommand("SELECT Metric_Results.ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
-                    " FROM LookupListItems INNER JOIN Metric_Results ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
-                    " WHERE (Metric_Results.ResultID = @VisitID)", dbCon);
-                SQLiteParameter pResultID = comResults.Parameters.Add("@ResultID", DbType.Int64);
-
-                foreach (DataColumn aCol in ta.Columns)
+                // Loop over all model results for this visit and add a column for each result. 
+                // For now just set the column names to the ResultID but store a dictionary of the result names for later.
+                Dictionary<long, string> dResultNames = new Dictionary<long, string>();
+                Dictionary<long, int> dResultCols = new Dictionary<long, int>();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Metric_Results.ResultID AS ResultID, Metric_Results.ModelVersion, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
+                  " FROM LookupListItems INNER JOIN Metric_Results ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
+                  " WHERE (Metric_Results.VisitID = @VisitID)", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", VisitID);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
                 {
-                    int nResultID = 0;
-                    if (int.TryParse(aCol.ColumnName, out nResultID))
-                    {
-                        pResultID.Value = nResultID;
-                        SQLiteDataReader dbRead = comResults.ExecuteReader();
-                        if (dbRead.Read())
-                        {
-                            aCol.ColumnName = string.Format("{0} on {1:dd MMM yyy} ({2})", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["ResultID"]);
-                        }
-                        dbRead.Close();
-                    }
+                    long nResultID = dbRead.GetInt64(dbRead.GetOrdinal("ResultID"));
+                    dt.Columns.Add(nResultID.ToString(), Type.GetType("System.Double"));
+                    dResultNames[nResultID] = string.Format("{0} on {1:dd MMM yyy} ({2})", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["ResultID"]);
+                    dResultCols[nResultID] = dt.Columns.Count - 1;
+                }
+                dbRead.Close();
+
+                // load all the metrics for which there are values at this visit
+                Dictionary<long, int> dMetrics = new Dictionary<long, int>();
+                dbCom = new SQLiteCommand("SELECT M.MetricID AS MetricID, Title FROM Metric_Definitions M INNER JOIN Metric_VisitMetrics V ON M.MetricID = V.MetricID WHERE CMMetricID IS NOT NULL GROUP BY M.MetricID, DisplayNameShort", dbCon);
+                dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    DataRow aRow = dt.NewRow();
+                    aRow["Metric"] = dbRead.GetString(dbRead.GetOrdinal("Title"));
+                    dt.Rows.Add(aRow);
+                    dMetrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = dt.Rows.Count - 1;
+                }
+                dbRead.Close();
+
+                // Loop over all the visit level metric values and insert them into the table.
+                dbCom = new SQLiteCommand("SELECT R.ResultID AS ResultID, MetricID, MetricValue FROM Metric_VisitMetrics V INNER JOIN Metric_Results R WHERE (V.ResultID = R.ResultID) AND (VisitID = @VisitID) AND (MetricValue IS NOT NULL)", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", VisitID);
+                dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    long nResultID = dbRead.GetInt64(dbRead.GetOrdinal("ResultID"));
+                    long nMetricID = dbRead.GetInt64(dbRead.GetOrdinal("MetricID"));
+                    double fMetricValue = dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"));
+                    dt.Rows[dMetrics[nMetricID]].SetField<double>(dResultCols[nResultID], fMetricValue);
                 }
 
-                grdMetrics.DataSource = ta;
-                grdMetrics.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
-                foreach (DataGridViewColumn grdCol in grdMetrics.Columns)
+                // Now assign the name of each result to the table columns.
+                foreach (DataColumn aCol in dt.Columns)
                 {
-                    if (string.Compare(grdCol.HeaderText, "Metric", true) != 0)
-                    {
-                        grdCol.DefaultCellStyle.Format = "#0.00";
-                        grdCol.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                    }
+                    long nResultID = 0;
+                    if (long.TryParse(aCol.ColumnName, out nResultID))
+                        aCol.ColumnName = dResultNames[nResultID];
                 }
             }
+
+            // Bind the data table to the grid.
+            grdMetrics.DataSource = dt;
+            grdMetrics.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            foreach (DataGridViewColumn grdCol in grdMetrics.Columns)
+            {
+                if (string.Compare(grdCol.HeaderText, "Metric", true) != 0)
+                {
+                    grdCol.DefaultCellStyle.Format = "#0.00";
+                    grdCol.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+            }
+
         }
 
         private void LoadLogMessageCombos()
@@ -269,7 +292,7 @@ namespace CHaMPWorkbench.Data
                 cboLogResults.SelectedIndexChanged += LoadLogMessages;
                 if (cboLogResults.Items.Count > 0)
                     cboLogResults.SelectedIndex = 0;
-                
+
                 cboLogMessageTypes.Items.Add("All");
                 cboLogMessageTypes.Items.Add("Error");
                 cboLogMessageTypes.Items.Add("Info");
@@ -285,7 +308,7 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                SQLiteDataAdapter da = new SQLiteDataAdapter ("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
+                SQLiteDataAdapter da = new SQLiteDataAdapter("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
                    " FROM LogFiles INNER JOIN LogMessages ON LogFiles.LogID = LogMessages.LogID" +
                    " WHERE (LogFiles.ResultID = @ResultID) ORDER BY LogMessages.LogDateTime", dbCon);
                 da.SelectCommand.Parameters.AddWithValue("@ResultID", ((naru.db.NamedObject)cboLogResults.SelectedItem).ID);
