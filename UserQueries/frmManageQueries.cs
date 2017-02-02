@@ -44,7 +44,7 @@ namespace CHaMPWorkbench.UserQueries
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                SQLiteDataAdapter da = new SQLiteDataAdapter("SELECT User_Queries.QueryID, User_Queries.Title, Left([QueryText],50) AS QueryText, User_Queries.CreatedOn FROM User_Queries ORDER BY Title", dbCon);
+                SQLiteDataAdapter da = new SQLiteDataAdapter("SELECT QueryID, Title, substr(QueryText, 0, 50) AS QueryText, CreatedOn FROM User_Queries ORDER BY Title", dbCon);
                 DataTable ta = new DataTable();
                 da.Fill(ta);
 
