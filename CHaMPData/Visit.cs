@@ -16,13 +16,13 @@ namespace CHaMPWorkbench.CHaMPData
         public string CrewName { get; internal set; }
         public DateTime SampleDate { get; internal set; }
         public Nullable<long> ProtocolID { get; internal set; }
+        public long ProgramID { get; internal set; }
         public bool IsPrimary { get; internal set; }
         public bool QCVisit { get; internal set; }
         public string PanelName { get; internal set; }
         public string CategoryName { get; internal set; }
         public string VisitPhase { get; internal set; }
         public string VisitStatus { get; internal set; }
-        public bool AEM { get; internal set; }
         public bool HasStreamTempLogger { get; internal set; }
         public bool HasFishData { get; internal set; }
         public Nullable<double> Discharge { get; internal set; }
@@ -32,9 +32,9 @@ namespace CHaMPWorkbench.CHaMPData
         public Dictionary<long, ChannelSegment> Segments { get; internal set; }
 
         public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, Nullable<long> nProgramSiteID, Nullable<long> nHitchID, string sHitchName,
-            string sOrganization, string sCrewName, DateTime dtSampleDate, Nullable<long> nProtocolID, bool bIsPrimary, bool bQCVisit,
-            string sPanelName, string sCategoryName, string sVisitPhase, string sVisitStatus, bool bAEM, bool bHSTL, bool bHasFishData,
-           Nullable<double> fDischarge, Nullable<double> fD84, string sRemarks, string sUTMZone) : base(nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone)
+            string sOrganization, string sCrewName, DateTime dtSampleDate, Nullable<long> nProtocolID, long nProgramID, bool bIsPrimary, bool bQCVisit,
+            string sPanelName, string sCategoryName, string sVisitPhase, string sVisitStatus, bool bHSTL, bool bHasFishData,
+           Nullable<double> fDischarge, Nullable<double> fD84, string sRemarks, string sUTMZone) : base(nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID)
         {
             ProgramSiteID = nProgramSiteID;
             HitchID = nHitchID;
@@ -48,7 +48,6 @@ namespace CHaMPWorkbench.CHaMPData
             CategoryName = sCategoryName;
             VisitPhase = sVisitPhase;
             VisitStatus = sVisitStatus;
-            AEM = bAEM;
             HasStreamTempLogger = bHSTL;
             HasFishData = bHasFishData;
             Discharge = fDischarge;
@@ -109,13 +108,13 @@ namespace CHaMPWorkbench.CHaMPData
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "CrewName")
                         , dbRead.GetDateTime(dbRead.GetOrdinal("SampleDate"))
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "ProtocolID")
+                        , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))
                         , dbRead.GetBoolean(dbRead.GetOrdinal("IsPrimary"))
                         , dbRead.GetBoolean(dbRead.GetOrdinal("QCVisit"))
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "PanelName")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "CategoryName")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "VisitPhase")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "VisitStatus")
-                        , dbRead.GetBoolean(dbRead.GetOrdinal("AEM"))
                         , dbRead.GetBoolean(dbRead.GetOrdinal("HasStreamTempLogger"))
                         , dbRead.GetBoolean(dbRead.GetOrdinal("HasFishData"))
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Discharge")

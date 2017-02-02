@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
+    <Compile Include="CHaMPData\Program.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
