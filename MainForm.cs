@@ -1000,10 +1000,11 @@ namespace CHaMPWorkbench
 
                 using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                 {
+                    dbCon.Open();
                     try
                     {
                         SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHAMP_Sites S INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID WHERE (V.VisitID = @VisitID)", dbCon);
-                        dbCom.Parameters.AddWithValue("@VisitID", (int)r["VisitID"]);
+                        dbCom.Parameters.AddWithValue("@VisitID", (long)r["VisitID"]);
                         SQLiteDataReader dbRead = dbCom.ExecuteReader();
                         if (dbRead.Read() && (dbRead["Latitude"] != DBNull.Value) && (dbRead["Longitude"] != DBNull.Value))
                         {
