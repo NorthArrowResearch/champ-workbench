@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Data.SQLite;
 using naru.xml;
+using naru.db;
 
 namespace CHaMPWorkbench.CHaMPData
 {
-    public class ChannelSegment : naru.db.NamedObject
+    public class ChannelSegment : NamedObject
     {
         public long ChannelSegmentNumber { get; internal set; }
         public Dictionary<long, ChannelUnit> ChannelUnits { get; internal set; }

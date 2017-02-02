@@ -378,14 +378,14 @@ namespace CHaMPWorkbench.Habitat
                     }
                 }
 
-                List<int> lVisitIDs = new List<int>();
+                List<long> lVisitIDs = new List<long>();
                 foreach (DataGridViewRow r in grdVisits.Rows)
                 {
                     DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[m_nSelectionColumnIndex];
                     if ((bool)chk.Value)
                     {
                         DataRowView dr = (DataRowView)r.DataBoundItem;
-                        lVisitIDs.Add((int)dr["VisitID"]);
+                        lVisitIDs.Add((long)dr["VisitID"]);
                     }
                 }
 

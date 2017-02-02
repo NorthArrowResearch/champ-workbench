@@ -210,18 +210,16 @@ namespace CHaMPWorkbench
         {
             if (!string.IsNullOrEmpty(sDatabasePath) && System.IO.File.Exists(sDatabasePath))
             {
-                String sDB = CHaMPWorkbench.Properties.Resources.DBConnectionStringBase.Replace("Source=", "Source=" + sDatabasePath);
-
                 try
                 {
-                    Console.WriteLine("Attempting to open database: " + sDB);
+                    Console.WriteLine("Attempting to open database: " + sDatabasePath);
                     DBCon.ConnectionString = sDatabasePath;
 
                     // Checking the DB version will close the database if it's the wrong version.
                     CheckDBVersion();
                     if (!string.IsNullOrEmpty(DBCon.ConnectionString))
                     {
-                        CHaMPWorkbench.Properties.Settings.Default.DBConnection = sDB;
+                        CHaMPWorkbench.Properties.Settings.Default.DBConnection = DBCon.ConnectionString;
                         CHaMPWorkbench.Properties.Settings.Default.Save();
                         UpdateMenuItemStatus(menuStrip1.Items);
                         AddProgramsToMenu();
@@ -581,8 +579,9 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors();
-                frm.ShowDialog();
+                MessageBox.Show("Feature unavailable in this version of the CHaMP Workbench", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //Experimental.Kelly.frmExtractRBTErrors frm = new Experimental.Kelly.frmExtractRBTErrors();
+                //frm.ShowDialog();
             }
             catch (Exception ex)
             {

@@ -129,7 +129,6 @@
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
-    <Compile Include="Classes\CHaMPMetricScavenger.cs" />
     <Compile Include="Classes\DBCon.cs" />
     <Compile Include="Classes\MetricPlotType.cs" />
     <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
@@ -272,12 +271,6 @@
     </Compile>
     <Compile Include="Experimental\James\NumericExtensions.cs" />
     <Compile Include="Experimental\James\USGS_StreamData.cs" />
-    <Compile Include="Experimental\Kelly\frmExtractRBTErrors.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Experimental\Kelly\frmExtractRBTErrors.Designer.cs">
-      <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
-    </Compile>
     <Compile Include="Experimental\Philip\frmTestXPath.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -361,6 +354,7 @@
     </Compile>
     <Compile Include="naru\db\CheckedItem.cs" />
     <Compile Include="naru\db\NamedObject.cs" />
+    <Compile Include="naru\db\sqlite\DBCon.cs" />
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
@@ -496,9 +490,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
-      <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmTestXPath.resx">
       <DependentUpon>frmTestXPath.cs</DependentUpon>

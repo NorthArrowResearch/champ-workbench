@@ -64,19 +64,22 @@ namespace CHaMPWorkbench.Models
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Feature Not Implemented in this version of the CHaMP Workbench", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+
             if (!ValidateForm())
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 return;
             }
 
-            Classes.CHaMPMetricScavenger theScavenger = new Classes.CHaMPMetricScavenger(WorkbenchCon);
+            //Classes.CHaMPMetricScavenger theScavenger = new Classes.CHaMPMetricScavenger(WorkbenchCon);
 
             try
             {
                 List<string> lMessages;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                lMessages = theScavenger.Run(txtModelVersion.Text, "", txtSourceDB.Text, chkClear.Checked);
+                //lMessages = theScavenger.Run(txtModelVersion.Text, "", txtSourceDB.Text, chkClear.Checked);
 
                 frmToolResults frm = new frmToolResults("Scavenge CHaMP Metrics", "Process complete.", ref lMessages);
                 frm.ShowDialog();
