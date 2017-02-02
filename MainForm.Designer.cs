@@ -1289,7 +1289,7 @@
             // 
             // colWatershedID
             // 
-            this.colWatershedID.DataPropertyName = "W.WatershedID";
+            this.colWatershedID.DataPropertyName = "WatershedID";
             this.colWatershedID.HeaderText = "Watershed ID";
             this.colWatershedID.Name = "colWatershedID";
             this.colWatershedID.ReadOnly = true;
@@ -1297,77 +1297,77 @@
             // 
             // colWatershedName
             // 
-            this.colWatershedName.DataPropertyName = "W.WatershedName";
+            this.colWatershedName.DataPropertyName = "WatershedName";
             this.colWatershedName.HeaderText = "Watershed";
             this.colWatershedName.Name = "colWatershedName";
             this.colWatershedName.ReadOnly = true;
             // 
             // colFieldSeason
             // 
-            this.colFieldSeason.DataPropertyName = "V.VisitYear";
+            this.colFieldSeason.DataPropertyName = "VisitYear";
             this.colFieldSeason.HeaderText = "Field Season";
             this.colFieldSeason.Name = "colFieldSeason";
             this.colFieldSeason.ReadOnly = true;
             // 
             // colSiteName
             // 
-            this.colSiteName.DataPropertyName = "S.SiteName";
+            this.colSiteName.DataPropertyName = "SiteName";
             this.colSiteName.HeaderText = "Site";
             this.colSiteName.Name = "colSiteName";
             this.colSiteName.ReadOnly = true;
             // 
             // colStreamName
             // 
-            this.colStreamName.DataPropertyName = "S.StreamName";
+            this.colStreamName.DataPropertyName = "StreamName";
             this.colStreamName.HeaderText = "Stream";
             this.colStreamName.Name = "colStreamName";
             this.colStreamName.ReadOnly = true;
             // 
             // colVisitID
             // 
-            this.colVisitID.DataPropertyName = "V.VisitID";
+            this.colVisitID.DataPropertyName = "VisitID";
             this.colVisitID.HeaderText = "Visit ID";
             this.colVisitID.Name = "colVisitID";
             this.colVisitID.ReadOnly = true;
             // 
             // colOrganization
             // 
-            this.colOrganization.DataPropertyName = "V.Organization";
+            this.colOrganization.DataPropertyName = "Organization";
             this.colOrganization.HeaderText = "Organization";
             this.colOrganization.Name = "colOrganization";
             this.colOrganization.ReadOnly = true;
             // 
             // colHitchName
             // 
-            this.colHitchName.DataPropertyName = "V.HitchName";
+            this.colHitchName.DataPropertyName = "HitchName";
             this.colHitchName.HeaderText = "Hitch";
             this.colHitchName.Name = "colHitchName";
             this.colHitchName.ReadOnly = true;
             // 
             // colCrewName
             // 
-            this.colCrewName.DataPropertyName = "V.CrewName";
+            this.colCrewName.DataPropertyName = "CrewName";
             this.colCrewName.HeaderText = "Crew";
             this.colCrewName.Name = "colCrewName";
             this.colCrewName.ReadOnly = true;
             // 
             // colVisitPhase
             // 
-            this.colVisitPhase.DataPropertyName = "V.VisitPhase";
+            this.colVisitPhase.DataPropertyName = "VisitPhase";
             this.colVisitPhase.HeaderText = "Visit Phase";
             this.colVisitPhase.Name = "colVisitPhase";
             this.colVisitPhase.ReadOnly = true;
             // 
             // colVisitStatus
             // 
-            this.colVisitStatus.DataPropertyName = "V.VisitStatus";
+            this.colVisitStatus.DataPropertyName = "VisitStatus";
             this.colVisitStatus.HeaderText = "Visit Status";
             this.colVisitStatus.Name = "colVisitStatus";
             this.colVisitStatus.ReadOnly = true;
             // 
             // colAEM
             // 
-            this.colAEM.DataPropertyName = "V.AEM";
+            this.colAEM.DataPropertyName = "AEM";
             this.colAEM.HeaderText = "AEM";
             this.colAEM.Name = "colAEM";
             this.colAEM.ReadOnly = true;
@@ -1376,14 +1376,14 @@
             // 
             // colIsPrimary
             // 
-            this.colIsPrimary.DataPropertyName = "V.IsPrimary";
+            this.colIsPrimary.DataPropertyName = "IsPrimary";
             this.colIsPrimary.HeaderText = "Primary";
             this.colIsPrimary.Name = "colIsPrimary";
             this.colIsPrimary.ReadOnly = true;
             // 
             // colQCVisit
             // 
-            this.colQCVisit.DataPropertyName = "V.QCVisit";
+            this.colQCVisit.DataPropertyName = "QCVisit";
             this.colQCVisit.HeaderText = "QC Visit";
             this.colQCVisit.Name = "colQCVisit";
             this.colQCVisit.ReadOnly = true;
@@ -1392,7 +1392,7 @@
             // 
             // colHasStreamTempLogger
             // 
-            this.colHasStreamTempLogger.DataPropertyName = "V.HasStreamTempLogger";
+            this.colHasStreamTempLogger.DataPropertyName = "HasStreamTempLogger";
             this.colHasStreamTempLogger.HeaderText = "Stream Temp Logger";
             this.colHasStreamTempLogger.Name = "colHasStreamTempLogger";
             this.colHasStreamTempLogger.ReadOnly = true;
@@ -1401,7 +1401,7 @@
             // 
             // colHasFishData
             // 
-            this.colHasFishData.DataPropertyName = "V.HasFishData";
+            this.colHasFishData.DataPropertyName = "HasFishData";
             this.colHasFishData.HeaderText = "Has Fish Data";
             this.colHasFishData.Name = "colHasFishData";
             this.colHasFishData.ReadOnly = true;
@@ -1410,14 +1410,14 @@
             // 
             // colCategoryName
             // 
-            this.colCategoryName.DataPropertyName = "V.CategoryName";
+            this.colCategoryName.DataPropertyName = "CategoryName";
             this.colCategoryName.HeaderText = "Category Name";
             this.colCategoryName.Name = "colCategoryName";
             this.colCategoryName.ReadOnly = true;
             // 
             // colSiteID
             // 
-            this.colSiteID.DataPropertyName = "S.SiteID";
+            this.colSiteID.DataPropertyName = "SiteID";
             this.colSiteID.HeaderText = "Site ID";
             this.colSiteID.Name = "colSiteID";
             this.colSiteID.ReadOnly = true;
@@ -1425,14 +1425,14 @@
             // 
             // colSampleDate
             // 
-            this.colSampleDate.DataPropertyName = "V.SampleDate";
+            this.colSampleDate.DataPropertyName = "SampleDate";
             this.colSampleDate.HeaderText = "Sample Date";
             this.colSampleDate.Name = "colSampleDate";
             this.colSampleDate.ReadOnly = true;
             // 
             // colPanel
             // 
-            this.colPanel.DataPropertyName = "V.PanelName";
+            this.colPanel.DataPropertyName = "PanelName";
             this.colPanel.HeaderText = "Panel";
             this.colPanel.Name = "colPanel";
             this.colPanel.ReadOnly = true;

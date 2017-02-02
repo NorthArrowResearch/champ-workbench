@@ -616,16 +616,9 @@ namespace CHaMPWorkbench
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            string sGroupFields = " W.WatershedID, W.WatershedName, V.VisitID, V.VisitYear, V.SampleDate,V.HitchName,V.CrewName,V.PanelName, S.SiteID, S.SiteName, S.StreamName, V.Organization, V.QCVisit, V.CategoryName, V.VisitPhase,V.VisitStatus,V.AEM,V.HasStreamTempLogger,V.HasFishData, V.IsPrimary";
-
-            string sSQL = "SELECT " + sGroupFields + ", Count(C.SegmentID) AS ChannelUnits" +
-                " FROM ((CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID) LEFT JOIN CHaMP_Segments AS Seg ON V.VisitID = Seg.VisitID) LEFT JOIN CHAMP_ChannelUnits AS C ON Seg.SegmentID = C.SegmentID" +
-                " GROUP BY " + sGroupFields +
-                " ORDER BY W.WatershedName, S.SiteName, V.VisitID";
-
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMainVisitList ORDER BY WatershedName, SiteName, VisitID", dbCon);
                 SQLiteDataAdapter daVisits = new SQLiteDataAdapter(dbCom);
                 DataTable dtVisits = new DataTable();
 
