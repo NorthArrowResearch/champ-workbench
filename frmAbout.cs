@@ -31,7 +31,7 @@ namespace CHaMPWorkbench
                 {
                     using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                     {
-
+                        dbCon.Open();
                         SQLiteCommand dbCom = new SQLiteCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", dbCon);
                         String sVersion = (string)dbCom.ExecuteScalar();
                         if (String.IsNullOrWhiteSpace(sVersion))
