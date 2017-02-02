@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CHaMPData\AllCHaMPData.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
@@ -276,12 +277,6 @@
     </Compile>
     <Compile Include="Experimental\Kelly\frmExtractRBTErrors.Designer.cs">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Experimental\Kelly\frmHydroModelInputs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Experimental\Kelly\frmHydroModelInputs.Designer.cs">
-      <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\Philip\frmTestXPath.cs">
       <SubType>Form</SubType>
@@ -504,9 +499,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Kelly\frmExtractRBTErrors.resx">
       <DependentUpon>frmExtractRBTErrors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Experimental\Kelly\frmHydroModelInputs.resx">
-      <DependentUpon>frmHydroModelInputs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmTestXPath.resx">
       <DependentUpon>frmTestXPath.cs</DependentUpon>
