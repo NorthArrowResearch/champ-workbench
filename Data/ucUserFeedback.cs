@@ -46,10 +46,10 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(DBCon))
                 return;
 
-            int nQualityID = 0;
-            int nWatershedID = 0;
-            int nSiteID = 0;
-            int nVisitID = 0;
+            long nQualityID = 0;
+            long nWatershedID = 0;
+            long nSiteID = 0;
+            long nVisitID = 0;
 
             if (LogID > 0)
             {
