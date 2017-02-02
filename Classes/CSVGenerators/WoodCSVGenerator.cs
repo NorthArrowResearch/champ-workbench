@@ -14,7 +14,7 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
         }
 
-        public override System.IO.FileInfo Run(int nVisitID, string sFilePath)
+        public override System.IO.FileInfo Run(long nVisitID, string sFilePath)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {

@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmFTPVisit : Form
     {
-        private int m_nVisitID;
+        private long m_nVisitID;
         private string m_sVisitRelativePath;
         private const string m_sFTPTopLevelFolder_CHaMP = "ftp.geooptix.com";
         private const string m_sFTPTopLevelFolder_AEM = "ftp.aemonitoring.org";
@@ -23,7 +23,7 @@ namespace CHaMPWorkbench.Data
         private bool m_bCreateFolders;
         private StringBuilder m_sProgress;
 
-        public frmFTPVisit(int nVisitID, string sFullLocalPathToVisit)
+        public frmFTPVisit(long nVisitID, string sFullLocalPathToVisit)
         {
             InitializeComponent();
             m_nVisitID = nVisitID;

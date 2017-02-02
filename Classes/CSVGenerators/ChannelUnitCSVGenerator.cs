@@ -12,17 +12,17 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
         {
         }
 
-        public override System.IO.FileInfo Run(int nVisitID, string sFilePath)
+        public override System.IO.FileInfo Run(long nVisitID, string sFilePath)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Sites.SiteName, C.ChannelUnitNumber, C.Tier1, C.Tier2, " +
-                    " C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover," +
-                    " W.WatershedName, V.SampleDate, V.CrewName, V.PanelName,C.ID As ChannelUnitID, S.SegmentNumber, S.SegmentName" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteName, ChannelUnitNumber, Tier1, Tier2, " +
+                    " BouldersGT256, Cobbles65255, CoarseGravel1764, FineGravel316, Sand0062, FinesLT006, SumSubstrateCover," +
+                    " WatershedName, SampleDate, CrewName, PanelName, C.ID As ChannelUnitID, SegmentNumber, SegmentName" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN ((CHAMP_Sites INNER JOIN CHAMP_Visits AS V ON CHAMP_Sites.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID) ON W.WatershedID = CHAMP_Sites.WatershedID" +
-                    " WHERE V.VisitID=[@VisitID] ORDER BY C.ChannelUnitNumber", dbCon);
+                    " WHERE V.VisitID=@VisitID ORDER BY C.ChannelUnitNumber", dbCon);
 
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
                 try

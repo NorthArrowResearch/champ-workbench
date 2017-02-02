@@ -14,7 +14,7 @@ namespace CHaMPWorkbench.Data
     public partial class ucMetricPlot : UserControl
     {
         public string DBCon { get; set; }
-        public int VisitID { get; set; }
+        public long VisitID { get; set; }
         public naru.db.NamedObject Program { get; set; }
 
         private Dictionary<int, ModelResult> m_dModelResults;
@@ -212,7 +212,7 @@ namespace CHaMPWorkbench.Data
                 MetricValues = new Dictionary<int, double>();
             }
 
-            public static void LoadModelResults(ref ComboBox cbo, string sDBCon, int VisitID, out Dictionary<int, ModelResult> dModelResults)
+            public static void LoadModelResults(ref ComboBox cbo, string sDBCon, long VisitID, out Dictionary<int, ModelResult> dModelResults)
             {
                 cbo.Items.Clear();
                 dModelResults = new Dictionary<int, ModelResult>();

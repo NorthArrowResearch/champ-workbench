@@ -813,7 +813,7 @@ namespace CHaMPWorkbench
             DataRow dr = RetrieveVisitInfo();
             if (dr is DataRow)
             {
-                sPath = System.IO.Path.Combine(sParentFolder, ((Int16)dr["VisitYear"]).ToString());
+                sPath = System.IO.Path.Combine(sParentFolder, ((Int64)dr["VisitYear"]).ToString());
                 sPath = System.IO.Path.Combine(sPath, (string)dr["WatershedName"]);
                 sPath = System.IO.Path.Combine(sPath, (string)dr["SiteName"]);
                 sPath = System.IO.Path.Combine(sPath, string.Format("VISIT_{0}", dr["VisitID"]));
@@ -851,7 +851,7 @@ namespace CHaMPWorkbench
                 if (r is DataRow)
                 {
                     string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                    Data.frmFTPVisit frm = new Data.frmFTPVisit((int)r["VisitID"], sTopoFolder);
+                    Data.frmFTPVisit frm = new Data.frmFTPVisit((long)r["VisitID"], sTopoFolder);
                     frm.ShowDialog();
                 }
             }
@@ -959,7 +959,7 @@ namespace CHaMPWorkbench
                     System.IO.Directory.CreateDirectory(sTopoFolder);
                     sTopoFolder = System.IO.Path.Combine(sTopoFolder, "ChannelUnits.csv");
                     Classes.CSVGenerators.ChannelUnitCSVGenerator csv = new Classes.CSVGenerators.ChannelUnitCSVGenerator(DBCon.ConnectionString);
-                    csv.Run((int)r["VisitID"], sTopoFolder);
+                    csv.Run((long)r["VisitID"], sTopoFolder);
 
                     if (System.Windows.Forms.MessageBox.Show("The channel unit file was created successfully. Do you want to view the file?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
                         System.Diagnostics.Process.Start(sTopoFolder);
@@ -1574,7 +1574,7 @@ namespace CHaMPWorkbench
         {
             if (visitRow is DataRow)
             {
-                Data.frmVisitDetails frm = new Data.frmVisitDetails(DBCon.ConnectionString, (int)visitRow["VisitID"]);
+                Data.frmVisitDetails frm = new Data.frmVisitDetails(DBCon.ConnectionString, (long)visitRow["VisitID"]);
                 frm.ShowDialog();
             }
         }

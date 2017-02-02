@@ -13,11 +13,11 @@ namespace CHaMPWorkbench.Data
     public partial class frmVisitDetails : Form
     {
         private string DBCon { get; set; }
-        private int VisitID { get; set; }
+        private long VisitID { get; set; }
 
         private BindingSource bsLogMessages;
 
-        public frmVisitDetails(string sDBCon, int nVisitID)
+        public frmVisitDetails(string sDBCon, long nVisitID)
         {
             InitializeComponent();
             DBCon = sDBCon;
