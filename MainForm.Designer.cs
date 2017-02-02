@@ -109,6 +109,7 @@
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,6 +135,26 @@
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.chkVisitID = new System.Windows.Forms.CheckBox();
             this.grdVisits = new System.Windows.Forms.DataGridView();
+            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.browseModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.copyMonitoringDataFolderPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterForAllVisitsToThisSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectRandomNumberOfVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colWatershedID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colWatershedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -155,27 +176,6 @@
             this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.browseModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.copyMonitoringDataFolderPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyModelInputOutputFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterForAllVisitsToThisSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectRandomNumberOfVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.generateChannelUnitCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateRBTRunForThisVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -806,6 +806,13 @@
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Text = "Scavenge Metrics From cm.org Download...";
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Click += new System.EventHandler(this.scavengeMetricsFromCmorgDownloadToolStripMenuItem_Click);
             // 
+            // exportSelectedVisitInformationToolStripMenuItem
+            // 
+            this.exportSelectedVisitInformationToolStripMenuItem.Name = "exportSelectedVisitInformationToolStripMenuItem";
+            this.exportSelectedVisitInformationToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
+            this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
+            // 
             // saraBangenToolStripMenuItem
             // 
             this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
@@ -1120,163 +1127,6 @@
             this.grdVisits.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdVisits_CellDoubleClick);
             this.grdVisits.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdVisits_CellMouseClick);
             // 
-            // colWatershedID
-            // 
-            this.colWatershedID.DataPropertyName = "WatershedID";
-            this.colWatershedID.HeaderText = "Watershed ID";
-            this.colWatershedID.Name = "colWatershedID";
-            this.colWatershedID.ReadOnly = true;
-            this.colWatershedID.Visible = false;
-            // 
-            // colWatershedName
-            // 
-            this.colWatershedName.DataPropertyName = "WatershedName";
-            this.colWatershedName.HeaderText = "Watershed";
-            this.colWatershedName.Name = "colWatershedName";
-            this.colWatershedName.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "VisitYear";
-            this.colFieldSeason.HeaderText = "Field Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            // 
-            // colSiteName
-            // 
-            this.colSiteName.DataPropertyName = "SiteName";
-            this.colSiteName.HeaderText = "Site";
-            this.colSiteName.Name = "colSiteName";
-            this.colSiteName.ReadOnly = true;
-            // 
-            // colStreamName
-            // 
-            this.colStreamName.DataPropertyName = "StreamName";
-            this.colStreamName.HeaderText = "Stream";
-            this.colStreamName.Name = "colStreamName";
-            this.colStreamName.ReadOnly = true;
-            // 
-            // colVisitID
-            // 
-            this.colVisitID.DataPropertyName = "VisitID";
-            this.colVisitID.HeaderText = "Visit ID";
-            this.colVisitID.Name = "colVisitID";
-            this.colVisitID.ReadOnly = true;
-            // 
-            // colOrganization
-            // 
-            this.colOrganization.DataPropertyName = "Organization";
-            this.colOrganization.HeaderText = "Organization";
-            this.colOrganization.Name = "colOrganization";
-            this.colOrganization.ReadOnly = true;
-            // 
-            // colHitchName
-            // 
-            this.colHitchName.DataPropertyName = "HitchName";
-            this.colHitchName.HeaderText = "Hitch";
-            this.colHitchName.Name = "colHitchName";
-            this.colHitchName.ReadOnly = true;
-            // 
-            // colCrewName
-            // 
-            this.colCrewName.DataPropertyName = "CrewName";
-            this.colCrewName.HeaderText = "Crew";
-            this.colCrewName.Name = "colCrewName";
-            this.colCrewName.ReadOnly = true;
-            // 
-            // colVisitPhase
-            // 
-            this.colVisitPhase.DataPropertyName = "VisitPhase";
-            this.colVisitPhase.HeaderText = "Visit Phase";
-            this.colVisitPhase.Name = "colVisitPhase";
-            this.colVisitPhase.ReadOnly = true;
-            // 
-            // colVisitStatus
-            // 
-            this.colVisitStatus.DataPropertyName = "VisitStatus";
-            this.colVisitStatus.HeaderText = "Visit Status";
-            this.colVisitStatus.Name = "colVisitStatus";
-            this.colVisitStatus.ReadOnly = true;
-            // 
-            // colAEM
-            // 
-            this.colAEM.DataPropertyName = "AEM";
-            this.colAEM.HeaderText = "AEM";
-            this.colAEM.Name = "colAEM";
-            this.colAEM.ReadOnly = true;
-            this.colAEM.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAEM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colIsPrimary
-            // 
-            this.colIsPrimary.DataPropertyName = "IsPrimary";
-            this.colIsPrimary.HeaderText = "Primary";
-            this.colIsPrimary.Name = "colIsPrimary";
-            this.colIsPrimary.ReadOnly = true;
-            // 
-            // colQCVisit
-            // 
-            this.colQCVisit.DataPropertyName = "QCVisit";
-            this.colQCVisit.HeaderText = "QC Visit";
-            this.colQCVisit.Name = "colQCVisit";
-            this.colQCVisit.ReadOnly = true;
-            this.colQCVisit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colQCVisit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colHasStreamTempLogger
-            // 
-            this.colHasStreamTempLogger.DataPropertyName = "StreamTempLogger";
-            this.colHasStreamTempLogger.HeaderText = "Stream Temp Logger";
-            this.colHasStreamTempLogger.Name = "colHasStreamTempLogger";
-            this.colHasStreamTempLogger.ReadOnly = true;
-            this.colHasStreamTempLogger.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colHasStreamTempLogger.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colHasFishData
-            // 
-            this.colHasFishData.DataPropertyName = "HasFishData";
-            this.colHasFishData.HeaderText = "Has Fish Data";
-            this.colHasFishData.Name = "colHasFishData";
-            this.colHasFishData.ReadOnly = true;
-            this.colHasFishData.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colHasFishData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colCategoryName
-            // 
-            this.colCategoryName.DataPropertyName = "CategoryName";
-            this.colCategoryName.HeaderText = "Category Name";
-            this.colCategoryName.Name = "colCategoryName";
-            this.colCategoryName.ReadOnly = true;
-            // 
-            // colSiteID
-            // 
-            this.colSiteID.DataPropertyName = "SiteID";
-            this.colSiteID.HeaderText = "Site ID";
-            this.colSiteID.Name = "colSiteID";
-            this.colSiteID.ReadOnly = true;
-            this.colSiteID.Visible = false;
-            // 
-            // colSampleDate
-            // 
-            this.colSampleDate.DataPropertyName = "SampleDate";
-            this.colSampleDate.HeaderText = "Sample Date";
-            this.colSampleDate.Name = "colSampleDate";
-            this.colSampleDate.ReadOnly = true;
-            // 
-            // colPanel
-            // 
-            this.colPanel.DataPropertyName = "PanelName";
-            this.colPanel.HeaderText = "Panel";
-            this.colPanel.Name = "colPanel";
-            this.colPanel.ReadOnly = true;
-            // 
-            // colCahnnelUnits
-            // 
-            this.colCahnnelUnits.DataPropertyName = "ChannelUnits";
-            this.colCahnnelUnits.HeaderText = "Channel Units";
-            this.colCahnnelUnits.Name = "colCahnnelUnits";
-            this.colCahnnelUnits.ReadOnly = true;
-            // 
             // cmsSiteAllNone
             // 
             this.cmsSiteAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1437,12 +1287,162 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // exportSelectedVisitInformationToolStripMenuItem
+            // colWatershedID
             // 
-            this.exportSelectedVisitInformationToolStripMenuItem.Name = "exportSelectedVisitInformationToolStripMenuItem";
-            this.exportSelectedVisitInformationToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
-            this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
+            this.colWatershedID.DataPropertyName = "W.WatershedID";
+            this.colWatershedID.HeaderText = "Watershed ID";
+            this.colWatershedID.Name = "colWatershedID";
+            this.colWatershedID.ReadOnly = true;
+            this.colWatershedID.Visible = false;
+            // 
+            // colWatershedName
+            // 
+            this.colWatershedName.DataPropertyName = "W.WatershedName";
+            this.colWatershedName.HeaderText = "Watershed";
+            this.colWatershedName.Name = "colWatershedName";
+            this.colWatershedName.ReadOnly = true;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "V.VisitYear";
+            this.colFieldSeason.HeaderText = "Field Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            // 
+            // colSiteName
+            // 
+            this.colSiteName.DataPropertyName = "S.SiteName";
+            this.colSiteName.HeaderText = "Site";
+            this.colSiteName.Name = "colSiteName";
+            this.colSiteName.ReadOnly = true;
+            // 
+            // colStreamName
+            // 
+            this.colStreamName.DataPropertyName = "S.StreamName";
+            this.colStreamName.HeaderText = "Stream";
+            this.colStreamName.Name = "colStreamName";
+            this.colStreamName.ReadOnly = true;
+            // 
+            // colVisitID
+            // 
+            this.colVisitID.DataPropertyName = "V.VisitID";
+            this.colVisitID.HeaderText = "Visit ID";
+            this.colVisitID.Name = "colVisitID";
+            this.colVisitID.ReadOnly = true;
+            // 
+            // colOrganization
+            // 
+            this.colOrganization.DataPropertyName = "V.Organization";
+            this.colOrganization.HeaderText = "Organization";
+            this.colOrganization.Name = "colOrganization";
+            this.colOrganization.ReadOnly = true;
+            // 
+            // colHitchName
+            // 
+            this.colHitchName.DataPropertyName = "V.HitchName";
+            this.colHitchName.HeaderText = "Hitch";
+            this.colHitchName.Name = "colHitchName";
+            this.colHitchName.ReadOnly = true;
+            // 
+            // colCrewName
+            // 
+            this.colCrewName.DataPropertyName = "V.CrewName";
+            this.colCrewName.HeaderText = "Crew";
+            this.colCrewName.Name = "colCrewName";
+            this.colCrewName.ReadOnly = true;
+            // 
+            // colVisitPhase
+            // 
+            this.colVisitPhase.DataPropertyName = "V.VisitPhase";
+            this.colVisitPhase.HeaderText = "Visit Phase";
+            this.colVisitPhase.Name = "colVisitPhase";
+            this.colVisitPhase.ReadOnly = true;
+            // 
+            // colVisitStatus
+            // 
+            this.colVisitStatus.DataPropertyName = "V.VisitStatus";
+            this.colVisitStatus.HeaderText = "Visit Status";
+            this.colVisitStatus.Name = "colVisitStatus";
+            this.colVisitStatus.ReadOnly = true;
+            // 
+            // colAEM
+            // 
+            this.colAEM.DataPropertyName = "V.AEM";
+            this.colAEM.HeaderText = "AEM";
+            this.colAEM.Name = "colAEM";
+            this.colAEM.ReadOnly = true;
+            this.colAEM.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAEM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colIsPrimary
+            // 
+            this.colIsPrimary.DataPropertyName = "V.IsPrimary";
+            this.colIsPrimary.HeaderText = "Primary";
+            this.colIsPrimary.Name = "colIsPrimary";
+            this.colIsPrimary.ReadOnly = true;
+            // 
+            // colQCVisit
+            // 
+            this.colQCVisit.DataPropertyName = "V.QCVisit";
+            this.colQCVisit.HeaderText = "QC Visit";
+            this.colQCVisit.Name = "colQCVisit";
+            this.colQCVisit.ReadOnly = true;
+            this.colQCVisit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colQCVisit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colHasStreamTempLogger
+            // 
+            this.colHasStreamTempLogger.DataPropertyName = "V.HasStreamTempLogger";
+            this.colHasStreamTempLogger.HeaderText = "Stream Temp Logger";
+            this.colHasStreamTempLogger.Name = "colHasStreamTempLogger";
+            this.colHasStreamTempLogger.ReadOnly = true;
+            this.colHasStreamTempLogger.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colHasStreamTempLogger.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colHasFishData
+            // 
+            this.colHasFishData.DataPropertyName = "V.HasFishData";
+            this.colHasFishData.HeaderText = "Has Fish Data";
+            this.colHasFishData.Name = "colHasFishData";
+            this.colHasFishData.ReadOnly = true;
+            this.colHasFishData.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colHasFishData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colCategoryName
+            // 
+            this.colCategoryName.DataPropertyName = "V.CategoryName";
+            this.colCategoryName.HeaderText = "Category Name";
+            this.colCategoryName.Name = "colCategoryName";
+            this.colCategoryName.ReadOnly = true;
+            // 
+            // colSiteID
+            // 
+            this.colSiteID.DataPropertyName = "S.SiteID";
+            this.colSiteID.HeaderText = "Site ID";
+            this.colSiteID.Name = "colSiteID";
+            this.colSiteID.ReadOnly = true;
+            this.colSiteID.Visible = false;
+            // 
+            // colSampleDate
+            // 
+            this.colSampleDate.DataPropertyName = "V.SampleDate";
+            this.colSampleDate.HeaderText = "Sample Date";
+            this.colSampleDate.Name = "colSampleDate";
+            this.colSampleDate.ReadOnly = true;
+            // 
+            // colPanel
+            // 
+            this.colPanel.DataPropertyName = "V.PanelName";
+            this.colPanel.HeaderText = "Panel";
+            this.colPanel.Name = "colPanel";
+            this.colPanel.ReadOnly = true;
+            // 
+            // colCahnnelUnits
+            // 
+            this.colCahnnelUnits.DataPropertyName = "ChannelUnits";
+            this.colCahnnelUnits.HeaderText = "Channel Units";
+            this.colCahnnelUnits.Name = "colCahnnelUnits";
+            this.colCahnnelUnits.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -1593,6 +1593,20 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtSiteName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rdoAll;
+        private System.Windows.Forms.RadioButton rdoPrimary;
+        private System.Windows.Forms.ToolStripMenuItem userQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private System.Windows.Forms.ToolStripMenuItem generateChannelUnitCSVFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricResultsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricReviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userFeedbackForAllItemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSelectedVisitInformationToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
@@ -1614,20 +1628,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton rdoAll;
-        private System.Windows.Forms.RadioButton rdoPrimary;
-        private System.Windows.Forms.ToolStripMenuItem userQueriesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageQueriesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
-        private System.Windows.Forms.ToolStripMenuItem generateChannelUnitCSVFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userFeedbackToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewUserFeedbackItemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem metricResultsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem metricReviewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userFeedbackItemsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userFeedbackForAllItemsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportSelectedVisitInformationToolStripMenuItem;
     }
 }
 

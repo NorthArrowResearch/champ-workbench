@@ -35,8 +35,8 @@ namespace CHaMPWorkbench.Habitat
                 txtHabitatProjectXML.Text = CHaMPWorkbench.Properties.Settings.Default.Habitat_Project;
 
             // Default the DOS window that will appear to either normal (visible) or hidden.
-            int nHidden = cboWindowStyle.Items.Add(new ListItem("Hidden", (int)System.Diagnostics.ProcessWindowStyle.Hidden));
-            int nNormal = cboWindowStyle.Items.Add(new ListItem("Normal", (int)System.Diagnostics.ProcessWindowStyle.Normal));
+            int nHidden = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Hidden, "Hidden"));
+            int nNormal = cboWindowStyle.Items.Add(new naru.db.NamedObject((long)System.Diagnostics.ProcessWindowStyle.Normal, "Normal"));
             cboWindowStyle.SelectedIndex = nNormal;
 
             cmdOK.Select();

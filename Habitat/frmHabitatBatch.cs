@@ -201,7 +201,7 @@ namespace CHaMPWorkbench.Habitat
                 return;
 
             string sValueList = "";
-            foreach (naru.db.CheckedItem l in lst.CheckedItems)
+            foreach (naru.db.CheckedItem.CheckedListItem l in lst.CheckedItems)
             {
                 if (bUseNameInsteadOfValue)
                     sValueList += "'" + l.ToString() + "', ";

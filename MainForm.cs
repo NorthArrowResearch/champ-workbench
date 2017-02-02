@@ -642,7 +642,7 @@ namespace CHaMPWorkbench
                 }
 
                 // Load the field seasons and watersheds
-                naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CStr(VisitYear) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
+                naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstFieldSeason, DBCon.ConnectionString, "SELECT VisitYear, CAST(VisitYear AS text) FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear DESC", false);
                 naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstWatershed, DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", false);
             }
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
