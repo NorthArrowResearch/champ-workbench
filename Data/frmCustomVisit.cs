@@ -249,7 +249,7 @@ namespace CHaMPWorkbench.Data
                         {
                             // Create new segment
                             SQLiteCommand comSegment = new SQLiteCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
-                            comSegment.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
+                            comSegment.Parameters.AddWithValue("@VisitID", (long)valVisitID.Value);
                             comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
                             comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
                             if (comSegment.ExecuteNonQuery() == 1)
