@@ -12,9 +12,9 @@ namespace CHaMPWorkbench.RBTInputFile
 {
     public partial class frmRBTInputBatch : Form
     {
-        private Dictionary<int, string> m_dVisits;
+        private Dictionary<long, string> m_dVisits;
 
-        public frmRBTInputBatch(Dictionary<int, string> dVisits)
+        public frmRBTInputBatch(Dictionary<long, string> dVisits)
         {
             m_dVisits = dVisits;
             InitializeComponent();
@@ -49,7 +49,7 @@ namespace CHaMPWorkbench.RBTInputFile
 
                 if (m_dVisits.Count == 1)
                 {
-                    txtBatch.Text = string.Format("Visit {0}, {1} mode", m_dVisits.Keys.First<int>(), ucConfig.cboRBTMode.Text);
+                    txtBatch.Text = string.Format("Visit {0}, {1} mode", m_dVisits.Keys.First<long>(), ucConfig.cboRBTMode.Text);
                 }
             }
             catch (Exception ex)

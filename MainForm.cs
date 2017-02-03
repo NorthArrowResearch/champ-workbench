@@ -976,7 +976,7 @@ namespace CHaMPWorkbench
 
         private void generateRBTRunForThisVisitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Dictionary<int, string> dVisits = GetSelectedVisits();
+            Dictionary<long , string> dVisits = GetSelectedVisits();
 
             if (dVisits.Count > 0)
             {
@@ -1032,15 +1032,15 @@ namespace CHaMPWorkbench
         /// e.g. input file batch builders</remarks>
         /// <returns>Dictionary, Key is Visit ID and value is a string name for the visit:
         /// YYYY, WatershedName, Site, Visit XXXX</returns>
-        private Dictionary<int, string> GetSelectedVisits()
+        private Dictionary<long, string> GetSelectedVisits()
         {
-            Dictionary<int, string> dVisits = new Dictionary<int, string>();
+            Dictionary<long, string> dVisits = new Dictionary<long, string>();
             foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
                 string sLabel = string.Format("{0}, {1}, {2}, Visit {3}", r["WatershedName"], r["VisitYear"], r["SiteName"], r["VisitID"]);
-                dVisits.Add((int)r["VisitID"], sLabel);
+                dVisits.Add((long)r["VisitID"], sLabel);
             }
 
             return dVisits;
@@ -1063,7 +1063,7 @@ namespace CHaMPWorkbench
 
         private void buildInputFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Dictionary<int, string> dVisits = GetSelectedVisits();
+            Dictionary<long, string> dVisits = GetSelectedVisits();
 
             if (dVisits.Count > 0)
             {
@@ -1308,7 +1308,7 @@ namespace CHaMPWorkbench
 
         private void buildInputFilesToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Dictionary<int, string> dVisits = GetSelectedVisits();
+            Dictionary<long , string> dVisits = GetSelectedVisits();
 
             if (dVisits.Count > 0)
             {

@@ -47,7 +47,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return nSuccessful;
         }
         
-        public BatchInputFileBuilderBase(int nModelTypeID, string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<int, string> dVisits, string sInputFileName)
+        public BatchInputFileBuilderBase(int nModelTypeID, string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<long, string> dVisits, string sInputFileName)
         {
             ModelTypeID = nModelTypeID;
             DBCon = sDBCon;

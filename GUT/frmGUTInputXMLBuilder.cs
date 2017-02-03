@@ -13,9 +13,9 @@ namespace CHaMPWorkbench.GUT
     public partial class frmGUTInputXMLBuilder : Form
     {
         private string m_sDBCon;
-        private Dictionary<int, string> m_dVisits;
+        private Dictionary<long, string> m_dVisits;
 
-        public frmGUTInputXMLBuilder(string sDBCon, Dictionary<int, string> dVisits)
+        public frmGUTInputXMLBuilder(string sDBCon, Dictionary<long, string> dVisits)
         {
             InitializeComponent();
             m_sDBCon = sDBCon;

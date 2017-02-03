@@ -21,7 +21,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         private bool m_bForcePrimary;
         private bool m_bRequiresWSTIN;
 
-        public RBTBatchInputfileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<int, string> dVisits, string sInputFileName, RBTConfig rbtConfig, RBTOutputs rbtOutput,
+        public RBTBatchInputfileBuilder(string sDBCon, string sBatchName, bool bMakeOnlyBatch, string sMonitoringDataFolder, string sOutputFolder, ref Dictionary<long, string> dVisits, string sInputFileName, RBTConfig rbtConfig, RBTOutputs rbtOutput,
              Boolean bCalculateMetrics, Boolean bChangeDetection, Boolean bMakeDEMOrthogonal, bool bIncludeOtherVisits, bool bForcePrimary, bool bRequireWSTIN, bool bClearOtherBatches)
             : base(CHaMPWorkbench.Properties.Settings.Default.ModelType_RBT, sDBCon, sBatchName, bMakeOnlyBatch, sMonitoringDataFolder, sOutputFolder, ref dVisits, sInputFileName)
         {

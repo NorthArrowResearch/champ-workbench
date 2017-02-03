@@ -13,9 +13,9 @@ namespace CHaMPWorkbench.HydroPrep
     public partial class frmHydroPrepBatchBuilder : Form
     {
         private string m_sDBCon;
-        private Dictionary<int, string> m_dVisits;
+        private Dictionary<long, string> m_dVisits;
 
-        public frmHydroPrepBatchBuilder(string sDBCon, Dictionary<int, string> dVisits)
+        public frmHydroPrepBatchBuilder(string sDBCon, Dictionary<long, string> dVisits)
         {
             InitializeComponent();
             m_sDBCon = sDBCon;
