@@ -358,6 +358,7 @@
     <Compile Include="naru\db\sqlite\DBCon.cs" />
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
+    <Compile Include="naru\os\Folder.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
     <Compile Include="naru\xml\XMLHelpers.cs" />
     <Compile Include="RasterMan\Rasterman.cs" />

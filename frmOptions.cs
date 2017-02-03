@@ -27,6 +27,7 @@ namespace CHaMPWorkbench
             txtMonitoring.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
             txtOutput.Text = CHaMPWorkbench.Properties.Settings.Default.InputOutputFolder;
             txtTemp.Text = CHaMPWorkbench.Properties.Settings.Default.LastTempFolder;
+            txtMonitoringDataZipped.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
             txtUserName.Text = CHaMPWorkbench.Properties.Settings.Default.DefaultUserName;
 
             valGoogleMapZoom.Value = (decimal)CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom;
@@ -155,6 +156,11 @@ namespace CHaMPWorkbench
             else
                 CHaMPWorkbench.Properties.Settings.Default.LastTempFolder = string.Empty;
 
+            if (!String.IsNullOrWhiteSpace(txtMonitoringDataZipped.Text) && System.IO.Directory.Exists(txtMonitoringDataZipped.Text))
+                CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder = txtMonitoringDataZipped.Text;
+            else
+                CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder = string.Empty;
+            
             CHaMPWorkbench.Properties.Settings.Default.GoogleMapZoom = (byte)valGoogleMapZoom.Value;
 
             try
@@ -192,42 +198,40 @@ namespace CHaMPWorkbench
                 txt.Text = dlgBrowseExecutable.FileName;
         }
 
-        private void cmdBrowseMonitoring_Click(object sender, EventArgs e)
+        private void browseFolder_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Choose top level CHaMP monitoring data folder";
+            string sFormDescription = string.Empty;
+            TextBox txt = null;
+            switch (((Control)sender).Name)
+            {
+                case "cmdBrowseMonitoring":
+                    sFormDescription = "Choose top level CHaMP monitoring data folder";
+                    txt = txtMonitoring;
+                    break;
 
-            if (!string.IsNullOrEmpty(txtMonitoring.Text) && System.IO.Directory.Exists(txtMonitoring.Text))
-                frm.SelectedPath = txtMonitoring.Text;
+                case "cmdBrowseOutput":
+                    sFormDescription = "Choose top level input output data folder";
+                    txt = txtOutput;
+                    break;
 
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtMonitoring.Text = frm.SelectedPath;
+                case "cmdMonitoringDataZipped":
+                    sFormDescription = "Choose top level monitoring data zipped folder";
+                    txt = txtMonitoringDataZipped;
+                    break;
+
+                case "cmdBrowseTemp":
+                    sFormDescription = "Choose temp workspace folder";
+                    txt = txtTemp;
+                    break;
+
+                default:
+                    MessageBox.Show("Unhandled browse button.");
+                    break;
+            }
+
+            naru.os.Folder.BrowseFolder(ref txt, sFormDescription, txt.Text);
         }
-
-        private void cmdBrowseOutput_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Choose top level input output data folder";
-
-            if (!string.IsNullOrEmpty(txtOutput.Text) && System.IO.Directory.Exists(txtOutput.Text))
-                frm.SelectedPath = txtOutput.Text;
-
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtOutput.Text = frm.SelectedPath;
-        }
-
-        private void cmdBrowseTemp_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Choose temp workspace folder";
-
-            if (!string.IsNullOrEmpty(txtTemp.Text) && System.IO.Directory.Exists(txtTemp.Text))
-                frm.SelectedPath = txtTemp.Text;
-
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                txtTemp.Text = frm.SelectedPath;
-        }
-
+   
         private void chkAWSLoggingEnabled_CheckedChanged(object sender, EventArgs e)
         {
             bool bExistingKey = Classes.AWSCloudWatch.AWSCloudWatchSingleton.HasInstallationGUID;

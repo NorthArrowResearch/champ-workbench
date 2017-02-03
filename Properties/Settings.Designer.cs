@@ -494,5 +494,17 @@ namespace CHaMPWorkbench.Properties {
                 this["DefaultUserName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ZippedMonitoringDataFolder {
+            get {
+                return ((string)(this["ZippedMonitoringDataFolder"]));
+            }
+            set {
+                this["ZippedMonitoringDataFolder"] = value;
+            }
+        }
     }
 }

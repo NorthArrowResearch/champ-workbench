@@ -50,12 +50,17 @@
             this.valGoogleMapZoom = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtUserName = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dtEnd = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.dtStart = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cmdMonitoringDataZipped = new System.Windows.Forms.Button();
+            this.txtMonitoringDataZipped = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmdBrowseHabitatConsole = new System.Windows.Forms.Button();
             this.txtHabitatConsole = new System.Windows.Forms.TextBox();
@@ -74,8 +79,6 @@
             this.txtStreamName = new System.Windows.Forms.TextBox();
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtUserName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -150,7 +153,7 @@
             this.cmdBrowseMonitoring.TabIndex = 2;
             this.cmdBrowseMonitoring.Text = "Browse";
             this.cmdBrowseMonitoring.UseVisualStyleBackColor = true;
-            this.cmdBrowseMonitoring.Click += new System.EventHandler(this.cmdBrowseMonitoring_Click);
+            this.cmdBrowseMonitoring.Click += new System.EventHandler(this.browseFolder_Click);
             // 
             // txtMonitoring
             // 
@@ -179,7 +182,7 @@
             this.cmdBrowseOutput.TabIndex = 5;
             this.cmdBrowseOutput.Text = "Browse";
             this.cmdBrowseOutput.UseVisualStyleBackColor = true;
-            this.cmdBrowseOutput.Click += new System.EventHandler(this.cmdBrowseOutput_Click);
+            this.cmdBrowseOutput.Click += new System.EventHandler(this.browseFolder_Click);
             // 
             // txtOutput
             // 
@@ -217,7 +220,7 @@
             this.cmdBrowseTemp.TabIndex = 7;
             this.cmdBrowseTemp.Text = "Browse";
             this.cmdBrowseTemp.UseVisualStyleBackColor = true;
-            this.cmdBrowseTemp.Click += new System.EventHandler(this.cmdBrowseTemp_Click);
+            this.cmdBrowseTemp.Click += new System.EventHandler(this.browseFolder_Click);
             // 
             // label6
             // 
@@ -289,6 +292,23 @@
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // txtUserName
+            // 
+            this.txtUserName.Location = new System.Drawing.Point(145, 157);
+            this.txtUserName.MaxLength = 50;
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(171, 20);
+            this.txtUserName.TabIndex = 4;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(20, 161);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(122, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Metric review user name";
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dtEnd);
@@ -336,6 +356,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.cmdMonitoringDataZipped);
+            this.tabPage2.Controls.Add(this.txtMonitoringDataZipped);
+            this.tabPage2.Controls.Add(this.label13);
             this.tabPage2.Controls.Add(this.txtTemp);
             this.tabPage2.Controls.Add(this.cmdBrowseTemp);
             this.tabPage2.Controls.Add(this.cmdBrowseMonitoring);
@@ -352,6 +375,35 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Folders";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // cmdMonitoringDataZipped
+            // 
+            this.cmdMonitoringDataZipped.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdMonitoringDataZipped.Location = new System.Drawing.Point(755, 110);
+            this.cmdMonitoringDataZipped.Name = "cmdMonitoringDataZipped";
+            this.cmdMonitoringDataZipped.Size = new System.Drawing.Size(75, 23);
+            this.cmdMonitoringDataZipped.TabIndex = 10;
+            this.cmdMonitoringDataZipped.Text = "Browse";
+            this.cmdMonitoringDataZipped.UseVisualStyleBackColor = true;
+            this.cmdMonitoringDataZipped.Click += new System.EventHandler(this.browseFolder_Click);
+            // 
+            // txtMonitoringDataZipped
+            // 
+            this.txtMonitoringDataZipped.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMonitoringDataZipped.Location = new System.Drawing.Point(140, 111);
+            this.txtMonitoringDataZipped.Name = "txtMonitoringDataZipped";
+            this.txtMonitoringDataZipped.Size = new System.Drawing.Size(609, 20);
+            this.txtMonitoringDataZipped.TabIndex = 9;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(19, 115);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(114, 13);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "Monitoring data zipped";
             // 
             // tabPage3
             // 
@@ -547,23 +599,6 @@
             this.chkAWSLoggingEnabled.UseVisualStyleBackColor = true;
             this.chkAWSLoggingEnabled.CheckedChanged += new System.EventHandler(this.chkAWSLoggingEnabled_CheckedChanged);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(20, 161);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(122, 13);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "Metric review user name";
-            // 
-            // txtUserName
-            // 
-            this.txtUserName.Location = new System.Drawing.Point(145, 157);
-            this.txtUserName.MaxLength = 50;
-            this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(171, 20);
-            this.txtUserName.TabIndex = 4;
-            // 
             // frmOptions
             // 
             this.AcceptButton = this.cmdOK;
@@ -646,5 +681,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button cmdMonitoringDataZipped;
+        private System.Windows.Forms.TextBox txtMonitoringDataZipped;
+        private System.Windows.Forms.Label label13;
     }
 }

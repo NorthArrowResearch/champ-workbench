@@ -107,14 +107,19 @@ namespace CHaMPWorkbench.Data
 
         private void frmDataUnPacker_Load(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder) &&
-                System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder))
-                txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastSourceFolder;
+            if (!String.IsNullOrWhiteSpace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) &&
+                System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
+                txtOutputFolder.Text = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
+
+            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder) &&
+                System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
+                txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
 
             lblETA.Visible = false;
             lblStatus.Visible = false;
             UpdateControls(sender, e);
             groupProgress.Visible = false;
+            rdoDifferent.Checked = true;
         }
 
 
