@@ -18,18 +18,18 @@ namespace CHaMPWorkbench.Data
 
         public event EventHandler SelectedVisitChanged;
 
-        public int SelectedVisit
+        public long SelectedVisit
         {
             get
             {
-                int nVisitID = 0;
+                long nVisitID = 0;
                 if (!string.IsNullOrEmpty(DBCon))
                 {
                     if (grdData.SelectedRows.Count == 1)
                     {
                         DataRowView drv = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
                         DataRow aRow = drv.Row;
-                        nVisitID = (int)aRow["VisitID"];
+                        nVisitID = (long)aRow["VisitID"];
                     }
                 }
                 return nVisitID;
@@ -54,43 +54,44 @@ namespace CHaMPWorkbench.Data
         {
             if (string.IsNullOrEmpty(DBCon))
                 return;
-
-            using (SQLiteConnection dbCon = new SQLiteConnection (DBCon))
+            try
             {
-                dbCon.Open();
+                Cursor.Current = Cursors.WaitCursor;
 
-                try
+                string sCols = string.Format("SELECT MetricID, DisplayNameShort FROM vwActiveVisitMetrics WHERE ProgramID = {0} GROUP BY MetricID, DisplayNameShort", ProgramID);
+                string sqlRows = string.Format("Select VisitID, CAST(VisitID AS str) AS VisitTitle FROM vwActiveVisitMetrics WHERE VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+                string sqlContent = string.Format("Select VisitID, MetricID, MetricValue FROM vwActiveVisitMetrics WHERE (ProgramID = {0}) AND VisitID IN ({1})", ProgramID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+
+                DataTable dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
+
+                //string sSQL = "SELECT * FROM qryVisitMetrics_Final";
+                //if (VisitIDs.Count > 0)
+                //    sSQL = string.Format("{0} WHERE VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+
+                //sSQL += " ORDER BY VISITID";
+
+                //SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
+                //da.SelectCommand.Parameters.AddWithValue("ProgramID", ProgramID);
+                //DataTable ta = new DataTable();
+                //da.Fill(ta);
+                grdData.DataSource = dt;
+
+                //
+                foreach (DataGridViewColumn aCol in grdData.Columns)
                 {
-                    Cursor.Current = Cursors.WaitCursor;
-
-                    string sSQL = "SELECT * FROM qryVisitMetrics_Final";
-                    if (VisitIDs.Count > 0)
-                        sSQL = string.Format("{0} WHERE VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
-
-                    sSQL += " ORDER BY VISITID";
-
-                    SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
-                    da.SelectCommand.Parameters.AddWithValue("ProgramID", ProgramID);
-                    DataTable ta = new DataTable();
-                    da.Fill(ta);
-                    grdData.DataSource = ta;
-
-                    //
-                    foreach (DataGridViewColumn aCol in grdData.Columns)
-                    {
-                        if (!aCol.HeaderText.ToLower().EndsWith("id"))
-                            aCol.DefaultCellStyle.Format = "#,##0.000";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Classes.ExceptionHandling.NARException.HandleException(ex);
-                }
-                finally
-                {
-                    Cursor.Current = Cursors.WaitCursor;
+                    if (!aCol.HeaderText.ToLower().EndsWith("id"))
+                        aCol.DefaultCellStyle.Format = "#,##0.000";
                 }
             }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.WaitCursor;
+            }
+
         }
 
         public void ExportDataToCSV(System.IO.FileInfo fiExport)

@@ -304,7 +304,7 @@ namespace CHaMPWorkbench.Data
             tmp.Dispose();
         }
 
-        public void SelectVisit(int nVisitID)
+        public void SelectVisit(long nVisitID)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
