@@ -43,7 +43,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                 conVisits.Open();
 
                 // This query retrieves all visits at the same site as a specified target visit. The target visit always comes first.
-                SQLiteCommand dbTargetVisits = new SQLiteCommand("SELECT V.VisitID, W.WatershedName, S.SiteName, S.UTMZone, V.VisitYear, V.VisitID=@VisitID AS IsTarget" +
+                SQLiteCommand dbTargetVisits = new SQLiteCommand("SELECT V.VisitID AS VisitID, WatershedName, SiteName, UTMZone, VisitYear, V.VisitID=@VisitID AS IsTarget" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
                     " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
@@ -78,7 +78,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         if (nodSite == null)
                         {
                             System.IO.DirectoryInfo diVisit = null;
-                            if (Classes.DataFolders.Visit(MonitoringDataFolder, visitAtSite.ID, out diVisit))
+                            if (Classes.DataFolders.Topo(MonitoringDataFolder, visitAtSite.ID, out diVisit))
                             {
                                 dInputFile = Classes.DataFolders.RBTInputFile(OutputFolder.FullName, diVisit, InputFileName);
 

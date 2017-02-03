@@ -25,7 +25,7 @@ namespace CHaMPWorkbench.CHaMPData
             using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM WHERE VisitID = @VisitID ORDER BY SegmentNumber", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM CHaMP_Segments WHERE VisitID = @VisitID ORDER BY SegmentNumber", dbCon);
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())

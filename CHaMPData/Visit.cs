@@ -97,7 +97,7 @@ namespace CHaMPWorkbench.CHaMPData
         {
             Visit aVisit = new Visit(dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))
                         , dbRead.GetInt64(dbRead.GetOrdinal("WatershedID"))
-                        , dbRead.GetString(dbRead.GetOrdinal("WateshedName"))
+                        , dbRead.GetString(dbRead.GetOrdinal("WatershedName"))
                         , dbRead.GetInt64(dbRead.GetOrdinal("SiteID"))
                         , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
                         , dbRead.GetInt64(dbRead.GetOrdinal("VisitYear"))
