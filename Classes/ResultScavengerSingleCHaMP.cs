@@ -347,7 +347,7 @@ namespace CHaMPWorkbench.Classes
         /// log file is scavenged from disk. But it should be present when the log file was generated as part
         /// of a workbench batch run. This is helpful for SFR to trace back what purpose / model was being done
         /// when a log file was generated.</remarks>
-        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath, int nBatchRunID = 0)
+        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath, long nBatchRunID = 0)
         {
             if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
                 return;

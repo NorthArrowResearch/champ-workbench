@@ -108,6 +108,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     
                     System.IO.Directory.CreateDirectory(dInputFile.DirectoryName);
                     xmlDoc.Save(dInputFile.FullName);
+                    aVisit.InputFile = dInputFile.FullName;
                 }
             }
 

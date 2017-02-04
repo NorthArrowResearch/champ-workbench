@@ -49,9 +49,9 @@ namespace CHaMPWorkbench.Classes
                 ///''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 // Get all of the active runs
                 //
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT R.*, B.BatchName FROM Model_Batches B RIGHT JOIN Model_BatchRuns R ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT R.*, B.BatchName FROM Model_BatchRuns R LEFT JOIN Model_Batches B ON B.ID = R.BatchID WHERE (R.Run <> 0) ORDER BY R.Priority;", dbCon);
                 SQLiteDataReader dbRdr = dbCom.ExecuteReader();
-                Dictionary<int, RBTRun> dFiles = new Dictionary<int, RBTRun>();
+                Dictionary<long, RBTRun> dFiles = new Dictionary<long, RBTRun>();
                 while (dbRdr.Read())
                 {
                     if (System.Convert.IsDBNull(dbRdr["InputFile"]))
@@ -59,11 +59,11 @@ namespace CHaMPWorkbench.Classes
                     else
                     {
                         Debug.WriteLine("RBT input file: " + (string)dbRdr["InputFile"]);
-                        int nVisitID = 0;
-                        if (!Convert.IsDBNull((int)dbRdr["PrimaryVisitID"]))
-                            nVisitID = (int)dbRdr["PrimaryVisitID"];
+                        long nVisitID = 0;
+                        if (!Convert.IsDBNull((long)dbRdr["PrimaryVisitID"]))
+                            nVisitID = (long)dbRdr["PrimaryVisitID"];
 
-                        dFiles.Add((int)dbRdr["ID"], new RBTRun((int)dbRdr["ID"], (string)dbRdr["InputFile"], false, false, nVisitID));
+                        dFiles.Add((long)dbRdr["ID"], new RBTRun((long)dbRdr["ID"], (string)dbRdr["InputFile"], false, false, nVisitID));
                     }
                 }
                 dbRdr.Close();
@@ -181,13 +181,13 @@ namespace CHaMPWorkbench.Classes
 
     class RBTRun
     {
-        private int m_nID;
+        private long m_nID;
         private string m_sInputFile;
         private bool m_bClearTempWorkspacePrior;
         private bool m_bClearTempWorkspaceAfter;
-        private int m_nVisitID;
+        private long m_nVisitID;
 
-        public RBTRun(int nID, string sInputFile, bool bClearTempWorkspacePrior, bool bClearTempWorkspaceAfter, int nVisitID)
+        public RBTRun(long nID, string sInputFile, bool bClearTempWorkspacePrior, bool bClearTempWorkspaceAfter, long nVisitID)
         {
             if (nID < 1)
             {
@@ -206,7 +206,7 @@ namespace CHaMPWorkbench.Classes
             m_nVisitID = nVisitID;
         }
 
-        public int ID
+        public long ID
         {
             get { return m_nID; }
         }
@@ -226,7 +226,7 @@ namespace CHaMPWorkbench.Classes
             get { return m_bClearTempWorkspaceAfter; }
         }
 
-        public int PrimaryVisitID
+        public long PrimaryVisitID
         {
             get { return m_nVisitID; }
         }

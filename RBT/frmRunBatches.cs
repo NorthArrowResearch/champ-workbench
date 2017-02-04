@@ -50,14 +50,15 @@ namespace CHaMPWorkbench.RBT
             else
                 txtRBTConsole.Text = CHaMPWorkbench.Properties.Settings.Default.RBTConsole;
 
-            int nRuns = 0;
+            long nRuns = 0;
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
+                dbCon.Open();
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT Count(Model_BatchRuns.Run) AS CountOfRun" +
-                " FROM Model_Batches RIGHT JOIN Model_BatchRuns ON Model_Batches.ID = Model_BatchRuns.BatchID" +
+                " FROM Model_BatchRuns LEFT JOIN Model_Batches ON Model_Batches.ID = Model_BatchRuns.BatchID" +
                 " WHERE (Model_BatchRuns.Run <> 0)", dbCon);
 
-                nRuns = (int)dbCom.ExecuteScalar();
+                nRuns = (long)dbCom.ExecuteScalar();
             }
 
             if (nRuns < 1)

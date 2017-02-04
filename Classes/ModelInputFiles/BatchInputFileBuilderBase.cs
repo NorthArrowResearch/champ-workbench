@@ -166,9 +166,9 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         if (MakeOnlyBatch)
                         {
                             // Make all existing RBT batches set to NOT run
-                            dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = False WHERE (BatchID <> @BatchID) AND (ModelTypeID = @ModelTypeID)", dbCon, dbTrans);
-                            dbCom.Parameters.AddWithValue("@BatchID", (long)objBatchID);
-                            dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
+                            dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = 0 WHERE (BatchID <> @BatchID) AND (ModelTypeID = @ModelTypeID)", dbCon, dbTrans);
+                            dbCom.Parameters.AddWithValue("BatchID", (long)objBatchID);
+                            dbCom.Parameters.AddWithValue("ModelTypeID", ModelTypeID);
                             dbCom.ExecuteNonQuery();
                         }
                     }
