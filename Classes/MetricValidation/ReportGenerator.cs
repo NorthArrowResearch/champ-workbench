@@ -104,7 +104,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
-                SQLiteCommand comFS = new SQLiteCommand("SELECT V.VisitID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", dbCon);
+                dbCon.Open();
+                SQLiteCommand comFS = new SQLiteCommand("SELECT V.VisitID AS VisitID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", dbCon);
                 comFS.Parameters.AddWithValue("@WATERSHEDID", nWatershedID);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
@@ -143,6 +144,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             List<naru.db.NamedObject> lWatersheds = new List<naru.db.NamedObject>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
+                dbCon.Open();
                 SQLiteCommand comFS = new SQLiteCommand("SELECT WatershedID, WatershedName FROM CHAMP_Watersheds WHERE (WatershedName Is Not Null) GROUP BY WatershedID, WatershedName ORDER BY WatershedName", dbCon);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
