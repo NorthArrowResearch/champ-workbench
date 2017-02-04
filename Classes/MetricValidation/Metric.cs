@@ -18,7 +18,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public long MetricID { get; internal set; }
         public Nullable<long> CMMetricID { get; internal set; }
         public long GroupTypeID { get; internal set; }
-        public float Threshold { get; internal set; }
+        public double Threshold { get; internal set; }
         public Nullable<double> MinValue { get; internal set; }
         public Nullable<double> MaxValue { get; internal set; }
         public bool IsActive { get; internal set; }
@@ -28,7 +28,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
         public Dictionary<long, VisitResults> Visits;
 
-        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
+        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nGroupTypeID, double fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
            string sGroupType, string sChannelGroup)
         {
             Title = sTitle;

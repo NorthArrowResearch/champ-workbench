@@ -148,8 +148,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear" +
-                    " , CHaMP_Visits.Organization, CHaMP_Visits.CrewName" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Watersheds.WatershedID AS WatershedID, WatershedName, CHAMP_Sites.SiteID, SiteName, CHAMP_Visits.VisitID AS VisitID, VisitYear" +
+                    " , Organization, CrewName" +
                     " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Results INNER JOIN CHAMP_Visits ON Metric_Results.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
                     " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHaMP_Visits.Organization, CHaMP_Visits.CrewName", dbCon);
 
@@ -194,7 +194,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.Title, D.CMMetricID, D.TypeID, D.Threshold, D.MinValue, D.MaxValue, D.IsActive, D.CMMetricID, MGs.Title AS MetricParentGroup, MCGs.Title AS MetricChildGroup" +
                     " FROM (Metric_Definitions AS D LEFT JOIN LookupListItems AS MGs ON D.MetricGroupID = MGs.ItemID) LEFT JOIN LookupListItems AS MCGs ON D.MetricChannelGroupID = MCGs.ItemID" +
-                    " WHERE (D.Title Is Not Null) AND (D.TypeID Is Not Null) AND (D.IsActive = True) ORDER BY D.Title", dbCon);
+                    " WHERE (D.Title Is Not Null) AND (D.TypeID Is Not Null) AND (D.IsActive <> 0) ORDER BY D.Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
@@ -222,10 +222,10 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
                     theResult.Add((string)dbRead["Title"], new Metric(
                         (string)dbRead["Title"]
-                        , (int)dbRead["MetricID"]
+                        , (long)dbRead["MetricID"]
                         , nCMMetricID
-                        , (int)dbRead["TypeID"]
-                        , (float)dbRead["Threshold"]
+                        , (long)dbRead["TypeID"]
+                        , (double)dbRead["Threshold"]
                         , fMinValue
                         , fMaxValue
                         , (bool)dbRead["IsActive"]

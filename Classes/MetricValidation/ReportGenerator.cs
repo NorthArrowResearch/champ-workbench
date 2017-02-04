@@ -167,8 +167,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             List<naru.db.NamedObject> lRBTVersions = new List<naru.db.NamedObject>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
+                dbCon.Open();
                 SQLiteCommand comFS = new SQLiteCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", dbCon);
-                comFS.Parameters.AddWithValue("@ScavengeTypeIDModelRun", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
+                comFS.Parameters.AddWithValue("@ScavengeTypeIDManual", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 long counter = 0;
                 while (dbRead.Read())
