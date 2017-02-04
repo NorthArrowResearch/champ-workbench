@@ -150,14 +150,15 @@ namespace CHaMPWorkbench.CHaMPData
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "visitid", ID.ToString());
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "name", this.ToString());
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "fieldseason", VisitYear.ToString());
+            naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "sample_date", SampleDate.ToString("o"));
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "filegdb", diSurveyGDB.FullName);
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "dem", "DEM");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "topo_tin", diTopoTIN.FullName);
 
             if (diWSTIN.Exists)
-                naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "ws_tin", string.Empty);
-            else
                 naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "ws_tin", diWSTIN.FullName);
+            else
+                naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "ws_tin", string.Empty);
 
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "topo_points", "Topo_Points");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "control_points", "Control_Points");
@@ -191,6 +192,7 @@ namespace CHaMPWorkbench.CHaMPData
             XmlNode nodSegments = xmlDoc.CreateElement("channel_segments");
             foreach (ChannelSegment sg in Segments.Values)
                 nodSegments.AppendChild(sg.CreateXMLNode(ref xmlDoc));
+            nodVisit.AppendChild(nodSegments);
 
             return nodVisit;
         }

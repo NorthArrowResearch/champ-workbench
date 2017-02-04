@@ -280,7 +280,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         private XmlNode CreateIntervalNode(ref XmlDocument xmlDoc, ref XmlNode nodIntervals, string sType, double fValue)
         {
-            XmlNode nodInterval = XMLHelpers.AddNode(ref xmlDoc, ref nodIntervals, "Interval", fValue.ToString());
+            XmlNode nodInterval = XMLHelpers.AddNode(ref xmlDoc, ref nodIntervals, "interval", fValue.ToString());
             XMLHelpers.AddAttribute(ref xmlDoc, ref nodInterval, "type", sType);
             return nodInterval;
         }

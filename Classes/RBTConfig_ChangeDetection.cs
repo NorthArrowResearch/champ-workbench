@@ -52,7 +52,7 @@ namespace CHaMPWorkbench.Classes
             naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodSlope, "type", "slope");
 
             XmlNode nodPointDensity = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodError, "input");
-            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodSlope, "type", "pointdensity");
+            naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodPointDensity, "type", "pointdensity");
 
             XmlNode nodDoD = naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodCD, "dod");
             naru.xml.XMLHelpers.AddAttribute(ref xmlDoc, ref nodDoD, "type", "probabilistic");

@@ -46,18 +46,13 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                 SQLiteCommand dbTargetVisits = new SQLiteCommand("SELECT V.VisitID AS VisitID, WatershedName, SiteName, UTMZone, VisitYear, V.VisitID=@VisitID AS IsTarget" +
                     " FROM CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID" +
                     " WHERE (W.WatershedName Is Not Null) AND (S.SiteName Is Not Null) AND V.SiteID IN (SELECT SiteID FROM CHaMP_Visits WHERE VisitID = @VisitID)" +
-                    " ORDER BY  V.VisitID=@VisitID, V.SampleDate", conVisits);
+                    " ORDER BY IsTarget DESC, V.SampleDate", conVisits);
                 SQLiteParameter pVisitID = dbTargetVisits.Parameters.Add("@VisitID", System.Data.DbType.Int64);
 
                 foreach (BatchInputFileBuilderBase.BatchVisits aVisit in Visits)
                 {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    XmlNode nodTopLevel = xmlDoc.CreateElement("rbt");
-                    xmlDoc.AppendChild(nodTopLevel);
-
-                    //Create an XML declaration. 
-                    XmlDeclaration xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
-                    xmlDoc.InsertBefore(xmldecl, nodTopLevel);
+                    XmlNode nodTopLevel = null;
+                    XmlDocument xmlDoc = base.CreateInputXMLDoc("rbt", out nodTopLevel);
 
                     XmlNode nodSites = xmlDoc.CreateElement("sites");
                     nodTopLevel.AppendChild(nodSites);
