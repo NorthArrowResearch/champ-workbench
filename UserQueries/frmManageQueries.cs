@@ -104,7 +104,7 @@ namespace CHaMPWorkbench.UserQueries
                         dbCon.Open();
 
                         SQLiteCommand dbCom = new SQLiteCommand("DELETE FROM User_Queries WHERE QueryID = @QueryID", dbCon);
-                        dbCom.Parameters.AddWithValue("@ID", selRow.Row["QueryID"]);
+                        dbCom.Parameters.AddWithValue("QueryID", selRow.Row["QueryID"]);
                         dbCom.ExecuteNonQuery();
 
                         MessageBox.Show("User query deleted successfully.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
