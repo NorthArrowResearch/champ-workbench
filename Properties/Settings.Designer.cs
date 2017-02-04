@@ -394,7 +394,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Workbench.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Workbench.db")]
         public string WorkbenchMasterFileName {
             get {
                 return ((string)(this["WorkbenchMasterFileName"]));

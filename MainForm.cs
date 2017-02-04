@@ -1476,7 +1476,7 @@ namespace CHaMPWorkbench
         {
             SaveFileDialog frm = new SaveFileDialog();
             frm.Title = "Create New Workbench Database";
-            frm.Filter = "Access Databases (*.mdb)|*.mdb";
+            frm.Filter = "Workbench Databases (*.db)|*.db";
             frm.FileName = "Workbench";
             frm.AddExtension = true;
             frm.OverwritePrompt = true;

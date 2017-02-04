@@ -102,7 +102,7 @@
       <Value Profile="(Default)">32</Value>
     </Setting>
     <Setting Name="WorkbenchMasterFileName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Workbench.mdb</Value>
+      <Value Profile="(Default)">Workbench.db</Value>
     </Setting>
     <Setting Name="ModelScavengeTypeID_CMORG" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10000</Value>
