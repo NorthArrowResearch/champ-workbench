@@ -32,7 +32,8 @@ namespace CHaMPWorkbench.Classes
         public void DoClear(ref List<string> lSuccesses, ref List<string> lErrors)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
-            { 
+            {
+                dbCon.Open();
                 SQLiteCommand dbCom;
                 foreach (string sSQL in m_sSQLStatements.Keys)
                 {
