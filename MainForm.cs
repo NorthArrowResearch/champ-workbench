@@ -369,6 +369,8 @@ namespace CHaMPWorkbench
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstPrograms.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+
+            grdVisits.AutoGenerateColumns = false;
         }
 
         private void AddXSLReportsToMenu()

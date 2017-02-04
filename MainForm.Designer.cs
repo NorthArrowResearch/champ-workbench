@@ -132,27 +132,6 @@
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.chkVisitID = new System.Windows.Forms.CheckBox();
             this.grdVisits = new System.Windows.Forms.DataGridView();
-            this.colWatershedID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colWatershedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSiteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStreamName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOrganization = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHitchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCrewName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisitPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAEM = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colIsPrimary = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colQCVisit = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colHasStreamTempLogger = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colHasFishData = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colCategoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSiteID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -173,6 +152,28 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colWatershedID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWatershedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSiteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStreamName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOrganization = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHitchName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgram = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCrewName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVisitPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVisitStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsPrimary = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colQCVisit = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colHasStreamTempLogger = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colHasFishData = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colCategoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSiteID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1063,17 +1064,18 @@
             this.grdVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdVisits.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colWatershedID,
+            this.colProgramID,
             this.colWatershedName,
             this.colFieldSeason,
             this.colSiteName,
-            this.colStreamName,
             this.colVisitID,
+            this.colStreamName,
             this.colOrganization,
             this.colHitchName,
+            this.colProgram,
             this.colCrewName,
             this.colVisitPhase,
             this.colVisitStatus,
-            this.colAEM,
             this.colIsPrimary,
             this.colQCVisit,
             this.colHasStreamTempLogger,
@@ -1109,163 +1111,6 @@
             this.grdVisits.TabIndex = 0;
             this.grdVisits.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdVisits_CellDoubleClick);
             this.grdVisits.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdVisits_CellMouseClick);
-            // 
-            // colWatershedID
-            // 
-            this.colWatershedID.DataPropertyName = "WatershedID";
-            this.colWatershedID.HeaderText = "Watershed ID";
-            this.colWatershedID.Name = "colWatershedID";
-            this.colWatershedID.ReadOnly = true;
-            this.colWatershedID.Visible = false;
-            // 
-            // colWatershedName
-            // 
-            this.colWatershedName.DataPropertyName = "WatershedName";
-            this.colWatershedName.HeaderText = "Watershed";
-            this.colWatershedName.Name = "colWatershedName";
-            this.colWatershedName.ReadOnly = true;
-            // 
-            // colFieldSeason
-            // 
-            this.colFieldSeason.DataPropertyName = "VisitYear";
-            this.colFieldSeason.HeaderText = "Field Season";
-            this.colFieldSeason.Name = "colFieldSeason";
-            this.colFieldSeason.ReadOnly = true;
-            // 
-            // colSiteName
-            // 
-            this.colSiteName.DataPropertyName = "SiteName";
-            this.colSiteName.HeaderText = "Site";
-            this.colSiteName.Name = "colSiteName";
-            this.colSiteName.ReadOnly = true;
-            // 
-            // colStreamName
-            // 
-            this.colStreamName.DataPropertyName = "StreamName";
-            this.colStreamName.HeaderText = "Stream";
-            this.colStreamName.Name = "colStreamName";
-            this.colStreamName.ReadOnly = true;
-            // 
-            // colVisitID
-            // 
-            this.colVisitID.DataPropertyName = "VisitID";
-            this.colVisitID.HeaderText = "Visit ID";
-            this.colVisitID.Name = "colVisitID";
-            this.colVisitID.ReadOnly = true;
-            // 
-            // colOrganization
-            // 
-            this.colOrganization.DataPropertyName = "Organization";
-            this.colOrganization.HeaderText = "Organization";
-            this.colOrganization.Name = "colOrganization";
-            this.colOrganization.ReadOnly = true;
-            // 
-            // colHitchName
-            // 
-            this.colHitchName.DataPropertyName = "HitchName";
-            this.colHitchName.HeaderText = "Hitch";
-            this.colHitchName.Name = "colHitchName";
-            this.colHitchName.ReadOnly = true;
-            // 
-            // colCrewName
-            // 
-            this.colCrewName.DataPropertyName = "CrewName";
-            this.colCrewName.HeaderText = "Crew";
-            this.colCrewName.Name = "colCrewName";
-            this.colCrewName.ReadOnly = true;
-            // 
-            // colVisitPhase
-            // 
-            this.colVisitPhase.DataPropertyName = "VisitPhase";
-            this.colVisitPhase.HeaderText = "Visit Phase";
-            this.colVisitPhase.Name = "colVisitPhase";
-            this.colVisitPhase.ReadOnly = true;
-            // 
-            // colVisitStatus
-            // 
-            this.colVisitStatus.DataPropertyName = "VisitStatus";
-            this.colVisitStatus.HeaderText = "Visit Status";
-            this.colVisitStatus.Name = "colVisitStatus";
-            this.colVisitStatus.ReadOnly = true;
-            // 
-            // colAEM
-            // 
-            this.colAEM.DataPropertyName = "AEM";
-            this.colAEM.HeaderText = "AEM";
-            this.colAEM.Name = "colAEM";
-            this.colAEM.ReadOnly = true;
-            this.colAEM.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAEM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colIsPrimary
-            // 
-            this.colIsPrimary.DataPropertyName = "IsPrimary";
-            this.colIsPrimary.HeaderText = "Primary";
-            this.colIsPrimary.Name = "colIsPrimary";
-            this.colIsPrimary.ReadOnly = true;
-            // 
-            // colQCVisit
-            // 
-            this.colQCVisit.DataPropertyName = "QCVisit";
-            this.colQCVisit.HeaderText = "QC Visit";
-            this.colQCVisit.Name = "colQCVisit";
-            this.colQCVisit.ReadOnly = true;
-            this.colQCVisit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colQCVisit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colHasStreamTempLogger
-            // 
-            this.colHasStreamTempLogger.DataPropertyName = "HasStreamTempLogger";
-            this.colHasStreamTempLogger.HeaderText = "Stream Temp Logger";
-            this.colHasStreamTempLogger.Name = "colHasStreamTempLogger";
-            this.colHasStreamTempLogger.ReadOnly = true;
-            this.colHasStreamTempLogger.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colHasStreamTempLogger.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colHasFishData
-            // 
-            this.colHasFishData.DataPropertyName = "HasFishData";
-            this.colHasFishData.HeaderText = "Has Fish Data";
-            this.colHasFishData.Name = "colHasFishData";
-            this.colHasFishData.ReadOnly = true;
-            this.colHasFishData.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colHasFishData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colCategoryName
-            // 
-            this.colCategoryName.DataPropertyName = "CategoryName";
-            this.colCategoryName.HeaderText = "Category Name";
-            this.colCategoryName.Name = "colCategoryName";
-            this.colCategoryName.ReadOnly = true;
-            // 
-            // colSiteID
-            // 
-            this.colSiteID.DataPropertyName = "SiteID";
-            this.colSiteID.HeaderText = "Site ID";
-            this.colSiteID.Name = "colSiteID";
-            this.colSiteID.ReadOnly = true;
-            this.colSiteID.Visible = false;
-            // 
-            // colSampleDate
-            // 
-            this.colSampleDate.DataPropertyName = "SampleDate";
-            this.colSampleDate.HeaderText = "Sample Date";
-            this.colSampleDate.Name = "colSampleDate";
-            this.colSampleDate.ReadOnly = true;
-            // 
-            // colPanel
-            // 
-            this.colPanel.DataPropertyName = "PanelName";
-            this.colPanel.HeaderText = "Panel";
-            this.colPanel.Name = "colPanel";
-            this.colPanel.ReadOnly = true;
-            // 
-            // colCahnnelUnits
-            // 
-            this.colCahnnelUnits.DataPropertyName = "ChannelUnits";
-            this.colCahnnelUnits.HeaderText = "Channel Units";
-            this.colCahnnelUnits.Name = "colCahnnelUnits";
-            this.colCahnnelUnits.ReadOnly = true;
             // 
             // cmsSiteAllNone
             // 
@@ -1427,6 +1272,169 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // colWatershedID
+            // 
+            this.colWatershedID.DataPropertyName = "WatershedID";
+            this.colWatershedID.HeaderText = "Watershed ID";
+            this.colWatershedID.Name = "colWatershedID";
+            this.colWatershedID.ReadOnly = true;
+            this.colWatershedID.Visible = false;
+            // 
+            // colProgramID
+            // 
+            this.colProgramID.DataPropertyName = "ProgramID";
+            this.colProgramID.HeaderText = "ProgramID";
+            this.colProgramID.Name = "colProgramID";
+            this.colProgramID.ReadOnly = true;
+            this.colProgramID.Visible = false;
+            // 
+            // colWatershedName
+            // 
+            this.colWatershedName.DataPropertyName = "WatershedName";
+            this.colWatershedName.HeaderText = "Watershed";
+            this.colWatershedName.Name = "colWatershedName";
+            this.colWatershedName.ReadOnly = true;
+            // 
+            // colFieldSeason
+            // 
+            this.colFieldSeason.DataPropertyName = "VisitYear";
+            this.colFieldSeason.HeaderText = "Field Season";
+            this.colFieldSeason.Name = "colFieldSeason";
+            this.colFieldSeason.ReadOnly = true;
+            // 
+            // colSiteName
+            // 
+            this.colSiteName.DataPropertyName = "SiteName";
+            this.colSiteName.HeaderText = "Site";
+            this.colSiteName.Name = "colSiteName";
+            this.colSiteName.ReadOnly = true;
+            // 
+            // colVisitID
+            // 
+            this.colVisitID.DataPropertyName = "VisitID";
+            this.colVisitID.HeaderText = "Visit ID";
+            this.colVisitID.Name = "colVisitID";
+            this.colVisitID.ReadOnly = true;
+            // 
+            // colStreamName
+            // 
+            this.colStreamName.DataPropertyName = "StreamName";
+            this.colStreamName.HeaderText = "Stream";
+            this.colStreamName.Name = "colStreamName";
+            this.colStreamName.ReadOnly = true;
+            // 
+            // colOrganization
+            // 
+            this.colOrganization.DataPropertyName = "Organization";
+            this.colOrganization.HeaderText = "Organization";
+            this.colOrganization.Name = "colOrganization";
+            this.colOrganization.ReadOnly = true;
+            // 
+            // colHitchName
+            // 
+            this.colHitchName.DataPropertyName = "HitchName";
+            this.colHitchName.HeaderText = "Hitch";
+            this.colHitchName.Name = "colHitchName";
+            this.colHitchName.ReadOnly = true;
+            // 
+            // colProgram
+            // 
+            this.colProgram.DataPropertyName = "ProgramName";
+            this.colProgram.HeaderText = "Program";
+            this.colProgram.Name = "colProgram";
+            this.colProgram.ReadOnly = true;
+            // 
+            // colCrewName
+            // 
+            this.colCrewName.DataPropertyName = "CrewName";
+            this.colCrewName.HeaderText = "Crew";
+            this.colCrewName.Name = "colCrewName";
+            this.colCrewName.ReadOnly = true;
+            // 
+            // colVisitPhase
+            // 
+            this.colVisitPhase.DataPropertyName = "VisitPhase";
+            this.colVisitPhase.HeaderText = "Visit Phase";
+            this.colVisitPhase.Name = "colVisitPhase";
+            this.colVisitPhase.ReadOnly = true;
+            // 
+            // colVisitStatus
+            // 
+            this.colVisitStatus.DataPropertyName = "VisitStatus";
+            this.colVisitStatus.HeaderText = "Visit Status";
+            this.colVisitStatus.Name = "colVisitStatus";
+            this.colVisitStatus.ReadOnly = true;
+            // 
+            // colIsPrimary
+            // 
+            this.colIsPrimary.DataPropertyName = "IsPrimary";
+            this.colIsPrimary.HeaderText = "Primary";
+            this.colIsPrimary.Name = "colIsPrimary";
+            this.colIsPrimary.ReadOnly = true;
+            // 
+            // colQCVisit
+            // 
+            this.colQCVisit.DataPropertyName = "QCVisit";
+            this.colQCVisit.HeaderText = "QC Visit";
+            this.colQCVisit.Name = "colQCVisit";
+            this.colQCVisit.ReadOnly = true;
+            this.colQCVisit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colQCVisit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colHasStreamTempLogger
+            // 
+            this.colHasStreamTempLogger.DataPropertyName = "HasStreamTempLogger";
+            this.colHasStreamTempLogger.HeaderText = "Stream Temp Logger";
+            this.colHasStreamTempLogger.Name = "colHasStreamTempLogger";
+            this.colHasStreamTempLogger.ReadOnly = true;
+            this.colHasStreamTempLogger.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colHasStreamTempLogger.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colHasFishData
+            // 
+            this.colHasFishData.DataPropertyName = "HasFishData";
+            this.colHasFishData.HeaderText = "Has Fish Data";
+            this.colHasFishData.Name = "colHasFishData";
+            this.colHasFishData.ReadOnly = true;
+            this.colHasFishData.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colHasFishData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colCategoryName
+            // 
+            this.colCategoryName.DataPropertyName = "CategoryName";
+            this.colCategoryName.HeaderText = "Category Name";
+            this.colCategoryName.Name = "colCategoryName";
+            this.colCategoryName.ReadOnly = true;
+            // 
+            // colSiteID
+            // 
+            this.colSiteID.DataPropertyName = "SiteID";
+            this.colSiteID.HeaderText = "Site ID";
+            this.colSiteID.Name = "colSiteID";
+            this.colSiteID.ReadOnly = true;
+            this.colSiteID.Visible = false;
+            // 
+            // colSampleDate
+            // 
+            this.colSampleDate.DataPropertyName = "SampleDate";
+            this.colSampleDate.HeaderText = "Sample Date";
+            this.colSampleDate.Name = "colSampleDate";
+            this.colSampleDate.ReadOnly = true;
+            // 
+            // colPanel
+            // 
+            this.colPanel.DataPropertyName = "PanelName";
+            this.colPanel.HeaderText = "Panel";
+            this.colPanel.Name = "colPanel";
+            this.colPanel.ReadOnly = true;
+            // 
+            // colCahnnelUnits
+            // 
+            this.colCahnnelUnits.DataPropertyName = "ChannelUnits";
+            this.colCahnnelUnits.HeaderText = "Channel Units";
+            this.colCahnnelUnits.Name = "colCahnnelUnits";
+            this.colCahnnelUnits.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1586,18 +1594,21 @@
         private System.Windows.Forms.ToolStripMenuItem userFeedbackItemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userFeedbackForAllItemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSelectedVisitInformationToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckedListBox lstPrograms;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProgramID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldSeason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSiteName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStreamName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVisitID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStreamName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOrganization;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHitchName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProgram;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCrewName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVisitPhase;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVisitStatus;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colAEM;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colIsPrimary;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colQCVisit;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colHasStreamTempLogger;
@@ -1607,8 +1618,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckedListBox lstPrograms;
     }
 }
 
