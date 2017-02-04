@@ -145,10 +145,10 @@
             this.rdoDB.Checked = true;
             this.rdoDB.Location = new System.Drawing.Point(13, 19);
             this.rdoDB.Name = "rdoDB";
-            this.rdoDB.Size = new System.Drawing.Size(114, 17);
+            this.rdoDB.Size = new System.Drawing.Size(93, 17);
             this.rdoDB.TabIndex = 6;
             this.rdoDB.TabStop = true;
-            this.rdoDB.Text = "Worbench ACCDB";
+            this.rdoDB.Text = "Worbench DB";
             this.rdoDB.UseVisualStyleBackColor = true;
             this.rdoDB.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
