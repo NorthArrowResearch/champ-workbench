@@ -1656,14 +1656,14 @@ namespace CHaMPWorkbench
                     DataRowView drv = (DataRowView)r.DataBoundItem;
                     System.IO.DirectoryInfo dTopoFolder = null;
                     System.IO.DirectoryInfo dMonitoringDataFolder = new DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                    Classes.DataFolders.Topo(dMonitoringDataFolder, (int)drv["VisitID"], out dTopoFolder);
+                    Classes.DataFolders.Topo(dMonitoringDataFolder, (long)drv["VisitID"], out dTopoFolder);
                     if (dTopoFolder is System.IO.DirectoryInfo)
                     {
                         if (!dTopoFolder.Exists)
                             dTopoFolder.Create();
 
                         System.IO.FileInfo fiCSV = new FileInfo(System.IO.Path.Combine(dTopoFolder.FullName, "ChannelUnits.csv"));
-                        fiCSV = csv.Run((int)drv["VisitID"], fiCSV.FullName);
+                        fiCSV = csv.Run((long)drv["VisitID"], fiCSV.FullName);
                         if (fiCSV.Exists)
                             nComplete++;
                     }
