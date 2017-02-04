@@ -96,19 +96,16 @@
             this.experimentalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutExperimentalToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.ericWallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jamesHensleighToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gCDAnalysisWatershedLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recordPostGCDQAQCRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kellyWhiteheadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractRBTErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.konradHaffenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.philipBaileyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testXPathReferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saraBangenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +113,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lstPrograms = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.rdoPrimary = new System.Windows.Forms.RadioButton();
@@ -174,14 +173,13 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lstPrograms = new System.Windows.Forms.CheckedListBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.cmsWatershed.SuspendLayout();
@@ -190,7 +188,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
             this.cmsSiteAllNone.SuspendLayout();
             this.cmsVisit.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -688,12 +685,9 @@
             this.experimentalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutExperimentalToolsToolStripMenuItem,
             this.toolStripSeparator5,
-            this.ericWallToolStripMenuItem,
             this.jamesHensleighToolStripMenuItem,
             this.kellyWhiteheadToolStripMenuItem,
-            this.konradHaffenToolStripMenuItem,
-            this.philipBaileyToolStripMenuItem,
-            this.saraBangenToolStripMenuItem});
+            this.philipBaileyToolStripMenuItem});
             this.experimentalToolStripMenuItem.Name = "experimentalToolStripMenuItem";
             this.experimentalToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.experimentalToolStripMenuItem.Text = "Experimental";
@@ -710,12 +704,6 @@
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(215, 6);
-            // 
-            // ericWallToolStripMenuItem
-            // 
-            this.ericWallToolStripMenuItem.Name = "ericWallToolStripMenuItem";
-            this.ericWallToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.ericWallToolStripMenuItem.Text = "Eric Wall";
             // 
             // jamesHensleighToolStripMenuItem
             // 
@@ -755,12 +743,6 @@
             this.extractRBTErrorsToolStripMenuItem.Text = "Extract RBT Errors";
             this.extractRBTErrorsToolStripMenuItem.Click += new System.EventHandler(this.extractRBTErrorsToolStripMenuItem_Click);
             // 
-            // konradHaffenToolStripMenuItem
-            // 
-            this.konradHaffenToolStripMenuItem.Name = "konradHaffenToolStripMenuItem";
-            this.konradHaffenToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.konradHaffenToolStripMenuItem.Text = "Konrad Hafen";
-            // 
             // philipBaileyToolStripMenuItem
             // 
             this.philipBaileyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -799,12 +781,6 @@
             this.exportSelectedVisitInformationToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
             this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
-            // 
-            // saraBangenToolStripMenuItem
-            // 
-            this.saraBangenToolStripMenuItem.Name = "saraBangenToolStripMenuItem";
-            this.saraBangenToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.saraBangenToolStripMenuItem.Text = "Sara Bangen";
             // 
             // aboutToolStripMenuItem
             // 
@@ -883,6 +859,25 @@
             this.splitContainer1.Size = new System.Drawing.Size(784, 623);
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lstPrograms);
+            this.groupBox3.Location = new System.Drawing.Point(13, 332);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(161, 76);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Programs";
+            // 
+            // lstPrograms
+            // 
+            this.lstPrograms.CheckOnClick = true;
+            this.lstPrograms.FormattingEnabled = true;
+            this.lstPrograms.Location = new System.Drawing.Point(7, 20);
+            this.lstPrograms.Name = "lstPrograms";
+            this.lstPrograms.Size = new System.Drawing.Size(148, 49);
+            this.lstPrograms.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -1432,25 +1427,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // chkPrograms
-            // 
-            this.lstPrograms.CheckOnClick = true;
-            this.lstPrograms.FormattingEnabled = true;
-            this.lstPrograms.Location = new System.Drawing.Point(7, 20);
-            this.lstPrograms.Name = "chkPrograms";
-            this.lstPrograms.Size = new System.Drawing.Size(148, 49);
-            this.lstPrograms.TabIndex = 0;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lstPrograms);
-            this.groupBox3.Location = new System.Drawing.Point(13, 332);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(161, 76);
-            this.groupBox3.TabIndex = 4;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Programs";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1474,6 +1450,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -1483,7 +1460,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).EndInit();
             this.cmsSiteAllNone.ResumeLayout(false);
             this.cmsVisit.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1515,12 +1491,9 @@
         private System.Windows.Forms.ToolStripStatusLabel tssDatabasePath;
         private System.Windows.Forms.ToolStripMenuItem scavengeVisitDataFromCHaMPExportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem experimentalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ericWallToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jamesHensleighToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kellyWhiteheadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem konradHaffenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem philipBaileyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saraBangenToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem prepareDatabaseForDeploymentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutExperimentalToolsToolStripMenuItem;

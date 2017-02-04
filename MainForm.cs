@@ -1788,7 +1788,7 @@ namespace CHaMPWorkbench
                         DataRowView drv = (DataRowView)aRow.DataBoundItem;
                         DataRow r = drv.Row;
                         System.IO.DirectoryInfo dirVisit = null;
-                        Classes.DataFolders.Visit(new System.IO.DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder), (int)r["VisitID"], out dirVisit);
+                        Classes.DataFolders.Visit(new System.IO.DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder), (long)r["VisitID"], out dirVisit);
                         string sRelativeVisitDir = dirVisit.FullName.Replace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, "");
                         sRelativeVisitDir = sRelativeVisitDir.Replace("\\", "/");
                         csv.AppendLine(string.Format("{0},{1},{2},{3},{4}", r["VisitYear"], r["WatershedName"], r["SiteName"], r["VisitID"], sRelativeVisitDir));
