@@ -224,7 +224,7 @@ namespace CHaMPWorkbench.UserQueries
         {
             public string DBCon { get; internal set; }
             public string SQL { get; internal set; }
-            public int ID { get; internal set; }
+            public long ID { get; internal set; }
             public string Title { get; internal set; }
 
             public string DefaultFileName
@@ -265,7 +265,7 @@ namespace CHaMPWorkbench.UserQueries
                 }
             }
 
-            public UserQueryTag(string sDBCon, string sSQL, int nID, string sTitle)
+            public UserQueryTag(string sDBCon, string sSQL, long nID, string sTitle)
             {
                 DBCon = sDBCon;
                 SQL = sSQL;

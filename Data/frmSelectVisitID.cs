@@ -13,7 +13,7 @@ namespace CHaMPWorkbench.Data
     public partial class frmSelectVisitID : Form
     {
         private string DBCon { get; set; }
-        private List<int> ExistingVisitIDs;
+        private List<long> ExistingVisitIDs;
 
         public int SelectedVisitID
         {
@@ -31,14 +31,14 @@ namespace CHaMPWorkbench.Data
         {
             valVisitID.Select(0, valVisitID.Text.Length);
 
-            ExistingVisitIDs = new List<int>();
+            ExistingVisitIDs = new List<long>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitID FROM CHaMP_Visits", dbCon);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
-                    ExistingVisitIDs.Add(dbRead.GetInt32(0));
+                    ExistingVisitIDs.Add(dbRead.GetInt64(0));
             }
         }
 

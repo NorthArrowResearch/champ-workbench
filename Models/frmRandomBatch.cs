@@ -35,7 +35,7 @@ namespace CHaMPWorkbench.RBT.Batches
                         dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
                         SQLiteDataReader dbRead = dbCom.ExecuteReader();
                         while (dbRead.Read())
-                            cboBatch.Items.Add(new RBTBatch(dbRead.GetInt32(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
+                            cboBatch.Items.Add(new RBTBatch(dbRead.GetInt64(0), string.Format("{0} ({1} runs)", dbRead.GetString(1), dbRead.GetInt32(2)), dbRead.GetInt32(2)));
                     }
                 }
             }

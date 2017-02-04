@@ -21,12 +21,12 @@ namespace CHaMPWorkbench.Classes
         /// These constants correspond to the LookupListItem IDs in the 
         /// Workbench database for "Scavenge Types" and "Metric Types"
         /// </summary>
-        private const int m_nRBTScavengeTypeID = 1;
+        private const long m_nRBTScavengeTypeID = 1;
 
-        private const int m_nVisitMetricTypeID = 3;
-        private const int m_nTier1MetricTypeID = 4;
-        private const int m_nTier2MetricTypeID = 5;
-        private const int m_nChannelUnitTypeID = 6;
+        private const long m_nVisitMetricTypeID = 3;
+        private const long m_nTier1MetricTypeID = 4;
+        private const long m_nTier2MetricTypeID = 5;
+        private const long m_nChannelUnitTypeID = 6;
 
         public ResultScavengerSingleCHaMP(string sDBCon)
         {
@@ -105,7 +105,7 @@ namespace CHaMPWorkbench.Classes
         /// </summary>
         /// <param name="nMetricTypeID">Workbench LookupListItemID of the particular type of metrics to retrieve. See constants at top of this file.</param>
         /// <returns></returns>
-        private List<ScavengeMetric> GetMetrics(int nMetricTypeID)
+        private List<ScavengeMetric> GetMetrics(long nMetricTypeID)
         {
             List<ScavengeMetric> lMetrics = new List<ScavengeMetric>();
 
@@ -118,8 +118,8 @@ namespace CHaMPWorkbench.Classes
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    lMetrics.Add(new ScavengeMetric(dbRead.GetInt32(dbRead.GetOrdinal("MetricID")),
-                        dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID")),
+                    lMetrics.Add(new ScavengeMetric(dbRead.GetInt64(dbRead.GetOrdinal("MetricID")),
+                        dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID")),
                         dbRead.GetString(dbRead.GetOrdinal("Title")),
                         dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"))));
                 }
@@ -182,7 +182,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="dbTrans">Database transaction</param>
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeVisitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nResultID)
+        private int ScavengeVisitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, long nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
@@ -220,7 +220,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeTierMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nTier, int nMetricGroupID, int nLookupListIDTierValues, int nResultID)
+        private int ScavengeTierMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nTier, long nMetricGroupID, long nLookupListIDTierValues, int nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(nMetricGroupID);
             if (lVisitMetrics.Count < 1)
@@ -231,12 +231,12 @@ namespace CHaMPWorkbench.Classes
 
             // Build a dictionary of the tier values ("rapid", "Beaver Pool", Off Channel etc) for the specified Metric Group.
             // These will be substituted for the wildcard string above.
-            Dictionary<string, int> dTierValues = new Dictionary<string, int>();
+            Dictionary<string, long> dTierValues = new Dictionary<string, long>();
             SQLiteCommand comTierValues = new SQLiteCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = @ListID", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@ListID", nLookupListIDTierValues);
             SQLiteDataReader dbRead = comTierValues.ExecuteReader();
             while (dbRead.Read())
-                dTierValues.Add(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt32(dbRead.GetOrdinal("ItemID")));
+                dTierValues.Add(dbRead.GetString(dbRead.GetOrdinal("Title")), dbRead.GetInt64(dbRead.GetOrdinal("ItemID")));
 
             // Prepare the query to insert the tier metric value
             SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_TierMetrics (ResultID, MetricID, TierID, MetricValue) VALUES (@ResultID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
@@ -287,14 +287,14 @@ namespace CHaMPWorkbench.Classes
                 return 0;
 
             // Build a dictionary of the channel units for this visit. Key is channel unit number (crew defined) to value of ChannelUnitID (workbench DB ID)
-            Dictionary<int, int> dChannelUnits = new Dictionary<int, int>();
+            Dictionary<long, long> dChannelUnits = new Dictionary<long, long>();
             SQLiteCommand comTierValues = new SQLiteCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber" +
                 " FROM CHAMP_Visits AS V INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID" +
                 " WHERE (V.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@VisitID", nVisitID);
             SQLiteDataReader dbRead = comTierValues.ExecuteReader();
             while (dbRead.Read())
-                dChannelUnits.Add(dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitID")));
+                dChannelUnits.Add(dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitID")));
 
             // Prepare the query to insert the tier metric value
             SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_ChannelUnitMetrics (ResultID, MetricID, ChannelUnitID, ChannelUnitNumber, MetricValue) VALUES (@ResultID, @MetricID, @ChannelUnitID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);

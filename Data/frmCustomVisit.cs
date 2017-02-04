@@ -236,11 +236,11 @@ namespace CHaMPWorkbench.Data
 
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     // Channel segments and units
-                    Dictionary<int, int> dSegmentNumbers = new Dictionary<int, int>(); // segment number key to database segment ID in DB values
+                    Dictionary<long, long> dSegmentNumbers = new Dictionary<long, long>(); // segment number key to database segment ID in DB values
 
                     foreach (ChannelUnit ch in bsChannelUnits)
                     {
-                        int nSegmentID = 0;
+                        long nSegmentID = 0;
                         if (dSegmentNumbers.ContainsKey(ch.SegmentNumber))
                         {
                             nSegmentID = dSegmentNumbers[ch.SegmentNumber];
@@ -286,8 +286,8 @@ namespace CHaMPWorkbench.Data
 
         private class ChannelUnit
         {
-            public int UnitNumber { get; set; }
-            public int SegmentNumber { get; set; }
+            public long UnitNumber { get; set; }
+            public long SegmentNumber { get; set; }
             public string Tier1 { get; set; }
             public string Tier2 { get; set; }
 
@@ -297,7 +297,7 @@ namespace CHaMPWorkbench.Data
                 SegmentNumber = 1;
             }
 
-            public ChannelUnit(int nUnitNumber, int nSegmentNumber, string sTier1, string sTier2)
+            public ChannelUnit(long nUnitNumber, long nSegmentNumber, string sTier1, string sTier2)
             {
                 UnitNumber = nUnitNumber;
                 SegmentNumber = nSegmentNumber;
@@ -545,8 +545,8 @@ namespace CHaMPWorkbench.Data
                     while (dbRead.Read())
                     {
                         bsChannelUnits.Add(new ChannelUnit(
-                            dbRead.GetInt32(dbRead.GetOrdinal("ChannelUnitNumber"))
-                            , dbRead.GetInt32(dbRead.GetOrdinal("SegmentNumber"))
+                            dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber"))
+                            , dbRead.GetInt64(dbRead.GetOrdinal("SegmentNumber"))
                             , dbRead.GetString(dbRead.GetOrdinal("Tier1"))
                             , dbRead.GetString(dbRead.GetOrdinal("Tier2"))
                             ));

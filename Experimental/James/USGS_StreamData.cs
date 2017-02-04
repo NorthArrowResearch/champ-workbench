@@ -94,7 +94,7 @@ namespace CHaMPWorkbench.Experimental.James
         /// <returns></returns>
         /// <remarks>Sample web service string
         /// http://nwis.waterservices.usgs.gov/nwis/iv/?format=waterml,1.1&site={0}&parameterCd=00060&siteType=ST&startDT=2011-01-01&endDT=2016-01-01</remarks>
-        public List<StreamFlowSample> GetUSGS_DischargeData(int iGageID)
+        public List<StreamFlowSample> GetUSGS_DischargeData(long iGageID)
         {
             m_iGageID = iGageID;
             m_bDatabaseHasDischargeData = CheckIfDischargesTableContainsData(iGageID);
@@ -169,9 +169,9 @@ namespace CHaMPWorkbench.Experimental.James
         /// </summary>
         /// <param name="sCHaMPSiteName"></param>
         /// <returns></returns>
-        private int GetGageID(long nSiteID)
+        private long GetGageID(long nSiteID)
         {
-            int iGageID = new int();
+            long iGageID = new long();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
             {
@@ -185,7 +185,7 @@ namespace CHaMPWorkbench.Experimental.James
                 {
                     if (dbRead[0] != System.DBNull.Value)
                     {
-                        iGageID = Convert.ToInt32(dbRead[0]);
+                        iGageID = Convert.ToInt64(dbRead[0]);
                     }
                 }
             }
@@ -244,7 +244,7 @@ namespace CHaMPWorkbench.Experimental.James
             return bContainsData;
         }
 
-        private List<StreamFlowSample> RetreiveDischargeDataFromDB(int iGageID)
+        private List<StreamFlowSample> RetreiveDischargeDataFromDB(long iGageID)
         {
             List<StreamFlowSample> lStreamData = new List<StreamFlowSample>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnectionString))
@@ -312,7 +312,7 @@ namespace CHaMPWorkbench.Experimental.James
             return Html;
         }
 
-        private List<StreamFlowSample> LoadUSGS_XML_toDB(string HTTPResponse, int iGageID)
+        private List<StreamFlowSample> LoadUSGS_XML_toDB(string HTTPResponse, long iGageID)
         {
             List<StreamFlowSample> lStreamData = new List<StreamFlowSample>();
 

@@ -96,10 +96,10 @@ namespace CHaMPWorkbench.Habitat
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
         private int ScavengeVisitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults,
-            int nResultID)
+            long nResultID)
         {
-            int nSpeciesLifestage = -1;
-            int nModelType = -1;
+            long nSpeciesLifestage = -1;
+            long nModelType = -1;
             List<ScavengeMetric> lVisitMetrics = GetMetrics(m_nVisitMetricTypeID);
             if (lVisitMetrics.Count < 1)
                 return 0;
@@ -119,7 +119,7 @@ namespace CHaMPWorkbench.Habitat
                 int counter = 0;
                 while (dbRead.Read())
                 {
-                    nModelType = dbRead.GetInt32(dbRead.GetOrdinal("ItemID"));
+                    nModelType = dbRead.GetInt64(dbRead.GetOrdinal("ItemID"));
                     counter++;
                 }
                 if (counter != 1)
@@ -153,7 +153,7 @@ namespace CHaMPWorkbench.Habitat
                 int counter = 0;
                 while (dbRead.Read())
                 {
-                    nSpeciesLifestage = dbRead.GetInt32(dbRead.GetOrdinal("ItemID"));
+                    nSpeciesLifestage = dbRead.GetInt64(dbRead.GetOrdinal("ItemID"));
                     counter++;
                 }
                 if (counter != 1)
@@ -222,8 +222,8 @@ namespace CHaMPWorkbench.Habitat
 
                 while (dbRead.Read())
                 {
-                    int nMetricID = dbRead.GetInt32(dbRead.GetOrdinal("MetricID"));
-                    int nCMMetricID = dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")) ? -1 : dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID"));
+                   long nMetricID = dbRead.GetInt64(dbRead.GetOrdinal("MetricID"));
+                    long nCMMetricID = dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")) ? -1 : dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID"));
                     string sTitle = dbRead.GetString(dbRead.GetOrdinal("Title"));
                     string sXpath = dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"));
 
@@ -241,12 +241,12 @@ namespace CHaMPWorkbench.Habitat
         /// <remarks>Typically a list of these metrics is loaded for just a particular TypeID (visit or channel unit tier 1 level etc)</remarks>
         private class ScavengeMetric
         {
-            public int MetricID { get; internal set; }
-            public int CMMetricID { get; internal set; }
+            public long MetricID { get; internal set; }
+            public long CMMetricID { get; internal set; }
             public string Name { get; internal set; }
             public string XPath { get; internal set; }
 
-            public ScavengeMetric(int nMetricID, int nCMMetricID, string sName, string sXPath)
+            public ScavengeMetric(long nMetricID, long nCMMetricID, string sName, string sXPath)
             {
                 MetricID = nMetricID;
                 if (nCMMetricID >= 0)

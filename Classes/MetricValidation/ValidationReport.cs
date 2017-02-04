@@ -202,7 +202,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 {
                     Nullable<long> nCMMetricID = new Nullable<long>();
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")))
-                        nCMMetricID = dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID"));
+                        nCMMetricID = dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID"));
 
                     Nullable<double> fMinValue = new Nullable<float>();
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("MinValue")))

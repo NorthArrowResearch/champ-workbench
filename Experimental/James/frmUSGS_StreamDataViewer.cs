@@ -79,7 +79,7 @@ namespace CHaMPWorkbench.Experimental.James
             if (bGageIDValid == true)
             {
                 //Get the selected USGS Gage number
-                int iGageID = Convert.ToInt32(txtUSGS_SiteNumber.Text);
+                long iGageID = Convert.ToInt64(txtUSGS_SiteNumber.Text);
 
                 //Get the data
                 List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
@@ -216,7 +216,7 @@ namespace CHaMPWorkbench.Experimental.James
             txtUSGS_SiteNumber.Text = sUSGS_GageNumber;
         }
 
-        private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, long nSiteID, string sCHaMPSiteName, int iGageID)
+        private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, long nSiteID, string sCHaMPSiteName, long iGageID)
         {
             string sUSGS_Description = string.Empty;
             using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
@@ -277,7 +277,7 @@ namespace CHaMPWorkbench.Experimental.James
             pChartArea.AxisY.TitleFont = pAxisFont;
 
             //Add the survey dates for the site in question
-            TupleList<DateTime, int> pVisitSampleDates = new TupleList<DateTime, int>();
+            TupleList<DateTime, long> pVisitSampleDates = new TupleList<DateTime, long>();
             System.Windows.Forms.DataVisualization.Charting.Series pVisitsSeries = new System.Windows.Forms.DataVisualization.Charting.Series("Visits");
             pVisitsSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             pVisitsSeries.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
@@ -299,7 +299,7 @@ namespace CHaMPWorkbench.Experimental.James
                 while (dbRead.Read())
                 {
                     DateTime pSampleDate = Convert.ToDateTime(dbRead[1]);
-                    int iVisitID = Convert.ToInt32(dbRead[0]);
+                    long iVisitID = Convert.ToInt64(dbRead[0]);
                     pVisitSampleDates.Add(pSampleDate, iVisitID);
                 }
                 dbRead.Close();
@@ -470,7 +470,7 @@ namespace CHaMPWorkbench.Experimental.James
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        long nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
+                        long nSiteID = dbRead.GetInt64(dbRead.GetOrdinal("SiteID"));
                         int nIndex = cmbCHaMPSite.Items.Add(new naru.db.NamedObject(nSiteID, dbRead.GetString(dbRead.GetOrdinal("SiteName"))));
                         if (nSiteID == nSelectedSiteID)
                             cmbCHaMPSite.SelectedIndex = nIndex;

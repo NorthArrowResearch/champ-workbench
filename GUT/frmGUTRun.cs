@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.GUT
                     {
                         string sInputFile = dbRead.GetString(dbRead.GetOrdinal("InputFile"));
                         if (System.IO.File.Exists(sInputFile))
-                            QueuedRuns.Add(new QueuedRun(dbRead.GetInt32(dbRead.GetOrdinal("BatchID")), dbRead.GetInt32(dbRead.GetOrdinal("PrimaryVisitID")), sInputFile));
+                            QueuedRuns.Add(new QueuedRun(dbRead.GetInt64(dbRead.GetOrdinal("BatchID")), dbRead.GetInt64(dbRead.GetOrdinal("PrimaryVisitID")), sInputFile));
                     }
 
                     // Check that at least one run is loaded with a valid input file.
@@ -216,8 +216,8 @@ namespace CHaMPWorkbench.GUT
         /// </summary>
         private class QueuedRun
         {
-            public int BatchRunID { get; internal set; }
-            public int VisitID { get; internal set; }
+            public long BatchRunID { get; internal set; }
+            public long VisitID { get; internal set; }
             public string InputFile { get; internal set; }
 
             /// <summary>
@@ -226,7 +226,7 @@ namespace CHaMPWorkbench.GUT
             /// <param name="nBatchRunID">Workbench Batch run ID</param>
             /// <param name="nVisitID">CHaMP Visit ID</param>
             /// <param name="sInputFile">Model input XML file</param>
-            public QueuedRun(int nBatchRunID, int nVisitID, string sInputFile)
+            public QueuedRun(long nBatchRunID, long nVisitID, string sInputFile)
             {
                 BatchRunID = nBatchRunID;
                 VisitID = nVisitID;

@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Data
                         throw ex;
                     }
 
-                    nQualityID = dbRead.GetInt32(dbRead.GetOrdinal("QualityRatingID"));
+                    nQualityID = dbRead.GetInt64(dbRead.GetOrdinal("QualityRatingID"));
                     txtUserName.Text = dbRead.GetString(dbRead.GetOrdinal("UserName"));
                     cboItemReviewed.Text = dbRead.GetString(dbRead.GetOrdinal("ItemReviewed"));
 
@@ -76,13 +76,13 @@ namespace CHaMPWorkbench.Data
                         txtDescription.Text = dbRead.GetString(dbRead.GetOrdinal("Description"));
 
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("WatershedID")))
-                        nWatershedID = dbRead.GetInt32(dbRead.GetOrdinal("WatershedID"));
+                        nWatershedID = dbRead.GetInt64(dbRead.GetOrdinal("WatershedID"));
 
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("SiteID")))
-                        nSiteID = dbRead.GetInt32(dbRead.GetOrdinal("SiteID"));
+                        nSiteID = dbRead.GetInt64(dbRead.GetOrdinal("SiteID"));
 
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("VisitID")))
-                        nVisitID = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
+                        nVisitID = dbRead.GetInt64(dbRead.GetOrdinal("VisitID"));
                 }
 
             }
@@ -206,7 +206,7 @@ namespace CHaMPWorkbench.Data
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        string sVisit = string.Format("VisitID {0} in {1}", dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")));
+                        string sVisit = string.Format("VisitID {0} in {1}", dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")));
                         if (!dbRead.IsDBNull(dbRead.GetOrdinal("Organization")))
                             sVisit = string.Format("{0} by {1}", sVisit, dbRead.GetString(dbRead.GetOrdinal("Organization")));
 
@@ -316,8 +316,8 @@ namespace CHaMPWorkbench.Data
                     throw new Exception(string.Format("Error retrieving watershed and site ID for visit {0}", nVisitID));
 
                 // The event handlers will ensure the comboboxes are reloaded with the correct items as the assignment occurs
-                naru.db.sqlite.NamedObject.SelectItem(ref cboWatershed, dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")));
-                naru.db.sqlite.NamedObject.SelectItem(ref cboSite, dbRead.GetInt32(dbRead.GetOrdinal("SiteID")));
+                naru.db.sqlite.NamedObject.SelectItem(ref cboWatershed, dbRead.GetInt64(dbRead.GetOrdinal("WatershedID")));
+                naru.db.sqlite.NamedObject.SelectItem(ref cboSite, dbRead.GetInt64(dbRead.GetOrdinal("SiteID")));
                 naru.db.sqlite.NamedObject.SelectItem(ref cboVisit, nVisitID);
             }
         }
