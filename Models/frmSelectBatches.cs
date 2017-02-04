@@ -90,24 +90,23 @@ namespace CHaMPWorkbench
                 treBatches.Nodes.Clear();
                 TreeNode nodRoot = treBatches.Nodes.Add(string.Format("{0} Batches and Runs", ModelType.Trim()));
 
-                int nBatchID = 0;
-                int nNewBatchID = -1;
+                long nBatchID = 0;
+                long nNewBatchID = -1;
                 TreeNode nodBatch = null;
                 TreeNode nodRun = null;
 
-                using (SQLiteCommand dbBatches = new SQLiteCommand("SELECT R.BatchID, R.ID AS RunID, B.BatchName, R.Summary, R.Run" +
-                    " FROM Model_Batches AS B Right JOIN Model_BatchRuns AS R ON B.ID = R.BatchID" +
-                    " WHERE (R.Inputfile Is Not Null) AND (R.ModelTypeID = @ModelTypeID)" +
+                using (SQLiteCommand dbBatches = new SQLiteCommand("SELECT BatchID, R.ID AS RunID, BatchName, Summary, R.Run" +
+                    " FROM Model_BatchRuns R LEFT JOIN Model_Batches B ON R.BatchID = B.ID WHERE (ModelTypeID = @ModelTypeID) AND (InputFile IS NOT NULL)" +
                     " ORDER BY R.BatchID, B.CreatedOn DESC", dbCon))
                 {
-                    dbBatches.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
+                    dbBatches.Parameters.AddWithValue("ModelTypeID", ModelTypeID);
                     SQLiteDataReader dbRead = dbBatches.ExecuteReader();
                     while (dbRead.Read())
                     {
                         if (System.Convert.IsDBNull(dbRead["BatchID"]))
                             nNewBatchID = -1;
                         else
-                            nNewBatchID = (int)dbRead["BatchID"];
+                            nNewBatchID = (long)dbRead["BatchID"];
 
                         if (nNewBatchID != nBatchID)
                         {
@@ -121,7 +120,7 @@ namespace CHaMPWorkbench
                             nodBatch.Tag = "b";
 
                             if (!System.Convert.IsDBNull(dbRead["BatchID"]))
-                                nodBatch.Tag = ((int)dbRead["BatchID"]).ToString();
+                                nodBatch.Tag = ((long)dbRead["BatchID"]).ToString();
 
                             nBatchID = nNewBatchID;
                         }
@@ -133,7 +132,7 @@ namespace CHaMPWorkbench
                                 sRun = (string)dbRead["Summary"];
 
                             nodRun = nodBatch.Nodes.Add(sRun);
-                            nodRun.Tag = ((int)dbRead["RunID"]).ToString();
+                            nodRun.Tag = ((long)dbRead["RunID"]).ToString();
                             nodRun.Checked = (bool)dbRead["Run"];
                         }
                     }

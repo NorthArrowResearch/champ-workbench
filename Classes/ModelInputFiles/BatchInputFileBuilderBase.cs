@@ -133,10 +133,10 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
                     dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbCon, dbTrans);
                     object objBatchID = dbCom.ExecuteScalar();
-                    if (objBatchID != null && objBatchID is int)
+                    if (objBatchID != null && objBatchID is long)
                     {
                         dbCom = new SQLiteCommand("INSERT INTO Model_BatchRuns (BatchID, ModelTypeID, PrimaryVisitID, Summary, InputFile) VALUES (@BatchID, @ModelTypeID, @PrimaryVisitID, @Summary, @InputFile)", dbCon, dbTrans);
-                        dbCom.Parameters.AddWithValue("@BatchID", (int)objBatchID);
+                        dbCom.Parameters.AddWithValue("@BatchID", (long)objBatchID);
                         dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
                         SQLiteParameter pVisitID = dbCom.Parameters.Add("@PrimaryVisitID", System.Data.DbType.Int64   );
                         SQLiteParameter pSummary = dbCom.Parameters.Add("@Summary",  System.Data.DbType.String);
@@ -167,7 +167,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         {
                             // Make all existing RBT batches set to NOT run
                             dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = False WHERE (BatchID <> @BatchID) AND (ModelTypeID = @ModelTypeID)", dbCon, dbTrans);
-                            dbCom.Parameters.AddWithValue("@BatchID", (int)objBatchID);
+                            dbCom.Parameters.AddWithValue("@BatchID", (long)objBatchID);
                             dbCom.Parameters.AddWithValue("@ModelTypeID", ModelTypeID);
                             dbCom.ExecuteNonQuery();
                         }
