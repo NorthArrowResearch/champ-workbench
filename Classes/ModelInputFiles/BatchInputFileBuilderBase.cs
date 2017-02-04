@@ -24,11 +24,11 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
         // This list loads from the software settings. It helps distinguish visits that
         // have topo data from those that dont'
-        private List<int> ProtocolsWithTopoData;
+        private List<long> ProtocolsWithTopoData;
 
-        public bool ProtocolHasTopoData(int nProtocolID)
+        public bool ProtocolHasTopoData(long nProtocolID)
         {
-            return ProtocolsWithTopoData.Contains<int>(nProtocolID);
+            return ProtocolsWithTopoData.Contains<long>(nProtocolID);
         }
 
         protected int GetResults(out List<string> lExceptionMessages)
@@ -75,7 +75,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
 
             // Load the protocols that possess topodata. This is used later when determining when
             // a visit should be processed by calling ProtcolHasTopoData
-            ProtocolsWithTopoData = new List<int>();
+            ProtocolsWithTopoData = new List<long>();
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ProtocolIDsWithTopoData))
             {
                 foreach (string sProtocolID in CHaMPWorkbench.Properties.Settings.Default.ProtocolIDsWithTopoData.Split(','))
@@ -197,7 +197,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
         /// </summary>
         public class BatchVisits
         {
-            public int VisitID { get; internal set; }
+            public long VisitID { get; internal set; }
             public string InputFile { get; set; }
             public string Description { get; set; }
 

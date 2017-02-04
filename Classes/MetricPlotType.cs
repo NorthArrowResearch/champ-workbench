@@ -9,15 +9,15 @@ namespace CHaMPWorkbench.Classes
 {
     public class MetricPlotType
     {
-        public int PlotID { get; internal set; }
+        public long PlotID { get; internal set; }
         public string Title { get; internal set; }
-        public int XMetricID { get; internal set; }
+        public long XMetricID { get; internal set; }
         public string XMetric { get; internal set; }
-        public int YMetricID { get; internal set; }
+        public long YMetricID { get; internal set; }
         public string YMetric { get; internal set; }
-        public int PlotTypeID { get; internal set; }
+        public long PlotTypeID { get; internal set; }
 
-        public MetricPlotType(int nPlotID, string sTitle, int nXMetricID, string sXMetric, int nYMetricID, string sYMetric, int nPlotTypeID)
+        public MetricPlotType(long nPlotID, string sTitle, long nXMetricID, string sXMetric, long nYMetricID, string sYMetric, long nPlotTypeID)
         {
             PlotID = nPlotID;
             Title = sTitle;
@@ -77,13 +77,13 @@ namespace CHaMPWorkbench.Classes
                 while (dbRead.Read())
                 {
                     cbo.Items.Add(new MetricPlotType(
-                        dbRead.GetInt32(dbRead.GetOrdinal("PlotID"))
+                        dbRead.GetInt64(dbRead.GetOrdinal("PlotID"))
                         , dbRead.GetString(dbRead.GetOrdinal("PlotTitle"))
-                        , dbRead.GetInt32(dbRead.GetOrdinal("XMetricID"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("XMetricID"))
                         , dbRead.GetString(dbRead.GetOrdinal("XTitle"))
-                        , dbRead.GetInt32(dbRead.GetOrdinal("YMetricID"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("YMetricID"))
                         , dbRead.GetString(dbRead.GetOrdinal("YTitle"))
-                        , dbRead.GetInt32(dbRead.GetOrdinal("PlotTypeID"))));
+                        , dbRead.GetInt64(dbRead.GetOrdinal("PlotTypeID"))));
                 }
 
                 if (cbo.Items.Count > 1)

@@ -15,9 +15,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
     public class Metric
     {
         public string Title { get; internal set; }
-        public int MetricID { get; internal set; }
-        public Nullable<int> CMMetricID { get; internal set; }
-        public int GroupTypeID { get; internal set; }
+        public long MetricID { get; internal set; }
+        public Nullable<long> CMMetricID { get; internal set; }
+        public long GroupTypeID { get; internal set; }
         public float Threshold { get; internal set; }
         public Nullable<double> MinValue { get; internal set; }
         public Nullable<double> MaxValue { get; internal set; }
@@ -26,9 +26,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public string ParentGroup { get; set; } // This is the parent grouping in the watershed report
         public string ChildGroup { get; set; } // this is the child grouping in the watershed report
 
-        public Dictionary<int, VisitResults> Visits;
+        public Dictionary<long, VisitResults> Visits;
 
-        public Metric(string sTitle, int nMetricID, Nullable<int> nCMMetricID, int nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
+        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nGroupTypeID, float fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
            string sGroupType, string sChannelGroup)
         {
             Title = sTitle;
@@ -43,10 +43,10 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             ParentGroup = sGroupType;
             ChildGroup = sChannelGroup;
 
-            Visits = new Dictionary<int, VisitResults>();
+            Visits = new Dictionary<long, VisitResults>();
         }
 
-        public void LoadResults(string sDBCon, ref Dictionary<int, ValidationVisitInfo> dVisits, ref List<naru.db.NamedObject> lRBTVersions, bool bManualMetricValues)
+        public void LoadResults(string sDBCon, ref Dictionary<long, ValidationVisitInfo> dVisits, ref List<naru.db.NamedObject> lRBTVersions, bool bManualMetricValues)
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {

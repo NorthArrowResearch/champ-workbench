@@ -347,7 +347,7 @@ namespace CHaMPWorkbench.Classes
         /// log file is scavenged from disk. But it should be present when the log file was generated as part
         /// of a workbench batch run. This is helpful for SFR to trace back what purpose / model was being done
         /// when a log file was generated.</remarks>
-        public void ScavengeLogFile(string sDBCon, int nResultID, String sLogFile, String sResultFilePath, long nBatchRunID = 0)
+        public void ScavengeLogFile(string sDBCon, long nResultID, String sLogFile, String sResultFilePath, long nBatchRunID = 0)
         {
             if (!string.IsNullOrEmpty(sLogFile) && !System.IO.File.Exists(sLogFile))
                 return;
@@ -390,8 +390,8 @@ namespace CHaMPWorkbench.Classes
                 XmlNode nodTargetVisit = xmlR.SelectSingleNode("rbt/target_visit");
                 if (nodTargetVisit is XmlNode && !string.IsNullOrEmpty(nodTargetVisit.InnerText))
                 {
-                    int nVisitID;
-                    if (int.TryParse(nodTargetVisit.InnerText, out nVisitID))
+                    long nVisitID;
+                    if (long.TryParse(nodTargetVisit.InnerText, out nVisitID))
                         pVisitID.Value = nVisitID;
                 }
 
@@ -452,7 +452,7 @@ namespace CHaMPWorkbench.Classes
                 // Get the ID of this log file entry
                 //
                 dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbCon);
-                int nLogID = (int)dbCom.ExecuteScalar();
+                long nLogID = (long)dbCom.ExecuteScalar();
                 if (nLogID > 0)
                 {
                     //
@@ -578,7 +578,7 @@ namespace CHaMPWorkbench.Classes
         }
 
 
-        private void Scavenge_ChangeDetection(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, int nResultID)
+        private void Scavenge_ChangeDetection(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, long nResultID)
         {
 
             foreach (XmlNode dodNode in xmlTopNode.SelectNodes("/rbt_results/metric_results/change_detection_results/dod"))
@@ -641,14 +641,14 @@ namespace CHaMPWorkbench.Classes
                 {
                     dbCom.ExecuteNonQuery();
 
-                    int nChangeDetectionID = 0;
+                    long nChangeDetectionID = 0;
                     dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                     SQLiteDataReader dbRdr = dbCom.ExecuteReader();
                     if (dbRdr.Read())
                     {
                         if (!System.Convert.IsDBNull(dbRdr[0]))
                         {
-                            nChangeDetectionID = (int)dbRdr[0];
+                            nChangeDetectionID = (long)dbRdr[0];
                             PopulateTable_BudgetSegegration(ref dbTrans, dodNode, nChangeDetectionID);
                         }
                     }
@@ -661,7 +661,7 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        private void PopulateTable_BudgetSegegration(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, int nChangeDetectionID)
+        private void PopulateTable_BudgetSegegration(ref SQLiteTransaction dbTrans, XmlNode xmlTopNode, long nChangeDetectionID)
         {
             //("./change_detection/dod")
             foreach (XmlNode aBudgetSegNode in xmlTopNode.ChildNodes)
@@ -686,7 +686,7 @@ namespace CHaMPWorkbench.Classes
                     {
                         if (!System.Convert.IsDBNull(dbRdr[0]))
                         {
-                            int nBudgetSegragationID = (int)dbRdr[0];
+                            long nBudgetSegragationID = (long)dbRdr[0];
 
                             if (aBudgetSegNode.Name.ToLower().Contains("site"))
                             {
@@ -708,7 +708,7 @@ namespace CHaMPWorkbench.Classes
         }
 
 
-        private void PopulateTable_BudgetSegragationValues(SQLiteTransaction dbTrans, XmlNode xmlBudgetNode, int nBudgetSegragationID, string sMaskValueName)
+        private void PopulateTable_BudgetSegragationValues(SQLiteTransaction dbTrans, XmlNode xmlBudgetNode, long nBudgetSegragationID, string sMaskValueName)
         {
             string sSQL = "INSERT INTO Metric_BudgetSegregationValues (BudgetID" + ", MaskValueName" + ", RawAreaErosion" + ", RawAreaDeposition" + ", ThresholdAreaErosion" + ", ThresholdAreaDeposition" + ", AreaDetectableChange" + ", AreaOfInterestRaw" + ", PercentAreaOfInterestDetectableChange" + ", RawVolumeErosion" + ", ThresholdVolumeErosion" + ", ErrorVolumeErosion" + ", ThresholdPercentErosion" + ", RawVolumeDeposition" + ", ThresholdVolumeDeposition" + ", ErrorVolumeDeposition" + ", ThresholdPercentDeposition" + ", RawVolumeDifference" + ", ThresholdedVolumeDifference" + ", ErrorVolumeDifference" + ", VolumeDifferencePercent" + ", AverageDepthErosionRaw" + ", AverageDepthErosionThreshold" + ", AverageDepthErosionError" + ", AverageDepthErosionPercent" + ", AverageDepthDepositionRaw" + ", AverageDepthDepositionThreshold" + ", AverageDepthDepositionError" + ", AverageDepthDepositionPercent" + ", AverageThicknessDifferenceAOIRaw" + ", AverageThicknessDifferenceAOIThresholded" + ", AverageThicknessDifferenceAOIError" + ", AverageThicknessDifferenceAOIPercent" + ", AverageNetThicknessDifferenceAOIRaw" + ", AverageNetThicknessDifferenceAOIThresholded" + ", AverageNetThicknessDifferenceAOIError" + ", AverageNetThicknessDifferenceAOIPercent" + ", AverageThicknessDifferenceADCThresholded" + ", AverageThicknessDifferenceADCError" + ", AverageThicknessDifferenceADCPercent" + ", AverageNetThicknessDifferenceADCThresholded" + ", AverageNetThicknessDifferenceADCError" + ", AverageNetThicknessDifferenceADCPercent" + ", PercentErosionRaw" + ", PercentErosionThresholded" + ", PercentDepositionRaw" + ", PercentDepositionThresholded" + ", PercentImbalanceRaw" + ", PercentImbalanceThresholded" + ", PercentNetVolumeRatioRaw" + ", PercentNetVolumeRatioThresholded" + ") VALUES (" + nBudgetSegragationID;
 
@@ -827,12 +827,12 @@ namespace CHaMPWorkbench.Classes
         /// <remarks>Typically a list of these metrics is loaded for just a particular TypeID (visit or channel unit tier 1 level etc)</remarks>
         private class ScavengeMetric
         {
-            public int MetricID { get; internal set; }
-            public int CMMetricID { get; internal set; }
+            public long MetricID { get; internal set; }
+            public long CMMetricID { get; internal set; }
             public string Name { get; internal set; }
             public string XPath { get; internal set; }
 
-            public ScavengeMetric(int nMetricID, int nCMMetricID, string sName, string sXPath)
+            public ScavengeMetric(long nMetricID, long nCMMetricID, string sName, string sXPath)
             {
                 MetricID = nMetricID;
                 CMMetricID = nCMMetricID;

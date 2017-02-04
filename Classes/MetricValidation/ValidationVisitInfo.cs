@@ -7,15 +7,15 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     public class ValidationVisitInfo
     {
-        public int VisitID { get; internal set; }
-        public int VisitYear { get; internal set; }
+        public long VisitID { get; internal set; }
+        public long VisitYear { get; internal set; }
         public string Site { get; internal set; }
         public string Watershed { get; internal set; }
-        public int WatershedID { get; internal set; }
+        public long WatershedID { get; internal set; }
         public string Organization { get; internal set; }
         public string CrewName { get; internal set; }
 
-        public ValidationVisitInfo(int nVisitID, int nVisitYear, string sSite, string sWatershed, int nWatershedID, string sOrganization, string sCrewName)
+        public ValidationVisitInfo(long nVisitID, long nVisitYear, string sSite, string sWatershed, long nWatershedID, string sOrganization, string sCrewName)
         {
             VisitID = nVisitID;
             VisitYear = nVisitYear;

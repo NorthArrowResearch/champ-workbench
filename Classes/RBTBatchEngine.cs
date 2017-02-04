@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.Classes
 {

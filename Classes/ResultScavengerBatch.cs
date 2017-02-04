@@ -10,6 +10,7 @@ using System.Data.SQLite;
 using System.Xml;
 using System.ComponentModel;
 using System.IO;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.Classes
 {
@@ -76,7 +77,7 @@ namespace CHaMPWorkbench.Classes
             for (int i = 0; i < sResultFiles.Count(); i++)
             {
                 int nOriginal = i;
-                int nResultID = 0;
+                long nResultID = 0;
                 try
                 {
                     nResultID = scavengerCHaMP.ScavengeResultFile(sResultFiles[i]);

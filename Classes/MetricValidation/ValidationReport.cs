@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodReport.AppendChild(nodMetrics);
 
             // If there are no
-            Dictionary<int, ValidationVisitInfo> dVisits = GetVisitInfo(ref lVisits);
+            Dictionary<long, ValidationVisitInfo> dVisits = GetVisitInfo(ref lVisits);
             if (dVisits.Count < 1)
                 return theResult;
 
@@ -141,9 +141,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private Dictionary<int, ValidationVisitInfo> GetVisitInfo(ref List<naru.db.NamedObject> lVisits)
+        private Dictionary<long, ValidationVisitInfo> GetVisitInfo(ref List<naru.db.NamedObject> lVisits)
         {
-            Dictionary<int, ValidationVisitInfo> dResult = new Dictionary<int, ValidationVisitInfo>();
+            Dictionary<long, ValidationVisitInfo> dResult = new Dictionary<long, ValidationVisitInfo>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
@@ -165,16 +165,16 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("CrewName")))
                         sCrewName = dbRead.GetString(dbRead.GetOrdinal("CrewName"));
 
-                    int nVisitIDFromDb = dbRead.GetInt32(dbRead.GetOrdinal("VisitID"));
+                    long nVisitIDFromDb = dbRead.GetInt64(dbRead.GetOrdinal("VisitID"));
 
                     if (lVisits.Find(x => x.ID == nVisitIDFromDb) != null)
                     {
-                        dResult.Add(dbRead.GetInt32(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
-                            dbRead.GetInt32(dbRead.GetOrdinal("VisitID")),
-                            dbRead.GetInt16(dbRead.GetOrdinal("VisitYear")),
+                        dResult.Add(dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), new ValidationVisitInfo(
+                            dbRead.GetInt64(dbRead.GetOrdinal("VisitID")),
+                            dbRead.GetInt64(dbRead.GetOrdinal("VisitYear")),
                             dbRead.GetString(dbRead.GetOrdinal("SiteName")),
                             dbRead.GetString(dbRead.GetOrdinal("WatershedName")),
-                            dbRead.GetInt32(dbRead.GetOrdinal("WatershedID")),
+                            dbRead.GetInt64(dbRead.GetOrdinal("WatershedID")),
                             sOrganization,
                             sCrewName));
                     }
@@ -200,7 +200,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    Nullable<int> nCMMetricID = new Nullable<int>();
+                    Nullable<long> nCMMetricID = new Nullable<long>();
                     if (!dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")))
                         nCMMetricID = dbRead.GetInt32(dbRead.GetOrdinal("CMMetricID"));
 

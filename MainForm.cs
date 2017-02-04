@@ -11,6 +11,7 @@ using System.Deployment.Application;
 using System.IO;
 using System.Xml;
 using System.Data.SQLite;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench
 {

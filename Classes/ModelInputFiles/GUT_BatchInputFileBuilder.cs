@@ -82,7 +82,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return GetResults(out lExceptionMessages);
         }
 
-        private System.IO.FileInfo GenerateSubstrateCSV(int nVisitID, System.IO.DirectoryInfo dVisitFolder)
+        private System.IO.FileInfo GenerateSubstrateCSV(long nVisitID, System.IO.DirectoryInfo dVisitFolder)
         {
             System.IO.FileInfo fiSubstrate = null;
             string sSubstrateCSV = System.IO.Path.Combine(DataFolders.GUTOutputFolder(OutputFolder.FullName, dVisitFolder).FullName, string.Format("substrate_visit_{0}.csv", nVisitID));
@@ -91,7 +91,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
             return fiSubstrate;
         }
 
-        private System.IO.FileInfo GenerateWoodCSV(int nVisitID, System.IO.DirectoryInfo dVisitFolder)
+        private System.IO.FileInfo GenerateWoodCSV(long nVisitID, System.IO.DirectoryInfo dVisitFolder)
         {
             System.IO.FileInfo fiWood = null;
             string sSubstrateCSV = System.IO.Path.Combine(DataFolders.GUTOutputFolder(OutputFolder.FullName, dVisitFolder).FullName, string.Format("wood_visit_{0}.csv", nVisitID));

@@ -20,7 +20,7 @@ namespace CHaMPWorkbench.Habitat
 
         public HabitatBatchBuilder(string sHabitatDBPath, string sHydraulicResultTopLevelFolder, string sD50TopLevelFolder, string sD50RasterFile)
         {
-            Visits = CHaMPData.Visit.Load(DBCon.ConnectionString);
+            Visits = CHaMPData.Visit.Load(naru.db.sqlite.DBCon.ConnectionString);
             m_dHydraulicResultFolder = new System.IO.DirectoryInfo(sHydraulicResultTopLevelFolder);
             m_dD50Folder = new System.IO.DirectoryInfo(sD50TopLevelFolder);
             m_sD50RasterFile = sD50RasterFile;

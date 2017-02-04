@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Data.SQLite;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.CHaMPData
 {

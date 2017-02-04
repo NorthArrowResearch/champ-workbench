@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.Classes.MetricValidation
 {

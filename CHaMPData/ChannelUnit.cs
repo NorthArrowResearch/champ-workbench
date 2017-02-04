@@ -23,7 +23,7 @@ namespace CHaMPWorkbench.CHaMPData
         public Nullable<long> SumSubstrateCover { get; internal set; }
         public Nullable<long> LargeWoodCount { get; internal set; }
 
-        public ChannelUnit(int nID, int nChannelUnitNumber, String sName, String sTier1, String sTier2)
+        public ChannelUnit(long nID, long nChannelUnitNumber, String sName, String sTier1, String sTier2)
             : base(nID, sName)
         {
             Tier1 = sTier1;

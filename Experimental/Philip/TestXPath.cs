@@ -29,7 +29,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             if (!string.IsNullOrWhiteSpace(sWhereClause))
                 sSQL += " WHERE " + sWhereClause;
 
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
                 SQLiteCommand dbCom = new SQLiteCommand (sSQL, dbCon);

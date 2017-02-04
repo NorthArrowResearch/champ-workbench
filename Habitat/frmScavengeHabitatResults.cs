@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.ComponentModel;
 using System.IO;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.Habitat
 {

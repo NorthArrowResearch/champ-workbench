@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using naru.db.sqlite;
 
 namespace CHaMPWorkbench.Habitat
 {

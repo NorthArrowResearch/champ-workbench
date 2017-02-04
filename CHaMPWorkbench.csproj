@@ -130,7 +130,6 @@
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
-    <Compile Include="Classes\DBCon.cs" />
     <Compile Include="Classes\MetricPlotType.cs" />
     <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
     <Compile Include="Classes\CSVGenerators\CSVGeneratorBase.cs" />
@@ -162,7 +161,6 @@
     <Compile Include="Classes\ExceptionHandling\NARException.cs" />
     <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\ModelInputFiles\InputFileBuilder_Helper.cs" />
-    <Compile Include="Classes\NamedDBObject.cs" />
     <Compile Include="Classes\ModelInputFiles\RBTOutputs.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />

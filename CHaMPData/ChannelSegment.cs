@@ -16,7 +16,7 @@ namespace CHaMPWorkbench.CHaMPData
             : base(nID, sName)
         {
             ChannelSegmentNumber = nNumber;
-            ChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
+            ChannelUnits = ChannelUnit.Load(naru.db.sqlite.DBCon.ConnectionString, nID);
         }
 
         public static Dictionary<long, ChannelSegment> Load(string sDBCon, long nVisitID)
