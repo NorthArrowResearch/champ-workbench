@@ -165,6 +165,7 @@ namespace CHaMPWorkbench
 
             try
             {
+                ucPrograms1.Save();
                 CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID = Classes.AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID;
                 CHaMPWorkbench.Properties.Settings.Default.AWSLoggingEnabled = chkAWSLoggingEnabled.Checked;
             }

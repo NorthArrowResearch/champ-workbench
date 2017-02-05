@@ -394,6 +394,7 @@
       <DependentUpon>frmScavengeMetrics.cs</DependentUpon>
     </Compile>
     <Compile Include="naru\db\CheckedItem.cs" />
+    <Compile Include="naru\db\EditableNamedObject.cs" />
     <Compile Include="naru\db\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\CrossTab.cs" />
     <Compile Include="naru\db\sqlite\DBCon.cs" />

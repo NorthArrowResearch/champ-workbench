@@ -12,17 +12,17 @@ namespace CHaMPWorkbench.Data
     public partial class ucPrograms : UserControl
     {
         naru.ui.SortableBindingList<CHaMPData.Program> Programs;
+        private List<long> DeletedIDs;
 
         public ucPrograms()
         {
             InitializeComponent();
+            DeletedIDs = new List<long>();
         }
 
         private void ucPrograms_Load(object sender, EventArgs e)
         {
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            grdData.Dock = DockStyle.Fill;
-            
+            grdData.Dock = DockStyle.Fill;            
             grdData.AutoGenerateColumns = false;
             grdData.AllowUserToResizeRows = false;
 
@@ -43,6 +43,21 @@ namespace CHaMPWorkbench.Data
             aCol.DataPropertyName = sDataPropertyName;
             aCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             return aCol;
+        }
+
+        public void Save()
+        {
+            CHaMPData.Program.Save(naru.db.sqlite.DBCon.ConnectionString, Programs.ToList<CHaMPData.Program>(), DeletedIDs);
+        }
+
+        private void grdData_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (e.Row.DataBoundItem is CHaMPData.Program)
+            {
+                CHaMPData.Program obj = (CHaMPData.Program)e.Row.DataBoundItem;
+                if (obj.ID > 0)
+                    DeletedIDs.Add(obj.ID);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Data.SQLite;
 
 namespace CHaMPWorkbench.CHaMPData
 {
-    public class Program : naru.db.NamedObject
+    public class Program : naru.db.EditableNamedObject
     {
         public string m_sWebSiteURL { get; internal set; }
         public string m_sFTPURL { get; internal set; }
@@ -62,6 +62,7 @@ namespace CHaMPWorkbench.CHaMPData
         /// </summary>
         public Program() : base(0, string.Empty)
         {
+            m_eState = naru.db.DBState.New;
         }
 
         public Program(long nProgramID, string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sRemarks)
@@ -82,6 +83,7 @@ namespace CHaMPWorkbench.CHaMPData
             m_sFTPURL = sFTPURL;
             m_sAWSBucket = sAWSBucket;
             m_sRemarks = sRemarks;
+            m_eState = naru.db.DBState.Unchanged;
         }
 
         public static Dictionary<long, Program> Load(string sDBCon)
@@ -109,38 +111,64 @@ namespace CHaMPWorkbench.CHaMPData
 
         public long Save(string sDBCon)
         {
-            if (State == naru.db.DBState.Unchanged)
-                return ID;
+            if (State != naru.db.DBState.Unchanged)
+            {
+                List<Program> lPrograms = new List<Program>();
+                lPrograms.Add(this);
+                Save(sDBCon, lPrograms);
+            }
+            return ID;
+        }
 
+        public static void Save(string sDBCon, List<Program> lPrograms, List<long> lDeletedIDs = null)
+        {
             using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
+                string[] sFields = { "Title", "WebsiteURL", "FTPURL", "AWSBucket", "Remarks" };
+                SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO LookupPrograms ({0}) VALUES (@{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
+                SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE LookupPrograms SET {0} WHERE ProgramID = @ID", string.Join(",", sFields.Select(x => string.Format("{0} = @{0}", x)))), dbTrans.Connection, dbTrans);
+                SQLiteParameter pID = comUpdate.Parameters.Add("ID", System.Data.DbType.Int64);
+
                 try
                 {
-                    string[] sFields = { "Title", "WebsiteURL", "FTPURL", "AWSBucket", "Remarks" };
-                    SQLiteCommand dbCom = null;
-                    if (State == naru.db.DBState.New)
-                        dbCom = new SQLiteCommand(string.Format("INSERT INTO LookupPrograms ({0}) VALUES (@{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
-                    else
+                    foreach (Program aProgram in lPrograms.Where<Program>(x => x.State != naru.db.DBState.Unchanged))
                     {
-                        dbCom = new SQLiteCommand(string.Format("UPDATE LookupPrograms SET {0} WHERE ProgramID = @ProgramID", string.Join(",", sFields.Select(x => string.Format("{0} = @{1}", x)))), dbTrans.Connection, dbTrans);
-                        dbCom.Parameters.AddWithValue("ProgramID", ID);
+                        SQLiteCommand dbCom = null;
+                        if (aProgram.State == naru.db.DBState.New)
+                            dbCom = comInsert;
+                        else
+                        {
+                            dbCom = comUpdate;
+                            pID.Value = aProgram.ID;
+                        }
+
+                        AddParameter(ref dbCom, "Title", System.Data.DbType.String, aProgram.Name);
+                        AddParameter(ref dbCom, "WebSiteURL", System.Data.DbType.String, aProgram.WebSiteURL);
+                        AddParameter(ref dbCom, "FTPURL", System.Data.DbType.String, aProgram.FTPURL);
+                        AddParameter(ref dbCom, "AWSBucket", System.Data.DbType.String, aProgram.AWSBucket);
+                        AddParameter(ref dbCom, "Remarks", System.Data.DbType.String, aProgram.Remarks);
+
+                        dbCom.ExecuteNonQuery();
+
+                        if (aProgram.State == naru.db.DBState.New)
+                        {
+                            dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                            aProgram.ID = (long)dbCom.ExecuteScalar();
+                        }
                     }
 
-                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, WebSiteURL, "Title");
-                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, WebSiteURL, "WebsiteURL");
-                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, WebSiteURL, "FTPURL");
-                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, WebSiteURL, "AWSBucket");
-                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, WebSiteURL, "Remarks");
-
-                    dbCom.ExecuteNonQuery();
-
-                    if (State == naru.db.DBState.New)
+                    if (lDeletedIDs is List<long>)
                     {
-                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                        ID = (long)dbCom.ExecuteScalar();
+                        SQLiteCommand comDelete = new SQLiteCommand("DELETE FROM LookupPrograms WHERE ProgramID = @ID", dbTrans.Connection, dbTrans);
+                        SQLiteParameter pDelete = comDelete.Parameters.Add("ID", System.Data.DbType.Int64);
+                        foreach (long nID in lDeletedIDs)
+                        {
+                            pDelete.Value = nID;
+                            comDelete.ExecuteNonQuery();
+                        }
                     }
 
                     dbTrans.Commit();
@@ -151,8 +179,22 @@ namespace CHaMPWorkbench.CHaMPData
                     throw;
                 }
             }
+        }
 
-            return ID;
+        private static void AddParameter(ref SQLiteCommand dbCom, string sParameterName, System.Data.DbType dbType, object objValue)
+        {
+            SQLiteParameter p = null;
+            if (dbCom.Parameters.Contains(sParameterName))
+                p = dbCom.Parameters[sParameterName];
+            else
+            {
+                p = dbCom.Parameters.Add(sParameterName, dbType);
+            }
+
+            if (objValue == null)
+                p.Value = DBNull.Value;
+            else
+                p.Value = objValue;
         }
     }
 }
