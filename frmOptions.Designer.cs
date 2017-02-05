@@ -80,6 +80,7 @@
             this.lblStreamName = new System.Windows.Forms.Label();
             this.chkAWSLoggingEnabled = new System.Windows.Forms.CheckBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.ucPrograms1 = new CHaMPWorkbench.Data.ucPrograms();
             ((System.ComponentModel.ISupportInitialize)(this.valGoogleMapZoom)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -87,6 +88,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -603,6 +605,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.ucPrograms1);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -610,6 +613,14 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Programs";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // ucPrograms1
+            // 
+            this.ucPrograms1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucPrograms1.Location = new System.Drawing.Point(3, 3);
+            this.ucPrograms1.Name = "ucPrograms1";
+            this.ucPrograms1.Size = new System.Drawing.Size(830, 232);
+            this.ucPrograms1.TabIndex = 0;
             // 
             // frmOptions
             // 
@@ -641,6 +652,7 @@
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -697,5 +709,6 @@
         private System.Windows.Forms.TextBox txtMonitoringDataZipped;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TabPage tabPage5;
+        private Data.ucPrograms ucPrograms1;
     }
 }

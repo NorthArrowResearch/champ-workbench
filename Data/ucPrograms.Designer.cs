@@ -73,6 +73,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ucPrograms";
             this.Size = new System.Drawing.Size(433, 270);
+            this.Load += new System.EventHandler(this.ucPrograms_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.ResumeLayout(false);
