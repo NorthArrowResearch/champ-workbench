@@ -101,7 +101,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     }
 
                     // Outputs XML node
-                    nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, OutputFolder.FullName));
+                    nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, dInputFile.DirectoryName));
 
                     // Model configuration XML node
                     nodTopLevel.AppendChild(m_RBTConfig.CreateXMLNode(ref xmlDoc));
