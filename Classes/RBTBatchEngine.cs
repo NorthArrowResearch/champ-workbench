@@ -74,7 +74,7 @@ namespace CHaMPWorkbench.Classes
                 {
                     sInputFile = aRun.InputFile;
 
-                    dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeStarted = Now(), DateTimeCompleted = NULL WHERE ID = @ID", dbCon);
+                    dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET Run = 0, DateTimeStarted = CURRENT_TIMESTAMP, DateTimeCompleted = NULL WHERE ID = @ID", dbCon);
                     dbCom.Parameters.AddWithValue("ID", aRun.ID);
                     dbCom.ExecuteNonQuery();
 
@@ -119,7 +119,7 @@ namespace CHaMPWorkbench.Classes
                         {
                         }
 
-                        dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET DateTimeCompleted = Now() WHERE ID = @ID", dbCon);
+                        dbCom = new SQLiteCommand("UPDATE Model_BatchRuns SET DateTimeCompleted = CURRENT_TIMESTAMP WHERE ID = @ID", dbCon);
                         dbCom.Parameters.AddWithValue("ID", aRun.ID);
                         dbCom.ExecuteNonQuery();
 
