@@ -173,6 +173,7 @@ namespace CHaMPWorkbench
             {
                 Exception exOuter = new Exception("Error saving software settings.", ex);
                 Classes.ExceptionHandling.NARException.HandleException(exOuter);
+                this.DialogResult = DialogResult.None;
             }
 
             CHaMPWorkbench.Properties.Settings.Default.DefaultUserName = txtUserName.Text;

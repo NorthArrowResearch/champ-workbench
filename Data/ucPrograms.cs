@@ -47,7 +47,9 @@ namespace CHaMPWorkbench.Data
 
         public void Save()
         {
-            CHaMPData.Program.Save(naru.db.sqlite.DBCon.ConnectionString, Programs.ToList<CHaMPData.Program>(), DeletedIDs);
+            // The member list is null if the user control has never been made visible
+            if (Programs != null)
+                CHaMPData.Program.Save(naru.db.sqlite.DBCon.ConnectionString, Programs.ToList<CHaMPData.Program>(), DeletedIDs);
         }
 
         private void grdData_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
