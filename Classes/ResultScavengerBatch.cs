@@ -76,7 +76,6 @@ namespace CHaMPWorkbench.Classes
 
             for (int i = 0; i < sResultFiles.Count(); i++)
             {
-                int nOriginal = i;
                 long nResultID = 0;
                 try
                 {
@@ -99,19 +98,6 @@ namespace CHaMPWorkbench.Classes
                         }
 
                     }
-                }
-                catch (Exception ex)
-                {
-                    //
-                    // these are legimitate RBT XML result files that have errors. Add them
-                    // to the running list of problems and continue with next file.
-                    //
-                    Errors.Add(ex);
-                }
-
-                try
-                {
-                    scavengerCHaMP.ScavengeResultFile(sResultFiles[nOriginal]);
                 }
                 catch (Exception ex)
                 {
