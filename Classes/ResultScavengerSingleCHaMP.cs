@@ -39,7 +39,7 @@ namespace CHaMPWorkbench.Classes
         /// </summary>
         /// <param name="sResultFilePath">Full path to existing RBT result XML file containing metric values</param>
         /// <returns>Metric_Results.ResultID for this result file</returns>
-        public int ScavengeResultFile(string sResultFilePath)
+        public long ScavengeResultFile(string sResultFilePath)
         {
             if (string.IsNullOrEmpty(sResultFilePath) || !System.IO.File.Exists(sResultFilePath))
             {
@@ -61,7 +61,7 @@ namespace CHaMPWorkbench.Classes
                 throw ex2;
             }
 
-            int nResultID = 0;
+            long nResultID = 0;
             using (SQLiteConnection DBCon = new SQLiteConnection(m_sDBCon))
             {
                 // Open the database and use a transaction for this entire RBT result file.
@@ -73,7 +73,7 @@ namespace CHaMPWorkbench.Classes
                 try
                 {
                     // Insert the result file record and retrieve the unique ID that represents that result.
-                    int nVisitID = 0;
+                    long nVisitID = 0;
                     nResultID = InsertResultRecord(ref dbTrans, sResultFilePath, ref xmlResults, out nVisitID);
                     if (nResultID > 0)
                     {
@@ -137,9 +137,9 @@ namespace CHaMPWorkbench.Classes
         /// <returns>The ID of the RBT result file record. This is used as the foreign key for inserting metrics.</returns>
         /// <remarks>
         /// This method only saves the record if the RBT version, run date time and VisitID values can be obtained from the result XML file.</remarks>
-        private int InsertResultRecord(ref SQLiteTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults, out int nVisitID)
+        private long InsertResultRecord(ref SQLiteTransaction dbTrans, string sResultFile, ref XmlDocument xmlResults, out long nVisitID)
         {
-            int nResultID = 0;
+            long nResultID = 0;
             nVisitID = 0;
 
             XmlNode nodVersion = xmlResults.SelectSingleNode("//rbt_results//meta_data//rbt_version");
@@ -150,24 +150,24 @@ namespace CHaMPWorkbench.Classes
                 if (nodCreated is XmlNode && !string.IsNullOrEmpty(nodCreated.InnerText) && DateTime.TryParse(nodCreated.InnerText, out dtCreated))
                 {
                     XmlNode nodVisitID = xmlResults.SelectSingleNode("//rbt_results//metric_results//visitid");
-                    if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && int.TryParse(nodVisitID.InnerText, out nVisitID))
+                    if (nodVisitID is XmlNode && !string.IsNullOrEmpty(nodVisitID.InnerText) && long.TryParse(nodVisitID.InnerText, out nVisitID))
                     {
                         SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID)" +
-                            " VALUES (@ResultFile, @ModelVersion, @VisitID, @RBTRunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
+                            " VALUES (@ResultFile, @ModelVersion, @VisitID, @RunDateTime, @ScavengeTypeID)", dbTrans.Connection, dbTrans);
 
-                        dbCom.Parameters.AddWithValue("@ResultFile", sResultFile);
-                        dbCom.Parameters.AddWithValue("@ModelVersion", nodVersion.InnerText);
-                        dbCom.Parameters.AddWithValue("@VisitID", nVisitID);
-                        dbCom.Parameters.AddWithValue("@RunDateTime", dtCreated.ToString());
-                        dbCom.Parameters.AddWithValue("@ScavengeTypeID", m_nRBTScavengeTypeID);
+                        dbCom.Parameters.AddWithValue("ResultFile", sResultFile);
+                        dbCom.Parameters.AddWithValue("ModelVersion", nodVersion.InnerText);
+                        dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+                        dbCom.Parameters.AddWithValue("RunDateTime", dtCreated);
+                        dbCom.Parameters.AddWithValue("ScavengeTypeID", m_nRBTScavengeTypeID);
 
                         dbCom.ExecuteNonQuery();
 
                         dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                         object objResultID = dbCom.ExecuteScalar();
-                        if (objResultID != null && objResultID != DBNull.Value && objResultID is int)
+                        if (objResultID != null && objResultID != DBNull.Value && objResultID is long)
                         {
-                            nResultID = (int)objResultID;
+                            nResultID = (long)objResultID;
                         }
                     }
                 }
@@ -220,7 +220,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeTierMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nTier, long nMetricGroupID, long nLookupListIDTierValues, int nResultID)
+        private int ScavengeTierMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nTier, long nMetricGroupID, long nLookupListIDTierValues, long nResultID)
         {
             List<ScavengeMetric> lVisitMetrics = GetMetrics(nMetricGroupID);
             if (lVisitMetrics.Count < 1)
@@ -279,7 +279,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeChannelUnitrMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, int nVisitID, int nResultID)
+        private int ScavengeChannelUnitrMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, long nVisitID, long nResultID)
         {
             // channel unit metrics are LookupList ItemID 6 (cm.org GroupTypeID = 2)
             List<ScavengeMetric> lVisitMetrics = GetMetrics(6);
@@ -288,7 +288,7 @@ namespace CHaMPWorkbench.Classes
 
             // Build a dictionary of the channel units for this visit. Key is channel unit number (crew defined) to value of ChannelUnitID (workbench DB ID)
             Dictionary<long, long> dChannelUnits = new Dictionary<long, long>();
-            SQLiteCommand comTierValues = new SQLiteCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber" +
+            SQLiteCommand comTierValues = new SQLiteCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber AS ChannelUnitNumber" +
                 " FROM CHAMP_Visits AS V INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID" +
                 " WHERE (V.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@VisitID", nVisitID);

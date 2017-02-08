@@ -133,7 +133,7 @@ namespace CHaMPWorkbench.Classes
 
                             //ResultScavengerSingle scavenger = new ResultScavengerSingle(ref m_dbCon);
                             ResultScavengerSingleCHaMP scavenger = new ResultScavengerSingleCHaMP(dbCon.ConnectionString);
-                            int nResultID = 0;
+                            long nResultID = 0;
                             string sResultFile = "";
 
                             if (bScavengeResults)
