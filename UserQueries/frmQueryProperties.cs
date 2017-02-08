@@ -59,7 +59,7 @@ namespace CHaMPWorkbench.UserQueries
         /// actually runs the user query (see bottom of file) can access it.</returns>
         private static bool VerifyQuery(string sDBCon, string sSQL, bool bShowSuccessMessage)
         {
-            List<string> ForbiddenStrings = new List<string> { "insert", "update", "delete", "drop", "alter" };
+            List<string> ForbiddenStrings = new List<string> { "insert", "update", "delete", "drop", "alter", "transform" };
             string sMessageBoxTitle = "Validation Failed";
 
             if (string.IsNullOrEmpty(sSQL))
