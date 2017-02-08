@@ -555,7 +555,8 @@ namespace CHaMPWorkbench.Classes
                             {
                                 long nVisitID = 0;
                                 if (long.TryParse(aChildNode.InnerText, out nVisitID))
-                                    pSourceVisitID.Value = nVisitID;
+                                    if (nVisitID > 0)
+                                        pSourceVisitID.Value = nVisitID;
                             }
                         }
 
