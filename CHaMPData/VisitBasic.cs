@@ -22,5 +22,21 @@ namespace CHaMPWorkbench.CHaMPData
             VisitYear = aVisit.VisitYear;
             ProgramID = aVisit.ProgramID;
         }
+
+        public string VisitFolderAbsolute(string sParentFolder)
+        {
+            return System.IO.Path.Combine(sParentFolder, VisitFolderRelative);
+        }
+
+        public string VisitFolderRelative
+        {
+            get
+            {
+                string sPath =  System.IO.Path.Combine(VisitYear.ToString(), Site.Watershed.Name, Site.Name, string.Format("VISIT_{0}", ID));
+                sPath = sPath.Replace(" ", "");
+                return sPath;
+            }
+        }
     }
 }
+

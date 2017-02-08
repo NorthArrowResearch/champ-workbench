@@ -64,7 +64,7 @@
             this.txtLocalFolder.Location = new System.Drawing.Point(95, 11);
             this.txtLocalFolder.Name = "txtLocalFolder";
             this.txtLocalFolder.Size = new System.Drawing.Size(409, 20);
-            this.txtLocalFolder.TabIndex = 2;
+            this.txtLocalFolder.TabIndex = 1;
             // 
             // cmdCancel
             // 
@@ -73,7 +73,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(458, 583);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 4;
+            this.cmdCancel.TabIndex = 11;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -83,17 +83,16 @@
             this.cmdOK.Location = new System.Drawing.Point(352, 583);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(100, 23);
-            this.cmdOK.TabIndex = 5;
+            this.cmdOK.TabIndex = 10;
             this.cmdOK.Text = "Start Download";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // treFiles
             // 
-            this.treFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treFiles.Location = new System.Drawing.Point(279, 104);
+            this.treFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treFiles.Location = new System.Drawing.Point(12, 104);
             this.treFiles.Name = "treFiles";
             this.treFiles.Size = new System.Drawing.Size(254, 291);
             this.treFiles.TabIndex = 6;
@@ -107,7 +106,7 @@
             this.chkCreateDir.Location = new System.Drawing.Point(95, 37);
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
-            this.chkCreateDir.TabIndex = 7;
+            this.chkCreateDir.TabIndex = 3;
             this.chkCreateDir.Text = "Create directories that don\'t already exist";
             this.chkCreateDir.UseVisualStyleBackColor = true;
             // 
@@ -117,7 +116,7 @@
             this.chkOverwrite.Location = new System.Drawing.Point(95, 62);
             this.chkOverwrite.Name = "chkOverwrite";
             this.chkOverwrite.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwrite.TabIndex = 8;
+            this.chkOverwrite.TabIndex = 4;
             this.chkOverwrite.Text = "Overwrite existing files";
             this.chkOverwrite.UseVisualStyleBackColor = true;
             // 
@@ -127,7 +126,7 @@
             this.cmdHelp.Location = new System.Drawing.Point(12, 583);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
-            this.cmdHelp.TabIndex = 9;
+            this.cmdHelp.TabIndex = 12;
             this.cmdHelp.Text = "Help";
             this.cmdHelp.UseVisualStyleBackColor = true;
             // 
@@ -138,7 +137,7 @@
             this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 10);
             this.cmdBrowseLocal.Name = "cmdBrowseLocal";
             this.cmdBrowseLocal.Size = new System.Drawing.Size(23, 23);
-            this.cmdBrowseLocal.TabIndex = 10;
+            this.cmdBrowseLocal.TabIndex = 2;
             this.cmdBrowseLocal.UseVisualStyleBackColor = true;
             this.cmdBrowseLocal.Click += new System.EventHandler(this.cmdBrowseLocal_Click);
             // 
@@ -160,7 +159,7 @@
             this.grpProgress.Location = new System.Drawing.Point(12, 401);
             this.grpProgress.Name = "grpProgress";
             this.grpProgress.Size = new System.Drawing.Size(521, 176);
-            this.grpProgress.TabIndex = 12;
+            this.grpProgress.TabIndex = 9;
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
             // 
@@ -184,28 +183,31 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(276, 88);
+            this.label2.Location = new System.Drawing.Point(12, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
-            this.label2.TabIndex = 13;
+            this.label2.TabIndex = 5;
             this.label2.Text = "Files to download";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 88);
+            this.label3.Location = new System.Drawing.Point(279, 88);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 13);
-            this.label3.TabIndex = 15;
+            this.label3.TabIndex = 7;
             this.label3.Text = "Visits";
             // 
             // lstVisits
             // 
+            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstVisits.FormattingEnabled = true;
-            this.lstVisits.Location = new System.Drawing.Point(12, 104);
+            this.lstVisits.Location = new System.Drawing.Point(279, 104);
             this.lstVisits.Name = "lstVisits";
             this.lstVisits.Size = new System.Drawing.Size(254, 290);
-            this.lstVisits.TabIndex = 16;
+            this.lstVisits.TabIndex = 8;
             // 
             // frmFTPVisit
             // 

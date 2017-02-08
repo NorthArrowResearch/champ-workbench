@@ -72,6 +72,7 @@ namespace CHaMPWorkbench.Data
 
             grpProgress.Visible = false;
             treFiles.Height = treFiles.Height + grpProgress.Height;
+            lstVisits.Height = lstVisits.Height + grpProgress.Height;
             //this.Height = this.Height - grpProgress.Height;
 
             backgroundWorker1.WorkerReportsProgress = true;
@@ -88,32 +89,25 @@ namespace CHaMPWorkbench.Data
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            int nFileCounter = 0;
+            int nTotalFiles = FileCount;
+
             foreach (VisitWithFiles aVisit in Visits)
             {
-                System.IO.DirectoryInfo diVisit = null;
-                if (Classes.DataFolders.Visit(TopLevelLocalFolder, aVisit.ID, out diVisit))
+                foreach (string sFile in aVisit.RelativesPaths)
                 {
-                    string sRelative = diVisit.FullName.Replace(System.IO.Path.Combine(TopLevelLocalFolder.FullName), "");
-                    sRelative = sRelative.TrimStart(System.IO.Path.DirectorySeparatorChar);
-
-                    foreach (string sFile in aVisit.RelativesPaths)
+                    nFileCounter += 1;
+                    try
                     {
-                        try
-                        {
-                            m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sFile);
-                            //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
-
-                            FTPFile(Programs[aVisit.ProgramID].FTPURL, diVisit.FullName, sRelative, sFile);
-                            m_sProgress.Append(" success");
-                            //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
-                        }
-                        catch (Exception ex)
-                        {
-                            m_sProgress.AppendFormat("{2}{0}, {1}", sFile, ex.Message, Environment.NewLine);
-                        }
-
-                        //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
+                        string sRelativePath = System.IO.Path.Combine(aVisit.VisitFolderRelative, sFile);
+                        FTPFile(Programs[aVisit.ProgramID].FTPURL, TopLevelLocalFolder.FullName, sRelativePath, nFileCounter, nTotalFiles);
                     }
+                    catch (Exception ex)
+                    {
+                        m_sProgress.AppendFormat("{2}{0}, {1}", sFile, ex.Message, Environment.NewLine);
+                    }
+
+                    backgroundWorker1.ReportProgress(100 * (nFileCounter / nTotalFiles));
                 }
             }
         }
@@ -173,9 +167,9 @@ namespace CHaMPWorkbench.Data
         /// https://msdn.microsoft.com/en-us/library/ms229711%28v=vs.110%29.aspx
         /// </summary>
         /// <param name="sRelativePath"></param>
-        private void FTPFile(string sFTPRoot, string sRootLocalFolder, string sRelative, string sRelativePath)
+        private void FTPFile(string sFTPRoot, string sRootLocalFolder, string sRelativePath, int nFileCounter, int nTotalFiles)
         {
-            string sFTPFile = System.IO.Path.Combine(sFTPRoot, "ByYear", sRelative, sRelativePath).Replace("\\", "/");
+            string sFTPFile = System.IO.Path.Combine(sFTPRoot, "ByYear", sRelativePath).Replace("\\", "/");
             System.IO.FileInfo fiLocalFile = new System.IO.FileInfo(System.IO.Path.Combine(sRootLocalFolder, sRelativePath));
 
             if (fiLocalFile.Directory.Exists)
@@ -188,6 +182,7 @@ namespace CHaMPWorkbench.Data
                     }
                     else
                     {
+                        m_sProgress.AppendFormat("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath);
                         return;
                     }
                 }
@@ -200,9 +195,13 @@ namespace CHaMPWorkbench.Data
                 }
                 else
                 {
+                    m_sProgress.AppendFormat("{0}No folder {1}...", Environment.NewLine, sRelativePath);
                     return;
                 }
             }
+
+            m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sRelativePath);
+            backgroundWorker1.ReportProgress(100 * (nFileCounter / nTotalFiles));
 
             // Get the object used to communicate with the server.
             System.Net.FtpWebRequest request = (System.Net.FtpWebRequest)System.Net.WebRequest.Create(sFTPFile);
@@ -218,6 +217,7 @@ namespace CHaMPWorkbench.Data
                 responseStream.CopyTo(fileStream);
             }
 
+            m_sProgress.Append(" success");
             response.Close();
         }
 
@@ -242,6 +242,7 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
+            lstVisits.Height -= grpProgress.Height;
             m_bOverwrite = chkOverwrite.Checked;
             m_bCreateFolders = chkCreateDir.Checked;
 
@@ -256,15 +257,12 @@ namespace CHaMPWorkbench.Data
             for (int i = 0; i < Visits.Count; i++)
             {
                 VisitWithFiles aVisit = Visits[i];
-                System.IO.DirectoryInfo diVisit = null;
-                if (Classes.DataFolders.Visit(new System.IO.DirectoryInfo(txtLocalFolder.Text), aVisit.ID, out diVisit))
+
+                foreach (TreeNode aNode in treFiles.Nodes)
                 {
-                    foreach (TreeNode aNode in treFiles.Nodes)
-                    {
-                        TreeNode aChildNode = aNode;
-                        string sPath = "";
-                        GetCheckedFiles(ref aVisit, ref sPath, ref aChildNode);
-                    }
+                    TreeNode aChildNode = aNode;
+                    string sPath = aVisit.VisitFolderRelative;
+                    GetCheckedFiles(ref aVisit, ref sPath, ref aChildNode);
                 }
             }
 
