@@ -12,6 +12,7 @@ namespace CHaMPWorkbench.CHaMPData
         public string m_sFTPURL { get; internal set; }
         public string m_sAWSBucket { get; internal set; }
         public string m_sRemarks { get; internal set; }
+        public string m_sAPI { get; internal set; }
 
         #region Properties
 
@@ -55,6 +56,16 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
+        public string API
+        {
+            get { return m_sAPI; }
+            set
+            {
+                m_sAPI = value;
+                State = naru.db.DBState.Edited;
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -65,23 +76,24 @@ namespace CHaMPWorkbench.CHaMPData
             m_eState = naru.db.DBState.New;
         }
 
-        public Program(long nProgramID, string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sRemarks)
+        public Program(long nProgramID, string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sAPI, string sRemarks)
             : base(nProgramID, sTitle)
         {
-            Init(sWebSiteURL, sFTPURL, sAWSBucket, sRemarks);
+            Init(sWebSiteURL, sFTPURL, sAWSBucket, sAPI, sRemarks);
         }
 
-        public Program(string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sRemarks)
+        public Program(string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sAPI, string sRemarks)
             : base(0, sTitle)
         {
-            Init(sWebSiteURL, sFTPURL, sAWSBucket, sRemarks);
+            Init(sWebSiteURL, sFTPURL, sAWSBucket, sAPI, sRemarks);
         }
 
-        private void Init(string sWebSiteURL, string sFTPURL, string sAWSBucket, string sRemarks)
+        private void Init(string sWebSiteURL, string sFTPURL, string sAWSBucket, string sAPI, string sRemarks)
         {
             m_sWebSiteURL = sWebSiteURL;
             m_sFTPURL = sFTPURL;
             m_sAWSBucket = sAWSBucket;
+            m_sAPI = sAPI;
             m_sRemarks = sRemarks;
             m_eState = naru.db.DBState.Unchanged;
         }
@@ -103,6 +115,7 @@ namespace CHaMPWorkbench.CHaMPData
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "WebSiteURL")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "FTPURL")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "AWSBucket")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "API")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Remarks"));
                 }
                 return dResult;

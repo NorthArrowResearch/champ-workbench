@@ -249,6 +249,12 @@
     <Compile Include="Data\frmSelectVisitID.Designer.cs">
       <DependentUpon>frmSelectVisitID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmSynchronizeCHaMPData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmSynchronizeCHaMPData.Designer.cs">
+      <DependentUpon>frmSynchronizeCHaMPData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmUserFeedback.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -506,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmSelectVisitID.resx">
       <DependentUpon>frmSelectVisitID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmSynchronizeCHaMPData.resx">
+      <DependentUpon>frmSynchronizeCHaMPData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmUserFeedback.resx">
       <DependentUpon>frmUserFeedback.cs</DependentUpon>

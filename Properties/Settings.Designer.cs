@@ -385,7 +385,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32")]
+        [global::System.Configuration.DefaultSettingValueAttribute("35")]
         public int MinimumDBVersion {
             get {
                 return ((int)(this["MinimumDBVersion"]));

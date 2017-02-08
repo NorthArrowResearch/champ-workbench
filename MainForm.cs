@@ -463,8 +463,8 @@ namespace CHaMPWorkbench
         {
             try
             {
-                //Data.frmImportCHaMPInfo frm = new Data.frmImportCHaMPInfo();
-                //if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Data.frmSynchronizeCHaMPData frm = new Data.frmSynchronizeCHaMPData();
+                frm.ShowDialog();
                 //    LoadVisits();
             }
             catch (Exception ex)

@@ -30,6 +30,7 @@ namespace CHaMPWorkbench.Data
             grdData.Columns.Add(AddDataGridViewColumn("Web Site", "WebSiteURL"));
             grdData.Columns.Add(AddDataGridViewColumn("FTP Site", "FTPURL"));
             grdData.Columns.Add(AddDataGridViewColumn("AWS Bucket", "AWSBucket"));
+            grdData.Columns.Add(AddDataGridViewColumn("API", "API"));
             grdData.Columns.Add(AddDataGridViewColumn("Remarks", "Remarks"));
 
             Programs = new naru.ui.SortableBindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
