@@ -395,7 +395,7 @@ namespace CHaMPWorkbench
                     {
                         ToolStripMenuItem reportMenu = (ToolStripMenuItem)sender;
                         CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem reportClickTag = (CHaMPWorkbench.Classes.MetricValidation.ReportGenerator.ReportItem)reportMenu.Tag;
-                        List<naru.db.NamedObject> visits = GetSelectedVisitsList();
+                        List<CHaMPData.VisitBasic> visits = GetSelectedVisitsList();
                         CHaMPWorkbench.Classes.MetricValidation.ReportGenerator reportGenerator = new CHaMPWorkbench.Classes.MetricValidation.ReportGenerator(reportClickTag, visits);
                         try
                         {
@@ -853,11 +853,13 @@ namespace CHaMPWorkbench
         {
             try
             {
+
                 DataRow r = RetrieveVisitInfo();
                 if (r is DataRow)
                 {
-                    string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder);
-                    Data.frmFTPVisit frm = new Data.frmFTPVisit((long)r["VisitID"], sTopoFolder);
+                    List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
+                    lVisits.Add(new CHaMPData.VisitBasic((long) r["VisitID"], (long) r["WatershedID"], (string) r["WatershedName"], (long) r["SiteID"], (string) r["SiteName"],(long)  r["VisitYear"], string.Empty, (long) r["ProgramID"]));
+                    Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
                     frm.ShowDialog();
                 }
             }
@@ -1049,15 +1051,14 @@ namespace CHaMPWorkbench
             return dVisits;
         }
 
-        private List<naru.db.NamedObject> GetSelectedVisitsList()
+        private List<CHaMPData.VisitBasic> GetSelectedVisitsList()
         {
-            List<naru.db.NamedObject> lVisits = new List<naru.db.NamedObject>();
+            List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
             foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
-                string sLabel = string.Format("{0}, {1}, {2}, Visit {3}", r["WatershedName"], r["VisitYear"], r["SiteName"], r["VisitID"]);
-                lVisits.Add(new naru.db.NamedObject((long)r["VisitID"], sLabel));
+                lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"]));
             }
 
             return lVisits;
@@ -1806,6 +1807,20 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
 
+        }
+
+        private void downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<CHaMPData.VisitBasic> lVisits = GetSelectedVisitsList();
+            try
+            {
+                Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
     }
 }

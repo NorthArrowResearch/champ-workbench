@@ -13,7 +13,7 @@ namespace CHaMPWorkbench.Data
     public partial class ucMetricGrid : UserControl
     {
         public string DBCon { get; set; }
-        public List<naru.db.NamedObject> VisitIDs { get; set; }
+        public List<CHaMPData.VisitBasic> VisitIDs { get; set; }
         public long ProgramID { get; set; }
 
         public event EventHandler SelectedVisitChanged;

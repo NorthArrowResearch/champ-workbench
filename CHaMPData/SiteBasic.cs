@@ -19,6 +19,13 @@ namespace CHaMPWorkbench.CHaMPData
             UTMZone = sUTMZone;
         }
 
+        public SiteBasic(SiteBasic aSite)
+            : base(aSite.ID, aSite.Name)
+        {
+            Watershed = new Watershed(aSite.Watershed);
+            UTMZone = aSite.UTMZone;
+        }
+
         public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
             XmlNode nodSite = xmlDoc.CreateElement("site");

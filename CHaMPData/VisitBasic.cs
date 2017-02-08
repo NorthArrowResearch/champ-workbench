@@ -14,5 +14,13 @@ namespace CHaMPWorkbench.CHaMPData
             VisitYear = nVisitYear;
             ProgramID = nProgramID;
         }
+
+        public VisitBasic(VisitBasic aVisit)
+            : base(aVisit.ID, string.Format("VisitID {0}, {1}, {2}, {3}", aVisit.ID, aVisit.Site.Watershed.Name, aVisit.Site.Name, aVisit.VisitYear))
+        {
+            Site = new SiteBasic(aVisit.Site);
+            VisitYear = aVisit.VisitYear;
+            ProgramID = aVisit.ProgramID;
+        }
     }
 }

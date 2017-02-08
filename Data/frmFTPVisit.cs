@@ -12,24 +12,36 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmFTPVisit : Form
     {
-        private long m_nVisitID;
-        private string m_sVisitRelativePath;
-        private const string m_sFTPTopLevelFolder_CHaMP = "ftp.geooptix.com";
-        private const string m_sFTPTopLevelFolder_AEM = "ftp.aemonitoring.org";
+        private BindingList<VisitWithFiles> Visits;
+        private Dictionary<long, CHaMPData.Program> Programs;
 
-        private List<string> m_sFiles;
         private string m_sCurrentFile;
         private bool m_bOverwrite;
         private bool m_bCreateFolders;
         private StringBuilder m_sProgress;
 
-        public frmFTPVisit(long nVisitID, string sFullLocalPathToVisit)
+        private System.IO.DirectoryInfo TopLevelLocalFolder { get; set; }
+
+        public int FileCount
+        {
+            get
+            {
+                int nFiles = 0;
+                foreach (VisitWithFiles aVisit in Visits)
+                    nFiles += aVisit.RelativesPaths.Count;
+                return nFiles;
+            }
+        }
+
+        public frmFTPVisit(List<CHaMPData.VisitBasic> lVisits)
         {
             InitializeComponent();
-            m_nVisitID = nVisitID;
 
-            m_sVisitRelativePath = sFullLocalPathToVisit.Replace(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, "");
-            m_sVisitRelativePath = m_sVisitRelativePath.TrimStart(System.IO.Path.DirectorySeparatorChar);
+            Visits = new BindingList<VisitWithFiles>();
+            foreach (CHaMPData.VisitBasic aVisit in lVisits)
+                Visits.Add(new VisitWithFiles(aVisit));
+
+            Programs = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString);
 
             m_sCurrentFile = string.Empty;
             m_bOverwrite = false;
@@ -38,7 +50,7 @@ namespace CHaMPWorkbench.Data
 
         private void frmFTPVisit_Load(object sender, EventArgs e)
         {
-            TreeNode nodParent = treFiles.Nodes.Add(string.Format("Visit ID {0}", m_nVisitID));
+            TreeNode nodParent = treFiles.Nodes.Add("Visit Files");
             TreeNode nodHydro = nodParent.Nodes.Add("Hydro");
             nodHydro.Nodes.Add("HydroModelInputs.zip");
             nodHydro.Nodes.Add("HydroModelResults.zip");
@@ -64,30 +76,45 @@ namespace CHaMPWorkbench.Data
 
             backgroundWorker1.WorkerReportsProgress = true;
             chkCreateDir.Checked = m_bCreateFolders;
-            checkBox1.Checked = m_bOverwrite;
-            txtLocalFolder.Text = System.IO.Path.Combine(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, m_sVisitRelativePath);
-            UpdateRemotePath();
+            chkOverwrite.Checked = m_bOverwrite;
+
+            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder) &&
+                System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
+                txtLocalFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
+
+            lstVisits.DataSource = Visits;
+            lstVisits.DisplayMember = "Name";
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < m_sFiles.Count; i++)
+            foreach (VisitWithFiles aVisit in Visits)
             {
-                try
+                System.IO.DirectoryInfo diVisit = null;
+                if (Classes.DataFolders.Visit(TopLevelLocalFolder, aVisit.ID, out diVisit))
                 {
-                    m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, m_sFiles[i]);
-                    backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
+                    string sRelative = diVisit.FullName.Replace(System.IO.Path.Combine(TopLevelLocalFolder.FullName), "");
+                    sRelative = sRelative.TrimStart(System.IO.Path.DirectorySeparatorChar);
 
-                    FTPFile(m_sFiles[i]);
-                    m_sProgress.Append(" success");
-                    backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
-                }
-                catch (Exception ex)
-                {
-                    m_sProgress.AppendFormat("{2}{0}, {1}", m_sFiles[i], ex.Message, Environment.NewLine);
-                }
+                    foreach (string sFile in aVisit.RelativesPaths)
+                    {
+                        try
+                        {
+                            m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sFile);
+                            //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
 
-                backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
+                            FTPFile(Programs[aVisit.ProgramID].FTPURL, diVisit.FullName, sRelative, sFile);
+                            m_sProgress.Append(" success");
+                            //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
+                        }
+                        catch (Exception ex)
+                        {
+                            m_sProgress.AppendFormat("{2}{0}, {1}", sFile, ex.Message, Environment.NewLine);
+                        }
+
+                        //backgroundWorker1.ReportProgress(100 * (i / m_sFiles.Count));
+                    }
+                }
             }
         }
 
@@ -116,7 +143,7 @@ namespace CHaMPWorkbench.Data
             cmdOK.Enabled = true;
         }
 
-        private void GetCheckedFiles(ref string sPathSoFar, ref TreeNode aNode)
+        private void GetCheckedFiles(ref VisitWithFiles aVisit, ref string sPathSoFar, ref TreeNode aNode)
         {
             string sRelativePath = string.Empty;
 
@@ -126,7 +153,9 @@ namespace CHaMPWorkbench.Data
             if (sRelativePath.Contains("."))
             {
                 if (aNode.Checked)
-                    m_sFiles.Add(sRelativePath);
+                {
+                    aVisit.RelativesPaths.Add(sRelativePath);
+                }
             }
             else
             {
@@ -135,7 +164,7 @@ namespace CHaMPWorkbench.Data
                 foreach (TreeNode aChild in aNode.Nodes)
                 {
                     aChildNode = aChild;
-                    GetCheckedFiles(ref sRelativePath, ref aChildNode);
+                    GetCheckedFiles(ref aVisit, ref sRelativePath, ref aChildNode);
                 }
             }
         }
@@ -144,18 +173,18 @@ namespace CHaMPWorkbench.Data
         /// https://msdn.microsoft.com/en-us/library/ms229711%28v=vs.110%29.aspx
         /// </summary>
         /// <param name="sRelativePath"></param>
-        private void FTPFile(string sRelativePath)
+        private void FTPFile(string sFTPRoot, string sRootLocalFolder, string sRelative, string sRelativePath)
         {
-            string sFTPFile = System.IO.Path.Combine(txtRemote.Text, sRelativePath).Replace("\\", "/");
-            string sLocalFile = System.IO.Path.Combine(txtLocalFolder.Text, sRelativePath);
+            string sFTPFile = System.IO.Path.Combine(sFTPRoot, "ByYear", sRelative, sRelativePath).Replace("\\", "/");
+            System.IO.FileInfo fiLocalFile = new System.IO.FileInfo(System.IO.Path.Combine(sRootLocalFolder, sRelativePath));
 
-            if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(sLocalFile)))
+            if (fiLocalFile.Directory.Exists)
             {
-                if (System.IO.File.Exists(sLocalFile))
+                if (fiLocalFile.Exists)
                 {
                     if (m_bOverwrite)
                     {
-                        System.IO.File.Delete(sLocalFile);
+                        fiLocalFile.Delete();
                     }
                     else
                     {
@@ -167,7 +196,7 @@ namespace CHaMPWorkbench.Data
             {
                 if (m_bCreateFolders)
                 {
-                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(sLocalFile));
+                    fiLocalFile.Directory.Create();
                 }
                 else
                 {
@@ -184,7 +213,7 @@ namespace CHaMPWorkbench.Data
             System.Net.FtpWebResponse response = (System.Net.FtpWebResponse)request.GetResponse();
             Stream responseStream = response.GetResponseStream();
 
-            using (var fileStream = File.Create(sLocalFile))
+            using (var fileStream = File.Create(fiLocalFile.FullName))
             {
                 responseStream.CopyTo(fileStream);
             }
@@ -213,18 +242,35 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
+            m_bOverwrite = chkOverwrite.Checked;
+            m_bCreateFolders = chkCreateDir.Checked;
 
-            m_sFiles = new List<string>();
-            foreach (TreeNode aNode in treFiles.Nodes)
+            if (string.IsNullOrEmpty(txtLocalFolder.Text) || !System.IO.Directory.Exists(txtLocalFolder.Text))
             {
-                TreeNode aChildNode = aNode;
-                string sPath = "";
-                GetCheckedFiles(ref sPath, ref aChildNode);
+                MessageBox.Show("You must specifcy the top level local folder where you want to download data.", "Missing Top Level Folder", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.None;
+                return;
+            }
+            TopLevelLocalFolder = new System.IO.DirectoryInfo(txtLocalFolder.Text);
+
+            for (int i = 0; i < Visits.Count; i++)
+            {
+                VisitWithFiles aVisit = Visits[i];
+                System.IO.DirectoryInfo diVisit = null;
+                if (Classes.DataFolders.Visit(new System.IO.DirectoryInfo(txtLocalFolder.Text), aVisit.ID, out diVisit))
+                {
+                    foreach (TreeNode aNode in treFiles.Nodes)
+                    {
+                        TreeNode aChildNode = aNode;
+                        string sPath = "";
+                        GetCheckedFiles(ref aVisit, ref sPath, ref aChildNode);
+                    }
+                }
             }
 
             try
             {
-                m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", m_sFiles.Count));
+                m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", FileCount));
                 txtProgress.Text = m_sProgress.ToString();
                 cmdOK.Enabled = false;
                 backgroundWorker1.RunWorkerAsync();
@@ -244,19 +290,19 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private void rdoAEM_CheckedChanged(object sender, EventArgs e)
+        private class VisitWithFiles : CHaMPData.VisitBasic
         {
-            UpdateRemotePath();
-        }
+            public BindingList<CHaMPData.VisitBasic> visits { get; internal set; }
 
-        private void UpdateRemotePath()
-        {
-            string sRemoteRoot = m_sFTPTopLevelFolder_CHaMP;
-            if (rdoAEM.Checked)
-                sRemoteRoot = m_sFTPTopLevelFolder_AEM;
+            public List<string> RelativesPaths { get; internal set; }
 
-            UriBuilder theRemotePath = new UriBuilder("ftp", sRemoteRoot, -1, System.IO.Path.Combine("ByYear", m_sVisitRelativePath));
-            txtRemote.Text = theRemotePath.ToString();
+            public string Source { get; internal set; }
+            public System.IO.FileInfo Destination { get; internal set; }
+
+            public VisitWithFiles(CHaMPData.VisitBasic aVisit) : base(aVisit)
+            {
+                RelativesPaths = new List<string>();
+            }
         }
     }
 }

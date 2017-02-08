@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// <param name="lVisits">List of visits to include in the report</param>
         /// <returns>Creates an XML file containing all the metric data for the specified
         /// visits and then uses an XSL transform to convert this file to a HTML report.</returns>
-        public ValidationReportResults Run(List<naru.db.NamedObject> lVisits, List<naru.db.NamedObject> lRBTVersions)
+        public ValidationReportResults Run(List<CHaMPData.VisitBasic> lVisits, List<naru.db.NamedObject> lRBTVersions)
         {
             // This return variable really just counts metrics and visits included in the report.
             ValidationReportResults theResult = new ValidationReportResults();
@@ -141,7 +141,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             return theResult;
         }
 
-        private Dictionary<long, ValidationVisitInfo> GetVisitInfo(ref List<naru.db.NamedObject> lVisits)
+        private Dictionary<long, ValidationVisitInfo> GetVisitInfo(ref List<CHaMPData.VisitBasic> lVisits)
         {
             Dictionary<long, ValidationVisitInfo> dResult = new Dictionary<long, ValidationVisitInfo>();
 

@@ -12,10 +12,10 @@ namespace CHaMPWorkbench.Data
     public partial class frmMetricReview : Form
     {
         public string DBCon { get; internal set; }
-        private List<naru.db.NamedObject> Visits { get; set; }
+        private List<CHaMPData.VisitBasic> Visits { get; set; }
         public naru.db.NamedObject Program { get; internal set; }
 
-        public frmMetricReview(string sDBCon, List<naru.db.NamedObject> lVisits, naru.db.NamedObject theProgram)
+        public frmMetricReview(string sDBCon, List<CHaMPData.VisitBasic> lVisits, naru.db.NamedObject theProgram)
         {
             InitializeComponent();
             DBCon = sDBCon;

@@ -10,12 +10,12 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     class ReportGenerator
     {
-        private List<naru.db.NamedObject> m_lVisits;
+        private List<CHaMPData.VisitBasic> m_lVisits;
         // The RBT versions is a dictionary object with the properties <formattedString, rawString>
         private List<naru.db.NamedObject> m_lRBTVersions;
         private ReportItem m_sXSLReport;
 
-        public ReportGenerator(ReportItem xslReport, List<naru.db.NamedObject> lVisits)
+        public ReportGenerator(ReportItem xslReport, List<CHaMPData.VisitBasic> lVisits)
         {
             m_sXSLReport = xslReport;
             m_lVisits = lVisits;
@@ -98,18 +98,27 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// </summary>
         /// <param name="nWatershedID"></param>
         /// <returns></returns>
-        private List<naru.db.NamedObject> GetWatershedVisits(long nWatershedID)
+        private List<CHaMPData.VisitBasic> GetWatershedVisits(long nWatershedID)
         {
-            List<naru.db.NamedObject> lWatershedVisits = new List<naru.db.NamedObject>();
+            List<CHaMPData.VisitBasic> lWatershedVisits = new List<CHaMPData.VisitBasic>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
                 dbCon.Open();
-                SQLiteCommand comFS = new SQLiteCommand("SELECT V.VisitID AS VisitID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT V.VisitID AS VisitID, W.WatershedID AS WatershedID, WatershedName, S.SiteID AS SiteID, SiteName, VisitYear, UTMZone, ProgramID FROM CHAMP_Watersheds AS W INNER JOIN(CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID WHERE(((W.WatershedID) = 12))", dbCon);
                 comFS.Parameters.AddWithValue("@WATERSHEDID", nWatershedID);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 while (dbRead.Read())
-                    lWatershedVisits.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")).ToString()));
+                    lWatershedVisits.Add(new CHaMPData.VisitBasic(
+                        dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("WatershedID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("WatershedName"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("SiteID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("VisitYear"))
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead,"UTMZone")
+                        , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))));
+
                 dbRead.Close();
             }
             return lWatershedVisits;

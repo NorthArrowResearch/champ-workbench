@@ -11,7 +11,11 @@ namespace CHaMPWorkbench.CHaMPData
         public Watershed(long nWatershedID, String sWatershedName)
             : base(nWatershedID, sWatershedName)
         {
+        }
 
+        public Watershed(Watershed aWatershed)
+            : base(aWatershed.ID, aWatershed.Name)
+        {
         }
 
         public static Dictionary<long,Watershed> Load(string sDBCon)
