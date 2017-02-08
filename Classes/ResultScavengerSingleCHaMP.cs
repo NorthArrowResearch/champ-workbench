@@ -470,7 +470,7 @@ namespace CHaMPWorkbench.Classes
                     SQLiteParameter pLogException = dbCom.Parameters.Add("LogException", System.Data.DbType.String);
                     SQLiteParameter pLogSolution = dbCom.Parameters.Add("LogSolution", System.Data.DbType.String);
 
-                    foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/messages/message"))
+                    foreach (XmlNode MessageNode in xmlR.SelectNodes("rbt/message"))
                     {
                         XmlAttribute att = MessageNode.Attributes["severity"];
                         pMessageSeverity.Value = DBNull.Value;
