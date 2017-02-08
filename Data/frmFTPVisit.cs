@@ -107,7 +107,8 @@ namespace CHaMPWorkbench.Data
                         m_sProgress.AppendFormat("{2}{0}, {1}", sFile, ex.Message, Environment.NewLine);
                     }
 
-                    backgroundWorker1.ReportProgress(100 * (nFileCounter / nTotalFiles));
+                    double fRatio = Math.Min(100.0 * (double)nFileCounter / (double)nTotalFiles, 100);
+                    backgroundWorker1.ReportProgress(Convert.ToInt32(fRatio));
                 }
             }
         }
@@ -201,7 +202,6 @@ namespace CHaMPWorkbench.Data
             }
 
             m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sRelativePath);
-            backgroundWorker1.ReportProgress(100 * (nFileCounter / nTotalFiles));
 
             // Get the object used to communicate with the server.
             System.Net.FtpWebRequest request = (System.Net.FtpWebRequest)System.Net.WebRequest.Create(sFTPFile);

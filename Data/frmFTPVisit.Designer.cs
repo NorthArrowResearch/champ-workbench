@@ -148,6 +148,7 @@
             this.progressBar1.Location = new System.Drawing.Point(10, 24);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(499, 13);
+            this.progressBar1.Step = 1;
             this.progressBar1.TabIndex = 11;
             // 
             // grpProgress
