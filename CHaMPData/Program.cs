@@ -21,8 +21,11 @@ namespace CHaMPWorkbench.CHaMPData
             get { return m_sWebSiteURL; }
             set
             {
-                m_sWebSiteURL = value;
-                State = naru.db.DBState.Edited;
+                if (string.Compare(m_sWebSiteURL, value) != 0)
+                {
+                    m_sWebSiteURL = value;
+                    State = naru.db.DBState.Edited;
+                }
             }
         }
 
@@ -31,8 +34,11 @@ namespace CHaMPWorkbench.CHaMPData
             get { return m_sFTPURL; }
             set
             {
-                m_sFTPURL = value;
-                State = naru.db.DBState.Edited;
+                if (string.Compare(m_sFTPURL, value) != 0)
+                {
+                    m_sFTPURL = value;
+                    State = naru.db.DBState.Edited;
+                }
             }
         }
 
@@ -41,8 +47,11 @@ namespace CHaMPWorkbench.CHaMPData
             get { return m_sAWSBucket; }
             set
             {
-                m_sAWSBucket = value;
-                State = naru.db.DBState.Edited;
+                if (string.Compare(m_sAWSBucket, value) != 0)
+                {
+                    m_sAWSBucket = value;
+                    State = naru.db.DBState.Edited;
+                }
             }
         }
 
@@ -51,8 +60,11 @@ namespace CHaMPWorkbench.CHaMPData
             get { return m_sRemarks; }
             set
             {
-                m_sRemarks = value;
-                State = naru.db.DBState.Edited;
+                if (string.Compare(m_sRemarks, value) != 0)
+                {
+                    m_sRemarks = value;
+                    State = naru.db.DBState.Edited;
+                }
             }
         }
 
@@ -61,8 +73,11 @@ namespace CHaMPWorkbench.CHaMPData
             get { return m_sAPI; }
             set
             {
-                m_sAPI = value;
-                State = naru.db.DBState.Edited;
+                if (string.Compare(m_sAPI, value) != 0)
+                {
+                    m_sAPI = value;
+                    State = naru.db.DBState.Edited;
+                }
             }
         }
 
