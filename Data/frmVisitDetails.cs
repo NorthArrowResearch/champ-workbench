@@ -279,10 +279,10 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT LogFiles.ResultID, Metric_Results.ModelVersion, LogFiles.Status, Metric_Results.RunDateTime, LookupListItems.Title AS ScavengeType" +
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT LogFiles.ResultID AS ResultID, Metric_Results.ModelVersion AS ModelVersion, LogFiles.Status AS Status, Metric_Results.RunDateTime AS RunDateTime, LookupListItems.Title AS ScavengeType" +
                     " FROM LookupListItems INNER JOIN (Metric_Results INNER JOIN LogFiles ON Metric_Results.ResultID = LogFiles.ResultID) ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
-                    " WHERE (Metric_Results.VisitID = @VisitID) ORDER BY Metric_Results.RunDateTime DESC", dbCon);
-                dbCom.Parameters.AddWithValue("@VisitID", VisitID);
+                    " WHERE (Metric_Results.VisitID = @VisitID) ORDER BY RunDateTime DESC", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", VisitID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
