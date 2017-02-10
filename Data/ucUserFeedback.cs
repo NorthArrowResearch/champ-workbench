@@ -306,6 +306,9 @@ namespace CHaMPWorkbench.Data
 
         public void SelectVisit(long nVisitID)
         {
+            if (nVisitID < 1)
+                return;
+
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();

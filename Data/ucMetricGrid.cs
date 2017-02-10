@@ -29,7 +29,8 @@ namespace CHaMPWorkbench.Data
                     {
                         DataRowView drv = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
                         DataRow aRow = drv.Row;
-                        nVisitID = (long)aRow["VisitID"];
+                        int visitColindex = aRow.Table.Columns["Visit"].Ordinal;
+                        nVisitID = long.Parse(aRow.ItemArray[visitColindex].ToString(), System.Globalization.NumberStyles.Any);
                     }
                 }
                 return nVisitID;
@@ -59,21 +60,10 @@ namespace CHaMPWorkbench.Data
                 Cursor.Current = Cursors.WaitCursor;
 
                 string sCols = string.Format("SELECT MetricID, DisplayNameShort FROM vwActiveVisitMetrics WHERE ProgramID = {0} GROUP BY MetricID, DisplayNameShort", ProgramID);
-                string sqlRows = string.Format("Select VisitID, CAST(VisitID AS str) AS VisitTitle FROM vwActiveVisitMetrics WHERE VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+                string sqlRows = string.Format("Select VisitID, CAST(VisitID AS str) AS VisitTitle FROM vwActiveVisitMetrics WHERE VisitID IN ({0}) GROUP BY VisitID", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
                 string sqlContent = string.Format("Select VisitID, MetricID, MetricValue FROM vwActiveVisitMetrics WHERE (ProgramID = {0}) AND VisitID IN ({1})", ProgramID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
                 DataTable dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
-
-                //string sSQL = "SELECT * FROM qryVisitMetrics_Final";
-                //if (VisitIDs.Count > 0)
-                //    sSQL = string.Format("{0} WHERE VisitID IN ({1})", sSQL, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
-
-                //sSQL += " ORDER BY VISITID";
-
-                //SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
-                //da.SelectCommand.Parameters.AddWithValue("ProgramID", ProgramID);
-                //DataTable ta = new DataTable();
-                //da.Fill(ta);
                 grdData.DataSource = dt;
 
                 //
