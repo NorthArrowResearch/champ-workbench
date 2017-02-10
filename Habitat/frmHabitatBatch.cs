@@ -51,7 +51,7 @@ namespace CHaMPWorkbench.Habitat
 
         private void LoadFieldSeasons()
         {
-            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkFieldSeasons, DBCon.ConnectionString, "SELECT VisitYear FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", true);
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkFieldSeasons, DBCon.ConnectionString, "SELECT VisitYear, CAST(VisitYear AS text) AS VisitYearStr FROM CHAMP_Visits WHERE (VisitYear Is Not Null) GROUP BY VisitYear ORDER BY VisitYear", true);
         }
 
         private void LoadWatersheds()
@@ -68,19 +68,19 @@ namespace CHaMPWorkbench.Habitat
         {
             DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("Selected", typeof(bool)));
-            table.Columns.Add(new DataColumn("VisitID", typeof(int)));
-            table.Columns.Add(new DataColumn("FieldSeason", typeof(int)));
+            table.Columns.Add(new DataColumn("VisitID", typeof(long)));
+            table.Columns.Add(new DataColumn("FieldSeason", typeof(long)));
             table.Columns.Add(new DataColumn("IsPrimary", typeof(bool)));
             table.Columns.Add(new DataColumn("PanelName", typeof(string)));
             //table.Columns.Add(new DataColumn("SurveyGDB", typeof(string)));
             //table.Columns.Add(new DataColumn("VisitFolder", typeof(string)));
             //table.Columns.Add(new DataColumn("HydraulicModelCSV", typeof(string)));
             table.Columns.Add(new DataColumn("SiteName", typeof(string)));
-            table.Columns.Add(new DataColumn("WatershedID", typeof(int)));
+            table.Columns.Add(new DataColumn("WatershedID", typeof(long)));
             table.Columns.Add(new DataColumn("WatershedName", typeof(string)));
             //table.Columns.Add(new DataColumn("ICRPath", typeof(string)));
 
-            string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, CHAMP_Sites.SiteName, CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName";
+            string sSQL = "SELECT VisitID, VisitYear AS FieldSeason, IsPrimary, PanelName, SiteName, CHAMP_Watersheds.WatershedID AS WatershedID, WatershedName";
 
             // Add the species to the SQL query and also to the receiving database table
             foreach (SpeciesListItem sli in chkSpecies.Items)
@@ -105,8 +105,8 @@ namespace CHaMPWorkbench.Habitat
                     //System.Diagnostics.Debug.Print(dbRead["VisitID"].ToString());
 
                     rowArray[0] = false;
-                    rowArray[1] = (int)dbRead["VisitID"];
-                    rowArray[2] = (int)(Int16)dbRead["FieldSeason"];
+                    rowArray[1] = (long)dbRead["VisitID"];
+                    rowArray[2] = (long)dbRead["FieldSeason"];
                     rowArray[3] = (bool)dbRead["IsPrimary"];
 
                     if (DBNull.Value == dbRead["PanelName"])
@@ -122,7 +122,7 @@ namespace CHaMPWorkbench.Habitat
                     //rowArray[6] = (string)dbRead["VisitFolder"];
                     //rowArray[7] = (string)dbRead["HydraulicModelCSV"];
                     rowArray[5] = (string)dbRead["SiteName"];
-                    rowArray[6] = (int)dbRead["WatershedID"];
+                    rowArray[6] = (long)dbRead["WatershedID"];
                     rowArray[7] = (string)dbRead["WatershedName"];
 
                     //if (DBNull.Value == dbRead["ICRPath"])
@@ -202,7 +202,7 @@ namespace CHaMPWorkbench.Habitat
                 return;
 
             string sValueList = "";
-            foreach (naru.db.CheckedItem.CheckedListItem l in lst.CheckedItems)
+            foreach (naru.db.NamedObject l in lst.CheckedItems)
             {
                 if (bUseNameInsteadOfValue)
                     sValueList += "'" + l.ToString() + "', ";
