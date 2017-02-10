@@ -107,7 +107,7 @@ namespace CHaMPWorkbench.CHaMPData
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "HitchName")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Organization")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "CrewName")
-                        , dbRead.GetDateTime(dbRead.GetOrdinal("SampleDate"))
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueDT(ref dbRead, "SampleDate")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "ProtocolID")
                         , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))
                         , dbRead.GetBoolean(dbRead.GetOrdinal("IsPrimary"))
