@@ -187,7 +187,7 @@ namespace CHaMPWorkbench.CHaMPData
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "slope_raster", "AssocSlope");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "pdensity_raster", "AssocPDensity");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "pointquality_raster", "Assoc3DPQ");
-            naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "roughness_raster", "AssocD50");
+            naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "roughness_raster", "AssocRough");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "interperror_raster", "AssocIErr");
 
             XmlNode nodSegments = xmlDoc.CreateElement("channel_segments");
