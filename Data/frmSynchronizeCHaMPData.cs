@@ -20,5 +20,42 @@ namespace CHaMPWorkbench.Data
         {
             naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstPrograms, naru.db.sqlite.DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms WHERE (API IS NOT NULL) ORDER BY Title", true);
         }
+
+        private void cmdOK_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CHaMPData.DataSynchronizer sync = new CHaMPData.DataSynchronizer();
+
+                sync.Run();
+
+                // DO API things here.
+
+                //Keystone.API.KeystoneApiHelper key = new Keystone.API.KeystoneApiHelper()
+
+                //GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper("https://qa.champmonitoring.org/api/v1/visits"
+                //    , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
+                //    , "NorthArrowDev"
+                //    , "C0116A2B-9508-485D-8C22-4373296FF60E"
+                //    , "MattReimer"
+                //    , "Q1FE!O52&RpBv!s%");
+
+                //api.AuthToken.
+
+                //GeoOptix.API.ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> visit = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>(); //GeoOptix.API.ApiResponse<GeoOptix.API.Model.VisitSummaryModel>
+                //GeoOptix.API.Model.VisitSummaryModel aVisit = visit.Payload;
+
+                //GeoOptix.API.ApiHelper api2 = new GeoOptix.API.ApiHelper(aVisit.SiteUrl, api.AuthToken);
+                //GeoOptix.API.ApiResponse<GeoOptix.API.Model.SiteModel> aSiteResp = api.Get<GeoOptix.API.Model.SiteModel>();
+                //GeoOptix.API.Model.SiteModel aSite = aSiteResp.Payload;
+                
+                Console.Write("hi");
+
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

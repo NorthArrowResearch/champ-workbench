@@ -32,8 +32,8 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.lstPrograms = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +59,7 @@
             this.cmdOK.TabIndex = 1;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // groupBox1
             // 
@@ -73,6 +74,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Programs";
             // 
+            // lstPrograms
+            // 
+            this.lstPrograms.FormattingEnabled = true;
+            this.lstPrograms.Location = new System.Drawing.Point(6, 55);
+            this.lstPrograms.Name = "lstPrograms";
+            this.lstPrograms.Size = new System.Drawing.Size(452, 64);
+            this.lstPrograms.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -81,14 +90,6 @@
             this.label1.Size = new System.Drawing.Size(252, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Select which programs that you want to synchronize";
-            // 
-            // lstPrograms
-            // 
-            this.lstPrograms.FormattingEnabled = true;
-            this.lstPrograms.Location = new System.Drawing.Point(6, 55);
-            this.lstPrograms.Name = "lstPrograms";
-            this.lstPrograms.Size = new System.Drawing.Size(452, 64);
-            this.lstPrograms.TabIndex = 1;
             // 
             // cmdHelp
             // 
