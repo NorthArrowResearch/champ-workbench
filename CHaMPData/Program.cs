@@ -86,19 +86,18 @@ namespace CHaMPWorkbench.CHaMPData
         /// <summary>
         /// Default constructor used by bound user interface controls
         /// </summary>
-        public Program() : base(0, string.Empty)
+        public Program() : base(0, string.Empty, naru.db.DBState.New)
         {
-            m_eState = naru.db.DBState.New;
         }
 
         public Program(long nProgramID, string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sAPI, string sRemarks)
-            : base(nProgramID, sTitle)
+            : base(nProgramID, sTitle, naru.db.DBState.Unchanged)
         {
             Init(sWebSiteURL, sFTPURL, sAWSBucket, sAPI, sRemarks);
         }
 
         public Program(string sTitle, string sWebSiteURL, string sFTPURL, string sAWSBucket, string sAPI, string sRemarks)
-            : base(0, sTitle)
+            : base(0, sTitle, naru.db.DBState.New)
         {
             Init(sWebSiteURL, sFTPURL, sAWSBucket, sAPI, sRemarks);
         }

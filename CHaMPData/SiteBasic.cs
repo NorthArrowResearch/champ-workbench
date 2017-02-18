@@ -7,22 +7,22 @@ using naru.xml;
 
 namespace CHaMPWorkbench.CHaMPData
 {
-    public class SiteBasic : naru.db.NamedObject
+    public class SiteBasic : naru.db.EditableNamedObject
     {
         public Watershed Watershed { get; internal set; }
         public String UTMZone { get; internal set; }
 
-        public SiteBasic(long nSiteID, string sSiteName, long nWatershedID, string sWatershedName, string sUTMZone)
-            : base(nSiteID, sSiteName)
+        public SiteBasic(long nSiteID, string sSiteName, long nWatershedID, string sWatershedName, string sUTMZone, naru.db.DBState eState)
+            : base(nSiteID, sSiteName, eState)
         {
-            Watershed = new Watershed(nWatershedID, sWatershedName);
+            Watershed = new Watershed(nWatershedID, sWatershedName, naru.db.DBState.Unchanged);
             UTMZone = sUTMZone;
         }
 
-        public SiteBasic(SiteBasic aSite)
-            : base(aSite.ID, aSite.Name)
+        public SiteBasic(SiteBasic aSite, naru.db.DBState eState)
+            : base(aSite.ID, aSite.Name, eState)
         {
-            Watershed = new Watershed(aSite.Watershed);
+            Watershed = new Watershed(aSite.Watershed, naru.db.DBState.Unchanged);
             UTMZone = aSite.UTMZone;
         }
 

@@ -10,7 +10,7 @@ namespace CHaMPWorkbench.CHaMPData
         public VisitBasic(long nVisitID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, string sUTMZone, long nProgramID)
             : base(nVisitID, string.Format("VisitID {0}, {1}, {2}, {3}", nVisitID, sWatershedName, sSiteName, nVisitYear))
         {
-            Site = new SiteBasic(nSiteID, sSiteName, nWatershedID, sWatershedName, sUTMZone);
+            Site = new SiteBasic(nSiteID, sSiteName, nWatershedID, sWatershedName, sUTMZone, naru.db.DBState.Unchanged);
             VisitYear = nVisitYear;
             ProgramID = nProgramID;
         }
@@ -18,7 +18,7 @@ namespace CHaMPWorkbench.CHaMPData
         public VisitBasic(VisitBasic aVisit)
             : base(aVisit.ID, string.Format("VisitID {0}, {1}, {2}, {3}", aVisit.ID, aVisit.Site.Watershed.Name, aVisit.Site.Name, aVisit.VisitYear))
         {
-            Site = new SiteBasic(aVisit.Site);
+            Site = new SiteBasic(aVisit.Site, naru.db.DBState.Unchanged);
             VisitYear = aVisit.VisitYear;
             ProgramID = aVisit.ProgramID;
         }
