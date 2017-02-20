@@ -19,8 +19,10 @@ namespace CHaMPWorkbench.CHaMPData
 
                 try
                 {
-                 Dictionary<string, long> dWatershedURLs = Watersheds(ref dbTrans);
-                    Sites(ref dbTrans, ref dWatershedURLs);
+                    Dictionary<string, long> dWatershedURLs = Watersheds(ref dbTrans);
+                    Dictionary<string, long> dSiteURLs = Sites(ref dbTrans, ref dWatershedURLs);
+
+                    Visits(ref dbTrans, ref dSiteURLs);
 
                     dbTrans.Commit();
                 }
@@ -62,9 +64,10 @@ namespace CHaMPWorkbench.CHaMPData
             return dWatershedURLs;
         }
 
-        private void Sites(ref SQLiteTransaction dbTrans, ref Dictionary<string,long> dWatershedURLs)
+        private Dictionary<string, long> Sites(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dWatershedURLs)
         {
             Dictionary<long, Site> dSites = Site.Load(naru.db.sqlite.DBCon.ConnectionString);
+            Dictionary<string, long> dSiteURLs = new Dictionary<string, long>();
 
             ApiHelper api = new ApiHelper("https://qa.champmonitoring.org/api/v1/sites"
                , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
@@ -104,6 +107,8 @@ namespace CHaMPWorkbench.CHaMPData
                     {
                         dSites[(long)apiSite.Id] = new CHaMPData.Site(apiSite.Id, apisiteDetails.Name, nWatershedID, string.Empty, string.Empty, string.Empty, false, false, false, false, false, false, fLatitude, fLongitude, null, naru.db.DBState.New);
                     }
+
+                    dSiteURLs[apiSite.Url] = apiSite.Id;
                 }
                 else
                 {
@@ -112,6 +117,25 @@ namespace CHaMPWorkbench.CHaMPData
             }
 
             Site.Save(ref dbTrans, dSites.Values.ToList<Site>());
+            return dSiteURLs;
+        }
+
+        private void Visits(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dSitesURLs)
+        {
+            Dictionary<long, Visit> dvisits = Visit.Load(naru.db.sqlite.DBCon.ConnectionString);
+
+            ApiHelper api = new ApiHelper("https://qa.champmonitoring.org/api/v1/visits"
+               , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
+               , "NorthArrowDev"
+               , "C0116A2B-9508-485D-8C22-4373296FF60E"
+               , "MattReimer"
+               , "Q1FE!O52&RpBv!s%");
+
+            ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> response = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>();
+            foreach (GeoOptix.API.Model.VisitSummaryModel apiVisit in response.Payload)
+            {
+                Console.Write("visit");
+            }
         }
     }
 }
