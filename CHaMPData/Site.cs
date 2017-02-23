@@ -76,11 +76,11 @@ namespace CHaMPWorkbench.CHaMPData
         {
             string sName = string.Format("{0}, {1}, VisitID {2}", targetVisit.VisitYear, Watershed, ID);
 
-            if (!string.IsNullOrWhiteSpace(targetVisit.HitchName))
-                sName += targetVisit.HitchName + ", ";
+            if (!string.IsNullOrWhiteSpace(targetVisit.Hitch))
+                sName += targetVisit.Hitch + ", ";
 
-            if (!string.IsNullOrWhiteSpace(targetVisit.CrewName))
-                sName += targetVisit.CrewName + ", ";
+            if (!string.IsNullOrWhiteSpace(targetVisit.Crew))
+                sName += targetVisit.Crew + ", ";
 
             if (targetVisit.IsPrimary)
             {

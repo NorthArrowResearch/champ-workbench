@@ -10,52 +10,182 @@ namespace CHaMPWorkbench.CHaMPData
 {
     public class Visit : VisitBasic
     {
-        public Nullable<long> ProgramSiteID { get; internal set; }
-        public Nullable<long> HitchID { get; internal set; }
-        public string HitchName { get { return base.ToString(); } }
-        public string Organization { get; internal set; }
-        public string CrewName { get; internal set; }
-        public DateTime SampleDate { get; internal set; }
-        public Nullable<long> ProtocolID { get; internal set; }
-        public long ProgramID { get; internal set; }
+        private string m_sHitch;
+        private string m_sOrganization;
+        private string m_sCrew;
+        private DateTime? m_dtSampleDate;
+        private long? m_nProtocolID;
+        private string m_sPanel;
+        private string m_sVisitStatus;
+        public double? m_fDischarge;
+        public double? m_fD84;
+
+        // Unavailable in the API
         public bool IsPrimary { get; internal set; }
         public bool QCVisit { get; internal set; }
-        public string PanelName { get; internal set; }
         public string CategoryName { get; internal set; }
         public string VisitPhase { get; internal set; }
-        public string VisitStatus { get; internal set; }
+
+        // Available but not implemented
         public bool HasStreamTempLogger { get; internal set; }
         public bool HasFishData { get; internal set; }
-        public Nullable<double> Discharge { get; internal set; }
-        public Nullable<double> D84 { get; internal set; }
+
+
         public string Remarks { get; internal set; }
 
         public Dictionary<long, ChannelSegment> Segments { get; internal set; }
 
-        public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, Nullable<long> nProgramSiteID, Nullable<long> nHitchID, string sHitchName,
-            string sOrganization, string sCrewName, DateTime dtSampleDate, Nullable<long> nProtocolID, long nProgramID, bool bIsPrimary, bool bQCVisit,
-            string sPanelName, string sCategoryName, string sVisitPhase, string sVisitStatus, bool bHSTL, bool bHasFishData,
-           Nullable<double> fDischarge, Nullable<double> fD84, string sRemarks, string sUTMZone) : base(nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID)
+        #region Properties
+
+        public string Hitch
         {
-            ProgramSiteID = nProgramSiteID;
-            HitchID = nHitchID;
-            Organization = sOrganization;
-            CrewName = sCrewName;
-            SampleDate = dtSampleDate;
-            ProtocolID = nProtocolID;
+            get { return m_sHitch; }
+            set
+            {
+                if (string.Compare(m_sHitch, value, false) != 0)
+                {
+                    m_sHitch = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public string Organization
+        {
+            get { return m_sOrganization; }
+            set
+            {
+                if (string.Compare(m_sOrganization, value, false) != 0)
+                {
+                    m_sOrganization = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public string Crew
+        {
+            get { return m_sCrew; }
+            set
+            {
+                if (string.Compare(m_sCrew, value, false) != 0)
+                {
+                    m_sCrew = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public DateTime? SampleDate
+        {
+            get { return m_dtSampleDate; }
+            set
+            {
+                if (m_dtSampleDate != value)
+                {
+                    m_dtSampleDate = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public long? ProtocolID
+        {
+            get { return m_nProtocolID; }
+            set
+            {
+                if (m_nProtocolID != value)
+                {
+                    m_nProtocolID = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public string Panel
+        {
+            get { return m_sPanel; }
+            set
+            {
+                if (string.Compare(m_sPanel, value, false) != 0)
+                {
+                    m_sPanel = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public string VisitStatus
+        {
+            get { return m_sVisitStatus; }
+            set
+            {
+                if (string.Compare(m_sVisitStatus, value, false) != 0)
+                {
+                    m_sVisitStatus = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public double? Discharge
+        {
+            get { return m_fDischarge; }
+            set
+            {
+                if (m_fDischarge != value)
+                {
+                    m_fDischarge = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public double? D84
+        {
+            get { return m_fD84; }
+            set
+            {
+                if (m_fD84 != value)
+                {
+                    m_fD84 = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        #endregion
+
+        public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, string sHitch,
+            string sOrganization, string sCrew, DateTime dtSampleDate, Nullable<long> nProtocolID, long nProgramID, bool bIsPrimary, bool bQCVisit,
+            string sPanel, string sCategoryName, string sVisitPhase, string sVisitStatus, bool bHSTL, bool bHasFishData,
+           Nullable<double> fDischarge, Nullable<double> fD84, string sRemarks, string sUTMZone, naru.db.DBState eState)
+            : base(nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID, eState)
+        {
+            m_sHitch = sHitch;
+            m_sOrganization = sOrganization;
+            m_sCrew = sCrew;
+            m_dtSampleDate = dtSampleDate;
+            m_nProtocolID = nProtocolID;
             IsPrimary = bIsPrimary;
             QCVisit = bQCVisit;
-            PanelName = sPanelName;
+            m_sPanel = sPanel;
             CategoryName = sCategoryName;
             VisitPhase = sVisitPhase;
-            VisitStatus = sVisitStatus;
+            m_sVisitStatus = sVisitStatus;
             HasStreamTempLogger = bHSTL;
             HasFishData = bHasFishData;
-            Discharge = fDischarge;
-            D84 = fD84;
+            m_fDischarge = fDischarge;
+            m_fD84 = fD84;
             Remarks = sRemarks;
 
             Segments = ChannelSegment.Load(DBCon.ConnectionString, nID);
+        }
+
+        public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, long nProgramID, string sUTMZone, naru.db.DBState eState)
+            : base (nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID, eState)
+        {
+
         }
 
         public static Visit Load(string sDBCon, long nVisitID)
@@ -102,8 +232,6 @@ namespace CHaMPWorkbench.CHaMPData
                         , dbRead.GetInt64(dbRead.GetOrdinal("SiteID"))
                         , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
                         , dbRead.GetInt64(dbRead.GetOrdinal("VisitYear"))
-                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "ProgramSiteID")
-                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "HitchID")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "HitchName")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Organization")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "CrewName")
@@ -121,9 +249,51 @@ namespace CHaMPWorkbench.CHaMPData
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Discharge")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "D84")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Remarks")
-                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "UTMZone"));
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "UTMZone")
+                        , naru.db.DBState.Unchanged);
 
             return aVisit;
+        }
+
+        public static void Save(ref SQLiteTransaction dbTrans, List<Visit> lVisits, List<long> lDeletedIDs = null)
+        {
+            string[] sFields = { "Discharge" };
+            SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_Visits (VisitID, {0}) VALUES (@ID, @{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
+            comInsert.Parameters.Add("ID", System.Data.DbType.Int64);
+
+            SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE CHaMP_Visits SET {0} WHERE VisitID = @ID", string.Join(", ", sFields.Select(x => x + " = @" + x))), dbTrans.Connection, dbTrans);
+            comUpdate.Parameters.Add("ID", System.Data.DbType.Int64);
+
+            foreach (Visit aVisit in lVisits.Where<Visit>(x => x.State != naru.db.DBState.Unchanged))
+            {
+                SQLiteCommand dbCom = null;
+                if (aVisit.State == naru.db.DBState.New)
+                {
+                    dbCom = comInsert;
+                    if (aVisit.ID > 0)
+                        dbCom.Parameters["ID"].Value = aVisit.ID;
+                }
+                else
+                {
+                    dbCom = comUpdate;
+                    dbCom.Parameters["ID"].Value = aVisit.ID;
+                }
+
+                //AddParameter(ref dbCom, "SiteName", System.Data.DbType.String, aSite.Name);
+                //AddParameter(ref dbCom, "WatershedID", System.Data.DbType.Int64, aSite.Watershed.ID);
+                //AddParameter(ref dbCom, "StreamName", System.Data.DbType.String, aSite.StreamName);
+                //AddParameter(ref dbCom, "UTMZone", System.Data.DbType.String, aSite.UTMZone);
+                //AddParameter(ref dbCom, "Latitude", System.Data.DbType.String, aSite.Latitude);
+                //AddParameter(ref dbCom, "Longitude", System.Data.DbType.String, aSite.Longitude);
+
+                dbCom.ExecuteNonQuery();
+
+                if (aVisit.State == naru.db.DBState.New && aVisit.ID < 1)
+                {
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                    aVisit.ID = (long)dbCom.ExecuteScalar();
+                }
+            }
         }
 
         public XmlNode CreateXMLNode(ref XmlDocument xmlDoc, System.IO.DirectoryInfo diTopoLevelTopDir, bool bRequireWSTIN, bool bCalculateMetrics, bool bChangeDetection, bool bPrimary)
@@ -151,7 +321,7 @@ namespace CHaMPWorkbench.CHaMPData
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "visitid", ID.ToString());
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "name", this.ToString());
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "fieldseason", VisitYear.ToString());
-            naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "sample_date", SampleDate.ToString("o"));
+            naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "sample_date", SampleDate.Value.ToString("o"));
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "filegdb", diSurveyGDB.FullName);
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "dem", "DEM");
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "topo_tin", diTopoTIN.FullName);

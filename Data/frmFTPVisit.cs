@@ -297,7 +297,7 @@ namespace CHaMPWorkbench.Data
             public string Source { get; internal set; }
             public System.IO.FileInfo Destination { get; internal set; }
 
-            public VisitWithFiles(CHaMPData.VisitBasic aVisit) : base(aVisit)
+            public VisitWithFiles(CHaMPData.VisitBasic aVisit) : base(aVisit, naru.db.DBState.Unchanged)
             {
                 RelativesPaths = new List<string>();
             }
