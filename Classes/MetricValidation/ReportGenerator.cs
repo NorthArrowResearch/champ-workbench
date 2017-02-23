@@ -117,7 +117,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                         , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
                         , dbRead.GetInt64(dbRead.GetOrdinal("VisitYear"))
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead,"UTMZone")
-                        , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))));
+                        , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))
+                        , naru.db.DBState.Unchanged));
 
                 dbRead.Close();
             }

@@ -5,16 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using GeoOptix.API;
 using System.Data.SQLite;
+using System.Net.Http;
 
 namespace CHaMPWorkbench.CHaMPData
 {
     class DataSynchronizer
     {
-        public void Run()
+        private Dictionary<string, long> Protocols;
+
+        public DataSynchronizer()
         {
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
+
+                Protocols = LoadLookupList(dbCon, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 8");
+            }
+        }
+
+        public void Run(CHaMPData.Program program)
+        {
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
                 try
@@ -22,7 +37,7 @@ namespace CHaMPWorkbench.CHaMPData
                     Dictionary<string, long> dWatershedURLs = Watersheds(ref dbTrans);
                     Dictionary<string, long> dSiteURLs = Sites(ref dbTrans, ref dWatershedURLs);
 
-                    Visits(ref dbTrans, ref dSiteURLs);
+                    Visits(ref dbTrans, ref dSiteURLs, program);
 
                     dbTrans.Commit();
                 }
@@ -32,6 +47,25 @@ namespace CHaMPWorkbench.CHaMPData
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// General utility method for loading Workbench lookup lists needed as foreign keys when storing visits etc.
+        /// </summary>
+        /// <param name="dbCon"></param>
+        /// <param name="sSQL">First field is ID and second is name</param>
+        /// <returns></returns>
+        private Dictionary<string, long> LoadLookupList(SQLiteConnection dbCon, string sSQL)
+        {
+            Dictionary<string, long> dItems = new Dictionary<string, long>();
+            using (SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon))
+            {
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    dItems[dbRead.GetString(1)] = dbRead.GetInt64(0);
+                dbRead.Close();
+            }
+            return dItems;
         }
 
         private Dictionary<string, long> Watersheds(ref SQLiteTransaction dbTrans)
@@ -107,7 +141,7 @@ namespace CHaMPWorkbench.CHaMPData
             return dSiteURLs;
         }
 
-        private void Visits(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dSitesURLs)
+        private void Visits(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dSitesURLs, Program program)
         {
             Dictionary<long, Visit> dvisits = Visit.Load(naru.db.sqlite.DBCon.ConnectionString);
 
@@ -121,8 +155,106 @@ namespace CHaMPWorkbench.CHaMPData
             ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> response = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>();
             foreach (GeoOptix.API.Model.VisitSummaryModel apiVisit in response.Payload)
             {
-                Console.Write("visit");
+
+                ApiHelper api2 = new ApiHelper(apiVisit.Url, api.AuthToken);
+                ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
+                GeoOptix.API.Model.VisitModel apiVisitDetails = apiVisitResponse.Payload;
+
+                if (apiVisitDetails != null)
+                {
+                    if (apiVisitDetails.SampleYear.HasValue)
+                    {
+                        ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
+                        GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
+                        IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
+                        GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+                        Dictionary<string, string> dMeasurements = mv.Measurement;
+
+                        //double? fDischarge;
+                        //foreach (string sValue in dMeasurements.Keys)
+                        //{
+                        //    Console.Write(sValue);
+                        //    if (string.Compare(sValue, "TotalDischarge", true) == 0)
+                        //        if (dMeasurements[sValue] != null)
+                        //            fDischarge = double.Parse(dMeasurements[sValue]);
+                        //}
+
+                        //IEnumerable<GeoOptix.API.Model.MeasurementSummaryModel> theMeasurementTypes = api2.GetMeasurementTypes().Payload;
+                        //foreach (GeoOptix.API.Model.MeasurementSummaryModel aType in theMeasurementTypes)
+                        //{
+                        //    //ApiResponse<api2.GetMeasurement<GeoOptix.API.Model.MeasurementModel<GeoOptix.API.Model.MeasValueModel<"string">>> theType = api2.GetMeasurement<>
+                        //    Console.Write("stop");
+
+                        //}
+
+                        CHaMPData.Visit theVisit = null;
+                        if (dvisits.ContainsKey((long)apiVisitDetails.Id))
+                        {
+                            theVisit = dvisits[(long)apiVisitDetails.Id];
+                        }
+                        else
+                        {
+                            long nSiteID = dSitesURLs[apiVisitDetails.SiteUrl];
+                            theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, nSiteID, string.Empty, apiVisitDetails.SampleYear.Value, program.ID, string.Empty, naru.db.DBState.New);
+                        }
+
+                        theVisit.Hitch = apiVisitDetails.HitchName;
+                        theVisit.Organization = apiVisitDetails.OrganizationName;
+                        theVisit.Crew = apiVisitDetails.HitchName;
+                        theVisit.SampleDate = apiVisitDetails.SampleDate;
+                        theVisit.ProgramID = program.ID;
+                        theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
+                        theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
+                        theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
+
+                        theVisit.Panel = apiVisitDetails.Panel;
+                        theVisit.VisitStatus = apiVisitDetails.Status;
+                    }
+                    
+                    Console.Write("visit");
+                }
             }
+
+            CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
+        }
+
+        private long? GetLookupListItemID(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dLookupListValues, long nListID, string sValue)
+        {
+            long? result = null;
+            if (!string.IsNullOrEmpty(sValue))
+            {
+                if (dLookupListValues.ContainsKey(sValue))
+                    result = dLookupListValues[sValue];
+                else
+                {
+                    // Need new lookup item.
+                    SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO LookupListItems (Title, ListID) VALUES (@Title, @ListID)", dbTrans.Connection, dbTrans);
+                    dbCom.Parameters.AddWithValue("Title", sValue);
+                    dbCom.Parameters.AddWithValue("ListID", nListID);
+                    dbCom.ExecuteNonQuery();
+
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                    result = (long) dbCom.ExecuteScalar();
+
+                    // Remember to update the dictionary to speed up subsequent uses of this item
+                    dLookupListValues[sValue] = result.Value;
+                }
+            }
+            return result;
+        }
+
+        private double? GetVisitInfoValue(ref Dictionary<string, string> dMeasurements, string sPropertyName)
+        {
+            double? fDischarge = null;
+            foreach (string sValue in dMeasurements.Keys)
+            {
+                Console.Write(sValue);
+                if (string.Compare(sValue, sPropertyName, true) == 0)
+                    if (dMeasurements[sValue] != null)
+                        fDischarge = double.Parse(dMeasurements[sValue]);
+            }
+
+            return fDischarge;
         }
     }
 }

@@ -76,6 +76,7 @@
             // 
             // lstPrograms
             // 
+            this.lstPrograms.CheckOnClick = true;
             this.lstPrograms.FormattingEnabled = true;
             this.lstPrograms.Location = new System.Drawing.Point(6, 55);
             this.lstPrograms.Name = "lstPrograms";

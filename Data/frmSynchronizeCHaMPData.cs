@@ -11,6 +11,8 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmSynchronizeCHaMPData : Form
     {
+        BindingList<CHaMPData.Program> Programs;
+
         public frmSynchronizeCHaMPData()
         {
             InitializeComponent();
@@ -18,7 +20,13 @@ namespace CHaMPWorkbench.Data
 
         private void frmSynchronizeCHaMPData_Load(object sender, EventArgs e)
         {
-            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstPrograms, naru.db.sqlite.DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms WHERE (API IS NOT NULL) ORDER BY Title", true);
+            Programs = new BindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
+
+            lstPrograms.DataSource = Programs;
+            lstPrograms.DisplayMember = "Name";
+            lstPrograms.ValueMember = "ID";
+
+            //naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstPrograms, naru.db.sqlite.DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms WHERE (API IS NOT NULL) ORDER BY Title", true);
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -27,7 +35,8 @@ namespace CHaMPWorkbench.Data
             {
                 CHaMPData.DataSynchronizer sync = new CHaMPData.DataSynchronizer();
 
-                sync.Run();
+                foreach (CHaMPData.Program aProgram in lstPrograms.CheckedItems)
+                    sync.Run(aProgram);
 
                 // DO API things here.
 
@@ -48,11 +57,11 @@ namespace CHaMPWorkbench.Data
                 //GeoOptix.API.ApiHelper api2 = new GeoOptix.API.ApiHelper(aVisit.SiteUrl, api.AuthToken);
                 //GeoOptix.API.ApiResponse<GeoOptix.API.Model.SiteModel> aSiteResp = api.Get<GeoOptix.API.Model.SiteModel>();
                 //GeoOptix.API.Model.SiteModel aSite = aSiteResp.Payload;
-                
+
                 Console.Write("hi");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }

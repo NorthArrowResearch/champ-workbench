@@ -858,7 +858,7 @@ namespace CHaMPWorkbench
                 if (r is DataRow)
                 {
                     List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
-                    lVisits.Add(new CHaMPData.VisitBasic((long) r["VisitID"], (long) r["WatershedID"], (string) r["WatershedName"], (long) r["SiteID"], (string) r["SiteName"],(long)  r["VisitYear"], string.Empty, (long) r["ProgramID"]));
+                    lVisits.Add(new CHaMPData.VisitBasic((long) r["VisitID"], (long) r["WatershedID"], (string) r["WatershedName"], (long) r["SiteID"], (string) r["SiteName"],(long)  r["VisitYear"], string.Empty, (long) r["ProgramID"], naru.db.DBState.Unchanged));
                     Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
                     frm.ShowDialog();
                 }
@@ -1058,7 +1058,7 @@ namespace CHaMPWorkbench
             {
                 DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
-                lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"]));
+                lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"], naru.db.DBState.Unchanged));
             }
 
             return lVisits;
