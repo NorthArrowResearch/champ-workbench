@@ -196,6 +196,7 @@ namespace CHaMPWorkbench.CHaMPData
                         {
                             long nSiteID = dSitesURLs[apiVisitDetails.SiteUrl];
                             theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, nSiteID, string.Empty, apiVisitDetails.SampleYear.Value, program.ID, string.Empty, naru.db.DBState.New);
+                            dvisits[(long)apiVisitDetails.Id] = theVisit;
                         }
 
                         theVisit.Hitch = apiVisitDetails.HitchName;
@@ -209,6 +210,7 @@ namespace CHaMPWorkbench.CHaMPData
 
                         theVisit.Panel = apiVisitDetails.Panel;
                         theVisit.VisitStatus = apiVisitDetails.Status;
+
                     }
                     
                     Console.Write("visit");

@@ -257,7 +257,7 @@ namespace CHaMPWorkbench.CHaMPData
 
         public static void Save(ref SQLiteTransaction dbTrans, List<Visit> lVisits, List<long> lDeletedIDs = null)
         {
-            string[] sFields = { "Discharge" };
+            string[] sFields = { "SiteID", "VisitYear", "ProgramID", "HitchName", "Organization", "CrewName", "SampleDate", "ProtocolID", "PanelName", "VisitStatus", "Discharge", "D84" };
             SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_Visits (VisitID, {0}) VALUES (@ID, @{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
             comInsert.Parameters.Add("ID", System.Data.DbType.Int64);
 
@@ -279,12 +279,18 @@ namespace CHaMPWorkbench.CHaMPData
                     dbCom.Parameters["ID"].Value = aVisit.ID;
                 }
 
-                //AddParameter(ref dbCom, "SiteName", System.Data.DbType.String, aSite.Name);
-                //AddParameter(ref dbCom, "WatershedID", System.Data.DbType.Int64, aSite.Watershed.ID);
-                //AddParameter(ref dbCom, "StreamName", System.Data.DbType.String, aSite.StreamName);
-                //AddParameter(ref dbCom, "UTMZone", System.Data.DbType.String, aSite.UTMZone);
-                //AddParameter(ref dbCom, "Latitude", System.Data.DbType.String, aSite.Latitude);
-                //AddParameter(ref dbCom, "Longitude", System.Data.DbType.String, aSite.Longitude);
+                AddParameter(ref dbCom, "SiteID", System.Data.DbType.Int64, aVisit.Site.ID);
+                AddParameter(ref dbCom, "VisitYear", System.Data.DbType.Int64, aVisit.VisitYear);
+                AddParameter(ref dbCom, "ProgramID", System.Data.DbType.Int64, aVisit.ProgramID);
+                AddParameter(ref dbCom, "HitchName", System.Data.DbType.String, aVisit.Hitch);
+                AddParameter(ref dbCom, "Organization", System.Data.DbType.String, aVisit.Organization);
+                AddParameter(ref dbCom, "CrewName", System.Data.DbType.String, aVisit.Crew);
+                AddParameter(ref dbCom, "SampleDate", System.Data.DbType.DateTime, aVisit.SampleDate);
+                AddParameter(ref dbCom, "ProtocolID", System.Data.DbType.String, aVisit.ProtocolID);
+                AddParameter(ref dbCom, "PanelName", System.Data.DbType.String, aVisit.Panel);
+                AddParameter(ref dbCom, "VisitStatus", System.Data.DbType.String, aVisit.VisitStatus);
+                AddParameter(ref dbCom, "Discharge", System.Data.DbType.Double, aVisit.Discharge);
+                AddParameter(ref dbCom, "D84", System.Data.DbType.Double, aVisit.D84);
 
                 dbCom.ExecuteNonQuery();
 
