@@ -75,14 +75,14 @@ namespace CHaMPWorkbench.CHaMPData
                         {
                             SyncVisits(ref dbTrans, ref authToken, ref dvisits, sVisitURL, nProgramID);
                             nVisitCounter += 1;
-                            OnProgressUpdate(nVisitCounter, sVisitURL);
+                            OnProgressUpdate(ProgressPercent(nVisitCounter), sVisitURL);
                         }
                     }
 
                     // Save the updated list of visits (pass all visits, not just those that have changed because channel units might need updating)
                     OnProgressUpdate(100, "Saving visits to database");
                     CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
-                                        
+
                     dbTrans.Commit();
                     OnProgressUpdate(100, "Process Complete");
                 }
@@ -94,6 +94,21 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
+        private int ProgressPercent(int nVisitCounter)
+        {
+            if (TotalNumberVisits == 0)
+                return 0;
+            else
+            {
+                if (nVisitCounter == 0)
+                    return 0;
+                else
+                    if (nVisitCounter == TotalNumberVisits)
+                    return 100;
+                else
+                    return (int)(100 * nVisitCounter / TotalNumberVisits);
+            }
+        }
 
 
         /// <summary>
