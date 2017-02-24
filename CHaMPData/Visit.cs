@@ -27,9 +27,8 @@ namespace CHaMPWorkbench.CHaMPData
         public string VisitPhase { get; internal set; }
 
         // Available but not implemented
-        public bool HasStreamTempLogger { get; internal set; }
-        public bool HasFishData { get; internal set; }
-
+        private bool m_bHasStreamTempLogger;
+        private bool m_bHasFishData;
 
         public string Remarks { get; internal set; }
 
@@ -154,6 +153,32 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
+        public bool HasStreamTempLogger
+        {
+            get { return m_bHasStreamTempLogger; }
+            set
+            {
+                if (m_bHasStreamTempLogger != value)
+                {
+                    m_bHasStreamTempLogger = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+        public bool HasFishData
+        {
+            get { return m_bHasFishData; }
+            set
+            {
+                if (m_bHasFishData != value)
+                {
+                    m_bHasFishData = value;
+                    State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
         #endregion
 
         public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, string sHitch,
@@ -173,19 +198,24 @@ namespace CHaMPWorkbench.CHaMPData
             CategoryName = sCategoryName;
             VisitPhase = sVisitPhase;
             m_sVisitStatus = sVisitStatus;
-            HasStreamTempLogger = bHSTL;
-            HasFishData = bHasFishData;
+            m_bHasStreamTempLogger = bHSTL;
+            m_bHasFishData = bHasFishData;
             m_fDischarge = fDischarge;
             m_fD84 = fD84;
             Remarks = sRemarks;
 
-            Segments = ChannelSegment.Load(DBCon.ConnectionString, nID);
+            Init(nID);
         }
 
         public Visit(long nID, long nWatershedID, string sWatershedName, long nSiteID, string sSiteName, long nVisitYear, long nProgramID, string sUTMZone, naru.db.DBState eState)
-            : base (nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID, eState)
+            : base(nID, nWatershedID, sWatershedName, nSiteID, sSiteName, nVisitYear, sUTMZone, nProgramID, eState)
         {
+            Init(nID);
+        }
 
+        private void Init(long nID)
+        {
+            Segments = ChannelSegment.Load(DBCon.ConnectionString, nID);
         }
 
         public static Visit Load(string sDBCon, long nVisitID)
@@ -257,7 +287,7 @@ namespace CHaMPWorkbench.CHaMPData
 
         public static void Save(ref SQLiteTransaction dbTrans, List<Visit> lVisits, List<long> lDeletedIDs = null)
         {
-            string[] sFields = { "SiteID", "VisitYear", "ProgramID", "HitchName", "Organization", "CrewName", "SampleDate", "ProtocolID", "PanelName", "VisitStatus", "Discharge", "D84" };
+            string[] sFields = { "SiteID", "VisitYear", "ProgramID", "HitchName", "Organization", "CrewName", "SampleDate", "ProtocolID", "PanelName", "VisitStatus", "Discharge", "D84", "HasFishData", "HasStreamTempLogger" };
             SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_Visits (VisitID, {0}) VALUES (@ID, @{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
             comInsert.Parameters.Add("ID", System.Data.DbType.Int64);
 
@@ -291,6 +321,8 @@ namespace CHaMPWorkbench.CHaMPData
                 AddParameter(ref dbCom, "VisitStatus", System.Data.DbType.String, aVisit.VisitStatus);
                 AddParameter(ref dbCom, "Discharge", System.Data.DbType.Double, aVisit.Discharge);
                 AddParameter(ref dbCom, "D84", System.Data.DbType.Double, aVisit.D84);
+                AddParameter(ref dbCom, "HasStreamTempLogger", System.Data.DbType.Double, aVisit.HasStreamTempLogger);
+                AddParameter(ref dbCom, "HasFishData", System.Data.DbType.Double, aVisit.HasFishData);
 
                 dbCom.ExecuteNonQuery();
 

@@ -170,23 +170,6 @@ namespace CHaMPWorkbench.CHaMPData
                         GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
                         Dictionary<string, string> dMeasurements = mv.Measurement;
 
-                        //double? fDischarge;
-                        //foreach (string sValue in dMeasurements.Keys)
-                        //{
-                        //    Console.Write(sValue);
-                        //    if (string.Compare(sValue, "TotalDischarge", true) == 0)
-                        //        if (dMeasurements[sValue] != null)
-                        //            fDischarge = double.Parse(dMeasurements[sValue]);
-                        //}
-
-                        //IEnumerable<GeoOptix.API.Model.MeasurementSummaryModel> theMeasurementTypes = api2.GetMeasurementTypes().Payload;
-                        //foreach (GeoOptix.API.Model.MeasurementSummaryModel aType in theMeasurementTypes)
-                        //{
-                        //    //ApiResponse<api2.GetMeasurement<GeoOptix.API.Model.MeasurementModel<GeoOptix.API.Model.MeasValueModel<"string">>> theType = api2.GetMeasurement<>
-                        //    Console.Write("stop");
-
-                        //}
-
                         CHaMPData.Visit theVisit = null;
                         if (dvisits.ContainsKey((long)apiVisitDetails.Id))
                         {
@@ -206,18 +189,46 @@ namespace CHaMPWorkbench.CHaMPData
                         theVisit.ProgramID = program.ID;
                         theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
                         theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
+                        theVisit.HasStreamTempLogger = GetVisitInfoValueBool(ref dMeasurements, "HasStreamTempLogger");
+                        theVisit.HasFishData = GetVisitInfoValueBool(ref dMeasurements, "HasFishData");
                         theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
 
                         theVisit.Panel = apiVisitDetails.Panel;
                         theVisit.VisitStatus = apiVisitDetails.Status;
 
+                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        // Channel Units
+                        ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resCU = api2.GetMeasurement<Dictionary<string, string>>("Channel Unit");
+                        GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measCU = resCU.Payload;
+                        IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
+                        GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+                        Dictionary<string, string> dChannelUnits = mvCU.Measurement;
+                        ChannelUnits(ref theVisit, dChannelUnits);
+
+                        Console.Write("visit");
+
                     }
-                    
+
                     Console.Write("visit");
                 }
             }
 
             CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
+        }
+
+        private void ChannelUnits(ref CHaMPData.Visit theVisit, Dictionary<string,string> dChannelUnits)
+        {
+            long nSegmentID = long.Parse(dChannelUnits["SegmentNumber"]);
+
+            CHaMPData.ChannelSegment theSegment = null;
+            if (theVisit.Segments.ContainsKey(nSegmentID))
+                theSegment = theVisit.Segments[nSegmentID];
+            else
+                theSegment = new CHaMPData.ChannelSegment(nSegmentID, nSegmentID.ToString(), nSegmentID)
+
+
+
+
         }
 
         private long? GetLookupListItemID(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dLookupListValues, long nListID, string sValue)
@@ -236,7 +247,7 @@ namespace CHaMPWorkbench.CHaMPData
                     dbCom.ExecuteNonQuery();
 
                     dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                    result = (long) dbCom.ExecuteScalar();
+                    result = (long)dbCom.ExecuteScalar();
 
                     // Remember to update the dictionary to speed up subsequent uses of this item
                     dLookupListValues[sValue] = result.Value;
@@ -257,6 +268,19 @@ namespace CHaMPWorkbench.CHaMPData
             }
 
             return fDischarge;
+        }
+
+        private bool GetVisitInfoValueBool(ref Dictionary<string, string> dMeasurements, string sPropertyName)
+        {
+            bool bValue = false;
+            foreach (string sValue in dMeasurements.Keys)
+            {
+                Console.Write(sValue);
+                if (string.Compare(sValue, sPropertyName, true) == 0)
+                    if (dMeasurements[sValue] != null)
+                        bValue = bool.Parse(dMeasurements[sValue]);
+            }
+            return bValue;
         }
     }
 }
