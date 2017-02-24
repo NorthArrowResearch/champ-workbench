@@ -201,9 +201,9 @@ namespace CHaMPWorkbench.CHaMPData
                         ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resCU = api2.GetMeasurement<Dictionary<string, string>>("Channel Unit");
                         GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measCU = resCU.Payload;
                         IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
-                        GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
-                        Dictionary<string, string> dChannelUnits = mvCU.Measurement;
-                        ChannelUnits(ref theVisit, dChannelUnits);
+                        //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+                        //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
+                        ChannelUnits(ref theVisit, valsCU);
 
                         Console.Write("visit");
 
@@ -216,19 +216,18 @@ namespace CHaMPWorkbench.CHaMPData
             CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
         }
 
-        private void ChannelUnits(ref CHaMPData.Visit theVisit, Dictionary<string,string> dChannelUnits)
+        private void ChannelUnits(ref CHaMPData.Visit theVisit, IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> lUnits)
         {
-            long nSegmentID = long.Parse(dChannelUnits["SegmentNumber"]);
+            foreach (GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU in lUnits)
+            {
+                long nChannelUnitNumber = long.Parse(mvCU.Measurement["ChannelUnitNumber"]);
+                long nChannelUnitID = long.Parse(mvCU.Measurement["ChannelUnitID"]);
+                long nSegmentNumber = long.Parse(mvCU.Measurement["ChannelSegmentID"]);
+                string sTier1 = mvCU.Measurement["Tier1"];
+                string sTier2 = mvCU.Measurement["Tier2"];
 
-            CHaMPData.ChannelSegment theSegment = null;
-            if (theVisit.Segments.ContainsKey(nSegmentID))
-                theSegment = theVisit.Segments[nSegmentID];
-            else
-                theSegment = new CHaMPData.ChannelSegment(nSegmentID, nSegmentID.ToString(), nSegmentID)
-
-
-
-
+                theVisit.ChannelUnits[nChannelUnitID] = new ChannelUnit(nChannelUnitID, theVisit.ID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2, naru.db.DBState.New);
+            }
         }
 
         private long? GetLookupListItemID(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dLookupListValues, long nListID, string sValue)

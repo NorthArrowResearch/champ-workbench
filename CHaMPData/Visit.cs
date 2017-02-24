@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.SQLite;
 using System.Xml;
 using naru.db.sqlite;
+using naru.xml;
 
 namespace CHaMPWorkbench.CHaMPData
 {
@@ -32,7 +33,7 @@ namespace CHaMPWorkbench.CHaMPData
 
         public string Remarks { get; internal set; }
 
-        public Dictionary<long, ChannelSegment> Segments { get; internal set; }
+        public Dictionary<long, ChannelUnit> ChannelUnits { get; internal set; }
 
         #region Properties
 
@@ -215,7 +216,7 @@ namespace CHaMPWorkbench.CHaMPData
 
         private void Init(long nID)
         {
-            Segments = ChannelSegment.Load(DBCon.ConnectionString, nID);
+            ChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
         }
 
         public static Visit Load(string sDBCon, long nVisitID)
@@ -294,43 +295,50 @@ namespace CHaMPWorkbench.CHaMPData
             SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE CHaMP_Visits SET {0} WHERE VisitID = @ID", string.Join(", ", sFields.Select(x => x + " = @" + x))), dbTrans.Connection, dbTrans);
             comUpdate.Parameters.Add("ID", System.Data.DbType.Int64);
 
-            foreach (Visit aVisit in lVisits.Where<Visit>(x => x.State != naru.db.DBState.Unchanged))
+            foreach (Visit aVisit in lVisits)
             {
-                SQLiteCommand dbCom = null;
-                if (aVisit.State == naru.db.DBState.New)
+                // Only save the visit if it is new or changed. (but don't include this in loop as Linq filter because channel units might need saving below)
+                if (aVisit.State != naru.db.DBState.Unchanged)
                 {
-                    dbCom = comInsert;
-                    if (aVisit.ID > 0)
+                    SQLiteCommand dbCom = null;
+                    if (aVisit.State == naru.db.DBState.New)
+                    {
+                        dbCom = comInsert;
+                        if (aVisit.ID > 0)
+                            dbCom.Parameters["ID"].Value = aVisit.ID;
+                    }
+                    else
+                    {
+                        dbCom = comUpdate;
                         dbCom.Parameters["ID"].Value = aVisit.ID;
-                }
-                else
-                {
-                    dbCom = comUpdate;
-                    dbCom.Parameters["ID"].Value = aVisit.ID;
+                    }
+
+                    AddParameter(ref dbCom, "SiteID", System.Data.DbType.Int64, aVisit.Site.ID);
+                    AddParameter(ref dbCom, "VisitYear", System.Data.DbType.Int64, aVisit.VisitYear);
+                    AddParameter(ref dbCom, "ProgramID", System.Data.DbType.Int64, aVisit.ProgramID);
+                    AddParameter(ref dbCom, "HitchName", System.Data.DbType.String, aVisit.Hitch);
+                    AddParameter(ref dbCom, "Organization", System.Data.DbType.String, aVisit.Organization);
+                    AddParameter(ref dbCom, "CrewName", System.Data.DbType.String, aVisit.Crew);
+                    AddParameter(ref dbCom, "SampleDate", System.Data.DbType.DateTime, aVisit.SampleDate);
+                    AddParameter(ref dbCom, "ProtocolID", System.Data.DbType.String, aVisit.ProtocolID);
+                    AddParameter(ref dbCom, "PanelName", System.Data.DbType.String, aVisit.Panel);
+                    AddParameter(ref dbCom, "VisitStatus", System.Data.DbType.String, aVisit.VisitStatus);
+                    AddParameter(ref dbCom, "Discharge", System.Data.DbType.Double, aVisit.Discharge);
+                    AddParameter(ref dbCom, "D84", System.Data.DbType.Double, aVisit.D84);
+                    AddParameter(ref dbCom, "HasStreamTempLogger", System.Data.DbType.Double, aVisit.HasStreamTempLogger);
+                    AddParameter(ref dbCom, "HasFishData", System.Data.DbType.Double, aVisit.HasFishData);
+
+                    dbCom.ExecuteNonQuery();
+
+                    if (aVisit.State == naru.db.DBState.New && aVisit.ID < 1)
+                    {
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                        aVisit.ID = (long)dbCom.ExecuteScalar();
+                    }
                 }
 
-                AddParameter(ref dbCom, "SiteID", System.Data.DbType.Int64, aVisit.Site.ID);
-                AddParameter(ref dbCom, "VisitYear", System.Data.DbType.Int64, aVisit.VisitYear);
-                AddParameter(ref dbCom, "ProgramID", System.Data.DbType.Int64, aVisit.ProgramID);
-                AddParameter(ref dbCom, "HitchName", System.Data.DbType.String, aVisit.Hitch);
-                AddParameter(ref dbCom, "Organization", System.Data.DbType.String, aVisit.Organization);
-                AddParameter(ref dbCom, "CrewName", System.Data.DbType.String, aVisit.Crew);
-                AddParameter(ref dbCom, "SampleDate", System.Data.DbType.DateTime, aVisit.SampleDate);
-                AddParameter(ref dbCom, "ProtocolID", System.Data.DbType.String, aVisit.ProtocolID);
-                AddParameter(ref dbCom, "PanelName", System.Data.DbType.String, aVisit.Panel);
-                AddParameter(ref dbCom, "VisitStatus", System.Data.DbType.String, aVisit.VisitStatus);
-                AddParameter(ref dbCom, "Discharge", System.Data.DbType.Double, aVisit.Discharge);
-                AddParameter(ref dbCom, "D84", System.Data.DbType.Double, aVisit.D84);
-                AddParameter(ref dbCom, "HasStreamTempLogger", System.Data.DbType.Double, aVisit.HasStreamTempLogger);
-                AddParameter(ref dbCom, "HasFishData", System.Data.DbType.Double, aVisit.HasFishData);
-
-                dbCom.ExecuteNonQuery();
-
-                if (aVisit.State == naru.db.DBState.New && aVisit.ID < 1)
-                {
-                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                    aVisit.ID = (long)dbCom.ExecuteScalar();
-                }
+                // Now save any channel units that have changed
+                ChannelUnit.Save(ref dbTrans, aVisit.ChannelUnits.Values.ToList<ChannelUnit>().Where<ChannelUnit>(x => x.State != naru.db.DBState.Unchanged));
             }
         }
 
@@ -399,9 +407,21 @@ namespace CHaMPWorkbench.CHaMPData
             naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodVisit, "interperror_raster", "AssocIErr");
 
             XmlNode nodSegments = xmlDoc.CreateElement("channel_segments");
-            foreach (ChannelSegment sg in Segments.Values)
-                nodSegments.AppendChild(sg.CreateXMLNode(ref xmlDoc));
-            nodVisit.AppendChild(nodSegments);
+
+            // Retrieve a list of distinct segment numbers from all the channel units
+            IEnumerable<long> lSegmentNumbers = ChannelUnits.Values.ToList<ChannelUnit>().Select(x => x.SegmentNumber).ToList<long>().Distinct<long>();
+            foreach (long nSegmentNumber in lSegmentNumbers)
+            {
+                XmlNode nodSegment = xmlDoc.CreateElement("segment");
+                XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "id", ID.ToString());
+                XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_number", nSegmentNumber.ToString());
+                XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_type", string.Empty);
+                XmlNode nodChannelUnits = XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "channel_units");
+
+                foreach (ChannelUnit cu in ChannelUnits.Values.Where<ChannelUnit>(x => x.SegmentNumber == nSegmentNumber))
+                    nodChannelUnits.AppendChild(cu.CreateXMLNode(ref xmlDoc));
+                nodVisit.AppendChild(nodSegments);
+            }
 
             return nodVisit;
         }

@@ -189,7 +189,6 @@
     <Compile Include="Classes\ModelInputFiles\HydroPrepBatchBuilder.cs" />
     <Compile Include="Classes\ModelInputFiles\RBT_BatchInputfileBuilder.cs" />
     <Compile Include="Classes\BudgetSegregation.cs" />
-    <Compile Include="CHaMPData\ChannelSegment.cs" />
     <Compile Include="CHaMPData\ChannelUnit.cs" />
     <Compile Include="Classes\CSVGenerators\ChannelUnitCSVGenerator.cs" />
     <Compile Include="Classes\ClearDatabase.cs" />
