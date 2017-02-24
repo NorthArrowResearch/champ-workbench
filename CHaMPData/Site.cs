@@ -19,7 +19,7 @@ namespace CHaMPWorkbench.CHaMPData
         public Nullable<double> Latitude { get; internal set; }
         public Nullable<double> Longitude { get; internal set; }
         public Nullable<long> GageID { get; internal set; }
-        public Dictionary<long, Visit> Visits { get; internal set; }
+        //public Dictionary<long, Visit> Visits { get; internal set; }
 
         public Site(long nSiteID, String sSiteName, long nWatershedID, string sWatershedName, string sStreamName, String sUTMZone,
             bool bUC_Chin, bool bSN_Chin, bool bLC_Steel, bool bMC_Steel, bool bUC_Steel, bool bSN_Steel,
@@ -35,7 +35,7 @@ namespace CHaMPWorkbench.CHaMPData
             Latitude = fLatitude;
             Longitude = fLongitude;
 
-            Visits = Visit.Load(DBCon.ConnectionString);
+            //Visits = Visit.Load(DBCon.ConnectionString);
         }
 
         public static Dictionary<long, Site> Load(string sDBCon)
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.CHaMPData
                 sName += " Primary";
                 sName += ", ";
             }
-            sName += Visits.Count.ToString() + " visits";
+            //sName += Visits.Count.ToString() + " visits";
             return sName;
         }
 

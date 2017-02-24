@@ -11,7 +11,23 @@ namespace CHaMPWorkbench.CHaMPData
 {
     class DataSynchronizer
     {
+        // private Dictionary<long, Watershed> Watersheds;
+        private Dictionary<long, Site> Sites;
+
         private Dictionary<string, long> Protocols;
+
+        // API dictionaries that key the API URL to the item ID
+        private Dictionary<string, long> WatershedURLs;
+        private Dictionary<string, long> SiteURLs;
+        private Dictionary<long, List<string>> VisitURLs; // Program ID keyed to list of visitURLs
+
+        private int TotalNumberVisits;
+
+        public string CurrentProcess { get; internal set; }
+        public int Progress { get; internal set; }
+
+        public delegate void ProgressUpdate(int value, string sCurrentProcess);
+        public event ProgressUpdate OnProgressUpdate;
 
         public DataSynchronizer()
         {
@@ -23,8 +39,12 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
-        public void Run(CHaMPData.Program program)
+        public void Run(IEnumerable<CHaMPData.Program> lPrograms)
         {
+            WatershedURLs = new Dictionary<string, long>();
+            SiteURLs = new Dictionary<string, long>();
+            TotalNumberVisits = 0;
+
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
@@ -34,12 +54,37 @@ namespace CHaMPWorkbench.CHaMPData
 
                 try
                 {
-                    Dictionary<string, long> dWatershedURLs = Watersheds(ref dbTrans);
-                    Dictionary<string, long> dSiteURLs = Sites(ref dbTrans, ref dWatershedURLs);
+                    Keystone.API.AuthResponseModel authToken = null;
+                    OnProgressUpdate(0, "Initializing");
 
-                    Visits(ref dbTrans, ref dSiteURLs, program);
+                    foreach (Program aProgram in lPrograms)
+                    {
+                        authToken = SyncWatersheds(ref dbTrans, aProgram);
+                        SyncSites(ref dbTrans, aProgram);
+                        TotalNumberVisits += GetListOfVisitURLs(aProgram);
+                    }
 
+                    // Load all existing visits
+                    Dictionary<long, Visit> dvisits = Visit.Load(naru.db.sqlite.DBCon.ConnectionString);
+
+                    // Now synchronize all visits
+                    int nVisitCounter = 0;
+                    foreach (long nProgramID in VisitURLs.Keys)
+                    {
+                        foreach (string sVisitURL in VisitURLs[nProgramID])
+                        {
+                            SyncVisits(ref dbTrans, ref authToken, ref dvisits, sVisitURL, nProgramID);
+                            nVisitCounter += 1;
+                            OnProgressUpdate(nVisitCounter, sVisitURL);
+                        }
+                    }
+
+                    // Save the updated list of visits (pass all visits, not just those that have changed because channel units might need updating)
+                    OnProgressUpdate(100, "Saving visits to database");
+                    CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
+                                        
                     dbTrans.Commit();
+                    OnProgressUpdate(100, "Process Complete");
                 }
                 catch (Exception ex)
                 {
@@ -48,6 +93,8 @@ namespace CHaMPWorkbench.CHaMPData
                 }
             }
         }
+
+
 
         /// <summary>
         /// General utility method for loading Workbench lookup lists needed as foreign keys when storing visits etc.
@@ -68,17 +115,17 @@ namespace CHaMPWorkbench.CHaMPData
             return dItems;
         }
 
-        private Dictionary<string, long> Watersheds(ref SQLiteTransaction dbTrans)
+        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm)
         {
             Dictionary<long, Watershed> dWatersheds = Watershed.Load(naru.db.sqlite.DBCon.ConnectionString);
-            Dictionary<string, long> dWatershedURLs = new Dictionary<string, long>();
 
-            ApiHelper api = new ApiHelper("https://qa.champmonitoring.org/api/v1/watersheds"
+            ApiHelper api = new ApiHelper(string.Format("{0}/watersheds", theProgrm.API)
                , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
                , "NorthArrowDev"
                , "C0116A2B-9508-485D-8C22-4373296FF60E"
                , "MattReimer"
                , "Q1FE!O52&RpBv!s%");
+
 
             ApiResponse<GeoOptix.API.Model.WatershedSummaryModel[]> response = api.Get<GeoOptix.API.Model.WatershedSummaryModel[]>();
             foreach (GeoOptix.API.Model.WatershedSummaryModel apiWatershed in response.Payload)
@@ -91,19 +138,20 @@ namespace CHaMPWorkbench.CHaMPData
                 {
                     dWatersheds[(long)apiWatershed.Id] = new Watershed(apiWatershed.Id, apiWatershed.Name, naru.db.DBState.New);
                 }
-                dWatershedURLs[apiWatershed.Url] = (long)apiWatershed.Id;
+                WatershedURLs[apiWatershed.Url] = (long)apiWatershed.Id;
             }
 
             Watershed.Save(ref dbTrans, dWatersheds.Values.ToList<Watershed>());
-            return dWatershedURLs;
+
+
+            return api.AuthToken;
         }
 
-        private Dictionary<string, long> Sites(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dWatershedURLs)
+        private void SyncSites(ref SQLiteTransaction dbTrans, Program theProgram)
         {
             Dictionary<long, Site> dSites = Site.Load(naru.db.sqlite.DBCon.ConnectionString);
-            Dictionary<string, long> dSiteURLs = new Dictionary<string, long>();
 
-            ApiHelper api = new ApiHelper("https://qa.champmonitoring.org/api/v1/sites"
+            ApiHelper api = new ApiHelper(string.Format("{0}/sites", theProgram.API)
                , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
                , "NorthArrowDev"
                , "C0116A2B-9508-485D-8C22-4373296FF60E"
@@ -113,10 +161,8 @@ namespace CHaMPWorkbench.CHaMPData
             ApiResponse<GeoOptix.API.Model.SiteSummaryModel[]> response = api.Get<GeoOptix.API.Model.SiteSummaryModel[]>();
             foreach (GeoOptix.API.Model.SiteSummaryModel apiSite in response.Payload)
             {
-                if (dWatershedURLs.ContainsKey(apiSite.WatershedUrl)) // && apisiteDetails != null)
+                if (WatershedURLs.ContainsKey(apiSite.WatershedUrl))
                 {
-                    long nWatershedID = dWatershedURLs[apiSite.WatershedUrl];
-
                     if (dSites.ContainsKey((long)apiSite.Id))
                     {
                         dSites[(long)apiSite.Id].Name = apiSite.Name;
@@ -126,10 +172,10 @@ namespace CHaMPWorkbench.CHaMPData
                         Nullable<double> fLongitude = new Nullable<double>();
                         Nullable<double> fLatitude = new Nullable<double>();
 
-                        dSites[(long)apiSite.Id] = new CHaMPData.Site(apiSite.Id, apiSite.Name, nWatershedID, string.Empty, string.Empty, string.Empty, false, false, false, false, false, false, fLatitude, fLongitude, null, naru.db.DBState.New);
+                        dSites[(long)apiSite.Id] = new CHaMPData.Site(apiSite.Id, apiSite.Name, WatershedURLs[apiSite.WatershedUrl], string.Empty, string.Empty, string.Empty, false, false, false, false, false, false, fLatitude, fLongitude, null, naru.db.DBState.New);
                     }
 
-                    dSiteURLs[apiSite.Url] = apiSite.Id;
+                    SiteURLs[apiSite.Url] = apiSite.Id;
                 }
                 else
                 {
@@ -138,82 +184,86 @@ namespace CHaMPWorkbench.CHaMPData
             }
 
             Site.Save(ref dbTrans, dSites.Values.ToList<Site>());
-            return dSiteURLs;
         }
 
-        private void Visits(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dSitesURLs, Program program)
+        private int GetListOfVisitURLs(Program theProgram)
         {
-            Dictionary<long, Visit> dvisits = Visit.Load(naru.db.sqlite.DBCon.ConnectionString);
+            if (VisitURLs == null)
+                VisitURLs = new Dictionary<long, List<string>>();
 
-            ApiHelper api = new ApiHelper("https://qa.champmonitoring.org/api/v1/visits"
-               , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
-               , "NorthArrowDev"
-               , "C0116A2B-9508-485D-8C22-4373296FF60E"
-               , "MattReimer"
-               , "Q1FE!O52&RpBv!s%");
+            ApiHelper api = new ApiHelper(string.Format("{0}/visits", theProgram.API)
+             , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
+             , "NorthArrowDev"
+             , "C0116A2B-9508-485D-8C22-4373296FF60E"
+             , "MattReimer"
+             , "Q1FE!O52&RpBv!s%");
 
             ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> response = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>();
             foreach (GeoOptix.API.Model.VisitSummaryModel apiVisit in response.Payload)
             {
-
-                ApiHelper api2 = new ApiHelper(apiVisit.Url, api.AuthToken);
-                ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
-                GeoOptix.API.Model.VisitModel apiVisitDetails = apiVisitResponse.Payload;
-
-                if (apiVisitDetails != null)
+                if (SiteURLs.ContainsKey(apiVisit.SiteUrl) && apiVisit.SampleYear.HasValue)
                 {
-                    if (apiVisitDetails.SampleYear.HasValue)
-                    {
-                        ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
-                        GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
-                        IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
-                        GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
-                        Dictionary<string, string> dMeasurements = mv.Measurement;
+                    if (!VisitURLs.ContainsKey(theProgram.ID))
+                        VisitURLs[theProgram.ID] = new List<string>();
 
-                        CHaMPData.Visit theVisit = null;
-                        if (dvisits.ContainsKey((long)apiVisitDetails.Id))
-                        {
-                            theVisit = dvisits[(long)apiVisitDetails.Id];
-                        }
-                        else
-                        {
-                            long nSiteID = dSitesURLs[apiVisitDetails.SiteUrl];
-                            theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, nSiteID, string.Empty, apiVisitDetails.SampleYear.Value, program.ID, string.Empty, naru.db.DBState.New);
-                            dvisits[(long)apiVisitDetails.Id] = theVisit;
-                        }
-
-                        theVisit.Hitch = apiVisitDetails.HitchName;
-                        theVisit.Organization = apiVisitDetails.OrganizationName;
-                        theVisit.Crew = apiVisitDetails.HitchName;
-                        theVisit.SampleDate = apiVisitDetails.SampleDate;
-                        theVisit.ProgramID = program.ID;
-                        theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
-                        theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
-                        theVisit.HasStreamTempLogger = GetVisitInfoValueBool(ref dMeasurements, "HasStreamTempLogger");
-                        theVisit.HasFishData = GetVisitInfoValueBool(ref dMeasurements, "HasFishData");
-                        theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
-
-                        theVisit.Panel = apiVisitDetails.Panel;
-                        theVisit.VisitStatus = apiVisitDetails.Status;
-
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        // Channel Units
-                        ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resCU = api2.GetMeasurement<Dictionary<string, string>>("Channel Unit");
-                        GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measCU = resCU.Payload;
-                        IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
-                        //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
-                        //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
-                        ChannelUnits(ref theVisit, valsCU);
-
-                        Console.Write("visit");
-
-                    }
-
-                    Console.Write("visit");
+                    VisitURLs[theProgram.ID].Add(apiVisit.Url);
                 }
             }
 
-            CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
+            int nVisits = 0;
+            if (VisitURLs.ContainsKey(theProgram.ID))
+                nVisits = VisitURLs[theProgram.ID].Count;
+            return nVisits;
+        }
+
+        private void SyncVisits(ref SQLiteTransaction dbTrans, ref Keystone.API.AuthResponseModel authToken, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID)
+        {
+            ApiHelper api2 = new ApiHelper(sVisitURL, authToken);
+            ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
+            GeoOptix.API.Model.VisitModel apiVisitDetails = apiVisitResponse.Payload;
+
+            if (apiVisitDetails == null || apiVisitDetails.SampleYear.HasValue)
+                return;
+
+            ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
+            GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
+            IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
+            GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+            Dictionary<string, string> dMeasurements = mv.Measurement;
+
+            CHaMPData.Visit theVisit = null;
+            if (dvisits.ContainsKey((long)apiVisitDetails.Id))
+            {
+                theVisit = dvisits[(long)apiVisitDetails.Id];
+            }
+            else
+            {
+                theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, SiteURLs[apiVisitDetails.SiteUrl], string.Empty, apiVisitDetails.SampleYear.Value, nProgramID, string.Empty, naru.db.DBState.New);
+                dvisits[(long)apiVisitDetails.Id] = theVisit;
+            }
+
+            theVisit.Hitch = apiVisitDetails.HitchName;
+            theVisit.Organization = apiVisitDetails.OrganizationName;
+            theVisit.Crew = apiVisitDetails.HitchName;
+            theVisit.SampleDate = apiVisitDetails.SampleDate;
+            theVisit.ProgramID = nProgramID;
+            theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
+            theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
+            theVisit.HasStreamTempLogger = GetVisitInfoValueBool(ref dMeasurements, "HasStreamTempLogger");
+            theVisit.HasFishData = GetVisitInfoValueBool(ref dMeasurements, "HasFishData");
+            theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
+
+            theVisit.Panel = apiVisitDetails.Panel;
+            theVisit.VisitStatus = apiVisitDetails.Status;
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Channel Units
+            ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resCU = api2.GetMeasurement<Dictionary<string, string>>("Channel Unit");
+            GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measCU = resCU.Payload;
+            IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
+            //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+            //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
+            ChannelUnits(ref theVisit, valsCU);
         }
 
         private void ChannelUnits(ref CHaMPData.Visit theVisit, IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> lUnits)

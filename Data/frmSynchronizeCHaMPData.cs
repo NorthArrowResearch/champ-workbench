@@ -12,6 +12,7 @@ namespace CHaMPWorkbench.Data
     public partial class frmSynchronizeCHaMPData : Form
     {
         BindingList<CHaMPData.Program> Programs;
+        CHaMPData.DataSynchronizer syncEngine;
 
         public frmSynchronizeCHaMPData()
         {
@@ -20,51 +21,114 @@ namespace CHaMPWorkbench.Data
 
         private void frmSynchronizeCHaMPData_Load(object sender, EventArgs e)
         {
-            Programs = new BindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
+            // Only display programs that have an API defined.
+            IEnumerable<CHaMPData.Program> allPrograms = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values;
+            Programs = new BindingList<CHaMPData.Program>(allPrograms.Where<CHaMPData.Program>(x => !string.IsNullOrEmpty(x.API)).ToList<CHaMPData.Program>());
 
             lstPrograms.DataSource = Programs;
             lstPrograms.DisplayMember = "Name";
             lstPrograms.ValueMember = "ID";
 
-            //naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstPrograms, naru.db.sqlite.DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms WHERE (API IS NOT NULL) ORDER BY Title", true);
+            // Hide the progress bar for now.
+            ShowProgressGroup(false);
+
+            bgWorker.WorkerReportsProgress = true;
+            bgWorker.WorkerSupportsCancellation = true;
+
+            // Construct the synchronization engine and subscribe to it's progress event
+            syncEngine = new CHaMPData.DataSynchronizer();
+            syncEngine.OnProgressUpdate += synchronizer_OnProgressUpdate;
+
+
+        }
+
+        private void ShowProgressGroup(bool bVisible)
+        {
+            if (grpProgress.Visible & !bVisible)
+            {
+                grpProgress.Visible = false;
+                this.Height -= (grpProgress.Height + (grpProgress.Top - grpPrograms.Bottom));
+            }
+            else if (!grpProgress.Visible & bVisible)
+            {
+                grpProgress.Visible = true;
+                this.Height += (grpProgress.Height + (grpProgress.Top - grpPrograms.Bottom));
+            }
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            if (!ValidateForm())
+            {
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
             try
             {
-                CHaMPData.DataSynchronizer sync = new CHaMPData.DataSynchronizer();
-
-                foreach (CHaMPData.Program aProgram in lstPrograms.CheckedItems)
-                    sync.Run(aProgram);
-
-                // DO API things here.
-
-                //Keystone.API.KeystoneApiHelper key = new Keystone.API.KeystoneApiHelper()
-
-                //GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper("https://qa.champmonitoring.org/api/v1/visits"
-                //    , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
-                //    , "NorthArrowDev"
-                //    , "C0116A2B-9508-485D-8C22-4373296FF60E"
-                //    , "MattReimer"
-                //    , "Q1FE!O52&RpBv!s%");
-
-                //api.AuthToken.
-
-                //GeoOptix.API.ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> visit = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>(); //GeoOptix.API.ApiResponse<GeoOptix.API.Model.VisitSummaryModel>
-                //GeoOptix.API.Model.VisitSummaryModel aVisit = visit.Payload;
-
-                //GeoOptix.API.ApiHelper api2 = new GeoOptix.API.ApiHelper(aVisit.SiteUrl, api.AuthToken);
-                //GeoOptix.API.ApiResponse<GeoOptix.API.Model.SiteModel> aSiteResp = api.Get<GeoOptix.API.Model.SiteModel>();
-                //GeoOptix.API.Model.SiteModel aSite = aSiteResp.Payload;
-
-                Console.Write("hi");
-
+                ShowProgressGroup(true);
+                pgrBar.Value = 0;
+                cmdOK.Enabled = false;
+                bgWorker.RunWorkerAsync();
             }
             catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
+                cmdOK.Enabled = true;
             }
+        }
+
+        private bool ValidateForm()
+        {
+            if (lstPrograms.CheckedItems.Count < 1)
+            {
+                MessageBox.Show("You must select at least one program to synchronize.");
+                lstPrograms.Select();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Build a list of the programs that are checked.
+            List<CHaMPData.Program> checkedPrograms = new List<CHaMPData.Program>();
+            foreach (CHaMPData.Program aProgram in lstPrograms.CheckedItems)
+                checkedPrograms.Add(aProgram);
+
+            try
+            {
+                syncEngine.Run(checkedPrograms);
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
+
+        private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            lblCurrentProcess.Text = syncEngine.CurrentProcess;
+            pgrBar.Value = e.ProgressPercentage;
+        }
+
+        private void synchronizer_OnProgressUpdate(int value, string sCurrentProcess)
+        {
+            //// Its another thread so invoke back to UI thread
+            //base.Invoke((Action)delegate
+            //{
+            //    lblCurrentProcess.Text = sCurrentProcess;
+            //    pgrBar.Value = value;
+            //});
+
+            bgWorker.ReportProgress(value);
+        }
+
+        private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            cmdCancel.Text = "Close";
+            cmdCancel.Select();
         }
     }
 }
