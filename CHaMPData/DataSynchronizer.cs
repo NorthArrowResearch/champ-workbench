@@ -39,7 +39,12 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
-        public void Run(IEnumerable<CHaMPData.Program> lPrograms)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lPrograms"></param>
+        /// <param name="lWatersheds">Empty list implies that all watersheds will be processed</param>
+        public void Run(IEnumerable<CHaMPData.Program> lPrograms, Dictionary<long, CHaMPData.Watershed> WatershedsToProcess)
         {
             WatershedURLs = new Dictionary<string, long>();
             SiteURLs = new Dictionary<string, long>();
@@ -48,7 +53,6 @@ namespace CHaMPWorkbench.CHaMPData
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
-
 
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
@@ -59,7 +63,7 @@ namespace CHaMPWorkbench.CHaMPData
 
                     foreach (Program aProgram in lPrograms)
                     {
-                        authToken = SyncWatersheds(ref dbTrans, aProgram);
+                        authToken = SyncWatersheds(ref dbTrans, aProgram, ref WatershedsToProcess);
                         SyncSites(ref dbTrans, aProgram);
                         TotalNumberVisits += GetListOfVisitURLs(aProgram);
                     }
@@ -110,7 +114,6 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
-
         /// <summary>
         /// General utility method for loading Workbench lookup lists needed as foreign keys when storing visits etc.
         /// </summary>
@@ -130,7 +133,7 @@ namespace CHaMPWorkbench.CHaMPData
             return dItems;
         }
 
-        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm)
+        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm, ref Dictionary<long, Watershed> WatershedsToProcess)
         {
             Dictionary<long, Watershed> dWatersheds = Watershed.Load(naru.db.sqlite.DBCon.ConnectionString);
 
@@ -145,15 +148,18 @@ namespace CHaMPWorkbench.CHaMPData
             ApiResponse<GeoOptix.API.Model.WatershedSummaryModel[]> response = api.Get<GeoOptix.API.Model.WatershedSummaryModel[]>();
             foreach (GeoOptix.API.Model.WatershedSummaryModel apiWatershed in response.Payload)
             {
-                if (dWatersheds.ContainsKey((long)apiWatershed.Id))
+                if (WatershedsToProcess.Count == 0 || WatershedsToProcess.ContainsKey(apiWatershed.Id))
                 {
-                    dWatersheds[(long)apiWatershed.Id].Name = apiWatershed.Name;
+                    if (dWatersheds.ContainsKey((long)apiWatershed.Id))
+                    {
+                        dWatersheds[(long)apiWatershed.Id].Name = apiWatershed.Name;
+                    }
+                    else
+                    {
+                        dWatersheds[(long)apiWatershed.Id] = new Watershed(apiWatershed.Id, apiWatershed.Name, naru.db.DBState.New);
+                    }
+                    WatershedURLs[apiWatershed.Url] = (long)apiWatershed.Id;
                 }
-                else
-                {
-                    dWatersheds[(long)apiWatershed.Id] = new Watershed(apiWatershed.Id, apiWatershed.Name, naru.db.DBState.New);
-                }
-                WatershedURLs[apiWatershed.Url] = (long)apiWatershed.Id;
             }
 
             Watershed.Save(ref dbTrans, dWatersheds.Values.ToList<Watershed>());

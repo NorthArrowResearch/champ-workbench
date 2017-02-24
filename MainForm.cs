@@ -465,7 +465,7 @@ namespace CHaMPWorkbench
             {
                 Data.frmSynchronizeCHaMPData frm = new Data.frmSynchronizeCHaMPData();
                 frm.ShowDialog();
-                //    LoadVisits();
+                LoadVisits();
             }
             catch (Exception ex)
             {

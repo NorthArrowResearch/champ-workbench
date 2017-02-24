@@ -12,6 +12,7 @@ namespace CHaMPWorkbench.Data
     public partial class frmSynchronizeCHaMPData : Form
     {
         BindingList<CHaMPData.Program> Programs;
+        BindingList<CHaMPData.Watershed> Watersheds;
         CHaMPData.DataSynchronizer syncEngine;
 
         public frmSynchronizeCHaMPData()
@@ -24,10 +25,14 @@ namespace CHaMPWorkbench.Data
             // Only display programs that have an API defined.
             IEnumerable<CHaMPData.Program> allPrograms = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values;
             Programs = new BindingList<CHaMPData.Program>(allPrograms.Where<CHaMPData.Program>(x => !string.IsNullOrEmpty(x.API)).ToList<CHaMPData.Program>());
-
             lstPrograms.DataSource = Programs;
             lstPrograms.DisplayMember = "Name";
             lstPrograms.ValueMember = "ID";
+
+            Watersheds = new BindingList<CHaMPData.Watershed>(CHaMPData.Watershed.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Watershed>());
+            lstWatersheds.DataSource = Watersheds;
+            lstWatersheds.DisplayMember = "Name";
+            lstWatersheds.ValueMember = "ID";
 
             // Hide the progress bar for now.
             ShowProgressGroup(false);
@@ -38,8 +43,6 @@ namespace CHaMPWorkbench.Data
             // Construct the synchronization engine and subscribe to it's progress event
             syncEngine = new CHaMPData.DataSynchronizer();
             syncEngine.OnProgressUpdate += synchronizer_OnProgressUpdate;
-
-
         }
 
         private void ShowProgressGroup(bool bVisible)
@@ -97,9 +100,14 @@ namespace CHaMPWorkbench.Data
             foreach (CHaMPData.Program aProgram in lstPrograms.CheckedItems)
                 checkedPrograms.Add(aProgram);
 
+            // An empty list means that all watersheds will be processed
+            Dictionary<long, CHaMPData.Watershed> checkedWatersheds = new Dictionary<long, CHaMPData.Watershed>();
+            foreach (CHaMPData.Watershed aWatershed in lstWatersheds.CheckedItems)
+                checkedWatersheds.Add(aWatershed.ID, aWatershed);
+
             try
             {
-                syncEngine.Run(checkedPrograms);
+                syncEngine.Run(checkedPrograms, checkedWatersheds);
             }
             catch(Exception ex)
             {
@@ -129,6 +137,19 @@ namespace CHaMPWorkbench.Data
         {
             cmdCancel.Text = "Close";
             cmdCancel.Select();
+        }
+
+        private void AllNoneWatershedsClick(object sender, EventArgs e)
+        {
+            try
+            {
+                for (int i = 0; i < lstWatersheds.Items.Count; i++)
+                    lstWatersheds.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
     }
 }

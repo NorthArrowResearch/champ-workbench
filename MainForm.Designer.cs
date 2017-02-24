@@ -49,6 +49,7 @@
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -174,7 +175,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -331,6 +331,14 @@
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Import CHaMP Watershed, Site and Visit Data From CHaMP Exports";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
+            // 
+            // downloadTopoDataAndHydraulicModelFilesToolStripMenuItem
+            // 
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -1283,20 +1291,20 @@
             this.selectAllToolStripMenuItem,
             this.selectNoneToolStripMenuItem});
             this.cmsSiteAllNone.Name = "cmsAllNone";
-            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
+            this.cmsSiteAllNone.Size = new System.Drawing.Size(153, 70);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectAllToolStripMenuItem.Text = "Select All";
             // 
             // selectNoneToolStripMenuItem
             // 
             this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
             this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectNoneToolStripMenuItem.Text = "Select None";
             // 
             // cmsVisit
@@ -1436,14 +1444,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(355, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
-            // 
-            // downloadTopoDataAndHydraulicModelFilesToolStripMenuItem
-            // 
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
             // MainForm
             // 
