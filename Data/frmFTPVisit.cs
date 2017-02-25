@@ -252,6 +252,13 @@ namespace CHaMPWorkbench.Data
                 DialogResult = DialogResult.None;
                 return;
             }
+
+            if (!naru.web.CheckForInternetConnection())
+            {
+                MessageBox.Show("Check that you are currently connected to the Internet and try again.", "No Internet Connection.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             TopLevelLocalFolder = new System.IO.DirectoryInfo(txtLocalFolder.Text);
 
             for (int i = 0; i < Visits.Count; i++)
