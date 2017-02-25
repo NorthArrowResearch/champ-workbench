@@ -20,8 +20,10 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
 
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteName, ChannelUnitNumber, Tier1, Tier2, " +
                     " BouldersGT256, Cobbles65255, CoarseGravel1764, FineGravel316, Sand0062, FinesLT006, SumSubstrateCover," +
-                    " WatershedName, SampleDate, CrewName, PanelName, C.ID As ChannelUnitID, SegmentNumber, SegmentName" +
-                    " FROM CHAMP_Watersheds AS W INNER JOIN ((CHAMP_Sites INNER JOIN CHAMP_Visits AS V ON CHAMP_Sites.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID) ON W.WatershedID = CHAMP_Sites.WatershedID" +
+                    " SampleDate, CrewName, PanelName, C.ID As ChannelUnitID, SegmentNumber" +
+                    " FROM CHaMP_Sites S" +
+                    " INNER JOIN CHAMP_Visits V ON S.SiteID = V.SiteID" +
+                    " INNER JOIN CHAMP_ChannelUnits C ON V.VisitID = C.VisitID" +
                     " WHERE V.VisitID=@VisitID ORDER BY C.ChannelUnitNumber", dbCon);
 
                 dbCom.Parameters.AddWithValue("VisitID", nVisitID);
@@ -72,7 +74,7 @@ namespace CHaMPWorkbench.Classes.CSVGenerators
                         sUnit += AddNumericField(ref dbRead, "FinesLT006");
                         sUnit += AddNumericField(ref dbRead, "SumSubstrateCover");
                         sUnit += AddNumericField(ref dbRead, "SegmentNumber");
-                        sUnit += AddStringField(ref dbRead, "SegmentName");
+                        sUnit += ",";
 
                         lUnits.Add(sUnit);
                     }
