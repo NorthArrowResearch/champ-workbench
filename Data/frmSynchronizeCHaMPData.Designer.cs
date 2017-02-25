@@ -200,6 +200,7 @@
             this.Controls.Add(this.grpPrograms);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSynchronizeCHaMPData";
             this.Text = "Synchronize CHaMP Data";
