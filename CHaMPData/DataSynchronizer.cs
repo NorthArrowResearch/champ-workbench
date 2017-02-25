@@ -26,7 +26,7 @@ namespace CHaMPWorkbench.CHaMPData
         public string CurrentProcess { get; internal set; }
         public int Progress { get; internal set; }
 
-        public delegate void ProgressUpdate(int value, string sCurrentProcess);
+        public delegate void ProgressUpdate(int value);
         public event ProgressUpdate OnProgressUpdate;
 
         public DataSynchronizer()
@@ -59,7 +59,7 @@ namespace CHaMPWorkbench.CHaMPData
                 try
                 {
                     Keystone.API.AuthResponseModel authToken = null;
-                    OnProgressUpdate(0, "Initializing");
+                    ReportProgress(0, string.Format("Retrieving the list of watersheds, sites and visits for {0} program{1}...", lPrograms.Count<Program>(), lPrograms.Count<Program>() > 1 ? "s" : ""));
 
                     foreach (Program aProgram in lPrograms)
                     {
@@ -79,16 +79,17 @@ namespace CHaMPWorkbench.CHaMPData
                         {
                             SyncVisits(ref dbTrans, ref authToken, ref dvisits, sVisitURL, nProgramID);
                             nVisitCounter += 1;
-                            OnProgressUpdate(ProgressPercent(nVisitCounter), sVisitURL);
+                            CurrentProcess = sVisitURL;
+                            ReportProgress(ProgressPercent(nVisitCounter), sVisitURL);
                         }
                     }
 
                     // Save the updated list of visits (pass all visits, not just those that have changed because channel units might need updating)
-                    OnProgressUpdate(100, "Saving visits to database");
+                    ReportProgress(100, "Saving visits to database");
                     CHaMPData.Visit.Save(ref dbTrans, dvisits.Values.ToList<CHaMPData.Visit>());
 
                     dbTrans.Commit();
-                    OnProgressUpdate(100, "Process Complete");
+                    ReportProgress(100, "Process Complete");
                 }
                 catch (Exception ex)
                 {
@@ -96,6 +97,12 @@ namespace CHaMPWorkbench.CHaMPData
                     throw;
                 }
             }
+        }
+
+        private void ReportProgress(int value, string sMessage)
+        {
+            CurrentProcess = sMessage;
+            OnProgressUpdate(value);
         }
 
         private int ProgressPercent(int nVisitCounter)

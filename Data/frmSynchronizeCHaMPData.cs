@@ -127,15 +127,8 @@ namespace CHaMPWorkbench.Data
             pgrBar.Value = e.ProgressPercentage;
         }
 
-        private void synchronizer_OnProgressUpdate(int value, string sCurrentProcess)
+        private void synchronizer_OnProgressUpdate(int value)
         {
-            //// Its another thread so invoke back to UI thread
-            //base.Invoke((Action)delegate
-            //{
-            //    lblCurrentProcess.Text = sCurrentProcess;
-            //    pgrBar.Value = value;
-            //});
-
             bgWorker.ReportProgress(value);
         }
 
