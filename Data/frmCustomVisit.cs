@@ -235,36 +235,13 @@ namespace CHaMPWorkbench.Data
                         throw new Exception("Failed to insert custom visit.");
 
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    // Channel segments and units
-                    Dictionary<long, long> dSegmentNumbers = new Dictionary<long, long>(); // segment number key to database segment ID in DB values
+                    // Channel units
 
                     foreach (ChannelUnit ch in bsChannelUnits)
                     {
-                        long nSegmentID = 0;
-                        if (dSegmentNumbers.ContainsKey(ch.SegmentNumber))
-                        {
-                            nSegmentID = dSegmentNumbers[ch.SegmentNumber];
-                        }
-                        else
-                        {
-                            // Create new segment
-                            SQLiteCommand comSegment = new SQLiteCommand("INSERT INTO CHaMP_Segments (VisitID, SegmentNumber, SegmentName) VALUES (@VisitID, @SegmentNumber, @SegmentName)", dbCon, dbTrans);
-                            comSegment.Parameters.AddWithValue("@VisitID", (long)valVisitID.Value);
-                            comSegment.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
-                            comSegment.Parameters.AddWithValue("@SegmentName", string.Format("Segment {0}", ch.SegmentNumber));
-                            if (comSegment.ExecuteNonQuery() == 1)
-                            {
-                                comSegment = new SQLiteCommand("SELECT @@last_insert_rowid()", dbCon, dbTrans);
-                                nSegmentID = (int)comSegment.ExecuteScalar();
-                                dSegmentNumbers.Add(ch.SegmentNumber, nSegmentID);
-                            }
-                            else
-                                throw new Exception(string.Format("Error inserting new channel segment {0}", ch.SegmentNumber));
-                        }
-
-                        // Now insert the channel units
-                        SQLiteCommand comUnit = new SQLiteCommand("INSERT INTO CHaMP_ChannelUnits (SegmentID, ChannelUnitNumber, Tier1, Tier2) VALUES (@SegmentID, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
-                        comUnit.Parameters.AddWithValue("@SegmentID", dSegmentNumbers[ch.SegmentNumber]);
+                        SQLiteCommand comUnit = new SQLiteCommand("INSERT INTO CHaMP_ChannelUnits (VisitID, SegmentNumber, ChannelUnitNumber, Tier1, Tier2) VALUES (@VisitID, @SegmentNumber, @ChannelUnitNumber, @Tier1, @Tier2)", dbCon, dbTrans);
+                        comUnit.Parameters.AddWithValue("@VisitID", valVisitID.Value);
+                        comUnit.Parameters.AddWithValue("@SegmentNumber", ch.SegmentNumber);
                         comUnit.Parameters.AddWithValue("@ChannelUnitNumber", ch.UnitNumber);
                         comUnit.Parameters.AddWithValue("@Tier1", ch.Tier1);
                         comUnit.Parameters.AddWithValue("@Tier2", ch.Tier2);
@@ -539,7 +516,7 @@ namespace CHaMPWorkbench.Data
                 {
                     dbCon.Open();
 
-                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ChannelUnitNumber, SegmentNumber, Tier1, Tier2 FROM CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ChannelUnitNumber, SegmentNumber, Tier1, Tier2 FROM CHAMP_ChannelUnits WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbCon);
                     dbCom.Parameters.AddWithValue("@VisitID", frm.SelectedVisitID);
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())

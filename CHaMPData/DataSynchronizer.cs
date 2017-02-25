@@ -243,7 +243,7 @@ namespace CHaMPWorkbench.CHaMPData
             ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
             GeoOptix.API.Model.VisitModel apiVisitDetails = apiVisitResponse.Payload;
 
-            if (apiVisitDetails == null || apiVisitDetails.SampleYear.HasValue)
+            if (apiVisitDetails == null || !apiVisitDetails.SampleYear.HasValue)
                 return;
 
             ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
@@ -281,10 +281,13 @@ namespace CHaMPWorkbench.CHaMPData
             // Channel Units
             ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resCU = api2.GetMeasurement<Dictionary<string, string>>("Channel Unit");
             GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measCU = resCU.Payload;
-            IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
-            //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
-            //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
-            ChannelUnits(ref theVisit, valsCU);
+            if (measCU != null)
+            {
+                IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsCU = measCU.MeasValues;
+                //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+                //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
+                ChannelUnits(ref theVisit, valsCU);
+            }
         }
 
         private void ChannelUnits(ref CHaMPData.Visit theVisit, IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> lUnits)
