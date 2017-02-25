@@ -413,6 +413,8 @@ namespace CHaMPWorkbench.CHaMPData
             foreach (long nSegmentNumber in lSegmentNumbers)
             {
                 XmlNode nodSegment = xmlDoc.CreateElement("segment");
+                nodSegments.AppendChild(nodSegment);
+
                 XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "id", ID.ToString());
                 XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_number", nSegmentNumber.ToString());
                 XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_type", string.Empty);
