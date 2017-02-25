@@ -415,6 +415,7 @@
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\os\Folder.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
+    <Compile Include="naru\web\web.cs" />
     <Compile Include="naru\xml\XMLHelpers.cs" />
     <Compile Include="RasterMan\Rasterman.cs" />
     <Compile Include="RasterMan\RasterMeta.cs" />

@@ -90,6 +90,12 @@ namespace CHaMPWorkbench.Data
                 return false;
             }
 
+            if (!naru.web.CheckForInternetConnection())
+            {
+                MessageBox.Show("Check that you are currently connected to the Internet and try again.", "No Internet Connection.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
             return true;
         }
 
