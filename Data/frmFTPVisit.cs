@@ -309,5 +309,10 @@ namespace CHaMPWorkbench.Data
                 RelativesPaths = new List<string>();
             }
         }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
+        }
     }
 }

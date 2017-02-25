@@ -193,7 +193,14 @@ namespace CHaMPWorkbench.CHaMPData
                 AddParameter(ref dbCom, "Bedrock", System.Data.DbType.Int64, aChannelUnit.Bedrock);
                 AddParameter(ref dbCom, "LargeWoodCount", System.Data.DbType.Int64, aChannelUnit.LargeWoodCount);
 
-                dbCom.ExecuteNonQuery();
+                try
+                {
+                    dbCom.ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    Console.Write("stop");
+                }
 
                 if (aChannelUnit.State == naru.db.DBState.New && aChannelUnit.ID < 1)
                 {

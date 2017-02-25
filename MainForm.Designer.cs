@@ -320,7 +320,7 @@
             // 
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
@@ -328,27 +328,27 @@
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Name = "scavengeVisitDataFromCHaMPExportToolStripMenuItem";
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Import CHaMP Watershed, Site and Visit Data From CHaMP Exports";
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Synchronize CHaMP Data...";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
             // downloadTopoDataAndHydraulicModelFilesToolStripMenuItem
             // 
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(426, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(331, 6);
             // 
             // createCustomVisitToolStripMenuItem
             // 
             this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
-            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
             this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
             // 
@@ -356,7 +356,7 @@
             // 
             this.prepareDatabaseForDeploymentToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(429, 22);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
@@ -1291,20 +1291,20 @@
             this.selectAllToolStripMenuItem,
             this.selectNoneToolStripMenuItem});
             this.cmsSiteAllNone.Name = "cmsAllNone";
-            this.cmsSiteAllNone.Size = new System.Drawing.Size(153, 70);
+            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.selectAllToolStripMenuItem.Text = "Select All";
             // 
             // selectNoneToolStripMenuItem
             // 
             this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
             this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.selectNoneToolStripMenuItem.Text = "Select None";
             // 
             // cmsVisit

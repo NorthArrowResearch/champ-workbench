@@ -150,5 +150,10 @@ namespace CHaMPWorkbench.Data
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
+        }
     }
 }

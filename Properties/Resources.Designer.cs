@@ -251,6 +251,24 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to technical_reference/download_champ_data/.
+        /// </summary>
+        internal static string Help_frmFTPVisit {
+            get {
+                return ResourceManager.GetString("Help_frmFTPVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to technical_reference/synchronize_champ_data/.
+        /// </summary>
+        internal static string Help_frmSynchronizeCHaMPData {
+            get {
+                return ResourceManager.GetString("Help_frmSynchronizeCHaMPData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap icon_xml {

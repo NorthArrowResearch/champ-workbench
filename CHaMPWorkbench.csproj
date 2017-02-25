@@ -205,6 +205,7 @@
     <Compile Include="Classes\FileSystem.cs" />
     <Compile Include="Classes\ModelInputFiles\InputFileBuilder_Helper.cs" />
     <Compile Include="Classes\ModelInputFiles\RBTOutputs.cs" />
+    <Compile Include="Classes\OnlineHelp.cs" />
     <Compile Include="Classes\RBTBatchEngine.cs" />
     <Compile Include="Classes\RBTConfig_ChangeDetection.cs" />
     <Compile Include="Classes\ResultScavengerBatch.cs" />
