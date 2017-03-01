@@ -54,11 +54,16 @@ namespace CHaMPWorkbench.CHaMPData
 
             try
             {
+                CurrentProcess = "Authenticating user with Keystone API";
                 var keystoneApiHelper = new KeystoneApiHelper("https://qa.keystone.sitkatech.com/OAuth2/Authorize",
                     CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
                     CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
 
                 AuthToken = keystoneApiHelper.GetAuthToken(UserName, Password);
+
+                if (!AuthToken.IsValidToken)
+                    throw new Exception(AuthToken.ErrorDescription);
+
             }
             catch (Exception ex)
             {

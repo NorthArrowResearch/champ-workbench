@@ -133,7 +133,14 @@ namespace CHaMPWorkbench.Data
             }
             catch(Exception ex)
             {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
+                if (ex.Message.ToLower().Contains("failed to authenticate"))
+                {
+                    MessageBox.Show("Failed to authenticate user. Incorrect username or password.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
         }
 
