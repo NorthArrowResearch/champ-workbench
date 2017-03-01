@@ -417,7 +417,7 @@ namespace CHaMPWorkbench.CHaMPData
 
                 XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "id", ID.ToString());
                 XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_number", nSegmentNumber.ToString());
-                XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_type", string.Empty);
+                XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "segment_type", "Unknown Type");
                 XmlNode nodChannelUnits = XMLHelpers.AddNode(ref xmlDoc, ref nodSegment, "channel_units");
 
                 foreach (ChannelUnit cu in ChannelUnits.Values.Where<ChannelUnit>(x => x.SegmentNumber == nSegmentNumber))

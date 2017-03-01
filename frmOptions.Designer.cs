@@ -309,9 +309,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(20, 161);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(122, 13);
+            this.label12.Size = new System.Drawing.Size(103, 13);
             this.label12.TabIndex = 3;
-            this.label12.Text = "Metric review user name";
+            this.label12.Text = "GeoOptix user name";
             // 
             // groupBox1
             // 

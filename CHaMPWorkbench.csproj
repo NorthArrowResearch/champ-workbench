@@ -239,6 +239,12 @@
     <Compile Include="Data\frmFTPVisit.Designer.cs">
       <DependentUpon>frmFTPVisit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\frmKeystoneCredentials.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmKeystoneCredentials.Designer.cs">
+      <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmMetricGrid.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -512,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmFTPVisit.resx">
       <DependentUpon>frmFTPVisit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">
+      <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmMetricGrid.resx">
       <DependentUpon>frmMetricGrid.cs</DependentUpon>

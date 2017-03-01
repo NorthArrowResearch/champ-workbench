@@ -251,7 +251,16 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to technical_reference/download_champ_data/.
+        ///   Looks up a localized string similar to technical_reference/data_menu/custom_visit.
+        /// </summary>
+        internal static string Help_frmCustomVisit {
+            get {
+                return ResourceManager.GetString("Help_frmCustomVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to technical_reference/data_menu/download_champ_data/.
         /// </summary>
         internal static string Help_frmFTPVisit {
             get {
@@ -260,7 +269,7 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to technical_reference/synchronize_champ_data/.
+        ///   Looks up a localized string similar to technical_reference/data_menu/synchronize_champ_data/.
         /// </summary>
         internal static string Help_frmSynchronizeCHaMPData {
             get {

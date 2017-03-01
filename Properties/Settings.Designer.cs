@@ -506,5 +506,23 @@ namespace CHaMPWorkbench.Properties {
                 this["ZippedMonitoringDataFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("NorthArrowDev")]
+        public string GeoOptixClientID {
+            get {
+                return ((string)(this["GeoOptixClientID"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c0116a2b-9508-485d-8c22-4373296ff60e")]
+        public global::System.Guid GeoOptixClientSecret {
+            get {
+                return ((global::System.Guid)(this["GeoOptixClientSecret"]));
+            }
+        }
     }
 }

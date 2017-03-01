@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GeoOptix.API;
 using System.Data.SQLite;
 using System.Net.Http;
+using Keystone.API;
 
 namespace CHaMPWorkbench.CHaMPData
 {
@@ -44,11 +45,25 @@ namespace CHaMPWorkbench.CHaMPData
         /// </summary>
         /// <param name="lPrograms"></param>
         /// <param name="lWatersheds">Empty list implies that all watersheds will be processed</param>
-        public void Run(IEnumerable<CHaMPData.Program> lPrograms, Dictionary<long, CHaMPData.Watershed> WatershedsToProcess)
+        public void Run(IEnumerable<CHaMPData.Program> lPrograms, Dictionary<long, CHaMPData.Watershed> WatershedsToProcess, string UserName, string Password)
         {
             WatershedURLs = new Dictionary<string, long>();
             SiteURLs = new Dictionary<string, long>();
             TotalNumberVisits = 0;
+            AuthResponseModel AuthToken = null;
+
+            try
+            {
+                var keystoneApiHelper = new KeystoneApiHelper("https://qa.keystone.sitkatech.com/OAuth2/Authorize",
+                    CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
+                    CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
+
+                AuthToken = keystoneApiHelper.GetAuthToken(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to authenticate user with Keystone API", ex);
+            }
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -58,14 +73,13 @@ namespace CHaMPWorkbench.CHaMPData
 
                 try
                 {
-                    Keystone.API.AuthResponseModel authToken = null;
                     ReportProgress(0, string.Format("Retrieving the list of watersheds, sites and visits for {0} program{1}...", lPrograms.Count<Program>(), lPrograms.Count<Program>() > 1 ? "s" : ""));
 
                     foreach (Program aProgram in lPrograms)
                     {
-                        authToken = SyncWatersheds(ref dbTrans, aProgram, ref WatershedsToProcess);
-                        SyncSites(ref dbTrans, aProgram);
-                        TotalNumberVisits += GetListOfVisitURLs(aProgram);
+                        SyncWatersheds(ref dbTrans, aProgram, ref WatershedsToProcess, ref AuthToken);
+                        SyncSites(ref dbTrans, aProgram, ref AuthToken);
+                        TotalNumberVisits += GetListOfVisitURLs(aProgram, ref AuthToken);
                     }
 
                     // Load all existing visits
@@ -77,7 +91,7 @@ namespace CHaMPWorkbench.CHaMPData
                     {
                         foreach (string sVisitURL in VisitURLs[nProgramID])
                         {
-                            SyncVisits(ref dbTrans, ref authToken, ref dvisits, sVisitURL, nProgramID);
+                            SyncVisits(ref dbTrans, ref dvisits, sVisitURL, nProgramID, ref AuthToken);
                             nVisitCounter += 1;
                             CurrentProcess = sVisitURL;
                             ReportProgress(ProgressPercent(nVisitCounter), sVisitURL);
@@ -140,18 +154,11 @@ namespace CHaMPWorkbench.CHaMPData
             return dItems;
         }
 
-        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm, ref Dictionary<long, Watershed> WatershedsToProcess)
+        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm, ref Dictionary<long, Watershed> WatershedsToProcess, ref AuthResponseModel AuthToken)
         {
             Dictionary<long, Watershed> dWatersheds = Watershed.Load(naru.db.sqlite.DBCon.ConnectionString);
 
-            ApiHelper api = new ApiHelper(string.Format("{0}/watersheds", theProgrm.API)
-               , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
-               , "NorthArrowDev"
-               , "C0116A2B-9508-485D-8C22-4373296FF60E"
-               , "MattReimer"
-               , "Q1FE!O52&RpBv!s%");
-
-
+            ApiHelper api = new ApiHelper(string.Format("{0}/watersheds", theProgrm.API), AuthToken);
             ApiResponse<GeoOptix.API.Model.WatershedSummaryModel[]> response = api.Get<GeoOptix.API.Model.WatershedSummaryModel[]>();
             foreach (GeoOptix.API.Model.WatershedSummaryModel apiWatershed in response.Payload)
             {
@@ -175,17 +182,11 @@ namespace CHaMPWorkbench.CHaMPData
             return api.AuthToken;
         }
 
-        private void SyncSites(ref SQLiteTransaction dbTrans, Program theProgram)
+        private void SyncSites(ref SQLiteTransaction dbTrans, Program theProgram, ref AuthResponseModel AuthToken)
         {
             Dictionary<long, Site> dSites = Site.Load(naru.db.sqlite.DBCon.ConnectionString);
 
-            ApiHelper api = new ApiHelper(string.Format("{0}/sites", theProgram.API)
-               , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
-               , "NorthArrowDev"
-               , "C0116A2B-9508-485D-8C22-4373296FF60E"
-               , "MattReimer"
-               , "Q1FE!O52&RpBv!s%");
-
+            ApiHelper api = new ApiHelper(string.Format("{0}/sites", theProgram.API), AuthToken);
             ApiResponse<GeoOptix.API.Model.SiteSummaryModel[]> response = api.Get<GeoOptix.API.Model.SiteSummaryModel[]>();
             foreach (GeoOptix.API.Model.SiteSummaryModel apiSite in response.Payload)
             {
@@ -214,18 +215,12 @@ namespace CHaMPWorkbench.CHaMPData
             Site.Save(ref dbTrans, dSites.Values.ToList<Site>());
         }
 
-        private int GetListOfVisitURLs(Program theProgram)
+        private int GetListOfVisitURLs(Program theProgram, ref AuthResponseModel AuthToken)
         {
             if (VisitURLs == null)
                 VisitURLs = new Dictionary<long, List<string>>();
 
-            ApiHelper api = new ApiHelper(string.Format("{0}/visits", theProgram.API)
-             , "https://qa.keystone.sitkatech.com/OAuth2/Authorize"
-             , "NorthArrowDev"
-             , "C0116A2B-9508-485D-8C22-4373296FF60E"
-             , "MattReimer"
-             , "Q1FE!O52&RpBv!s%");
-
+            ApiHelper api = new ApiHelper(string.Format("{0}/visits", theProgram.API), AuthToken);
             ApiResponse<GeoOptix.API.Model.VisitSummaryModel[]> response = api.Get<GeoOptix.API.Model.VisitSummaryModel[]>();
             foreach (GeoOptix.API.Model.VisitSummaryModel apiVisit in response.Payload)
             {
@@ -244,9 +239,9 @@ namespace CHaMPWorkbench.CHaMPData
             return nVisits;
         }
 
-        private void SyncVisits(ref SQLiteTransaction dbTrans, ref Keystone.API.AuthResponseModel authToken, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID)
+        private void SyncVisits(ref SQLiteTransaction dbTrans, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID, ref AuthResponseModel AuthToken)
         {
-            ApiHelper api2 = new ApiHelper(sVisitURL, authToken);
+            ApiHelper api2 = new ApiHelper(sVisitURL, AuthToken);
             ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
             GeoOptix.API.Model.VisitModel apiVisitDetails = apiVisitResponse.Payload;
 

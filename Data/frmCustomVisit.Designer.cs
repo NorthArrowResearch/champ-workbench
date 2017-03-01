@@ -59,6 +59,7 @@
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.cboProgram = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.cmdHelp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valFieldSeason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).BeginInit();
@@ -396,6 +397,17 @@
             this.label7.TabIndex = 8;
             this.label7.Text = "Program";
             // 
+            // cmdHelp
+            // 
+            this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdHelp.Location = new System.Drawing.Point(12, 444);
+            this.cmdHelp.Name = "cmdHelp";
+            this.cmdHelp.Size = new System.Drawing.Size(75, 23);
+            this.cmdHelp.TabIndex = 17;
+            this.cmdHelp.Text = "Help";
+            this.cmdHelp.UseVisualStyleBackColor = true;
+            this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
+            // 
             // frmCustomVisit
             // 
             this.AcceptButton = this.cmdOK;
@@ -403,6 +415,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(644, 479);
+            this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.cboProgram);
             this.Controls.Add(this.tabControl1);
@@ -466,5 +479,6 @@
         private System.Windows.Forms.TextBox txtNotes;
         private System.Windows.Forms.ComboBox cboProgram;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button cmdHelp;
     }
 }

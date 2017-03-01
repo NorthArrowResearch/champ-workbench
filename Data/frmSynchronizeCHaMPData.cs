@@ -15,6 +15,11 @@ namespace CHaMPWorkbench.Data
         BindingList<CHaMPData.Watershed> Watersheds;
         CHaMPData.DataSynchronizer syncEngine;
 
+        //private string CurrentUserName { get; set; }
+        //private string CurrentPassword { get; set; }
+
+        private frmKeystoneCredentials CredentialsForm;
+
         public frmSynchronizeCHaMPData()
         {
             InitializeComponent();
@@ -67,6 +72,17 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
+            if (CredentialsForm == null)
+                CredentialsForm = new frmKeystoneCredentials();
+
+            DialogResult eCredentialsResult = CredentialsForm.ShowDialog();
+            switch (eCredentialsResult)
+            {
+                case DialogResult.Cancel:
+                    this.DialogResult = DialogResult.Cancel;
+                    return;
+            }
+
             try
             {
                 ShowProgressGroup(true);
@@ -113,7 +129,7 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-                syncEngine.Run(checkedPrograms, checkedWatersheds);
+                syncEngine.Run(checkedPrograms, checkedWatersheds, CredentialsForm.UserName, CredentialsForm.Password);
             }
             catch(Exception ex)
             {
