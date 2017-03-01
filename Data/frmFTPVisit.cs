@@ -56,6 +56,7 @@ namespace CHaMPWorkbench.Data
             nodHydro.Nodes.Add("HydroModelResults.zip");
 
             TreeNode nodTopo = nodParent.Nodes.Add("Topo");
+            nodTopo.Nodes.Add("CrewUploadedSurveyGDB.zip");
             nodTopo.Nodes.Add("MapImages.zip");
             nodTopo.Nodes.Add("SurveyGDB.zip");
             nodTopo.Nodes.Add("TIN.zip");
