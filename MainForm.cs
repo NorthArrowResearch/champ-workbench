@@ -34,6 +34,9 @@ namespace CHaMPWorkbench
                 }
             }
 
+            // Developers can put an XML file in their code folder that defines certain default properties for the application.
+            LoadDeveloperCredentials();
+
             string sPath = GetDatabasePathFromConnectionString(CHaMPWorkbench.Properties.Settings.Default.DBConnection);
             OpenDatabase(sPath);
         }
@@ -858,7 +861,7 @@ namespace CHaMPWorkbench
                 if (r is DataRow)
                 {
                     List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
-                    lVisits.Add(new CHaMPData.VisitBasic((long) r["VisitID"], (long) r["WatershedID"], (string) r["WatershedName"], (long) r["SiteID"], (string) r["SiteName"],(long)  r["VisitYear"], string.Empty, (long) r["ProgramID"], naru.db.DBState.Unchanged));
+                    lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"], naru.db.DBState.Unchanged));
                     Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
                     frm.ShowDialog();
                 }
@@ -981,7 +984,7 @@ namespace CHaMPWorkbench
 
         private void generateRBTRunForThisVisitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Dictionary<long , string> dVisits = GetSelectedVisits();
+            Dictionary<long, string> dVisits = GetSelectedVisits();
 
             if (dVisits.Count > 0)
             {
@@ -1312,7 +1315,7 @@ namespace CHaMPWorkbench
 
         private void buildInputFilesToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Dictionary<long , string> dVisits = GetSelectedVisits();
+            Dictionary<long, string> dVisits = GetSelectedVisits();
 
             if (dVisits.Count > 0)
             {
@@ -1820,6 +1823,38 @@ namespace CHaMPWorkbench
             catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
+
+        private void LoadDeveloperCredentials()
+        {
+#if !DEBUG
+            return;
+#endif
+            System.IO.FileInfo fiEXE = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().FullName);
+            string sConfigPath = System.IO.Path.Combine(fiEXE.Directory.Parent.Parent.FullName, "workbench_config.xml");
+
+            if (System.IO.File.Exists(sConfigPath))
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(sConfigPath);
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataUnipped", "MonitoringDataFolder");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataZipped", "ZippedMonitoringDataFolder");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/InputOutputFiles", "InputOutputFolder");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/TempFolder", "LastTempFolder");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/DefaultUserName", "DefaultUserName");
+            }
+        }
+
+        private void StoreDeveloperSetting(ref XmlDocument xmlDoc, string xPath, string sSettingName)
+        {
+            XmlNode nod = xmlDoc.SelectSingleNode(xPath);
+            if (nod is XmlNode)
+            {
+                if (!string.IsNullOrEmpty(nod.InnerText))
+                {
+                    CHaMPWorkbench.Properties.Settings.Default[sSettingName] = nod.InnerText;
+                }
             }
         }
     }
