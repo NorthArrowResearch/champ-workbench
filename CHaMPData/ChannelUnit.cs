@@ -16,14 +16,14 @@ namespace CHaMPWorkbench.CHaMPData
         private long m_nChannelUnitNumber;
         private long m_nSegmentNumber;
 
-        public Nullable<long> Bedrock { get; internal set; }
-        public Nullable<long> BouldersGT256 { get; internal set; }
-        public Nullable<long> Cobbles65255 { get; internal set; }
-        public Nullable<long> CoarseGravel1764 { get; internal set; }
-        public Nullable<long> FineGravel316 { get; internal set; }
-        public Nullable<long> Sand0062 { get; internal set; }
-        public Nullable<long> FinesLT006 { get; internal set; }
-        public Nullable<long> SumSubstrateCover { get; internal set; }
+        private Nullable<long> m_nBedrock;
+        private Nullable<long> m_nBouldersGT256;
+        private Nullable<long> m_nCobbles65255;
+        private Nullable<long> m_nCoarseGravel1764;
+        private Nullable<long> m_nFineGravel316;
+        private Nullable<long> m_nSand0062;
+        private Nullable<long> m_nFinesLT006;
+        private Nullable<long> m_nSumSubstrateCover;
         public long LargeWoodCount { get; internal set; }
 
         #region Properties
@@ -81,6 +81,111 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
+
+        public Nullable<long> Bedrock
+        {
+            get { return m_nBedrock; }
+            set
+            {
+                if (m_nBedrock != value)
+                {
+                    m_nBedrock = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> BouldersGT256
+        {
+            get { return m_nBouldersGT256; }
+            set
+            {
+                if (m_nBouldersGT256 != value)
+                {
+                    m_nBouldersGT256 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> Cobbles65255
+        {
+            get { return m_nCobbles65255; }
+            set
+            {
+                if (m_nCobbles65255 != value)
+                {
+                    m_nCobbles65255 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> CoarseGravel1764
+        {
+            get { return m_nCoarseGravel1764; }
+            set
+            {
+                if (m_nCoarseGravel1764 != value)
+                {
+                    m_nCoarseGravel1764 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> FineGravel316
+        {
+            get { return m_nFineGravel316; }
+            set
+            {
+                if (m_nFineGravel316 != value)
+                {
+                    m_nFineGravel316 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> Sand0062
+        {
+            get { return m_nSand0062; }
+            set
+            {
+                if (m_nSand0062 != value)
+                {
+                    m_nSand0062 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> FinesLT006
+        {
+            get { return m_nFinesLT006; }
+            set
+            {
+                if (m_nFinesLT006 != value)
+                {
+                    m_nFinesLT006 = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
+        public Nullable<long> SumSubstrateCover
+        {
+            get { return m_nSumSubstrateCover; }
+            set
+            {
+                if (m_nSumSubstrateCover != value)
+                {
+                    m_nSumSubstrateCover = value;
+                    State = DBState.Edited;
+                }
+            }
+        }
+
         #endregion
 
         public ChannelUnit(long nID, long nVisitID, long nChannelUnitNumber, long nSegmentNumber, String sTier1, String sTier2, naru.db.DBState eState)
@@ -98,14 +203,14 @@ namespace CHaMPWorkbench.CHaMPData
         {
             Init(nVisitID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2);
 
-            Bedrock = nBedrock;
-            BouldersGT256 = nBouldersGT256;
-            Cobbles65255 = nCobbles65255;
-            CoarseGravel1764 = nCoarseGravel1764;
-            FineGravel316 = nFineGravel316;
-            Sand0062 = nSand0062;
-            FinesLT006 = nFinesLT006;
-            SumSubstrateCover = nSumSubstrateCover;
+            m_nBedrock = nBedrock;
+            m_nBouldersGT256 = nBouldersGT256;
+            m_nCobbles65255 = nCobbles65255;
+            m_nCoarseGravel1764 = nCoarseGravel1764;
+            m_nFineGravel316 = nFineGravel316;
+            m_nSand0062 = nSand0062;
+            m_nFinesLT006 = nFinesLT006;
+            m_nSumSubstrateCover = nSumSubstrateCover;
             LargeWoodCount = nLargeWoodCount;
         }
 
@@ -131,7 +236,7 @@ namespace CHaMPWorkbench.CHaMPData
                 {
                     long nID = dbRead.GetInt64(dbRead.GetOrdinal("ID"));
                     long nCU = dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber"));
-                    ChannelUnits[nID] = new ChannelUnit(nID
+                    ChannelUnits[nCU] = new ChannelUnit(nID
                         , nVisitID
                         , nCU
                         , dbRead.GetInt64(dbRead.GetOrdinal("SegmentNumber"))
@@ -160,7 +265,7 @@ namespace CHaMPWorkbench.CHaMPData
             SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_ChannelUnits ({0}) VALUES (@{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
             comInsert.Parameters.Add("ID", System.Data.DbType.Int64);
 
-            SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE CHaMP_ChannelUnits SET {0} WHERE ID = @ID", string.Join(", ", sFields.Select(x => x + " = @" + x))), dbTrans.Connection, dbTrans);
+            SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE CHaMP_ChannelUnits SET {0} WHERE (VisitID = @VisitID) AND (ChannelUnitNumber = @ChannelUnitNumber)", string.Join(", ", sFields.Select(x => x + " = @" + x))), dbTrans.Connection, dbTrans);
             comUpdate.Parameters.Add("ID", System.Data.DbType.Int64);
 
             foreach (ChannelUnit aChannelUnit in lChannelUnits.Where<ChannelUnit>(x => x.State != naru.db.DBState.Unchanged))
@@ -175,7 +280,8 @@ namespace CHaMPWorkbench.CHaMPData
                 else
                 {
                     dbCom = comUpdate;
-                    dbCom.Parameters["ID"].Value = aChannelUnit.ID;
+                    //dbCom.Parameters["VisitID"].Value = aChannelUnit.VisitID;
+                    //dbCom.Parameters["ChannelUnitNumber"].Value 
                 }
 
                 AddParameter(ref dbCom, "VisitID", System.Data.DbType.Int64, aChannelUnit.VisitID);
@@ -197,7 +303,7 @@ namespace CHaMPWorkbench.CHaMPData
                 {
                     dbCom.ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.Write("stop");
                 }

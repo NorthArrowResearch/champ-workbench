@@ -294,6 +294,15 @@ namespace CHaMPWorkbench.CHaMPData
                 //GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU = valsCU.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
                 //Dictionary<string, string> dChannelUnits = mvCU.Measurement;
                 ChannelUnits(ref theVisit, valsCU);
+
+                // Now do the substrate cover and update the grain sizes
+                ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> resSubstrate = api2.GetMeasurement<Dictionary<string, string>>("Substrate Cover");
+                GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> measSubstrate = resSubstrate.Payload;
+                if (measSubstrate != null)
+                {
+                    IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> valsSubstrate = measSubstrate.MeasValues;
+                    SubstrateCover(ref theVisit, valsSubstrate);
+                }
             }
         }
 
@@ -307,8 +316,54 @@ namespace CHaMPWorkbench.CHaMPData
                 string sTier1 = mvCU.Measurement["Tier1"];
                 string sTier2 = mvCU.Measurement["Tier2"];
 
-                theVisit.ChannelUnits[nChannelUnitID] = new ChannelUnit(nChannelUnitID, theVisit.ID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2, naru.db.DBState.New);
+                if (!theVisit.ChannelUnits.ContainsKey(nChannelUnitNumber))
+                    theVisit.ChannelUnits[nChannelUnitNumber] = new ChannelUnit(nChannelUnitID, theVisit.ID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2, naru.db.DBState.New);
+                else
+                {
+                    theVisit.ChannelUnits[nChannelUnitNumber].Tier1 = mvCU.Measurement["Tier1"];
+                    theVisit.ChannelUnits[nChannelUnitNumber].Tier2 = mvCU.Measurement["Tier2"];
+                    theVisit.ChannelUnits[nChannelUnitNumber].SegmentNumber = nSegmentNumber;
+                }
             }
+        }
+
+        private void SubstrateCover(ref CHaMPData.Visit theVisit, IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> lSbustrateCover)
+        {
+            foreach (GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvSub in lSbustrateCover)
+            {
+                //long nChannelUnitNumber = long.Parse(mvCU.Measurement["ChannelUnitNumber"]);
+                long nChannelUnitID = long.Parse(mvSub.Measurement["ChannelUnitID"]);
+                Dictionary<string, string> dValues = mvSub.Measurement;
+
+                theVisit.ChannelUnits[nChannelUnitID].Bedrock = GetSubstrateValue(ref dValues, "Bedrock");
+                theVisit.ChannelUnits[nChannelUnitID].BouldersGT256 = GetSubstrateValue(ref dValues, "Boulders");
+                theVisit.ChannelUnits[nChannelUnitID].Cobbles65255 = GetSubstrateValue(ref dValues, "Cobbles");
+                theVisit.ChannelUnits[nChannelUnitID].CoarseGravel1764 = GetSubstrateValue(ref dValues, "CourseGravel");
+                theVisit.ChannelUnits[nChannelUnitID].FineGravel316 = GetSubstrateValue(ref dValues, "FineGravel");
+                theVisit.ChannelUnits[nChannelUnitID].Sand0062 = GetSubstrateValue(ref dValues, "Sand");
+                theVisit.ChannelUnits[nChannelUnitID].FinesLT006 = GetSubstrateValue(ref dValues, "Fines");
+                theVisit.ChannelUnits[nChannelUnitID].SumSubstrateCover = GetSubstrateValue(ref dValues, "SumSubstrateCover");
+            }
+        }
+
+        private long? GetSubstrateValue(ref Dictionary<string, string> dValues, string sKey)
+        {
+            long? result = null;
+            if (dValues.ContainsKey(sKey))
+            {
+                if (!string.IsNullOrEmpty(dValues[sKey]) && string.Compare(dValues[sKey], "null", true) != 0)
+                {
+                    try
+                    {
+                        result = long.Parse(dValues[sKey]);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write("stop");
+                    }
+                }
+            }
+            return result;
         }
 
         private long? GetLookupListItemID(ref SQLiteTransaction dbTrans, ref Dictionary<string, long> dLookupListValues, long nListID, string sValue)
