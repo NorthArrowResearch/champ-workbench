@@ -334,15 +334,20 @@ namespace CHaMPWorkbench.CHaMPData
                 //long nChannelUnitNumber = long.Parse(mvCU.Measurement["ChannelUnitNumber"]);
                 long nChannelUnitID = long.Parse(mvSub.Measurement["ChannelUnitID"]);
                 Dictionary<string, string> dValues = mvSub.Measurement;
+                if (theVisit.ChannelUnits.ContainsKey(nChannelUnitID))
+                {
 
-                theVisit.ChannelUnits[nChannelUnitID].Bedrock = GetSubstrateValue(ref dValues, "Bedrock");
-                theVisit.ChannelUnits[nChannelUnitID].BouldersGT256 = GetSubstrateValue(ref dValues, "Boulders");
-                theVisit.ChannelUnits[nChannelUnitID].Cobbles65255 = GetSubstrateValue(ref dValues, "Cobbles");
-                theVisit.ChannelUnits[nChannelUnitID].CoarseGravel1764 = GetSubstrateValue(ref dValues, "CourseGravel");
-                theVisit.ChannelUnits[nChannelUnitID].FineGravel316 = GetSubstrateValue(ref dValues, "FineGravel");
-                theVisit.ChannelUnits[nChannelUnitID].Sand0062 = GetSubstrateValue(ref dValues, "Sand");
-                theVisit.ChannelUnits[nChannelUnitID].FinesLT006 = GetSubstrateValue(ref dValues, "Fines");
-                theVisit.ChannelUnits[nChannelUnitID].SumSubstrateCover = GetSubstrateValue(ref dValues, "SumSubstrateCover");
+                    theVisit.ChannelUnits[nChannelUnitID].Bedrock = GetSubstrateValue(ref dValues, "Bedrock");
+                    theVisit.ChannelUnits[nChannelUnitID].BouldersGT256 = GetSubstrateValue(ref dValues, "Boulders");
+                    theVisit.ChannelUnits[nChannelUnitID].Cobbles65255 = GetSubstrateValue(ref dValues, "Cobbles");
+                    theVisit.ChannelUnits[nChannelUnitID].CoarseGravel1764 = GetSubstrateValue(ref dValues, "CourseGravel");
+                    theVisit.ChannelUnits[nChannelUnitID].FineGravel316 = GetSubstrateValue(ref dValues, "FineGravel");
+                    theVisit.ChannelUnits[nChannelUnitID].Sand0062 = GetSubstrateValue(ref dValues, "Sand");
+                    theVisit.ChannelUnits[nChannelUnitID].FinesLT006 = GetSubstrateValue(ref dValues, "Fines");
+                    theVisit.ChannelUnits[nChannelUnitID].SumSubstrateCover = GetSubstrateValue(ref dValues, "SumSubstrateCover");
+                }
+                else
+                    Console.Write("stop");
             }
         }
 
