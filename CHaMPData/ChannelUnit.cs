@@ -191,7 +191,7 @@ namespace CHaMPWorkbench.CHaMPData
         public ChannelUnit(long nID, long nVisitID, long nChannelUnitNumber, long nSegmentNumber, String sTier1, String sTier2, naru.db.DBState eState)
             : base(nID, string.Format("{0} - {1}//{2}", nChannelUnitNumber, sTier1, sTier2), eState)
         {
-            Init(nVisitID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier1);
+            Init(nVisitID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2);
         }
 
 
