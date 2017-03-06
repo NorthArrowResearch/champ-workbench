@@ -113,7 +113,7 @@ namespace CHaMPWorkbench.Classes
             {
                 DBCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (CMMetricID Is Not Null) AND (RBTResultXMLTag Is Not Null)", DBCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, ResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (CMMetricID Is Not Null) AND (ResultXMLTag Is Not Null)", DBCon);
                 dbCom.Parameters.AddWithValue("@TypeID", nMetricTypeID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
@@ -121,7 +121,7 @@ namespace CHaMPWorkbench.Classes
                     lMetrics.Add(new ScavengeMetric(dbRead.GetInt64(dbRead.GetOrdinal("MetricID")),
                         dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID")),
                         dbRead.GetString(dbRead.GetOrdinal("Title")),
-                        dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"))));
+                        dbRead.GetString(dbRead.GetOrdinal("ResultXMLTag"))));
                 }
             }
 

@@ -216,7 +216,7 @@ namespace CHaMPWorkbench.Habitat
             {
                 DBCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, RBTResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (RBTResultXMLTag Is Not Null)", DBCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID, Title, CMMetricID, ResultXMLTag FROM Metric_Definitions WHERE (TypeID = @TypeID) AND (ResultXMLTag Is Not Null)", DBCon);
                 dbCom.Parameters.AddWithValue("@TypeID", nMetricTypeID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
@@ -225,7 +225,7 @@ namespace CHaMPWorkbench.Habitat
                    long nMetricID = dbRead.GetInt64(dbRead.GetOrdinal("MetricID"));
                     long nCMMetricID = dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")) ? -1 : dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID"));
                     string sTitle = dbRead.GetString(dbRead.GetOrdinal("Title"));
-                    string sXpath = dbRead.GetString(dbRead.GetOrdinal("RBTResultXMLTag"));
+                    string sXpath = dbRead.GetString(dbRead.GetOrdinal("ResultXMLTag"));
 
                     lMetrics.Add(new ScavengeMetric(nMetricID, nCMMetricID, sTitle, sXpath));
                 }

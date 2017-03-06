@@ -25,7 +25,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             lInvalidXPaths = new List<string>();
             int nProcessed = 0;
 
-            string sSQL = "SELECT MetricID, Title, RBTResultXMLTag FROM Metric_Definitions";
+            string sSQL = "SELECT MetricID, Title, ResultXMLTag FROM Metric_Definitions";
             if (!string.IsNullOrWhiteSpace(sWhereClause))
                 sSQL += " WHERE " + sWhereClause;
 
@@ -36,9 +36,9 @@ namespace CHaMPWorkbench.Experimental.Philip
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    if (DBNull.Value != dbRead["RBTResultXMLTag"])
+                    if (DBNull.Value != dbRead["ResultXMLTag"])
                     {
-                        string sXPath = (string)dbRead["RBTResultXMLTag"];
+                        string sXPath = (string)dbRead["ResultXMLTag"];
                         //sXPath = "rbt_results/metric_results/" + sXPath;
 
                         sXPath = sXPath.Replace("%%CHANNEL_UNIT_NUMBER%%", "1")
