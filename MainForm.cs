@@ -1842,7 +1842,17 @@ namespace CHaMPWorkbench
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataZipped", "ZippedMonitoringDataFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/InputOutputFiles", "InputOutputFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/TempFolder", "LastTempFolder");
-                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/DefaultUserName", "DefaultUserName");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/GeoOptixUserName", "DefaultUserName");
+
+                string sPassword = string.Empty;
+                XmlNode nod = xmlDoc.SelectSingleNode("WorkbenchConfig/GeoOptixPassword");
+                if (nod is XmlNode)
+                {
+                    if (!string.IsNullOrEmpty(nod.InnerText))
+                    {
+                        sPassword = nod.InnerText;
+                    }
+                }
             }
         }
 
