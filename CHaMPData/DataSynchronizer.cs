@@ -52,24 +52,6 @@ namespace CHaMPWorkbench.CHaMPData
             TotalNumberVisits = 0;
             AuthResponseModel AuthToken = null;
 
-            try
-            {
-                CurrentProcess = "Authenticating user with Keystone API";
-                var keystoneApiHelper = new KeystoneApiHelper("https://qa.keystone.sitkatech.com/OAuth2/Authorize",
-                    CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
-                    CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
-
-                AuthToken = keystoneApiHelper.GetAuthToken(UserName, Password);
-
-                if (!AuthToken.IsValidToken)
-                    throw new Exception(AuthToken.ErrorDescription);
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Failed to authenticate user with Keystone API", ex);
-            }
-
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
@@ -82,6 +64,30 @@ namespace CHaMPWorkbench.CHaMPData
 
                     foreach (Program aProgram in lPrograms)
                     {
+                        try
+                        {
+                            CurrentProcess = "Authenticating user with Keystone API";
+
+                            // Determine if the program is pointing at QA or Production and use the corresponding keystone
+                            string keystoneURL = "https://keystone.sitkatech.com/OAuth2/Authorize";
+                            if (aProgram.API.Contains("https://qa."))
+                                keystoneURL = keystoneURL.Replace("https://", "https://qa.");
+
+                            var keystoneApiHelper = new KeystoneApiHelper(keystoneURL,
+                                CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
+                                CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
+
+                            AuthToken = keystoneApiHelper.GetAuthToken(UserName, Password);
+
+                            if (!AuthToken.IsValidToken)
+                                throw new Exception(AuthToken.ErrorDescription);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Failed to authenticate user with Keystone API", ex);
+                        }
+
                         SyncWatersheds(ref dbTrans, aProgram, ref WatershedsToProcess, ref AuthToken);
                         SyncSites(ref dbTrans, aProgram, ref AuthToken);
                         TotalNumberVisits += GetListOfVisitURLs(aProgram, ref AuthToken);
