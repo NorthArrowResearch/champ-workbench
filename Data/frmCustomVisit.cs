@@ -179,18 +179,13 @@ namespace CHaMPWorkbench.Data
                     else
                     {
                         // Watershed ID is not auto-increment.
-                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(WatershedID) FROM CHaMP_Watersheds", dbCon, dbTrans);
-                        object objWSID = dbCom.ExecuteScalar();
-                        if (objWSID is Int32)
-                            nWatershedID = Math.Max(((int)objWSID) + 1, 9000);
-                        else
-                            throw new Exception("Failed to retrieve highest watershed ID from database.");
-
-                        dbCom = new SQLiteCommand("INSERT INTO CHaMP_Watersheds (WatershedID, WatershedName) VALUES (@WatershedID, @WatershedName)", dbCon, dbTrans);
-                        dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
+                        SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO CHaMP_Watersheds (WatershedName) VALUES (@WatershedName)", dbCon, dbTrans);
                         dbCom.Parameters.AddWithValue("@WatershedName", cboWatershed.Text);
                         if (dbCom.ExecuteNonQuery() != 1)
                             throw new Exception("Failed to create new watershed");
+
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                        nWatershedID = (long)dbCom.ExecuteScalar();
                     }
 
                     long nSiteID = 0;
@@ -198,19 +193,14 @@ namespace CHaMPWorkbench.Data
                         nSiteID = ((naru.db.NamedObject)cboSite.SelectedItem).ID;
                     else
                     {
-                        SQLiteCommand dbCom = new SQLiteCommand("SELECT Max(SiteID) FROM CHaMP_Sites", dbCon, dbTrans);
-                        object objSID = dbCom.ExecuteScalar();
-                        if (objSID is Int32)
-                            nSiteID = Math.Max(((int)objSID) + 1, 9000);
-                        else
-                            throw new Exception("Failed to retrieve highest Site ID from database.");
-
-                        dbCom = new SQLiteCommand("INSERT INTO CHaMP_Sites (SiteID, SiteName, WatershedID) VALUES (@SiteID, @SiteName, @WatershedID)", dbCon, dbTrans);
-                        dbCom.Parameters.AddWithValue("@SiteID", nSiteID);
+                        SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO CHaMP_Sites (SiteName, WatershedID) VALUES (@SiteName, @WatershedID)", dbCon, dbTrans);
                         dbCom.Parameters.AddWithValue("@SiteName", cboSite.Text);
                         dbCom.Parameters.AddWithValue("@WatershedID", nWatershedID);
                         if (dbCom.ExecuteNonQuery() != 1)
                             throw new Exception("Failed to create new site");
+
+                        dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                        nSiteID = (long)dbCom.ExecuteScalar();
                     }
 
                     SQLiteCommand comVisit = new SQLiteCommand("INSERT INTO CHaMP_Visits (VisitID, SiteID, VisitYear, ProtocolID, Organization, Remarks, ProgramID) VALUES (@VisitID, @SiteID, @VisitYear, @ProtocolID, @Organization, @Remarks, @ProgramID)", dbCon, dbTrans);
