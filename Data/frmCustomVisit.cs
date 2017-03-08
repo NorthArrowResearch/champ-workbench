@@ -115,7 +115,7 @@ namespace CHaMPWorkbench.Data
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT VisitID FROM CHaMP_Visits WHERE VisitID = @VisitID", dbCon);
                 dbCom.Parameters.AddWithValue("@VisitID", (int)valVisitID.Value);
                 object obj = dbCom.ExecuteScalar();
-                if (obj != null && obj is Int32)
+                if (obj != null && obj is Int64)
                 {
                     MessageBox.Show(string.Format("A visit already exists with the visit ID {0}", valVisitID.Value), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
