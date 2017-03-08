@@ -154,7 +154,7 @@ namespace CHaMPWorkbench.CHaMPData
                 dbCon.Open();
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
-                string[] sFields = { "Title", "WebsiteURL", "FTPURL", "AWSBucket", "Remarks" };
+                string[] sFields = { "Title", "WebsiteURL", "FTPURL", "AWSBucket", "API", "Remarks" };
                 SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO LookupPrograms ({0}) VALUES (@{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
                 SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE LookupPrograms SET {0} WHERE ProgramID = @ID", string.Join(",", sFields.Select(x => string.Format("{0} = @{0}", x)))), dbTrans.Connection, dbTrans);
                 SQLiteParameter pID = comUpdate.Parameters.Add("ID", System.Data.DbType.Int64);
@@ -176,6 +176,7 @@ namespace CHaMPWorkbench.CHaMPData
                         AddParameter(ref dbCom, "WebSiteURL", System.Data.DbType.String, aProgram.WebSiteURL);
                         AddParameter(ref dbCom, "FTPURL", System.Data.DbType.String, aProgram.FTPURL);
                         AddParameter(ref dbCom, "AWSBucket", System.Data.DbType.String, aProgram.AWSBucket);
+                        AddParameter(ref dbCom, "API", System.Data.DbType.String, aProgram.API);
                         AddParameter(ref dbCom, "Remarks", System.Data.DbType.String, aProgram.Remarks);
 
                         dbCom.ExecuteNonQuery();
