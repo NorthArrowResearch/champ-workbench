@@ -22,27 +22,28 @@ namespace CHaMPWorkbench.Data
 
         private void ucPrograms_Load(object sender, EventArgs e)
         {
-            grdData.Dock = DockStyle.Fill;            
+            grdData.Dock = DockStyle.Fill;
             grdData.AutoGenerateColumns = false;
             grdData.AllowUserToResizeRows = false;
 
-            grdData.Columns.Add(AddDataGridViewColumn("Name", "Name"));
-            grdData.Columns.Add(AddDataGridViewColumn("Web Site", "WebSiteURL"));
-            grdData.Columns.Add(AddDataGridViewColumn("FTP Site", "FTPURL"));
-            grdData.Columns.Add(AddDataGridViewColumn("AWS Bucket", "AWSBucket"));
-            grdData.Columns.Add(AddDataGridViewColumn("API", "API"));
-            grdData.Columns.Add(AddDataGridViewColumn("Remarks", "Remarks"));
+            grdData.Columns.Add(AddDataGridViewColumn("Name", "Name", false));
+            grdData.Columns.Add(AddDataGridViewColumn("Web Site", "WebSiteURL", false));
+            grdData.Columns.Add(AddDataGridViewColumn("FTP Site", "FTPURL", false));
+            grdData.Columns.Add(AddDataGridViewColumn("AWS Bucket", "AWSBucket", false));
+            grdData.Columns.Add(AddDataGridViewColumn("API", "API", true));
+            grdData.Columns.Add(AddDataGridViewColumn("Remarks", "Remarks", false));
 
             Programs = new naru.ui.SortableBindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
             grdData.DataSource = Programs;
         }
 
-        private DataGridViewTextBoxColumn AddDataGridViewColumn(string sHeaderText, string sDataPropertyName)
+        private DataGridViewTextBoxColumn AddDataGridViewColumn(string sHeaderText, string sDataPropertyName, bool bReadOnly)
         {
             DataGridViewTextBoxColumn aCol = new DataGridViewTextBoxColumn();
             aCol.HeaderText = sHeaderText;
             aCol.DataPropertyName = sDataPropertyName;
             aCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            aCol.ReadOnly = bReadOnly;
             return aCol;
         }
 
