@@ -1447,7 +1447,7 @@ namespace CHaMPWorkbench
             SaveFileDialog frm = new SaveFileDialog();
             frm.Title = "Save Visit IDs CSV File";
             frm.Filter = "Comma Separated Value (CSV) Files (*.csv)|*.csv";
-            frm.FileName = string.Format("{0:yyyy_mm_dd}_WorkbenchVisits.csv", DateTime.Now);
+            frm.FileName = string.Format("{0:yyyy_MM_dd}_WorkbenchVisits.csv", DateTime.Now);
             frm.OverwritePrompt = true;
 
             // Default location is the Workbench InputOutputFiles folder
