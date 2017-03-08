@@ -122,11 +122,11 @@ namespace CHaMPWorkbench.Data
             {
                 dbCon.Open();
 
-                string sSQL = "SELECT S.SegmentNumber AS [Segment Number], C.ChannelUnitNumber AS [Unit Number], C.Tier1, C.Tier2," +
+                string sSQL = "SELECT SegmentNumber AS [Segment Number], C.ChannelUnitNumber AS [Unit Number], C.Tier1, C.Tier2," +
                      "C.BouldersGT256, C.Cobbles65255, C.CoarseGravel1764, C.FineGravel316, C.Sand0062, C.FinesLT006, C.SumSubstrateCover, C.Bedrock, C.LargeWoodCount" +
-                     " FROM CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID" +
-                     " WHERE (S.VisitID = @VisitID)" +
-                     " ORDER BY S.SegmentNumber, C.ChannelUnitNumber";
+                     " FROM CHAMP_ChannelUnits AS C" +
+                     " WHERE (C.VisitID = @VisitID)" +
+                     " ORDER BY C.ChannelUnitNumber, SegmentNumber";
 
                 SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
                 da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
@@ -167,7 +167,7 @@ namespace CHaMPWorkbench.Data
                 dbCon.Open();
 
                 string sSQL = "SELECT CHAMP_Watersheds.WatershedName, S.SiteName, V.*, S.UTMZone, S.UC_Chin, S.SN_Chin, S.LC_Steel, S.MC_Steel, S.UC_Steel, S.SN_Steel, S.Latitude, S.Longitude, S.GageID, P.Title AS Protocol" +
-                    " FROM (CHAMP_Watersheds INNER JOIN ((CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) INNER JOIN (CHaMP_Segments INNER JOIN CHAMP_ChannelUnits ON CHaMP_Segments.SegmentID = CHAMP_ChannelUnits.SegmentID) ON V.VisitID = CHaMP_Segments.VisitID) ON CHAMP_Watersheds.WatershedID = S.WatershedID) INNER JOIN LookupListItems AS P ON V.ProtocolID = P.ItemID" +
+                    " FROM (CHAMP_Watersheds INNER JOIN ((CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) INNER JOIN CHAMP_ChannelUnits ON V.VisitID = CHAMP_ChannelUnits.VisitID) ON CHAMP_Watersheds.WatershedID = S.WatershedID) INNER JOIN LookupListItems AS P ON V.ProtocolID = P.ItemID" +
                     " WHERE V.VisitID = @VisitID";
 
                 SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);

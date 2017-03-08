@@ -324,6 +324,18 @@
       <DependentUpon>ucUserFeedbackGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\James\Coordinates.cs" />
+    <Compile Include="Experimental\James\frmEnterPostGCD_QAQC_Record.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\James\frmEnterPostGCD_QAQC_Record.Designer.cs">
+      <DependentUpon>frmEnterPostGCD_QAQC_Record.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Experimental\James\frmGCD_MetricsViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\James\frmGCD_MetricsViewer.Designer.cs">
+      <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\James\frmUSGS_StreamDataViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -560,6 +572,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucUserFeedbackGrid.resx">
       <DependentUpon>ucUserFeedbackGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\James\frmEnterPostGCD_QAQC_Record.resx">
+      <DependentUpon>frmEnterPostGCD_QAQC_Record.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\James\frmGCD_MetricsViewer.resx">
+      <DependentUpon>frmGCD_MetricsViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>

@@ -124,7 +124,7 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHaMP_Sites WHERE SiteID = @SiteID", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Latitude, Longitude FROM CHaMP_Sites WHERE (SiteID = @SiteID) AND (Latitude IS NOT NULL) AND (Longitude IS NOT NULL)", dbCon);
                 dbCom.Parameters.Add(new SQLiteParameter("@SiteID", nSiteID));
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
