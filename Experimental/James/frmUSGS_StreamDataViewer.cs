@@ -78,24 +78,31 @@ namespace CHaMPWorkbench.Experimental.James
 
             if (bGageIDValid == true)
             {
-                //Get the selected USGS Gage number
-                long iGageID = Convert.ToInt64(txtUSGS_SiteNumber.Text);
+                try
+                {
+                    //Get the selected USGS Gage number
+                    long iGageID = Convert.ToInt64(txtUSGS_SiteNumber.Text);
 
-                //Get the data
-                List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
-                if (lStreamData.Count > 1)
-                {
-                    naru.db.NamedObject aSite = cmbCHaMPSite.SelectedItem as naru.db.NamedObject;
-                    //plot data
-                    PlotStreamDataMicrosoftChart(m_USGS_StreamData.StreamData, aSite.ID, aSite.Name, iGageID);
+                    //Get the data
+                    List<StreamFlowSample> lStreamData = m_USGS_StreamData.GetUSGS_DischargeData(iGageID);
+                    if (lStreamData.Count > 1)
+                    {
+                        naru.db.NamedObject aSite = cmbCHaMPSite.SelectedItem as naru.db.NamedObject;
+                        //plot data
+                        PlotStreamDataMicrosoftChart(m_USGS_StreamData.StreamData, aSite.ID, aSite.Name, iGageID);
+                    }
+                    else
+                    {
+                        //need to put something on the form that says this site has no preloaded gage, user must chose from drop-down
+                        MessageBox.Show(String.Format("There is no flow data for USGS gage number {0}.", m_USGS_StreamData.GageNumber),
+                        CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    //need to put something on the form that says this site has no preloaded gage, user must chose from drop-down
-                    MessageBox.Show(String.Format("There is no flow data for USGS gage number {0}.", m_USGS_StreamData.GageNumber),
-                    CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
             else
