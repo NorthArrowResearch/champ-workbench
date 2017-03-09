@@ -99,6 +99,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                                 nodSite.AppendChild(nodVisit);
                         }
                     }
+                    dbRead.Close();
 
                     // Outputs XML node
                     nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, dInputFile.DirectoryName));
