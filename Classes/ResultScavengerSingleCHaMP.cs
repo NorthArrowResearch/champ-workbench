@@ -288,9 +288,7 @@ namespace CHaMPWorkbench.Classes
 
             // Build a dictionary of the channel units for this visit. Key is channel unit number (crew defined) to value of ChannelUnitID (workbench DB ID)
             Dictionary<long, long> dChannelUnits = new Dictionary<long, long>();
-            SQLiteCommand comTierValues = new SQLiteCommand("SELECT C.ID AS ChannelUnitID, C.ChannelUnitNumber AS ChannelUnitNumber" +
-                " FROM CHAMP_Visits AS V INNER JOIN (CHaMP_Segments AS S INNER JOIN CHAMP_ChannelUnits AS C ON S.SegmentID = C.SegmentID) ON V.VisitID = S.VisitID" +
-                " WHERE (V.VisitID = @VisitID) ORDER BY C.ChannelUnitNumber", dbTrans.Connection, dbTrans);
+            SQLiteCommand comTierValues = new SQLiteCommand("SELECT ID AS ChannelUnitID, ChannelUnitNumber FROM CHAMP_ChannelUnits WHERE VisitID = @VisitID ORDER BY ChannelUnitNumber", dbTrans.Connection, dbTrans);
             comTierValues.Parameters.AddWithValue("@VisitID", nVisitID);
             SQLiteDataReader dbRead = comTierValues.ExecuteReader();
             while (dbRead.Read())
