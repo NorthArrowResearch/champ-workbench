@@ -101,15 +101,18 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                     }
                     dbRead.Close();
 
-                    // Outputs XML node
-                    nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, dInputFile.DirectoryName));
+                    if (dInputFile != null)
+                    {
+                        // Outputs XML node
+                        nodTopLevel.AppendChild(m_RBTOutputs.CreateXMLNode(ref xmlDoc, dInputFile.DirectoryName));
 
-                    // Model configuration XML node
-                    nodTopLevel.AppendChild(m_RBTConfig.CreateXMLNode(ref xmlDoc));
-                    
-                    System.IO.Directory.CreateDirectory(dInputFile.DirectoryName);
-                    xmlDoc.Save(dInputFile.FullName);
-                    aVisit.InputFile = dInputFile.FullName;
+                        // Model configuration XML node
+                        nodTopLevel.AppendChild(m_RBTConfig.CreateXMLNode(ref xmlDoc));
+
+                        System.IO.Directory.CreateDirectory(dInputFile.DirectoryName);
+                        xmlDoc.Save(dInputFile.FullName);
+                        aVisit.InputFile = dInputFile.FullName;
+                    }
                 }
             }
 
