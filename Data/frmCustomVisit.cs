@@ -46,7 +46,7 @@ namespace CHaMPWorkbench.Data
         {
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboProtocol, DBCon, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 8 ORDER BY Title");
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboWatershed, DBCon, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName");
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboProgram, DBCon, "SELECT ProgramID, Title FROM LookupPrograms ORDER BY Title");
+            LoadPrograms();
 
             if (DateTime.Now.Year >= valFieldSeason.Minimum && DateTime.Now.Year <= valFieldSeason.Maximum)
                 valFieldSeason.Value = DateTime.Now.Year;
@@ -530,6 +530,23 @@ namespace CHaMPWorkbench.Data
         private void cmdHelp_Click(object sender, EventArgs e)
         {
             CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
+        }
+
+        private void LoadPrograms()
+        {
+            cboProgram.DataSource = new naru.ui.SortableBindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
+            cboProgram.DisplayMember = "Name";
+            cboProgram.ValueMember = "ID";
+
+            // Default selection to first program that doesn't have API call. i.e. the custom visits program
+            for (int i =0; i < cboProgram.Items.Count;i++)
+            {
+                if (string.IsNullOrEmpty(((CHaMPData.Program) cboProgram.Items[i]).API))
+                {
+                    cboProgram.SelectedIndex = i;
+                    break;
+                }
+            }
         }
     }
 }
