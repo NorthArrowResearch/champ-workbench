@@ -80,7 +80,7 @@ namespace CHaMPWorkbench.Classes
                         ScavengeVisitMetrics(ref dbTrans, ref xmlResults, nResultID);
                         ScavengeTierMetrics(ref dbTrans, ref xmlResults, 1, 4, 5, nResultID); // Tier 1 is Metric Group ID LookupListItem = 4 and the values (e.g. Slow/Pool) are stored in ListID = 5
                         ScavengeTierMetrics(ref dbTrans, ref xmlResults, 2, 5, 11, nResultID); // Tier 2 is Metric Group ID LookupListItem = 5 and the values (e.g. rapid) are stored in ListID = 11
-                        ScavengeChannelUnitrMetrics(ref dbTrans, ref xmlResults, nVisitID, nResultID);
+                        ScavengeChannelUnitMetrics(ref dbTrans, ref xmlResults, nVisitID, nResultID);
                         Scavenge_ChangeDetection(ref dbTrans, xmlResults, nResultID);
                         dbTrans.Commit();
                     }
@@ -279,7 +279,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="xmlResults">RBT result XML document</param>
         /// <param name="nMetricGroupID">The Workbench ID for either Tier1 or Tier2. See LookupListID = 2</param>
         /// <param name="nResultID">The parent ResultID that represents the XML result file record in Metric_Results</param>
-        private int ScavengeChannelUnitrMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, long nVisitID, long nResultID)
+        private int ScavengeChannelUnitMetrics(ref SQLiteTransaction dbTrans, ref XmlDocument xmlResults, long nVisitID, long nResultID)
         {
             // channel unit metrics are LookupList ItemID 6 (cm.org GroupTypeID = 2)
             List<ScavengeMetric> lVisitMetrics = GetMetrics(6);
