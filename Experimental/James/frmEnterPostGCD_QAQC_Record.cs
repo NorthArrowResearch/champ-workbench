@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,16 +8,17 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Xml;
 using System.Xml.Linq;
+using System.Data;
 
 namespace CHaMPWorkbench.Experimental.James
 {
     public partial class frmEnterPostGCD_QAQC_Record : Form
     {
-        private string[] m_sErrorTypes = { "" ,"None","Rod Height Bust", "Datum Shift", "Other"};
-        private string[] m_sErrorDEMs = { "Niether", "NewVisit", "OldVisit", "Both", "Unknown"};
-        
+        private string[] m_sErrorTypes = { "", "None", "Rod Height Bust", "Datum Shift", "Other" };
+        private string[] m_sErrorDEMs = { "Niether", "NewVisit", "OldVisit", "Both", "Unknown" };
+
         //table name
-        const string m_sTableName = "GCD_Review";
+        const string m_sTableName = "LogGCDReview";
 
         //table column names
         const string m_sFieldName_NewVisitID = "NewVisitID";
@@ -41,48 +41,7 @@ namespace CHaMPWorkbench.Experimental.James
         public frmEnterPostGCD_QAQC_Record()
         {
             InitializeComponent();
-
-            //Check if table exists
-            var dbSchema = m_dbCon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new Object[] { null, null, null, "TABLE" });
-
-            if (!dbSchema.Rows
-                        .OfType<DataRow>()
-                        .Any(row => row.ItemArray[2].ToString().ToLower() == m_sTableName.ToLower()))
-            {
-                //create table
-                SQLiteTransaction  dbTrans = m_dbCon.BeginTransaction();
-                try
-                {
-
-                    string sSQL = "CREATE TABLE " + m_sTableName +
-                                            @" (NewVisitID NUMBER,
-                                             OldVisitID NUMBER,
-                                             MaskValueName CHAR(255),
-                                             FlagReason CHAR(255),
-                                             ValidResults YESNO,
-                                             ErrorType CHAR(55),
-                                             ErrorDEM CHAR(55),
-                                             Comments LONGTEXT,
-                                             EnteredBy CHAR(30),
-                                             DateModified DATETIME,
-                                             Processed YESNO DEFAULT NO,
-                                             CONSTRAINT GCD_Review_Unique_Constraint UNIQUE (NewVisitID, OldVisitID, MaskValueName),
-                                             PRIMARY KEY (NewVisitID, OldVisitID, MaskValueName));";
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
-                    dbCom.ExecuteNonQuery();
-                    dbTrans.Commit();
-
-                }
-                catch (Exception ex)
-                {
-                    dbTrans.Rollback();
-                    Classes.ExceptionHandling.NARException.HandleException(ex);
-                }
-
-            }
-
-
-            LoadVisits(m_dbCon);
+            LoadVisits();
         }
 
         private void frmEnterPostGCD_QAQC_Record_Load(object sender, EventArgs e)
@@ -97,9 +56,9 @@ namespace CHaMPWorkbench.Experimental.James
             }
         }
 
-        private void LoadVisits(OleDbConnection dbCon)
+        private void LoadVisits()
         {
-            if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
+            if (string.IsNullOrEmpty(naru.db.sqlite.DBCon.ConnectionString))
                 return;
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
@@ -108,7 +67,7 @@ namespace CHaMPWorkbench.Experimental.James
 
             string sSQL = "SELECT " + sGroupFields +
                             @" FROM (((
-	                           GCD_Review AS G 
+	                           LogGCDReview AS G 
 	                           INNER JOIN 
 	                           CHAMP_Visits As V 
 	                           ON G.NewVisitID = V.VisitID)
@@ -120,25 +79,29 @@ namespace CHaMPWorkbench.Experimental.James
 	                           ON S.WatershedID = W.WatershedID)
                                ORDER BY G.DateModified";
 
-
-            OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-            OleDbDataAdapter daGCD_Review = new OleDbDataAdapter(dbCom);
-            DataTable dtGCD_Review = new DataTable();
-            try
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
-                daGCD_Review.Fill(dtGCD_Review);
-                dgvGCD_Review.DataSource = dtGCD_Review.AsDataView();
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                SQLiteDataAdapter daGCD_Review = new SQLiteDataAdapter(dbCom);
+                DataTable dtGCD_Review = new DataTable();
 
-                //hide site and watershed ids
-                dgvGCD_Review.Columns["SiteID"].Visible = false;
-                dgvGCD_Review.Columns["WatershedID"].Visible = false;
+                try
+                {
+                    daGCD_Review.Fill(dtGCD_Review);
+                    dgvGCD_Review.DataSource = dtGCD_Review.AsDataView();
 
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                    //hide site and watershed ids
+                    dgvGCD_Review.Columns["SiteID"].Visible = false;
+                    dgvGCD_Review.Columns["WatershedID"].Visible = false;
 
-            }
-            catch(Exception ex)
-            {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+
+                }
+                catch (Exception ex)
+                {
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
             }
         }
 
@@ -162,15 +125,18 @@ namespace CHaMPWorkbench.Experimental.James
                 return;
             }
 
-            if (!(m_dbCon is System.Data.OleDb.OleDbConnection))
+            if (string.IsNullOrEmpty(naru.db.sqlite.DBCon.ConnectionString))
                 return;
-            
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
                 bool bSuccess = false;
-                OleDbTransaction dbTrans = m_dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
                 try
                 {
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                    string sSQL = @"UPDATE GCD_Review
+                    string sSQL = @"UPDATE LogGCDReview
                                     SET NewVisitID = @new_visit_id,
                                     OldVisitID = @old_visit_id,
                                     MaskValueName = @mask_value_name,
@@ -194,8 +160,8 @@ namespace CHaMPWorkbench.Experimental.James
                         sErrorType = cboErrorType.GetItemText(cboErrorType.SelectedItem);
                     }
 
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
-                    dbCom.Parameters.AddWithValue("@new_visit_id",  valNewVisitID.Value);
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
+                    dbCom.Parameters.AddWithValue("@new_visit_id", valNewVisitID.Value);
                     dbCom.Parameters.AddWithValue("@old_visit_id", valOldVisitID.Value);
                     dbCom.Parameters.AddWithValue("@mask_value_name", txtMask.Text);
                     dbCom.Parameters.AddWithValue("@flag_reason", txtReasonForFlag.Text);
@@ -207,7 +173,7 @@ namespace CHaMPWorkbench.Experimental.James
                     dbCom.Parameters.AddWithValue("@date_modified", DateTime.Now.ToString());
                     dbCom.Parameters.AddWithValue("@processed", true);
                     dbCom.ExecuteNonQuery();
-                    
+
                     dbTrans.Commit();
                     bSuccess = true;
                 }
@@ -223,9 +189,9 @@ namespace CHaMPWorkbench.Experimental.James
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                 }
-            
-            LoadVisits(m_dbCon);
+            }
 
+            LoadVisits();
         }
 
         private void cmdOutputToJSON_Click(object sender, EventArgs e)
@@ -243,11 +209,10 @@ namespace CHaMPWorkbench.Experimental.James
                     System.IO.FileInfo fiExport = new System.IO.FileInfo(frm.FileName);
 
                     string sSQL_Statement = "SELECT NewVisitID, OldVisitID, MaskValueName, FlagReason, ValidResults, ErrorType, ErrorDEM, Comments, EnteredBy, DateModified, Processed " +
-                        "FROM GCD_Review " +
+                        "FROM LogGCDReview " +
                         "ORDER BY DateModified";
 
-
-                    int nExported = aws.Run(ref m_dbCon, sSQL_Statement, fiExport);
+                    int nExported = aws.Run(sSQL_Statement, fiExport);
 
                     if (MessageBox.Show(string.Format("{0:#,##0} records exported to file. Do you want to browse to the file created?", nExported), "Export Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -276,22 +241,20 @@ namespace CHaMPWorkbench.Experimental.James
                     cbo.Items.Add(sValue);
                     cbo.SelectedItem = sValue;
                 }
-            }            
+            }
         }
 
         private void PopulateFormInfo(DataGridViewRow drv)
         {
             if (drv != null)
             {
-                
-
                 valNewVisitID.Value = System.Convert.ToDecimal(drv.Cells[m_sFieldName_NewVisitID].Value);
                 valOldVisitID.Value = System.Convert.ToDecimal(drv.Cells[m_sFieldName_OldVisitID].Value);
 
                 txtSite.Text = (string)drv.Cells[m_sFieldName_SiteName].Value;
                 txtWatershed.Text = (string)drv.Cells[m_sFieldName_WatershedName].Value;
-                txtNewVisitDate.Text = Convert.ToDateTime(GetVisitDate(m_dbCon, "CHAMP_Visits", "SampleDate", "VisitID", valNewVisitID.Value.ToString())).ToString("MM/dd/yyyy");
-                txtOldVisitDate.Text = Convert.ToDateTime(GetVisitDate(m_dbCon, "CHAMP_Visits", "SampleDate", "VisitID", valOldVisitID.Value.ToString())).ToString("MM/dd/yyyy");
+                txtNewVisitDate.Text = Convert.ToDateTime(GetVisitDate("CHAMP_Visits", "SampleDate", "VisitID", valNewVisitID.Value.ToString())).ToString("MM/dd/yyyy");
+                txtOldVisitDate.Text = Convert.ToDateTime(GetVisitDate("CHAMP_Visits", "SampleDate", "VisitID", valOldVisitID.Value.ToString())).ToString("MM/dd/yyyy");
                 txtMask.Text = (string)drv.Cells[m_sFieldName_MaskValue].Value;
 
                 txtReasonForFlag.Text = drv.Cells[m_sFieldName_FlagReason].Value.ToString();
@@ -361,25 +324,18 @@ namespace CHaMPWorkbench.Experimental.James
             if (dr is DataRow)
             {
                 //Get parameters for New Visit to feed into RetreiveVisitFolder
-               string sVisitID = dr[m_sFieldName_NewVisitID].ToString();
-               string sVisitYear = GetVisitDate(m_dbCon, "CHAMP_Visits", "VisitYear", "VisitID", sVisitID);
-               string sWatershedName = GetWatershedName(m_dbCon, sVisitID);
-               string sSiteName = GetSiteName(m_dbCon, sVisitID);                
+                long newVisitID = (long)dr[m_sFieldName_NewVisitID];
+                CHaMPData.VisitBasic newVisit = CHaMPData.VisitBasic.Load(newVisitID);
+                List<CHaMPData.VisitBasic> visits = new List<CHaMPData.VisitBasic>();
+                visits.Add(newVisit);
 
-               string sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, sVisitYear, sWatershedName, sSiteName, sVisitID);
-               Data.frmFTPVisit frmNewVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sTopoFolder);
-               frmNewVisitData.ShowDialog();
-  
-               //Old Visit
-
-               //Get parameters for Old Visit to feed into RetreiveVisitFolder
-               sVisitID = dr[m_sFieldName_OldVisitID].ToString();
-               sVisitYear = GetVisitDate(m_dbCon, "CHAMP_Visits", "VisitYear", "VisitID", sVisitID);               
-               sTopoFolder = RetrieveVisitFolder(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder, sVisitYear, sWatershedName, sSiteName, sVisitID);
-               Data.frmFTPVisit frmOldVisitData = new Data.frmFTPVisit(Convert.ToInt16(sVisitID), sTopoFolder);
-               frmOldVisitData.ShowDialog();
+                //Get parameters for Old Visit to feed into RetreiveVisitFolder
+                long oldVisitID = (long)dr[m_sFieldName_OldVisitID];
+                CHaMPData.VisitBasic oldVisit = CHaMPData.VisitBasic.Load(newVisitID);
+                visits.Add(oldVisit);
+                Data.frmFTPVisit frmOldVisitData = new Data.frmFTPVisit(visits);
+                frmOldVisitData.ShowDialog();
             }
-
         }
 
         private void dgvGCD_Review_CellClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -397,45 +353,47 @@ namespace CHaMPWorkbench.Experimental.James
             }
         }
 
-        private string GetVisitDate(OleDbConnection dbCon, string sTableName, string sGetFieldName, string sWhereFieldName, string sValue)
+        private string GetVisitDate(string sTableName, string sGetFieldName, string sWhereFieldName, string sValue)
         {
-            string sSQL = String.Format("SELECT {0}" +
-                 " FROM {1}" +
-                 " WHERE {2} = @value", sGetFieldName, sTableName, sWhereFieldName);
-            string sReturnValue = GetSingleValue(dbCon, sSQL, sValue);
+            string sSQL = String.Format("SELECT {0} FROM {1} WHERE {2} = @value", sGetFieldName, sTableName, sWhereFieldName);
+            string sReturnValue = GetSingleValue(sSQL, sValue);
             return sReturnValue;
         }
 
-        private string GetWatershedName(OleDbConnection dbCon, string sValue)
+        private string GetWatershedName(string sValue)
         {
             string sSQL = "SELECT W.WatershedName " +
                           " FROM (CHAMP_Watersheds AS W INNER JOIN (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID) ON W.WatershedID = S.WatershedID)" +
                           " WHERE V.VisitID = @value";
-            string sReturnValue = GetSingleValue(dbCon, sSQL, sValue);
+            string sReturnValue = GetSingleValue(sSQL, sValue);
             return sReturnValue;
         }
 
-        private string GetSiteName(OleDbConnection dbCon, string sValue)
+        private string GetSiteName(string sValue)
         {
             string sSQL = "SELECT S.SiteName " +
                           " FROM (CHAMP_Sites AS S INNER JOIN CHAMP_Visits AS V ON S.SiteID = V.SiteID)" +
                           " WHERE V.VisitID = @value";
-            string sReturnValue = GetSingleValue(dbCon, sSQL, sValue);
+            string sReturnValue = GetSingleValue(sSQL, sValue);
             return sReturnValue;
         }
 
-        private string GetSingleValue(OleDbConnection dbCon, string sSQL, string sValue)
+        private string GetSingleValue(string sSQL, string sValue)
         {
-            OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);
-            dbCom.Parameters.Add(new OleDbParameter("@value", sValue));
-            dbCom.ExecuteNonQuery();
-            OleDbDataReader dbRead = dbCom.ExecuteReader();
             string sReturnValue = "";
-            while (dbRead.Read())
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
-                sReturnValue = dbRead[0].ToString();
+                SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                dbCom.Parameters.Add(new SQLiteParameter("@value", sValue));
+                dbCom.ExecuteNonQuery();
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    sReturnValue = dbRead[0].ToString();
+                }
+                dbRead.Close();
             }
-            dbRead.Close();
+
             return sReturnValue;
         }
 
@@ -451,17 +409,17 @@ namespace CHaMPWorkbench.Experimental.James
                 //DataRowView drv = (DataRowView)aRow.DataBoundItem;
                 DataRow r = drv.Row;
 
-                int iWatershedID = (int)r[m_sFieldName_WatershedID];
-                int iSiteID = (int)r[m_sFieldName_SiteID];
+                long iWatershedID = (long)r[m_sFieldName_WatershedID];
+                long iSiteID = (long)r[m_sFieldName_SiteID];
 
                 if (iSiteID != null && iWatershedID != null)
                 {
                     if (iSiteID > 0 && iWatershedID > 0)
                     {
-                        Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(m_dbCon.ConnectionString, iSiteID, iWatershedID);
+                        Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(iSiteID, iWatershedID);
                         frm.ShowDialog();
                     }
-                 }
+                }
 
             }
         }

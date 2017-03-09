@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.OleDb;
+using System.Data.SQLite;
 using System.Windows.Forms.DataVisualization;
 
 namespace CHaMPWorkbench.Experimental.James
@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Experimental.James
         private DataTable m_dtGCD_Results;
 
         //database table variables
-        const int m_iFirstGCDMetricIndex = 17;
+        const long m_iFirstGCDMetricIndex = 17;
 
         //charting variables
         System.Windows.Forms.DataVisualization.Charting.ChartArea m_pChartArea;
@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Experimental.James
 
         private void frmGCD_AnalysisWatershed_Load(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;        
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             // Hook up the event that will cause the site combo to filter when the current watershed changes
             // Note: Only hook this up after the watershed and site have been selected the first time.
@@ -45,7 +45,7 @@ namespace CHaMPWorkbench.Experimental.James
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
             {
                 dbCon.Open();
                 try
@@ -84,8 +84,8 @@ namespace CHaMPWorkbench.Experimental.James
 	                           Metric_BudgetSegregationValues AS MBSV
 	                           ON MBS.BudgetID = MBSV.BudgetID";
 
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbCon);                
-                    OleDbDataReader dbRead = dbCom.ExecuteReader();
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                     m_dtGCD_Results = new DataTable();
                     m_dtGCD_Results.Load(dbRead);
@@ -96,13 +96,13 @@ namespace CHaMPWorkbench.Experimental.James
                         //only load watersheds that have gcd metrics
                         var pWatershedsWithData = m_dtGCD_Results.AsEnumerable().Select(row => new
                         {
-                            WatershedID = row.Field<int>("WatershedID"),
+                            WatershedID = row.Field<long>("WatershedID"),
                             WatershedName = row.Field<string>("WatershedName")
                         }).Distinct();
-                        cmbWatershed.Items.Insert(0, new ListItem("", 0));
+                        cmbWatershed.Items.Insert(0, new naru.db.NamedObject(0, ""));
                         foreach (var pWatershed in pWatershedsWithData)
                         {
-                            cmbWatershed.Items.Add(new ListItem(pWatershed.WatershedName, pWatershed.WatershedID));
+                            cmbWatershed.Items.Add(new naru.db.NamedObject(pWatershed.WatershedID, pWatershed.WatershedName));
                         }
 
                         //load x and y axis combo box with gcd metric parameters
@@ -131,8 +131,8 @@ namespace CHaMPWorkbench.Experimental.James
                         }
 
                         //load years combo box
-                        int iMaxYear = m_dtGCD_Results.AsEnumerable().Max(row => (int)row["NewFieldSeason"]);
-                        int iMinYear = m_dtGCD_Results.AsEnumerable().Min(row => (int)row["OldFieldSeason"]);
+                        long iMaxYear = m_dtGCD_Results.AsEnumerable().Max(row => (long)row["NewFieldSeason"]);
+                        long iMinYear = m_dtGCD_Results.AsEnumerable().Min(row => (long)row["OldFieldSeason"]);
                         cmbNewYear.Items.Add("");
                         cmbOldYear.Items.Add("");
                         while (iMaxYear >= iMinYear)
@@ -145,12 +145,12 @@ namespace CHaMPWorkbench.Experimental.James
                         this.cmbNewYear.SelectedIndexChanged += new System.EventHandler(this.cmbYear_SelectedIndexChanged);
                         this.cmbOldYear.SelectedIndexChanged += new System.EventHandler(this.cmbYear_SelectedIndexChanged);
 
-                        iMaxYear = m_dtGCD_Results.AsEnumerable().Max(row => (int)row["NewFieldSeason"]);
+                        iMaxYear = m_dtGCD_Results.AsEnumerable().Max(row => (long)row["NewFieldSeason"]);
                         //load interval combo box
                         cmbInterval.Items.Add("");
                         while (iMaxYear != iMinYear)
                         {
-                            int iInterval = iMaxYear - iMinYear;
+                            long iInterval = iMaxYear - iMinYear;
                             cmbInterval.Items.Add(iInterval);
                             iMaxYear -= 1;
                         }
@@ -173,7 +173,7 @@ namespace CHaMPWorkbench.Experimental.James
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
         }
 
-        private System.Windows.Forms.DataVisualization.Charting.Series PlotData(string sXaxisParameter, string sYaxisParameter, int iWatershedID, string sMaskName = "", int iInterval = 0, int iNewYear = 0, int iOldYear = 0)
+        private System.Windows.Forms.DataVisualization.Charting.Series PlotData(string sXaxisParameter, string sYaxisParameter, long iWatershedID, string sMaskName = "", long iInterval = 0, long iNewYear = 0, long iOldYear = 0)
         {
 
             //Clear annotations and lines
@@ -217,14 +217,14 @@ namespace CHaMPWorkbench.Experimental.James
             if (iInterval != 0)
             {
                 results = (from DataRow row in results
-                           where ((int)row["NewFieldSeason"] - (int)row["OldFieldSeason"]) == iInterval
+                           where ((long)row["NewFieldSeason"] - (long)row["OldFieldSeason"]) == iInterval
                            select row).ToArray();
             }
             Console.Write(String.Format("Interval Count: {0}{1}", results.Length, Environment.NewLine));
             if (iNewYear != 0 && iOldYear != 0)
             {
                 results = (from DataRow row in results
-                           where (int)row["NewFieldSeason"] == iNewYear && (int)row["OldFieldSeason"] == iOldYear
+                           where (long)row["NewFieldSeason"] == iNewYear && (int)row["OldFieldSeason"] == iOldYear
                            select row).ToArray();
             }
             Console.Write(String.Format("Field Season Count: {0}{1}", results.Length, Environment.NewLine));
@@ -286,7 +286,7 @@ namespace CHaMPWorkbench.Experimental.James
                     pGCDPoint.SetCustomProperty("SiteID", row["SiteID"].ToString());
                     pGCDPoint.SetCustomProperty("SiteName", row["SiteName"].ToString());
                     pGCDPoint.SetCustomProperty("NewVisitID", row["NewVisitID"].ToString());
-                    pGCDPoint.SetCustomProperty("NewSampleDate", row["NewSampleDate"].ToString()); 
+                    pGCDPoint.SetCustomProperty("NewSampleDate", row["NewSampleDate"].ToString());
                     pGCDPoint.SetCustomProperty("OldVisitID", row["OldVisitID"].ToString());
                     pGCDPoint.SetCustomProperty("OldSampleDate", row["OldSampleDate"].ToString());
                     pGCDPoint.SetCustomProperty("MaskValueName", row["MaskValueName"].ToString());
@@ -350,7 +350,7 @@ namespace CHaMPWorkbench.Experimental.James
                 //            string sOldVisitID = pPoint.GetCustomProperty("OldVisitID");
                 //            string sOldSampleDate = pPoint.GetCustomProperty("OldSampleDate");
                 //            sOldSampleDate = DateTime.Parse(sOldSampleDate).ToString("MM/dd/yyyy");
-                            
+
                 //        }
                 //        break;
                 //    default:
@@ -408,37 +408,37 @@ namespace CHaMPWorkbench.Experimental.James
             LoadCHaMPSiteCombo();
         }
 
-        private void LoadCHaMPSiteCombo(int nSelectedSiteID = 0)
+        private void LoadCHaMPSiteCombo(long nSelectedSiteID = 0)
         {
             cmbSite.Items.Clear();
-            if (cmbWatershed.SelectedItem is ListItem)
+            if (cmbWatershed.SelectedItem is naru.db.NamedObject)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 //get all sites
                 var pSitesWithData = (from DataRow row in m_dtGCD_Results.Rows
-                                            select new { SiteID = (int)row["SiteID"], SiteName = (string)row["SiteName"] }
+                                      select new { SiteID = (long)row["SiteID"], SiteName = (string)row["SiteName"] }
                                            ).Distinct();
 
                 //check if a watershed has been selected
-                int iWatershedID = 0;
+                long iWatershedID = 0;
                 if (cmbWatershed.SelectedItem != null)
                 {
-                    if (cmbWatershed.SelectedItem is ListItem)
+                    if (cmbWatershed.SelectedItem is naru.db.NamedObject)
                     {
-                        ListItem pSelectedWatershed = (ListItem)cmbWatershed.SelectedItem;
-                        iWatershedID = pSelectedWatershed.Value;
+                        naru.db.NamedObject pSelectedWatershed = (naru.db.NamedObject)cmbWatershed.SelectedItem;
+                        iWatershedID = pSelectedWatershed.ID;
                     }
                 }
 
-                cmbSite.Items.Insert(0, new ListItem("", 0));
+                cmbSite.Items.Insert(0, new naru.db.NamedObject(0, ""));
 
                 //if a watershed was selected, filter the data, otherwise use all sites which are already loaded
                 if (iWatershedID != 0)
                 {
                     pSitesWithData = (from DataRow row in m_dtGCD_Results.Rows
-                                          where (int)row["WatershedID"] == iWatershedID
-                                          select new { SiteID = (int)row["SiteID"], SiteName = (string)row["SiteName"] }
+                                      where (long)row["WatershedID"] == iWatershedID
+                                      select new { SiteID = (long)row["SiteID"], SiteName = (string)row["SiteName"] }
                                          ).Distinct();
 
                 }
@@ -446,7 +446,7 @@ namespace CHaMPWorkbench.Experimental.James
                 //load sites into combo box
                 foreach (var pSite in pSitesWithData)
                 {
-                    cmbSite.Items.Add(new ListItem(pSite.SiteName, pSite.SiteID));
+                    cmbSite.Items.Add(new naru.db.NamedObject(pSite.SiteID, pSite.SiteName));
                 }
 
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
@@ -473,35 +473,35 @@ namespace CHaMPWorkbench.Experimental.James
                                 CHaMPWorkbench.Properties.Resources.MyApplicationNameLong,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
-               return;
+                return;
             }
 
-            int iWatershedID = 0;
+            long iWatershedID = 0;
             if (cmbWatershed.SelectedItem != null)
             {
-                if (cmbWatershed.SelectedItem is ListItem)
+                if (cmbWatershed.SelectedItem is naru.db.NamedObject)
                 {
-                    ListItem pSelectedWatershed = (ListItem)cmbWatershed.SelectedItem;
-                    iWatershedID = pSelectedWatershed.Value;
+                    naru.db.NamedObject pSelectedWatershed = (naru.db.NamedObject)cmbWatershed.SelectedItem;
+                    iWatershedID = pSelectedWatershed.ID;
                 }
             }
             string sXaxisParameter = cmbXaxis.GetItemText(cmbXaxis.SelectedItem);
             string sYaxisParameter = cmbYaxis.GetItemText(cmbYaxis.SelectedItem);
             string sMaskName = cmbMask.GetItemText(cmbMask.SelectedItem);
-            int iInterval = 0;
+            long iInterval = 0;
             if (cmbInterval.GetItemText(cmbInterval.SelectedItem) != "" && cmbInterval.GetItemText(cmbInterval.SelectedItem) != null)
             {
-                iInterval = Convert.ToInt32(cmbInterval.GetItemText(cmbInterval.SelectedItem));
+                iInterval = Convert.ToInt64(cmbInterval.GetItemText(cmbInterval.SelectedItem));
             }
-            int iNewYear = 0;
+            long iNewYear = 0;
             if (cmbNewYear.GetItemText(cmbNewYear.SelectedItem) != "" && cmbNewYear.GetItemText(cmbNewYear.SelectedItem) != null)
             {
-                iNewYear = Convert.ToInt32(cmbNewYear.GetItemText(cmbNewYear.SelectedItem));
+                iNewYear = Convert.ToInt64(cmbNewYear.GetItemText(cmbNewYear.SelectedItem));
             }
-            int iOldYear = 0;
+            long iOldYear = 0;
             if (cmbOldYear.GetItemText(cmbOldYear.SelectedItem) != "" && cmbOldYear.GetItemText(cmbOldYear.SelectedItem) != null)
             {
-                iOldYear = Convert.ToInt32(cmbOldYear.GetItemText(cmbOldYear.SelectedItem));
+                iOldYear = Convert.ToInt64(cmbOldYear.GetItemText(cmbOldYear.SelectedItem));
             }
 
             System.Windows.Forms.DataVisualization.Charting.Series pGCD_Series = PlotData(sXaxisParameter, sYaxisParameter, iWatershedID, sMaskName, iInterval, iNewYear, iOldYear);
@@ -511,15 +511,15 @@ namespace CHaMPWorkbench.Experimental.James
                 {
                     if (cmbSite.SelectedItem != null)
                     {
-                        if (cmbSite.SelectedItem is ListItem)
+                        if (cmbSite.SelectedItem is naru.db.NamedObject)
                         {
-                            ListItem pSelectedSite = (ListItem)cmbSite.SelectedItem;
-                            int iHighlightSiteID = pSelectedSite.Value;
+                            naru.db.NamedObject pSelectedSite = (naru.db.NamedObject)cmbSite.SelectedItem;
+                            long iHighlightSiteID = pSelectedSite.ID;
 
                             dgvVisits.Rows.Clear();
                             foreach (System.Windows.Forms.DataVisualization.Charting.DataPoint pPoint in pGCD_Series.Points)
                             {
-                                int iPointSiteID = Convert.ToInt32(pPoint.GetCustomProperty("SiteID"));
+                                long iPointSiteID = Convert.ToInt64(pPoint.GetCustomProperty("SiteID"));
                                 if (iPointSiteID == iHighlightSiteID)
                                 {
                                     pPoint.MarkerColor = Color.Red;
@@ -584,15 +584,15 @@ namespace CHaMPWorkbench.Experimental.James
             if ((cmbNewYear.SelectedItem != "" && cmbNewYear.SelectedItem != null) && (cmbOldYear.SelectedItem != "" && cmbOldYear.SelectedItem != null))
             {
 
-                int iMaxYear = Convert.ToInt32(cmbNewYear.GetItemText(cmbNewYear.SelectedItem));
-                int iMinYear = Convert.ToInt32(cmbOldYear.GetItemText(cmbOldYear.SelectedItem));
+                long iMaxYear = Convert.ToInt32(cmbNewYear.GetItemText(cmbNewYear.SelectedItem));
+                long iMinYear = Convert.ToInt32(cmbOldYear.GetItemText(cmbOldYear.SelectedItem));
                 if (iMaxYear > iMinYear)
                 {
                     cmbInterval.Items.Clear();
                     cmbInterval.Items.Add("");
                     while (iMaxYear != iMinYear)
                     {
-                        int iInterval = iMaxYear - iMinYear;
+                        long iInterval = iMaxYear - iMinYear;
                         cmbInterval.Items.Add(iInterval);
                         iMaxYear -= 1;
                     }
@@ -603,7 +603,7 @@ namespace CHaMPWorkbench.Experimental.James
 
         private void dgvVisits_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            
+
             if (e.RowIndex > -1)
             {
                 DataGridViewRow drv = dgvVisits.Rows[e.RowIndex];
@@ -619,19 +619,18 @@ namespace CHaMPWorkbench.Experimental.James
         private bool CreateGCD_ReviewRecord(DataGridViewRow drv)
         {
             bool bSuccess = false;
-            using (OleDbConnection dbCon = new OleDbConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
             {
-                
                 dbCon.Open();
-                OleDbTransaction dbTrans = dbCon.BeginTransaction();
+                SQLiteTransaction dbTrans = dbCon.BeginTransaction();
                 try
                 {
 
-                    string sSQL = "INSERT INTO GCD_Review" +
+                    string sSQL = "INSERT INTO LogGCDReview" +
                          " (NewVisitID, OldVisitID, MaskValueName, FlagReason, ValidResults, ErrorType, ErrorDEM, Comments, EnteredBy, DateModified, Processed) " +
                          " VALUES (@NewVisitID, @OldVisitID, @MaskValueName, @FlagReason, @ValidResults, @ErrorType, @ErrorDEM, @Comments, @EnteredBy, @DateModified, @Processed)";
 
-                    OleDbCommand dbCom = new OleDbCommand(sSQL, dbTrans.Connection, dbTrans);
+                    SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbTrans.Connection, dbTrans);
                     dbCom.Parameters.AddWithValue("@NewVisitID", drv.Cells["NewVisitID"].Value);
                     dbCom.Parameters.AddWithValue("@OldVisitID", drv.Cells["OldVisitID"].Value);
                     dbCom.Parameters.AddWithValue("@MaskValueName", drv.Cells["MaskValueName"].Value);
@@ -696,11 +695,9 @@ namespace CHaMPWorkbench.Experimental.James
             bool bSuccess = CreateGCD_ReviewRecord(drv);
             if (bSuccess == true)
             {
-                OleDbConnection dbCon = new OleDbConnection(DBConnection);
-                Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record(dbCon);
+                Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record();
                 frm.ShowDialog();
             }
         }
-
     }
 }

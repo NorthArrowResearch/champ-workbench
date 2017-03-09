@@ -1,4 +1,5 @@
-﻿
+﻿using System.Data.SQLite;
+
 namespace CHaMPWorkbench.CHaMPData
 {
     public class VisitBasic : naru.db.EditableNamedObject
@@ -36,6 +37,32 @@ namespace CHaMPWorkbench.CHaMPData
                 sPath = sPath.Replace(" ", "");
                 return sPath;
             }
+        }
+
+        public static VisitBasic Load(long nVisitID)
+        {
+            VisitBasic aVisit = null;
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("select VisitID, SiteID, SiteName, WatershedID, WatershedName, VisitYear, UTMZone, ProgramID from vwVisits where visitID = @VisitID", dbCon);
+                dbCom.Parameters.AddWithValue("VisitID", nVisitID);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                dbRead.Read();
+
+                aVisit = new VisitBasic(nVisitID
+                    , dbRead.GetInt64(dbRead.GetOrdinal("SiteID"))
+                    , dbRead.GetString(dbRead.GetOrdinal("SiteName"))
+                    , dbRead.GetInt64(dbRead.GetOrdinal("WatershedID"))
+                    , dbRead.GetString(dbRead.GetOrdinal("WatershedName"))
+                    , dbRead.GetInt64(dbRead.GetOrdinal("VisitYear"))
+                    , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "UTMZone")
+                    , dbRead.GetInt64(dbRead.GetOrdinal("ProgramID"))
+                    , naru.db.DBState.Unchanged);
+            }
+
+            return aVisit;
         }
     }
 }

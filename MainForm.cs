@@ -1289,14 +1289,14 @@ namespace CHaMPWorkbench
 
         private void recordPostGCDQAQCRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record();
-            //frm.ShowDialog();
+            Experimental.James.frmEnterPostGCD_QAQC_Record frm = new Experimental.James.frmEnterPostGCD_QAQC_Record();
+            frm.ShowDialog();
         }
 
         private void gCDAnalysisWatershedLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Experimental.James.frmGCD_MetricsViewer frm = new Experimental.James.frmGCD_MetricsViewer(DBCon.ConnectionString);
-            //frm.ShowDialog();
+            Experimental.James.frmGCD_MetricsViewer frm = new Experimental.James.frmGCD_MetricsViewer(DBCon.ConnectionString);
+            frm.ShowDialog();
         }
 
         private void exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1316,7 +1316,7 @@ namespace CHaMPWorkbench
                 long nWatershedID = (long)r["WatershedID"];
                 long nSiteID = (long)r["SiteID"];
 
-                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(DBCon.ConnectionString, nSiteID, nWatershedID);
+                Experimental.James.frmUSGS_StreamDataViewer frm = new Experimental.James.frmUSGS_StreamDataViewer(nSiteID, nWatershedID);
                 frm.ShowDialog();
             }
         }

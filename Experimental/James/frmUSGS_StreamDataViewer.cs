@@ -13,25 +13,22 @@ namespace CHaMPWorkbench.Experimental.James
 {
     public partial class frmUSGS_StreamDataViewer : Form
     {
-        private string DBConnection;
-
         private int m_iGageID;
         private USGS_StreamData m_USGS_StreamData;
 
         private long m_nInitialWatershedID;
         private long m_nInitialSiteID;
 
-        public frmUSGS_StreamDataViewer(string sDBCon, long nSiteID, long nWatershedID)
+        public frmUSGS_StreamDataViewer(long nSiteID, long nWatershedID)
         {
             InitializeComponent();
             this.msnChart.GetToolTipText += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ToolTipEventArgs>(this.msnChart_GetToolTipText);
             //msnChart.GetToolTipText += new System.Windows.Forms.DataVisualization.Charting.ToolTipEventHandler(msnChart_GetToolTipText);
 
-            DBConnection = sDBCon;
             m_nInitialSiteID = nSiteID;
             m_nInitialWatershedID = nWatershedID;
 
-            m_USGS_StreamData = new USGS_StreamData(sDBCon, nSiteID);
+            m_USGS_StreamData = new USGS_StreamData(naru.db.sqlite.DBCon.ConnectionString, nSiteID);
             SetStreamGageBasedOnSite(m_USGS_StreamData);
         }
 
@@ -40,7 +37,7 @@ namespace CHaMPWorkbench.Experimental.James
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             // Use the public shared method to fill a combo box with ListItems (a simple custom class of string and IDs)
-           naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cmbWatershed, DBConnection, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName", m_nInitialWatershedID);
+           naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cmbWatershed,naru.db.sqlite.DBCon.ConnectionString, "SELECT WatershedID, WatershedName FROM CHaMP_Watersheds ORDER BY WatershedName", m_nInitialWatershedID);
 
             // Fill the CHaMP sites. These will be filtered by the currently selected watershed and pre-select the current site.
             LoadCHaMPSiteCombo(m_nInitialSiteID);
@@ -127,7 +124,7 @@ namespace CHaMPWorkbench.Experimental.James
         public Coordinate GetCoordinate(long nSiteID)
         {
             var coordinate = new Coordinate(0, 0);
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
 
@@ -152,7 +149,7 @@ namespace CHaMPWorkbench.Experimental.James
                 Coordinate champCoordinate = GetCoordinate(((naru.db.NamedObject)cmbCHaMPSite.SelectedItem).ID);
                 List<KeyValuePair<string, double>> lUSGS_GageSites = new List<KeyValuePair<string, double>>();
 
-                using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
+                using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
                 {
                     dbCon.Open();
 
@@ -226,7 +223,7 @@ namespace CHaMPWorkbench.Experimental.James
         private void PlotStreamDataMicrosoftChart(List<StreamFlowSample> lStreamData, long nSiteID, string sCHaMPSiteName, long iGageID)
         {
             string sUSGS_Description = string.Empty;
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
 
@@ -295,7 +292,7 @@ namespace CHaMPWorkbench.Experimental.James
             pVisitsSeries.SmartLabelStyle.Enabled = false;
             //pVisitsSeries.ToolTip = "#LABEL" + Environment.NewLine + "Date: #VALX";
 
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
 
@@ -469,7 +466,7 @@ namespace CHaMPWorkbench.Experimental.James
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                using (SQLiteConnection dbCon = new SQLiteConnection(DBConnection))
+                using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
                 {
                     dbCon.Open();
                     SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteID, SiteName FROM CHaMP_Sites WHERE WatershedID = @WatershedID", dbCon);
