@@ -683,6 +683,14 @@ namespace CHaMPWorkbench
                     sFilter += string.Format(" (StreamName LIKE '*{0}*') ", CleanFilterString(txtStreamName.Text));
                 }
 
+                if (!string.IsNullOrEmpty(txtOrganization.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(sFilter))
+                        sFilter += " AND ";
+
+                    sFilter += string.Format(" (Organization LIKE '*{0}*') ", CleanFilterString(txtOrganization.Text));
+                }
+
                 if (rdoPrimary.Checked)
                 {
                     if (!string.IsNullOrWhiteSpace(sFilter))

@@ -175,6 +175,8 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtOrganization = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -853,6 +855,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.txtOrganization);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.txtStreamName);
@@ -869,7 +873,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.grdVisits);
             this.splitContainer1.Size = new System.Drawing.Size(784, 623);
             this.splitContainer1.SplitterDistance = 193;
-            this.splitContainer1.TabIndex = 2;
+            this.splitContainer1.TabIndex = 0;
             // 
             // groupBox3
             // 
@@ -894,10 +898,10 @@
             // 
             this.groupBox2.Controls.Add(this.rdoAll);
             this.groupBox2.Controls.Add(this.rdoPrimary);
-            this.groupBox2.Location = new System.Drawing.Point(12, 506);
+            this.groupBox2.Location = new System.Drawing.Point(12, 553);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(162, 48);
-            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Primary";
             // 
@@ -908,7 +912,7 @@
             this.rdoAll.Location = new System.Drawing.Point(15, 19);
             this.rdoAll.Name = "rdoAll";
             this.rdoAll.Size = new System.Drawing.Size(36, 17);
-            this.rdoAll.TabIndex = 1;
+            this.rdoAll.TabIndex = 0;
             this.rdoAll.TabStop = true;
             this.rdoAll.Text = "All";
             this.rdoAll.UseVisualStyleBackColor = true;
@@ -919,7 +923,7 @@
             this.rdoPrimary.Location = new System.Drawing.Point(72, 19);
             this.rdoPrimary.Name = "rdoPrimary";
             this.rdoPrimary.Size = new System.Drawing.Size(81, 17);
-            this.rdoPrimary.TabIndex = 0;
+            this.rdoPrimary.TabIndex = 1;
             this.rdoPrimary.Text = "Primary only";
             this.rdoPrimary.UseVisualStyleBackColor = true;
             this.rdoPrimary.CheckedChanged += new System.EventHandler(this.ControlChange_FilterVisits);
@@ -929,7 +933,7 @@
             this.txtStreamName.Location = new System.Drawing.Point(13, 480);
             this.txtStreamName.Name = "txtStreamName";
             this.txtStreamName.Size = new System.Drawing.Size(161, 20);
-            this.txtStreamName.TabIndex = 7;
+            this.txtStreamName.TabIndex = 8;
             this.txtStreamName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
             // label2
@@ -938,7 +942,7 @@
             this.label2.Location = new System.Drawing.Point(13, 462);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
-            this.label2.TabIndex = 6;
+            this.label2.TabIndex = 7;
             this.label2.Text = "Stream name";
             // 
             // txtSiteName
@@ -946,7 +950,7 @@
             this.txtSiteName.Location = new System.Drawing.Point(13, 434);
             this.txtSiteName.Name = "txtSiteName";
             this.txtSiteName.Size = new System.Drawing.Size(161, 20);
-            this.txtSiteName.TabIndex = 5;
+            this.txtSiteName.TabIndex = 6;
             this.txtSiteName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
             // label1
@@ -955,7 +959,7 @@
             this.label1.Location = new System.Drawing.Point(13, 416);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
-            this.label1.TabIndex = 4;
+            this.label1.TabIndex = 5;
             this.label1.Text = "Site name";
             // 
             // groupBox1
@@ -1445,6 +1449,23 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // txtOrganization
+            // 
+            this.txtOrganization.Location = new System.Drawing.Point(12, 527);
+            this.txtOrganization.Name = "txtOrganization";
+            this.txtOrganization.Size = new System.Drawing.Size(161, 20);
+            this.txtOrganization.TabIndex = 10;
+            this.txtOrganization.TextChanged += new System.EventHandler(this.FilterVisits);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 509);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Organization";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1629,6 +1650,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtOrganization;
+        private System.Windows.Forms.Label label3;
     }
 }
 
