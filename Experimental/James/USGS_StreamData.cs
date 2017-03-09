@@ -128,7 +128,7 @@ namespace CHaMPWorkbench.Experimental.James
                 }
 
                 //site does not have data go to use usgs api to download and load data to db
-                string URLString = String.Format("http://nwis.waterservices.usgs.gov/nwis/iv/?format=waterml,1.1&site={0}&parameterCd=00060&siteType=ST&startDT={1:yyyy-MM-dd}&endDT={2:yyyy-MM-dd}", m_iGageID.ToString(), dtStart, dtEnd);
+                string URLString = String.Format("http://nwis.waterservices.usgs.gov/nwis/iv/?format=waterml,1.1&site={0:00000000}&parameterCd=00060&siteType=ST&startDT={1:yyyy-MM-dd}&endDT={2:yyyy-MM-dd}", m_iGageID, dtStart, dtEnd);
                 Console.WriteLine("Hydrograph Web Service call: " + URLString);
                 string HTTPResponse = GetUrl(URLString, null, true);
 
