@@ -94,7 +94,7 @@ namespace CHaMPWorkbench.Classes.ModelInputFiles
                         else
                         {
                             // this is another visit to the same site as the target visit. Add it, but turn off metrics etc.
-                            XmlNode nodVisit = visitAtSite.CreateXMLNode(ref xmlDoc, MonitoringDataFolder, false, false, visitAtSite.IsPrimary, visitAtSite.IsPrimary);
+                            XmlNode nodVisit = visitAtSite.CreateXMLNode(ref xmlDoc, MonitoringDataFolder, false, false, visitAtSite.IsPrimary, visitAtSite.IsPrimary || m_bForcePrimary);
                             if (nodVisit is XmlNode)
                                 nodSite.AppendChild(nodVisit);
                         }
