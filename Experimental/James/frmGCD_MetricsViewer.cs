@@ -203,7 +203,7 @@ namespace CHaMPWorkbench.Experimental.James
             if (iWatershedID != 0)
             {
                 results = (from DataRow row in results
-                           where (int)row["WatershedID"] == iWatershedID
+                           where (long)row["WatershedID"] == iWatershedID
                            select row).ToArray();
             }
             Console.Write(String.Format("Watershed Count: {0}{1}", results.Length, Environment.NewLine));
@@ -224,7 +224,7 @@ namespace CHaMPWorkbench.Experimental.James
             if (iNewYear != 0 && iOldYear != 0)
             {
                 results = (from DataRow row in results
-                           where (long)row["NewFieldSeason"] == iNewYear && (int)row["OldFieldSeason"] == iOldYear
+                           where (long)row["NewFieldSeason"] == iNewYear && (long)row["OldFieldSeason"] == iOldYear
                            select row).ToArray();
             }
             Console.Write(String.Format("Field Season Count: {0}{1}", results.Length, Environment.NewLine));
