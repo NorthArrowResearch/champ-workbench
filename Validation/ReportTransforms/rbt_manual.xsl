@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <meta name="version" content="4d1aa1d26c5a7e870d1c944e3dd3b4896012469e"/>
-        <title>RBT Validation Report</title>
+        <title>Topo Metrics Validation Report</title>
         <xsl:call-template name="stylesheet" />
       </head>
       <body>
@@ -69,7 +69,7 @@
                     <xsl:for-each select="/report/metrics/metric/visits/visit/results/result/version/text()[generate-id() = generate-id(key('version',.)[1])]">
                       <th class="version">
                         <xsl:attribute name="data"><xsl:value-of select="."/></xsl:attribute>
-                        <span class="">RBT v.<xsl:value-of select="."/></span>
+                        <span class="">v.<xsl:value-of select="."/></span>
                       </th>
                     </xsl:for-each>
                   </tr>
@@ -147,7 +147,7 @@
 
     <div class="jumbotron">
       <div class="row">
-        <div class="col-sm-10"><h1 class="display-3">RBT Validation Report</h1></div>
+        <div class="col-sm-10"><h1 class="display-3">Topo Metrics Validation Report</h1></div>
         <div class="col-sm-2"> 
           <span>Legend:</span>
           <ul id="legend" class="list-group">
