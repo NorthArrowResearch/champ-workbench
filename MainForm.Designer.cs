@@ -114,6 +114,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtOrganization = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstPrograms = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -175,8 +177,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtOrganization = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.scavengeTopoMetricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -762,7 +763,8 @@
             this.testXPathReferencesToolStripMenuItem,
             this.exportAWSLookupToolStripMenuItem,
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem,
-            this.exportSelectedVisitInformationToolStripMenuItem});
+            this.exportSelectedVisitInformationToolStripMenuItem,
+            this.scavengeTopoMetricsToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -874,6 +876,23 @@
             this.splitContainer1.Size = new System.Drawing.Size(784, 623);
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // txtOrganization
+            // 
+            this.txtOrganization.Location = new System.Drawing.Point(12, 527);
+            this.txtOrganization.Name = "txtOrganization";
+            this.txtOrganization.Size = new System.Drawing.Size(161, 20);
+            this.txtOrganization.TabIndex = 10;
+            this.txtOrganization.TextChanged += new System.EventHandler(this.FilterVisits);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 509);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Organization";
             // 
             // groupBox3
             // 
@@ -1449,22 +1468,12 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // txtOrganization
+            // scavengeTopoMetricsToolStripMenuItem
             // 
-            this.txtOrganization.Location = new System.Drawing.Point(12, 527);
-            this.txtOrganization.Name = "txtOrganization";
-            this.txtOrganization.Size = new System.Drawing.Size(161, 20);
-            this.txtOrganization.TabIndex = 10;
-            this.txtOrganization.TextChanged += new System.EventHandler(this.FilterVisits);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 509);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Organization";
+            this.scavengeTopoMetricsToolStripMenuItem.Name = "scavengeTopoMetricsToolStripMenuItem";
+            this.scavengeTopoMetricsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.scavengeTopoMetricsToolStripMenuItem.Text = "Scavenge Topo Metrics...";
+            this.scavengeTopoMetricsToolStripMenuItem.Click += new System.EventHandler(this.scavengeTopoMetricsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1652,6 +1661,7 @@
         private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
         private System.Windows.Forms.TextBox txtOrganization;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
     }
 }
 

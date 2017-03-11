@@ -351,6 +351,7 @@
       <DependentUpon>frmTestXPath.cs</DependentUpon>
     </Compile>
     <Compile Include="Experimental\Philip\TestXPath.cs" />
+    <Compile Include="Experimental\Philip\TopoMetricScavenger.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>

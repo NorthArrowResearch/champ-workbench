@@ -1875,5 +1875,18 @@ namespace CHaMPWorkbench
                 }
             }
         }
+
+        private void scavengeTopoMetricsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
+                scraper.Run();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }
