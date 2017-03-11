@@ -30,6 +30,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                 dbCon.Open();
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
 
+                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
+
                 try
                 {
                     SQLiteCommand comResult = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID) VALUES (@ResultFile, @ModelVersion, @VisitID, @RunDateTime, 1)", dbTrans.Connection, dbTrans);
@@ -39,12 +41,13 @@ namespace CHaMPWorkbench.Experimental.Philip
                     SQLiteParameter pRunDateTime = comResult.Parameters.Add("RunDateTime", System.Data.DbType.DateTime);
 
                     SQLiteCommand comResultID = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                    
+
                     SQLiteCommand comVisitMetrics = new SQLiteCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
                     SQLiteParameter pResultID = comVisitMetrics.Parameters.Add("ResultID", System.Data.DbType.Int64);
                     SQLiteParameter pMetricID = comVisitMetrics.Parameters.Add("MetricID", System.Data.DbType.Int64);
                     SQLiteParameter pMetricValue = comVisitMetrics.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
+                    int nFilesProcessed = 0;
                     XmlDocument xmlDoc = new XmlDocument();
                     foreach (string xmlFile in System.IO.Directory.GetFiles(frm.SelectedPath, "metrics.xml", System.IO.SearchOption.AllDirectories))
                     {
@@ -77,14 +80,17 @@ namespace CHaMPWorkbench.Experimental.Philip
                                     comVisitMetrics.ExecuteNonQuery();
                                 }
                                 else
-                                    Console.Write("Failed to find metric with XPath {0}", metricXPaths[nMetricID]);
+                                    Console.WriteLine("Failed to find metric with XPath {0}", metricXPaths[nMetricID]);
                             }
+                            nFilesProcessed++;
                         }
                     }
 
                     dbTrans.Commit();
+                    System.Windows.Forms.Cursor.Current = Cursors.Default;
+                    MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     dbTrans.Rollback();
                     Classes.ExceptionHandling.NARException.HandleException(ex);
