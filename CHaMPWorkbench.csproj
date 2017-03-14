@@ -344,6 +344,12 @@
     </Compile>
     <Compile Include="Experimental\James\NumericExtensions.cs" />
     <Compile Include="Experimental\James\USGS_StreamData.cs" />
+    <Compile Include="Experimental\Philip\frmMetricScraper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Philip\frmMetricScraper.Designer.cs">
+      <DependentUpon>frmMetricScraper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\Philip\frmTestXPath.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -582,6 +588,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Philip\frmMetricScraper.resx">
+      <DependentUpon>frmMetricScraper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmTestXPath.resx">
       <DependentUpon>frmTestXPath.cs</DependentUpon>

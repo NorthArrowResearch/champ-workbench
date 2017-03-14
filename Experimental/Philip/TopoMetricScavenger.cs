@@ -16,21 +16,15 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         }
 
-        public void Run()
+        public int Run(string sFolder, string sFileName)
         {
-            FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Top Level Result Folder";
-            if (frm.ShowDialog() != DialogResult.OK)
-                return;
-
             Dictionary<long, string> metricXPaths = GetMetrics();
 
+            int nFilesProcessed = 0;
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
                 SQLiteTransaction dbTrans = dbCon.BeginTransaction();
-
-                System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
 
                 try
                 {
@@ -47,9 +41,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                     SQLiteParameter pMetricID = comVisitMetrics.Parameters.Add("MetricID", System.Data.DbType.Int64);
                     SQLiteParameter pMetricValue = comVisitMetrics.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-                    int nFilesProcessed = 0;
                     XmlDocument xmlDoc = new XmlDocument();
-                    foreach (string xmlFile in System.IO.Directory.GetFiles(frm.SelectedPath, "metrics.xml", System.IO.SearchOption.AllDirectories))
+                    foreach (string xmlFile in System.IO.Directory.GetFiles(sFolder, sFileName, System.IO.SearchOption.AllDirectories))
                     {
                         xmlDoc.Load(xmlFile);
 
@@ -87,15 +80,15 @@ namespace CHaMPWorkbench.Experimental.Philip
                     }
 
                     dbTrans.Commit();
-                    System.Windows.Forms.Cursor.Current = Cursors.Default;
-                    MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     dbTrans.Rollback();
-                    Classes.ExceptionHandling.NARException.HandleException(ex);
+                    throw;
                 }
             }
+
+            return nFilesProcessed;
         }
 
         private Dictionary<long, string> GetMetrics()

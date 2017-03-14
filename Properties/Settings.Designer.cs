@@ -524,5 +524,17 @@ namespace CHaMPWorkbench.Properties {
                 return ((global::System.Guid)(this["GeoOptixClientSecret"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastMetricFolder {
+            get {
+                return ((string)(this["LastMetricFolder"]));
+            }
+            set {
+                this["LastMetricFolder"] = value;
+            }
+        }
     }
 }

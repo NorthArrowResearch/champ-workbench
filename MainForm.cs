@@ -1881,8 +1881,8 @@ namespace CHaMPWorkbench
         {
             try
             {
-                Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
-                scraper.Run();
+                Experimental.Philip.frmMetricScraper frm = new Experimental.Philip.frmMetricScraper();
+                frm.ShowDialog();
             }
             catch (Exception ex)
             {
