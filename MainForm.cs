@@ -1846,7 +1846,7 @@ namespace CHaMPWorkbench
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(sConfigPath);
-                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataUnipped", "MonitoringDataFolder");
+                StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataUnzipped", "MonitoringDataFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataZipped", "ZippedMonitoringDataFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/InputOutputFiles", "InputOutputFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/TempFolder", "LastTempFolder");
