@@ -1835,15 +1835,30 @@ namespace CHaMPWorkbench
         }
 
         private void LoadDeveloperCredentials()
-        {
+        {  
+
 #if !DEBUG
             return;
 #endif
+            // The executable runs in different folder on x64 and AnyCPU (needed for user control development).
+            // So look for the developer config file up as many as three levels of the folder hierarchy
+            // providing that those folders exist (and a debug copy is not sitting somewhere very high up on a 
+            // testers computer) where there aren't necessarily enough levels of the hierarchy.
             System.IO.FileInfo fiEXE = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().FullName);
-            string sConfigPath = System.IO.Path.Combine(fiEXE.Directory.Parent.Parent.FullName, "workbench_config.xml");
-
-            if (System.IO.File.Exists(sConfigPath))
+            System.IO.DirectoryInfo diSearch = fiEXE.Directory;
+            if (diSearch.Parent is System.IO.DirectoryInfo)
             {
+                if (diSearch.Parent.Parent.Parent is System.IO.DirectoryInfo)
+                    diSearch = diSearch.Parent.Parent.Parent;
+                else
+                    diSearch = diSearch.Parent;
+            }
+
+            string[] sConfigFiles = System.IO.Directory.GetFiles(diSearch.FullName, "workbench_config.xml", SearchOption.AllDirectories);
+
+            if (sConfigFiles.Count<string>() > 0)
+            {
+                string sConfigPath = sConfigFiles[0];
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(sConfigPath);
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/MonitoringDataUnzipped", "MonitoringDataFolder");
