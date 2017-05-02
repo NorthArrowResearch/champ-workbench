@@ -197,7 +197,7 @@ namespace CHaMPWorkbench.Data
         /// Fills the combo box with the unique model result runs for this visit
         /// </summary>
         private void LoadMetricResults()
-        {
+        { 
             // Create the data table and add the first column which is for the metric name.
             DataTable dt = new DataTable();
             dt.Columns.Add("Metric");

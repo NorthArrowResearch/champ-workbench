@@ -183,6 +183,7 @@
     <Compile Include="Classes\MetricValidation\ValidationReport.cs" />
     <Compile Include="Classes\MetricValidation\ValidationVisitInfo.cs" />
     <Compile Include="Classes\MetricValidation\VisitResults.cs" />
+    <Compile Include="Classes\MetricXPathValidator.cs" />
     <Compile Include="Classes\ModelInputFiles\BatchInputFileBuilderBase.cs" />
     <Compile Include="Classes\ModelInputFiles\GUTInputProperties.cs" />
     <Compile Include="Classes\ModelInputFiles\GUT_BatchInputFileBuilder.cs" />

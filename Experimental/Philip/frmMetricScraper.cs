@@ -42,6 +42,24 @@ namespace CHaMPWorkbench.Experimental.Philip
                 CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder = txtFolder.Text;
                 CHaMPWorkbench.Properties.Settings.Default.Save();
 
+                Classes.MetricXPathValidator x = new Classes.MetricXPathValidator(naru.db.sqlite.DBCon.ConnectionString);
+                Dictionary<string, long> lMetricSchemas = new Dictionary<string, long>();
+                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoVisitMetrics.xml"] = 3;
+                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoChannelUnitMetrics.xml"] = 6;
+                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier1Metrics.xml"] = 4;
+                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier2Metrics.xml"] = 5;
+
+                List<string> lErros = x.Run(lMetricSchemas);
+                if (lErros.Count>0)
+                {
+                    frmToolResults frm = new frmToolResults("Metric XPath Validation Failed",
+                        "The following metrics are defined in the program XML files but failed validation in the workbench database. Metrics can only be scraped once all these issues are resolved" +
+                        " and each metric defined in the XML metric schema definition XML file(s) occurs exactly once in the Workbench database.", ref lErros);
+                    frm.ShowDialog();
+                    return;
+                }
+
+
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
                 int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
