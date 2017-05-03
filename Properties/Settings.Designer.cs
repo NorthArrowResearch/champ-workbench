@@ -468,9 +468,9 @@ namespace CHaMPWorkbench.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int ModelScavengetTypeID_RBTRun {
+        public int ModelScavengeTypeID_RBTRun {
             get {
-                return ((int)(this["ModelScavengetTypeID_RBTRun"]));
+                return ((int)(this["ModelScavengeTypeID_RBTRun"]));
             }
         }
         
@@ -534,6 +534,15 @@ namespace CHaMPWorkbench.Properties {
             }
             set {
                 this["LastMetricFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10022")]
+        public long ModelScavengeTypeID_PythonTopo {
+            get {
+                return ((long)(this["ModelScavengeTypeID_PythonTopo"]));
             }
         }
     }

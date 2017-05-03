@@ -127,7 +127,7 @@
     <Setting Name="DefaultFlow" Type="System.String" Scope="User">
       <Value Profile="(Default)">Surveyed Flow</Value>
     </Setting>
-    <Setting Name="ModelScavengetTypeID_RBTRun" Type="System.Int32" Scope="Application">
+    <Setting Name="ModelScavengeTypeID_RBTRun" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ModelScavengeTypeID_Manual" Type="System.Int32" Scope="Application">
@@ -147,6 +147,9 @@
     </Setting>
     <Setting Name="LastMetricFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ModelScavengeTypeID_PythonTopo" Type="System.Int64" Scope="Application">
+      <Value Profile="(Default)">10022</Value>
     </Setting>
   </Settings>
 </SettingsFile>
