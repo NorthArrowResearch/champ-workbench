@@ -226,7 +226,8 @@ namespace CHaMPWorkbench.Data
 
                 // load all the metrics for which there are values at this visit
                 Dictionary<long, int> dMetrics = new Dictionary<long, int>();
-                dbCom = new SQLiteCommand("SELECT M.MetricID AS MetricID, Title FROM Metric_Definitions M INNER JOIN Metric_VisitMetrics V ON M.MetricID = V.MetricID WHERE CMMetricID IS NOT NULL GROUP BY M.MetricID, DisplayNameShort", dbCon);
+                dbCom = new SQLiteCommand("SELECT M.MetricID AS MetricID, Title FROM Metric_Definitions M INNER JOIN Metric_VisitMetrics V ON M.MetricID = V.MetricID WHERE (XPath IS NOT NULL) AND (TypeID = @TypeID) GROUP BY M.MetricID, DisplayNameShort", dbCon);
+                dbCom.Parameters.AddWithValue("TypeID", 3); // Filter this view to just Visit level metrics
                 dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
@@ -246,7 +247,8 @@ namespace CHaMPWorkbench.Data
                     long nResultID = dbRead.GetInt64(dbRead.GetOrdinal("ResultID"));
                     long nMetricID = dbRead.GetInt64(dbRead.GetOrdinal("MetricID"));
                     double fMetricValue = dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"));
-                    dt.Rows[dMetrics[nMetricID]].SetField<double>(dResultCols[nResultID], fMetricValue);
+                    if (dMetrics.ContainsKey(nMetricID))
+                        dt.Rows[dMetrics[nMetricID]].SetField<double>(dResultCols[nResultID], fMetricValue);
                 }
 
                 // Now assign the name of each result to the table columns.
