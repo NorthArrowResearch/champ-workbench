@@ -19,7 +19,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         private void frmMetricScraper_Load(object sender, EventArgs e)
         {
-            txtFileName.Text = "metrics.xml";
+            txtFileName.Text = "topo_metrics.xml";
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder)
                 && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder))
             {
@@ -42,15 +42,17 @@ namespace CHaMPWorkbench.Experimental.Philip
                 CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder = txtFolder.Text;
                 CHaMPWorkbench.Properties.Settings.Default.Save();
 
-                Classes.MetricXPathValidator x = new Classes.MetricXPathValidator(naru.db.sqlite.DBCon.ConnectionString);
-                Dictionary<string, long> lMetricSchemas = new Dictionary<string, long>();
-                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoVisitMetrics.xml"] = 3;
-                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoChannelUnitMetrics.xml"] = 6;
-                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier1Metrics.xml"] = 4;
-                lMetricSchemas[@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier2Metrics.xml"] = 5;
 
-                List<string> lErros = x.Run(lMetricSchemas);
-                if (lErros.Count>0)
+
+                Classes.MetricXPathValidator x = new Classes.MetricXPathValidator(naru.db.sqlite.DBCon.ConnectionString);
+                Dictionary<string, MetricSchema> MetricSchemas = new Dictionary<string, MetricSchema>();
+                MetricSchemas["Visit Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoVisitMetrics.xml", 3);
+                MetricSchemas["Channel Unit Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoChannelUnitMetrics.xml", 6);
+                MetricSchemas["Tier 1 Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier1Metrics.xml", 4);
+                MetricSchemas["Tier 2 Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier2Metrics.xml", 5);
+
+                List<string> lErros = x.Run(ref MetricSchemas);
+                if (lErros.Count > 0)
                 {
                     frmToolResults frm = new frmToolResults("Metric XPath Validation Failed",
                         "The following metrics are defined in the program XML files but failed validation in the workbench database. Metrics can only be scraped once all these issues are resolved" +
@@ -61,7 +63,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
 
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
-                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text);
+                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -69,6 +71,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
+                this.DialogResult = DialogResult.None;
             }
         }
 
@@ -95,6 +98,32 @@ namespace CHaMPWorkbench.Experimental.Philip
         private void cmdBrowse_Click(object sender, EventArgs e)
         {
             naru.os.Folder.BrowseFolder(ref txtFolder, "Top Level Metric Folder", txtFolder.Text);
+        }
+
+        public class MetricSchema
+        {
+            public string XMLDefinition { get; internal set; }
+            public long MetricTypeID { get; internal set; } // Matches LookupListID = 2 in Workbench DB
+
+            public Dictionary<string, MetricDef> MetricDefs { get; internal set; }
+
+            public MetricSchema(string sXMLDefinition, long nMetricTypeID)
+            {
+                XMLDefinition = sXMLDefinition;
+                MetricTypeID = nMetricTypeID;
+
+                MetricDefs = new Dictionary<string, MetricDef>();
+            }
+        }
+
+        public class MetricDef : naru.db.NamedObject
+        {
+            public string XPath { get; internal set; }
+
+            public MetricDef(long nID, string sTitle, string sXPath) : base(nID, sTitle)
+            {
+                XPath = sXPath;
+            }
         }
     }
 }
