@@ -20,5 +20,4 @@ WorkbenchMaster.zip
 *.pfx
 
 workbench_config.xml
-
-SandbarWorkbench/SQLite.Interop.dll
+libs/*
