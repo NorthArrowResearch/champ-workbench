@@ -2,7 +2,7 @@
 title: CHaMP Workbench
 description: > # this means to ignore newlines until "baseurl:"
   Some site description will go here
-url: https://northarrowresearch.github.io/champ-workbench/
+url: https://northarrowresearch.github.io/champ-workbench
 baseurl: ""
 
 # Build settings
