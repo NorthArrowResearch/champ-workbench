@@ -12,5 +12,5 @@
    echo "  SYNCHING ./_Redistributable folder with S3"
    echo "----------------------------------------------------"
    if not exist "./_Redistributable" ( mkdir "./_Redistributable" )
-   aws s3 sync s3://releases.northarrowresearch.com/CHaMPWorkbench/lib ./CHaMPWorkbenchLibs
+   aws s3 sync s3://releases.northarrowresearch.com/CHaMPWorkbench/lib ./lib
    pause

@@ -20,4 +20,4 @@ WorkbenchMaster.zip
 *.pfx
 
 workbench_config.xml
-libs/*
+lib/*
