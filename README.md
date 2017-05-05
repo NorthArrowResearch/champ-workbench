@@ -1,4 +1,4 @@
-# RBT Workbench
+# CHaMP Workbench
 
 ## Before you build don't forget:
 
