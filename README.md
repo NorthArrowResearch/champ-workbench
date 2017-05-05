@@ -43,3 +43,6 @@ You should be good to build. Contact us if you have problems.
 3. Do a **`git commit`**. Make sure to **TAG IT** with the version number from step 1.
 4. **S3 sync** the publish folder to the correct bucket.
 
+## License
+
+[GNU General Public License](LICENSE)
