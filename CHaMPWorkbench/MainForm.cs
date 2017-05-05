@@ -1904,5 +1904,18 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void uploadTopoSurveyProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.frmAPIUpload frm = new Data.frmAPIUpload();
+            try
+            {
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

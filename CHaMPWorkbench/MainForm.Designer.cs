@@ -107,6 +107,7 @@
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scavengeTopoMetricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHaMPWorkbenchWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,7 +178,8 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scavengeTopoMetricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uploadTopoSurveyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -313,6 +315,8 @@
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem,
             this.toolStripSeparator4,
+            this.uploadTopoSurveyProjectToolStripMenuItem,
+            this.toolStripSeparator7,
             this.createCustomVisitToolStripMenuItem,
             this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
@@ -796,6 +800,13 @@
             this.exportSelectedVisitInformationToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
             this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
+            // 
+            // scavengeTopoMetricsToolStripMenuItem
+            // 
+            this.scavengeTopoMetricsToolStripMenuItem.Name = "scavengeTopoMetricsToolStripMenuItem";
+            this.scavengeTopoMetricsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.scavengeTopoMetricsToolStripMenuItem.Text = "Scavenge Topo Metrics...";
+            this.scavengeTopoMetricsToolStripMenuItem.Click += new System.EventHandler(this.scavengeTopoMetricsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1468,12 +1479,17 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // scavengeTopoMetricsToolStripMenuItem
+            // uploadTopoSurveyProjectToolStripMenuItem
             // 
-            this.scavengeTopoMetricsToolStripMenuItem.Name = "scavengeTopoMetricsToolStripMenuItem";
-            this.scavengeTopoMetricsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.scavengeTopoMetricsToolStripMenuItem.Text = "Scavenge Topo Metrics...";
-            this.scavengeTopoMetricsToolStripMenuItem.Click += new System.EventHandler(this.scavengeTopoMetricsToolStripMenuItem_Click);
+            this.uploadTopoSurveyProjectToolStripMenuItem.Name = "uploadTopoSurveyProjectToolStripMenuItem";
+            this.uploadTopoSurveyProjectToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.uploadTopoSurveyProjectToolStripMenuItem.Text = "Upload Topo Survey Project...";
+            this.uploadTopoSurveyProjectToolStripMenuItem.Click += new System.EventHandler(this.uploadTopoSurveyProjectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(331, 6);
             // 
             // MainForm
             // 
@@ -1662,6 +1678,8 @@
         private System.Windows.Forms.TextBox txtOrganization;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
     }
 }
 

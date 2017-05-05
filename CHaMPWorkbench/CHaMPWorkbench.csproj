@@ -173,6 +173,7 @@
     <Compile Include="CHaMPData\Program.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
+    <Compile Include="Classes\APIZipUploader.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
     <Compile Include="Classes\MetricPlotType.cs" />
     <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
@@ -216,6 +217,12 @@
     <Compile Include="CHaMPData\Visit.cs" />
     <Compile Include="CHaMPData\Watershed.cs" />
     <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
+    <Compile Include="Data\frmAPIUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\frmAPIUpload.Designer.cs">
+      <DependentUpon>frmAPIUpload.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\frmClearDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -526,6 +533,9 @@
     <EmbeddedResource Include="Classes\ExceptionHandling\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\frmAPIUpload.resx">
+      <DependentUpon>frmAPIUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmClearDatabase.resx">
       <DependentUpon>frmClearDatabase.cs</DependentUpon>
