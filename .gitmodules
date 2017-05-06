@@ -1,6 +1,3 @@
-[submodule "client-dotnet"]
-	path = client-dotnet
-	url = https://github.com/geooptix/client-dotnet.git
 [submodule "CHaMPWorkbench/naru"]
 	path = CHaMPWorkbench/naru
 	url = https://github.com/NorthArrowResearch/naru.git
