@@ -1,3 +1,6 @@
 [submodule "CHaMPWorkbench/naru"]
 	path = CHaMPWorkbench/naru
 	url = https://github.com/NorthArrowResearch/naru.git
+[submodule "client-dotnet"]
+	path = client-dotnet
+	url = https://github.com/NorthArrowResearch/client-dotnet.git

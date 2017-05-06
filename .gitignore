@@ -21,3 +21,5 @@ WorkbenchMaster.zip
 
 workbench_config.xml
 lib/*
+
+packages/*

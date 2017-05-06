@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHaMPWorkbench", "CHaMPWorkbench\CHaMPWorkbench.csproj", "{7AE3C5C4-DF43-4028-B98C-CA722286141C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keystone.API", "client-dotnet\src\Keystone.API\Keystone.API.csproj", "{225BBA8A-19B5-41CE-9738-B15DA8A08443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoOptix.API", "client-dotnet\src\GeoOptix.API\GeoOptix.API.csproj", "{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|x64.ActiveCfg = Debug|x64
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|x64.Build.0 = Debug|x64
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|x86.ActiveCfg = Debug|x86
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Debug|x86.Build.0 = Debug|x86
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|x64.ActiveCfg = Release|x64
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|x64.Build.0 = Release|x64
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|x86.ActiveCfg = Release|x86
+		{7AE3C5C4-DF43-4028-B98C-CA722286141C}.Release|x86.Build.0 = Release|x86
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|x64.Build.0 = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Debug|x86.Build.0 = Debug|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|x64.ActiveCfg = Release|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|x64.Build.0 = Release|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|x86.ActiveCfg = Release|Any CPU
+		{225BBA8A-19B5-41CE-9738-B15DA8A08443}.Release|x86.Build.0 = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|x64.Build.0 = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Debug|x86.Build.0 = Debug|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|x64.ActiveCfg = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|x64.Build.0 = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|x86.ActiveCfg = Release|Any CPU
+		{1E5293D7-8C62-4D4E-9E7E-31B1008F871F}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

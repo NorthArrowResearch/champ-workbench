@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GeoOptix.API;
 using System.Data.SQLite;
 using System.Net.Http;
+using IdentityModel.Client;
 using Keystone.API;
 
 namespace CHaMPWorkbench.CHaMPData
@@ -50,7 +51,7 @@ namespace CHaMPWorkbench.CHaMPData
             WatershedURLs = new Dictionary<string, long>();
             SiteURLs = new Dictionary<string, long>();
             TotalNumberVisits = 0;
-            AuthResponseModel AuthToken = null;
+            TokenResponse AuthToken = null;
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -77,9 +78,9 @@ namespace CHaMPWorkbench.CHaMPData
                                 CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
                                 CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
 
-                            AuthToken = keystoneApiHelper.GetAuthToken(UserName, Password);
+                            AuthToken = keystoneApiHelper.RequestToken(UserName, Password);
 
-                            if (!AuthToken.IsValidToken)
+                            if (AuthToken.IsError)
                                 throw new Exception(AuthToken.ErrorDescription);
 
                         }
@@ -165,7 +166,7 @@ namespace CHaMPWorkbench.CHaMPData
             return dItems;
         }
 
-        private Keystone.API.AuthResponseModel SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm, ref Dictionary<long, Watershed> WatershedsToProcess, ref AuthResponseModel AuthToken)
+        private TokenResponse SyncWatersheds(ref SQLiteTransaction dbTrans, Program theProgrm, ref Dictionary<long, Watershed> WatershedsToProcess, ref TokenResponse AuthToken)
         {
             Dictionary<long, Watershed> dWatersheds = Watershed.Load(naru.db.sqlite.DBCon.ConnectionString);
 
@@ -193,7 +194,7 @@ namespace CHaMPWorkbench.CHaMPData
             return api.AuthToken;
         }
 
-        private void SyncSites(ref SQLiteTransaction dbTrans, Program theProgram, ref AuthResponseModel AuthToken)
+        private void SyncSites(ref SQLiteTransaction dbTrans, Program theProgram, ref TokenResponse AuthToken)
         {
             Dictionary<long, Site> dSites = Site.Load(naru.db.sqlite.DBCon.ConnectionString);
 
@@ -226,7 +227,7 @@ namespace CHaMPWorkbench.CHaMPData
             Site.Save(ref dbTrans, dSites.Values.ToList<Site>());
         }
 
-        private int GetListOfVisitURLs(Program theProgram, ref AuthResponseModel AuthToken)
+        private int GetListOfVisitURLs(Program theProgram, ref TokenResponse AuthToken)
         {
             if (VisitURLs == null)
                 VisitURLs = new Dictionary<long, List<string>>();
@@ -250,7 +251,7 @@ namespace CHaMPWorkbench.CHaMPData
             return nVisits;
         }
 
-        private void SyncVisits(ref SQLiteTransaction dbTrans, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID, ref AuthResponseModel AuthToken)
+        private void SyncVisits(ref SQLiteTransaction dbTrans, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID, ref TokenResponse AuthToken)
         {
             ApiHelper api2 = new ApiHelper(sVisitURL, AuthToken);
             ApiResponse<GeoOptix.API.Model.VisitModel> apiVisitResponse = api2.Get<GeoOptix.API.Model.VisitModel>();
