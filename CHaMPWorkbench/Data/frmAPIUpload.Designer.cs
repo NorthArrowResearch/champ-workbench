@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grdData = new System.Windows.Forms.DataGridView();
             this.cmdBrowseProject = new System.Windows.Forms.Button();
             this.txtProjectFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.grdData = new System.Windows.Forms.DataGridView();
             this.cmdStart = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.grpProgress = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtMessages = new System.Windows.Forms.TextBox();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
@@ -56,6 +56,14 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Topo Survey Project";
+            // 
+            // grdData
+            // 
+            this.grdData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdData.Location = new System.Drawing.Point(6, 56);
+            this.grdData.Name = "grdData";
+            this.grdData.Size = new System.Drawing.Size(533, 144);
+            this.grdData.TabIndex = 3;
             // 
             // cmdBrowseProject
             // 
@@ -84,14 +92,6 @@
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Project file";
-            // 
-            // grdData
-            // 
-            this.grdData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdData.Location = new System.Drawing.Point(6, 56);
-            this.grdData.Name = "grdData";
-            this.grdData.Size = new System.Drawing.Size(533, 144);
-            this.grdData.TabIndex = 3;
             // 
             // cmdStart
             // 
@@ -127,7 +127,7 @@
             // 
             // grpProgress
             // 
-            this.grpProgress.Controls.Add(this.textBox1);
+            this.grpProgress.Controls.Add(this.txtMessages);
             this.grpProgress.Location = new System.Drawing.Point(12, 224);
             this.grpProgress.Name = "grpProgress";
             this.grpProgress.Size = new System.Drawing.Size(545, 186);
@@ -135,19 +135,21 @@
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
             // 
-            // textBox1
+            // txtMessages
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(6, 19);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(533, 161);
-            this.textBox1.TabIndex = 0;
+            this.txtMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMessages.Location = new System.Drawing.Point(6, 19);
+            this.txtMessages.Multiline = true;
+            this.txtMessages.Name = "txtMessages";
+            this.txtMessages.ReadOnly = true;
+            this.txtMessages.Size = new System.Drawing.Size(533, 161);
+            this.txtMessages.TabIndex = 0;
             // 
             // bgWorker
             // 
             this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
+            this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
+            this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
             // 
             // frmAPIUpload
             // 
@@ -184,7 +186,7 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdHelp;
         private System.Windows.Forms.GroupBox grpProgress;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtMessages;
         private System.ComponentModel.BackgroundWorker bgWorker;
     }
 }

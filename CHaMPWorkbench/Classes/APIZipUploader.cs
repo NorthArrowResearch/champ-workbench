@@ -26,13 +26,21 @@ namespace CHaMPWorkbench.Classes
             if (!diProject.Exists)
                 throw new Exception("The project folder does not exist");
 
-            System.IO.FileInfo fiZip = GetUniqueFilePath(System.IO.Path.GetTempPath(), "TopoData", "zip");
-
-            if (ProjectFileLocksExist(diProject))
+            int i = 0;
+            do
             {
-                OnMessagePosted(new MessageEventArgs("WARNING: Ensure that all ESRI software is closed, including ArcGIS ArcMap."));
-                return false;
-            }
+                OnMessagePosted(new MessageEventArgs(string.Format("Iteration {0}", i)));
+                System.Threading.Thread.Sleep(3000);
+                i++;
+            } while (i < 5);
+
+            //System.IO.FileInfo fiZip = GetUniqueFilePath(System.IO.Path.GetTempPath(), "TopoData", "zip");
+
+            //if (ProjectFileLocksExist(diProject))
+            //{
+            //    OnMessagePosted(new MessageEventArgs("WARNING: Ensure that all ESRI software is closed, including ArcGIS ArcMap."));
+            //    return false;
+            //}
 
             return true;
         }

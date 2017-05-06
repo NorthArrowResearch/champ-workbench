@@ -13,12 +13,13 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmAPIUpload : Form
     {
-
         private naru.ui.SortableBindingList<ProjectProperty> ProjectProperties { get; set; }
         OpenFileDialog frmBrowseProject;
         private frmKeystoneCredentials CredentialsForm;
         private string UserName { get; set; }
         private string Password { get; set; }
+
+        private StringBuilder sbMessages;
 
         public frmAPIUpload()
         {
@@ -50,6 +51,7 @@ namespace CHaMPWorkbench.Data
             grdData.Columns.Add(colValue);
 
             MakeProgressVisible(false);
+            bgWorker.WorkerReportsProgress = true;
         }
 
         private void txtProjectFile_TextChanged(object sender, EventArgs e)
@@ -148,6 +150,9 @@ namespace CHaMPWorkbench.Data
             }
 
             MakeProgressVisible(true);
+            cmdCancel.Enabled = false;
+            cmdStart.Enabled = false;
+            cmdBrowseProject.Enabled = false;
 
             try
             {
@@ -161,17 +166,31 @@ namespace CHaMPWorkbench.Data
 
         }
 
-        private void MessagePosted(Classes.APIZipUploader.MessageEventArgs e)
+        private void MessagePosted(object sender, EventArgs e)
         {
-            StringBuilder sbr = new StringBuilder(txtProjectFile.Text);
-            sbr.AppendLine(e.Message);
-            txtProjectFile.Text = sbr.ToString();
+            sbMessages.AppendLine(((Classes.APIZipUploader.MessageEventArgs)e).Message);
+            bgWorker.ReportProgress(0);
         }
 
         private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Classes.APIZipUploader zip = new Classes.APIZipUploader(naru.db.sqlite.DBCon.ConnectionString, this.UserName, this.Password);
-            zip.Run(new System.IO.DirectoryInfo(txtProjectFile.Text));
+
+            zip.MessagePosted += new EventHandler(MessagePosted);
+            sbMessages = new StringBuilder();
+            zip.Run(new System.IO.DirectoryInfo(System.IO.Path.GetDirectoryName(txtProjectFile.Text)));
+        }
+
+        private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            txtMessages.Text = sbMessages.ToString();
+        }
+
+        private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            cmdStart.Visible = false;
+            cmdCancel.Text = "Close";
+            cmdCancel.Enabled = true;
         }
     }
 }
