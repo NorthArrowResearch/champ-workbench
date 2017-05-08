@@ -57,7 +57,11 @@ namespace CHaMPWorkbench.Classes
 
             try
             {
+                string sValidationStatus = string.Empty;
+                string sZipSize = string.Empty;
                 long nVisitID = 0;
+
+                VerifyValidationStatus(fiProjectFile, out sValidationStatus);
                 GetProjectVisitID(fiProjectFile, out nVisitID);
 
                 if (ProjectFileLocksExist(fiProjectFile.Directory))
@@ -66,7 +70,10 @@ namespace CHaMPWorkbench.Classes
                         " as well as other software that might be using project files, and then try again.");
                 }
 
-                ZipProject(fiProjectFile.Directory, nVisitID);
+                System.IO.FileInfo fiZipFile = ZipProject(fiProjectFile.Directory, nVisitID, out sZipSize);
+
+                string sDescription = string.Format("Visit {0} topo data project zip ({1}) with validation status of '{2}'.", nVisitID, sZipSize, sValidationStatus);
+                UploadZipFile(fiZipFile, nVisitID, sDescription);
 
                 OnMessagePosted(new MessageEventArgs("Process completed successfully."));
             }
@@ -76,7 +83,11 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
+        private void UploadZipFile(System.IO.FileInfo fiZipFile, long VisitID, string sDescription)
+        {
 
+
+        }
 
         /// <summary>
         /// 
@@ -87,8 +98,9 @@ namespace CHaMPWorkbench.Classes
         /// <remarks>File Size formatting taken from
         /// http://stackoverflow.com/questions/281640/how-do-i-get-a-human-readable-file-size-in-bytes-abbreviation-using-net
         /// </remarks>
-        private string ZipProject(System.IO.DirectoryInfo diProject, long VisitID)
+        private System.IO.FileInfo ZipProject(System.IO.DirectoryInfo diProject, long VisitID, out string sZipSize)
         {
+            sZipSize = string.Empty;
             string sZipFilePath = GetZipFilePath(System.IO.Path.GetTempPath(), VisitID);
             OnMessagePosted(new MessageEventArgs(string.Format("Compressing project to {0}", sZipFilePath)));
 
@@ -105,7 +117,8 @@ namespace CHaMPWorkbench.Classes
                     len = len / 1024;
                 }
 
-                OnMessagePosted(new MessageEventArgs(string.Format ("Project successfully compressed to {0:0.##} {1} temporary file.", len, sizes[order])));
+                sZipSize = string.Format(" {0:0.##} {1}", len, sizes[order]);
+                OnMessagePosted(new MessageEventArgs(string.Format("Project successfully compressed to {0} temporary file.", sZipSize)));
             }
             catch (Exception ex)
             {
@@ -113,7 +126,7 @@ namespace CHaMPWorkbench.Classes
                 throw;
             }
 
-            return sZipFilePath;
+            return new System.IO.FileInfo(sZipFilePath);
         }
 
         private string GetZipFilePath(string sFolder, long VisitID)
@@ -162,6 +175,49 @@ namespace CHaMPWorkbench.Classes
             }
 
             OnMessagePosted(new MessageEventArgs(string.Format("Topo project identified as Visit ID {0}", VisitID)));
+        }
+
+        private void VerifyValidationStatus(System.IO.FileInfo fiProjectFile, out string sValidationStatus)
+        {
+            sValidationStatus = string.Empty;
+            string sMessage = string.Empty;
+
+            try
+            {
+                XmlDocument xmlProj = new XmlDocument();
+                xmlProj.Load(fiProjectFile.FullName);
+                XmlNode nodProperty = xmlProj.SelectSingleNode("/Project/MetaData/Meta[@name='ValidationStatus']");
+                if (nodProperty is XmlNode)
+                {
+                    if (string.IsNullOrEmpty(nodProperty.InnerText))
+                    {
+                        throw new Exception("ERROR: Empty validation status metadata property in topo survey project file.");
+                    }
+                    else
+                    {
+                        sValidationStatus = nodProperty.InnerText;
+                    }
+                }
+
+                switch (sValidationStatus.ToLower())
+                {
+                    case "pass":
+                    case "review":
+                        OnMessagePosted(new MessageEventArgs(string.Format("Topo project validation status confirmed as '{0}'.", nodProperty.InnerText)));
+                        break;
+
+                    case "fail":
+                        throw new Exception("Project failed topo data validation. Use the CHaMP Topo Toolbar to fix all validation issues. Then re-publish the survey and attempt to upload again.");
+
+                    default:
+                        throw new Exception("The topo project is missing a validation status. Use the CHaMP Topo Toolbar to run validation and re-publish the survey. Then attempt to upload again.");
+                }
+            }
+            catch (Exception ex)
+            {
+                OnMessagePosted(new MessageEventArgs(ex.Message));
+                throw;
+            }
         }
 
         private System.IO.FileInfo GetUniqueFilePath(string sDirectory, string sFileName, string sExtension)

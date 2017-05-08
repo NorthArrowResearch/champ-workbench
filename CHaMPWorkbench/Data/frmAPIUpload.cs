@@ -179,6 +179,9 @@ namespace CHaMPWorkbench.Data
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
                 this.DialogResult = DialogResult.None;
+                cmdStart.Visible = true;
+                cmdStart.Enabled = true;
+                cmdCancel.Enabled = true;
             }
         }
 
