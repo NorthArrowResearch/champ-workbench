@@ -194,12 +194,14 @@ namespace CHaMPWorkbench.Data
 
             zip.MessagePosted += new EventHandler(MessagePosted);
             sbMessages = new StringBuilder();
-            zip.Run(new System.IO.DirectoryInfo(System.IO.Path.GetDirectoryName(txtProjectFile.Text)));
+            zip.Run(new System.IO.FileInfo(txtProjectFile.Text));
         }
 
         private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             txtMessages.Text = sbMessages.ToString();
+            txtMessages.SelectionStart = txtMessages.Text.Length;
+            txtMessages.ScrollToCaret();
         }
 
         private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
