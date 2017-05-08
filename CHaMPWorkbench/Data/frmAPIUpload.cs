@@ -79,6 +79,7 @@ namespace CHaMPWorkbench.Data
                 xmlProj.Load(txtProjectFile.Text);
 
                 LoadProjectProperty(ref xmlProj, "Project Created On", "/Project/MetaData/Meta[@name='CreatedOn']");
+                LoadProjectProperty(ref xmlProj, "Visit ID", "/Project/MetaData/Meta[@name='VisitID']");
                 LoadProjectProperty(ref xmlProj, "Site Name", "/Project/MetaData/Meta[@name='SiteName']");
                 LoadProjectProperty(ref xmlProj, "Field Season", "/Project/MetaData/Meta[@name='FieldSeason']");
                 LoadProjectProperty(ref xmlProj, "Watershed", "/Project/MetaData/Meta[@name='Watershed']");
