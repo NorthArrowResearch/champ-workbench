@@ -12,7 +12,7 @@ namespace CHaMPWorkbench.Data
 {
     public partial class frmKeystoneCredentials : Form
     {
-        public string UserName {  get { return txtUserName.Text; } }
+        public string UserName { get { return txtUserName.Text; } }
         public string Password { get { return txtPassword.Text; } }
 
         public frmKeystoneCredentials()
@@ -25,7 +25,11 @@ namespace CHaMPWorkbench.Data
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.DefaultUserName))
             {
                 txtUserName.Text = CHaMPWorkbench.Properties.Settings.Default.DefaultUserName;
-                txtPassword.Select();
+                txtPassword.Text = naru.db.sqlite.DBCon.GetSessionSetting("KeystonePassword");
+                if (txtPassword.Text.Length > 0)
+                    cmdOK.Select();
+                else
+                    txtPassword.Select();
             }
 
             lblForgotUserName.LinkArea = new LinkArea(0, lblForgotUserName.Text.Length);

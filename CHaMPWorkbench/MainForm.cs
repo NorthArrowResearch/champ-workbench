@@ -1867,13 +1867,12 @@ namespace CHaMPWorkbench
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/TempFolder", "LastTempFolder");
                 StoreDeveloperSetting(ref xmlDoc, "WorkbenchConfig/GeoOptixUserName", "DefaultUserName");
 
-                string sPassword = string.Empty;
                 XmlNode nod = xmlDoc.SelectSingleNode("WorkbenchConfig/GeoOptixPassword");
                 if (nod is XmlNode)
                 {
                     if (!string.IsNullOrEmpty(nod.InnerText))
                     {
-                        sPassword = nod.InnerText;
+                        DBCon.SetSessionSetting("KeystonePassword", nod.InnerText);
                     }
                 }
                 CHaMPWorkbench.Properties.Settings.Default.Save();
