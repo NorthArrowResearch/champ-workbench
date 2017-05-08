@@ -58,11 +58,8 @@ namespace CHaMPWorkbench.Classes
             try
             {
                 string sValidationStatus = string.Empty;
-                string sZipSize = string.Empty;
-                long nVisitID = 0;
 
                 VerifyValidationStatus(fiProjectFile, out sValidationStatus);
-                GetProjectVisitID(fiProjectFile, out nVisitID);
 
                 if (ProjectFileLocksExist(fiProjectFile.Directory))
                 {
@@ -70,10 +67,17 @@ namespace CHaMPWorkbench.Classes
                         " as well as other software that might be using project files, and then try again.");
                 }
 
-                System.IO.FileInfo fiZipFile = ZipProject(fiProjectFile.Directory, nVisitID, out sZipSize);
+                string sZipSize = string.Empty;
+                CHaMPData.VisitBasic visit;
+                CHaMPData.Program program;
 
-                string sDescription = string.Format("Visit {0} topo data project zip ({1}) with validation status of '{2}'.", nVisitID, sZipSize, sValidationStatus);
-                UploadZipFile(fiZipFile, nVisitID, sDescription);
+                visit = GetProjectVisit(fiProjectFile);
+                program = GetProgram(visit);
+
+                System.IO.FileInfo fiZipFile = ZipProject(fiProjectFile.Directory, visit.ID, out sZipSize);
+
+                string sDescription = string.Format("{0} Visit {1} topo data project zip ({2}) with validation status of '{3}'.", program, visit.ID, sZipSize, sValidationStatus);
+                UploadZipFile(fiZipFile, visit, program, sDescription);
 
                 OnMessagePosted(new MessageEventArgs("Process completed successfully."));
             }
@@ -83,10 +87,28 @@ namespace CHaMPWorkbench.Classes
             }
         }
 
-        private void UploadZipFile(System.IO.FileInfo fiZipFile, long VisitID, string sDescription)
+        private void UploadZipFile(System.IO.FileInfo fiZipFile, CHaMPData.VisitBasic visit, CHaMPData.Program program, string sDescription)
         {
+            // Determine if the program is pointing at QA or Production and use the corresponding keystone
+            string keystoneURL = "https://keystone.sitkatech.com/OAuth2/Authorize";
+            if (program.API.Contains("https://qa."))
+                keystoneURL = keystoneURL.Replace("https://", "https://qa.");
 
+            try
+            {
+                // TODO: Authentication
+                // 1. UserName and Password are available as properties
+                // 2. Fixed authentication strings should be available as software settings from CHaMPWorkbench.Properties.Settings.Default....
 
+                // TODO: Upload
+                // a. API URL available from program.API property
+                // b. VisitID available from visit.ID
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
@@ -142,9 +164,31 @@ namespace CHaMPWorkbench.Classes
             return sFilePath;
         }
 
-        private void GetProjectVisitID(System.IO.FileInfo fiProjectFile, out long VisitID)
+        private CHaMPData.Program GetProgram(CHaMPData.VisitBasic visit)
         {
-            VisitID = 0;
+            CHaMPData.Program theProgram = null;
+            try
+            {
+                Dictionary<long, CHaMPData.Program> programs = CHaMPData.Program.Load(DBCon);
+                theProgram = programs[visit.ProgramID];
+
+                if (string.IsNullOrEmpty(theProgram.API))
+                    throw new Exception(string.Format("Visit {0} is associated with the {1} program which is missing an API URL. Contact the {2} developers.", visit.ID, theProgram, Properties.Resources.MyApplicationNameLong));
+
+                OnMessagePosted(new MessageEventArgs(string.Format("Visit associated with the {0} program.", theProgram)));
+            }
+            catch (Exception ex)
+            {
+                OnMessagePosted(new MessageEventArgs(string.Format("Error determining visit program: {0}", ex.Message)));
+                throw;
+            }
+
+            return theProgram;
+        }
+
+        private CHaMPData.VisitBasic GetProjectVisit(System.IO.FileInfo fiProjectFile)
+        {
+            CHaMPData.VisitBasic visit = null;
 
             try
             {
@@ -159,7 +203,12 @@ namespace CHaMPWorkbench.Classes
                     }
                     else
                     {
-                        if (!long.TryParse(nodProperty.InnerText, out VisitID))
+                        long nVisitID = 0;
+                        if (long.TryParse(nodProperty.InnerText, out nVisitID))
+                        {
+                            visit = CHaMPData.VisitBasic.Load(nVisitID);
+                        }
+                        else
                         {
                             throw new Exception("ERROR: The Visit ID XML metadata property could not be parsed as long integer from the topo survey project file.");
                         }
@@ -174,7 +223,8 @@ namespace CHaMPWorkbench.Classes
                 throw;
             }
 
-            OnMessagePosted(new MessageEventArgs(string.Format("Topo project identified as Visit ID {0}", VisitID)));
+            OnMessagePosted(new MessageEventArgs(string.Format("Topo project identified as Visit ID {0}", visit.ID)));
+            return visit;
         }
 
         private void VerifyValidationStatus(System.IO.FileInfo fiProjectFile, out string sValidationStatus)
