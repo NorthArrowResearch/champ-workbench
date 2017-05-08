@@ -123,7 +123,7 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Esri.FileGDBAPI">
-      <HintPath>..\lib\FileGDBAPI\x64\Esri.FileGDBAPI.dll</HintPath>
+      <HintPath>..\lib\FileGDBAPI\Esri.FileGDBAPI.dll</HintPath>
     </Reference>
     <Reference Include="IdentityModel, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.2.8.0\lib\net452\IdentityModel.dll</HintPath>
@@ -735,6 +735,7 @@
     <None Include="Resources\edit.png" />
     <None Include="Resources\user_comment.png" />
     <None Include="Resources\chart.png" />
+    <None Include="Resources\upload.png" />
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

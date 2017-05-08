@@ -52,6 +52,7 @@ namespace CHaMPWorkbench.Data
 
             MakeProgressVisible(false);
             bgWorker.WorkerReportsProgress = true;
+            cmdBrowseProject.Select();
         }
 
         private void txtProjectFile_TextChanged(object sender, EventArgs e)
@@ -62,18 +63,40 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(txtProjectFile.Text) || !System.IO.File.Exists(txtProjectFile.Text))
                 return;
 
-            XmlDocument xmlProj = new XmlDocument();
-            xmlProj.Load(txtProjectFile.Text);
+            if (!txtProjectFile.Text.ToLower().EndsWith(".rs.xml"))
+            {
+                MessageBox.Show("The selected file does not appear to be a valid topo survey project file. Please choose a file that ends with *.rs.xml", Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtProjectFile.TextChanged -= txtProjectFile_TextChanged;
+                txtProjectFile.Text = string.Empty;
+                txtProjectFile.TextChanged += txtProjectFile_TextChanged;
+                cmdBrowseProject.Select();
+                return;
+            }
 
-            LoadProjectProperty(ref xmlProj, "Project Created On", "/Project/MetaData/Meta[@name='CreatedOn']");
-            LoadProjectProperty(ref xmlProj, "Site Name", "/Project/MetaData/Meta[@name='SiteName']");
-            LoadProjectProperty(ref xmlProj, "Field Season", "/Project/MetaData/Meta[@name='FieldSeason']");
-            LoadProjectProperty(ref xmlProj, "Watershed", "/Project/MetaData/Meta[@name='Watershed']");
-            LoadProjectProperty(ref xmlProj, "Stream Name", "/Project/MetaData/Meta[@name='StreamName']");
-            LoadProjectProperty(ref xmlProj, "Protocol", "/Project/MetaData/Meta[@name='Protocol']");
-            LoadProjectProperty(ref xmlProj, "Organization", "/Project/MetaData/Meta[@name='Organization']");
-            LoadProjectProperty(ref xmlProj, "Survey Crew", "/Project/MetaData/Meta[@name='Survey Crew']");
-            LoadProjectProperty(ref xmlProj, "Visit Type", "/Project/MetaData/Meta[@name='VisitType']");
+            XmlDocument xmlProj = new XmlDocument();
+
+            try
+            {
+                xmlProj.Load(txtProjectFile.Text);
+
+                LoadProjectProperty(ref xmlProj, "Project Created On", "/Project/MetaData/Meta[@name='CreatedOn']");
+                LoadProjectProperty(ref xmlProj, "Site Name", "/Project/MetaData/Meta[@name='SiteName']");
+                LoadProjectProperty(ref xmlProj, "Field Season", "/Project/MetaData/Meta[@name='FieldSeason']");
+                LoadProjectProperty(ref xmlProj, "Watershed", "/Project/MetaData/Meta[@name='Watershed']");
+                LoadProjectProperty(ref xmlProj, "Stream Name", "/Project/MetaData/Meta[@name='StreamName']");
+                LoadProjectProperty(ref xmlProj, "Protocol", "/Project/MetaData/Meta[@name='Protocol']");
+                LoadProjectProperty(ref xmlProj, "Organization", "/Project/MetaData/Meta[@name='Organization']");
+                LoadProjectProperty(ref xmlProj, "Survey Crew", "/Project/MetaData/Meta[@name='Survey Crew']");
+                LoadProjectProperty(ref xmlProj, "Visit Type", "/Project/MetaData/Meta[@name='VisitType']");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load topo survey project file. Ensure that the selected file is a valid topo survey project file ending with *.rs.xml", Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtProjectFile.TextChanged -= txtProjectFile_TextChanged;
+                txtProjectFile.Text = string.Empty;
+                txtProjectFile.TextChanged += txtProjectFile_TextChanged;
+                cmdBrowseProject.Select();
+            }
 
         }
 
@@ -140,6 +163,12 @@ namespace CHaMPWorkbench.Data
 
         private void cmdStart_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtProjectFile.Text) || !System.IO.File.Exists(txtProjectFile.Text))
+            {
+                MessageBox.Show("You must choose a valid topo survey project file before you can proceed.", Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (CredentialsForm == null)
                 CredentialsForm = new frmKeystoneCredentials();
 

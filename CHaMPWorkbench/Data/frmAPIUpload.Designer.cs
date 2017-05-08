@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAPIUpload));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.grdData = new System.Windows.Forms.DataGridView();
             this.cmdBrowseProject = new System.Windows.Forms.Button();
@@ -46,6 +47,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.grdData);
             this.groupBox1.Controls.Add(this.cmdBrowseProject);
             this.groupBox1.Controls.Add(this.txtProjectFile);
@@ -59,6 +62,8 @@
             // 
             // grdData
             // 
+            this.grdData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grdData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdData.Location = new System.Drawing.Point(6, 56);
             this.grdData.Name = "grdData";
@@ -67,6 +72,7 @@
             // 
             // cmdBrowseProject
             // 
+            this.cmdBrowseProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdBrowseProject.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
             this.cmdBrowseProject.Location = new System.Drawing.Point(516, 22);
             this.cmdBrowseProject.Name = "cmdBrowseProject";
@@ -77,6 +83,8 @@
             // 
             // txtProjectFile
             // 
+            this.txtProjectFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProjectFile.Location = new System.Drawing.Point(105, 23);
             this.txtProjectFile.Name = "txtProjectFile";
             this.txtProjectFile.ReadOnly = true;
@@ -127,6 +135,9 @@
             // 
             // grpProgress
             // 
+            this.grpProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpProgress.Controls.Add(this.txtMessages);
             this.grpProgress.Location = new System.Drawing.Point(12, 224);
             this.grpProgress.Name = "grpProgress";
@@ -163,6 +174,7 @@
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdStart);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAPIUpload";
             this.Text = "Upload Topo Survey Project";
             this.Load += new System.EventHandler(this.frmAPIUpload_Load);
