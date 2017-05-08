@@ -112,6 +112,8 @@ namespace CHaMPWorkbench.Data
                 else
                     ProjectProperties.Add(new ProjectProperty(sPropertyDisplayName, sValue));
             }
+            else
+                ProjectProperties.Add(new ProjectProperty(sPropertyDisplayName, string.Empty));
         }
 
         private class ProjectProperty
