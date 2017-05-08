@@ -104,7 +104,7 @@
             // cmdStart
             // 
             this.cmdStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdStart.Location = new System.Drawing.Point(401, 298);
+            this.cmdStart.Location = new System.Drawing.Point(401, 324);
             this.cmdStart.Name = "cmdStart";
             this.cmdStart.Size = new System.Drawing.Size(75, 23);
             this.cmdStart.TabIndex = 1;
@@ -116,7 +116,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(482, 298);
+            this.cmdCancel.Location = new System.Drawing.Point(482, 324);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -126,7 +126,7 @@
             // cmdHelp
             // 
             this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdHelp.Location = new System.Drawing.Point(12, 298);
+            this.cmdHelp.Location = new System.Drawing.Point(12, 324);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
             this.cmdHelp.TabIndex = 3;
@@ -141,7 +141,7 @@
             this.grpProgress.Controls.Add(this.txtMessages);
             this.grpProgress.Location = new System.Drawing.Point(12, 224);
             this.grpProgress.Name = "grpProgress";
-            this.grpProgress.Size = new System.Drawing.Size(545, 68);
+            this.grpProgress.Size = new System.Drawing.Size(545, 94);
             this.grpProgress.TabIndex = 4;
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
@@ -156,7 +156,8 @@
             this.txtMessages.Multiline = true;
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ReadOnly = true;
-            this.txtMessages.Size = new System.Drawing.Size(533, 43);
+            this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMessages.Size = new System.Drawing.Size(533, 69);
             this.txtMessages.TabIndex = 0;
             // 
             // bgWorker
@@ -171,7 +172,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(569, 333);
+            this.ClientSize = new System.Drawing.Size(569, 359);
             this.Controls.Add(this.grpProgress);
             this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.cmdCancel);

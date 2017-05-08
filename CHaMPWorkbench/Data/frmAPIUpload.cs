@@ -180,7 +180,6 @@ namespace CHaMPWorkbench.Data
                 Classes.ExceptionHandling.NARException.HandleException(ex);
                 this.DialogResult = DialogResult.None;
             }
-
         }
 
         private void MessagePosted(object sender, EventArgs e)
@@ -208,6 +207,7 @@ namespace CHaMPWorkbench.Data
             cmdStart.Visible = false;
             cmdCancel.Text = "Close";
             cmdCancel.Enabled = true;
+            cmdCancel.Select();
         }
     }
 }
