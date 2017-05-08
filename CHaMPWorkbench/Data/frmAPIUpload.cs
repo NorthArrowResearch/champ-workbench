@@ -50,7 +50,6 @@ namespace CHaMPWorkbench.Data
             colValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             grdData.Columns.Add(colValue);
 
-            MakeProgressVisible(false);
             bgWorker.WorkerReportsProgress = true;
             cmdBrowseProject.Select();
         }
@@ -98,19 +97,6 @@ namespace CHaMPWorkbench.Data
                 cmdBrowseProject.Select();
             }
 
-        }
-
-        private void MakeProgressVisible(Boolean bVisible)
-        {
-            int nResize = 0;
-            if (grpProgress.Visible && !bVisible)
-                nResize = grpProgress.Top - cmdStart.Top;
-            else if (!grpProgress.Visible && bVisible)
-                nResize = grpProgress.Height + cmdStart.Top - groupBox1.Bottom;
-
-            grpProgress.Visible = bVisible;
-
-            this.Height += nResize;
         }
 
         private void LoadProjectProperty(ref XmlDocument xmlProject, string sPropertyDisplayName, string sXPath)
@@ -178,7 +164,6 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
-            MakeProgressVisible(true);
             cmdCancel.Enabled = false;
             cmdStart.Enabled = false;
             cmdBrowseProject.Enabled = false;
