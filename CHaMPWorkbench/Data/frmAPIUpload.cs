@@ -193,7 +193,7 @@ namespace CHaMPWorkbench.Data
 
         private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Classes.APIZipUploader zip = new Classes.APIZipUploader(naru.db.sqlite.DBCon.ConnectionString, this.UserName, this.Password);
+            Classes.APIZipUploader zip = new Classes.APIZipUploader(naru.db.sqlite.DBCon.ConnectionString, CredentialsForm.UserName, CredentialsForm.Password);
 
             zip.MessagePosted += new EventHandler(MessagePosted);
             sbMessages = new StringBuilder();
