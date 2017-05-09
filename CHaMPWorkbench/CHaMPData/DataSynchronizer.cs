@@ -70,19 +70,15 @@ namespace CHaMPWorkbench.CHaMPData
                             CurrentProcess = "Authenticating user with Keystone API";
 
                             // Determine if the program is pointing at QA or Production and use the corresponding keystone
-                            string keystoneURL = "https://keystone.sitkatech.com/OAuth2/Authorize";
+                            string keystoneURL = "https://keystone.sitkatech.com/core/connect/token";
                             if (aProgram.API.Contains("https://qa."))
                                 keystoneURL = keystoneURL.Replace("https://", "https://qa.");
-
-                            var keystoneApiHelper = new KeystoneApiHelper(keystoneURL,
-                                CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
-                                CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper());
-
-                            AuthToken = keystoneApiHelper.RequestToken(UserName, Password);
-
-                            if (AuthToken.IsError)
+                            
+                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, 
+                                Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+                                                        
+                            if (keystoneApiHelper.AuthToken.IsError)
                                 throw new Exception(AuthToken.ErrorDescription);
-
                         }
                         catch (Exception ex)
                         {
@@ -262,6 +258,9 @@ namespace CHaMPWorkbench.CHaMPData
 
             ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
             GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
+            if (meas == null)
+                return;
+
             IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
             GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
             Dictionary<string, string> dMeasurements = mv.Measurement;

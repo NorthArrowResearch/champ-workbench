@@ -4,11 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Keystone.API;
+using GeoOptix.API;
 
 namespace CHaMPWorkbench.Classes
 {
     public class APIZipUploader
     {
+        private enum DataSetTypes : int
+        {
+            AuxiliaryDataFiles = 2,
+            TopographicData = 3,
+            SitePhotos = 4,
+            AirTempReadings = 5,
+            StreamTempReadings = 6,
+            SolarInputPhotos = 7,
+            ScannedPaperFormsandMaps = 8
+        }
+
+        private static int CHUNK_SIZE = (int)Math.Pow(20, 6); // 20Mb default
+
         public string DBCon { get; internal set; }
         private string UserName { get; set; }
         private string Password { get; set; }
@@ -90,24 +105,30 @@ namespace CHaMPWorkbench.Classes
         private void UploadZipFile(System.IO.FileInfo fiZipFile, CHaMPData.VisitBasic visit, CHaMPData.Program program, string sDescription)
         {
             // Determine if the program is pointing at QA or Production and use the corresponding keystone
-            string keystoneURL = "https://keystone.sitkatech.com/OAuth2/Authorize";
+            string keystoneURL = "https://keystone.sitkatech.com/core/connect/token";
             if (program.API.Contains("https://qa."))
                 keystoneURL = keystoneURL.Replace("https://", "https://qa.");
 
             try
             {
-                // TODO: Authentication
-                // 1. UserName and Password are available as properties
-                // 2. Fixed authentication strings should be available as software settings from CHaMPWorkbench.Properties.Settings.Default....
+                ApiHelper helper = new ApiHelper(program.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID,  Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
-                // TODO: Upload
-                // a. API URL available from program.API property
-                // b. VisitID available from visit.ID
+                // First we go see if there is a file there already. with GET/visits/1/fieldFolders/Topo/files/Filename.zip
+                var hashcode = ApiHelper.GetFileHashCode(fiZipFile.FullName);
+                var transferDetail = new GeoOptix.API.Model.TransferDetail
+                {
+                    dataSetTypeId = (int)DataSetTypes.TopographicData,
+                    visitId = (int) visit.ID,
+                    manifest = new[] { new GeoOptix.API.Model.TransferManifestFile { hash = hashcode, name = System.IO.Path.GetFileName( fiZipFile.FullName) }, }
+                };
 
+                var response = helper.CreateTransfer(transferDetail);
+                var transfer = response.Payload;
+                var resp = helper.UploadTransferFile(transfer.id, fiZipFile.FullName, CHUNK_SIZE);
             }
             catch (Exception ex)
             {
-
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
