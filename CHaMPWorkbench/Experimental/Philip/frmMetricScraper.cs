@@ -25,9 +25,13 @@ namespace CHaMPWorkbench.Experimental.Philip
             {
                 txtFolder.Text = CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder;
             }
+
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboScavengeType, naru.db.sqlite.DBCon.ConnectionString, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 1 ORDER BY Title");
+            rdoXMLModelVersion.Checked = true;
+            rdoXMLModelVersion_CheckedChanged(null, null);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void cmdOK_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
             {
@@ -41,8 +45,6 @@ namespace CHaMPWorkbench.Experimental.Philip
 
                 CHaMPWorkbench.Properties.Settings.Default.LastMetricFolder = txtFolder.Text;
                 CHaMPWorkbench.Properties.Settings.Default.Save();
-
-
 
                 Classes.MetricXPathValidator x = new Classes.MetricXPathValidator(naru.db.sqlite.DBCon.ConnectionString);
                 Dictionary<string, MetricSchema> MetricSchemas = new Dictionary<string, MetricSchema>();
@@ -63,7 +65,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
 
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
-                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas);
+                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas, rdoXMLModelVersion.Checked, txtModelVersion.Text, ((naru.db.NamedObject) cboScavengeType.SelectedItem).ID);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -90,6 +92,23 @@ namespace CHaMPWorkbench.Experimental.Philip
                 MessageBox.Show("You must specify the name of the metric XML files to scrape. Wildcards (* and ?) are allowed.", "Invalid Metric XML File Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtFileName.Select();
                 return false;
+            }
+
+            if (cboScavengeType.SelectedIndex<0)
+            {
+                MessageBox.Show("You must select a scavenge type.", "Missing Scavenge Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboScavengeType.Select();
+                return false;
+            }
+
+            if (rdoSpecifiedModelVersion.Checked)
+            {
+                if (string.IsNullOrEmpty(txtModelVersion.Text))
+                {
+                    MessageBox.Show("You must specify a model version string or use the model versions specified in the XML files.", "Missing Model Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtModelVersion.Select();
+                    return false;
+                }
             }
 
             return true;
@@ -124,6 +143,11 @@ namespace CHaMPWorkbench.Experimental.Philip
             {
                 XPath = sXPath;
             }
+        }
+
+        private void rdoXMLModelVersion_CheckedChanged(object sender, EventArgs e)
+        {
+            txtModelVersion.Enabled = rdoSpecifiedModelVersion.Checked;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         }
 
-        public int Run(string sFolder, string sFileName, Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchema> MetricSchemas)
+        public int Run(string sFolder, string sFileName, Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchema> MetricSchemas, bool bUseXMLModelVersion, string sModelVersion, long nScavengeTypeID)
         {
             int nFilesProcessed = 0;
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
@@ -41,7 +41,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                     SQLiteParameter pModelVersion = comResult.Parameters.Add("ModelVersion", System.Data.DbType.String);
                     SQLiteParameter pVisitID = comResult.Parameters.Add("VisitID", System.Data.DbType.Int64);
                     SQLiteParameter pRunDateTime = comResult.Parameters.Add("RunDateTime", System.Data.DbType.DateTime);
-                    comResult.Parameters.AddWithValue("ScavengeTypeID", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_PythonTopo);
+                    comResult.Parameters.AddWithValue("ScavengeTypeID", nScavengeTypeID);
 
                     SQLiteCommand comResultID = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
 
@@ -51,10 +51,15 @@ namespace CHaMPWorkbench.Experimental.Philip
                         xmlDoc.Load(xmlFile);
 
                         XmlNode nodVisitID = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/VisitID");
-                        XmlNode nodVersion = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/Version");
                         XmlNode nodRunDate = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/DateCreated");
 
-                        if (nodVisitID is XmlNode && nodVersion is XmlNode && nodRunDate is XmlNode)
+                        if (bUseXMLModelVersion)
+                        {
+                            XmlNode nodVersion = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/Version");
+                            sModelVersion = nodVersion.InnerText;
+                        }
+                    
+                        if (nodVisitID is XmlNode && nodRunDate is XmlNode && !string.IsNullOrEmpty(sModelVersion))
                         {
                             long nVisitID = long.Parse(nodVisitID.InnerText);
 
@@ -63,7 +68,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                                 continue;
 
                             pResultFile.Value = xmlFile;
-                            pModelVersion.Value = nodVersion.InnerText;
+                            pModelVersion.Value = sModelVersion;
                             pVisitID.Value = nVisitID;
                             pRunDateTime.Value = DateTime.Parse(nodRunDate.InnerText);
                             comResult.ExecuteNonQuery();
