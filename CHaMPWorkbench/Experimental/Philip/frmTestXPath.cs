@@ -39,8 +39,8 @@ namespace CHaMPWorkbench.Experimental.Philip
             string sFilePath = "";
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "RBT Result XML File";
-            dlg.Filter = "RBT Result XML Files (*.xml)|*.xml";
+            dlg.Title = "Metric Result XML File";
+            dlg.Filter = "Metric Result XML Files (*.xml)|*.xml";
 
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile) &&
                 System.IO.File.Exists(CHaMPWorkbench.Properties.Settings.Default.LastResultsFile))
@@ -57,7 +57,7 @@ namespace CHaMPWorkbench.Experimental.Philip
         {
             if (string.IsNullOrWhiteSpace(txtResultFile.Text) || !System.IO.File.Exists(txtResultFile.Text))
             {
-                MessageBox.Show("You must select a valid RBT result XML file to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You must select a valid result XML file to continue.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
                 return;
             }

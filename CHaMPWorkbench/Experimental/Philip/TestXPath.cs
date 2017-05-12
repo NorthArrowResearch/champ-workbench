@@ -7,17 +7,21 @@ using System.Xml;
 
 namespace CHaMPWorkbench.Experimental.Philip
 {
+    /// <summary>
+    /// This class tests that a single metric XML result file contains all the XPaths that are defined in
+    /// the CHaMP Workbench Metric_Definitions table
+    /// </summary>
     class TestXPath
     {
         private XmlDocument m_xml;
 
-        public TestXPath(string sRBTXMLPath)
+        public TestXPath(string sXMLPath)
         {
-            if (!System.IO.File.Exists(sRBTXMLPath))
-                throw new Exception("The RBT XML File Path does not exist.");
+            if (!System.IO.File.Exists(sXMLPath))
+                throw new Exception("The XML file path does not exist.");
 
             m_xml= new XmlDocument();
-            m_xml.Load(sRBTXMLPath);
+            m_xml.Load(sXMLPath);
         }
 
         public int RunTest(ref List<string> lInvalidXPaths, string sWhereClause)
@@ -25,7 +29,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             lInvalidXPaths = new List<string>();
             int nProcessed = 0;
 
-            string sSQL = "SELECT MetricID, Title, ResultXMLTag FROM Metric_Definitions";
+            string sSQL = "SELECT MetricID, Title, XPath FROM Metric_Definitions";
             if (!string.IsNullOrWhiteSpace(sWhereClause))
                 sSQL += " WHERE " + sWhereClause;
 
@@ -36,14 +40,14 @@ namespace CHaMPWorkbench.Experimental.Philip
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    if (DBNull.Value != dbRead["ResultXMLTag"])
+                    if (DBNull.Value != dbRead["XPath"])
                     {
-                        string sXPath = (string)dbRead["ResultXMLTag"];
+                        string sXPath = (string)dbRead["XPath"];
                         //sXPath = "rbt_results/metric_results/" + sXPath;
 
-                        sXPath = sXPath.Replace("%%CHANNEL_UNIT_NUMBER%%", "1")
-                                       .Replace("%%TIER1_NAME%%", "'Fast-Turbulent'")
-                                       .Replace("%%TIER2_NAME%%", "'Riffle'");
+                        //sXPath = sXPath.Replace("%%CHANNEL_UNIT_NUMBER%%", "1")
+                        //               .Replace("%%TIER1_NAME%%", "'Fast-Turbulent'")
+                        //               .Replace("%%TIER2_NAME%%", "'Riffle'");
 
                         try
                         {
