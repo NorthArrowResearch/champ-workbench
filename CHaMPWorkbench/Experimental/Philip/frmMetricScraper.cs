@@ -54,15 +54,15 @@ namespace CHaMPWorkbench.Experimental.Philip
                 MetricSchemas["Tier 2 Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier2Metrics.xml", 5);
 
                 List<string> lErros = x.Run(ref MetricSchemas);
-                if (lErros.Count > 0)
+                if (chkVerify.Checked && lErros.Count > 0)
                 {
                     frmToolResults frm = new frmToolResults("Metric XPath Validation Failed",
                         "The following metrics are defined in the program XML files but failed validation in the workbench database. Metrics can only be scraped once all these issues are resolved" +
                         " and each metric defined in the XML metric schema definition XML file(s) occurs exactly once in the Workbench database.", ref lErros);
                     frm.ShowDialog();
+                    DialogResult = DialogResult.None;
                     return;
                 }
-
 
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
                 int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas, rdoXMLModelVersion.Checked, txtModelVersion.Text, ((naru.db.NamedObject) cboScavengeType.SelectedItem).ID);

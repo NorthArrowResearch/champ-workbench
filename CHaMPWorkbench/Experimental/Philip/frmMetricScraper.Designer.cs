@@ -38,9 +38,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cboScavengeType = new System.Windows.Forms.ComboBox();
             this.grpModelVersion = new System.Windows.Forms.GroupBox();
-            this.rdoXMLModelVersion = new System.Windows.Forms.RadioButton();
-            this.rdoSpecifiedModelVersion = new System.Windows.Forms.RadioButton();
             this.txtModelVersion = new System.Windows.Forms.TextBox();
+            this.rdoSpecifiedModelVersion = new System.Windows.Forms.RadioButton();
+            this.rdoXMLModelVersion = new System.Windows.Forms.RadioButton();
+            this.chkVerify = new System.Windows.Forms.CheckBox();
             this.grpModelVersion.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(507, 225);
+            this.cmdCancel.Location = new System.Drawing.Point(507, 240);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 9;
@@ -59,7 +60,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(406, 225);
+            this.cmdOK.Location = new System.Drawing.Point(406, 240);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(95, 23);
             this.cmdOK.TabIndex = 8;
@@ -135,12 +136,29 @@
             this.grpModelVersion.Controls.Add(this.txtModelVersion);
             this.grpModelVersion.Controls.Add(this.rdoSpecifiedModelVersion);
             this.grpModelVersion.Controls.Add(this.rdoXMLModelVersion);
-            this.grpModelVersion.Location = new System.Drawing.Point(18, 115);
+            this.grpModelVersion.Location = new System.Drawing.Point(18, 130);
             this.grpModelVersion.Name = "grpModelVersion";
             this.grpModelVersion.Size = new System.Drawing.Size(555, 100);
             this.grpModelVersion.TabIndex = 7;
             this.grpModelVersion.TabStop = false;
             this.grpModelVersion.Text = "Model Version";
+            // 
+            // txtModelVersion
+            // 
+            this.txtModelVersion.Location = new System.Drawing.Point(84, 67);
+            this.txtModelVersion.Name = "txtModelVersion";
+            this.txtModelVersion.Size = new System.Drawing.Size(172, 20);
+            this.txtModelVersion.TabIndex = 2;
+            // 
+            // rdoSpecifiedModelVersion
+            // 
+            this.rdoSpecifiedModelVersion.AutoSize = true;
+            this.rdoSpecifiedModelVersion.Location = new System.Drawing.Point(18, 44);
+            this.rdoSpecifiedModelVersion.Name = "rdoSpecifiedModelVersion";
+            this.rdoSpecifiedModelVersion.Size = new System.Drawing.Size(174, 17);
+            this.rdoSpecifiedModelVersion.TabIndex = 1;
+            this.rdoSpecifiedModelVersion.Text = "Use the following model version";
+            this.rdoSpecifiedModelVersion.UseVisualStyleBackColor = true;
             // 
             // rdoXMLModelVersion
             // 
@@ -155,22 +173,18 @@
             this.rdoXMLModelVersion.UseVisualStyleBackColor = true;
             this.rdoXMLModelVersion.CheckedChanged += new System.EventHandler(this.rdoXMLModelVersion_CheckedChanged);
             // 
-            // rdoSpecifiedModelVersion
+            // chkVerify
             // 
-            this.rdoSpecifiedModelVersion.AutoSize = true;
-            this.rdoSpecifiedModelVersion.Location = new System.Drawing.Point(18, 44);
-            this.rdoSpecifiedModelVersion.Name = "rdoSpecifiedModelVersion";
-            this.rdoSpecifiedModelVersion.Size = new System.Drawing.Size(174, 17);
-            this.rdoSpecifiedModelVersion.TabIndex = 1;
-            this.rdoSpecifiedModelVersion.Text = "Use the following model version";
-            this.rdoSpecifiedModelVersion.UseVisualStyleBackColor = true;
-            // 
-            // txtModelVersion
-            // 
-            this.txtModelVersion.Location = new System.Drawing.Point(84, 67);
-            this.txtModelVersion.Name = "txtModelVersion";
-            this.txtModelVersion.Size = new System.Drawing.Size(172, 20);
-            this.txtModelVersion.TabIndex = 2;
+            this.chkVerify.AutoSize = true;
+            this.chkVerify.Checked = true;
+            this.chkVerify.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkVerify.Location = new System.Drawing.Point(102, 107);
+            this.chkVerify.Name = "chkVerify";
+            this.chkVerify.Size = new System.Drawing.Size(441, 17);
+            this.chkVerify.TabIndex = 10;
+            this.chkVerify.Text = "Only scrape metrics if all Workbench metrics validate with CHaMP automation defin" +
+    "itions";
+            this.chkVerify.UseVisualStyleBackColor = true;
             // 
             // frmMetricScraper
             // 
@@ -178,7 +192,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(594, 260);
+            this.ClientSize = new System.Drawing.Size(594, 275);
+            this.Controls.Add(this.chkVerify);
             this.Controls.Add(this.grpModelVersion);
             this.Controls.Add(this.cboScavengeType);
             this.Controls.Add(this.label3);
@@ -215,5 +230,6 @@
         private System.Windows.Forms.TextBox txtModelVersion;
         private System.Windows.Forms.RadioButton rdoSpecifiedModelVersion;
         private System.Windows.Forms.RadioButton rdoXMLModelVersion;
+        private System.Windows.Forms.CheckBox chkVerify;
     }
 }
