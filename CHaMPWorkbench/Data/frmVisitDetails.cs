@@ -134,6 +134,9 @@ namespace CHaMPWorkbench.Data
                 da.Fill(ta);
 
                 grdChannelUnits.DataSource = ta;
+
+                foreach (DataGridViewColumn aCol in grdChannelUnits.Columns)
+                    aCol.ReadOnly = true;
             }
         }
 
@@ -183,6 +186,8 @@ namespace CHaMPWorkbench.Data
 
                 foreach (DataColumn col in ta.Columns)
                 {
+                    col.ReadOnly = true;
+
                     if (lColsToIgnore.Contains<string>(col.ColumnName))
                         continue;
 
@@ -254,6 +259,8 @@ namespace CHaMPWorkbench.Data
                 // Now assign the name of each result to the table columns.
                 foreach (DataColumn aCol in dt.Columns)
                 {
+                    aCol.ReadOnly = true;
+
                     long nResultID = 0;
                     if (long.TryParse(aCol.ColumnName, out nResultID))
                         aCol.ColumnName = dResultNames[nResultID];
@@ -277,7 +284,6 @@ namespace CHaMPWorkbench.Data
 
         private void LoadLogMessageCombos()
         {
-
             grdLogMessages.AutoGenerateColumns = false;
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
@@ -324,7 +330,10 @@ namespace CHaMPWorkbench.Data
                 grdLogMessages.DataSource = bsLogMessages;
 
                 foreach (DataGridViewColumn grdCol in grdLogMessages.Columns)
+                {
                     grdCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    grdCol.ReadOnly = true;
+                }
             }
         }
 

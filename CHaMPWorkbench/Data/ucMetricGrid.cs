@@ -71,6 +71,9 @@ namespace CHaMPWorkbench.Data
                 {
                     if (!aCol.HeaderText.ToLower().EndsWith("id"))
                         aCol.DefaultCellStyle.Format = "#,##0.000";
+
+                    // All columns are read only.
+                    aCol.ReadOnly = true;
                 }
             }
             catch (Exception ex)
