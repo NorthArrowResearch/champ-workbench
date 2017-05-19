@@ -117,14 +117,16 @@ namespace CHaMPWorkbench.Classes
                 var hashcode = ApiHelper.GetFileHashCode(fiZipFile.FullName);
                 var transferDetail = new GeoOptix.API.Model.TransferDetail
                 {
-                    dataSetTypeId = (int)DataSetTypes.TopographicData,
-                    visitId = (int) visit.ID,
-                    manifest = new[] { new GeoOptix.API.Model.TransferManifestFile { hash = hashcode, name = System.IO.Path.GetFileName( fiZipFile.FullName) }, }
+                    datasetName = "Topo",
+                    visitId = (int)visit.ID,
+                    manifest = new[] { new GeoOptix.API.Model.TransferManifestFile { hash = hashcode, name = "TopoData.zip" }, }
                 };
 
                 var response = helper.CreateTransfer(transferDetail);
                 var transfer = response.Payload;
                 var resp = helper.UploadTransferFile(transfer.id, fiZipFile.FullName, CHUNK_SIZE);
+                helper.CloseTransfer(transfer.id);
+                Console.WriteLine("Here");
             }
             catch (Exception ex)
             {
