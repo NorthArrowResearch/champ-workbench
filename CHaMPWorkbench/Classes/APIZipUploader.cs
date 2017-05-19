@@ -176,15 +176,10 @@ namespace CHaMPWorkbench.Classes
 
         private string GetZipFilePath(string sFolder, long VisitID)
         {
-            int nCounter = 1;
-            string sFilePath = string.Empty;
-            do
-            {
-                sFilePath = System.IO.Path.Combine(sFolder, string.Format("TopoData_Visit_{0}_{1:0000}.zip", VisitID, nCounter));
-                nCounter++;
-            } while (System.IO.File.Exists(sFilePath));
-
-            return sFilePath;
+            string filePath = System.IO.Path.Combine(sFolder, string.Format("TopoUpload_Visit{0}_{1:yyyyMMddHHmmss}", VisitID, DateTime.Now));
+            System.IO.Directory.CreateDirectory(filePath);
+            filePath = System.IO.Path.Combine(filePath, "TopoData.zip");
+            return filePath;
         }
 
         private CHaMPData.Program GetProgram(CHaMPData.VisitBasic visit)
