@@ -18,17 +18,17 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         public bool IsActive { get; internal set; }
         public long DataTypeID { get; internal set; }
         public string DataTypeName { get; internal set; }
-        public int Precision { get; internal set; }
-        public double Threshold { get; internal set; }
-        public double MinValue { get; internal set; }
-        public double MaxValue { get; internal set; }
+        public long? Precision { get; internal set; }
+        public double? Threshold { get; internal set; }
+        public double? MinValue { get; internal set; }
+        public double? MaxValue { get; internal set; }
 
         public MetricDefinition(long nID, string sTitle, string sDisplayNameShort
             , long nSchemaID, string sSchemaName
             , long nModelID, string sModelName
             , string sXPath, bool bIsActive
             , long nDataTypeID, string sDataTypeName
-            , int nPrecision, double fThreshold, double fMinValue, double fMaxValue)
+            , long? nPrecision, double? fThreshold, double? fMinValue, double? fMaxValue)
             : base(nID, sTitle)
         {
             DisplayNameShort = sDisplayNameShort;
@@ -58,9 +58,26 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    dbRead.GetInt64(dbRead.GetOrdinal(""));
+                    result.Add(new MetricDefinition(
+                        dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("Title"))
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "DisplayNameShort")
+                        , dbRead.GetInt64(dbRead.GetOrdinal("SchemaID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("SchemaName"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("ModelID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("ModelName"))
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "XPath")
+                        , dbRead.GetBoolean(dbRead.GetOrdinal("IsActive"))
+                        , dbRead.GetInt64(dbRead.GetOrdinal("DataTypeID"))
+                        , dbRead.GetString(dbRead.GetOrdinal("DataTypeName"))
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Threahold")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MinValue")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MaxValue")));              
                 }
             }
+
+            return result;
         }
     }
 }
