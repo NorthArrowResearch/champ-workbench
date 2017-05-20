@@ -307,6 +307,13 @@
     <Compile Include="Data\frmVisitDetails.Designer.cs">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\MetricDefinitions\frmMetricDefinitions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\MetricDefinitions\frmMetricDefinitions.Designer.cs">
+      <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MetricDefinitions\MetricDefinition.cs" />
     <Compile Include="Data\ucMetricGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -584,6 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\MetricDefinitions\frmMetricDefinitions.resx">
+      <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricGrid.resx">
       <DependentUpon>ucMetricGrid.cs</DependentUpon>
