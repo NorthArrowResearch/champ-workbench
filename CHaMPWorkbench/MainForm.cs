@@ -1916,5 +1916,11 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void metricDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.MetricDefinitions.frmMetricDefinitions frm = new Data.MetricDefinitions.frmMetricDefinitions();
+            frm.ShowDialog();
+        }
     }
 }

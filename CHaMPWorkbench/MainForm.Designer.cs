@@ -180,6 +180,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -318,7 +319,8 @@
             this.uploadTopoSurveyProjectToolStripMenuItem,
             this.toolStripSeparator7,
             this.createCustomVisitToolStripMenuItem,
-            this.prepareDatabaseForDeploymentToolStripMenuItem});
+            this.prepareDatabaseForDeploymentToolStripMenuItem,
+            this.metricDefinitionsToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -1492,6 +1494,13 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // metricDefinitionsToolStripMenuItem
+            // 
+            this.metricDefinitionsToolStripMenuItem.Name = "metricDefinitionsToolStripMenuItem";
+            this.metricDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricDefinitionsToolStripMenuItem.Text = "Metric Definitions";
+            this.metricDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.metricDefinitionsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1681,6 +1690,7 @@
         private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem metricDefinitionsToolStripMenuItem;
     }
 }
 
