@@ -1922,5 +1922,20 @@ namespace CHaMPWorkbench
             Data.MetricDefinitions.frmMetricDefinitions frm = new Data.MetricDefinitions.frmMetricDefinitions();
             frm.ShowDialog();
         }
+
+        private void tileVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        private void tileHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
     }
 }

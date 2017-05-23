@@ -313,6 +313,12 @@
     <Compile Include="Data\MetricDefinitions\frmMetricDefinitions.Designer.cs">
       <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\MetricDefinitions\frmMetricProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\MetricDefinitions\frmMetricProperties.Designer.cs">
+      <DependentUpon>frmMetricProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\MetricDefinitions\MetricDefinition.cs" />
     <Compile Include="Data\ucMetricGrid.cs">
       <SubType>UserControl</SubType>
@@ -549,6 +555,12 @@
     <Compile Include="Validation\frmSelectHelper.Designer.cs">
       <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visits\frmVisitDataGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visits\frmVisitDataGrid.Designer.cs">
+      <DependentUpon>frmVisitDataGrid.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Classes\ExceptionHandling\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -594,6 +606,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\MetricDefinitions\frmMetricDefinitions.resx">
       <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\MetricDefinitions\frmMetricProperties.resx">
+      <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricGrid.resx">
       <DependentUpon>ucMetricGrid.cs</DependentUpon>
@@ -707,6 +722,9 @@
     <EmbeddedResource Include="Validation\frmSelectHelper.resx">
       <DependentUpon>frmSelectHelper.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Visits\frmVisitDataGrid.resx">
+      <DependentUpon>frmVisitDataGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
@@ -747,6 +765,10 @@
     <None Include="Resources\user_comment.png" />
     <None Include="Resources\chart.png" />
     <None Include="Resources\upload.png" />
+    <None Include="Resources\measure.png" />
+    <None Include="Resources\tile_horizontal.png" />
+    <None Include="Resources\tile.png" />
+    <None Include="Resources\cascade.png" />
     <Content Include="WorkbenchMaster.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
