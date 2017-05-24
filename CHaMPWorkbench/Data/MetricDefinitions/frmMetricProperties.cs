@@ -14,8 +14,14 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
     public partial class frmMetricProperties : Form
     {
         public MetricDefinition MetricDef { get; internal set; }
+        
+        public frmMetricProperties()
+        {
+            InitializeComponent();
+            MetricDef = null;
+        }
 
-        public frmMetricProperties(MetricDefinition aMetric)
+        public frmMetricProperties(ref MetricDefinition aMetric)
         {
             InitializeComponent();
             MetricDef = aMetric;
@@ -77,8 +83,10 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             }
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboModel, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 4), nModelID);
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboSchema, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 2), nSchemaID);
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboSchema, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT SchemaID, Title FROM Metric_Schemas ORDER BY Title", 2), nSchemaID);
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboDataType, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 14), nDataTypeID);
+
+            chkActive.Checked = true;
         }
 
         private void UpdateControls(object sender, EventArgs e)
@@ -122,19 +130,26 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 return false;
             }
 
+            if (string.IsNullOrEmpty(txtShortName.Text.Trim()))
+            {
+                MessageBox.Show("The metric short name cannot be empty.", "Missing Metric Short Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtShortName.Select();
+                return false;
+            }
+
             if (chkActive.Checked)
             {
-                if (string.IsNullOrEmpty(txtShortName.Text.Trim()))
-                {
-                    MessageBox.Show("Active metrics must possess a short name.", "Missing Short Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtShortName.Select();
-                    return false;
-                }
-
                 if (string.IsNullOrEmpty(txtXPath.Text.Trim()))
                 {
                     MessageBox.Show("Active metrics must possess a valid XPath.", "Missing XPath", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtXPath.Select();
+                    return false;
+                }
+
+                if (cboDataType.SelectedIndex<0)
+                {
+                    MessageBox.Show("Active metrics must possess a data type.", "Missing Data Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cboDataType.Select();
                     return false;
                 }
             }
@@ -164,57 +179,49 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 return;
             }
 
-
             try
             {
-                using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+                if (MetricDef == null)
+                    MetricDef = new MetricDefinition(txtName.Text);
+
+                // Name needs to be reset for updates
+                MetricDef.Name = txtName.Text;
+                MetricDef.DisplayNameShort = txtShortName.Text;
+                MetricDef.ModelID = ((naru.db.NamedObject)cboModel.SelectedItem).ID;
+                MetricDef.ModelName = cboModel.Text;
+                MetricDef.SchemaID = ((naru.db.NamedObject)cboSchema.SelectedItem).ID;
+                MetricDef.SchemaName = cboSchema.Text;
+                MetricDef.DataTypeID = ((naru.db.NamedObject)cboDataType.SelectedItem).ID;
+                MetricDef.DataTypeName = cboDataType.Text;
+                MetricDef.IsActive = chkActive.Checked;
+                MetricDef.XPath = txtXPath.Text;
+
+                if (string.Compare(cboDataType.Text, "numeric", true) == 0)
+                    MetricDef.Precision = (long)valPrecision.Value;
+                else
+                    MetricDef.Precision = new long?();
+
+                MetricDef.ProgramIDs.Clear();
+                foreach (naru.db.NamedObject item in chkProgram.CheckedItems)
+                    MetricDef.ProgramIDs.Add(item.ID);
+                
+                MetricDef.MMLink = txtMMLink.Text;
+                MetricDef.AltLink = txtAltLink.Text;
+
+                if (chkValidation.Checked)
                 {
-                    dbCon.Open();
-
-                    if (MetricDef == null)
-                    {
-                        MetricDef = new MetricDefinition(txtName.Text);
-                    }
-
-                    MetricDef.Name = txtName.Text;
-                    MetricDef.DisplayNameShort = txtShortName.Text;
-                    MetricDef.ModelID = ((naru.db.NamedObject)cboModel.SelectedItem).ID;
-                    MetricDef.ModelName = cboModel.Text;
-                    MetricDef.SchemaID = ((naru.db.NamedObject)cboSchema.SelectedItem).ID;
-                    MetricDef.SchemaName = cboSchema.Text;
-                    MetricDef.DataTypeID = ((naru.db.NamedObject)cboDataType.SelectedItem).ID;
-                    MetricDef.DataTypeName = cboDataType.Text;
-                    MetricDef.IsActive = chkActive.Checked;
-                    MetricDef.XPath = txtXPath.Text;
-
-                    if (string.Compare(cboDataType.Text, "numeric", true) == 0)
-                        MetricDef.Precision = (long)valPrecision.Value;
-                    else
-                        MetricDef.Precision = new long?();
-
-                    MetricDef.ProgramIDs.Clear();
-                    foreach (naru.db.CheckedItem.CheckedListItem item in chkProgram.CheckedItems)
-                        MetricDef.ProgramIDs.Add(item.ID);
-
-
-                    MetricDef.MMLink = txtMMLink.Text;
-                    MetricDef.AltLink = txtAltLink.Text;
-
-                    if (chkValidation.Checked)
-                    {
-                        MetricDef.MinValue = (double)valMinValue.Value;
-                        MetricDef.MaxValue = (double)valMaxValue.Value;
-                        MetricDef.Threshold = (double)valThreshold.Value;
-                    }
-                    else
-                    {
-                        MetricDef.MinValue = new double?();
-                        MetricDef.MaxValue = new double?();
-                        MetricDef.Threshold = new double?();
-                    }
-
-                    MetricDef.Save();
+                    MetricDef.MinValue = (double)valMinValue.Value;
+                    MetricDef.MaxValue = (double)valMaxValue.Value;
+                    MetricDef.Threshold = (double)valThreshold.Value;
                 }
+                else
+                {
+                    MetricDef.MinValue = new double?();
+                    MetricDef.MaxValue = new double?();
+                    MetricDef.Threshold = new double?();
+                }
+
+                MetricDef.Save();
             }
             catch (Exception ex)
             {

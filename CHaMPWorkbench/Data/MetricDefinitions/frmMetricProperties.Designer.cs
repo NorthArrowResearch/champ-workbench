@@ -92,6 +92,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdSave.Location = new System.Drawing.Point(293, 385);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
@@ -214,7 +215,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(356, 158);
+            this.tabPage1.Size = new System.Drawing.Size(429, 158);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Data Storage";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -247,18 +248,19 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(356, 158);
+            this.tabPage4.Size = new System.Drawing.Size(429, 158);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Programs";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // chkProgram
             // 
+            this.chkProgram.CheckOnClick = true;
             this.chkProgram.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkProgram.FormattingEnabled = true;
             this.chkProgram.Location = new System.Drawing.Point(3, 3);
             this.chkProgram.Name = "chkProgram";
-            this.chkProgram.Size = new System.Drawing.Size(350, 152);
+            this.chkProgram.Size = new System.Drawing.Size(423, 152);
             this.chkProgram.TabIndex = 0;
             // 
             // tabPage3
@@ -274,7 +276,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(356, 158);
+            this.tabPage3.Size = new System.Drawing.Size(429, 158);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "MetaData";
             this.tabPage3.UseVisualStyleBackColor = true;

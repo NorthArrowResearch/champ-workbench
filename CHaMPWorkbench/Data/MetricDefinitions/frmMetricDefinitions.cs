@@ -114,7 +114,8 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         {
             if (e.RowIndex >= 0)
             {
-                frmMetricProperties frm = new frmMetricProperties((MetricDefinition)grdData.Rows[e.RowIndex].DataBoundItem);
+                MetricDefinition editMetric = (MetricDefinition)grdData.Rows[e.RowIndex].DataBoundItem;
+                frmMetricProperties frm = new frmMetricProperties(ref editMetric);
                 frm.ShowDialog();
             }
         }
@@ -123,7 +124,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         {
             try
             {
-                frmMetricProperties frm = new frmMetricProperties(null);
+                frmMetricProperties frm = new frmMetricProperties();
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     MetricDefs.Add(frm.MetricDef);

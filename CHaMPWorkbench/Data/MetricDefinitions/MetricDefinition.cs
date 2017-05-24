@@ -32,7 +32,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         public MetricDefinition(string sTitle) : base(0, sTitle)
         {
-
+            init();
         }
 
         public MetricDefinition(long nID, string sTitle, string sDisplayNameShort
@@ -63,7 +63,13 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             UpdatedOn = dtUpdatedOn;
             AddedOn = dtAddedOn;
 
-            ProgramIDs = new List<long>();
+            init();
+        }
+
+        private void init()
+        {
+         ProgramIDs = new List<long>();
+   
         }
 
         public static naru.ui.SortableBindingList<MetricDefinition> Load(string sDBCon)
@@ -132,7 +138,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                 try
                 {
-                    string[] sFields = { "Title", "TypeID", "ModelID", "XPath", "Threshold", "MinValue", "MaxValue", "IsActive", "DisplayNameShort", "Precision", "DataTypeID", "MMLink", "AltLink" };
+                    string[] sFields = { "Title", "SchemaID", "ModelID", "XPath", "Threshold", "MinValue", "MaxValue", "IsActive", "DisplayNameShort", "Precision", "DataTypeID", "MMLink", "AltLink", "YearIntroduced" };
                     SQLiteCommand dbCom = new SQLiteCommand(string.Empty, dbTrans.Connection, dbTrans);
 
                     if (ID == 0)
@@ -144,17 +150,19 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     }
 
                     dbCom.Parameters.AddWithValue("Title", Name);
-                    dbCom.Parameters.AddWithValue("TypeID", SchemaID);
+                    dbCom.Parameters.AddWithValue("SchemaID", SchemaID);
                     dbCom.Parameters.AddWithValue("ModelID", ModelID);
                     naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, XPath, "XPath");
                     naru.db.sqlite.SQLiteHelpers.AddDoubleParameterN(ref dbCom, Threshold, "Threshold");
                     naru.db.sqlite.SQLiteHelpers.AddDoubleParameterN(ref dbCom, MinValue, "MinValue");
                     naru.db.sqlite.SQLiteHelpers.AddDoubleParameterN(ref dbCom, MaxValue, "MaxValue");
                     dbCom.Parameters.AddWithValue("IsActive", IsActive);
+                    naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, DisplayNameShort, "DisplayNameShort");
                     naru.db.sqlite.SQLiteHelpers.AddLongParameterN(ref dbCom, Precision, "Precision");
                     dbCom.Parameters.AddWithValue("DataTypeID", DataTypeID);
                     naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, MMLink, "MMLink");
                     naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, AltLink, "AltLink");
+                    dbCom.Parameters.AddWithValue("YearIntroduced", DateTime.Now.Year);
 
                     dbCom.ExecuteNonQuery();
 
