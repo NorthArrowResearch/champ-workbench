@@ -225,8 +225,10 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             }
         }
 
-        public static void ExportMetricSchemaToXML(string sFullPath, long nSchemaID)
+        public static int ExportMetricSchemaToXML(string sFullPath, long nSchemaID)
         {
+            int nExportedMetrics = 0;
+
             XmlDocument xmlDoc = new XmlDocument();
 
             XmlNode nodSchema = xmlDoc.CreateElement("MetricSchema");
@@ -294,10 +296,12 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     XmlAttribute attType = xmlDoc.CreateAttribute("type");
                     attType.InnerText = dbRead.GetString(dbRead.GetOrdinal("DataTypeName")).ToLower();
                     nodMetric.Attributes.Append(attType);
+                    nExportedMetrics++;
                 }
             }
 
             xmlDoc.Save(sFullPath);
+            return nExportedMetrics;
         }
     }
 }

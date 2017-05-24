@@ -154,7 +154,18 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             {
                 try
                 {
-                    MetricDefinition.ExportMetricSchemaToXML(frmExport.FileName, ((naru.db.NamedObject)chkSchema.CheckedItems[0]).ID);
+                    int nExportedMetrics = MetricDefinition.ExportMetricSchemaToXML(frmExport.FileName, ((naru.db.NamedObject)chkSchema.CheckedItems[0]).ID);
+
+                    switch (MessageBox.Show(string.Format("{0} metrics exported successfully. Do you want to open and view the XML file?", nExportedMetrics), "Process Successful", MessageBoxButtons.YesNoCancel))
+                    {
+                        case DialogResult.Yes:
+                            System.Diagnostics.Process.Start(frmExport.FileName);
+                            break;
+
+                        case DialogResult.Cancel:
+                            this.DialogResult = DialogResult.Cancel;
+                            break;
+                    }
                 }
                 catch (Exception ex)
                 {
