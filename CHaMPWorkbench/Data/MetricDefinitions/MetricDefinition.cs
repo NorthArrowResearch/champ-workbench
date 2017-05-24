@@ -217,48 +217,76 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             }
         }
 
-        public static void ExportMetricSchemaToXML(string sFullPath, long nSchemaID, string schemaName, string sRootPath)
+        public static void ExportMetricSchemaToXML(string sFullPath, long nSchemaID)
         {
             XmlDocument xmlDoc = new XmlDocument();
 
             XmlNode nodSchema = xmlDoc.CreateElement("MetricSchema");
             xmlDoc.AppendChild(nodSchema);
 
-            XmlNode nodName = xmlDoc.CreateElement("Name");
-            nodName.InnerText = schemaName;
-            nodSchema.AppendChild(nodName);
+            XmlAttribute attNameSpace = xmlDoc.CreateAttribute("xmlns:xsi");
+            attNameSpace.InnerText = "http://www.w3.org/2001/XMLSchema-instance";
+            nodSchema.Attributes.Append(attNameSpace);
 
-            XmlNode nodRoot = xmlDoc.CreateElement("RootXPath");
-            nodRoot.InnerText = sRootPath;
-            nodSchema.AppendChild(nodRoot);
+            XmlAttribute attSchema = xmlDoc.CreateAttribute("xsi:noNamespaceSchemaLocation");
+            attSchema.InnerText = "XSD/schema.xsd";
+            nodSchema.Attributes.Append(attSchema);
 
-            XmlNode nodMetrics = xmlDoc.CreateElement("Metrics");
-            nodSchema.AppendChild(nodMetrics);
+            //Create an XML declaration. 
+            XmlDeclaration xmldecl = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8".ToLower(), null);
+            xmlDoc.InsertBefore(xmldecl, nodSchema);
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT Title, XPath, DataTypeName, Precision FROM vwMetricDefinitions WHERE (SchemaID = @SchemaID) AND (IsActive <> 0) AND (XPath IS NOT NULL) ORDER BY Title", dbCon);
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Title, RootXPath FROM Metric_Schemas WHERE (SchemaID = @SchemaID) AND (Title IS NOT NULL) AND (RootXPath IS NOT NULL)", dbCon);
                 dbCom.Parameters.AddWithValue("SchemaID", nSchemaID);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                if (!dbRead.Read())
+                    throw new Exception(string.Format("Metric schema with ID {0} does not possess a title and XPathRoot.", nSchemaID));
+
+                XmlNode nodName = xmlDoc.CreateElement("Name");
+                nodName.InnerText = dbRead.GetString(dbRead.GetOrdinal("Title"));
+                nodSchema.AppendChild(nodName);
+
+                string sXPathRoot = dbRead.GetString(dbRead.GetOrdinal("RootXPath"));
+                XmlNode nodRoot = xmlDoc.CreateElement("RootXPath");
+                nodRoot.InnerText = sXPathRoot;
+                nodSchema.AppendChild(nodRoot);
+
+                XmlNode nodMetrics = xmlDoc.CreateElement("Metrics");
+                nodSchema.AppendChild(nodMetrics);
+
+                dbRead.Close();
+
+                dbCom = new SQLiteCommand("SELECT DisplayNameShort, Title, XPath, DataTypeName, Precision FROM vwMetricDefinitions WHERE (SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (IsActive <> 0) AND (XPath IS NOT NULL) ORDER BY Title", dbCon);
+                dbCom.Parameters.AddWithValue("SchemaID", nSchemaID);
+                dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
                     XmlNode nodMetric = xmlDoc.CreateElement("Metric");
                     nodMetrics.AppendChild(nodMetric);
 
                     XmlAttribute attName = xmlDoc.CreateAttribute("name");
-                    attName.InnerText = dbRead.GetString(dbRead.GetOrdinal("Title"));
+                    attName.InnerText = dbRead.GetString(dbRead.GetOrdinal("DisplayNameShort"));
                     nodMetric.Attributes.Append(attName);
 
                     XmlAttribute attXPath = xmlDoc.CreateAttribute("xpath");
                     string sFullXPath = dbRead.GetString(dbRead.GetOrdinal("XPath"));
-                    attXPath.InnerText = sFullPath.Replace(sFullPath, sRootPath);
+                    attXPath.InnerText = sFullXPath.Replace(sXPathRoot, "").TrimStart('/');                   
                     nodMetric.Attributes.Append(attXPath);
 
+                    XmlAttribute attPrecision = xmlDoc.CreateAttribute("precision");
+                    nodMetric.Attributes.Append(attXPath);
+                    long? nPrecision = naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision");
+                    if (nPrecision.HasValue)
+                        attXPath.InnerText = nPrecision.ToString();
+
                     XmlAttribute attType = xmlDoc.CreateAttribute("type");
-                    attType.InnerText = dbRead.GetString(dbRead.GetOrdinal("DataTypeName"));
+                    attType.InnerText = dbRead.GetString(dbRead.GetOrdinal("DataTypeName")).ToLower();
                     nodMetric.Attributes.Append(attType);
-                }               
+                }
             }
 
             xmlDoc.Save(sFullPath);
