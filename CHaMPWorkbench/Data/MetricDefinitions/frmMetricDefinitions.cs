@@ -14,6 +14,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
     {
         private naru.ui.SortableBindingList<MetricDefinition> MetricDefs;
         SaveFileDialog frmExport;
+        private BindingSource bsMetricDefs;
 
         public frmMetricDefinitions()
         {
@@ -24,6 +25,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             frmExport.Filter = "XML Files (*.xml)|*.xml";
             frmExport.AddExtension = true;
             frmExport.InitialDirectory = CHaMPWorkbench.MainForm.GetDatabasePathFromConnectionString(naru.db.sqlite.DBCon.ConnectionString);
+
         }
 
         private void frmMetricDefinitions_Load(object sender, EventArgs e)
@@ -116,7 +118,10 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             {
                 MetricDefinition editMetric = (MetricDefinition)grdData.Rows[e.RowIndex].DataBoundItem;
                 frmMetricProperties frm = new frmMetricProperties(ref editMetric);
-                frm.ShowDialog();
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    MetricDefs.ResetBindings();
+                }
             }
         }
 
