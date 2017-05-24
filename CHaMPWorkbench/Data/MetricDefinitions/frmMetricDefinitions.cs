@@ -120,6 +120,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 frmMetricProperties frm = new frmMetricProperties(ref editMetric);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
+                    MetricDefs.ResetItem(MetricDefs.IndexOf(editMetric));
                     MetricDefs.ResetBindings();
                 }
             }
