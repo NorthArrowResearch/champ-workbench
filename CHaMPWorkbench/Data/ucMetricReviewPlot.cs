@@ -60,7 +60,7 @@ namespace CHaMPWorkbench.Data
                 sProgramClause = string.Format(" AND (P.ProgramID = {0})", Program.ID);
 
             string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
-                " WHERE (D.TypeID = 3) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
+                " WHERE (D.SchemaID = 1) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);

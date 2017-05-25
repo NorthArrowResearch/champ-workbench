@@ -1741,14 +1741,14 @@ namespace CHaMPWorkbench
                 using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
                 {
                     dbCon.Open();
-                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ItemID, Title FROM LookupListItems WHERE ListID = 12 ORDER BY Title", dbCon);
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ProgramID, Title FROM LookupPrograms ORDER BY Title", dbCon);
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
                         ToolStripMenuItem mnuQuery = new ToolStripMenuItem(dbRead.GetString(dbRead.GetOrdinal("Title")));
 
                         // Build a tag that contains everything the query needs to run
-                        mnuQuery.Tag = new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("ItemID")), dbRead.GetString(dbRead.GetOrdinal("Title")));
+                        mnuQuery.Tag = new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("ProgramID")), dbRead.GetString(dbRead.GetOrdinal("Title")));
                         mnuQuery.Click += this.ShowMetricReviewForm;
                         metricReviewToolStripMenuItem.DropDownItems.Add(mnuQuery);
                     }
