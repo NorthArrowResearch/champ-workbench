@@ -38,6 +38,10 @@
             this.chkSchema = new System.Windows.Forms.CheckedListBox();
             this.grpModel = new System.Windows.Forms.GroupBox();
             this.chkModel = new System.Windows.Forms.CheckedListBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSchemaXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewMetricToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grdData = new System.Windows.Forms.DataGridView();
             this.colMetricID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,10 +56,6 @@
             this.colXPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportSchemaXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewMetricToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -63,8 +63,8 @@
             this.grpTitle.SuspendLayout();
             this.grpSchema.SuspendLayout();
             this.grpModel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -95,7 +95,7 @@
             this.chkXPath.AutoSize = true;
             this.chkXPath.Checked = true;
             this.chkXPath.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkXPath.Location = new System.Drawing.Point(12, 371);
+            this.chkXPath.Location = new System.Drawing.Point(12, 386);
             this.chkXPath.Name = "chkXPath";
             this.chkXPath.Size = new System.Drawing.Size(123, 17);
             this.chkXPath.TabIndex = 0;
@@ -107,7 +107,7 @@
             this.chkActive.AutoSize = true;
             this.chkActive.Checked = true;
             this.chkActive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActive.Location = new System.Drawing.Point(12, 348);
+            this.chkActive.Location = new System.Drawing.Point(12, 363);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(80, 17);
             this.chkActive.TabIndex = 4;
@@ -119,7 +119,7 @@
             this.grpTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpTitle.Controls.Add(this.txtTitle);
-            this.grpTitle.Location = new System.Drawing.Point(12, 293);
+            this.grpTitle.Location = new System.Drawing.Point(12, 308);
             this.grpTitle.Name = "grpTitle";
             this.grpTitle.Size = new System.Drawing.Size(178, 48);
             this.grpTitle.TabIndex = 3;
@@ -138,7 +138,7 @@
             this.grpSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpSchema.Controls.Add(this.chkSchema);
-            this.grpSchema.Location = new System.Drawing.Point(12, 136);
+            this.grpSchema.Location = new System.Drawing.Point(12, 151);
             this.grpSchema.Name = "grpSchema";
             this.grpSchema.Size = new System.Drawing.Size(178, 149);
             this.grpSchema.TabIndex = 2;
@@ -162,7 +162,7 @@
             this.grpModel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpModel.Controls.Add(this.chkModel);
-            this.grpModel.Location = new System.Drawing.Point(12, 12);
+            this.grpModel.Location = new System.Drawing.Point(12, 27);
             this.grpModel.Name = "grpModel";
             this.grpModel.Size = new System.Drawing.Size(178, 118);
             this.grpModel.TabIndex = 1;
@@ -180,6 +180,39 @@
             this.chkModel.Name = "chkModel";
             this.chkModel.Size = new System.Drawing.Size(166, 94);
             this.chkModel.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(193, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // dataToolStripMenuItem
+            // 
+            this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportSchemaXMLToolStripMenuItem,
+            this.createNewMetricToolStripMenuItem});
+            this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.dataToolStripMenuItem.Text = "Data";
+            // 
+            // exportSchemaXMLToolStripMenuItem
+            // 
+            this.exportSchemaXMLToolStripMenuItem.Name = "exportSchemaXMLToolStripMenuItem";
+            this.exportSchemaXMLToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.exportSchemaXMLToolStripMenuItem.Text = "Export Schema XML...";
+            this.exportSchemaXMLToolStripMenuItem.Click += new System.EventHandler(this.exportSchemaXMLToolStripMenuItem_Click);
+            // 
+            // createNewMetricToolStripMenuItem
+            // 
+            this.createNewMetricToolStripMenuItem.Name = "createNewMetricToolStripMenuItem";
+            this.createNewMetricToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.createNewMetricToolStripMenuItem.Text = "Create New Metric...";
+            this.createNewMetricToolStripMenuItem.Click += new System.EventHandler(this.createNewMetricToolStripMenuItem_Click);
             // 
             // grdData
             // 
@@ -301,39 +334,6 @@
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(193, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // dataToolStripMenuItem
-            // 
-            this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportSchemaXMLToolStripMenuItem,
-            this.createNewMetricToolStripMenuItem});
-            this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
-            this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.dataToolStripMenuItem.Text = "Data";
-            // 
-            // exportSchemaXMLToolStripMenuItem
-            // 
-            this.exportSchemaXMLToolStripMenuItem.Name = "exportSchemaXMLToolStripMenuItem";
-            this.exportSchemaXMLToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.exportSchemaXMLToolStripMenuItem.Text = "Export Schema XML...";
-            this.exportSchemaXMLToolStripMenuItem.Click += new System.EventHandler(this.exportSchemaXMLToolStripMenuItem_Click);
-            // 
-            // createNewMetricToolStripMenuItem
-            // 
-            this.createNewMetricToolStripMenuItem.Name = "createNewMetricToolStripMenuItem";
-            this.createNewMetricToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.createNewMetricToolStripMenuItem.Text = "Create New Metric...";
-            this.createNewMetricToolStripMenuItem.Click += new System.EventHandler(this.createNewMetricToolStripMenuItem_Click);
-            // 
             // frmMetricDefinitions
             // 
             this.ClientSize = new System.Drawing.Size(788, 519);
@@ -352,9 +352,9 @@
             this.grpTitle.PerformLayout();
             this.grpSchema.ResumeLayout(false);
             this.grpModel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.ResumeLayout(false);
 
         }

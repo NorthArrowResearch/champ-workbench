@@ -192,9 +192,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.Title, D.CMMetricID, D.TypeID, D.Threshold, D.MinValue, D.MaxValue, D.IsActive, D.CMMetricID, MGs.Title AS MetricParentGroup, MCGs.Title AS MetricChildGroup" +
-                    " FROM (Metric_Definitions AS D LEFT JOIN LookupListItems AS MGs ON D.MetricGroupID = MGs.ItemID) LEFT JOIN LookupListItems AS MCGs ON D.MetricChannelGroupID = MCGs.ItemID" +
-                    " WHERE (D.Title Is Not Null) AND (D.TypeID Is Not Null) AND (D.IsActive <> 0) ORDER BY D.Title", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMetricDefinitions WHERE (SchemaID IS NOT NULL) AND (SchemaID = 1) AND (IsActive <> 0) ORDER BY Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
@@ -224,7 +222,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                         (string)dbRead["Title"]
                         , (long)dbRead["MetricID"]
                         , nCMMetricID
-                        , (long)dbRead["TypeID"]
+                        , (long)dbRead["SchemaID"]
                         , (double)dbRead["Threshold"]
                         , fMinValue
                         , fMaxValue

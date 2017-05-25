@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public string Title { get; internal set; }
         public long MetricID { get; internal set; }
         public Nullable<long> CMMetricID { get; internal set; }
-        public long GroupTypeID { get; internal set; }
+        public long SchemaID { get; internal set; }
         public double Threshold { get; internal set; }
         public Nullable<double> MinValue { get; internal set; }
         public Nullable<double> MaxValue { get; internal set; }
@@ -28,13 +28,13 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
         public Dictionary<long, VisitResults> Visits;
 
-        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nGroupTypeID, double fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
+        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nSchemaID, double fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
            string sGroupType, string sChannelGroup)
         {
             Title = sTitle;
             MetricID = nMetricID;
             CMMetricID = nCMMetricID;
-            GroupTypeID = nGroupTypeID;
+            SchemaID = nSchemaID;
             Threshold = fThreshold;
             MinValue = fMinValue;
             MaxValue = fMaxValue;
@@ -145,24 +145,24 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         {
             string sSQL = "SELECT V.MetricValue, R.ModelVersion";
 
-            switch (GroupTypeID)
+            switch (SchemaID)
             {
-                case 3: // visit metrics
+                case 1: // visit metrics
                     sSQL += " FROM Metric_Results R INNER JOIN Metric_VisitMetrics V ON R.ResultID = V.ResultID";
                     break;
 
-                case 4: // tier 1 metrics
-                    System.Diagnostics.Debug.Print("WARNING: Tier 1 metrics not yet implemented for MetricGroupID {0}." , GroupTypeID);
+                case 3: // tier 1 metrics
+                    System.Diagnostics.Debug.Print("WARNING: Tier 1 metrics not yet implemented for MetricGroupID {0}." , SchemaID);
                     return string.Empty;
                     break;
 
-                case 5: // tier 2 metrics
-                    System.Diagnostics.Debug.Print("WARNING: Tier 2 metrics not yet implemented for MetricGroupID {0}.", GroupTypeID);
+                case 4: // tier 2 metrics
+                    System.Diagnostics.Debug.Print("WARNING: Tier 2 metrics not yet implemented for MetricGroupID {0}.", SchemaID);
                     return string.Empty;
                     break;
 
-                case 6: // Channel unit metrics
-                    System.Diagnostics.Debug.Print("WARNING: channel unit metrics not yet implemented for MetricGroupID {0}.", GroupTypeID);
+                case 2: // Channel unit metrics
+                    System.Diagnostics.Debug.Print("WARNING: channel unit metrics not yet implemented for MetricGroupID {0}.", SchemaID);
                     return string.Empty;
                     break;
             }
@@ -204,7 +204,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
             // TODO: PUT A REAL VALUE IN ME
             XmlNode nodGroupTypeID = xmlDoc.CreateElement("group_type_id");
-            nodGroupTypeID.InnerText = GroupTypeID.ToString();
+            nodGroupTypeID.InnerText = SchemaID.ToString();
             nodMetric.AppendChild(nodGroupTypeID);
 
             XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
