@@ -14,7 +14,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
     public partial class frmMetricProperties : Form
     {
         public MetricDefinition MetricDef { get; internal set; }
-        
+
         public frmMetricProperties()
         {
             InitializeComponent();
@@ -146,7 +146,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     return false;
                 }
 
-                if (cboDataType.SelectedIndex<0)
+                if (cboDataType.SelectedIndex < 0)
                 {
                     MessageBox.Show("Active metrics must possess a data type.", "Missing Data Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cboDataType.Select();
@@ -204,7 +204,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 MetricDef.ProgramIDs.Clear();
                 foreach (naru.db.NamedObject item in chkProgram.CheckedItems)
                     MetricDef.ProgramIDs.Add(item.ID);
-                
+
                 MetricDef.MMLink = txtMMLink.Text;
                 MetricDef.AltLink = txtAltLink.Text;
 
@@ -222,6 +222,28 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 }
 
                 MetricDef.Save();
+            }
+            catch (SQLiteException exSQL)
+            {
+                if (exSQL.Message.ToLower().Contains("unique constraint failed"))
+                {
+                    if (exSQL.Message.ToLower().Contains("metric_definitions.title"))
+                    {
+                        MessageBox.Show("A metric with this name and schema already exists. Each metric must possess a unique name within a given schema.", "Non-Unique Metric Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtName.Select();
+                        this.DialogResult = DialogResult.None;
+                    }
+                    else if (exSQL.Message.ToLower().Contains("metric_definitions.displaynameshort"))
+                    {
+                        MessageBox.Show("A metric with this short name and schema already exists. Each metric must possess a unique short name within a given schema.", "Non-Unique Short Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtShortName.Select();
+                        this.DialogResult = DialogResult.None;
+                    }
+                    else
+                        throw;
+                }
+                else
+                    throw;
             }
             catch (Exception ex)
             {

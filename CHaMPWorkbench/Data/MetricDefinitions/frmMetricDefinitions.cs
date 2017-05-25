@@ -122,6 +122,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 {
                     MetricDefs.ResetItem(MetricDefs.IndexOf(editMetric));
                     MetricDefs.ResetBindings();
+                    FilterList(sender, e);
                 }
             }
         }
@@ -134,6 +135,8 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     MetricDefs.Add(frm.MetricDef);
+                    MetricDefs.ResetBindings();
+                    FilterList(sender, e);
                 }
             }
             catch (Exception ex)
