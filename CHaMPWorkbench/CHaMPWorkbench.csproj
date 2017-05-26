@@ -57,7 +57,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A5B76507262E155BD12E5F809CDEF881C526FE78</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D4179E4A054449A906711BE863400E3C1D145E65</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>CHaMPWorkbench_TemporaryKey.pfx</ManifestKeyFile>

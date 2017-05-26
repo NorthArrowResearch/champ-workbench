@@ -10,7 +10,7 @@ namespace CHaMPWorkbench.CHaMPData
 {
     class Site : SiteBasic
     {
-        public string StreamName { get; internal set; }
+        private string m_StreamName;
         public bool UC_Chin { get; internal set; }
         public bool LC_Steel { get; internal set; }
         public bool MC_Steel { get; internal set; }
@@ -21,12 +21,27 @@ namespace CHaMPWorkbench.CHaMPData
         public Nullable<long> GageID { get; internal set; }
         //public Dictionary<long, Visit> Visits { get; internal set; }
 
+        public string StreamName
+        {
+            get { return m_StreamName; }
+            set
+            {
+                if (string.Compare(m_StreamName, value, false) != 0)
+                {
+                    m_StreamName = value;
+                    if (m_eState != naru.db.DBState.New)
+                        State = naru.db.DBState.Edited;
+                }
+            }
+        }
+
+
         public Site(long nSiteID, String sSiteName, long nWatershedID, string sWatershedName, string sStreamName, String sUTMZone,
             bool bUC_Chin, bool bSN_Chin, bool bLC_Steel, bool bMC_Steel, bool bUC_Steel, bool bSN_Steel,
             Nullable<double> fLatitude, Nullable<double> fLongitude, Nullable<long> nGageID, naru.db.DBState eState)
                 : base(nSiteID, sSiteName, nWatershedID, sWatershedName, sUTMZone, eState)
         {
-            StreamName = sStreamName;
+            m_StreamName = sStreamName;
             UC_Chin = bUC_Chin;
             LC_Steel = bLC_Steel;
             MC_Steel = bMC_Steel;

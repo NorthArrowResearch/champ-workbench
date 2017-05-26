@@ -85,7 +85,11 @@ namespace CHaMPWorkbench.CHaMPData
                             throw new Exception("Failed to authenticate user with Keystone API", ex);
                         }
 
+
+                        ReportProgress(0, "Synchonizing watersheds");
                         SyncWatersheds(ref dbTrans, aProgram, ref WatershedsToProcess, ref AuthToken);
+
+                        ReportProgress(0, "Synchonizing sites");
                         SyncSites(ref dbTrans, aProgram, ref AuthToken);
                         TotalNumberVisits += GetListOfVisitURLs(aProgram, ref AuthToken);
                     }
@@ -203,13 +207,14 @@ namespace CHaMPWorkbench.CHaMPData
                     if (dSites.ContainsKey((long)apiSite.Id))
                     {
                         dSites[(long)apiSite.Id].Name = apiSite.Name;
+                        dSites[(long)apiSite.Id].StreamName = GetStreamName(apiSite.Url);
                     }
                     else
                     {
                         Nullable<double> fLongitude = new Nullable<double>();
                         Nullable<double> fLatitude = new Nullable<double>();
 
-                        dSites[(long)apiSite.Id] = new CHaMPData.Site(apiSite.Id, apiSite.Name, WatershedURLs[apiSite.WatershedUrl], string.Empty, string.Empty, string.Empty, false, false, false, false, false, false, fLatitude, fLongitude, null, naru.db.DBState.New);
+                        dSites[(long)apiSite.Id] = new CHaMPData.Site(apiSite.Id, apiSite.Name, WatershedURLs[apiSite.WatershedUrl], apiSite.Locale, string.Empty, string.Empty, false, false, false, false, false, false, fLatitude, fLongitude, null, naru.db.DBState.New);
                     }
 
                     SiteURLs[apiSite.Url] = apiSite.Id;
@@ -245,6 +250,21 @@ namespace CHaMPWorkbench.CHaMPData
             if (VisitURLs.ContainsKey(theProgram.ID))
                 nVisits = VisitURLs[theProgram.ID].Count;
             return nVisits;
+        }
+
+        private string GetStreamName(string sSiteDetailsURL)
+        {
+            if (string.IsNullOrEmpty(sSiteDetailsURL))
+                return string.Empty;
+
+            string sStreamName = string.Empty;
+            ApiHelper api2 = new ApiHelper(sSiteDetailsURL, null);
+            ApiResponse<GeoOptix.API.Model.SiteModel> apiSiteResponse = api2.Get<GeoOptix.API.Model.SiteModel>();
+            GeoOptix.API.Model.SiteModel apiSiteDetails = apiSiteResponse.Payload;
+            if (apiSiteDetails != null)
+                sStreamName = apiSiteDetails.Locale;
+
+            return sStreamName;
         }
 
         private void SyncVisits(ref SQLiteTransaction dbTrans, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID, ref TokenResponse AuthToken)

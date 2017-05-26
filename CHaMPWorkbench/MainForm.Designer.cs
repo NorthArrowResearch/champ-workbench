@@ -47,6 +47,7 @@
             this.selectAllVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -185,7 +186,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.visitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -331,6 +331,12 @@
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
+            // 
+            // visitsToolStripMenuItem
+            // 
+            this.visitsToolStripMenuItem.Name = "visitsToolStripMenuItem";
+            this.visitsToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.visitsToolStripMenuItem.Text = "Visits";
             // 
             // unpackMonitoringData7ZipArchiveToolStripMenuItem
             // 
@@ -789,6 +795,7 @@
             this.extractRBTErrorsToolStripMenuItem.Name = "extractRBTErrorsToolStripMenuItem";
             this.extractRBTErrorsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.extractRBTErrorsToolStripMenuItem.Text = "Extract RBT Errors";
+            this.extractRBTErrorsToolStripMenuItem.Visible = false;
             this.extractRBTErrorsToolStripMenuItem.Click += new System.EventHandler(this.extractRBTErrorsToolStripMenuItem_Click);
             // 
             // philipBaileyToolStripMenuItem
@@ -822,6 +829,7 @@
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Name = "scavengeMetricsFromCmorgDownloadToolStripMenuItem";
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Text = "Scavenge Metrics From cm.org Download...";
+            this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Visible = false;
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem.Click += new System.EventHandler(this.scavengeMetricsFromCmorgDownloadToolStripMenuItem_Click);
             // 
             // exportSelectedVisitInformationToolStripMenuItem
@@ -852,7 +860,7 @@
             // 
             this.tileVerticalToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.tile_horizontal;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.tileVerticalToolStripMenuItem.Text = "Tile Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.tileVerticalToolStripMenuItem_Click);
             // 
@@ -860,7 +868,7 @@
             // 
             this.tileHorizontalToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.tile;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.tileHorizontalToolStripMenuItem.Text = "Tile Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalToolStripMenuItem_Click);
             // 
@@ -868,7 +876,7 @@
             // 
             this.cascadeToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.cascade;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cascadeToolStripMenuItem.Text = "Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.cascadeToolStripMenuItem_Click);
             // 
@@ -1542,12 +1550,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(355, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
-            // 
-            // visitsToolStripMenuItem
-            // 
-            this.visitsToolStripMenuItem.Name = "visitsToolStripMenuItem";
-            this.visitsToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
-            this.visitsToolStripMenuItem.Text = "Visits";
             // 
             // MainForm
             // 
