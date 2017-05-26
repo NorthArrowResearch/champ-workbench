@@ -110,6 +110,8 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
             if (filteredItems.Count != MetricDefs.Count)
                 grdData.DataSource = filteredItems;
+            else
+                grdData.DataSource = MetricDefs;
         }
 
         private void grdData_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
