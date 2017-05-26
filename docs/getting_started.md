@@ -44,24 +44,20 @@ C:\CHaMP\Temp
 
 ### Create a Workbench Database
 
-1. Launch the Workbench Software. The easiest way to do this is to press the Windows key (<i class="fa fa-windows"></i>) and then type `CHaMP`. Your Windows start menu should filter to the CHaMP Workbench software with the blue CHaMP logo. Click the CHaMP Workbench item and the software will launch with no data loaded.![Empty Workbench](/images/empty_workbench.png)
+1. Launch the Workbench Software. The easiest way to do this is to press the Windows key (<i class="fa fa-windows"></i>) and then type `CHaMP`. Your Windows start menu should filter to the CHaMP Workbench software with the blue CHaMP logo. Click the CHaMP Workbench item and the software will launch with no data loaded.![Empty Workbench](../assets/images/empty_workbench.png)
 2. Click on the File menu and choose **Create New Workbench Database...** 
 3. Select your workbench workspace folder that you created in the step above. This will create a new workbench database and save it inside your workbench workspace. Note that the path of the current database is shown in the status bar at the bottom of the Workbench.
 
 
-This database stores reference information about CHaMP watersheds, sites, visits and channel units. In 2017, this database was converted from Access to SQLite to simplify deployment and improve performance. If you're comfortable working with databases directly then you can open the workbench database directly using your preferred database software (e.g. [SQLite Studio](https://sqlitestudio.pl)).
-
-
+This database stores information about CHaMP watersheds, sites, visits and channel units. In 2017, this database was converted from Access to SQLite to simplify deployment and improve performance. If you're comfortable working with databases directly then you can open the workbench database directly using your preferred database software (e.g. [SQLite Studio](https://sqlitestudio.pl)). Read the section on [working with SQLite databases](Technical_Reference/Guides/working_with_sqlite_databases.html) for more information.
 
 ### Refresh CHaMP Data
 
 The Workbench maintains a record of all CHaMP watersheds, sites, visits and channel units. Given that visits are occurring at CHaMP sites during the field season, the Workbench copy of these data can become stale, and so it's important to refresh the contents of the Workbench database periodically. Outside of the field season you might refresh the database once a month, whereas during the field season you might perform this operation weekly.
 
-In 2017, the Workbench was enhanced to refresh the workbench database contents by directly connecting to the central CHaMP monitoring database. (Previous versions required the download of several Access database exports and this is no longer required.)
+In 2017, the Workbench was enhanced to refresh the workbench database contents by directly connecting to CHaMP Monitoring directly. (Previous versions required users to download several Access database exports from CHaMP Monitoring. This is no longer required.)
 
-Follow the steps on the [Synchronize CHaMP Data](/technical_reference/data_menu/synchronize_champ_data/) page to refresh the contents of your Workbench database.
-
-
+Follow the steps on the [Synchronize CHaMP Data](/technical_reference/data_menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
 
 ### Download CHaMP Data - Option 1 Many/All Visits
 
