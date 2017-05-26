@@ -59,20 +59,18 @@ In 2017, the Workbench was enhanced to refresh the workbench database contents b
 
 Follow the steps on the [Synchronize CHaMP Data](/technical_reference/data_menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
 
-### Download CHaMP Data - Option 1 Many/All Visits
+### Download CHaMP Data Option 1 - Many/All Visits
 
-If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](http://winscp.net/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](/Technical_Reference/Guides/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
+If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](http://winscp.net/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](Technical_Reference/Guides/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
 
+### Download CHaMP Data Option 2 - Selected Visits
 
-
-### Download CHaMP Data - Option 2 Selected Visits
-
-If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](/technical_reference/data_menu/download_champ_data/) feature of the workbench to obtain the relevant files.
+If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](Technical_Reference/data_menu/download_champ_data.html) feature of the workbench to obtain the relevant files.
 
 ### Unpack the CHaMP Data
 
-The CHaMP data comes as a series of zip archives. Before you can use the data you have to unpack the various  archives into the correct folders ready for use. Use the [Unpack CHaMP Data Archives...](/technical_reference/data_menu/unpack_monitoring_data_archives/) feature of the Workbench to perform this operation.
+The CHaMP data comes as a series of zip archives. Before you can use the data you have to unpack the various archives into the correct folders ready for use. Use the [Unpack CHaMP Data Archives...](Technical_reference/data_menu/unpack_monitoring_data_archives.html) feature of the Workbench to perform this operation.
 
 ## Start Work!
 
-At this point the Workbench, database and folder structure are all in a state ready to be used. You can use the Workbench features to search for visits, run models etc. Or simply use the database to perform your own research. A good next step is to read the page on [basic navigation](/technical_reference/basic_navigation) and how to work with the main Workbench visit information.
+At this point the Workbench, database and folder structure are all in a state ready to be used. You can use the Workbench features to search for visits, run models etc. Or simply use the database to perform your own research. A good next step is to read the page on [basic navigation](Technical_Reference/basic_navigation.html) and how to work with the main Workbench visit information.
