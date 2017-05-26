@@ -18,7 +18,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         public long MetricID { get; internal set; }
         public Nullable<long> CMMetricID { get; internal set; }
         public long SchemaID { get; internal set; }
-        public double Threshold { get; internal set; }
+        public Nullable<double> Threshold { get; internal set; }
         public Nullable<double> MinValue { get; internal set; }
         public Nullable<double> MaxValue { get; internal set; }
         public bool IsActive { get; internal set; }
@@ -28,7 +28,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 
         public Dictionary<long, VisitResults> Visits;
 
-        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nSchemaID, double fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
+        public Metric(string sTitle, long nMetricID, Nullable<long> nCMMetricID, long nSchemaID, double? fThreshold, Nullable<double> fMinValue, Nullable<double> fMaxValue, bool bIsActive,
            string sGroupType, string sChannelGroup)
         {
             Title = sTitle;
@@ -208,7 +208,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodMetric.AppendChild(nodGroupTypeID);
 
             XmlNode nodTolerance = xmlDoc.CreateElement("tolerance");
-            nodTolerance.InnerText = Threshold.ToString("#0.00");
+            if (Threshold.HasValue)
+                nodTolerance.InnerText = Threshold.Value.ToString("#0.00");
             nodMetric.AppendChild(nodTolerance);
 
             XmlNode nodMinValue = xmlDoc.CreateElement("minimum");

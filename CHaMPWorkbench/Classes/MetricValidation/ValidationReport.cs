@@ -192,43 +192,23 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMetricDefinitions WHERE (SchemaID IS NOT NULL) AND (SchemaID = 1) AND (IsActive <> 0) ORDER BY Title", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMetricDefinitions WHERE (Title IS NOT NULL) AND (SchemaID = 1) AND (IsActive <> 0) ORDER BY Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                 {
-                    Nullable<long> nCMMetricID = new Nullable<long>();
-                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("CMMetricID")))
-                        nCMMetricID = dbRead.GetInt64(dbRead.GetOrdinal("CMMetricID"));
-
-                    Nullable<double> fMinValue = new Nullable<float>();
-                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MinValue")))
-                        fMinValue = dbRead.GetDouble(dbRead.GetOrdinal("MinValue"));
-
-                    Nullable<double> fMaxValue = new Nullable<float>();
-                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MaxValue")))
-                        fMaxValue = dbRead.GetDouble(dbRead.GetOrdinal("MaxValue"));
-
-                    string sParentGroup = string.Empty; // Watershed report parent grouping
-                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MetricParentGroup")))
-                        sParentGroup = dbRead.GetString(dbRead.GetOrdinal("MetricParentGroup"));
-
-                    string sChildGroup = string.Empty; // Watershed report child grouping
-                    if (!dbRead.IsDBNull(dbRead.GetOrdinal("MetricChildGroup")))
-                        sChildGroup = dbRead.GetString(dbRead.GetOrdinal("MetricChildGroup"));
-
                     theResult.Add((string)dbRead["Title"], new Metric(
                         (string)dbRead["Title"]
                         , (long)dbRead["MetricID"]
-                        , nCMMetricID
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "CMMetricID")
                         , (long)dbRead["SchemaID"]
-                        , (double)dbRead["Threshold"]
-                        , fMinValue
-                        , fMaxValue
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Threshold")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MinValue")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MaxValue")
                         , (bool)dbRead["IsActive"]
-                        , sParentGroup
-                        , sChildGroup));
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "MetricParentGroup")// Watershed report parent grouping
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "MetricChildGroup")));// Watershed report child grouping
                 }
             }
 
