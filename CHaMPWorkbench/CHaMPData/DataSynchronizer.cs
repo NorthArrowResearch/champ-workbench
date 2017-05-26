@@ -73,6 +73,9 @@ namespace CHaMPWorkbench.CHaMPData
                             string keystoneURL = "https://keystone.sitkatech.com/core/connect/token";
                             if (aProgram.API.Contains("https://qa."))
                                 keystoneURL = keystoneURL.Replace("https://", "https://qa.");
+
+                            //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}", aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper()));
+                            //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}", UserName, Password));
                             
                             ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, 
                                 Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
