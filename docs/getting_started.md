@@ -6,21 +6,21 @@ This page describes the steps to get up and running with the CHaMP Workbench sof
 
 ### Download the Workbench Software
 
-1. Check the [downloads page](/download) to ensure that you have the pre-requisites installed.
-2. [Download](/download) the Workbench software.
+1. Check the [downloads page](download.html) to ensure that you have the pre-requisites installed.
+2. [Download](download.html) the Workbench software.
     1. Click the link to download the `setup.exe` file.
     2. Double click to run the `setup.exe` file. This will install the Workbench software.
 
 **Notes:**
 
-* You can check for new versions and update the software at any time by choosing `Check For Updates` on the help menu. See the [download](/download) page for more detailed instructions.
+* Existing users can check for new versions and update the software at any time by choosing `Check For Updates` on the `Help` menu in the Workbench Software. See the [download](download.html) page for more detailed instructions.
 * You do not need administrative privileges to install the Workbench software because it installs into your user profile folder and not the `C:\Program Files` folder.
 
 ### Create CHaMP Workspace
 
 It is strongly recommended that you create a workspace for the data files related to the Workbench. This will be used as the *home* location for monitoring data and model inputs and outputs used by the Workbench. This workspace should be a folder on your computer, preferably at a high level (i.e. not nested inside too many other folders) and **with no spaces in the path**. Note that if you use a folder on your desktop or a folder inside your Windows profile, you need to ensure that your Windows user name does not include any spaces or periods! We recommend the following workspace folder structure:
 
-```bash
+```
 C:\CHaMP                      <- main workspace folder
 C:\CHaMP\MonitoringData       <- Raw CHaMP monitoring data (topo & hydro files from cm.org)
 C:\CHaMP\MonitoringDataZipped <- Download location for zipped data files
@@ -28,7 +28,7 @@ C:\CHaMP\InputOutputFiles     <- Model input and output files
 C:\CHaMP\Temp                 <- Temp folder for model runs etc.
 ```
 
-Using the folder structure above is strongly recommended. The Workbench possesses several features that help navigate and jump to data files on your computer and these features rely on a folder hierarchy like the one shown above.  The Workbench will create and populate folders under `MonitoringData` and `InputOutputFiles` that mirror the CHaMP FTP site folder structure. In other words, once you have downloaded several datasets your folder structure might look like:
+Using the folder structure shown above is strongly recommended. The Workbench possesses several features that help navigate and jump to data files on your computer and these features rely on this folder hierarchy.  The Workbench will create and populate folders under `MonitoringData` and `InputOutputFiles` that mirror the CHaMP FTP site folder structure. In other words, once you have downloaded several datasets your folder structure might look like:
 
 ```bash
 C:\CHaMP
