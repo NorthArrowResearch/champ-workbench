@@ -1,7 +1,12 @@
 ---
 title: Release Notes
-weight: 9
 ---
+
+### 7.0.07 - 3 May 2017
+
+* Metric scraping of Python topo metrics from XML files
+* Minor fixes to metric review features (checking for duplicate columns in CrossTab query)
+* Misc fixes to visit details form to handle missing information (channel units and metrics etc)
 
 ### 7.0.06 - 9 Mar 2017
 
