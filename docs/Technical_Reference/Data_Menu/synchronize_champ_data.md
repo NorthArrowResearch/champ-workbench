@@ -14,7 +14,7 @@ New for 2017, the Workbench contains a feature that update the lists stored in t
 1. Select the relevant program(s) and watersheds and then click `Synchronize`.
 1. Enter your credentials for [CHaMP Monitoring](http://champmonitoring.org).
 
-![Synchronize CHaMP Data](/assets/images/sync/sync.png)
+![Synchronize CHaMP Data](/champ-workbench/assets/images/sync/sync.png)
 
 ## Notes
 
