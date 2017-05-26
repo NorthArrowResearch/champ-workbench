@@ -94,8 +94,16 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
             if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
             {
-                filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => x.Name.ToLower().Contains(txtTitle.Text.ToLower())
-                    || x.DisplayNameShort.ToLower().Contains(txtTitle.Text.ToLower()) || x.XPath.ToLower().Contains(txtTitle.Text.ToLower())).ToList<MetricDefinition>());
+                long nMetricID = 0;
+                if (long.TryParse(txtTitle.Text.Trim(), out nMetricID))
+                {
+                    filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => x.ID == nMetricID).ToList<MetricDefinition>());
+                }
+                else
+                {
+                    filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => x.Name.ToLower().Contains(txtTitle.Text.ToLower())
+                        || x.DisplayNameShort.ToLower().Contains(txtTitle.Text.ToLower()) || x.XPath.ToLower().Contains(txtTitle.Text.ToLower())).ToList<MetricDefinition>());
+                }
             }
 
             if (chkActive.Checked)
