@@ -30,7 +30,7 @@ C:\CHaMP\Temp                 <- Temp folder for model runs etc.
 
 Using the folder structure shown above is strongly recommended. The Workbench possesses several features that help navigate and jump to data files on your computer and these features rely on this folder hierarchy.  The Workbench will create and populate folders under `MonitoringData` and `InputOutputFiles` that mirror the CHaMP FTP site folder structure. In other words, once you have downloaded several datasets your folder structure might look like:
 
-```bash
+```
 C:\CHaMP
 C:\CHaMP\MonitoringData
 C:\CHaMP\MonitoringData\2011
@@ -57,7 +57,7 @@ The Workbench maintains a record of all CHaMP watersheds, sites, visits and chan
 
 In 2017, the Workbench was enhanced to refresh the workbench database contents by directly connecting to CHaMP Monitoring directly. (Previous versions required users to download several Access database exports from CHaMP Monitoring. This is no longer required.)
 
-Follow the steps on the [Synchronize CHaMP Data](/technical_reference/data_menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
+Follow the steps on the [Synchronize CHaMP Data](Technical_Reference/Data_Menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
 
 ### Download CHaMP Data Option 1 - Many/All Visits
 
@@ -65,11 +65,11 @@ If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then
 
 ### Download CHaMP Data Option 2 - Selected Visits
 
-If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](Technical_Reference/data_menu/download_champ_data.html) feature of the workbench to obtain the relevant files.
+If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](Technical_Reference/download_champ_data.html) feature of the workbench to obtain the relevant files.
 
 ### Unpack the CHaMP Data
 
-The CHaMP data comes as a series of zip archives. Before you can use the data you have to unpack the various archives into the correct folders ready for use. Use the [Unpack CHaMP Data Archives...](Technical_reference/data_menu/unpack_monitoring_data_archives.html) feature of the Workbench to perform this operation.
+The CHaMP data comes as a series of zip archives. Before you can use the data you have to unpack the various archives into the correct folders ready for use. Use the [Unpack CHaMP Data Archives...](Technical_Reference/Data_Menu/unpack_monitoring_data_archives.html) feature of the Workbench to perform this operation.
 
 ## Start Work!
 
