@@ -10,10 +10,11 @@ New for 2017, the Workbench contains a feature that update the lists stored in t
 
 1. Open the CHaMP Workbench.
 1. Make sure that your are connected to the correct local Workbench database
-1. click the `Data` main menu item and choose `Synchronize CHaMP Data...`
+1. click the `Data` main menu item and choose `Synchronize CHaMP Data...`.
 1. Select the relevant program(s) and watersheds and then click `Synchronize`.
+1. Enter your credentials for [CHaMP Monitoring](http://champmonitoring.org).
 
-![Synchronize CHaMP Data](/images/sync/sync.png)
+![Synchronize CHaMP Data](/assets/images/sync/sync.png)
 
 ## Notes
 
