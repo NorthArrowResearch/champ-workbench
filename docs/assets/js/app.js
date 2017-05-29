@@ -77,7 +77,7 @@ $(document).ready(function (){
 		var $topbar = $('<div class="top-bar"></div>');
 		var $topbarleft = $('<div class="top-bar-left"></div>');
 		$topbar.append($topbarleft);
-		var $title = $('<li><a href="'+NAVHome+'">'+NAVTitle+'</li>');
+		var $title = $('<li><a href="' + NAVHome + '">' + NAVTitle + '</li>');
 
 		function menutraverse(t, $mUL) {
 			if (!$mUL) {
@@ -86,13 +86,15 @@ $(document).ready(function (){
 			}
 			// Now go find more branches to sort their leaves
 			for (lf in t.leaves) {
-				$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + t.leaves[lf].title + '</a></li>');
+				var theTitle = t.leaves[lf].title.replace("_", " ");
+				$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + theTitle + '</a></li>');
 				$mUL.append($li);
 			}				
 			// Now go find more branches to sort their leaves
 			for (br in t.branches) {
 				$newmLi = $('<li></li>');
-				$newmA = $('<a href="#">'+ br +'</a>');
+				brStr = br.replace("_", " ");
+				$newmA = $('<a href="#">'+ brStr +'</a>');
 				$newmUl = $('<ul class="menu vertical"></ul>');
 				$newmLi.append($newmA);
 				$newmLi.append($newmUl);
@@ -117,7 +119,8 @@ $(document).ready(function (){
 		}
 		// Now go find more branches to sort their leaves
 		for (lf in t.leaves) {
-			$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + t.leaves[lf].title + '</a></li>');
+			var theTitle = t.leaves[lf].title.replace("_", " ");
+			$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + theTitle + '</a></li>');
 			var extSplit = t.leaves[lf].url.split('.');
 			if (extSplit.length == 1 || extSplit[extSplit.length -1] == "html") 
 				$mUL.append($li);
@@ -125,7 +128,8 @@ $(document).ready(function (){
 		// Now go find more branches to sort their leaves
 		for (br in t.branches) {
 			$newmLi = $('<li></li>');
-			$newmA = $('<a href="#">'+ br +'</a>');
+			brStr = br.replace("_", " ");
+			$newmA = $('<a href="#">'+ brStr +'</a>');
 			$newmUl = $('<ul class="menu vertical nested"></ul>');
 			$newmLi.append($newmA);
 			$newmLi.append($newmUl);
