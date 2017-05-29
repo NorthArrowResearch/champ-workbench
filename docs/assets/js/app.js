@@ -9,9 +9,10 @@ $(document).ready(function (){
 	 * @return {[type]}
 	 */
 	// Now place each item in the tree
-	function treeize(pages){
+	function treeize(pages, exceptions){
 		var t = { leaves: [], branches: [] }
 		for (i in pages) {
+
 			urlArr = pages[i].url.split('/');
 			currLevel = urlArr.shift();
 			var pointer = t;
@@ -30,7 +31,9 @@ $(document).ready(function (){
 				pointer = newDir;
 				currLevel = urlArr.shift();
 			}
-			pointer.leaves.push(pages[i]);		
+			if (exceptions.indexOf(pages[i].slug) == -1){
+				pointer.leaves.push(pages[i]);		
+			}
 		}
 		traverseandsort(t)
 		return t
@@ -139,7 +142,7 @@ $(document).ready(function (){
 	}
 
 	// Do all the things to get the tree
-	tree = treeize(NAVPages);
+	tree = treeize(NAVPages, ['assets']);
 	$topbar = topbarize(tree);
 	$sidebarnav = accordionize(tree);
 
