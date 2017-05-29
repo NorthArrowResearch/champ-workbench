@@ -14,7 +14,7 @@ vc_redist.x64.exe). If you have previously installed the 32-bit version you stil
 
 ## Download CHaMP Workbench Software
 
-<a class="btn btn-large btn-primary fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/setup.exe">&nbsp;&nbsp;CHaMP Workbench Software</a>
+<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/setup.exe">&nbsp;&nbsp;CHaMP Workbench Software</a>
 
 ## Workbench Database
 
