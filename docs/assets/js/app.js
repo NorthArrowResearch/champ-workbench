@@ -17,22 +17,25 @@ $(document).ready(function (){
 			currLevel = urlArr.shift();
 			var pointer = t;
 
-			// Now loop until we're deep enough
-			while (urlArr.length > 1) {
-				key = urlArr[0].length == 0 ? "EMPTY" : urlArr[0];
-				var newDir;
-				if (key in pointer.branches){
-					newDir = pointer.branches[key];
+			if (exceptions.indexOf(urlArr[0]) == -1){
+
+				// Now loop until we're deep enough
+				while (urlArr.length > 1) {
+					key = urlArr[0].length == 0 ? "EMPTY" : urlArr[0];
+					var newDir;
+					if (key in pointer.branches){
+						newDir = pointer.branches[key];
+					}
+					else {
+						newDir = { leaves: [], branches: {} }
+						pointer.branches[key] = newDir;					
+					}
+					pointer = newDir;
+					currLevel = urlArr.shift();
 				}
-				else {
-					newDir = { leaves: [], branches: {} }
-					pointer.branches[key] = newDir;					
-				}
-				pointer = newDir;
-				currLevel = urlArr.shift();
-			}
-			if (exceptions.indexOf(pages[i].slug) == -1){
-				pointer.leaves.push(pages[i]);		
+
+				pointer.leaves.push(pages[i]);					
+
 			}
 		}
 		traverseandsort(t)
@@ -142,7 +145,7 @@ $(document).ready(function (){
 	}
 
 	// Do all the things to get the tree
-	tree = treeize(NAVPages, ['assets']);
+	tree = treeize(NAVPages, ['assets', 'changelog']);
 	$topbar = topbarize(tree);
 	$sidebarnav = accordionize(tree);
 
