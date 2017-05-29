@@ -62,7 +62,7 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
 
                 // Show the standard user interface form to the user.
                 // TODO: format the exception to plain English instead of JSON.
-                String prettyString = Classes.ExceptionHandling.NARException.ToString(theException, AWSCloudWatch.AWSCloudWatchSingleton.Instance.InstallationGUID);
+                String prettyString = Classes.ExceptionHandling.NARException.ToString(theException);
                 CHaMPWorkbench.Classes.ExceptionHandling.frmException frm = new CHaMPWorkbench.Classes.ExceptionHandling.frmException(theException.Message, prettyString);
                 frm.ShowDialog();
             }
@@ -95,7 +95,7 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
         /// We want a nice output for
         /// </summary>
         /// <returns></returns>
-        public static string ToString(Exception ex, Guid installationKey)
+        public static string ToString(Exception ex)
         {
             // Add the details of the outermost exception to a dictionary of JSON objects.
             // This will also recursively add the details of all inner exceptions
@@ -186,7 +186,7 @@ namespace CHaMPWorkbench.Classes.ExceptionHandling
             {
                 Dictionary<string, object> theInnerException = new Dictionary<string, object>();
                 AddExceptionDetailRows(ref theInnerException, ex.InnerException);
-                row.Add("InnerException", theInnerException);
+                row.Add("InnerException", ToString(ex.InnerException));
             }
         }
     }
