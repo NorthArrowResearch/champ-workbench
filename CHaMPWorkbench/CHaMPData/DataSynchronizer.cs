@@ -79,9 +79,14 @@ namespace CHaMPWorkbench.CHaMPData
                             
                             ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, 
                                 Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
-                                                        
+
                             if (keystoneApiHelper.AuthToken.IsError)
-                                throw new Exception(AuthToken.ErrorDescription);
+                            {
+                                Exception ex = new Exception(keystoneApiHelper.AuthToken.ErrorDescription, keystoneApiHelper.AuthToken.Exception);
+                                ex.Data["JSON"] = keystoneApiHelper.AuthToken.Json.ToString();
+                                throw ex;
+                            }
+
                         }
                         catch (Exception ex)
                         {
