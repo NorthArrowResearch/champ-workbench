@@ -24,7 +24,7 @@ The remainder of this page describes these steps:
 
 The hydro prep process is performed by a standalone piece of software called **Hydro Prep dotNet**. This software needs to be downloaded and extracted somewhere on your computer before you can run Hydro Prep. There is no installation process. You just need to extract the files into an empty folder somewhere.
 
-<a class="btn btn-large btn-primary fa fa-cloud-download" href="http://releases.northarrowresearch.com/HydroPrepDotNet/2016_05_12_HydroPrepDotNet_1_0_00_x64.zip">&nbsp;&nbsp;Hydro Prep dotNet Software</a>
+<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/HydroPrepDotNet/2016_05_12_HydroPrepDotNet_1_0_00_x64.zip">&nbsp;&nbsp;Hydro Prep dotNet Software</a>
 
 ### Prerequisites
 
