@@ -24,4 +24,7 @@ However, it is possible to create visits that represent unofficial field surveys
 
 ## Demonstration
 
-{{< youtube _lN4nVq1OVQ >}}
+
+<div class="flex-video">
+ <iframe src="https://www.youtube.com/embed/_lN4nVq1OVQ" frameborder="0" allowfullscreen=""></iframe>
+</div>
