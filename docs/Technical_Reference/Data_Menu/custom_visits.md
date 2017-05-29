@@ -2,11 +2,11 @@
 title: Custom Visits
 ---
 
-The primary purpose of the CHaMP Workbench is to help users work with the existing, pre-defined visits associated with the CHaMP program. The official set of visits is defined on the central [CHaMP Monitoring](http://champmonitoring.org) database and then [synchronized](Technical_Reference/Data_Menu/synchronize_champ_data.html) down the the local Workbench database.
+The primary purpose of the CHaMP Workbench is to help users work with the existing, pre-defined visits associated with the CHaMP program. The official set of visits is defined on the central [CHaMP Monitoring](http://champmonitoring.org) database and then [synchronized]({{ site.url }}/Technical_Reference/Data_Menu/synchronize_champ_data.html) down the the local Workbench database.
 
 However, it is possible to create visits that represent unofficial field surveys and store these in the local Workbench databaes and use the software's features to manipulate them. These so called *custom visits* are stored in the local workbench database only and never uploaded or synchronized with the central CHaMP systems.
 
-![Custom Visits](/assets/images/custom_visits.png)
+![Custom Visits]({{ site.url }}/assets/images/custom_visits.png)
 
 ## Creating Custom Visits
 

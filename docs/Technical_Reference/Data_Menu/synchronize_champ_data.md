@@ -4,17 +4,19 @@ title: Synchronize CHaMP Data
 
 The CHaMP Workbench maintains lists of watersheds, sites, visits and channel units that it uses to then perform various operations. This local copy of these items can get out of date and require updating from time to time. This is especially true during the summar field season when visit information changes as crews return from the field and upload data onto [CHaMP Monitoring](http://champmonitoring.org).
 
-New for 2017, the Workbench contains a feature that update the lists stored in the Workbench database by connecting to the central CHaMP database directly over the internet and retrieving the relevant information.
+New for 2017, the Workbench contains a feature that updates the lists stored in the Workbench database by connecting directly to [CHaMP Monitoring](http://champmonitoring.org) and retrieving the relevant information over the internet. This feature currently **only** synchronizes the lists of watersheds, sites, visits and channel units. It does **not** retrieve auxilliary measurements or metrics!
 
 ## Synchronizing CHaMP Data
 
 1. Open the CHaMP Workbench.
-1. Make sure that your are connected to the correct local Workbench database
+1. Make sure that you are connected to the correct local Workbench database.
 1. click the `Data` main menu item and choose `Synchronize CHaMP Data...`.
 1. Select the relevant program(s) and watersheds and then click `Synchronize`.
-1. Enter your credentials for [CHaMP Monitoring](http://champmonitoring.org).
+1. Enter your credentials for [CHaMP Monitoring](http://champmonitoring.org) and click `OK`.
 
-![Synchronize CHaMP Data](/champ-workbench/assets/images/sync/sync.png)
+Contact Carol Volk (carol@shouthforkresearch.org) if you receive a message stating that you are unable to authenticate.
+
+![Synchronize CHaMP Data]({{ site.url }}/assets/images/sync/sync.png)
 
 ## Notes
 
@@ -22,5 +24,4 @@ New for 2017, the Workbench contains a feature that update the lists stored in t
 * Leaving all watersheds unchecked is the same as selecting *all* watersheds.
 * Right click on the watersheds list to access a shortcut menu to select all or none watersheds.
 * Should anything go wrong with the process the local Workbench database will be reverted to the state that it was in before the synchronization tool was run. i.e. If any visit fails anywhere in the process then all visit data is rejected and the process aborted.
-* Note that the [Action and Effective Montiroing](http://aemonitoring.org) (AEM) program does not use distinguish visits by watershed. You can leave all watersheds unchecked or selected the `Basinwide` item when synchronizing AEM data.
-
+* Note that the [Action and Effective Montiroing](http://aemonitoring.org) (AEM) program does not use distinguish visits by watershed. You can leave all watersheds unchecked or select the `Basinwide` item when synchronizing AEM data.
