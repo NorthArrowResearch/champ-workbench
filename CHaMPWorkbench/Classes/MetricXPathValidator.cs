@@ -25,7 +25,7 @@ namespace CHaMPWorkbench.Classes
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID FROM Metric_Definitions WHERE (XPath = @XPath) AND (Title = @Title)", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT MetricID FROM Metric_Definitions WHERE (XPath = @XPath) AND (DisplayNameShort = @Title)", dbCon);
                 SQLiteParameter pXPath = dbCom.Parameters.Add("XPath", System.Data.DbType.String);
                 SQLiteParameter pTitle = dbCom.Parameters.Add("Title", System.Data.DbType.String);
                 SQLiteDataReader dbRead = null;
