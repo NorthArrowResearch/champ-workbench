@@ -43,3 +43,9 @@ title: Release Notes
 * Synchronizing CHaMP data via the API and not cm.org Access DB exports
 * FTP data download now operates on multiple visits.
 * FTP data download now includes `CrewUploadedSurveyGDB.zip`
+
+## Prior Years
+
+* [2016 Release Notes]({{site.url}}/changelog/release_notes_2016.html)
+* [2015 Release Notes]({{site.url}}/changelog/release_notes_2015.html)
+* [2014 Release Notes]({{site.url}}/changelog/release_notes_2014.html)
