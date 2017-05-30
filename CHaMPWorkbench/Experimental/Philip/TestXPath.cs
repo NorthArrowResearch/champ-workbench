@@ -29,7 +29,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             lInvalidXPaths = new List<string>();
             int nProcessed = 0;
 
-            string sSQL = "SELECT MetricID, Title, XPath FROM Metric_Definitions";
+            string sSQL = "SELECT MetricID, DisplayNameShort, XPath FROM Metric_Definitions";
             if (!string.IsNullOrWhiteSpace(sWhereClause))
                 sSQL += " WHERE " + sWhereClause;
 
