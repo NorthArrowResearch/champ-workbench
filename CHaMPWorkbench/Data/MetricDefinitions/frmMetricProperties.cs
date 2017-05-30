@@ -81,12 +81,15 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                 chkValidation.Checked = MetricDef.MinValue.HasValue || MetricDef.MaxValue.HasValue || MetricDef.Threshold.HasValue;
             }
+            else
+            {
+                // New metrics default to active
+                chkActive.Checked = true;
+            }
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboModel, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 4), nModelID);
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboSchema, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT SchemaID, Title FROM Metric_Schemas ORDER BY Title", 2), nSchemaID);
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboDataType, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 14), nDataTypeID);
-
-            chkActive.Checked = true;
         }
 
         private void UpdateControls(object sender, EventArgs e)
