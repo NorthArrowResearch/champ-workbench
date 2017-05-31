@@ -49,6 +49,9 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             chkActive.CheckedChanged += FilterList;
             chkXPath.CheckedChanged += FilterList;
 
+            // Wire the ID column of the gridview to the online help event handler
+            grdData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdOnlineHelp_CellContentClick);
+
             // Make the textbox the default control
             txtTitle.Select();
             FilterList(null, null);
@@ -183,6 +186,21 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 catch (Exception ex)
                 {
                     Classes.ExceptionHandling.NARException.HandleException(ex);
+                }
+            }
+        }
+
+        private void grdOnlineHelp_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex >=0)
+            {
+                if (grdData.Rows[e.RowIndex].DataBoundItem is MetricDefinition)
+                {
+                    MetricDefinition theMetric = (MetricDefinition) grdData.Rows[e.RowIndex].DataBoundItem;
+                    if (!string.IsNullOrEmpty(theMetric.AltLink))
+                    {
+                        System.Diagnostics.Process.Start(theMetric.AltLink);
+                    }
                 }
             }
         }

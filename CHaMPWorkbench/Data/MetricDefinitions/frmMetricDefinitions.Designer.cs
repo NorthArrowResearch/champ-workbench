@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetricDefinitions));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.chkXPath = new System.Windows.Forms.CheckBox();
@@ -241,10 +242,13 @@
             // 
             this.colMetricID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colMetricID.DataPropertyName = "ID";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colMetricID.DefaultCellStyle = dataGridViewCellStyle1;
             this.colMetricID.Frozen = true;
             this.colMetricID.HeaderText = "ID";
             this.colMetricID.Name = "colMetricID";
             this.colMetricID.ReadOnly = true;
+            this.colMetricID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colMetricID.Width = 43;
             // 
             // colTitle
