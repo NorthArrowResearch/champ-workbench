@@ -192,11 +192,11 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         private void grdOnlineHelp_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0 && e.RowIndex >=0)
+            if (string.Compare(grdData.Columns[e.ColumnIndex].HeaderText, "documentation", true) == 0 && e.RowIndex >= 0)
             {
                 if (grdData.Rows[e.RowIndex].DataBoundItem is MetricDefinition)
                 {
-                    MetricDefinition theMetric = (MetricDefinition) grdData.Rows[e.RowIndex].DataBoundItem;
+                    MetricDefinition theMetric = (MetricDefinition)grdData.Rows[e.RowIndex].DataBoundItem;
                     if (!string.IsNullOrEmpty(theMetric.AltLink))
                     {
                         System.Diagnostics.Process.Start(theMetric.AltLink);
