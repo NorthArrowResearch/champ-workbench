@@ -37,7 +37,6 @@ namespace CHaMPWorkbench.Data
         {
             ConfigureDataGrid(ref grdChannelUnits);
             ConfigureDataGrid(ref grdVisitDetails);
-            ConfigureDataGrid(ref grdLogMessages);
 
             grdVisitDetails.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
@@ -46,7 +45,6 @@ namespace CHaMPWorkbench.Data
                 LoadVisitHeaderAndNotes();
                 LoadChannelUnits();
                 LoadVisitDetails();
-                LoadLogMessageCombos();
             }
             catch (Exception ex)
             {
@@ -189,71 +187,6 @@ namespace CHaMPWorkbench.Data
                     grdVisitDetails.Rows[nRow].Cells[0].Value = col.ColumnName;
                     grdVisitDetails.Rows[nRow].Cells[1].Value = ta.Rows[0].ItemArray.GetValue(col.Ordinal).ToString();
                 }
-            }
-        }
-
-        private void LoadLogMessageCombos()
-        {
-            grdLogMessages.AutoGenerateColumns = false;
-
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
-            {
-                dbCon.Open();
-
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT LogFiles.ResultID AS ResultID, Metric_Results.ModelVersion AS ModelVersion, LogFiles.Status AS Status, Metric_Results.RunDateTime AS RunDateTime, LookupListItems.Title AS ScavengeType" +
-                    " FROM LookupListItems INNER JOIN (Metric_Results INNER JOIN LogFiles ON Metric_Results.ResultID = LogFiles.ResultID) ON LookupListItems.ItemID = Metric_Results.ScavengeTypeID" +
-                    " WHERE (Metric_Results.VisitID = @VisitID) ORDER BY RunDateTime DESC", dbCon);
-                dbCom.Parameters.AddWithValue("VisitID", VisitID);
-                SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                {
-                    cboLogResults.Items.Add(new naru.db.NamedObject(dbRead.GetInt64(dbRead.GetOrdinal("ResultID")), string.Format("Version {0} on {1:dd MMM yyy} status of {2}", dbRead["ModelVersion"], dbRead["RunDateTime"], dbRead["Status"])));
-                }
-
-                cboLogResults.SelectedIndexChanged += LoadLogMessages;
-                if (cboLogResults.Items.Count > 0)
-                    cboLogResults.SelectedIndex = 0;
-
-                cboLogMessageTypes.Items.Add("All");
-                cboLogMessageTypes.Items.Add("Error");
-                cboLogMessageTypes.Items.Add("Info");
-                cboLogMessageTypes.Items.Add("Warning");
-                cboLogMessageTypes.SelectedIndex = 0;
-                cboLogMessageTypes.SelectedIndexChanged += FilterLogMessages;
-            }
-        }
-
-        private void LoadLogMessages(object sender, EventArgs e)
-        {
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
-            {
-                dbCon.Open();
-
-                SQLiteDataAdapter da = new SQLiteDataAdapter("SELECT LogMessages.LogMessageID, LogMessages.MessageType, LogMessages.LogSeverity, LogMessages.LogMessage" +
-                   " FROM LogFiles INNER JOIN LogMessages ON LogFiles.LogID = LogMessages.LogID" +
-                   " WHERE (LogFiles.ResultID = @ResultID) ORDER BY LogMessages.LogDateTime", dbCon);
-                da.SelectCommand.Parameters.AddWithValue("@ResultID", ((naru.db.NamedObject)cboLogResults.SelectedItem).ID);
-
-                DataTable taLogMessages = new DataTable();
-                da.Fill(taLogMessages);
-                bsLogMessages = new BindingSource(taLogMessages, "");
-                grdLogMessages.DataSource = bsLogMessages;
-
-                foreach (DataGridViewColumn grdCol in grdLogMessages.Columns)
-                {
-                    grdCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    grdCol.ReadOnly = true;
-                }
-            }
-        }
-
-        private void FilterLogMessages(object sender, EventArgs e)
-        {
-            if (bsLogMessages != null)
-            {
-                bsLogMessages.Filter = string.Empty;
-                if (cboLogMessageTypes.SelectedIndex > 0)
-                    bsLogMessages.Filter = string.Format("LogSeverity = '{0}'", cboLogMessageTypes.Text.ToLower());
             }
         }
     }

@@ -46,16 +46,6 @@
             this.grdVisitDetails = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.grdChannelUnits = new System.Windows.Forms.DataGridView();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.grdLogMessages = new System.Windows.Forms.DataGridView();
-            this.colLogMessageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTyp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSeverity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMessage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cboLogMessageTypes = new System.Windows.Forms.ComboBox();
-            this.cboLogResults = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
@@ -63,8 +53,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).BeginInit();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).BeginInit();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -188,7 +176,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(12, 77);
             this.tabControl1.Name = "tabControl1";
@@ -235,106 +222,6 @@
             this.grdChannelUnits.Name = "grdChannelUnits";
             this.grdChannelUnits.Size = new System.Drawing.Size(678, 315);
             this.grdChannelUnits.TabIndex = 0;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.grdLogMessages);
-            this.tabPage4.Controls.Add(this.label8);
-            this.tabPage4.Controls.Add(this.cboLogMessageTypes);
-            this.tabPage4.Controls.Add(this.cboLogResults);
-            this.tabPage4.Controls.Add(this.label7);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(684, 321);
-            this.tabPage4.TabIndex = 5;
-            this.tabPage4.Text = "Log Messages";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // grdLogMessages
-            // 
-            this.grdLogMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grdLogMessages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdLogMessages.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colLogMessageID,
-            this.colTyp,
-            this.colSeverity,
-            this.colMessage});
-            this.grdLogMessages.Location = new System.Drawing.Point(6, 75);
-            this.grdLogMessages.Name = "grdLogMessages";
-            this.grdLogMessages.Size = new System.Drawing.Size(672, 240);
-            this.grdLogMessages.TabIndex = 4;
-            // 
-            // colLogMessageID
-            // 
-            this.colLogMessageID.DataPropertyName = "LogMessageID";
-            this.colLogMessageID.HeaderText = "LogMessageID";
-            this.colLogMessageID.Name = "colLogMessageID";
-            this.colLogMessageID.ReadOnly = true;
-            this.colLogMessageID.Visible = false;
-            // 
-            // colTyp
-            // 
-            this.colTyp.DataPropertyName = "MessageType";
-            this.colTyp.HeaderText = "Type";
-            this.colTyp.Name = "colTyp";
-            this.colTyp.ReadOnly = true;
-            // 
-            // colSeverity
-            // 
-            this.colSeverity.DataPropertyName = "LogSeverity";
-            this.colSeverity.HeaderText = "Severity";
-            this.colSeverity.Name = "colSeverity";
-            this.colSeverity.ReadOnly = true;
-            // 
-            // colMessage
-            // 
-            this.colMessage.DataPropertyName = "LogMessage";
-            this.colMessage.HeaderText = "Message";
-            this.colMessage.Name = "colMessage";
-            this.colMessage.ReadOnly = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 51);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(73, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Message type";
-            // 
-            // cboLogMessageTypes
-            // 
-            this.cboLogMessageTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboLogMessageTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboLogMessageTypes.FormattingEnabled = true;
-            this.cboLogMessageTypes.Location = new System.Drawing.Point(94, 48);
-            this.cboLogMessageTypes.Name = "cboLogMessageTypes";
-            this.cboLogMessageTypes.Size = new System.Drawing.Size(584, 21);
-            this.cboLogMessageTypes.TabIndex = 2;
-            // 
-            // cboLogResults
-            // 
-            this.cboLogResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboLogResults.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboLogResults.FormattingEnabled = true;
-            this.cboLogResults.Location = new System.Drawing.Point(94, 15);
-            this.cboLogResults.Name = "cboLogResults";
-            this.cboLogResults.Size = new System.Drawing.Size(584, 21);
-            this.cboLogResults.TabIndex = 1;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 19);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(64, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Model result";
             // 
             // tabPage6
             // 
@@ -389,9 +276,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).EndInit();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
@@ -419,16 +303,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView grdVisitDetails;
         private System.Windows.Forms.DataGridView grdChannelUnits;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.DataGridView grdLogMessages;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cboLogMessageTypes;
-        private System.Windows.Forms.ComboBox cboLogResults;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLogMessageID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTyp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSeverity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMessage;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.TextBox txtNotes;
     }
