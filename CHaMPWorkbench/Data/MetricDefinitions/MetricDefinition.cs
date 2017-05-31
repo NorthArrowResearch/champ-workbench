@@ -288,10 +288,10 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     nodMetric.Attributes.Append(attXPath);
 
                     XmlAttribute attPrecision = xmlDoc.CreateAttribute("precision");
-                    nodMetric.Attributes.Append(attXPath);
+                    nodMetric.Attributes.Append(attPrecision);
                     long? nPrecision = naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision");
                     if (nPrecision.HasValue)
-                        attXPath.InnerText = nPrecision.ToString();
+                        attPrecision.InnerText = nPrecision.ToString();
 
                     XmlAttribute attType = xmlDoc.CreateAttribute("type");
                     attType.InnerText = dbRead.GetString(dbRead.GetOrdinal("DataTypeName")).ToLower();
