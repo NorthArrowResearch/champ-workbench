@@ -49,12 +49,12 @@
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSchema = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colXPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colThreshold = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrecision = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMinValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMaxValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colXPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -224,12 +224,12 @@
             this.colModel,
             this.colSchema,
             this.colDataType,
+            this.colIsActive,
+            this.colXPath,
             this.colThreshold,
             this.colPrecision,
             this.colMinValue,
             this.colMaxValue,
-            this.colXPath,
-            this.colIsActive,
             this.colUpdated});
             this.grdData.Location = new System.Drawing.Point(67, 155);
             this.grdData.Name = "grdData";
@@ -285,6 +285,20 @@
             this.colDataType.Name = "colDataType";
             this.colDataType.ReadOnly = true;
             // 
+            // colIsActive
+            // 
+            this.colIsActive.DataPropertyName = "IsActive";
+            this.colIsActive.HeaderText = "Active";
+            this.colIsActive.Name = "colIsActive";
+            this.colIsActive.ReadOnly = true;
+            // 
+            // colXPath
+            // 
+            this.colXPath.DataPropertyName = "XPath";
+            this.colXPath.HeaderText = "XPath";
+            this.colXPath.Name = "colXPath";
+            this.colXPath.ReadOnly = true;
+            // 
             // colThreshold
             // 
             this.colThreshold.DataPropertyName = "Threshold";
@@ -312,20 +326,6 @@
             this.colMaxValue.HeaderText = "Maximum";
             this.colMaxValue.Name = "colMaxValue";
             this.colMaxValue.ReadOnly = true;
-            // 
-            // colXPath
-            // 
-            this.colXPath.DataPropertyName = "XPath";
-            this.colXPath.HeaderText = "XPath";
-            this.colXPath.Name = "colXPath";
-            this.colXPath.ReadOnly = true;
-            // 
-            // colIsActive
-            // 
-            this.colIsActive.DataPropertyName = "IsActive";
-            this.colIsActive.HeaderText = "Active";
-            this.colIsActive.Name = "colIsActive";
-            this.colIsActive.ReadOnly = true;
             // 
             // colUpdated
             // 
@@ -371,22 +371,22 @@
         private System.Windows.Forms.GroupBox grpModel;
         private System.Windows.Forms.CheckedListBox chkModel;
         private System.Windows.Forms.CheckBox chkXPath;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSchemaXMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewMetricToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMetricID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDisplayNameShort;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSchema;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDataType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIsActive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colXPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colThreshold;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrecision;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMinValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaxValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colXPath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIsActive;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUpdated;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportSchemaXMLToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewMetricToolStripMenuItem;
     }
 }
