@@ -46,10 +46,6 @@
             this.grdVisitDetails = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.grdChannelUnits = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.grdMetrics = new System.Windows.Forms.DataGridView();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricPlot();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.grdLogMessages = new System.Windows.Forms.DataGridView();
             this.colLogMessageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,9 +63,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).BeginInit();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdMetrics)).BeginInit();
-            this.tabPage5.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).BeginInit();
             this.tabPage6.SuspendLayout();
@@ -195,8 +188,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(12, 77);
@@ -244,47 +235,6 @@
             this.grdChannelUnits.Name = "grdChannelUnits";
             this.grdChannelUnits.Size = new System.Drawing.Size(678, 315);
             this.grdChannelUnits.TabIndex = 0;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.grdMetrics);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(684, 321);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Metric Table";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // grdMetrics
-            // 
-            this.grdMetrics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdMetrics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdMetrics.Location = new System.Drawing.Point(3, 3);
-            this.grdMetrics.Name = "grdMetrics";
-            this.grdMetrics.Size = new System.Drawing.Size(678, 315);
-            this.grdMetrics.TabIndex = 2;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.ucMetricPlot1);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(684, 321);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Metric Plot";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // ucMetricPlot1
-            // 
-            this.ucMetricPlot1.DBCon = null;
-            this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucMetricPlot1.Location = new System.Drawing.Point(3, 3);
-            this.ucMetricPlot1.Name = "ucMetricPlot1";
-            this.ucMetricPlot1.Size = new System.Drawing.Size(678, 315);
-            this.ucMetricPlot1.TabIndex = 0;
-            this.ucMetricPlot1.VisitID = 0;
             // 
             // tabPage4
             // 
@@ -439,9 +389,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdVisitDetails)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdChannelUnits)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grdMetrics)).EndInit();
-            this.tabPage5.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLogMessages)).EndInit();
@@ -472,10 +419,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView grdVisitDetails;
         private System.Windows.Forms.DataGridView grdChannelUnits;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView grdMetrics;
-        private System.Windows.Forms.TabPage tabPage5;
-        private ucMetricPlot ucMetricPlot1;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridView grdLogMessages;
         private System.Windows.Forms.Label label8;
