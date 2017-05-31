@@ -567,6 +567,11 @@ namespace CHaMPWorkbench
                         }
                     }
                 }
+                else
+                {
+                    MessageBox.Show(string.Format("There are no updates available. The {0} software is up to date.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
             }
             else
             {
