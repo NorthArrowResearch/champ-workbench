@@ -2,6 +2,19 @@
 title: Release Notes
 ---
 
+### 7.0.10 - 1 Jun 2017
+
+* Confirmation message when checking for updates and the software is already up to date.
+* Metric Defintions:
+	* Reordered Metric Definitions grid columns
+	* Help links available in grid.
+	* Metric Definition XML export fix to include precision.
+* Moved `Upload Topo Data` feature to experimental menu.
+
+### 7.0.08 - 7.0.09
+
+* Internal development releases to desolve missing `System.Net.Html.dll` in deployment.
+
 ### 7.0.07 - 3 May 2017
 
 * Metric scraping of Python topo metrics from XML files
