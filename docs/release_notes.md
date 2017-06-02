@@ -2,6 +2,11 @@
 title: Release Notes
 ---
 
+### 7.0.12 - 2 Jun 2017
+
+* Metric definition column ordering and sizing
+* Revised master database, with cleaned out metrics.
+
 ### 7.0.10 - 1 Jun 2017
 
 * Confirmation message when checking for updates and the software is already up to date.
