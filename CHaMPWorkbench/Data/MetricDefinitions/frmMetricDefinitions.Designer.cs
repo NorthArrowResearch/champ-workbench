@@ -49,14 +49,14 @@
             this.colDisplayNameShort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSchema = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDataType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colXPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.coltext = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colDataType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colThreshold = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrecision = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMinValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMaxValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.coltext = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colUpdated = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -225,14 +225,14 @@
             this.colDisplayNameShort,
             this.colModel,
             this.colSchema,
-            this.colDataType,
             this.colIsActive,
             this.colXPath,
+            this.coltext,
+            this.colDataType,
             this.colThreshold,
             this.colPrecision,
             this.colMinValue,
             this.colMaxValue,
-            this.coltext,
             this.colUpdated});
             this.grdData.Location = new System.Drawing.Point(67, 155);
             this.grdData.Name = "grdData";
@@ -287,14 +287,6 @@
             this.colSchema.Name = "colSchema";
             this.colSchema.ReadOnly = true;
             // 
-            // colDataType
-            // 
-            this.colDataType.DataPropertyName = "DataTypeName";
-            this.colDataType.Frozen = true;
-            this.colDataType.HeaderText = "Data Type";
-            this.colDataType.Name = "colDataType";
-            this.colDataType.ReadOnly = true;
-            // 
             // colIsActive
             // 
             this.colIsActive.DataPropertyName = "IsActive";
@@ -302,6 +294,7 @@
             this.colIsActive.HeaderText = "Active";
             this.colIsActive.Name = "colIsActive";
             this.colIsActive.ReadOnly = true;
+            this.colIsActive.Width = 50;
             // 
             // colXPath
             // 
@@ -310,38 +303,7 @@
             this.colXPath.HeaderText = "XPath";
             this.colXPath.Name = "colXPath";
             this.colXPath.ReadOnly = true;
-            // 
-            // colThreshold
-            // 
-            this.colThreshold.DataPropertyName = "Threshold";
-            this.colThreshold.Frozen = true;
-            this.colThreshold.HeaderText = "Threshold";
-            this.colThreshold.Name = "colThreshold";
-            this.colThreshold.ReadOnly = true;
-            // 
-            // colPrecision
-            // 
-            this.colPrecision.DataPropertyName = "Precision";
-            this.colPrecision.Frozen = true;
-            this.colPrecision.HeaderText = "Precision";
-            this.colPrecision.Name = "colPrecision";
-            this.colPrecision.ReadOnly = true;
-            // 
-            // colMinValue
-            // 
-            this.colMinValue.DataPropertyName = "MinValue";
-            this.colMinValue.Frozen = true;
-            this.colMinValue.HeaderText = "Minimum";
-            this.colMinValue.Name = "colMinValue";
-            this.colMinValue.ReadOnly = true;
-            // 
-            // colMaxValue
-            // 
-            this.colMaxValue.DataPropertyName = "MaxValue";
-            this.colMaxValue.Frozen = true;
-            this.colMaxValue.HeaderText = "Maximum";
-            this.colMaxValue.Name = "colMaxValue";
-            this.colMaxValue.ReadOnly = true;
+            this.colXPath.Width = 300;
             // 
             // coltext
             // 
@@ -351,6 +313,51 @@
             this.coltext.Name = "coltext";
             this.coltext.ReadOnly = true;
             this.coltext.Text = "";
+            // 
+            // colDataType
+            // 
+            this.colDataType.DataPropertyName = "DataTypeName";
+            this.colDataType.Frozen = true;
+            this.colDataType.HeaderText = "Data Type";
+            this.colDataType.Name = "colDataType";
+            this.colDataType.ReadOnly = true;
+            this.colDataType.Width = 75;
+            // 
+            // colThreshold
+            // 
+            this.colThreshold.DataPropertyName = "Threshold";
+            this.colThreshold.Frozen = true;
+            this.colThreshold.HeaderText = "Threshold";
+            this.colThreshold.Name = "colThreshold";
+            this.colThreshold.ReadOnly = true;
+            this.colThreshold.Width = 50;
+            // 
+            // colPrecision
+            // 
+            this.colPrecision.DataPropertyName = "Precision";
+            this.colPrecision.Frozen = true;
+            this.colPrecision.HeaderText = "Precision";
+            this.colPrecision.Name = "colPrecision";
+            this.colPrecision.ReadOnly = true;
+            this.colPrecision.Width = 50;
+            // 
+            // colMinValue
+            // 
+            this.colMinValue.DataPropertyName = "MinValue";
+            this.colMinValue.Frozen = true;
+            this.colMinValue.HeaderText = "Minimum";
+            this.colMinValue.Name = "colMinValue";
+            this.colMinValue.ReadOnly = true;
+            this.colMinValue.Width = 50;
+            // 
+            // colMaxValue
+            // 
+            this.colMaxValue.DataPropertyName = "MaxValue";
+            this.colMaxValue.Frozen = true;
+            this.colMaxValue.HeaderText = "Maximum";
+            this.colMaxValue.Name = "colMaxValue";
+            this.colMaxValue.ReadOnly = true;
+            this.colMaxValue.Width = 50;
             // 
             // colUpdated
             // 
@@ -405,14 +412,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDisplayNameShort;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSchema;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDataType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIsActive;
         private System.Windows.Forms.DataGridViewTextBoxColumn colXPath;
+        private System.Windows.Forms.DataGridViewLinkColumn coltext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDataType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colThreshold;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPrecision;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMinValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaxValue;
-        private System.Windows.Forms.DataGridViewLinkColumn coltext;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUpdated;
     }
 }
