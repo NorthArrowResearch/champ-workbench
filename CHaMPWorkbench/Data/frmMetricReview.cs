@@ -58,5 +58,11 @@ namespace CHaMPWorkbench.Data
         {
             ucUserFeedback1.ItemReviewed = string.Format("Plot: {0}", ucMetricPlot1.CurrentPlotTitle);
         }
+
+        private void metricDownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Metrics.frmMetricDownload frm = new Metrics.frmMetricDownload();
+            frm.ShowDialog();
+        }
     }
 }

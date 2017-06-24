@@ -182,6 +182,7 @@
   <ItemGroup>
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
     <Compile Include="CHaMPData\DataSynchronizer.cs" />
+    <Compile Include="CHaMPData\MetricSchema.cs" />
     <Compile Include="CHaMPData\Program.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
     <Compile Include="CHaMPData\VisitBasic.cs" />
@@ -320,6 +321,13 @@
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MetricDefinitions\MetricDefinition.cs" />
+    <Compile Include="Data\Metrics\frmMetricDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\Metrics\frmMetricDownload.Designer.cs">
+      <DependentUpon>frmMetricDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Metrics\MetricDownloader.cs" />
     <Compile Include="Data\ucMetricGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -609,6 +617,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\MetricDefinitions\frmMetricProperties.resx">
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Metrics\frmMetricDownload.resx">
+      <DependentUpon>frmMetricDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricGrid.resx">
       <DependentUpon>ucMetricGrid.cs</DependentUpon>
