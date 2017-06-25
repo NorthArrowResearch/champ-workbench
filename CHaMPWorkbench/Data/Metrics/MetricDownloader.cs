@@ -18,7 +18,9 @@ namespace CHaMPWorkbench.Data.Metrics
 
         public string UserName { get; internal set;  }
         public string Password { get; internal set; }
-        
+
+        private Dictionary<long, Dictionary<string, long>> schemaMetrics;
+
         public MetricDownloader(string sDBCon)
         {
             DBCon = sDBCon;
@@ -34,8 +36,7 @@ namespace CHaMPWorkbench.Data.Metrics
         {
             UserName = sUserName;
             Password = sPassword;
-            
-            GeoOptix.API.ApiHelper keystoneAPIHelper = Authenticate();
+            int nTotalCalculations = visits.Count * schemas.Count;
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
@@ -44,21 +45,30 @@ namespace CHaMPWorkbench.Data.Metrics
 
                 try
                 {
-                    long nBatchID = InsertMetricBatch(ref dbTrans);
-
-                    foreach (CHaMPData.MetricSchema schema in schemas)
+                    int nVisitCounter = 0;
+                    foreach (long programID in programSchemaIDs.Keys)
                     {
                         CurrentProcess = string.Format("Downloading {0} metrics...", schema.Name);
 
                         foreach (CHaMPData.VisitBasic visit in visits)
                         {
-                            try
-                            {
-                                DownloadVisitMetrics(ref dbTrans, nBatchID, visit, schema);
-                            }
-                            catch (Exception ex)
-                            {
+                            LoadMetricsForSchema(schema.ID);
 
+                            CurrentProcess = string.Format("Downloading {0} metrics...", schema.Name);
+                            long nBatchID = GetBatchID(ref dbTrans, schema);
+
+                            foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
+                            {
+                                try
+                                {
+                                    DownloadVisitMetrics(ref dbTrans, nBatchID, visit, schema, ref helper);
+                                    ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), visit.ID.ToString());
+                                    nVisitCounter ++;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw;
+                                }
                             }
                         }
                     }
@@ -74,7 +84,58 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
-        private GeoOptix.API.ApiHelper Authenticate()
+        private void ReportProgress(int value, string sMessage)
+        {
+            CurrentProcess = sMessage;
+            OnProgressUpdate(value);
+        }
+
+        private int ProgressPercent(int nVisitCounter, int TotalNumberVisits)
+        {
+            if (TotalNumberVisits == 0)
+                return 0;
+            else
+            {
+                if (nVisitCounter == 0)
+                    return 0;
+                else
+                    if (nVisitCounter == TotalNumberVisits)
+                    return 100;
+                else
+                    return (int)(100 * nVisitCounter / TotalNumberVisits);
+            }
+        }
+
+        private void LoadMetricsForSchema(long schemaID)
+        {
+            if (schemaMetrics == null)
+                schemaMetrics = new Dictionary<long, Dictionary<string, long>>();
+
+            if (schemaMetrics.ContainsKey(schemaID))
+                return;
+
+            schemaMetrics[schemaID] = new Dictionary<string, long>();
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
+            {
+                dbCon.Open();
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID WHERE (S.SchemaID = 1) AND (DisplayNameShort IS NOT NULL)", dbCon);
+                dbCom.Parameters.AddWithValue("SchemaID", schemaID);
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                    schemaMetrics[schemaID][dbRead.GetString(1)] = dbRead.GetInt64(0);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schemas">List of Metric SchemaIDs</param>
+        /// <returns>Dictionary of program IDs keyed to a list of metric schemas that
+        /// belong to this schema</returns>
+        /// <remarks>We only want to authenticate againt each API once. Therefore
+        /// reorganize the schemas by unique program</remarks>
+        private Dictionary<long, List<CHaMPData.MetricSchema>> OrganizeSchemasByProgram(List<CHaMPData.MetricSchema> schemas)
         {
             CurrentProcess = "Authenticating user with Keystone API";
 
@@ -127,33 +188,33 @@ namespace CHaMPWorkbench.Data.Metrics
             SQLiteCommand dbCom = new SQLiteCommand(String.Format("DELETE FROM {0} WHERE VisitID = @VisitID", schemas.), dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("VisitID", visit.ID);
 
+            string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
+            GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
+            GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
 
+            dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("VisitID", visit.ID);
+            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
+            GeoOptix.API.Model.MetricInstanceModel[] theInstances = theMetrics.Payload;
+            if (theMetrics.Payload != null && theInstances.Length > 0)
+            {
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in theInstances[0].Values)
+                {
+                    System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
 
-  
-            // https://www.champmonitoring.org/api/v1/visits/1/metricschemas/QA - Topo Tier 2 Metrics/metrics
+                    if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                    {
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                        pMetricValue.Value = aValue.Value;
+                        dbCom.ExecuteNonQuery();
+                    }
+                }
+            }
 
-
-
-        //    "metricSchemaUrl": "https://www.CHaMPMonitoring.org/api/v1/Visit/metricschemas/QA - Topo Tier 2 Metrics",
-        //"itemUrl": "https://www.CHaMPMonitoring.org/api/v1/visits/1",
-        //"values": [
-        //    {
-        //        "name": "GenerationDate",
-        //        "value": "2017-06-01T19:31:03.306Z",
-        //        "type": "String"
-        //    },
-        //    {
-        //        "name": "Area",
-        //        "value": "0.0",
-        //        "type": "Numeric"
-        //    },
-        //    {
-        //        "name": "Ct",
-        //        "value": "0",
-        //        "type": "Numeric"
-        //    },
-
+            // https://www.champmonitoring.org/api/v1/visits/1/metricschemas/QA - Topo Tier 2 Metrics/metrics        
         }
 
     }
