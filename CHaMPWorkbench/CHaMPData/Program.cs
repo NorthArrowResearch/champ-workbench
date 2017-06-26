@@ -81,6 +81,23 @@ namespace CHaMPWorkbench.CHaMPData
             }
         }
 
+        public string Keystone
+        {
+            get
+            {
+                string sKeystone = string.Empty;
+
+                if (!string.IsNullOrEmpty(API))
+                {
+                    sKeystone = "https://keystone.sitkatech.com/core/connect/token";
+                    if (API.ToLower().Contains("https://api-qa."))
+                        sKeystone = sKeystone.Replace("https://", "https://qa.");
+                }
+
+                return sKeystone;
+            }
+        }
+
         #endregion
 
         /// <summary>
