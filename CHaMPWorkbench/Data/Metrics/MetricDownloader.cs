@@ -283,19 +283,19 @@ namespace CHaMPWorkbench.Data.Metrics
             return instanceID;
         }
 
-        private Dictionary<long, Tuple<int, DateTime, string>> GetLatestMetricInstances(ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances, string sDistinguishingMetricName)
+        private Dictionary<string, Tuple<int, DateTime, string>> GetLatestMetricInstances(ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances, string sDistinguishingMetricName)
         {
-            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = new Dictionary<long, Tuple<int, DateTime, string>>();
+            Dictionary<string, Tuple<int, DateTime, string>> newestMetricInstances = new Dictionary<string, Tuple<int, DateTime, string>>();
 
             for (int i = 0; i < metricInstances.Length; i++)
             {
-                long nDistinguishingValue = 0;
+                string sDistinguishingValue = "none";
                 DateTime dtAPIInsertionDate = new DateTime();
                 string sModelVersion = string.Empty;
                 foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
                 {
                     if (string.Compare(aValue.Name, sDistinguishingMetricName, true) == 0)
-                        nDistinguishingValue = long.Parse(aValue.Value, System.Globalization.NumberStyles.Any);
+                        sDistinguishingValue = aValue.Value;
 
                     if (string.Compare(aValue.Name, "GenerationDate", true) == 0)
                         dtAPIInsertionDate = DateTime.Parse(aValue.Value);
@@ -305,11 +305,11 @@ namespace CHaMPWorkbench.Data.Metrics
 
                 }
 
-                if (nDistinguishingValue == 0)
+                if (string.Compare(sDistinguishingValue, "none", true) == 0)
                     System.Diagnostics.Debug.Assert(string.IsNullOrEmpty(sDistinguishingMetricName), "Only visit level metrics - with no distinguishing metric - should have no distinguishing metric value.");
 
-                if (!newestMetricInstances.ContainsKey(nDistinguishingValue) || dtAPIInsertionDate > newestMetricInstances[nDistinguishingValue].Item2)
-                    newestMetricInstances[nDistinguishingValue] = new Tuple<int, DateTime, string>(i, dtAPIInsertionDate, sModelVersion);
+                if (!newestMetricInstances.ContainsKey(sDistinguishingValue) || dtAPIInsertionDate > newestMetricInstances[sDistinguishingValue].Item2)
+                    newestMetricInstances[sDistinguishingValue] = new Tuple<int, DateTime, string>(i, dtAPIInsertionDate, sModelVersion);
             }
 
             return newestMetricInstances;
@@ -318,14 +318,14 @@ namespace CHaMPWorkbench.Data.Metrics
         private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
         {
             // The API might erroneously contain duplicates. Find the newest instance for each channel unit
-            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, string.Empty);
+            Dictionary<string, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, string.Empty);
 
             if (newestMetricInstances.Count < 1)
                 return;
 
-            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances[0].Item2, newestMetricInstances[1].Item3);
+            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances.Values.First<Tuple<int,DateTime,string>>().Item2, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item3);
 
-            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, VisitID, MetricID, MetricValue) VALUES (@InstanceID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, MetricID, MetricValue) VALUES (@InstanceID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
@@ -350,7 +350,7 @@ namespace CHaMPWorkbench.Data.Metrics
         private void DownloadChannelUnitMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
         {
             // The API might erroneously contain duplicates. Find the newest instance for each channel unit
-            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, "ChUnitNumber");
+            Dictionary<string, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, "ChUnitNumber");
 
             if (newestMetricInstances.Count < 1)
                 return;
@@ -363,11 +363,11 @@ namespace CHaMPWorkbench.Data.Metrics
             SQLiteParameter pChannelUnitNumber = dbCom.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            foreach (long nChannelUnitNumber in newestMetricInstances.Keys)
+            foreach (string sChannelUnitNumber in newestMetricInstances.Keys)
             {
-                pChannelUnitNumber.Value = nChannelUnitNumber;
+                pChannelUnitNumber.Value = long.Parse(sChannelUnitNumber);
 
-                int metricInstanceIndex = newestMetricInstances[nChannelUnitNumber].Item1;
+                int metricInstanceIndex = newestMetricInstances[sChannelUnitNumber].Item1;
                 foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[metricInstanceIndex].Values)
                 {
                     if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
@@ -388,7 +388,7 @@ namespace CHaMPWorkbench.Data.Metrics
             string sTierMetricName = string.Format("Tier{0}", tierIndex);
 
             // The API might erroneously contain duplicates. Find the newest instance for each channel unit
-            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, sTierMetricName);
+            Dictionary<string, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, sTierMetricName);
 
             if (newestMetricInstances.Count < 1)
                 return;
@@ -401,10 +401,10 @@ namespace CHaMPWorkbench.Data.Metrics
             SQLiteParameter pTierID = dbCom.Parameters.Add("TierID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            foreach (long nTierID in newestMetricInstances.Keys)
+            foreach (string sTierID in newestMetricInstances.Keys)
             {
-                pTierID.Value = nTierID;
-                int nMetricInstanceIndex = newestMetricInstances[nTierID].Item1;
+                pTierID.Value = tierTypes[tierIndex][sTierID];
+                int nMetricInstanceIndex = newestMetricInstances[sTierID].Item1;
 
                 foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[nMetricInstanceIndex].Values)
                 {
