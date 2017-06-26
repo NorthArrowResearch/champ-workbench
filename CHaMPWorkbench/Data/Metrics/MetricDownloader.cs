@@ -20,6 +20,7 @@ namespace CHaMPWorkbench.Data.Metrics
         public string Password { get; internal set; }
 
         private Dictionary<long, Dictionary<string, long>> schemaMetrics;
+        private Dictionary<long, Dictionary<string, long>> tierTypes;
 
         public MetricDownloader(string sDBCon)
         {
@@ -27,6 +28,9 @@ namespace CHaMPWorkbench.Data.Metrics
 
             // Load the list of programs (CHaMP, AEM etc) to which visits belong. Programs store the API URL.
             Programs = CHaMPData.Program.Load(DBCon);
+
+            // Load the master lookup of tier types from the database
+            LoadTierTypes();
         }
 
         public delegate void ProgressUpdate(int value);
@@ -48,22 +52,57 @@ namespace CHaMPWorkbench.Data.Metrics
                     int nVisitCounter = 0;
                     foreach (long programID in programSchemaIDs.Keys)
                     {
-                        CurrentProcess = string.Format("Downloading {0} metrics...", schema.Name);
+                        GeoOptix.API.ApiHelper apiHelper = new GeoOptix.API.ApiHelper(Programs[programID].API, Programs[programID].Keystone,
+                            CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
+                           Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
-                        foreach (CHaMPData.VisitBasic visit in visits)
+                        foreach (CHaMPData.MetricSchema schema in programSchemaIDs[programID])
                         {
-                            LoadMetricsForSchema(schema.ID);
-
                             CurrentProcess = string.Format("Downloading {0} metrics...", schema.Name);
+
                             long nBatchID = GetBatchID(ref dbTrans, schema);
+
+                            // Load the metric definitions for this schema. This will populate member dictionary keyed by schema ID
+                            LoadMetricDefinitionsForSchema(schema.ID);
 
                             foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
                             {
+                                // Delete existing API downloaded metrics for this visit and schema
+                                DeleteExistingMetrics(ref dbTrans, nBatchID, visit.ID, schema);
+
+                                string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
+                                GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
+                                GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
+                                if (theMetrics.Payload == null || theMetrics.Payload.Length < 1)
+                                    continue;
+
+                                GeoOptix.API.Model.MetricInstanceModel[] metricInstances = theMetrics.Payload;
+                                if (metricInstances.Length == 0)
+                                    continue;
+
                                 try
                                 {
-                                    DownloadVisitMetrics(ref dbTrans, nBatchID, visit, schema, ref helper);
+                                    switch (schema.DatabaseTable.ToLower())
+                                    {
+                                        case ("metric_visitmetrics2"):
+                                            DownloadVisitMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
+                                            break;
+
+                                        case ("metric_channelunitmetrics2"):
+                                            DownloadChannelUnitMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
+                                            break;
+
+                                        case ("metric_tiermetrics2"):
+                                            DownloadTierMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
+                                            break;
+
+                                        default:
+                                            throw new Exception(string.Format("Unhandled metric schema database table '{0}'", schema.DatabaseTable));
+
+                                    }
+
                                     ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), visit.ID.ToString());
-                                    nVisitCounter ++;
+                                    nVisitCounter++;
                                 }
                                 catch (Exception ex)
                                 {
@@ -106,7 +145,34 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
-        private void LoadMetricsForSchema(long schemaID)
+        private void LoadTierTypes()
+        {
+            // Create a new lookup dictionary for the tier types. 
+            // Key is tier level (1, 2) and the value is a dictionary of tier types to their DB IDs
+            tierTypes = new Dictionary<long, Dictionary<string, long>>();
+
+            Dictionary<long, long> tierListIDs = new Dictionary<long, long>();
+            tierListIDs[1] = 5;
+            tierListIDs[2] = 11;
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
+            {
+                dbCon.Open();
+
+                foreach (long typeIndex in tierListIDs.Keys)
+                {
+                    tierTypes[typeIndex] = new Dictionary<string, long>();
+
+                    SQLiteCommand dbCom = new SQLiteCommand("SELECT ItemID, Title FROM LookupListItems WHERE (ListID = @ListID) ORDER BY Title", dbCon);
+                    dbCom.Parameters.AddWithValue("ListID", tierListIDs[typeIndex]);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                        tierTypes[typeIndex][dbRead.GetString(1)] = dbRead.GetInt64(0);
+                }
+            }
+        }
+
+        private void LoadMetricDefinitionsForSchema(long schemaID)
         {
             if (schemaMetrics == null)
                 schemaMetrics = new Dictionary<long, Dictionary<string, long>>();
@@ -119,8 +185,10 @@ namespace CHaMPWorkbench.Data.Metrics
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID WHERE (S.SchemaID = 1) AND (DisplayNameShort IS NOT NULL)", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID" +
+                    " WHERE (S.SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (DataTypeID = @DataTypeID)", dbCon);
                 dbCom.Parameters.AddWithValue("SchemaID", schemaID);
+                dbCom.Parameters.AddWithValue("DataTypeID", 10023); // Numeric only metrics
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
                     schemaMetrics[schemaID][dbRead.GetString(1)] = dbRead.GetInt64(0);
@@ -182,39 +250,121 @@ namespace CHaMPWorkbench.Data.Metrics
             return nBatchID;
         }
 
-        private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long nBatchID, CHaMPData.VisitBasic visit, CHaMPData.MetricSchema schema)
+        private void DeleteExistingMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema)
         {
-            // Delete existing visit metrics for this schema
-            SQLiteCommand dbCom = new SQLiteCommand(String.Format("DELETE FROM {0} WHERE VisitID = @VisitID", schemas.), dbTrans.Connection, dbTrans);
-            dbCom.Parameters.AddWithValue("VisitID", visit.ID);
+            // Delete existing visit metrics for this schema THAT HAVE DOWNLOAD SCAVENGE TYPE
+            SQLiteCommand dbCom = new SQLiteCommand(String.Format("DELETE FROM {0} WHERE (BatchID = @BatchID) AND (VisitID = @VisitID)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
+            dbCom.ExecuteNonQuery();
+        }
 
-            string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
-            GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
-            GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
-
-            dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
-            dbCom.Parameters.AddWithValue("VisitID", visit.ID);
+        private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        {
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
             dbCom.Parameters.AddWithValue("BatchID", nBatchID);
             SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            GeoOptix.API.Model.MetricInstanceModel[] theInstances = theMetrics.Payload;
-            if (theMetrics.Payload != null && theInstances.Length > 0)
+            foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
             {
-                foreach (GeoOptix.API.Model.MetricValueModel aValue in theInstances[0].Values)
-                {
-                    System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
+                System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
 
-                    if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                {
+                    pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                    pMetricValue.Value = aValue.Value;
+                    dbCom.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void DownloadChannelUnitMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        {
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, ChannelUnitNumber, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @ChannelUnitNumber, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
+            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pChannelUnitNumber = dbCom.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
+
+            for (int i = 0; i < metricInstances.Length; i++)
+            {
+                long nChannelUnitNumber = 0;
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
+                {
+                    if (string.Compare(aValue.Name, "ChUnitNumber", true) == 0)
                     {
-                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                        pMetricValue.Value = aValue.Value;
-                        dbCom.ExecuteNonQuery();
+                        if (long.TryParse(aValue.Value, out nChannelUnitNumber))
+                            break;
+                    }
+                }
+
+                if (nChannelUnitNumber > 0)
+                {
+                    pChannelUnitNumber.Value = nChannelUnitNumber;
+                    foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
+                    {
+                        System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
+
+                        if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                        {
+                            pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                            pMetricValue.Value = aValue.Value;
+                            dbCom.ExecuteNonQuery();
+                        }
                     }
                 }
             }
+        }
 
-            // https://www.champmonitoring.org/api/v1/visits/1/metricschemas/QA - Topo Tier 2 Metrics/metrics        
+        private void DownloadTierMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        {
+            long tierIndex = 1;
+            if (schema.Name.ToLower().Contains("tier 2"))
+                tierIndex = 2;
+
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, TierID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @TierID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
+            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
+            SQLiteParameter pTierID = dbCom.Parameters.Add("TierID", System.Data.DbType.Int64);
+            SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
+
+            for (int i = 0; i < metricInstances.Length; i++)
+            {
+                // First loop over the metric values and find the metric value that refers to the tier type.
+                // Use this to look up the TierID for this type
+                long nTierID = 0;
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
+                {
+                    if (string.Compare(aValue.Name, string.Format("Tier{0}", tierIndex), true) == 0)
+                    {
+                        if (tierTypes[tierIndex].ContainsKey(aValue.Name))
+                        {
+                            nTierID = tierTypes[tierIndex][aValue.Name];
+                            break;
+                        }
+                    }
+                }
+
+                if (nTierID > 0)
+                {
+                    pTierID.Value = nTierID;
+                    foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
+                    {
+                        System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
+
+                        if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                        {
+                            pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                            pMetricValue.Value = aValue.Value;
+                            dbCom.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
         }
 
     }
