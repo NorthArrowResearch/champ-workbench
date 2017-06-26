@@ -68,7 +68,7 @@ namespace CHaMPWorkbench.Data.Metrics
                             foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
                             {
                                 // Delete existing API downloaded metrics for this visit and schema
-                                DeleteExistingMetrics(ref dbTrans, nBatchID, visit.ID, schema);
+                                DeleteExistingMetrics(ref dbTrans, nBatchID, visit.ID);
 
                                 string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
                                 GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
@@ -250,118 +250,171 @@ namespace CHaMPWorkbench.Data.Metrics
             return nBatchID;
         }
 
-        private void DeleteExistingMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema)
+
+        /// <summary>
+        /// Delete existing metrics for this schema THAT HAVE DOWNLOAD SCAVENGE TYPE
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="nBatchID">Batch that represents this schema and scavenge type</param>
+        /// <param name="visitID">The visit that is being downloaded and needs to have its metrics cleared</param>
+        private void DeleteExistingMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID)
         {
-            // Delete existing visit metrics for this schema THAT HAVE DOWNLOAD SCAVENGE TYPE
-            SQLiteCommand dbCom = new SQLiteCommand(String.Format("DELETE FROM {0} WHERE (BatchID = @BatchID) AND (VisitID = @VisitID)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            SQLiteCommand dbCom = new SQLiteCommand("DELETE FROM Metric_Instances WHERE (BatchID = @BatchID) AND (VisitID = @VisitID)", dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("BatchID", nBatchID);
             dbCom.Parameters.AddWithValue("VisitID", visitID);
             dbCom.ExecuteNonQuery();
         }
 
-        private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        private long InsertMetricInstance(ref SQLiteTransaction dbTrans, long batchID, long visitID, DateTime dtAPIInsertionOn, string sModelVersion)
         {
-            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            string sMetricsCalculatedOn = string.Empty;
+
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Instances (BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn)" +
+                " VALUES (@BatchID, @VisitID, @ModelVersion, @MetricsCalculatedOn, @APIInsertionOn)", dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("BatchID", batchID);
             dbCom.Parameters.AddWithValue("VisitID", visitID);
-            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            dbCom.Parameters.AddWithValue("MetricsCalculatedOn", DBNull.Value); // placeholder until this value is available in the API
+            dbCom.Parameters.AddWithValue("APIInsertionOn", dtAPIInsertionOn);
+            naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, sModelVersion, "ModelVersion");
+            dbCom.ExecuteNonQuery();
+
+            dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+            long instanceID = (long)dbCom.ExecuteScalar();
+            return instanceID;
+        }
+
+        private Dictionary<long, Tuple<int, DateTime, string>> GetLatestMetricInstances(ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances, string sDistinguishingMetricName)
+        {
+            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = new Dictionary<long, Tuple<int, DateTime, string>>();
+
+            for (int i = 0; i < metricInstances.Length; i++)
+            {
+                long nDistinguishingValue = 0;
+                DateTime dtAPIInsertionDate = new DateTime();
+                string sModelVersion = string.Empty;
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
+                {
+                    if (string.Compare(aValue.Name, sDistinguishingMetricName, true) == 0)
+                        nDistinguishingValue = long.Parse(aValue.Value, System.Globalization.NumberStyles.Any);
+
+                    if (string.Compare(aValue.Name, "GenerationDate", true) == 0)
+                        dtAPIInsertionDate = DateTime.Parse(aValue.Value);
+
+                    if (string.Compare(aValue.Name, "ModelVersion", true) == 0)
+                        sModelVersion = aValue.Value;
+
+                }
+
+                if (nDistinguishingValue == 0)
+                    System.Diagnostics.Debug.Assert(string.IsNullOrEmpty(sDistinguishingMetricName), "Only visit level metrics - with no distinguishing metric - should have no distinguishing metric value.");
+
+                if (!newestMetricInstances.ContainsKey(nDistinguishingValue) || dtAPIInsertionDate > newestMetricInstances[nDistinguishingValue].Item2)
+                    newestMetricInstances[nDistinguishingValue] = new Tuple<int, DateTime, string>(i, dtAPIInsertionDate, sModelVersion);
+            }
+
+            return newestMetricInstances;
+        }
+
+        private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        {
+            // The API might erroneously contain duplicates. Find the newest instance for each channel unit
+            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, string.Empty);
+
+            if (newestMetricInstances.Count < 1)
+                return;
+
+            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances[0].Item2, newestMetricInstances[1].Item3);
+
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, VisitID, MetricID, MetricValue) VALUES (@InstanceID, @VisitID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
+            System.Diagnostics.Debug.Assert(newestMetricInstances.Count == 1, "There should only be one instance of visit level metrics that is newest, even if there are erroneously multiple in the API");
+            foreach (Tuple<int, DateTime, string> metricInstanceInfo in newestMetricInstances.Values)
             {
-                System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
-
-                if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[metricInstanceInfo.Item1].Values)
                 {
-                    pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                    pMetricValue.Value = aValue.Value;
-                    dbCom.ExecuteNonQuery();
+                    System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
+
+                    if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                    {
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                        pMetricValue.Value = aValue.Value;
+                        dbCom.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
-        private void DownloadChannelUnitMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        private void DownloadChannelUnitMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
         {
-            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, ChannelUnitNumber, MetricID, MetricValue) VALUES (@BatchID, @VisitID, @ChannelUnitNumber, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
-            dbCom.Parameters.AddWithValue("VisitID", visitID);
-            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            // The API might erroneously contain duplicates. Find the newest instance for each channel unit
+            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, "ChUnitNumber");
+
+            if (newestMetricInstances.Count < 1)
+                return;
+
+            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item2, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item3);
+
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, ChannelUnitNumber, MetricID, MetricValue) VALUES (@InstanceID, @ChannelUnitNumber, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pChannelUnitNumber = dbCom.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            for (int i = 0; i < metricInstances.Length; i++)
+            foreach (long nChannelUnitNumber in newestMetricInstances.Keys)
             {
-                long nChannelUnitNumber = 0;
-                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
-                {
-                    if (string.Compare(aValue.Name, "ChUnitNumber", true) == 0)
-                    {
-                        if (long.TryParse(aValue.Value, out nChannelUnitNumber))
-                            break;
-                    }
-                }
+                pChannelUnitNumber.Value = nChannelUnitNumber;
 
-                if (nChannelUnitNumber > 0)
+                int metricInstanceIndex = newestMetricInstances[nChannelUnitNumber].Item1;
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[metricInstanceIndex].Values)
                 {
-                    pChannelUnitNumber.Value = nChannelUnitNumber;
-                    foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[0].Values)
+                    if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
                     {
-                        System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
-
-                        if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
-                        {
-                            pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                            pMetricValue.Value = aValue.Value;
-                            dbCom.ExecuteNonQuery();
-                        }
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                        pMetricValue.Value = aValue.Value;
+                        dbCom.ExecuteNonQuery();
                     }
                 }
             }
         }
 
-        private void DownloadTierMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
+        private void DownloadTierMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
         {
             long tierIndex = 1;
             if (schema.Name.ToLower().Contains("tier 2"))
                 tierIndex = 2;
+            string sTierMetricName = string.Format("Tier{0}", tierIndex);
 
-            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (BatchID, VisitID, MetricID, TierID, MetricValue) VALUES (@BatchID, @VisitID, @MetricID, @TierID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
-            dbCom.Parameters.AddWithValue("VisitID", visitID);
-            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            // The API might erroneously contain duplicates. Find the newest instance for each channel unit
+            Dictionary<long, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, sTierMetricName);
+
+            if (newestMetricInstances.Count < 1)
+                return;
+
+            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item2, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item3);
+
+            SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, MetricID, TierID, MetricValue) VALUES (@InstanceID, @MetricID, @TierID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pTierID = dbCom.Parameters.Add("TierID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = dbCom.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
-            for (int i = 0; i < metricInstances.Length; i++)
+            foreach (long nTierID in newestMetricInstances.Keys)
             {
-                // First loop over the metric values and find the metric value that refers to the tier type.
-                // Use this to look up the TierID for this type
-                long nTierID = 0;
-                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
-                {
-                    if (string.Compare(aValue.Name, string.Format("Tier{0}", tierIndex), true) == 0)
-                    {
-                        if (tierTypes[tierIndex].ContainsKey(aValue.Name))
-                        {
-                            nTierID = tierTypes[tierIndex][aValue.Name];
-                            break;
-                        }
-                    }
-                }
+                pTierID.Value = nTierID;
+                int nMetricInstanceIndex = newestMetricInstances[nTierID].Item1;
 
-                if (nTierID > 0)
+                foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[nMetricInstanceIndex].Values)
                 {
-                    pTierID.Value = nTierID;
-                    foreach (GeoOptix.API.Model.MetricValueModel aValue in metricInstances[i].Values)
-                    {
-                        System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
+                    System.Diagnostics.Debug.Assert(schemaMetrics.ContainsKey(schema.ID));
 
-                        if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
-                        {
-                            pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                            pMetricValue.Value = aValue.Value;
-                            dbCom.ExecuteNonQuery();
-                        }
+                    if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
+                    {
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
+                        pMetricValue.Value = aValue.Value;
+                        dbCom.ExecuteNonQuery();
                     }
                 }
             }
