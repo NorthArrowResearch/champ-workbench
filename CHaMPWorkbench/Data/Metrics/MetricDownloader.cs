@@ -84,15 +84,15 @@ namespace CHaMPWorkbench.Data.Metrics
                                 {
                                     switch (schema.DatabaseTable.ToLower())
                                     {
-                                        case ("metric_visitmetrics2"):
+                                        case ("metric_visitmetrics"):
                                             DownloadVisitMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
                                             break;
 
-                                        case ("metric_channelunitmetrics2"):
+                                        case ("metric_channelunitmetrics"):
                                             DownloadChannelUnitMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
                                             break;
 
-                                        case ("metric_tiermetrics2"):
+                                        case ("metric_tiermetrics"):
                                             DownloadTierMetrics(ref dbTrans, nBatchID, visit.ID, schema, ref metricInstances);
                                             break;
 
