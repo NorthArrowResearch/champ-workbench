@@ -76,8 +76,8 @@ namespace CHaMPWorkbench.CHaMPData
 
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}", aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper()));
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}", UserName, Password));
-                            
-                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, 
+
+                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID,
                                 Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
                             if (keystoneApiHelper.AuthToken.IsError)
@@ -284,14 +284,6 @@ namespace CHaMPWorkbench.CHaMPData
             if (apiVisitDetails == null || !apiVisitDetails.SampleYear.HasValue)
                 return;
 
-            ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
-            GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
-            if (meas == null)
-                return;
-
-            IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
-            GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
-            Dictionary<string, string> dMeasurements = mv.Measurement;
 
             CHaMPData.Visit theVisit = null;
             if (dvisits.ContainsKey((long)apiVisitDetails.Id))
@@ -309,14 +301,27 @@ namespace CHaMPWorkbench.CHaMPData
             theVisit.Crew = apiVisitDetails.HitchName;
             theVisit.SampleDate = apiVisitDetails.SampleDate;
             theVisit.ProgramID = nProgramID;
-            theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
-            theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
-            theVisit.HasStreamTempLogger = GetVisitInfoValueBool(ref dMeasurements, "HasStreamTempLogger");
-            theVisit.HasFishData = GetVisitInfoValueBool(ref dMeasurements, "HasFishData");
             theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
 
             theVisit.Panel = apiVisitDetails.Panel;
             theVisit.VisitStatus = apiVisitDetails.Status;
+            
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Visit Information Attributes (this requires authentication)
+
+            ApiResponse<GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>>> res = api2.GetMeasurement<Dictionary<string, string>>("Visit Information");
+            GeoOptix.API.Model.MeasurementModel<Dictionary<string, string>> meas = res.Payload;
+            if (meas != null)
+            {
+                IEnumerable<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>> vals = meas.MeasValues;
+                GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mv = vals.First<GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>>>();
+                Dictionary<string, string> dMeasurements = mv.Measurement;
+
+                theVisit.Discharge = GetVisitInfoValue(ref dMeasurements, "TotalDischarge");
+                theVisit.D84 = GetVisitInfoValue(ref dMeasurements, "D84");
+                theVisit.HasStreamTempLogger = GetVisitInfoValueBool(ref dMeasurements, "HasStreamTempLogger");
+                theVisit.HasFishData = GetVisitInfoValueBool(ref dMeasurements, "HasFishData");
+            }
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Channel Units
