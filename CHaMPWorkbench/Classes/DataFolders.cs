@@ -155,7 +155,7 @@ namespace CHaMPWorkbench.Classes
             if (!Topo(dTopLevelFolder, nVisitID, out dTopoFolder))
                 return false;
 
-            FileInfo[] fD50Rasters = dTopoFolder.GetFiles(sD50RasterFile, SearchOption.TopDirectoryOnly);
+            FileInfo[] fD50Rasters = dTopoFolder.GetFiles(sD50RasterFile, SearchOption.AllDirectories);
             if (fD50Rasters.Count() == 1)
             {
                 d50RasterFile = fD50Rasters[0];
