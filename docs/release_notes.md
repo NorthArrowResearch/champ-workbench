@@ -2,6 +2,11 @@
 title: Release Notes
 ---
 
+### 7.0.13 - 28 Jun 2017
+
+* Upgraded to x64 RasterMan 6.4.0
+* Changed Habitat Batch Builder to search all directories for substrate rasters, not just the top level.
+
 ### 7.0.12 - 2 Jun 2017
 
 * Metric definition column ordering and sizing
