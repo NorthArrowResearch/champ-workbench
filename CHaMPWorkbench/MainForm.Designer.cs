@@ -52,8 +52,10 @@
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.buildInputFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -317,13 +319,15 @@
             // dataToolStripMenuItem
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem,
-            this.toolStripSeparator7,
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.createCustomVisitToolStripMenuItem,
-            this.prepareDatabaseForDeploymentToolStripMenuItem,
-            this.metricDefinitionsToolStripMenuItem});
+            this.toolStripSeparator7,
+            this.metricDefinitionsToolStripMenuItem,
+            this.metricDownloadToolStripMenuItem,
+            this.toolStripSeparator18,
+            this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -364,14 +368,6 @@
             this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
             this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
             // 
-            // prepareDatabaseForDeploymentToolStripMenuItem
-            // 
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
-            // 
             // metricDefinitionsToolStripMenuItem
             // 
             this.metricDefinitionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.measure;
@@ -379,6 +375,27 @@
             this.metricDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.metricDefinitionsToolStripMenuItem.Text = "Metric Definitions";
             this.metricDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.metricDefinitionsToolStripMenuItem_Click);
+            // 
+            // metricDownloadToolStripMenuItem
+            // 
+            this.metricDownloadToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.metric_download;
+            this.metricDownloadToolStripMenuItem.Name = "metricDownloadToolStripMenuItem";
+            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
+            this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(331, 6);
+            // 
+            // prepareDatabaseForDeploymentToolStripMenuItem
+            // 
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
             // rBTToolStripMenuItem
             // 
@@ -853,7 +870,7 @@
             // 
             this.tileVerticalToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.tile_horizontal;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.tileVerticalToolStripMenuItem.Text = "Tile Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.tileVerticalToolStripMenuItem_Click);
             // 
@@ -861,7 +878,7 @@
             // 
             this.tileHorizontalToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.tile;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.tileHorizontalToolStripMenuItem.Text = "Tile Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalToolStripMenuItem_Click);
             // 
@@ -869,7 +886,7 @@
             // 
             this.cascadeToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.cascade;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cascadeToolStripMenuItem.Text = "Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.cascadeToolStripMenuItem_Click);
             // 
@@ -1738,6 +1755,8 @@
         private System.Windows.Forms.ToolStripMenuItem tileVerticalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
     }
 }
 

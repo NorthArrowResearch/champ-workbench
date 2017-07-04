@@ -348,6 +348,16 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap metric_download {
+            get {
+                object obj = ResourceManager.GetObject("metric_download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CHaMP Workbench.
         /// </summary>
         internal static string MyApplicationNameLong {

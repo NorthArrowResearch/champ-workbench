@@ -28,75 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMetricDownload));
             this.lstMetricSchemas = new System.Windows.Forms.CheckedListBox();
-            this.chkDelete = new System.Windows.Forms.CheckBox();
+            this.cmsSchemas = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblCurrentProcess = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.pgrProgress = new System.Windows.Forms.ProgressBar();
             this.txtProgress = new System.Windows.Forms.TextBox();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
+            this.cmsSchemas.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Metric batch name";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(114, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(326, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Metric schemas";
-            // 
             // lstMetricSchemas
             // 
+            this.lstMetricSchemas.CheckOnClick = true;
+            this.lstMetricSchemas.ContextMenuStrip = this.cmsSchemas;
             this.lstMetricSchemas.FormattingEnabled = true;
-            this.lstMetricSchemas.Location = new System.Drawing.Point(114, 46);
+            this.lstMetricSchemas.Location = new System.Drawing.Point(12, 12);
             this.lstMetricSchemas.Name = "lstMetricSchemas";
-            this.lstMetricSchemas.Size = new System.Drawing.Size(326, 124);
+            this.lstMetricSchemas.Size = new System.Drawing.Size(428, 124);
             this.lstMetricSchemas.TabIndex = 3;
             // 
-            // chkDelete
+            // cmsSchemas
             // 
-            this.chkDelete.AutoSize = true;
-            this.chkDelete.Location = new System.Drawing.Point(114, 186);
-            this.chkDelete.Name = "chkDelete";
-            this.chkDelete.Size = new System.Drawing.Size(201, 17);
-            this.chkDelete.TabIndex = 4;
-            this.chkDelete.Text = "Delete existing data before download";
-            this.chkDelete.UseVisualStyleBackColor = true;
+            this.cmsSchemas.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem,
+            this.selectNoneToolStripMenuItem});
+            this.cmsSchemas.Name = "cmsSchemas";
+            this.cmsSchemas.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // selectNoneToolStripMenuItem
+            // 
+            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
+            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem.Text = "Select None";
+            this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lblCurrentProcess);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.progressBar1);
+            this.groupBox1.Controls.Add(this.pgrProgress);
             this.groupBox1.Controls.Add(this.txtProgress);
-            this.groupBox1.Location = new System.Drawing.Point(12, 209);
+            this.groupBox1.Location = new System.Drawing.Point(12, 142);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 173);
+            this.groupBox1.Size = new System.Drawing.Size(428, 240);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Progress";
@@ -119,12 +110,12 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Current process:";
             // 
-            // progressBar1
+            // pgrProgress
             // 
-            this.progressBar1.Location = new System.Drawing.Point(0, 0);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 4;
+            this.pgrProgress.Location = new System.Drawing.Point(9, 22);
+            this.pgrProgress.Name = "pgrProgress";
+            this.pgrProgress.Size = new System.Drawing.Size(413, 13);
+            this.pgrProgress.TabIndex = 4;
             // 
             // txtProgress
             // 
@@ -134,7 +125,7 @@
             this.txtProgress.Location = new System.Drawing.Point(6, 71);
             this.txtProgress.Multiline = true;
             this.txtProgress.Name = "txtProgress";
-            this.txtProgress.Size = new System.Drawing.Size(416, 96);
+            this.txtProgress.Size = new System.Drawing.Size(416, 163);
             this.txtProgress.TabIndex = 0;
             // 
             // cmdHelp
@@ -156,6 +147,7 @@
             this.cmdCancel.TabIndex = 7;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdOK
             // 
@@ -166,9 +158,12 @@
             this.cmdOK.TabIndex = 8;
             this.cmdOK.Text = "Download";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // bgWorker
             // 
+            this.bgWorker.WorkerReportsProgress = true;
+            this.bgWorker.WorkerSupportsCancellation = true;
             this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
             this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
             this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
@@ -182,28 +177,20 @@
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.chkDelete);
             this.Controls.Add(this.lstMetricSchemas);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMetricDownload";
             this.Text = "Metric Download";
             this.Load += new System.EventHandler(this.frmMetricDownload_Load);
+            this.cmsSchemas.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckedListBox lstMetricSchemas;
-        private System.Windows.Forms.CheckBox chkDelete;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtProgress;
         private System.Windows.Forms.Button cmdHelp;
@@ -211,7 +198,10 @@
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Label lblCurrentProcess;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar pgrProgress;
         private System.ComponentModel.BackgroundWorker bgWorker;
+        private System.Windows.Forms.ContextMenuStrip cmsSchemas;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
     }
 }

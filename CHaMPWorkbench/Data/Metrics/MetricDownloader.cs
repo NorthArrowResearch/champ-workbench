@@ -15,12 +15,16 @@ namespace CHaMPWorkbench.Data.Metrics
         private readonly Dictionary<long, CHaMPData.Program> Programs;
 
         public string CurrentProcess { get; internal set; }
+        public StringBuilder ErrorMessages { get; internal set; }
 
         public string UserName { get; internal set; }
         public string Password { get; internal set; }
 
         private Dictionary<long, Dictionary<string, long>> schemaMetrics;
         private Dictionary<long, Dictionary<string, long>> tierTypes;
+
+        public delegate void ProgressUpdate(int value);
+        public event ProgressUpdate OnProgressUpdate;
 
         public MetricDownloader(string sDBCon)
         {
@@ -29,15 +33,22 @@ namespace CHaMPWorkbench.Data.Metrics
             // Load the list of programs (CHaMP, AEM etc) to which visits belong. Programs store the API URL.
             Programs = CHaMPData.Program.Load(DBCon);
 
+            // Append each error message as a new line
+            ErrorMessages = new StringBuilder();
+
             // Load the master lookup of tier types from the database
             LoadTierTypes();
         }
-
-        public delegate void ProgressUpdate(int value);
-        public event ProgressUpdate OnProgressUpdate;
-
-        public void Run(List<CHaMPData.VisitBasic> visits, List<CHaMPData.MetricSchema> schemas, string sUserName, string sPassword)
+        
+        public void Run(List<CHaMPData.VisitBasic> visits, List<CHaMPData.MetricSchema> schemas, System.ComponentModel.BackgroundWorker bgw, string sUserName, string sPassword)
         {
+            if (!naru.web.CheckForInternetConnection())
+            {
+                ErrorMessages.AppendLine("Failed to detect valid internet connection.");
+                ReportProgress(100, "Aborted");
+                return;
+            }
+
             UserName = sUserName;
             Password = sPassword;
             int nTotalCalculations = visits.Count * schemas.Count;
@@ -55,13 +66,14 @@ namespace CHaMPWorkbench.Data.Metrics
                     int nVisitCounter = 0;
                     foreach (long programID in programSchemaIDs.Keys)
                     {
+                        ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Authenticating against {0} API", Programs[programID]));
                         GeoOptix.API.ApiHelper apiHelper = new GeoOptix.API.ApiHelper(Programs[programID].API, Programs[programID].Keystone,
                             CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
                            Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
                         foreach (CHaMPData.MetricSchema schema in programSchemaIDs[programID])
                         {
-                            CurrentProcess = string.Format("Downloading {0} metrics...", schema.Name);
+                            ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Downloading {0} metrics...", schema.Name));
 
                             long nBatchID = GetBatchID(ref dbTrans, schema);
 
@@ -70,6 +82,16 @@ namespace CHaMPWorkbench.Data.Metrics
 
                             foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
                             {
+                                if (bgw.CancellationPending)
+                                {
+                                    dbTrans.Rollback();
+                                    return;
+                                }
+
+                                // Report progress at top of the loop because some steps below skip code
+                                nVisitCounter++;
+                                ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("{0} visit {1}", schema.Name, visit.ID));
+
                                 // Delete existing API downloaded metrics for this visit and schema
                                 DeleteExistingMetrics(ref dbTrans, nBatchID, visit.ID);
 
@@ -81,7 +103,10 @@ namespace CHaMPWorkbench.Data.Metrics
 
                                 GeoOptix.API.Model.MetricInstanceModel[] metricInstances = theMetrics.Payload;
                                 if (metricInstances.Length == 0)
+                                {
+                                    ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("No {0} metrics for visit {1}", schema.Name, visit.ID));
                                     continue;
+                                }
 
                                 try
                                 {
@@ -101,15 +126,11 @@ namespace CHaMPWorkbench.Data.Metrics
 
                                         default:
                                             throw new Exception(string.Format("Unhandled metric schema database table '{0}'", schema.DatabaseTable));
-
                                     }
-
-                                    ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), visit.ID.ToString());
-                                    nVisitCounter++;
                                 }
                                 catch (Exception ex)
                                 {
-                                    throw;
+                                    ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Error on visit {0}: {1}", visit.ID, ex.Message));
                                 }
                             }
                         }
@@ -117,6 +138,10 @@ namespace CHaMPWorkbench.Data.Metrics
 
                     dbTrans.Commit();
 
+                    if (ErrorMessages.Length < 1)
+                        ReportProgress(100, "Process completed without errors.");
+                    else
+                        ReportProgress(100, "Process completed with errors.");
                 }
                 catch (Exception ex)
                 {
@@ -144,7 +169,7 @@ namespace CHaMPWorkbench.Data.Metrics
                     if (nVisitCounter == TotalNumberVisits)
                     return 100;
                 else
-                    return (int)(100 * nVisitCounter / TotalNumberVisits);
+                    return (int)(100.0 * (double)nVisitCounter / (double)TotalNumberVisits);
             }
         }
 
@@ -222,7 +247,7 @@ namespace CHaMPWorkbench.Data.Metrics
 
         private long GetBatchID(ref SQLiteTransaction dbTrans, CHaMPData.MetricSchema schema)
         {
-            SQLiteCommand dbCom = new SQLiteCommand("SELECT BatchID WHERE (SchemaID = @SchemaID) AND (ScavengeTypeID = @ScavengeTypeID)", dbTrans.Connection, dbTrans);
+            SQLiteCommand dbCom = new SQLiteCommand("SELECT BatchID FROM Metric_Batches WHERE (SchemaID = @SchemaID) AND (ScavengeTypeID = @ScavengeTypeID)", dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("SchemaID", schema.ID);
             dbCom.Parameters.AddWithValue("ScavengeTypeID", ScavengeTypeID);
             long nBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);

@@ -1942,5 +1942,18 @@ namespace CHaMPWorkbench
         {
             this.LayoutMdi(MdiLayout.Cascade);
         }
+
+        private void metricDownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.Metrics.frmMetricDownload frm = new Data.Metrics.frmMetricDownload(GetSelectedVisitsList());
+            try
+            {
+                frm.ShowDialog();
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

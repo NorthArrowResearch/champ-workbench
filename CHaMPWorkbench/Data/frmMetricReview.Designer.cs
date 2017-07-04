@@ -32,10 +32,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricReviewPlot();
-            this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
-            this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
+            this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -98,6 +98,23 @@
             this.ucMetricPlot1.TabIndex = 0;
             this.ucMetricPlot1.VisitIDs = null;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.metricDownloadToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(297, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // metricDownloadToolStripMenuItem
+            // 
+            this.metricDownloadToolStripMenuItem.Name = "metricDownloadToolStripMenuItem";
+            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(119, 20);
+            this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
+            this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
+            // 
             // ucUserFeedback1
             // 
             this.ucUserFeedback1.DBCon = null;
@@ -120,23 +137,6 @@
             this.ucMetricGrid1.Size = new System.Drawing.Size(892, 254);
             this.ucMetricGrid1.TabIndex = 0;
             this.ucMetricGrid1.VisitIDs = null;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.metricDownloadToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(297, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // metricDownloadToolStripMenuItem
-            // 
-            this.metricDownloadToolStripMenuItem.Name = "metricDownloadToolStripMenuItem";
-            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(119, 20);
-            this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
-            this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
             // 
             // frmMetricReview
             // 
