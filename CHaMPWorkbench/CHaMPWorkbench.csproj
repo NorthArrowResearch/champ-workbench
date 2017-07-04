@@ -308,19 +308,19 @@
     <Compile Include="Data\frmVisitDetails.Designer.cs">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\MetricDefinitions\frmMetricDefinitions.cs">
+    <Compile Include="Data\Metrics\MetricDefinitions\frmMetricDefinitions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\MetricDefinitions\frmMetricDefinitions.Designer.cs">
+    <Compile Include="Data\Metrics\MetricDefinitions\frmMetricDefinitions.Designer.cs">
       <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\MetricDefinitions\frmMetricProperties.cs">
+    <Compile Include="Data\Metrics\MetricDefinitions\frmMetricProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\MetricDefinitions\frmMetricProperties.Designer.cs">
+    <Compile Include="Data\Metrics\MetricDefinitions\frmMetricProperties.Designer.cs">
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\MetricDefinitions\MetricDefinition.cs" />
+    <Compile Include="Data\Metrics\MetricDefinitions\MetricDefinition.cs" />
     <Compile Include="Data\Metrics\Download\frmMetricDownload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -612,10 +612,10 @@
     <EmbeddedResource Include="Data\frmVisitDetails.resx">
       <DependentUpon>frmVisitDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\MetricDefinitions\frmMetricDefinitions.resx">
+    <EmbeddedResource Include="Data\Metrics\MetricDefinitions\frmMetricDefinitions.resx">
       <DependentUpon>frmMetricDefinitions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\MetricDefinitions\frmMetricProperties.resx">
+    <EmbeddedResource Include="Data\Metrics\MetricDefinitions\frmMetricProperties.resx">
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\Metrics\Download\frmMetricDownload.resx">
