@@ -86,14 +86,24 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => modelIDs.Contains(x.ModelID)).ToList<MetricDefinition>());
             }
 
-            //List<long> schemaIDs = new List<long>();
-            //if (chkSchema.CheckedItems.Count > 0 && chkSchema.CheckedItems.Count < chkSchema.Items.Count)
-            //{
-            //    foreach (naru.db.NamedObject item in chkSchema.CheckedItems)
-            //        schemaIDs.Add(item.ID);
 
-            //    filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => schemaIDs.Contains(x.SchemaID)).ToList<MetricDefinition>());
-            //}
+            if (chkSchema.CheckedItems.Count > 0 && chkSchema.CheckedItems.Count < chkSchema.Items.Count)
+            {
+                naru.ui.SortableBindingList<MetricDefinition> filteredItemsSchema = new naru.ui.SortableBindingList<MetricDefinition>();
+
+                foreach (MetricDefinition metricDef in filteredItems.Where<MetricDefinition>(x => x.MetricSchemas.Count > 0))
+                {
+                    foreach (naru.db.NamedObject item in chkSchema.CheckedItems)
+                    {
+                       if (metricDef.MetricSchemas.Contains(item.ID))
+                        {
+                            filteredItemsSchema.Add(metricDef);
+                            break;
+                        }
+                    }
+                }
+                filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItemsSchema);
+            }
 
             if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
             {
