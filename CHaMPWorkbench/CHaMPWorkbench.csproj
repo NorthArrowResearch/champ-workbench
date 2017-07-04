@@ -266,16 +266,16 @@
     <Compile Include="Data\frmKeystoneCredentials.Designer.cs">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmMetricGrid.cs">
+    <Compile Include="Data\Metrics\Review\frmMetricGrid.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmMetricGrid.Designer.cs">
+    <Compile Include="Data\Metrics\Review\frmMetricGrid.Designer.cs">
       <DependentUpon>frmMetricGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmMetricReview.cs">
+    <Compile Include="Data\Metrics\Review\frmMetricReview.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmMetricReview.Designer.cs">
+    <Compile Include="Data\Metrics\Review\frmMetricReview.Designer.cs">
       <DependentUpon>frmMetricReview.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmSelectVisitID.cs">
@@ -328,22 +328,22 @@
       <DependentUpon>frmMetricDownload.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Metrics\Download\MetricDownloader.cs" />
-    <Compile Include="Data\ucMetricGrid.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Data\ucMetricGrid.Designer.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricGrid.Designer.cs">
       <DependentUpon>ucMetricGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\ucMetricPlot.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricPlot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Data\ucMetricPlot.Designer.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricPlot.Designer.cs">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\ucMetricReviewPlot.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricReviewPlot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Data\ucMetricReviewPlot.Designer.cs">
+    <Compile Include="Data\Metrics\Review\ucMetricReviewPlot.Designer.cs">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\ucPrograms.cs">
@@ -591,10 +591,10 @@
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmMetricGrid.resx">
+    <EmbeddedResource Include="Data\Metrics\Review\frmMetricGrid.resx">
       <DependentUpon>frmMetricGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmMetricReview.resx">
+    <EmbeddedResource Include="Data\Metrics\Review\frmMetricReview.resx">
       <DependentUpon>frmMetricReview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmSelectVisitID.resx">
@@ -621,13 +621,13 @@
     <EmbeddedResource Include="Data\Metrics\Download\frmMetricDownload.resx">
       <DependentUpon>frmMetricDownload.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\ucMetricGrid.resx">
+    <EmbeddedResource Include="Data\Metrics\Review\ucMetricGrid.resx">
       <DependentUpon>ucMetricGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\ucMetricPlot.resx">
+    <EmbeddedResource Include="Data\Metrics\Review\ucMetricPlot.resx">
       <DependentUpon>ucMetricPlot.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\ucMetricReviewPlot.resx">
+    <EmbeddedResource Include="Data\Metrics\Review\ucMetricReviewPlot.resx">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucPrograms.resx">
