@@ -321,13 +321,13 @@
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MetricDefinitions\MetricDefinition.cs" />
-    <Compile Include="Data\Metrics\frmMetricDownload.cs">
+    <Compile Include="Data\Metrics\Download\frmMetricDownload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\Metrics\frmMetricDownload.Designer.cs">
+    <Compile Include="Data\Metrics\Download\frmMetricDownload.Designer.cs">
       <DependentUpon>frmMetricDownload.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\Metrics\MetricDownloader.cs" />
+    <Compile Include="Data\Metrics\Download\MetricDownloader.cs" />
     <Compile Include="Data\ucMetricGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -618,7 +618,7 @@
     <EmbeddedResource Include="Data\MetricDefinitions\frmMetricProperties.resx">
       <DependentUpon>frmMetricProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\Metrics\frmMetricDownload.resx">
+    <EmbeddedResource Include="Data\Metrics\Download\frmMetricDownload.resx">
       <DependentUpon>frmMetricDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\ucMetricGrid.resx">
