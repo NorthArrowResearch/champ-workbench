@@ -16,7 +16,7 @@ namespace CHaMPWorkbench.Data.Metrics
 
         public string CurrentProcess { get; internal set; }
 
-        public string UserName { get; internal set;  }
+        public string UserName { get; internal set; }
         public string Password { get; internal set; }
 
         private Dictionary<long, Dictionary<string, long>> schemaMetrics;
@@ -41,6 +41,9 @@ namespace CHaMPWorkbench.Data.Metrics
             UserName = sUserName;
             Password = sPassword;
             int nTotalCalculations = visits.Count * schemas.Count;
+
+            // Organize the metric schemas by their program ID so that authenication is only performed once per program
+            Dictionary<long, List<CHaMPData.MetricSchema>> programSchemaIDs = OrganizeSchemasByProgram(schemas);
 
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
@@ -115,7 +118,7 @@ namespace CHaMPWorkbench.Data.Metrics
                     dbTrans.Commit();
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     dbTrans.Rollback();
                     throw;
@@ -205,51 +208,44 @@ namespace CHaMPWorkbench.Data.Metrics
         /// reorganize the schemas by unique program</remarks>
         private Dictionary<long, List<CHaMPData.MetricSchema>> OrganizeSchemasByProgram(List<CHaMPData.MetricSchema> schemas)
         {
-            CurrentProcess = "Authenticating user with Keystone API";
+            Dictionary<long, List<CHaMPData.MetricSchema>> programsToSchemas = new Dictionary<long, List<CHaMPData.MetricSchema>>();
 
-            // Determine if the program is pointing at QA or Production and use the corresponding keystone
-            string keystoneURL = "https://keystone.sitkatech.com/core/connect/token";
-            if (aProgram.API.Contains("https://qa."))
-                keystoneURL = keystoneURL.Replace("https://", "https://qa.");
-
-            //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}", aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper()));
-            //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}", UserName, Password));
-
-            GeoOptix.API.ApiHelper keystoneApiHelper = new GeoOptix.API.ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID,
-                Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
-
-            if (keystoneApiHelper.AuthToken.IsError)
+            foreach (CHaMPData.MetricSchema schema in schemas)
             {
-                Exception ex = new Exception(keystoneApiHelper.AuthToken.ErrorDescription, keystoneApiHelper.AuthToken.Exception);
-                ex.Data["JSON"] = keystoneApiHelper.AuthToken.Json.ToString();
-                throw ex;
+                if (!programsToSchemas.ContainsKey(schema.ProgramID))
+                    programsToSchemas[schema.ProgramID] = new List<CHaMPData.MetricSchema>();
+                programsToSchemas[schema.ProgramID].Add(schema);
             }
 
-            return keystoneApiHelper;
+            return programsToSchemas;
         }
 
-        private long InsertMetricBatch(ref SQLiteTransaction dbTrans)
+        private long GetBatchID(ref SQLiteTransaction dbTrans, CHaMPData.MetricSchema schema)
         {
-            long nBatchID = 0;
+            SQLiteCommand dbCom = new SQLiteCommand("SELECT BatchID WHERE (SchemaID = @SchemaID) AND (ScavengeTypeID = @ScavengeTypeID)", dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("SchemaID", schema.ID);
+            dbCom.Parameters.AddWithValue("ScavengeTypeID", ScavengeTypeID);
+            long nBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);
 
-            try
+            if (nBatchID < 1)
             {
-                SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Batches (ScavengeTypeID) VALUES (@ScavengeTypeID)", dbTrans.Connection, dbTrans);
-                dbCom.Parameters.AddWithValue("ScavengeTypeID", ScavengeTypeID);
+                try
+                {
+                    dbCom = new SQLiteCommand("INSERT INTO Metric_Batches (SchemaID, ScavengeTypeID, Title) VALUES (@SchemaID, @ScavengeTypeID, 'API Download')", dbTrans.Connection, dbTrans);
+                    dbCom.Parameters.AddWithValue("SchemaID", schema.ID);
+                    dbCom.Parameters.AddWithValue("ScavengeTypeID", ScavengeTypeID);
+                    dbCom.ExecuteNonQuery();
 
-                dbCom.ExecuteNonQuery();
-
-                dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                nBatchID = (long)dbCom.ExecuteScalar();
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                    nBatchID = (long)dbCom.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error inserting new metric batch.", ex);
+                }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error inserting new metric batch.", ex);
-            }
-
             return nBatchID;
         }
-
 
         /// <summary>
         /// Delete existing metrics for this schema THAT HAVE DOWNLOAD SCAVENGE TYPE
@@ -323,7 +319,7 @@ namespace CHaMPWorkbench.Data.Metrics
             if (newestMetricInstances.Count < 1)
                 return;
 
-            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances.Values.First<Tuple<int,DateTime,string>>().Item2, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item3);
+            long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, visitID, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item2, newestMetricInstances.Values.First<Tuple<int, DateTime, string>>().Item3);
 
             SQLiteCommand dbCom = new SQLiteCommand(string.Format("INSERT INTO {0} (InstanceID, MetricID, MetricValue) VALUES (@InstanceID, @MetricID, @MetricValue)", schema.DatabaseTable), dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("InstanceID", nInstanceID);

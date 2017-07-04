@@ -61,7 +61,7 @@ namespace CHaMPWorkbench.Data
 
         private void metricDownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Metrics.frmMetricDownload frm = new Metrics.frmMetricDownload();
+            Metrics.frmMetricDownload frm = new Metrics.frmMetricDownload(Visits);
             frm.ShowDialog();
         }
     }

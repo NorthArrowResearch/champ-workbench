@@ -48,7 +48,6 @@
             this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDisplayNameShort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSchema = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsActive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colXPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.coltext = new System.Windows.Forms.DataGridViewLinkColumn();
@@ -224,7 +223,6 @@
             this.colTitle,
             this.colDisplayNameShort,
             this.colModel,
-            this.colSchema,
             this.colIsActive,
             this.colXPath,
             this.coltext,
@@ -278,14 +276,6 @@
             this.colModel.HeaderText = "Model";
             this.colModel.Name = "colModel";
             this.colModel.ReadOnly = true;
-            // 
-            // colSchema
-            // 
-            this.colSchema.DataPropertyName = "SchemaName";
-            this.colSchema.Frozen = true;
-            this.colSchema.HeaderText = "Schema";
-            this.colSchema.Name = "colSchema";
-            this.colSchema.ReadOnly = true;
             // 
             // colIsActive
             // 
@@ -411,7 +401,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDisplayNameShort;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSchema;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIsActive;
         private System.Windows.Forms.DataGridViewTextBoxColumn colXPath;
         private System.Windows.Forms.DataGridViewLinkColumn coltext;

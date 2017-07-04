@@ -41,7 +41,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             grdData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkModel, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 4), false);
-            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkSchema, naru.db.sqlite.DBCon.ConnectionString, "SELECT SchemaID, Title FROM Metric_Schemas ORDER BY Title", false);
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkSchema, naru.db.sqlite.DBCon.ConnectionString, "SELECT SchemaID, S.Title || ' (' || P.Title || ')' AS Title FROM Metric_Schemas S INNER JOIN LookupPrograms P ON S.ProgramID = P.ProgramID ORDER BY Title", false);
 
             chkModel.ItemCheck += FilterListBoxCheckChanged;
             chkSchema.ItemCheck += FilterListBoxCheckChanged;
@@ -86,14 +86,14 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => modelIDs.Contains(x.ModelID)).ToList<MetricDefinition>());
             }
 
-            List<long> schemaIDs = new List<long>();
-            if (chkSchema.CheckedItems.Count > 0 && chkSchema.CheckedItems.Count < chkSchema.Items.Count)
-            {
-                foreach (naru.db.NamedObject item in chkSchema.CheckedItems)
-                    schemaIDs.Add(item.ID);
+            //List<long> schemaIDs = new List<long>();
+            //if (chkSchema.CheckedItems.Count > 0 && chkSchema.CheckedItems.Count < chkSchema.Items.Count)
+            //{
+            //    foreach (naru.db.NamedObject item in chkSchema.CheckedItems)
+            //        schemaIDs.Add(item.ID);
 
-                filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => schemaIDs.Contains(x.SchemaID)).ToList<MetricDefinition>());
-            }
+            //    filteredItems = new naru.ui.SortableBindingList<MetricDefinition>(filteredItems.Where<MetricDefinition>(x => schemaIDs.Contains(x.SchemaID)).ToList<MetricDefinition>());
+            //}
 
             if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
             {

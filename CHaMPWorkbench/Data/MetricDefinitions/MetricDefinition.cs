@@ -11,8 +11,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
     public class MetricDefinition : naru.db.NamedObject
     {
         public string DisplayNameShort { get; internal set; }
-        public long SchemaID { get; internal set; }
-        public string SchemaName { get; internal set; }
         public long ModelID { get; internal set; }
         public string ModelName { get; internal set; }
         public string XPath { get; internal set; }
@@ -28,7 +26,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         public DateTime UpdatedOn { get; internal set; }
         public DateTime AddedOn { get; internal set; }
 
-        public List<long> ProgramIDs { get; internal set; }
+        public List<long> MetricSchemas { get; internal set; }
 
         public MetricDefinition(string sTitle) : base(0, sTitle)
         {
@@ -36,7 +34,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         }
 
         public MetricDefinition(long nID, string sTitle, string sDisplayNameShort
-            , long nSchemaID, string sSchemaName
             , long nModelID, string sModelName
             , string sXPath, bool bIsActive
             , long nDataTypeID, string sDataTypeName
@@ -46,8 +43,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             : base(nID, sTitle)
         {
             DisplayNameShort = sDisplayNameShort;
-            SchemaID = nSchemaID;
-            SchemaName = sSchemaName;
             ModelID = nModelID;
             ModelName = sModelName;
             XPath = sXPath;
@@ -68,8 +63,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         private void init()
         {
-         ProgramIDs = new List<long>();
-   
+            MetricSchemas = new List<long>();
         }
 
         public static naru.ui.SortableBindingList<MetricDefinition> Load(string sDBCon)
@@ -88,7 +82,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 {
                     conPrograms.Open();
 
-                    SQLiteCommand comPrograms = new SQLiteCommand("SELECT ProgramID FROM Metric_Definition_Programs WHERE MetricID = @MetricID", conPrograms);
+                    SQLiteCommand comPrograms = new SQLiteCommand("SELECT SchemaID FROM Metric_Schema_Definitions WHERE MetricID = @MetricID", conPrograms);
                     SQLiteParameter pMetricID = comPrograms.Parameters.Add("MetricID", System.Data.DbType.Int64);
 
                     while (dbRead.Read())
@@ -97,8 +91,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                             dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))
                             , dbRead.GetString(dbRead.GetOrdinal("Title"))
                             , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "DisplayNameShort")
-                            , dbRead.GetInt64(dbRead.GetOrdinal("SchemaID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("SchemaName"))
                             , dbRead.GetInt64(dbRead.GetOrdinal("ModelID"))
                             , dbRead.GetString(dbRead.GetOrdinal("ModelName"))
                             , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "XPath")
@@ -117,7 +109,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                         pMetricID.Value = metricDef.ID;
                         SQLiteDataReader readPrograms = comPrograms.ExecuteReader();
                         while (readPrograms.Read())
-                            metricDef.ProgramIDs.Add(readPrograms.GetInt64(0));
+                            metricDef.MetricSchemas.Add(readPrograms.GetInt64(0));
                         readPrograms.Close();
 
                         result.Add(metricDef);
@@ -150,7 +142,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     }
 
                     dbCom.Parameters.AddWithValue("Title", Name);
-                    dbCom.Parameters.AddWithValue("SchemaID", SchemaID);
                     dbCom.Parameters.AddWithValue("ModelID", ModelID);
                     naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, XPath, "XPath");
                     naru.db.sqlite.SQLiteHelpers.AddDoubleParameterN(ref dbCom, Threshold, "Threshold");
@@ -189,22 +180,22 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         private void SaveMetricPrograms(ref SQLiteTransaction dbTrans)
         {
-            List<long> existingProgramIDs = new List<long>();
+            List<long> existingSchemaIDs = new List<long>();
             // Get list of existing programs
-            SQLiteCommand dbCom = new SQLiteCommand("SELECT ProgramID FROM Metric_Definition_Programs WHERE MetricID = @MetricID", dbTrans.Connection, dbTrans);
+            SQLiteCommand dbCom = new SQLiteCommand("SELECT SchemaID FROM Metric_Schema_Definitions WHERE MetricID = @MetricID", dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("MetricID", ID);
             SQLiteDataReader dbRead = dbCom.ExecuteReader();
             while (dbRead.Read())
-                existingProgramIDs.Add(dbRead.GetInt64(0));
+                existingSchemaIDs.Add(dbRead.GetInt64(0));
             dbRead.Close();
 
             // Insert the currently in use programs that are not already in the DB
-            dbCom = new SQLiteCommand("INSERT INTO Metric_Definition_Programs (MetricID, ProgramID) VALUES (@MetricID, @ProgramID)", dbTrans.Connection, dbTrans);
+            dbCom = new SQLiteCommand("INSERT INTO Metric_Schema_Definitions (MetricID, SchemaID) VALUES (@MetricID, @SchemaID)", dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("MetricID", ID);
-            SQLiteParameter pProgramID = dbCom.Parameters.Add("ProgramID", System.Data.DbType.Int64);
-            foreach (long currentProgramID in ProgramIDs)
+            SQLiteParameter pProgramID = dbCom.Parameters.Add("SchemaID", System.Data.DbType.Int64);
+            foreach (long currentProgramID in MetricSchemas)
             {
-                if (!existingProgramIDs.Contains(currentProgramID))
+                if (!existingSchemaIDs.Contains(currentProgramID))
                 {
                     pProgramID.Value = currentProgramID;
                     dbCom.ExecuteNonQuery();
@@ -212,12 +203,12 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             }
 
             // Delete programs that are no longer in use but exist in the DB
-            dbCom = new SQLiteCommand("DELETE FROM Metric_Definition_Programs WHERE MetricID = @MetricID AND ProgramID = @ProgramID", dbTrans.Connection, dbTrans);
+            dbCom = new SQLiteCommand("DELETE FROM Metric_Schema_Definitions WHERE MetricID = @MetricID AND SchemaID = @SchemaID", dbTrans.Connection, dbTrans);
             dbCom.Parameters.AddWithValue("MetricID", ID);
-            pProgramID = dbCom.Parameters.Add("ProgramID", System.Data.DbType.Int64);
-            foreach (long existingProgramID in existingProgramIDs)
+            pProgramID = dbCom.Parameters.Add("SchemaID", System.Data.DbType.Int64);
+            foreach (long existingProgramID in existingSchemaIDs)
             {
-                if (!ProgramIDs.Contains(existingProgramID))
+                if (!MetricSchemas.Contains(existingProgramID))
                 {
                     pProgramID.Value = existingProgramID;
                     dbCom.ExecuteNonQuery();
@@ -270,7 +261,8 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                 dbRead.Close();
 
-                dbCom = new SQLiteCommand("SELECT DisplayNameShort, Title, XPath, DataTypeName, Precision FROM vwMetricDefinitions WHERE (SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (IsActive <> 0) AND (XPath IS NOT NULL) ORDER BY Title", dbCon);
+                dbCom = new SQLiteCommand("SELECT DisplayNameShort, Title, XPath, DataTypeName, Precision FROM vwMetricDefinitions AS D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID" +
+                    " WHERE (SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (IsActive <> 0) AND (XPath IS NOT NULL) ORDER BY Title", dbCon);
                 dbCom.Parameters.AddWithValue("SchemaID", nSchemaID);
                 dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())
@@ -284,7 +276,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                     XmlAttribute attXPath = xmlDoc.CreateAttribute("xpath");
                     string sFullXPath = dbRead.GetString(dbRead.GetOrdinal("XPath"));
-                    attXPath.InnerText = sFullXPath.Replace(sXPathRoot, "").TrimStart('/');                   
+                    attXPath.InnerText = sFullXPath.Replace(sXPathRoot, "").TrimStart('/');
                     nodMetric.Attributes.Append(attXPath);
 
                     XmlAttribute attPrecision = xmlDoc.CreateAttribute("precision");

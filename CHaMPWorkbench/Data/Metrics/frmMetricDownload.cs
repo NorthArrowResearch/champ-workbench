@@ -29,7 +29,7 @@ namespace CHaMPWorkbench.Data.Metrics
 
         private void frmMetricDownload_Load(object sender, EventArgs e)
         {
-            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstMetricSchemas, naru.db.sqlite.DBCon.ConnectionString, "SELECT SchemaID, Title FROM Metric_Schemas ORDER BY Title", true);
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref lstMetricSchemas, naru.db.sqlite.DBCon.ConnectionString, "SELECT SchemaID, S.Title || ' (' || P.Title || ')' AS Title FROM Metric_Schemas S INNER JOIN LookupPrograms P ON S.ProgramID = P.ProgramID ORDER BY Title", true);
         }
         
         private void downloader_OnProgressUpdate(int value)

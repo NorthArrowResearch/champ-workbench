@@ -37,16 +37,14 @@
             this.txtShortName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cboModel = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cboSchema = new System.Windows.Forms.ComboBox();
             this.cboDataType = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.Calculation = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lblPrecision = new System.Windows.Forms.Label();
             this.valPrecision = new System.Windows.Forms.NumericUpDown();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.chkProgram = new System.Windows.Forms.CheckedListBox();
+            this.tabSchemas = new System.Windows.Forms.TabPage();
+            this.chkSchemas = new System.Windows.Forms.CheckedListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmdAltHelp = new System.Windows.Forms.Button();
             this.txtAltLink = new System.Windows.Forms.TextBox();
@@ -71,7 +69,7 @@
             this.Calculation.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valPrecision)).BeginInit();
-            this.tabPage4.SuspendLayout();
+            this.tabSchemas.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valThreshold)).BeginInit();
@@ -83,7 +81,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(374, 385);
+            this.cmdCancel.Location = new System.Drawing.Point(374, 352);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 13;
@@ -94,7 +92,7 @@
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdSave.Location = new System.Drawing.Point(293, 385);
+            this.cmdSave.Location = new System.Drawing.Point(293, 352);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 12;
@@ -105,7 +103,7 @@
             // cmdHelp
             // 
             this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdHelp.Location = new System.Drawing.Point(12, 385);
+            this.cmdHelp.Location = new System.Drawing.Point(12, 352);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
             this.cmdHelp.TabIndex = 14;
@@ -156,24 +154,6 @@
             this.cboModel.Size = new System.Drawing.Size(165, 21);
             this.cboModel.TabIndex = 5;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 106);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Schema";
-            // 
-            // cboSchema
-            // 
-            this.cboSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSchema.FormattingEnabled = true;
-            this.cboSchema.Location = new System.Drawing.Point(73, 102);
-            this.cboSchema.Name = "cboSchema";
-            this.cboSchema.Size = new System.Drawing.Size(165, 21);
-            this.cboSchema.TabIndex = 7;
-            // 
             // cboDataType
             // 
             this.cboDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -198,10 +178,10 @@
             this.Calculation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Calculation.Controls.Add(this.tabPage1);
-            this.Calculation.Controls.Add(this.tabPage4);
+            this.Calculation.Controls.Add(this.tabSchemas);
             this.Calculation.Controls.Add(this.tabPage3);
             this.Calculation.Controls.Add(this.tabPage2);
-            this.Calculation.Location = new System.Drawing.Point(12, 194);
+            this.Calculation.Location = new System.Drawing.Point(12, 162);
             this.Calculation.Name = "Calculation";
             this.Calculation.SelectedIndex = 0;
             this.Calculation.Size = new System.Drawing.Size(437, 184);
@@ -243,26 +223,26 @@
             this.valPrecision.TabIndex = 14;
             this.valPrecision.ValueChanged += new System.EventHandler(this.UpdateControls);
             // 
-            // tabPage4
+            // tabSchemas
             // 
-            this.tabPage4.Controls.Add(this.chkProgram);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(429, 158);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Programs";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabSchemas.Controls.Add(this.chkSchemas);
+            this.tabSchemas.Location = new System.Drawing.Point(4, 22);
+            this.tabSchemas.Name = "tabSchemas";
+            this.tabSchemas.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSchemas.Size = new System.Drawing.Size(429, 158);
+            this.tabSchemas.TabIndex = 3;
+            this.tabSchemas.Text = "Schemas";
+            this.tabSchemas.UseVisualStyleBackColor = true;
             // 
-            // chkProgram
+            // chkSchemas
             // 
-            this.chkProgram.CheckOnClick = true;
-            this.chkProgram.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkProgram.FormattingEnabled = true;
-            this.chkProgram.Location = new System.Drawing.Point(3, 3);
-            this.chkProgram.Name = "chkProgram";
-            this.chkProgram.Size = new System.Drawing.Size(423, 152);
-            this.chkProgram.TabIndex = 0;
+            this.chkSchemas.CheckOnClick = true;
+            this.chkSchemas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkSchemas.FormattingEnabled = true;
+            this.chkSchemas.Location = new System.Drawing.Point(3, 3);
+            this.chkSchemas.Name = "chkSchemas";
+            this.chkSchemas.Size = new System.Drawing.Size(423, 152);
+            this.chkSchemas.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -446,7 +426,7 @@
             // chkActive
             // 
             this.chkActive.AutoSize = true;
-            this.chkActive.Location = new System.Drawing.Point(73, 132);
+            this.chkActive.Location = new System.Drawing.Point(73, 100);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(56, 17);
             this.chkActive.TabIndex = 8;
@@ -455,7 +435,7 @@
             // 
             // txtXPath
             // 
-            this.txtXPath.Location = new System.Drawing.Point(73, 158);
+            this.txtXPath.Location = new System.Drawing.Point(73, 126);
             this.txtXPath.MaxLength = 255;
             this.txtXPath.Name = "txtXPath";
             this.txtXPath.Size = new System.Drawing.Size(376, 20);
@@ -464,7 +444,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(31, 162);
+            this.label6.Location = new System.Drawing.Point(31, 130);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 10;
@@ -484,13 +464,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(461, 420);
+            this.ClientSize = new System.Drawing.Size(461, 387);
             this.Controls.Add(this.txtXPath);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.chkActive);
             this.Controls.Add(this.Calculation);
-            this.Controls.Add(this.cboSchema);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.cboModel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtShortName);
@@ -511,7 +489,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valPrecision)).EndInit();
-            this.tabPage4.ResumeLayout(false);
+            this.tabSchemas.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -534,8 +512,6 @@
         private System.Windows.Forms.TextBox txtShortName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboModel;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cboSchema;
         private System.Windows.Forms.ComboBox cboDataType;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabControl Calculation;
@@ -544,8 +520,8 @@
         private System.Windows.Forms.CheckBox chkActive;
         private System.Windows.Forms.TextBox txtXPath;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.CheckedListBox chkProgram;
+        private System.Windows.Forms.TabPage tabSchemas;
+        private System.Windows.Forms.CheckedListBox chkSchemas;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox txtLastUpdated;
         private System.Windows.Forms.Label label13;

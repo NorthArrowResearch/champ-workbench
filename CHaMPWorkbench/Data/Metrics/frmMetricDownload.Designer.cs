@@ -34,13 +34,14 @@
             this.lstMetricSchemas = new System.Windows.Forms.CheckedListBox();
             this.chkDelete = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblCurrentProcess = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.txtProgress = new System.Windows.Forms.TextBox();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblCurrentProcess = new System.Windows.Forms.Label();
+            this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,6 +101,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Progress";
             // 
+            // lblCurrentProcess
+            // 
+            this.lblCurrentProcess.AutoSize = true;
+            this.lblCurrentProcess.Location = new System.Drawing.Point(91, 45);
+            this.lblCurrentProcess.Name = "lblCurrentProcess";
+            this.lblCurrentProcess.Size = new System.Drawing.Size(89, 13);
+            this.lblCurrentProcess.TabIndex = 3;
+            this.lblCurrentProcess.Text = "lblCurrentProcess";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 45);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Current process:";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(0, 0);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.TabIndex = 4;
+            // 
             // txtProgress
             // 
             this.txtProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -141,30 +167,11 @@
             this.cmdOK.Text = "Download";
             this.cmdOK.UseVisualStyleBackColor = true;
             // 
-            // progressBar1
+            // bgWorker
             // 
-            this.bgWorker.WorkerReportsProgress = true;
             this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
             this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
             this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 45);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Current process:";
-            // 
-            // lblCurrentProcess
-            // 
-            this.lblCurrentProcess.AutoSize = true;
-            this.lblCurrentProcess.Location = new System.Drawing.Point(91, 45);
-            this.lblCurrentProcess.Name = "lblCurrentProcess";
-            this.lblCurrentProcess.Size = new System.Drawing.Size(89, 13);
-            this.lblCurrentProcess.TabIndex = 3;
-            this.lblCurrentProcess.Text = "lblCurrentProcess";
             // 
             // frmMetricDownload
             // 
@@ -205,5 +212,6 @@
         private System.Windows.Forms.Label lblCurrentProcess;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker bgWorker;
     }
 }

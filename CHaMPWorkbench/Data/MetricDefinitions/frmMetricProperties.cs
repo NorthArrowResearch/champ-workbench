@@ -30,18 +30,16 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         private void frmMetricProperties_Load(object sender, EventArgs e)
         {
             long nModelID = 0;
-            long nSchemaID = 0;
             long nDataTypeID = 0;
 
             // Load the programs before the metric definition is loaded.
-            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkProgram, naru.db.sqlite.DBCon.ConnectionString, "SELECT ProgramID, Title FROM LookupPrograms ORDER BY Title", false);
+            naru.db.sqlite.CheckedListItem.LoadCheckListbox(ref chkSchemas, naru.db.sqlite.DBCon.ConnectionString, "SELECT S.SchemaID, S.Title || ' (' || P.Title || ')' AS Title FROM Metric_Schemas S INNER JOIN LookupPrograms P ON S.ProgramID = P.ProgramID ORDER BY Title", false);
 
             if (MetricDef is MetricDefinition)
             {
                 txtName.Text = MetricDef.Name;
                 txtShortName.Text = MetricDef.DisplayNameShort;
                 nModelID = MetricDef.ModelID;
-                nSchemaID = MetricDef.SchemaID;
                 chkActive.Checked = MetricDef.IsActive;
                 txtXPath.Text = MetricDef.XPath;
 
@@ -67,13 +65,13 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                 txtLastUpdated.Text = MetricDef.UpdatedOn.ToString();
 
-                foreach (long nProgramID in MetricDef.ProgramIDs)
+                foreach (long nSchemaID in MetricDef.MetricSchemas)
                 {
-                    for (int i = 0; i < chkProgram.Items.Count; i++)
+                    for (int i = 0; i < chkSchemas.Items.Count; i++)
                     {
-                        if (((naru.db.NamedObject)chkProgram.Items[i]).ID == nProgramID)
+                        if (((naru.db.NamedObject)chkSchemas.Items[i]).ID == nSchemaID)
                         {
-                            chkProgram.SetItemChecked(i, true);
+                            chkSchemas.SetItemChecked(i, true);
                             break;
                         }
                     }
@@ -88,7 +86,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             }
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboModel, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 4), nModelID);
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboSchema, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT SchemaID, Title FROM Metric_Schemas ORDER BY Title", 2), nSchemaID);
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboDataType, naru.db.sqlite.DBCon.ConnectionString, string.Format("SELECT ItemID, Title FROM LookupListItems WHERE ListID = {0} ORDER BY Title", 14), nDataTypeID);
         }
 
@@ -164,13 +161,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 return false;
             }
 
-            if (cboSchema.SelectedIndex < 0)
-            {
-                MessageBox.Show("You must select the schema to which this metric belongs.", "Missing Schema", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cboSchema.Select();
-                return false;
-            }
-
             return true;
         }
 
@@ -192,8 +182,6 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 MetricDef.DisplayNameShort = txtShortName.Text;
                 MetricDef.ModelID = ((naru.db.NamedObject)cboModel.SelectedItem).ID;
                 MetricDef.ModelName = cboModel.Text;
-                MetricDef.SchemaID = ((naru.db.NamedObject)cboSchema.SelectedItem).ID;
-                MetricDef.SchemaName = cboSchema.Text;
                 MetricDef.DataTypeID = ((naru.db.NamedObject)cboDataType.SelectedItem).ID;
                 MetricDef.DataTypeName = cboDataType.Text;
                 MetricDef.IsActive = chkActive.Checked;
@@ -204,9 +192,9 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 else
                     MetricDef.Precision = new long?();
 
-                MetricDef.ProgramIDs.Clear();
-                foreach (naru.db.NamedObject item in chkProgram.CheckedItems)
-                    MetricDef.ProgramIDs.Add(item.ID);
+                MetricDef.MetricSchemas.Clear();
+                foreach (naru.db.NamedObject item in chkSchemas.CheckedItems)
+                    MetricDef.MetricSchemas.Add(item.ID);
 
                 MetricDef.MMLink = txtMMLink.Text;
                 MetricDef.AltLink = txtAltLink.Text;
