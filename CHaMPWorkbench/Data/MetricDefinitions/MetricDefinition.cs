@@ -130,7 +130,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
                 try
                 {
-                    string[] sFields = { "Title", "SchemaID", "ModelID", "XPath", "Threshold", "MinValue", "MaxValue", "IsActive", "DisplayNameShort", "Precision", "DataTypeID", "MMLink", "AltLink", "YearIntroduced" };
+                    string[] sFields = { "Title", "ModelID", "XPath", "Threshold", "MinValue", "MaxValue", "IsActive", "DisplayNameShort", "Precision", "DataTypeID", "MMLink", "AltLink", "YearIntroduced" };
                     SQLiteCommand dbCom = new SQLiteCommand(string.Empty, dbTrans.Connection, dbTrans);
 
                     if (ID == 0)
