@@ -42,6 +42,7 @@ namespace CHaMPWorkbench.Data
 
             ucMetricGrid1.SelectedVisitChanged += HandleSelectedVisitChangedInGrid;
             ucMetricPlot1.SelectedPlotChanged += HandleSelectedPlotChanged;
+            ucMetricPlot1.SelectedSchemaChanged += HandleSelectedSchemaChangedInPlot;
 
             HandleSelectedVisitChangedInGrid(null, null);
             HandleSelectedPlotChanged(null, null);
@@ -52,6 +53,11 @@ namespace CHaMPWorkbench.Data
             // TODO: the user changed the selected visit in the grid view.
             ucUserFeedback1.SelectVisit(ucMetricGrid1.SelectedVisit);
             ucMetricPlot1.HighlightedVisitID = ucMetricGrid1.SelectedVisit;
+        }
+
+        public void HandleSelectedSchemaChangedInPlot(object sender, EventArgs e)
+        {
+            ucMetricGrid1.OnSelectedSchemaChanged(ucMetricPlot1.SelectedSchema);
         }
 
         public void HandleSelectedPlotChanged(object sender, EventArgs e)

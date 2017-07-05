@@ -41,7 +41,7 @@ namespace CHaMPWorkbench.Classes
         /// <param name="sDBCon"></param>
         /// <param name="nProgramID">If ProgramID provided then only plots that used X and Y metrics that are
         /// both part of the specified program are loaded. All plots are loaded if no ProgramID provided.</param>
-        public static void LoadPlotTypes(ref ComboBox cbo, string sDBCon, long nProgramID = 0)
+        public static void LoadPlotTypes(ref ComboBox cbo, string sDBCon, long nSchemaID = 0)
         {
             cbo.Items.Clear();
 
@@ -55,11 +55,11 @@ namespace CHaMPWorkbench.Classes
                     " INNER JOIN Metric_Definitions AS Y ON P.YMetricID = Y.MetricID)" +
                     " INNER JOIN Metric_Definitions AS X ON P.XMetricID = X.MetricID)";
 
-                if (nProgramID >0)
+                if (nSchemaID >0)
                 {
-                    sSQL += " INNER JOIN Metric_Definition_Programs AS MDPY ON Y.MetricID = MDPY.MetricID)" +
-                    " INNER JOIN Metric_Definition_Programs AS MDPX ON X.MetricID = MDPX.MetricID)" +
-                    " WHERE (MDPY.ProgramID = @ProgramID) AND (MDPX.ProgramID = @ProgramID)";
+                    sSQL += " INNER JOIN Metric_Schema_Definitions AS MDPY ON Y.MetricID = MDPY.MetricID)" +
+                    " INNER JOIN Metric_Schema_Definitions AS MDPX ON X.MetricID = MDPX.MetricID)" +
+                    " WHERE (MDPY.SchemaID = @SchemaID) AND (MDPX.SchemaID = @SchemaID)";
 
                     // Remember to insert 2 additional parenthese for the above inner joins
                     sSQL = sSQL.Replace("FROM ", "FROM ((");
@@ -70,8 +70,8 @@ namespace CHaMPWorkbench.Classes
                 System.Diagnostics.Debug.Print(sSQL);
                 SQLiteCommand dbCom = new SQLiteCommand(sSQL, dbCon);
 
-                if (nProgramID > 0)
-                    dbCom.Parameters.AddWithValue("ProgramID", nProgramID);
+                if (nSchemaID > 0)
+                    dbCom.Parameters.AddWithValue("SchemaID", nSchemaID);
 
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
                 while (dbRead.Read())

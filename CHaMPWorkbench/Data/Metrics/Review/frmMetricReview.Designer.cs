@@ -32,8 +32,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucMetricPlot1 = new CHaMPWorkbench.Data.ucMetricReviewPlot();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ucUserFeedback1 = new CHaMPWorkbench.Data.ucUserFeedback();
             this.ucMetricGrid1 = new CHaMPWorkbench.Data.ucMetricGrid();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -44,7 +42,6 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -76,7 +73,6 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.ucMetricPlot1);
-            this.splitContainer2.Panel1.Controls.Add(this.menuStrip1);
             // 
             // splitContainer2.Panel2
             // 
@@ -91,29 +87,12 @@
             this.ucMetricPlot1.DBCon = null;
             this.ucMetricPlot1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucMetricPlot1.HighlightedVisitID = ((long)(0));
-            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 24);
+            this.ucMetricPlot1.Location = new System.Drawing.Point(0, 0);
             this.ucMetricPlot1.Name = "ucMetricPlot1";
             this.ucMetricPlot1.Program = null;
-            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 273);
+            this.ucMetricPlot1.Size = new System.Drawing.Size(297, 297);
             this.ucMetricPlot1.TabIndex = 0;
             this.ucMetricPlot1.VisitIDs = null;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.metricDownloadToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(297, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // metricDownloadToolStripMenuItem
-            // 
-            this.metricDownloadToolStripMenuItem.Name = "metricDownloadToolStripMenuItem";
-            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(119, 20);
-            this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
-            this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
             // 
             // ucUserFeedback1
             // 
@@ -153,12 +132,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -170,7 +146,5 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private ucUserFeedback ucUserFeedback1;
         private ucMetricReviewPlot ucMetricPlot1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
     }
 }

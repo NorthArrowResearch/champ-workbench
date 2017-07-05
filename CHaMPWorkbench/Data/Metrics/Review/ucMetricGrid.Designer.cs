@@ -48,7 +48,6 @@
             this.Controls.Add(this.grdData);
             this.Name = "ucMetricGrid";
             this.Size = new System.Drawing.Size(713, 169);
-            this.Load += new System.EventHandler(this.ucMetricGrid_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).EndInit();
             this.ResumeLayout(false);
 

@@ -31,6 +31,18 @@ namespace CHaMPWorkbench.Data
         }
 
         public event EventHandler SelectedPlotChanged;
+        public event EventHandler SelectedSchemaChanged;
+
+        public CHaMPData.MetricSchema SelectedSchema
+        {
+            get
+            {
+                if (cboMetricSchemas.SelectedItem is CHaMPData.MetricSchema)
+                    return (CHaMPData.MetricSchema)cboMetricSchemas.SelectedItem;
+                else
+                    return null;
+            }
+        }
 
         public string CurrentPlotTitle
         {
@@ -54,19 +66,12 @@ namespace CHaMPWorkbench.Data
             if (string.IsNullOrEmpty(DBCon) || Program == null)
                 return;
 
-            // Load the metrics for the current protocol
-            string sProgramClause = string.Empty;
-            if (Program != null)
-                sProgramClause = string.Format(" AND (P.ProgramID = {0})", Program.ID);
-
-            string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Definition_Programs P ON D.MetricID = P.MetricID" +
-                " WHERE (D.SchemaID = 1) {0} GROUP BY D.MetricID, D.Title ORDER BY D.Title", sProgramClause);
-
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
-
-            // Load the plot types. Do this after the X and Y combos to ensure they update when the initial plot type is selected
-            Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon, Program.ID);
+            // Metric Schema Dropdown 
+            Dictionary<long, CHaMPData.MetricSchema> dMetricSchemas = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
+            cboMetricSchemas.DataSource = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(dMetricSchemas.Values.Where<CHaMPData.MetricSchema>(x => x.ProgramID == Program.ID).ToList<CHaMPData.MetricSchema>());
+            cboMetricSchemas.DisplayMember = "Name";
+            cboMetricSchemas.ValueMember = "ID";
+            cboMetricSchemas.SelectedIndexChanged += SelectedSchemaChanged;
 
             // Basic, unchanging plot configuration
             ChartArea pChartArea = chtData.ChartAreas[0];
@@ -117,30 +122,30 @@ namespace CHaMPWorkbench.Data
 
             visitSeries.ChartType = SeriesChartType.Point;
 
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
-            {
-                dbCon.Open();
+            //using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
+            //{
+            //    dbCon.Open();
 
-                // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
-                    " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
-                    " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
-                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
-               SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID",  DbType.Int64);
- 
-                double fXMetricValue, fYMetricValue = 0;
+            //    // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
+            //    SQLiteCommand dbCom = new SQLiteCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
+            //        " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
+            //        " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
+            //    SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
+            //    SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", DbType.Int64);
 
-                foreach (int nVisitID in theVisits)
-                {
-                    pVisitID.Value = nVisitID;
+            //    double fXMetricValue, fYMetricValue = 0;
 
-                    if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboXAxis.SelectedItem).ID, out fXMetricValue) &&
-                        GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboYAxis.SelectedItem).ID, out fYMetricValue))
-                    {
-                        visitSeries.Points.AddXY(fXMetricValue, fYMetricValue);
-                    }
-                }
-            }
+            //    foreach (int nVisitID in theVisits)
+            //    {
+            //        pVisitID.Value = nVisitID;
+
+            //        if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboXAxis.SelectedItem).ID, out fXMetricValue) &&
+            //            GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboYAxis.SelectedItem).ID, out fYMetricValue))
+            //        {
+            //            visitSeries.Points.AddXY(fXMetricValue, fYMetricValue);
+            //        }
+            //    }
+            //}
 
             ChartArea pChartArea = chtData.ChartAreas[0];
             if (chtData.Titles.Count < 1)
@@ -181,6 +186,27 @@ namespace CHaMPWorkbench.Data
             }
 
 
+        }
+
+        private void cboSchemaType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(cboMetricSchemas.SelectedItem is CHaMPData.MetricSchema))
+                return;
+
+            string sMetricSQL = string.Format("SELECT D.MetricID, D.Title FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions P ON D.MetricID = P.MetricID" +
+                " WHERE (P.SchemaID = {0}) GROUP BY D.MetricID, D.Title ORDER BY D.Title", SelectedSchema.ID);
+
+            // Reload the metrics into combos
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboXAxis, DBCon, sMetricSQL);
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboYAxis, DBCon, sMetricSQL);
+
+            // Load the plot types. Do this after the X and Y combos to ensure they update when the initial plot type is selected
+            Classes.MetricPlotType.LoadPlotTypes(ref cboPlotTypes, DBCon, SelectedSchema.ID);
+
+            // Raise the generic event that the schema has changed so that the parent form can tell the other user controls
+            EventHandler handler = this.SelectedSchemaChanged;
+            if (handler != null)
+                handler(this, e);
         }
 
         private void SelectMetricInCombobox(ref ComboBox cbo, long nMetricID)

@@ -51,17 +51,37 @@ namespace CHaMPWorkbench.Data
             grdData.Dock = DockStyle.Fill;
         }
 
-        private void ucMetricGrid_Load(object sender, EventArgs e)
+        private void LoadData(CHaMPData.MetricSchema schema)
         {
-            if (string.IsNullOrEmpty(DBCon))
-                return;
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
 
-                string sCols = string.Format("SELECT MetricID, DisplayNameShort FROM vwActiveVisitMetrics WHERE ProgramID = {0} GROUP BY MetricID, DisplayNameShort", ProgramID);
-                string sqlRows = string.Format("Select VisitID, CAST(VisitID AS str) AS VisitTitle FROM vwActiveVisitMetrics WHERE VisitID IN ({0}) GROUP BY VisitID", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
-                string sqlContent = string.Format("Select VisitID, MetricID, MetricValue FROM vwActiveVisitMetrics WHERE (ProgramID = {0}) AND VisitID IN ({1})", ProgramID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+                string sCols = string.Format("SELECT D.MetricID, DisplayNameShort FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (SchemaID = {0}) AND (DisplayNameShort IS NOT NULL) AND (IsActive != 0) ORDER BY DisplayNameShort", schema.ID);
+                string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                    " WHERE (SchemaID = {0}) AND (ScavengeTypeID = 1) AND VisitID IN ({1}) GROUP BY VisitID", schema.ID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+
+                string sqlContent = string.Empty;
+                switch (schema.DatabaseTable.ToLower())
+                {
+                    case "metric_visitmetrics":
+                        sqlContent = string.Format("SELECT VisitID, MetricID, MetricValue FROM Metric_VisitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                            " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+                        break;
+
+                    case "metric_channelunitmetrics":
+
+                        break;
+
+
+                    case "metric_tiermetrics":
+
+                        break;
+
+
+                    default:
+                        throw new Exception("Unhandled metric schema database table");
+                }
 
                 DataTable dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
                 grdData.DataSource = dt;
@@ -84,7 +104,6 @@ namespace CHaMPWorkbench.Data
             {
                 Cursor.Current = Cursors.WaitCursor;
             }
-
         }
 
         public void ExportDataToCSV(System.IO.FileInfo fiExport)
@@ -115,6 +134,18 @@ namespace CHaMPWorkbench.Data
                     if (handler != null)
                         handler(this, e);
                 }
+            }
+        }
+
+        public void OnSelectedSchemaChanged(CHaMPData.MetricSchema schema)
+        {
+            try
+            {
+                LoadData(schema);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
     }

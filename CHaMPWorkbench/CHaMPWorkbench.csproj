@@ -189,6 +189,9 @@
     <Compile Include="Classes\APIZipUploader.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
     <Compile Include="Classes\MetricPlotType.cs" />
+    <Compile Include="Classes\Metrics\MetricInstance.cs" />
+    <Compile Include="Classes\Metrics\MetricValueBase.cs" />
+    <Compile Include="Classes\Metrics\MetricValueNumeric.cs" />
     <Compile Include="Classes\MetricValidation\ReportGenerator.cs" />
     <Compile Include="Classes\CSVGenerators\CSVGeneratorBase.cs" />
     <Compile Include="Classes\MetricValidation\Metric.cs" />

@@ -38,6 +38,8 @@
             this.lblXAxis = new System.Windows.Forms.Label();
             this.cboPlotTypes = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.cboMetricSchemas = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chtData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,13 +52,13 @@
             this.chtData.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chtData.Legends.Add(legend1);
-            this.chtData.Location = new System.Drawing.Point(0, 73);
+            this.chtData.Location = new System.Drawing.Point(0, 102);
             this.chtData.Name = "chtData";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chtData.Series.Add(series1);
-            this.chtData.Size = new System.Drawing.Size(576, 514);
+            this.chtData.Size = new System.Drawing.Size(576, 485);
             this.chtData.TabIndex = 0;
             this.chtData.Text = "chart1";
             // 
@@ -64,7 +66,7 @@
             // 
             this.cboYAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboYAxis.FormattingEnabled = true;
-            this.cboYAxis.Location = new System.Drawing.Point(345, 40);
+            this.cboYAxis.Location = new System.Drawing.Point(345, 68);
             this.cboYAxis.Name = "cboYAxis";
             this.cboYAxis.Size = new System.Drawing.Size(220, 21);
             this.cboYAxis.TabIndex = 15;
@@ -74,16 +76,16 @@
             // 
             this.cboXAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboXAxis.FormattingEnabled = true;
-            this.cboXAxis.Location = new System.Drawing.Point(78, 40);
+            this.cboXAxis.Location = new System.Drawing.Point(82, 68);
             this.cboXAxis.Name = "cboXAxis";
-            this.cboXAxis.Size = new System.Drawing.Size(220, 21);
+            this.cboXAxis.Size = new System.Drawing.Size(216, 21);
             this.cboXAxis.TabIndex = 14;
             this.cboXAxis.SelectedIndexChanged += new System.EventHandler(this.MetricCombo_SelectedIndexChanged);
             // 
             // lblYAxis
             // 
             this.lblYAxis.AutoSize = true;
-            this.lblYAxis.Location = new System.Drawing.Point(309, 44);
+            this.lblYAxis.Location = new System.Drawing.Point(309, 72);
             this.lblYAxis.Name = "lblYAxis";
             this.lblYAxis.Size = new System.Drawing.Size(35, 13);
             this.lblYAxis.TabIndex = 13;
@@ -92,7 +94,7 @@
             // lblXAxis
             // 
             this.lblXAxis.AutoSize = true;
-            this.lblXAxis.Location = new System.Drawing.Point(42, 44);
+            this.lblXAxis.Location = new System.Drawing.Point(43, 72);
             this.lblXAxis.Name = "lblXAxis";
             this.lblXAxis.Size = new System.Drawing.Size(35, 13);
             this.lblXAxis.TabIndex = 12;
@@ -104,25 +106,48 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPlotTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPlotTypes.FormattingEnabled = true;
-            this.cboPlotTypes.Location = new System.Drawing.Point(78, 9);
+            this.cboPlotTypes.Location = new System.Drawing.Point(82, 37);
             this.cboPlotTypes.Name = "cboPlotTypes";
-            this.cboPlotTypes.Size = new System.Drawing.Size(487, 21);
+            this.cboPlotTypes.Size = new System.Drawing.Size(483, 21);
             this.cboPlotTypes.TabIndex = 11;
             this.cboPlotTypes.SelectedIndexChanged += new System.EventHandler(this.cboPlotTypes_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 12);
+            this.label2.Location = new System.Drawing.Point(25, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "Plot types";
             // 
+            // cboMetricSchemas
+            // 
+            this.cboMetricSchemas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboMetricSchemas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMetricSchemas.FormattingEnabled = true;
+            this.cboMetricSchemas.Location = new System.Drawing.Point(82, 3);
+            this.cboMetricSchemas.Name = "cboMetricSchemas";
+            this.cboMetricSchemas.Size = new System.Drawing.Size(483, 21);
+            this.cboMetricSchemas.TabIndex = 17;
+            this.cboMetricSchemas.SelectedIndexChanged += new System.EventHandler(this.cboSchemaType_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(-3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Metric schemas";
+            // 
             // ucMetricReviewPlot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cboMetricSchemas);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cboYAxis);
             this.Controls.Add(this.cboXAxis);
             this.Controls.Add(this.lblYAxis);
@@ -148,5 +173,7 @@
         private System.Windows.Forms.Label lblXAxis;
         private System.Windows.Forms.ComboBox cboPlotTypes;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cboMetricSchemas;
+        private System.Windows.Forms.Label label1;
     }
 }
