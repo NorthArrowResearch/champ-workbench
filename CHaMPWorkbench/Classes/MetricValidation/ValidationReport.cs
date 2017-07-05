@@ -38,7 +38,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// <param name="lVisits">List of visits to include in the report</param>
         /// <returns>Creates an XML file containing all the metric data for the specified
         /// visits and then uses an XSL transform to convert this file to a HTML report.</returns>
-        public ValidationReportResults Run(List<CHaMPData.VisitBasic> lVisits, List<naru.db.NamedObject> lRBTVersions)
+        public ValidationReportResults Run(List<CHaMPData.VisitBasic> lVisits, List<naru.db.NamedObject> lModelVersions)
         {
             // This return variable really just counts metrics and visits included in the report.
             ValidationReportResults theResult = new ValidationReportResults();
@@ -80,8 +80,8 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 System.Diagnostics.Debug.Print(string.Format("Metric {0} {1}", aMetric.MetricID, aMetric.Title));
 
-                aMetric.LoadResults(DBCon, ref dVisits, ref lRBTVersions, true);
-                aMetric.LoadResults(DBCon, ref dVisits, ref lRBTVersions, false);
+                aMetric.LoadResults(DBCon, ref dVisits, ref lModelVersions, true);
+                aMetric.LoadResults(DBCon, ref dVisits, ref lModelVersions, false);
 
                 aMetric.Serialize(ref xmlDoc, ref nodMetrics);
 
@@ -150,7 +150,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 dbCon.Open();
                 SQLiteCommand dbCom = new SQLiteCommand("SELECT CHAMP_Watersheds.WatershedID AS WatershedID, WatershedName, CHAMP_Sites.SiteID, SiteName, CHAMP_Visits.VisitID AS VisitID, VisitYear" +
                     " , Organization, CrewName" +
-                    " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Results INNER JOIN CHAMP_Visits ON Metric_Results.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
+                    " FROM CHAMP_Watersheds INNER JOIN (CHAMP_Sites INNER JOIN (Metric_Instances INNER JOIN CHAMP_Visits ON Metric_Instances.VisitID = CHAMP_Visits.VisitID) ON CHAMP_Sites.SiteID = CHAMP_Visits.SiteID) ON CHAMP_Watersheds.WatershedID = CHAMP_Sites.WatershedID" +
                     " GROUP BY CHAMP_Watersheds.WatershedID, CHAMP_Watersheds.WatershedName, CHAMP_Sites.SiteID, CHAMP_Sites.SiteName, CHAMP_Visits.VisitID, CHAMP_Visits.VisitYear, CHaMP_Visits.Organization, CHaMP_Visits.CrewName", dbCon);
 
 
@@ -192,7 +192,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             {
                 dbCon.Open();
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMetricDefinitions WHERE (Title IS NOT NULL) AND (SchemaID = 1) AND (IsActive <> 0) ORDER BY Title", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.Title AS Title, D.MetricID AS MetricID, SchemaID, Threshold, MinValue, MaxValue, MetricParentGroup, MetricChildGroup FROM vwMetricDefinitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (Title IS NOT NULL) AND (SchemaID = 1) AND (IsActive <> 0) ORDER BY Title", dbCon);
 
                 System.Diagnostics.Debug.Print(dbCom.CommandText);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
@@ -201,12 +201,12 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     theResult.Add((string)dbRead["Title"], new Metric(
                         (string)dbRead["Title"]
                         , (long)dbRead["MetricID"]
-                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "CMMetricID")
+                        , 0
                         , (long)dbRead["SchemaID"]
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "Threshold")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MinValue")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MaxValue")
-                        , (bool)dbRead["IsActive"]
+                        , true
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "MetricParentGroup")// Watershed report parent grouping
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "MetricChildGroup")));// Watershed report child grouping
                 }

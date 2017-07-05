@@ -148,7 +148,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             switch (SchemaID)
             {
                 case 1: // visit metrics
-                    sSQL += " FROM Metric_Results R INNER JOIN Metric_VisitMetrics V ON R.ResultID = V.ResultID";
+                    sSQL += " FROM Metric_Instances R INNER JOIN Metric_VisitMetrics V ON R.InstanceID = V.InstanceID INNER JOIN Metric_Batches B ON R.BatchID = B.BatchID";
                     break;
 
                 case 3: // tier 1 metrics
@@ -167,7 +167,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                     break;
             }
 
-            sSQL += string.Format(" WHERE (R.VisitID = @VisitID) AND (V.MetricID = {0}) AND (R.ScavengeTypeID {1} {2})", MetricID, (bManualMetricValues) ? "=" : "<>", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
+            sSQL += string.Format(" WHERE (R.VisitID = @VisitID) AND (V.MetricID = {0}) AND (B.ScavengeTypeID {1} {2})", MetricID, (bManualMetricValues) ? "=" : "<>", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
             return sSQL;
         }
 

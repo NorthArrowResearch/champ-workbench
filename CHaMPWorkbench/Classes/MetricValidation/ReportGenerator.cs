@@ -12,14 +12,14 @@ namespace CHaMPWorkbench.Classes.MetricValidation
     {
         private List<CHaMPData.VisitBasic> m_lVisits;
         // The RBT versions is a dictionary object with the properties <formattedString, rawString>
-        private List<naru.db.NamedObject> m_lRBTVersions;
+        private List<naru.db.NamedObject> m_lModelVersions;
         private ReportItem m_sXSLReport;
 
         public ReportGenerator(ReportItem xslReport, List<CHaMPData.VisitBasic> lVisits)
         {
             m_sXSLReport = xslReport;
             m_lVisits = lVisits;
-            m_lRBTVersions = GetRBTVersions(); // Default to all RBT Versions
+            m_lModelVersions = GetModelVersions(); // Default to all RBT Versions
         }
 
         public void GenerateXML()
@@ -29,21 +29,21 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             switch (filename)
             {
                 case "rbt_manual.xsl":
-                    if (m_lRBTVersions.Count <= 0)
-                        throw new Exception("No RBT Versions were found");
+                    if (m_lModelVersions.Count <= 0)
+                        throw new Exception("No model versions were found");
 
                     // Create a second list with pretty, formatted RBT Text;
-                    List<naru.db.NamedObject> lRBTFormatted = m_lRBTVersions.Select(x => new naru.db.NamedObject(x.ID, Classes.MetricValidation.Metric.GetFormattedRBTVersion(x.Name))).ToList();
-                    Validation.frmSelectHelper frmRBTPicker = new Validation.frmSelectHelper(m_lRBTVersions, "RBT Versions", "Choose one or more RBT Versions:", true);
-                    if (frmRBTPicker.ShowDialog() == DialogResult.Cancel)
+                    List<naru.db.NamedObject> lRBTFormatted = m_lModelVersions.Select(x => new naru.db.NamedObject(x.ID, Classes.MetricValidation.Metric.GetFormattedRBTVersion(x.Name))).ToList();
+                    Validation.frmSelectHelper frmModelVersionPicker = new Validation.frmSelectHelper(m_lModelVersions, "Model Versions", "Choose one or more model versions:", true);
+                    if (frmModelVersionPicker.ShowDialog() == DialogResult.Cancel)
                         return;
 
                     // Now make equivalences between our formatted list and the unformatted one. The IDs should match so we just
                     // Have to filter one list using another.
-                    m_lRBTVersions = m_lRBTVersions.Where(item => frmRBTPicker.SelectedItems.Any(formattedItem => formattedItem.ID.Equals(item.ID))).ToList();
-                    if (m_lRBTVersions.Count <= 0)
-                        throw new Exception("You must select at least one RBT Version");
-                    Console.WriteLine("RBT MANUAL");
+                    m_lModelVersions = m_lModelVersions.Where(item => frmModelVersionPicker.SelectedItems.Any(formattedItem => formattedItem.ID.Equals(item.ID))).ToList();
+                    if (m_lModelVersions.Count <= 0)
+                        throw new Exception("You must select at least one model version");
+                    Console.WriteLine("MODEL MANUAL");
                     break;
                 case "watershed.xsl":
                     Validation.frmSelectHelper frmWatershedPicker = new Validation.frmSelectHelper(GetWatersheds(), "Watersheds", "Choose a watershed:", false);
@@ -73,7 +73,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 try
                 {
                     Classes.MetricValidation.ValidationReport report = new Classes.MetricValidation.ValidationReport(DBCon.ConnectionString, m_sXSLReport.FilePath, new System.IO.FileInfo(frm.FileName));
-                    Classes.MetricValidation.ValidationReport.ValidationReportResults theResults = report.Run(m_lVisits, m_lRBTVersions);
+                    Classes.MetricValidation.ValidationReport.ValidationReportResults theResults = report.Run(m_lVisits, m_lModelVersions);
 
                     if (System.IO.File.Exists(frm.FileName))
                     {
@@ -170,29 +170,28 @@ namespace CHaMPWorkbench.Classes.MetricValidation
         /// Get the unique RBT versions
         /// </summary>
         /// <returns></returns>
-        /// <remarks>PGB 3 Jun 2016 - Altering this SQL query to only return model versions associated with RBT model runs.
+        /// <remarks>PGB 3 Jun 2016 - Altering this SQL query to only return model versions associated with validation model runs.
         /// This should now ignore manual validation data results and also cm.org download data that also store values
-        /// in the Metric_Results table. This is being done because this method is used to retrieve RBT versions for which
-        /// results exist in the database. The manual </remarks>
-        private List<naru.db.NamedObject> GetRBTVersions()
+        /// in the Metric_Results table. This is being done because this method is used to retrieve model versions for which
+        /// results exist in the database.</remarks>
+        private List<naru.db.NamedObject> GetModelVersions()
         {
-            List<naru.db.NamedObject> lRBTVersions = new List<naru.db.NamedObject>();
+            List<naru.db.NamedObject> lModelVersions = new List<naru.db.NamedObject>();
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
             {
                 dbCon.Open();
-                SQLiteCommand comFS = new SQLiteCommand("SELECT ModelVersion FROM Metric_Results WHERE ScavengeTypeID <> @ScavengeTypeIDManual GROUP BY ModelVersion", dbCon);
+                SQLiteCommand comFS = new SQLiteCommand("SELECT ModelVersion FROM Metric_Batches B INNER JOIN Metric_Instances I ON B.BatchID = I.BatchID WHERE (ScavengeTypeID <> @ScavengeTypeIDManual) AND (ModelVersion IS NOT NULL) GROUP BY ModelVersion ORDER BY ModelVersion", dbCon);
                 comFS.Parameters.AddWithValue("@ScavengeTypeIDManual", CHaMPWorkbench.Properties.Settings.Default.ModelScavengeTypeID_Manual);
                 SQLiteDataReader dbRead = comFS.ExecuteReader();
                 long counter = 0;
                 while (dbRead.Read())
                 {
                     counter++;
-                    string sRBTVersion = (string)dbRead[0];
-                    lRBTVersions.Add(new naru.db.NamedObject(counter, sRBTVersion));
+                    lModelVersions.Add(new naru.db.NamedObject(counter, dbRead.GetString(0)));
                 }
                 dbRead.Close();
             }
-            return lRBTVersions;
+            return lModelVersions;
         }
 
     }
