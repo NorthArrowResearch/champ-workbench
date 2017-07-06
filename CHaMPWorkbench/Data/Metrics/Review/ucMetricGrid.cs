@@ -56,6 +56,7 @@ namespace CHaMPWorkbench.Data
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
+                DataTable dt = null;
 
                 string sCols = string.Format("SELECT D.MetricID, DisplayNameShort FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (SchemaID = {0}) AND (DisplayNameShort IS NOT NULL) AND (IsActive != 0) ORDER BY DisplayNameShort", schema.ID);
                 string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
@@ -67,9 +68,21 @@ namespace CHaMPWorkbench.Data
                     case "metric_visitmetrics":
                         sqlContent = string.Format("SELECT VisitID, MetricID, MetricValue FROM Metric_VisitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                             " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+
+                        dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
+
                         break;
 
                     case "metric_channelunitmetrics":
+
+                        List<Tuple<string, string>> keyColumns = new List<Tuple<string, string>>();
+                        keyColumns.Add(new Tuple<string, string>("VisitID", "Visit"));
+                        keyColumns.Add(new Tuple<string, string>("ChannelUnitNumber", "Channel Unit Number"));
+
+                        sqlContent = sqlContent = string.Format("SELECT VisitID, ChannelUnitNumber, MetricID, MetricValue FROM Metric_ChannelUnitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                            " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+                        
+                        dt = naru.db.sqlite.CrossTabMultiColumn.CreateCrossTab(DBCon, keyColumns, sCols, sqlRows, sqlContent);
 
                         break;
 
@@ -83,7 +96,6 @@ namespace CHaMPWorkbench.Data
                         throw new Exception("Unhandled metric schema database table");
                 }
 
-                DataTable dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
                 grdData.DataSource = dt;
 
                 //
