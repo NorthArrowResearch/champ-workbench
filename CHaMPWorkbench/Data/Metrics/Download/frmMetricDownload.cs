@@ -32,7 +32,7 @@ namespace CHaMPWorkbench.Data.Metrics
         {
             Dictionary<long, CHaMPData.MetricSchema> dMetricSchemas = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
             lstMetricSchemas.DataSource = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(dMetricSchemas.Values.ToList<CHaMPData.MetricSchema>());
-            lstMetricSchemas.DisplayMember = "Name";
+            lstMetricSchemas.DisplayMember = "NameWithProgram";
             lstMetricSchemas.ValueMember = "ID";
         }
 
