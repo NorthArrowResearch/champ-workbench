@@ -59,8 +59,6 @@ namespace CHaMPWorkbench.Data
                 DataTable dt = null;
 
                 string sCols = string.Format("SELECT D.MetricID, DisplayNameShort FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (SchemaID = {0}) AND (DisplayNameShort IS NOT NULL) AND (IsActive != 0) AND (DataTypeID = 10023) ORDER BY DisplayNameShort", schema.ID);
-                string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
-                    " WHERE (SchemaID = {0}) AND (ScavengeTypeID = 1) AND VisitID IN ({1}) GROUP BY VisitID", schema.ID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
                 string sqlContent = string.Empty;
                 switch (schema.DatabaseTable.ToLower())
@@ -69,20 +67,23 @@ namespace CHaMPWorkbench.Data
                         sqlContent = string.Format("SELECT VisitID, MetricID, MetricValue FROM Metric_VisitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                             " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
+                        string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                           " WHERE (SchemaID = {0}) AND (ScavengeTypeID = 1) AND VisitID IN ({1}) GROUP BY VisitID", schema.ID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
+
                         dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
 
                         break;
 
                     case "metric_channelunitmetrics":
 
-                        List<Tuple<string, string>> keyColumns = new List<Tuple<string, string>>();
-                        keyColumns.Add(new Tuple<string, string>("VisitID", "Visit"));
-                        keyColumns.Add(new Tuple<string, string>("ChannelUnitNumber", "Channel Unit Number"));
+                        List<Tuple<string, string>> channelUnitKeys = new List<Tuple<string, string>>();
+                        channelUnitKeys.Add(new Tuple<string, string>("VisitID", "Visit"));
+                        channelUnitKeys.Add(new Tuple<string, string>("ChannelUnitNumber", "Channel Unit Number"));
 
                         sqlContent = sqlContent = string.Format("SELECT VisitID, ChannelUnitNumber, MetricID, MetricValue FROM Metric_ChannelUnitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                             " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
-                        dt = naru.db.sqlite.CrossTabMultiColumn.CreateCrossTab(DBCon, keyColumns, sCols, sqlRows, sqlContent);
+                        dt = naru.db.sqlite.CrossTabMultiColumn.CreateCrossTab(DBCon, channelUnitKeys, sCols, sqlContent);
                         AddchannelUnitTiers(ref dt);
 
                         break;
@@ -90,8 +91,23 @@ namespace CHaMPWorkbench.Data
 
                     case "metric_tiermetrics":
 
-                        break;
+                        List<Tuple<string, string>> tierKeys = new List<Tuple<string, string>>();
+                        tierKeys.Add(new Tuple<string, string>("VisitID", "Visit"));
+                        tierKeys.Add(new Tuple<string, string>("TierID", "Tier Name"));
 
+                        long nListID = 5;
+                        if (schema.Name.Contains("2"))
+                            nListID = 11;
+
+                        sqlContent = sqlContent = string.Format("SELECT VisitID, TierID, MetricID, MetricValue" +
+                            " FROM Metric_TierMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                            " INNER JOIN LookupListItems T ON V.TierID = T.ItemID" +
+                            " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0}) AND (T.ListID = {1})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()), nListID);
+
+                        dt = naru.db.sqlite.CrossTabMultiColumn.CreateCrossTab(DBCon, tierKeys, sCols, sqlContent);
+                        AddcTierNames(ref dt);
+
+                        break;
 
                     default:
                         throw new Exception("Unhandled metric schema database table");
@@ -145,6 +161,33 @@ namespace CHaMPWorkbench.Data
                     dbRead.Close();
                 }
             }
+        }
+
+        private void AddcTierNames(ref DataTable dt)
+        {
+            dt.Columns.Add("Tier", Type.GetType("System.String")).SetOrdinal(1);
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Title FROM LookupListItems WHERE (ItemID = @ItemID)", dbCon);
+                SQLiteParameter pTierID = dbCom.Parameters.Add("ItemID", DbType.Int64);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    pTierID.Value = long.Parse(dr["TierID"].ToString());
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                    if (dbRead.Read())
+                    {
+                        dr["Tier"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "title");
+                    }
+                    dbRead.Close();
+                }
+            }
+
+            // Now remove the column that has the Tier ID
+            dt.Columns.Remove("TierID");
         }
 
         public void ExportDataToCSV(System.IO.FileInfo fiExport)
