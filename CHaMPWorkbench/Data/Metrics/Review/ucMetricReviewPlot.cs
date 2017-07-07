@@ -71,7 +71,16 @@ namespace CHaMPWorkbench.Data
             cboMetricSchemas.DataSource = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(dMetricSchemas.Values.Where<CHaMPData.MetricSchema>(x => x.ProgramID == Program.ID).ToList<CHaMPData.MetricSchema>());
             cboMetricSchemas.DisplayMember = "Name";
             cboMetricSchemas.ValueMember = "ID";
-            cboMetricSchemas.SelectedIndexChanged += SelectedSchemaChanged;
+            
+            // Select the visit level metrics by default. Note that this will trigger the UI to update
+            foreach (CHaMPData.MetricSchema schema in cboMetricSchemas.Items)
+            {
+                if (schema.ID == 1)
+                {
+                    cboMetricSchemas.SelectedItem = schema;
+                    break;
+                }
+            }
 
             // Basic, unchanging plot configuration
             ChartArea pChartArea = chtData.ChartAreas[0];
