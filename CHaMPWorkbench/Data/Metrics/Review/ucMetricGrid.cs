@@ -58,7 +58,7 @@ namespace CHaMPWorkbench.Data
                 Cursor.Current = Cursors.WaitCursor;
                 DataTable dt = null;
 
-                string sCols = string.Format("SELECT D.MetricID, DisplayNameShort FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (SchemaID = {0}) AND (DisplayNameShort IS NOT NULL) AND (IsActive != 0) ORDER BY DisplayNameShort", schema.ID);
+                string sCols = string.Format("SELECT D.MetricID, DisplayNameShort FROM Metric_Definitions D INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID WHERE (SchemaID = {0}) AND (DisplayNameShort IS NOT NULL) AND (IsActive != 0) AND (DataTypeID = 10023) ORDER BY DisplayNameShort", schema.ID);
                 string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                     " WHERE (SchemaID = {0}) AND (ScavengeTypeID = 1) AND VisitID IN ({1}) GROUP BY VisitID", schema.ID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
@@ -81,8 +81,9 @@ namespace CHaMPWorkbench.Data
 
                         sqlContent = sqlContent = string.Format("SELECT VisitID, ChannelUnitNumber, MetricID, MetricValue FROM Metric_ChannelUnitMetrics V INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                             " WHERE (B.ScavengeTypeID = 1) AND VisitID IN ({0})", string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
-                        
+
                         dt = naru.db.sqlite.CrossTabMultiColumn.CreateCrossTab(DBCon, keyColumns, sCols, sqlRows, sqlContent);
+                        AddchannelUnitTiers(ref dt);
 
                         break;
 
@@ -115,6 +116,34 @@ namespace CHaMPWorkbench.Data
             finally
             {
                 Cursor.Current = Cursors.WaitCursor;
+            }
+        }
+
+        private void AddchannelUnitTiers(ref DataTable dt)
+        {
+            dt.Columns.Add("Tier1", Type.GetType("System.String")).SetOrdinal(2);
+            dt.Columns.Add("Tier2", Type.GetType("System.String")).SetOrdinal(3);
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT Tier1, Tier2 FROM CHaMP_ChannelUnits WHERE (VisitID = @VisitID) AND (ChannelUnitNumber = @ChannelUnitNumber)", dbCon);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
+                SQLiteParameter pCUNum = dbCom.Parameters.Add("ChannelUnitNumber", DbType.Int64);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    pVisitID.Value = long.Parse(dr["VisitID"].ToString());
+                    pCUNum.Value = long.Parse(dr["ChannelUnitNumber"].ToString());
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                    if (dbRead.Read())
+                    {
+                        dr["Tier1"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier1");
+                        dr["Tier2"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier2");
+                    }
+                    dbRead.Close();
+                }
             }
         }
 
