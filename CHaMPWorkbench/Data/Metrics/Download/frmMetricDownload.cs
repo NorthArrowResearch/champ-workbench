@@ -34,6 +34,8 @@ namespace CHaMPWorkbench.Data.Metrics
             lstMetricSchemas.DataSource = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(dMetricSchemas.Values.ToList<CHaMPData.MetricSchema>());
             lstMetricSchemas.DisplayMember = "NameWithProgram";
             lstMetricSchemas.ValueMember = "ID";
+
+            cmdCancel.DialogResult = DialogResult.Cancel;
         }
 
         private void downloader_OnProgressUpdate(int value)
