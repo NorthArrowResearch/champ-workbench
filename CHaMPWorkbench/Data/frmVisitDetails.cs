@@ -37,6 +37,7 @@ namespace CHaMPWorkbench.Data
         {
             ConfigureDataGrid(ref grdChannelUnits);
             ConfigureDataGrid(ref grdVisitDetails);
+            ConfigureDataGrid(ref grdMetrics);
 
             grdVisitDetails.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
@@ -45,6 +46,7 @@ namespace CHaMPWorkbench.Data
                 LoadVisitHeaderAndNotes();
                 LoadChannelUnits();
                 LoadVisitDetails();
+                LoadMetrics();
             }
             catch (Exception ex)
             {
@@ -187,6 +189,32 @@ namespace CHaMPWorkbench.Data
                     grdVisitDetails.Rows[nRow].Cells[0].Value = col.ColumnName;
                     grdVisitDetails.Rows[nRow].Cells[1].Value = ta.Rows[0].ItemArray.GetValue(col.Ordinal).ToString();
                 }
+            }
+        }
+
+        private void LoadMetrics()
+        {
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
+            {
+                dbCon.Open();
+
+                string sSQL = "SELECT S.Title AS Schema, P.Title AS Program, SC.Title AS Method, B.Title AS Batch, I.APIInsertionOn AS 'API Date', I.MetricsCalculatedOn AS 'Calculation Date', I.WorkbenchInsertionOn AS 'Downloaded', I.ModelVersion AS 'Model Version'" +
+                    " FROM Metric_Batches B" +
+                    " INNER JOIN Metric_Instances I ON B.BatchID = I.BatchID" +
+                    " INNER JOIN Metric_Schemas S ON B.SchemaID = S.SchemaID" +
+                    " INNER JOIN LookupPrograms P ON S.ProgramID = P.ProgramID" +
+                    " INNER JOIN LookupListItems SC ON B.ScavengeTypeID = SC.ItemID" +
+                    " WHERE I.VisitID = @VisitID";
+
+                SQLiteDataAdapter da = new SQLiteDataAdapter(sSQL, dbCon);
+                da.SelectCommand.Parameters.AddWithValue("@VisitID", VisitID);
+                DataTable ta = new DataTable();
+                da.Fill(ta);
+
+                grdMetrics.DataSource = ta;
+
+                foreach (DataGridViewColumn aCol in grdMetrics.Columns)
+                    aCol.ReadOnly = true;
             }
         }
     }
