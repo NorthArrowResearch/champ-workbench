@@ -76,9 +76,9 @@
             // 
             this.cboXAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboXAxis.FormattingEnabled = true;
-            this.cboXAxis.Location = new System.Drawing.Point(82, 68);
+            this.cboXAxis.Location = new System.Drawing.Point(97, 68);
             this.cboXAxis.Name = "cboXAxis";
-            this.cboXAxis.Size = new System.Drawing.Size(216, 21);
+            this.cboXAxis.Size = new System.Drawing.Size(201, 21);
             this.cboXAxis.TabIndex = 14;
             this.cboXAxis.SelectedIndexChanged += new System.EventHandler(this.MetricCombo_SelectedIndexChanged);
             // 
@@ -94,7 +94,7 @@
             // lblXAxis
             // 
             this.lblXAxis.AutoSize = true;
-            this.lblXAxis.Location = new System.Drawing.Point(43, 72);
+            this.lblXAxis.Location = new System.Drawing.Point(55, 72);
             this.lblXAxis.Name = "lblXAxis";
             this.lblXAxis.Size = new System.Drawing.Size(35, 13);
             this.lblXAxis.TabIndex = 12;
@@ -106,16 +106,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPlotTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPlotTypes.FormattingEnabled = true;
-            this.cboPlotTypes.Location = new System.Drawing.Point(82, 37);
+            this.cboPlotTypes.Location = new System.Drawing.Point(97, 37);
             this.cboPlotTypes.Name = "cboPlotTypes";
-            this.cboPlotTypes.Size = new System.Drawing.Size(483, 21);
+            this.cboPlotTypes.Size = new System.Drawing.Size(468, 21);
             this.cboPlotTypes.TabIndex = 11;
             this.cboPlotTypes.SelectedIndexChanged += new System.EventHandler(this.cboPlotTypes_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 40);
+            this.label2.Location = new System.Drawing.Point(37, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 10;
@@ -127,16 +127,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboMetricSchemas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMetricSchemas.FormattingEnabled = true;
-            this.cboMetricSchemas.Location = new System.Drawing.Point(82, 3);
+            this.cboMetricSchemas.Location = new System.Drawing.Point(97, 3);
             this.cboMetricSchemas.Name = "cboMetricSchemas";
-            this.cboMetricSchemas.Size = new System.Drawing.Size(483, 21);
+            this.cboMetricSchemas.Size = new System.Drawing.Size(468, 21);
             this.cboMetricSchemas.TabIndex = 17;
             this.cboMetricSchemas.SelectedIndexChanged += new System.EventHandler(this.cboSchemaType_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(-3, 6);
+            this.label1.Location = new System.Drawing.Point(9, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 16;
