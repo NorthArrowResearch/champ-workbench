@@ -39,7 +39,7 @@ namespace CHaMPWorkbench.Data.Metrics
             // Load the master lookup of tier types from the database
             LoadTierTypes();
         }
-        
+
         public void Run(List<CHaMPData.VisitBasic> visits, List<CHaMPData.MetricSchema> schemas, System.ComponentModel.BackgroundWorker bgw, string sUserName, string sPassword)
         {
             if (!naru.web.CheckForInternetConnection())
@@ -78,7 +78,7 @@ namespace CHaMPWorkbench.Data.Metrics
                             long nBatchID = GetBatchID(ref dbTrans, schema);
 
                             // Load the metric definitions for this schema. This will populate member dictionary keyed by schema ID
-                            LoadMetricDefinitionsForSchema(schema.ID);
+                            LoadMetricDefinitionsForSchema(ref dbTrans, schema.ID);
 
                             foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
                             {
@@ -200,7 +200,7 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
-        private void LoadMetricDefinitionsForSchema(long schemaID)
+        private void LoadMetricDefinitionsForSchema(ref SQLiteTransaction dbTrans, long schemaID)
         {
             if (schemaMetrics == null)
                 schemaMetrics = new Dictionary<long, Dictionary<string, long>>();
@@ -210,17 +210,14 @@ namespace CHaMPWorkbench.Data.Metrics
 
             schemaMetrics[schemaID] = new Dictionary<string, long>();
 
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
-            {
-                dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID" +
-                    " WHERE (S.SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (DataTypeID = @DataTypeID)", dbCon);
-                dbCom.Parameters.AddWithValue("SchemaID", schemaID);
-                dbCom.Parameters.AddWithValue("DataTypeID", 10023); // Numeric only metrics
-                SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                while (dbRead.Read())
-                    schemaMetrics[schemaID][dbRead.GetString(1)] = dbRead.GetInt64(0);
-            }
+            SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID" +
+                " WHERE (S.SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (DataTypeID = @DataTypeID)", dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("SchemaID", schemaID);
+            dbCom.Parameters.AddWithValue("DataTypeID", 10023); // Numeric only metrics
+            SQLiteDataReader dbRead = dbCom.ExecuteReader();
+            while (dbRead.Read())
+                schemaMetrics[schemaID][dbRead.GetString(1)] = dbRead.GetInt64(0);
+
         }
 
         /// <summary>
