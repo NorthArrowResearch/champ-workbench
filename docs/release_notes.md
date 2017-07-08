@@ -2,6 +2,11 @@
 title: Release Notes
 ---
 
+### 7.0.15 - 8 Jul 2017
+
+* Fixing database lock issue during metric download
+* Including latest master database version
+
 ### 7.0.13 - 28 Jun 2017
 
 * Upgraded to x64 RasterMan 6.4.0
