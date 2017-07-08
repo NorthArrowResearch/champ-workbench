@@ -70,7 +70,7 @@ namespace CHaMPWorkbench.Data
                         string sqlRows = string.Format("SELECT VisitID, CAST(VisitID AS str) AS VisitTitle FROM Metric_Instances I INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
                            " WHERE (SchemaID = {0}) AND (ScavengeTypeID = 1) AND VisitID IN ({1}) GROUP BY VisitID", schema.ID, string.Join(",", VisitIDs.Select(n => n.ID.ToString()).ToArray()));
 
-                        dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "Visit", sCols, sqlRows, sqlContent);
+                        dt = naru.db.sqlite.CrossTab.CreateCrossTab(DBCon, "VisitID", sCols, sqlRows, sqlContent);
 
                         break;
 
@@ -113,12 +113,14 @@ namespace CHaMPWorkbench.Data
                         throw new Exception("Unhandled metric schema database table");
                 }
 
+                AddMetaFields(ref dt, 1);
+
                 grdData.DataSource = dt;
 
                 //
                 foreach (DataGridViewColumn aCol in grdData.Columns)
                 {
-                    if (!aCol.HeaderText.ToLower().EndsWith("id"))
+                    if (!aCol.HeaderText.ToLower().EndsWith("id") && string.Compare(aCol.HeaderText, "year", true) != 0)
                         aCol.DefaultCellStyle.Format = "#,##0.000";
 
                     // All columns are read only.
@@ -157,6 +159,37 @@ namespace CHaMPWorkbench.Data
                     {
                         dr["Tier1"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier1");
                         dr["Tier2"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Tier2");
+                    }
+                    dbRead.Close();
+                }
+            }
+        }
+
+        private void AddMetaFields(ref DataTable dt, int colInsertIndex)
+        {
+            dt.Columns.Add("Site", Type.GetType("System.String")).SetOrdinal(colInsertIndex);
+            dt.Columns.Add("Stream", Type.GetType("System.String")).SetOrdinal(colInsertIndex + 1);
+            dt.Columns.Add("Watershed", Type.GetType("System.String")).SetOrdinal(colInsertIndex + 3);
+            dt.Columns.Add("Year", Type.GetType("System.Int64")).SetOrdinal(colInsertIndex + 2);
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT SiteName, StreamName, VisitYear, WatershedName FROM CHaMP_Sites S INNER JOIN CHaMP_Visits V ON (S.SiteID = V.SiteID)" +
+                    " INNER JOIN CHaMP_Watersheds W ON S.WatershedID = W.WatershedID WHERE (V.VisitID = @VisitID)", dbCon);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    pVisitID.Value = long.Parse(dr["VisitID"].ToString());
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                    if (dbRead.Read())
+                    {
+                        dr["Site"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "SiteName");
+                        dr["Stream"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "StreamName");
+                        dr["Watershed"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "WatershedName");
+                        dr["Year"] = naru.db.sqlite.SQLiteHelpers.GetSafeValueInt(ref dbRead, "VisitYear");
                     }
                     dbRead.Close();
                 }
