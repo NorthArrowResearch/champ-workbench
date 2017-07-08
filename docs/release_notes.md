@@ -6,6 +6,7 @@ title: Release Notes
 
 * Fixing database lock issue during metric download
 * Including latest master database version
+* Stream, site, watershed, year now columns in metric grid
 
 ### 7.0.13 - 28 Jun 2017
 
