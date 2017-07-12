@@ -11,7 +11,7 @@ namespace CHaMPWorkbench.Classes
     {
 
         public WorkbenchDBManager(string sFilePath)
-            : base(sFilePath, "SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", 45, @"Database\workbench_structure.sql", "_data_")
+            : base(sFilePath, "SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", 45, @"Database\database_structure.sql")
         {
 
         }
