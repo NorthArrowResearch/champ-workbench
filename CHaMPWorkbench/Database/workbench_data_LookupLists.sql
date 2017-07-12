@@ -1,0 +1,12 @@
+INSERT INTO table VALUES(1,'Model Scavenge Types',1);
+INSERT INTO table VALUES(3,'GCD Analysis Types',0);
+INSERT INTO table VALUES(4,'CHaMP Models',1);
+INSERT INTO table VALUES(5,'Tier 1 Types',1);
+INSERT INTO table VALUES(6,'Metric Group (Watershed Report Parent Grouping)',1);
+INSERT INTO table VALUES(7,'Metric Channel Type Group (Watershed Report Child Grouping)',1);
+INSERT INTO table VALUES(8,'Monitoring Protocols',1);
+INSERT INTO table VALUES(9,'Metric Plot Types',1);
+INSERT INTO table VALUES(10,'Species and life stages',1);
+INSERT INTO table VALUES(11,'Tier 2 Types',1);
+INSERT INTO table VALUES(13,'Quality Ratings',0);
+INSERT INTO table VALUES(14,'Metric Definition Data Types',0);

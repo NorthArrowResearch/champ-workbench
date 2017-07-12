@@ -75,7 +75,7 @@ namespace CHaMPWorkbench
                     else if (dialogResult == DialogResult.No)
                     {
                         DBCon.ConnectionString = null;
-                        string sNewDBPath = CreateNewWorkbenchDB();
+                        string sNewDBPath = CreateAndOpenNewDatabase();
                         return;
                     }
                 }
@@ -1491,7 +1491,7 @@ namespace CHaMPWorkbench
             grdVisits.ClearSelection();
         }
 
-        private string CreateNewWorkbenchDB()
+        private string CreateAndOpenNewDatabase()
         {
             SaveFileDialog frm = new SaveFileDialog();
             frm.Title = "Create New Workbench Database";
@@ -1514,38 +1514,21 @@ namespace CHaMPWorkbench
 
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                // This is now the file path desired by the user.
-                sNewDatabasePath = frm.FileName;
-
-                // Build the path to the zipped master copy of the Workbench database
-                string sMaster = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                sMaster = System.IO.Path.Combine(sMaster, "WorkbenchMaster.zip");
-                if (System.IO.File.Exists(sMaster))
+                Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+                Classes.WorkbenchDBManager db = new Classes.WorkbenchDBManager(frm.FileName);
+                db.CreateDatabase();
+                if (System.IO.File.Exists(frm.FileName))
                 {
-                    // Build a temporary file path where the master will be unzipped. This needs to be unique so used datetime stamp in %TEMP%
-                    string sTempFolder = string.Format("{0}_{1:yyyyMMddHHmmss}", System.IO.Path.GetFileNameWithoutExtension(CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName), DateTime.Now);
-                    sTempFolder = System.IO.Path.Combine(Environment.GetEnvironmentVariable("TEMP"), sTempFolder);
-
-                    // Unzip the master copy to the folder desired by the user.
-                    Data.frmDataUnPacker.UnZipArchive(sMaster, sTempFolder);
-
-                    // If the user has requested a different name than the master then rename the file
-                    string sTempFile = System.IO.Path.Combine(sTempFolder, CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName);
-                    if (System.IO.File.Exists(sTempFile))
-                    {
-                        if (string.Compare(sTempFile, sNewDatabasePath, true) != 0)
-                            System.IO.File.Move(sTempFile, frm.FileName);
-
-                        if (!System.IO.File.Exists(frm.FileName))
-                            MessageBox.Show("Failed to extract master database from software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                        MessageBox.Show(string.Format("Failed to find master workbench database called '{0}' in unzipped temporary folder.",
-                            CHaMPWorkbench.Properties.Settings.Default.WorkbenchMasterFileName),
-                            CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    OpenDatabase(frm.FileName);
                 }
-                else
-                    MessageBox.Show("Failed to find master database with software deployment.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = System.Windows.Forms.Cursors.Default;
+
+                if (MessageBox.Show("The new database was created successfully. You should now download the latest list of watersheds, sites and visits from CHaMP Monitoring." +
+                    " Do you want to open the CHaMP data synchronization tool?", "New Database Creation Successful", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(this, null);
+                }
             }
 
             return frm.FileName;
@@ -1553,10 +1536,13 @@ namespace CHaMPWorkbench
 
         private void createNewWorkbenchDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string sNewDB = CreateNewWorkbenchDB();
-            if (System.IO.File.Exists(sNewDB))
+            try
             {
-                OpenDatabase(sNewDB);
+               CreateAndOpenNewDatabase();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
 
@@ -1840,7 +1826,7 @@ namespace CHaMPWorkbench
         }
 
         private void LoadDeveloperCredentials()
-        {  
+        {
 
 #if !DEBUG
             return;
@@ -1950,7 +1936,7 @@ namespace CHaMPWorkbench
             {
                 frm.ShowDialog();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }

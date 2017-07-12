@@ -233,6 +233,7 @@
     <Compile Include="CHaMPData\Visit.cs" />
     <Compile Include="CHaMPData\Watershed.cs" />
     <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
+    <Compile Include="Classes\WorkbenchDBManager.cs" />
     <Compile Include="Data\frmAPIUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -482,6 +483,7 @@
     <Compile Include="naru\db\sqlite\CrossTab.cs" />
     <Compile Include="naru\db\sqlite\CrossTabMultiColumn.cs" />
     <Compile Include="naru\db\sqlite\DBCon.cs" />
+    <Compile Include="naru\db\sqlite\DBManager.cs" />
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\os\Folder.cs" />
@@ -789,7 +791,43 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\metric_download.png" />
-    <Content Include="WorkbenchMaster.zip">
+    <Content Include="Database\workbench_data_CHaMP_Watersheds.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_LookupListItems.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_LookupLists.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_LookupPrograms.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_Metric_Definitions.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_Metric_Definition_Programs.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_Metric_Plots.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_Metric_Schemas.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_Metric_Schema_Definitions.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_USGS_Gages.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_VersionChangeLog.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_data_VersionInfo.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\workbench_structure.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

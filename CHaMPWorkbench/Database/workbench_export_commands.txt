@@ -1,0 +1,27 @@
+.output ./workbench_structure.sql
+.schema
+.mode insert
+.output ./workbench_data_LookupLists.sql
+SELECT * FROM LookupLists;
+.output ./workbench_data_LookupListItems.sql
+SELECT * FROM LookupListItems;
+.output ./workbench_data_LookupPrograms.sql
+SELECT * FROM LookupPrograms;
+.output ./workbench_data_Metric_Definitions.sql
+SELECT * FROM Metric_Definitions;
+.output ./workbench_data_Metric_Definition_Programs.sql
+SELECT * FROM Metric_Definition_Programs;
+.output ./workbench_data_Metric_Plots.sql
+SELECT * FROM Metric_Plots;
+.output ./workbench_data_Metric_Schemas.sql
+SELECT * FROM Metric_Schemas;
+.output ./workbench_data_Metric_Schema_Definitions.sql
+SELECT * FROM Metric_Schema_Definitions;
+.output ./workbench_data_USGS_Gages.sql
+SELECT * FROM USGS_Gages;
+.output ./workbench_data_VersionChangeLog.sql
+SELECT * FROM VersionChangeLog;
+.output ./workbench_data_VersionInfo.sql
+SELECT * FROM VersionInfo;
+.output ./workbench_data_CHaMP_Watersheds.sql
+SELECT * FROM CHaMP_Watersheds;
