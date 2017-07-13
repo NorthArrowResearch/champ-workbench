@@ -70,8 +70,7 @@ namespace CHaMPWorkbench
                 case DBManager.UpgradeStates.RequiresUpgrade:
 
                     string sMessage = string.Format("You are attempting to open a {0} database that is version {1}." +
-                        " The database version required by the {0} software is version {2}. You will only be able to use this database once it is upgraded to the required version." +
-                        " The contents of your database will be retained and unaffected by this upgrade. Do you want to upgrade this database from version {1} to version {2}?\n\n{3}",
+                        " Would you like to upgrade your database to version {2} to be compatible with the current CHaMP workbench software? Content will be unaffected by the upgrade.\n\n{3}",
                         CHaMPWorkbench.Properties.Resources.MyApplicationNameLong
                         , db.GetDBVersion(), CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion
                         , sFilePath);
@@ -79,7 +78,7 @@ namespace CHaMPWorkbench
                     if (MessageBox.Show(sMessage, "Database Upgrade Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
                         db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion);
-                        MessageBox.Show(string.Format("Database upgraded to version {0} successfully.", CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion), "Upgrade Successful.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(string.Format("Database upgraded to version {0}.", CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion), "Database Upgrade Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         bSuccess = true;
                     }
                     break;
