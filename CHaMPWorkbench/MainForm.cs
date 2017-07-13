@@ -41,45 +41,54 @@ namespace CHaMPWorkbench
             OpenDatabase(sPath);
         }
 
-        private void CheckDBVersion()
+        private bool VerifyDBVersion(string sFilePath)
         {
-            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon.ConnectionString))
+            bool bSuccess = false;
+            Classes.WorkbenchDBManager db = new Classes.WorkbenchDBManager(sFilePath);
+            int nVersion = db.GetDBVersion();
+            DBManager.UpgradeStates eState = db.CheckUpgradeStatus(CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion);
+            string msgCreate = "You can create a new copy of the compatible database version using the 'Create New Workbench Database...' item on the main window file menu.";
+
+            switch (eState)
             {
-                dbCon.Open();
+                case DBManager.UpgradeStates.MatchesCurrentVersion:
+                    bSuccess = true;
+                    break;
 
-                // SELECT
+                case DBManager.UpgradeStates.BelowMinimumVersion:
+                    MessageBox.Show(string.Format("The version of this Workbench database ({0}) is less than the minimum version ({1}) that is compatible with the Workbench software. {2}"
+                        , nVersion, db.MinimumSupportedVersion, msgCreate),
+                        "Unsupported Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
 
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'", dbCon);
-                String sVersion = (string)dbCom.ExecuteScalar();
-                if (String.IsNullOrWhiteSpace(sVersion))
-                    throw new Exception("Error retrieving database version");
+                case DBManager.UpgradeStates.ExceedsCurrentVersion:
+                    MessageBox.Show(string.Format("Attempting to open the database {2}, but the version of this Workbench database ({0})" +
+                        " is newer than the version that is compatible with this version of the Workbench software ({1}). {3}",
+                        nVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion, sFilePath, msgCreate), "Incompatible Workbench Database Version", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    break;
 
-                int nVersion;
-                if (Int32.TryParse(sVersion, out nVersion) && Int32.Parse(sVersion) < CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion)
-                {
-                    // This DB is the wrong version. If it's the same DB path stored in the last used database setting, then clear 
-                    // this setting to avoid the problem reoccurring
-                    string sDBPath = GetDatabasePathFromConnectionString(DBCon.ConnectionString);
-                    if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.DBConnection) &&
-                        string.Compare(CHaMPWorkbench.Properties.Settings.Default.DBConnection, sDBPath, true) == 0)
+                case DBManager.UpgradeStates.RequiresUpgrade:
+
+                    string sMessage = string.Format("You are attempting to open a {0} database that is version {1}." +
+                        " The database version required by the {0} software is version {2}. You will only be able to use this database once it is upgraded to the required version." +
+                        " The contents of your database will be retained and unaffected by this upgrade. Do you want to upgrade this database from version {1} to version {2}?\n\n{3}",
+                        CHaMPWorkbench.Properties.Resources.MyApplicationNameLong
+                        , db.GetDBVersion(), CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion
+                        , sFilePath);
+
+                    if (MessageBox.Show(sMessage, "Database Upgrade Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
-                        CHaMPWorkbench.Properties.Settings.Default.DBConnection = string.Empty;
-                        CHaMPWorkbench.Properties.Settings.Default.Save();
+                        db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion);
+                        MessageBox.Show(string.Format("Database upgraded to version {0} successfully.", CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion), "Upgrade Successful.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        bSuccess = true;
                     }
+                    break;
 
-                    DialogResult dialogResult = MessageBox.Show(String.Format("The database you are trying to load has a version of \"{0}\" however the minimum version required by workbench is \"{1}\". If you continue you may experience problems. \n\n Do you want to continue loading the database anyway? Click \"yes\" to continue and \"no\" to stop and create a new database with the correct version from the File menu.", sVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion.ToString()), "Version Error", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        return;
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        DBCon.ConnectionString = null;
-                        string sNewDBPath = CreateAndOpenNewDatabase();
-                        return;
-                    }
-                }
+                default:
+                    throw new Exception(string.Format("Unhandled database state {0}", eState.ToString()));
             }
+
+            return bSuccess;
         }
 
         public static string GetDatabasePathFromConnectionString(string sConnectionString)
@@ -223,11 +232,12 @@ namespace CHaMPWorkbench
 
                 try
                 {
+                    if (!VerifyDBVersion(sDatabasePath))
+                        return;
+
                     Console.WriteLine("Attempting to open database: " + sDatabasePath);
                     DBCon.ConnectionString = sDatabasePath;
 
-                    // Checking the DB version will close the database if it's the wrong version.
-                    CheckDBVersion();
                     if (!string.IsNullOrEmpty(DBCon.ConnectionString))
                     {
                         CHaMPWorkbench.Properties.Settings.Default.DBConnection = DBCon.ConnectionString;
@@ -1524,7 +1534,7 @@ namespace CHaMPWorkbench
                 Cursor.Current = System.Windows.Forms.Cursors.Default;
 
                 if (MessageBox.Show("The new database was created successfully. You should now download the latest list of watersheds, sites and visits from CHaMP Monitoring." +
-                    " Do you want to open the CHaMP data synchronization tool?", "New Database Creation Successful", 
+                    " Do you want to open the CHaMP data synchronization tool?", "New Database Creation Successful",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click(this, null);
@@ -1538,7 +1548,7 @@ namespace CHaMPWorkbench
         {
             try
             {
-               CreateAndOpenNewDatabase();
+                CreateAndOpenNewDatabase();
             }
             catch (Exception ex)
             {
