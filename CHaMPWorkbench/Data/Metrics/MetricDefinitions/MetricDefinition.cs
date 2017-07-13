@@ -161,6 +161,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     {
                         dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                         ID = (long)dbCom.ExecuteScalar();
+                        UpdatedOn = DateTime.Now;
                     }
 
                     // Now Save the programs with which this metric is associated.
