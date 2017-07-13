@@ -75,13 +75,19 @@ namespace CHaMPWorkbench.Data
         private void cmdOK_Click(object sender, EventArgs e)
         {
             DialogResult = ValidateForm();
-            if (DialogResult != DialogResult.OK)
+            if (DialogResult == DialogResult.OK)
             {
-                this.DialogResult = DialogResult;
-                return;
+                // Save the values to help the user should they perform another API operation
+                CHaMPWorkbench.Properties.Settings.Default.DefaultUserName = txtUserName.Text;
+                CHaMPWorkbench.Properties.Settings.Default.Save();
+
+                // Note the password is only saved for the session.
+                naru.db.sqlite.DBCon.SetSessionSetting("KeystonePassword", txtPassword.Text);
             }
-
-
+            else
+            { 
+                this.DialogResult = DialogResult;
+            }
         }
     }
 }
