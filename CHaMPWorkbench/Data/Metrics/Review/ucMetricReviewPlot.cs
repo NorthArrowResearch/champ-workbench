@@ -71,7 +71,7 @@ namespace CHaMPWorkbench.Data
             cboMetricSchemas.DataSource = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(dMetricSchemas.Values.Where<CHaMPData.MetricSchema>(x => x.ProgramID == Program.ID).ToList<CHaMPData.MetricSchema>());
             cboMetricSchemas.DisplayMember = "Name";
             cboMetricSchemas.ValueMember = "ID";
-            
+
             // Select the visit level metrics by default. Note that this will trigger the UI to update
             foreach (CHaMPData.MetricSchema schema in cboMetricSchemas.Items)
             {
@@ -131,30 +131,30 @@ namespace CHaMPWorkbench.Data
 
             visitSeries.ChartType = SeriesChartType.Point;
 
-            //using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
-            //{
-            //    dbCon.Open();
+            using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
+            {
+                dbCon.Open();
 
-            //    // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
-            //    SQLiteCommand dbCom = new SQLiteCommand("SELECT VM.MetricValue FROM Metric_VisitMetrics VM" +
-            //        " INNER JOIN (SELECT ResultID, RunDateTime FROM Metric_Results WHERE VisitID = @VisitID) MR ON VM.ResultID = MR.ResultID" +
-            //        " WHERE(VM.MetricValue IS NOT NULL) AND(VM.MetricID = @MetricID) ORDER BY MR.RunDateTime DESC", dbCon);
-            //    SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
-            //    SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", DbType.Int64);
+                // Note the "TOP 1" statement to just get the most recent metric value from the latest result inserted
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT V.MetricValue FROM Metric_VisitMetrics V" +
+                    " INNER JOIN Metric_Instances I ON V.InstanceID = I.InstanceID INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                    " WHERE (V.MetricID = @MetricID) AND (I.VisitID = @VisitID) AND (B.ScavengeTypeID = 1) AND (V.MetricValue IS NOT NULL)", dbCon);
+                SQLiteParameter pVisitID = dbCom.Parameters.Add("VisitID", DbType.Int64);
+                SQLiteParameter pMetricID = dbCom.Parameters.Add("MetricID", DbType.Int64);
 
-            //    double fXMetricValue, fYMetricValue = 0;
+                double fXMetricValue, fYMetricValue = 0;
 
-            //    foreach (int nVisitID in theVisits)
-            //    {
-            //        pVisitID.Value = nVisitID;
+                foreach (int nVisitID in theVisits)
+                {
+                    pVisitID.Value = nVisitID;
 
-            //        if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboXAxis.SelectedItem).ID, out fXMetricValue) &&
-            //            GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboYAxis.SelectedItem).ID, out fYMetricValue))
-            //        {
-            //            visitSeries.Points.AddXY(fXMetricValue, fYMetricValue);
-            //        }
-            //    }
-            //}
+                    if (GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboXAxis.SelectedItem).ID, out fXMetricValue) &&
+                        GetMetricValueFromScalar(ref dbCom, ref pMetricID, ((naru.db.NamedObject)cboYAxis.SelectedItem).ID, out fYMetricValue))
+                    {
+                        visitSeries.Points.AddXY(fXMetricValue, fYMetricValue);
+                    }
+                }
+            }
 
             ChartArea pChartArea = chtData.ChartAreas[0];
             if (chtData.Titles.Count < 1)

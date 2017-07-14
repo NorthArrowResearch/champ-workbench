@@ -27,10 +27,10 @@ namespace CHaMPWorkbench.Data
                 {
                     if (grdData.SelectedRows.Count == 1)
                     {
-                        //DataRowView drv = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
-                        //DataRow aRow = drv.Row;
-                        //int visitColindex = aRow.Table.Columns["Visit"].Ordinal;
-                        //nVisitID = long.Parse(aRow.ItemArray[visitColindex].ToString(), System.Globalization.NumberStyles.Any);
+                        DataRowView drv = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
+                        DataRow aRow = drv.Row;
+                        int visitColindex = aRow.Table.Columns["VisitID"].Ordinal;
+                        nVisitID = long.Parse(aRow.ItemArray[visitColindex].ToString(), System.Globalization.NumberStyles.Any);
                     }
                 }
                 return nVisitID;
