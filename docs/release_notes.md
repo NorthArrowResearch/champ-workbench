@@ -2,6 +2,14 @@
 title: Release Notes
 ---
 
+### 7.0.16 - 18 Jul 2017
+
+* Revised metric schemas and metric definitions 
+* Metric review plot working again
+* Keystone credentials persist between tools while the Workbench remains open
+* New database upgrade architecture
+* The abiltiy to trigger AWS Automation workers
+
 ### 7.0.15 - 8 Jul 2017
 
 * Fixing database lock issue during metric download
