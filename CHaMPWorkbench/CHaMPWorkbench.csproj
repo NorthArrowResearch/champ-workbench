@@ -389,6 +389,12 @@
     </Compile>
     <Compile Include="Experimental\James\NumericExtensions.cs" />
     <Compile Include="Experimental\James\USGS_StreamData.cs" />
+    <Compile Include="Experimental\Philip\frmLambdaInvoke.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Philip\frmLambdaInvoke.Designer.cs">
+      <DependentUpon>frmLambdaInvoke.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\Philip\frmMetricScraper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -401,6 +407,7 @@
     <Compile Include="Experimental\Philip\frmTestXPath.Designer.cs">
       <DependentUpon>frmTestXPath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Experimental\Philip\LambdaInvoker.cs" />
     <Compile Include="Experimental\Philip\TestXPath.cs" />
     <Compile Include="Experimental\Philip\TopoMetricScavenger.cs" />
     <Compile Include="frmAbout.cs">
@@ -487,6 +494,7 @@
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\os\Folder.cs" />
+    <Compile Include="naru\ui\ProgressBar.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
     <Compile Include="naru\web\web.cs" />
     <Compile Include="naru\xml\XMLHelpers.cs" />
@@ -653,6 +661,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Philip\frmLambdaInvoke.resx">
+      <DependentUpon>frmLambdaInvoke.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmMetricScraper.resx">
       <DependentUpon>frmMetricScraper.cs</DependentUpon>
@@ -864,6 +875,7 @@
     <Content Include="Database\database_structure.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\lambda.png" />
     <Content Include="Validation\ReportTransforms\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

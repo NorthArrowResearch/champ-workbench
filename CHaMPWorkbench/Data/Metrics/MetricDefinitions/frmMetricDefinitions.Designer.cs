@@ -96,7 +96,7 @@
             this.chkXPath.AutoSize = true;
             this.chkXPath.Checked = true;
             this.chkXPath.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkXPath.Location = new System.Drawing.Point(12, 386);
+            this.chkXPath.Location = new System.Drawing.Point(12, 476);
             this.chkXPath.Name = "chkXPath";
             this.chkXPath.Size = new System.Drawing.Size(123, 17);
             this.chkXPath.TabIndex = 0;
@@ -108,7 +108,7 @@
             this.chkActive.AutoSize = true;
             this.chkActive.Checked = true;
             this.chkActive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActive.Location = new System.Drawing.Point(12, 363);
+            this.chkActive.Location = new System.Drawing.Point(12, 453);
             this.chkActive.Name = "chkActive";
             this.chkActive.Size = new System.Drawing.Size(80, 17);
             this.chkActive.TabIndex = 4;
@@ -120,7 +120,7 @@
             this.grpTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpTitle.Controls.Add(this.txtTitle);
-            this.grpTitle.Location = new System.Drawing.Point(12, 308);
+            this.grpTitle.Location = new System.Drawing.Point(12, 398);
             this.grpTitle.Name = "grpTitle";
             this.grpTitle.Size = new System.Drawing.Size(178, 48);
             this.grpTitle.TabIndex = 3;
@@ -141,7 +141,7 @@
             this.grpSchema.Controls.Add(this.chkSchema);
             this.grpSchema.Location = new System.Drawing.Point(12, 151);
             this.grpSchema.Name = "grpSchema";
-            this.grpSchema.Size = new System.Drawing.Size(178, 149);
+            this.grpSchema.Size = new System.Drawing.Size(178, 241);
             this.grpSchema.TabIndex = 2;
             this.grpSchema.TabStop = false;
             this.grpSchema.Text = "Schema";
@@ -155,7 +155,7 @@
             this.chkSchema.FormattingEnabled = true;
             this.chkSchema.Location = new System.Drawing.Point(6, 19);
             this.chkSchema.Name = "chkSchema";
-            this.chkSchema.Size = new System.Drawing.Size(166, 124);
+            this.chkSchema.Size = new System.Drawing.Size(166, 214);
             this.chkSchema.TabIndex = 0;
             // 
             // grpModel

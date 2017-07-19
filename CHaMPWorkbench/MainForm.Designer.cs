@@ -47,11 +47,11 @@
             this.selectAllVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.metricDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
@@ -113,6 +113,7 @@
             this.scavengeTopoMetricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.uploadTopoSurveyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runAWSAutomationWorkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -332,14 +333,6 @@
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
             // 
-            // unpackMonitoringData7ZipArchiveToolStripMenuItem
-            // 
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
-            // 
             // scavengeVisitDataFromCHaMPExportToolStripMenuItem
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
@@ -356,10 +349,13 @@
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
-            // toolStripSeparator7
+            // unpackMonitoringData7ZipArchiveToolStripMenuItem
             // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(331, 6);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
             // createCustomVisitToolStripMenuItem
             // 
@@ -367,6 +363,11 @@
             this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
             this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(331, 6);
             // 
             // metricDefinitionsToolStripMenuItem
             // 
@@ -801,7 +802,8 @@
             this.exportSelectedVisitInformationToolStripMenuItem,
             this.scavengeTopoMetricsToolStripMenuItem,
             this.toolStripSeparator4,
-            this.uploadTopoSurveyProjectToolStripMenuItem});
+            this.uploadTopoSurveyProjectToolStripMenuItem,
+            this.runAWSAutomationWorkerToolStripMenuItem});
             this.philipBaileyToolStripMenuItem.Name = "philipBaileyToolStripMenuItem";
             this.philipBaileyToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.philipBaileyToolStripMenuItem.Text = "Philip Bailey";
@@ -854,6 +856,14 @@
             this.uploadTopoSurveyProjectToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.uploadTopoSurveyProjectToolStripMenuItem.Text = "Upload Topo Survey Project...";
             this.uploadTopoSurveyProjectToolStripMenuItem.Click += new System.EventHandler(this.uploadTopoSurveyProjectToolStripMenuItem_Click);
+            // 
+            // runAWSAutomationWorkerToolStripMenuItem
+            // 
+            this.runAWSAutomationWorkerToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.lambda;
+            this.runAWSAutomationWorkerToolStripMenuItem.Name = "runAWSAutomationWorkerToolStripMenuItem";
+            this.runAWSAutomationWorkerToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.runAWSAutomationWorkerToolStripMenuItem.Text = "Run AWS Automation Worker...";
+            this.runAWSAutomationWorkerToolStripMenuItem.Click += new System.EventHandler(this.runAWSAutomationWorkerToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
@@ -1757,6 +1767,7 @@
         private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
     }
 }
 

@@ -1950,5 +1950,18 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void runAWSAutomationWorkerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Experimental.Philip.frmLambdaInvoke frm = new Experimental.Philip.frmLambdaInvoke(GetSelectedVisitsList());
+            try
+            {
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }
