@@ -34,6 +34,14 @@ namespace CHaMPWorkbench.Experimental.Philip
             cboFunction.SelectedIndex = 0;
 
             cmdCancel.DialogResult = DialogResult.Cancel;
+
+            tTip.SetToolTip(txtSelectedVisits, "The number of visits that will be processed. Return the Workbench main grid to change this selection.");
+            tTip.SetToolTip(cboTool, "The name of the CHaMP automation tool that will be run. Topo metrics or validation etc. Re-run this tool multiple times to execute multiple tools.");
+            tTip.SetToolTip(cboQueue, "The name of the Amazon Simple Queue Service (SQS) queue where the job will be placed. This affects whether the process occurs on production, QA. It can also be used to steer long running processes onto the correct resources.");
+            tTip.SetToolTip(cboFunction, "The Amazon Lambda function that will be added to the queue.");
+            tTip.SetToolTip(cboBucket, "The Amazon Simple Scalable Storage (S3) bucket where the results will be placed.");
+            tTip.SetToolTip(cmdSQS, "Launch a web browser at the appropriate Amazon Simple Queue Service (SQS) queue.");
+            tTip.SetToolTip(cmdCloudWatch, "Launch a web browser at Amazon Cloudwatch service.");
         }
 
         private bool ValidateForm()
@@ -122,6 +130,21 @@ namespace CHaMPWorkbench.Experimental.Philip
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             bgWorker.CancelAsync();
+        }
+
+        private void cmdSQS_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://console.aws.amazon.com/sqs/home?region=us-west-2");
+        }
+
+        private void cmdCloudWatch_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#");
+        }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
         }
     }
 }

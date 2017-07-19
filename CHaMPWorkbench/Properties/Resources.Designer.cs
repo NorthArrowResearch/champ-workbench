@@ -153,6 +153,16 @@ namespace CHaMPWorkbench.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cloudwatch_16 {
+            get {
+                object obj = ResourceManager.GetObject("cloudwatch_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ConcaveHull {
             get {
                 object obj = ResourceManager.GetObject("ConcaveHull", resourceCulture);
@@ -261,7 +271,7 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to technical_reference/data_menu/custom_visit.
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/custom_visits.html.
         /// </summary>
         internal static string Help_frmCustomVisit {
             get {
@@ -270,7 +280,7 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to technical_reference/data_menu/download_champ_data/.
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/download_champ_data.html.
         /// </summary>
         internal static string Help_frmFTPVisit {
             get {
@@ -279,7 +289,16 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to technical_reference/data_menu/synchronize_champ_data/.
+        ///   Looks up a localized string similar to Technical_Reference/launch_champ_automation_worker.html.
+        /// </summary>
+        internal static string Help_frmLambdaInvoke {
+            get {
+                return ResourceManager.GetString("Help_frmLambdaInvoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/synchronize_champ_data.html.
         /// </summary>
         internal static string Help_frmSynchronizeCHaMPData {
             get {
@@ -532,6 +551,26 @@ namespace CHaMPWorkbench.Properties {
         internal static System.Drawing.Bitmap Settings {
             get {
                 object obj = ResourceManager.GetObject("Settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sqs_16 {
+            get {
+                object obj = ResourceManager.GetObject("sqs_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sqs_16_v2 {
+            get {
+                object obj = ResourceManager.GetObject("sqs_16_v2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

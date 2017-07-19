@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLambdaInvoke));
             this.label1 = new System.Windows.Forms.Label();
             this.txtSelectedVisits = new System.Windows.Forms.TextBox();
@@ -44,6 +45,10 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
+            this.cmdHelp = new System.Windows.Forms.Button();
+            this.cmdSQS = new System.Windows.Forms.Button();
+            this.cmdCloudWatch = new System.Windows.Forms.Button();
+            this.tTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -52,16 +57,17 @@
             this.label1.Location = new System.Drawing.Point(10, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 12;
+            this.label1.TabIndex = 15;
             this.label1.Text = "Selected visits";
             // 
             // txtSelectedVisits
             // 
-            this.txtSelectedVisits.Location = new System.Drawing.Point(89, 10);
+            this.txtSelectedVisits.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSelectedVisits.Location = new System.Drawing.Point(89, 14);
             this.txtSelectedVisits.Name = "txtSelectedVisits";
             this.txtSelectedVisits.ReadOnly = true;
-            this.txtSelectedVisits.Size = new System.Drawing.Size(100, 20);
-            this.txtSelectedVisits.TabIndex = 13;
+            this.txtSelectedVisits.Size = new System.Drawing.Size(100, 13);
+            this.txtSelectedVisits.TabIndex = 16;
             // 
             // label2
             // 
@@ -185,11 +191,44 @@
             this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
             this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
             // 
+            // cmdHelp
+            // 
+            this.cmdHelp.Location = new System.Drawing.Point(10, 203);
+            this.cmdHelp.Name = "cmdHelp";
+            this.cmdHelp.Size = new System.Drawing.Size(75, 23);
+            this.cmdHelp.TabIndex = 12;
+            this.cmdHelp.Text = "Help";
+            this.cmdHelp.UseVisualStyleBackColor = true;
+            this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
+            // 
+            // cmdSQS
+            // 
+            this.cmdSQS.Image = global::CHaMPWorkbench.Properties.Resources.sqs_16_v2;
+            this.cmdSQS.Location = new System.Drawing.Point(118, 203);
+            this.cmdSQS.Name = "cmdSQS";
+            this.cmdSQS.Size = new System.Drawing.Size(23, 23);
+            this.cmdSQS.TabIndex = 14;
+            this.cmdSQS.UseVisualStyleBackColor = true;
+            this.cmdSQS.Click += new System.EventHandler(this.cmdSQS_Click);
+            // 
+            // cmdCloudWatch
+            // 
+            this.cmdCloudWatch.Image = global::CHaMPWorkbench.Properties.Resources.cloudwatch_16;
+            this.cmdCloudWatch.Location = new System.Drawing.Point(89, 203);
+            this.cmdCloudWatch.Name = "cmdCloudWatch";
+            this.cmdCloudWatch.Size = new System.Drawing.Size(23, 23);
+            this.cmdCloudWatch.TabIndex = 13;
+            this.cmdCloudWatch.UseVisualStyleBackColor = true;
+            this.cmdCloudWatch.Click += new System.EventHandler(this.cmdCloudWatch_Click);
+            // 
             // frmLambdaInvoke
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(371, 238);
+            this.Controls.Add(this.cmdCloudWatch);
+            this.Controls.Add(this.cmdSQS);
+            this.Controls.Add(this.cmdHelp);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.pgr);
@@ -204,7 +243,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtSelectedVisits);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmLambdaInvoke";
             this.Text = "Run AWS Automation Worker";
             this.Load += new System.EventHandler(this.frmLambdaInvoke_Load);
@@ -230,5 +272,9 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdOK;
         private System.ComponentModel.BackgroundWorker bgWorker;
+        private System.Windows.Forms.Button cmdHelp;
+        private System.Windows.Forms.Button cmdSQS;
+        private System.Windows.Forms.Button cmdCloudWatch;
+        private System.Windows.Forms.ToolTip tTip;
     }
 }

@@ -876,6 +876,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\lambda.png" />
+    <None Include="Resources\sqs_16.png" />
+    <None Include="Resources\sqs_16_v2.png" />
+    <None Include="Resources\cloudwatch_16.png" />
     <Content Include="Validation\ReportTransforms\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
