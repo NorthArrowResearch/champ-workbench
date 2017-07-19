@@ -2,6 +2,13 @@
 title: Release Notes
 ---
 
+### 7.0.17 - 19 Jul 2017
+
+* AWS Automation user interface enhancements
+	* Buttons to AWS services
+	* Tooltips
+* Fixing some broken online help URLs
+
 ### 7.0.16 - 18 Jul 2017
 
 * Revised metric schemas and metric definitions 
