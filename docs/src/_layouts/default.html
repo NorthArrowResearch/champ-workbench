@@ -7,8 +7,8 @@
       <title>{{ site.title }}</title>
 
       <meta name="viewport" content="width=device-width">
-      <link rel="stylesheet" href="{{ site.url }}/assets/css/app.css">
-      <link rel="stylesheet" href="{{ site.url }}/assets/css/custom.css">
+      <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/app.css">
+      <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/custom.css">
       <script src="https://use.fontawesome.com/586b1e1322.js"></script>
       <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +26,7 @@
           <h3 class="post-subtitle subheader">{{ site.description }}</h3>    
         {% endif %}
       {% else %}
-      <h4 class="subheader"><a href="{{site.url}}">{{ site.title }}</a></h4>   
+      <h4 class="subheader"><a href="/">{{ site.title }}</a></h4>   
       <h1>{{ page.title }}</h1>
         {% if page.subtitle %}
           <h3 class="post-subtitle subheader">{{ page.subtitle }}</h3>    
@@ -47,10 +47,10 @@
     {% include footer.html %}
     {% include navigation.html context="/" %}
 
-    <script src="{{ site.url }}/assets/js/jquery.min.js"></script>
-    <script src="{{ site.url }}/assets/js/foundation.min.js"></script>
-    <script src="{{ site.url }}/assets/js/app.js"></script>
-    <script src="{{ site.url }}/assets/js/toc.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/jquery.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/foundation.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/app.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/toc.js"></script>
 
   </body>
 

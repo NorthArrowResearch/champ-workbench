@@ -9,34 +9,32 @@ $(document).ready(function (){
 	 * @return {[type]}
 	 */
 	// Now place each item in the tree
-	function treeize(pages, exceptions){
+	function treeize(pages){
 		var t = { leaves: [], branches: [] }
 		for (i in pages) {
+			// Only care about HTML pages
+			if (pages[i].url.indexOf(".htm") == -1) continue
 
 			urlArr = pages[i].url.split('/');
 			currLevel = urlArr.shift();
 			var pointer = t;
 
-			if (exceptions.indexOf(urlArr[0]) == -1){
-
-				// Now loop until we're deep enough
-				while (urlArr.length > 1) {
-					key = urlArr[0].length == 0 ? "EMPTY" : urlArr[0];
-					var newDir;
-					if (key in pointer.branches){
-						newDir = pointer.branches[key];
-					}
-					else {
-						newDir = { leaves: [], branches: {} }
-						pointer.branches[key] = newDir;					
-					}
-					pointer = newDir;
-					currLevel = urlArr.shift();
+			// Now loop until we're deep enough
+			while (urlArr.length > 1) {
+				key = urlArr[0].length == 0 ? "EMPTY" : urlArr[0];
+				key = key.replace("_"," ").replace("%20", " ");
+				var newDir;
+				if (key in pointer.branches){
+					newDir = pointer.branches[key];
 				}
-
-				pointer.leaves.push(pages[i]);					
-
+				else {
+					newDir = { leaves: [], branches: {} }
+					pointer.branches[key] = newDir;					
+				}
+				pointer = newDir;
+				currLevel = urlArr.shift();
 			}
+			pointer.leaves.push(pages[i]);		
 		}
 		traverseandsort(t)
 		return t
@@ -77,7 +75,7 @@ $(document).ready(function (){
 		var $topbar = $('<div class="top-bar"></div>');
 		var $topbarleft = $('<div class="top-bar-left"></div>');
 		$topbar.append($topbarleft);
-		var $title = $('<li><a href="' + NAVHome + '">' + NAVTitle + '</li>');
+		var $title = $('<li><a href="'+NAVHome+'">'+NAVTitle+'</li>');
 
 		function menutraverse(t, $mUL) {
 			if (!$mUL) {
@@ -86,15 +84,13 @@ $(document).ready(function (){
 			}
 			// Now go find more branches to sort their leaves
 			for (lf in t.leaves) {
-				var theTitle = t.leaves[lf].title.replace("_", " ");
-				$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + theTitle + '</a></li>');
+				$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + t.leaves[lf].title + '</a></li>');
 				$mUL.append($li);
 			}				
 			// Now go find more branches to sort their leaves
 			for (br in t.branches) {
 				$newmLi = $('<li></li>');
-				brStr = br.replace("_", " ");
-				$newmA = $('<a href="#">'+ brStr +'</a>');
+				$newmA = $('<a href="#">'+ br +'</a>');
 				$newmUl = $('<ul class="menu vertical"></ul>');
 				$newmLi.append($newmA);
 				$newmLi.append($newmUl);
@@ -119,8 +115,7 @@ $(document).ready(function (){
 		}
 		// Now go find more branches to sort their leaves
 		for (lf in t.leaves) {
-			var theTitle = t.leaves[lf].title.replace("_", " ");
-			$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + theTitle + '</a></li>');
+			$li = $('<li><a href="' + t.leaves[lf].absurl + '">' + t.leaves[lf].title + '</a></li>');
 			var extSplit = t.leaves[lf].url.split('.');
 			if (extSplit.length == 1 || extSplit[extSplit.length -1] == "html") 
 				$mUL.append($li);
@@ -128,8 +123,7 @@ $(document).ready(function (){
 		// Now go find more branches to sort their leaves
 		for (br in t.branches) {
 			$newmLi = $('<li></li>');
-			brStr = br.replace("_", " ");
-			$newmA = $('<a href="#">'+ brStr +'</a>');
+			$newmA = $('<a href="#">'+ br +'</a>');
 			$newmUl = $('<ul class="menu vertical nested"></ul>');
 			$newmLi.append($newmA);
 			$newmLi.append($newmUl);
@@ -149,7 +143,7 @@ $(document).ready(function (){
 	}
 
 	// Do all the things to get the tree
-	tree = treeize(NAVPages, ['assets', 'changelog']);
+	tree = treeize(NAVPages);
 	$topbar = topbarize(tree);
 	$sidebarnav = accordionize(tree);
 
