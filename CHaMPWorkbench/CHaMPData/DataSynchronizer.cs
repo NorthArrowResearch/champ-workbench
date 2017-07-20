@@ -302,6 +302,7 @@ namespace CHaMPWorkbench.CHaMPData
             theVisit.SampleDate = apiVisitDetails.SampleDate;
             theVisit.ProgramID = nProgramID;
             theVisit.ProtocolID = GetLookupListItemID(ref dbTrans, ref Protocols, 8, apiVisitDetails.Protocol);
+            theVisit.CategoryName = apiVisitDetails.Category;
 
             theVisit.Panel = apiVisitDetails.Panel;
             theVisit.VisitStatus = apiVisitDetails.Status;
