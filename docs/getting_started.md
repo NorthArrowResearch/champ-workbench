@@ -2,7 +2,7 @@
 title: Getting Started
 ---
 
-This page describes the steps to get up and running with the CHaMP Workbench software. All new users should perform these steps at least once to ensure that they have the latest reference [CHaMP](http://champmonitoring.org) data and that the Workbench database is aware of where the topographic survey data are stored on their system.
+This page describes the steps to get up and running with the CHaMP Workbench software. All new users should perform these steps at least once to ensure that they have the latest reference [CHaMP](https://www.champmonitoring.org) data and that the Workbench database is aware of where the topographic survey data are stored on their system.
 
 ### Download the Workbench Software
 
@@ -61,7 +61,7 @@ Follow the steps on the [Synchronize CHaMP Data](Technical_Reference/Data_Menu/s
 
 ### Download CHaMP Data Option 1 - Many/All Visits
 
-If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](http://winscp.net/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](Technical_Reference/Guides/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
+If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](https://winscp.net/eng/index.php/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](Technical_Reference/Guides/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
 
 ### Download CHaMP Data Option 2 - Selected Visits
 

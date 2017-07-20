@@ -6,7 +6,7 @@ The CHaMP Workbench software was developed by North Arrow Research Ltd., with fu
 
 <div class="row">
   <div class="col-sm-3"><a href="https://www.bpa.gov/"><img src="/assets/images/logos/bpa.png" /></a></div>
-  <div class="col-sm-3"><a href="http://northarrowresearch.com"><img src="/assets/images/logos/nar.png"/></a></div>
+  <div class="col-sm-3"><a href="http://www.northarrowresearch.com"><img src="/assets/images/logos/nar.png"/></a></div>
   <div class="col-sm-3"><a href="http://ecologicalresearch.net"><img src="/assets/images/logos/elr.png"/></a></div>
   <div class="col-sm-3"><a href="http://etal.joewheaton.org/"><img src="/assets/images/logos/usu.png"/></a></div> 
   <div class="col-sm-3"><a href="http://www.southforkresearch.org"><img src="/assets/images/logos/sfr.png"/></a></div> 

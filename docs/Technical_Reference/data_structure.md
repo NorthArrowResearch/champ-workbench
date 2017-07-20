@@ -2,10 +2,9 @@
 title: Database Structure
 ---
 
-
 ## CHaMP Tables
 
-All tables that store information from [CHaMP monitoring](http://champmonitoring.org) possess the prefix `CHAMP_`. The following list describes the key fields. There are more fields in the actual database tables, some of which are out of date and no longer used by the Workbench.
+All tables that store information from [CHaMP monitoring](https://www.champmonitoring.org) possess the prefix `CHAMP_`. The following list describes the key fields. There are more fields in the actual database tables, some of which are out of date and no longer used by the Workbench.
 
 * `CHaMP_Watersheds` - List of all CHaMP watersheds.
     * Watershed ID (*this is a workbench ID and unrelated to CHaMP*)
