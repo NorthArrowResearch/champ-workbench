@@ -270,6 +270,12 @@
     <Compile Include="Data\frmKeystoneCredentials.Designer.cs">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Metrics\CopyMetrics\frmCopyMetrics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\Metrics\CopyMetrics\frmCopyMetrics.Designer.cs">
+      <DependentUpon>frmCopyMetrics.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Metrics\Review\frmMetricGrid.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -494,6 +500,7 @@
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
     <Compile Include="naru\os\Folder.cs" />
+    <Compile Include="naru\ui\DataGridViewHelpers.cs" />
     <Compile Include="naru\ui\ProgressBar.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
     <Compile Include="naru\web\web.cs" />
@@ -604,6 +611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Metrics\CopyMetrics\frmCopyMetrics.resx">
+      <DependentUpon>frmCopyMetrics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\Metrics\Review\frmMetricGrid.resx">
       <DependentUpon>frmMetricGrid.cs</DependentUpon>

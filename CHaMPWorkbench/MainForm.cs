@@ -1963,5 +1963,18 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void copyMetricValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Data.Metrics.CopyMetrics.frmCopyMetrics frm = new Data.Metrics.CopyMetrics.frmCopyMetrics();
+                frm.ShowDialog();
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }
