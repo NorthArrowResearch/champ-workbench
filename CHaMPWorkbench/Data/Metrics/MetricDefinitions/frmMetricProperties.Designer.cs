@@ -109,6 +109,7 @@
             this.cmdHelp.TabIndex = 14;
             this.cmdHelp.Text = "Help";
             this.cmdHelp.UseVisualStyleBackColor = true;
+            this.cmdHelp.Click += new System.EventHandler(this.cmdHelp_Click);
             // 
             // label1
             // 

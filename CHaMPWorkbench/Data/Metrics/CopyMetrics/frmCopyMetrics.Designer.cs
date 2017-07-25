@@ -33,6 +33,8 @@
             this.cmdHelp = new System.Windows.Forms.Button();
             this.grpSource = new System.Windows.Forms.GroupBox();
             this.grdInfo = new System.Windows.Forms.DataGridView();
+            this.colProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.cboSource = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,9 +44,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cboDestination = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.colProperty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtTitle = new System.Windows.Forms.TextBox();
             this.grpSource.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -60,7 +60,6 @@
             this.cmdCancel.TabIndex = 3;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
-            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdOK
             // 
@@ -113,6 +112,20 @@
             this.grdInfo.Size = new System.Drawing.Size(323, 118);
             this.grdInfo.TabIndex = 3;
             // 
+            // colProperty
+            // 
+            this.colProperty.HeaderText = "Property";
+            this.colProperty.Name = "colProperty";
+            this.colProperty.ReadOnly = true;
+            this.colProperty.Width = 150;
+            // 
+            // colValue
+            // 
+            this.colValue.HeaderText = "Value";
+            this.colValue.Name = "colValue";
+            this.colValue.ReadOnly = true;
+            this.colValue.Width = 150;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -152,7 +165,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.cboDestination);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtTitle);
             this.groupBox1.Location = new System.Drawing.Point(12, 190);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(420, 172);
@@ -207,26 +220,12 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Batch name";
             // 
-            // textBox1
+            // txtTitle
             // 
-            this.textBox1.Location = new System.Drawing.Point(91, 53);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(323, 20);
-            this.textBox1.TabIndex = 3;
-            // 
-            // colProperty
-            // 
-            this.colProperty.HeaderText = "Property";
-            this.colProperty.Name = "colProperty";
-            this.colProperty.ReadOnly = true;
-            this.colProperty.Width = 150;
-            // 
-            // colValue
-            // 
-            this.colValue.HeaderText = "Value";
-            this.colValue.Name = "colValue";
-            this.colValue.ReadOnly = true;
-            this.colValue.Width = 150;
+            this.txtTitle.Location = new System.Drawing.Point(91, 53);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(323, 20);
+            this.txtTitle.TabIndex = 3;
             // 
             // frmCopyMetrics
             // 
@@ -268,7 +267,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cboDestination;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProperty;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
     }

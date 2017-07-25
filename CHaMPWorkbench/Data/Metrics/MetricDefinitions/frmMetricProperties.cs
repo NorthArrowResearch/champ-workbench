@@ -242,5 +242,10 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                 this.DialogResult = DialogResult.None;
             }
         }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
+        }
     }
 }
