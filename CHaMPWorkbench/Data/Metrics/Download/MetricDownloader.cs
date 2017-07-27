@@ -71,6 +71,8 @@ namespace CHaMPWorkbench.Data.Metrics
                             CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
                            Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
+                        bool bAuthorizedToViewMetrics = true;
+
                         foreach (CHaMPData.MetricSchema schema in programSchemaIDs[programID])
                         {
                             ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Downloading {0} metrics...", schema.Name));
@@ -98,6 +100,29 @@ namespace CHaMPWorkbench.Data.Metrics
                                 string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
                                 GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
                                 GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
+
+                                if (theMetrics.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                                {
+                                    // User's account does not allow for viewing metrics
+                                    string sAuthorizationError = string.Format("Not authorized to download metrics for schema {0}.", schema.Name);
+                                    ErrorMessages.AppendLine(sAuthorizationError);
+                                    ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), sAuthorizationError);
+                                    bAuthorizedToViewMetrics = false;
+                                    break;
+                                }
+
+                                if (theMetrics.StatusCode != System.Net.HttpStatusCode.OK)
+                                {
+                                    if (theMetrics.StatusCode == System.Net.HttpStatusCode.BadRequest && theMetrics.PayloadAsText.ToLower().Contains("unknown schema"))
+                                    {
+                                        ErrorMessages.AppendLine(string.Format("Visit {0} does not possess any metrics for the {1} schema", aVisit.Id, schema.Name));
+                                    }
+                                    else
+                                    {
+                                        ErrorMessages.AppendLine(string.Format("Status {0} for visit {1} and schema {2}: {3}", theMetrics.StatusCode.ToString(), aVisit.Id, schema.Name, theMetrics.PayloadAsText));
+                                    }
+                                }
+
                                 if (theMetrics.Payload == null || theMetrics.Payload.Length < 1)
                                     continue;
 
@@ -133,6 +158,10 @@ namespace CHaMPWorkbench.Data.Metrics
                                     ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Error on visit {0}: {1}", visit.ID, ex.Message));
                                 }
                             }
+
+                            // Do not attempt to process other schemas within this API if the user can't authenticate
+                            if (!bAuthorizedToViewMetrics)
+                                break;
                         }
                     }
 
