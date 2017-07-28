@@ -2,6 +2,14 @@
 title: Release Notes
 ---
 
+### 7.0.18 - 28 Jul 2017
+
+* Metric download now reporting on errors
+	* Insufficient permissions
+	* Visits without the specified metric schema defined
+	* generic `BadRequest`
+* Experimental copy of metrics between schemas
+
 ### 7.0.17 - 19 Jul 2017
 
 * AWS Automation user interface enhancements
