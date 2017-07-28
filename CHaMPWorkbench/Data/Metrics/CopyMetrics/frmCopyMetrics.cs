@@ -63,8 +63,9 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
                     // Insert the metric instances
                     dbCom = new SQLiteCommand("INSERT INTO Metric_Instances(BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn)" +
-                        "SELECT @BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn FROM Metric_Instances WHERE BatchID = @BatchID", dbCon, dbTrans);
-                    dbCom.Parameters.AddWithValue("BatchID", sourceBatch.ID);
+                        "SELECT @DestBatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn FROM Metric_Instances WHERE BatchID = @SourceBatchID", dbCon, dbTrans);
+                    dbCom.Parameters.AddWithValue("SourceBatchID", sourceBatch.ID);
+                    dbCom.Parameters.AddWithValue("DestBatchID", nDestinationBatchID);
                     dbCom.ExecuteNonQuery();
 
                     // insert the metric values
@@ -106,16 +107,14 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                     dbCom.Parameters.AddWithValue("DestinationSchemaID", ((naru.db.NamedObject)cboDestination.SelectedItem).ID);
 
                     dbTrans.Commit();
+                    MessageBox.Show("Metrics copy to new schema successful.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     dbTrans.Rollback();
-                    throw;
+                    Classes.ExceptionHandling.NARException.HandleException(ex);
                 }
             }
-
-
-
         }
 
         private bool ValidateForm()
