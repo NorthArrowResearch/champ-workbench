@@ -233,7 +233,6 @@
     <Compile Include="CHaMPData\Visit.cs" />
     <Compile Include="CHaMPData\Watershed.cs" />
     <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
-    <Compile Include="Classes\WorkbenchDBManager.cs" />
     <Compile Include="Data\frmAPIUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -882,13 +881,16 @@
     <None Include="Resources\SelectAll2.png" />
     <None Include="Resources\SelectNone2.png" />
     <None Include="Resources\Save.png" />
-    <Content Include="Database\database_structure.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\lambda.png" />
     <None Include="Resources\sqs_16.png" />
     <None Include="Resources\sqs_16_v2.png" />
     <None Include="Resources\cloudwatch_16.png" />
+    <Content Include="Database\latest.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\update_046.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Validation\ReportTransforms\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

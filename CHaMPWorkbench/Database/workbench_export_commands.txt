@@ -1,4 +1,4 @@
-.output ./database_structure.sql
+.output ./latest.sql
 .dump 'Lookup%'
 .dump '%Schema%'
 .dump 'Metric_Definition%'
