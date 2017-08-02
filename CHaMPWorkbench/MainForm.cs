@@ -44,9 +44,12 @@ namespace CHaMPWorkbench
         private bool VerifyDBVersion(string sFilePath)
         {
             bool bSuccess = false;
-            Classes.WorkbenchDBManager db = new Classes.WorkbenchDBManager(sFilePath);
+
+            DBManager db = new DBManager(sFilePath, Properties.Resources.DBVersionQuery,
+                  Properties.Settings.Default.DBMinSupportedVersion, Properties.Resources.DBFolder, Properties.Resources.DBStructureFile, Properties.Resources.DBUpdatePattern);
+
             int nVersion = db.GetDBVersion();
-            DBManager.UpgradeStates eState = db.CheckUpgradeStatus(CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion);
+            DBManager.UpgradeStates eState = db.CheckUpgradeStatus(CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired);
             string msgCreate = "You can create a new copy of the compatible database version using the 'Create New Workbench Database...' item on the main window file menu.";
 
             switch (eState)
@@ -64,7 +67,7 @@ namespace CHaMPWorkbench
                 case DBManager.UpgradeStates.ExceedsCurrentVersion:
                     MessageBox.Show(string.Format("Attempting to open the database {2}, but the version of this Workbench database ({0})" +
                         " is newer than the version that is compatible with this version of the Workbench software ({1}). {3}",
-                        nVersion, CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion, sFilePath, msgCreate), "Incompatible Workbench Database Version", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        nVersion, CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired, sFilePath, msgCreate), "Incompatible Workbench Database Version", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     break;
 
                 case DBManager.UpgradeStates.RequiresUpgrade:
@@ -72,13 +75,13 @@ namespace CHaMPWorkbench
                     string sMessage = string.Format("You are attempting to open a {0} database that is version {1}." +
                         " Would you like to upgrade your database to version {2} to be compatible with the current CHaMP workbench software? Content will be unaffected by the upgrade.\n\n{3}",
                         CHaMPWorkbench.Properties.Resources.MyApplicationNameLong
-                        , db.GetDBVersion(), CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion
+                        , db.GetDBVersion(), CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired
                         , sFilePath);
 
                     if (MessageBox.Show(sMessage, "Database Upgrade Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
-                        db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion);
-                        MessageBox.Show(string.Format("Database upgraded to version {0}.", CHaMPWorkbench.Properties.Settings.Default.MinimumDBVersion), "Database Upgrade Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired);
+                        MessageBox.Show(string.Format("Database upgraded to version {0}.", CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired), "Database Upgrade Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         bSuccess = true;
                     }
                     break;
@@ -1524,7 +1527,9 @@ namespace CHaMPWorkbench
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                Classes.WorkbenchDBManager db = new Classes.WorkbenchDBManager(frm.FileName);
+                DBManager db = new DBManager(frm.FileName, Properties.Resources.DBVersionQuery, 
+                    Properties.Settings.Default.DBMinSupportedVersion, Properties.Resources.DBFolder, Properties.Resources.DBStructureFile, Properties.Resources.DBUpdatePattern);
+
                 db.CreateDatabase();
                 if (System.IO.File.Exists(frm.FileName))
                 {

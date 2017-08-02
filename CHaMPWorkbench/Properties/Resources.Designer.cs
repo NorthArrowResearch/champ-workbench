@@ -191,6 +191,42 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        internal static string DBFolder {
+            get {
+                return ResourceManager.GetString("DBFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to latest.sql.
+        /// </summary>
+        internal static string DBStructureFile {
+            get {
+                return ResourceManager.GetString("DBStructureFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update_???.sql.
+        /// </summary>
+        internal static string DBUpdatePattern {
+            get {
+                return ResourceManager.GetString("DBUpdatePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT ValueInfo FROM VersionInfo WHERE Key = &apos;DatabaseVersion&apos;.
+        /// </summary>
+        internal static string DBVersionQuery {
+            get {
+                return ResourceManager.GetString("DBVersionQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Delete {

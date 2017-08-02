@@ -304,4 +304,16 @@
   <data name="Help_frmLambdaInvoke" xml:space="preserve">
     <value>Technical_Reference/launch_champ_automation_worker.html</value>
   </data>
+  <data name="DBFolder" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="DBStructureFile" xml:space="preserve">
+    <value>latest.sql</value>
+  </data>
+  <data name="DBUpdatePattern" xml:space="preserve">
+    <value>update_???.sql</value>
+  </data>
+  <data name="DBVersionQuery" xml:space="preserve">
+    <value>SELECT ValueInfo FROM VersionInfo WHERE Key = 'DatabaseVersion'</value>
+  </data>
 </root>

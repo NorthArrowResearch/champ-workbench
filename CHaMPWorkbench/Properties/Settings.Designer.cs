@@ -386,9 +386,9 @@ namespace CHaMPWorkbench.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("45")]
-        public int MinimumDBVersion {
+        public int DBVersionRequired {
             get {
-                return ((int)(this["MinimumDBVersion"]));
+                return ((int)(this["DBVersionRequired"]));
             }
         }
         
@@ -543,6 +543,15 @@ namespace CHaMPWorkbench.Properties {
         public long ModelScavengeTypeID_PythonTopo {
             get {
                 return ((long)(this["ModelScavengeTypeID_PythonTopo"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("45")]
+        public int DBMinSupportedVersion {
+            get {
+                return ((int)(this["DBMinSupportedVersion"]));
             }
         }
     }
