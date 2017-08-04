@@ -68,14 +68,24 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         public static naru.ui.SortableBindingList<MetricDefinition> Load(string sDBCon)
         {
-            naru.ui.SortableBindingList<MetricDefinition> result = new naru.ui.SortableBindingList<MetricDefinition>();
+            List<MetricDefinition> lValues = Load(sDBCon, "SELECT * FROM vwMetricDefinitions ORDER BY Title").Values.ToList<MetricDefinition>();
+            return new naru.ui.SortableBindingList<MetricDefinition>(lValues);
+        }
 
+        public static Dictionary<long, MetricDefinition> LoadBySchema(string sDBCon, long schemaID)
+        {
+            return Load(sDBCon, string.Format("SELECT M.* FROM vwMetricDefinitions M INNER JOIN Metric_Schema_Definitions S ON S.MetricID = M.MetricID WHERE (S.SchemaID = {0}) ORDER BY Title", schemaID));
+        }
+
+        private static Dictionary<long, MetricDefinition> Load(string sDBCon, string sqlSelect)
+        {
+            Dictionary<long, MetricDefinition> result = new Dictionary<long, MetricDefinition>();
             TimeZoneInfo pstZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
 
             using (SQLiteConnection dbCon = new SQLiteConnection(sDBCon))
             {
                 dbCon.Open();
-                SQLiteCommand dbCom = new SQLiteCommand("SELECT * FROM vwMetricDefinitions ORDER BY Title", dbCon);
+                SQLiteCommand dbCom = new SQLiteCommand(sqlSelect, dbCon);
                 SQLiteDataReader dbRead = dbCom.ExecuteReader();
 
                 using (SQLiteConnection conPrograms = new SQLiteConnection(sDBCon))
@@ -112,7 +122,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                             metricDef.MetricSchemas.Add(readPrograms.GetInt64(0));
                         readPrograms.Close();
 
-                        result.Add(metricDef);
+                        result[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = metricDef;
                     }
                 }
             }
