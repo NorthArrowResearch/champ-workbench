@@ -70,7 +70,7 @@ namespace CHaMPWorkbench.UserQueries
             {
                 DataRowView selRow = (DataRowView)grdData.SelectedRows[0].DataBoundItem;
 
-                frmQueryProperties frm = new frmQueryProperties(DBCon, (int)selRow.Row["QueryID"]);
+                frmQueryProperties frm = new frmQueryProperties(DBCon, (long)selRow.Row["QueryID"]);
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     UserQueriesChanged = true;

@@ -15,7 +15,7 @@ namespace CHaMPWorkbench.UserQueries
         private string DBCon { get; set; }
         public long ID { get; internal set; }
 
-        public frmQueryProperties(string sDBCon, int nID = 0)
+        public frmQueryProperties(string sDBCon, long nID = 0)
         {
             InitializeComponent();
             DBCon = sDBCon;
