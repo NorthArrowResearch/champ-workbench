@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace CHaMPWorkbench.Data.Metrics
 {
@@ -20,7 +21,7 @@ namespace CHaMPWorkbench.Data.Metrics
         public string UserName { get; internal set; }
         public string Password { get; internal set; }
 
-        private Dictionary<long, Dictionary<string, long>> schemaMetrics;
+        private Dictionary<long, Dictionary<string, MetricDefinitions.MetricDefinition>> schemaMetrics;
         private Dictionary<long, Dictionary<string, long>> tierTypes;
 
         public delegate void ProgressUpdate(int value);
@@ -232,21 +233,20 @@ namespace CHaMPWorkbench.Data.Metrics
         private void LoadMetricDefinitionsForSchema(ref SQLiteTransaction dbTrans, long schemaID)
         {
             if (schemaMetrics == null)
-                schemaMetrics = new Dictionary<long, Dictionary<string, long>>();
+                schemaMetrics = new Dictionary<long, Dictionary<string, MetricDefinitions.MetricDefinition>>();
 
             if (schemaMetrics.ContainsKey(schemaID))
                 return;
 
-            schemaMetrics[schemaID] = new Dictionary<string, long>();
+            schemaMetrics[schemaID] = new Dictionary<string, MetricDefinitions.MetricDefinition>();
 
-            SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID, D.DisplayNameShort FROM Metric_Schema_Definitions S INNER JOIN Metric_Definitions D ON S.MetricID = D.MetricID" +
-                " WHERE (S.SchemaID = @SchemaID) AND (DisplayNameShort IS NOT NULL) AND (DataTypeID = @DataTypeID)", dbTrans.Connection, dbTrans);
-            dbCom.Parameters.AddWithValue("SchemaID", schemaID);
-            dbCom.Parameters.AddWithValue("DataTypeID", 10023); // Numeric only metrics
-            SQLiteDataReader dbRead = dbCom.ExecuteReader();
-            while (dbRead.Read())
-                schemaMetrics[schemaID][dbRead.GetString(1)] = dbRead.GetInt64(0);
+            // Load the metrics for this schema into the typical dictionary by ID
+            Dictionary<long, MetricDefinitions.MetricDefinition> dMetrics = MetricDefinitions.MetricDefinition.LoadBySchema(DBCon, schemaID);
 
+            // Reorganize the metrics by name so that they can be looked up from the API
+            foreach (MetricDefinitions.MetricDefinition aMetric in dMetrics.Values)
+                if (!string.IsNullOrEmpty(aMetric.DisplayNameShort))
+                    schemaMetrics[schemaID][aMetric.DisplayNameShort] = aMetric;
         }
 
         /// <summary>
@@ -386,9 +386,32 @@ namespace CHaMPWorkbench.Data.Metrics
 
                     if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
                     {
-                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                        pMetricValue.Value = aValue.Value;
-                        dbCom.ExecuteNonQuery();
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name].ID;
+                        if (schemaMetrics[schema.ID][aValue.Name].DataTypeID == 10023)
+                        {
+                            // Numeric Metrics
+                            pMetricValue.Value = aValue.Value;
+                            dbCom.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            // string metrics.
+                            bool bValue = false;
+                            if (Boolean.TryParse(aValue.Value, out bValue))
+                            {
+                                pMetricValue.Value = bValue ? 1 : 0;
+                                dbCom.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                // Validation metrics use "PASS" and "FAIL"
+                                if (Regex.IsMatch(aValue.Value.ToLower(), "^(pass|fail)$"))
+                                {
+                                    pMetricValue.Value = aValue.Value.ToLower().Contains("pass") ? 1 : 0;
+                                    dbCom.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
             }
