@@ -43,18 +43,24 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.cmsSchemas.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstMetricSchemas
             // 
             this.lstMetricSchemas.CheckOnClick = true;
             this.lstMetricSchemas.ContextMenuStrip = this.cmsSchemas;
+            this.lstMetricSchemas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstMetricSchemas.FormattingEnabled = true;
-            this.lstMetricSchemas.Location = new System.Drawing.Point(12, 12);
+            this.lstMetricSchemas.Location = new System.Drawing.Point(0, 0);
             this.lstMetricSchemas.Name = "lstMetricSchemas";
-            this.lstMetricSchemas.Size = new System.Drawing.Size(428, 124);
+            this.lstMetricSchemas.Size = new System.Drawing.Size(366, 213);
             this.lstMetricSchemas.TabIndex = 3;
             // 
             // cmsSchemas
@@ -85,9 +91,10 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.pgrProgress);
             this.groupBox1.Controls.Add(this.txtProgress);
-            this.groupBox1.Location = new System.Drawing.Point(12, 142);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 240);
+            this.groupBox1.Size = new System.Drawing.Size(366, 210);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Progress";
@@ -112,9 +119,11 @@
             // 
             // pgrProgress
             // 
+            this.pgrProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pgrProgress.Location = new System.Drawing.Point(9, 22);
             this.pgrProgress.Name = "pgrProgress";
-            this.pgrProgress.Size = new System.Drawing.Size(413, 13);
+            this.pgrProgress.Size = new System.Drawing.Size(353, 13);
             this.pgrProgress.TabIndex = 4;
             // 
             // txtProgress
@@ -125,13 +134,13 @@
             this.txtProgress.Location = new System.Drawing.Point(6, 71);
             this.txtProgress.Multiline = true;
             this.txtProgress.Name = "txtProgress";
-            this.txtProgress.Size = new System.Drawing.Size(416, 163);
+            this.txtProgress.Size = new System.Drawing.Size(354, 133);
             this.txtProgress.TabIndex = 0;
             // 
             // cmdHelp
             // 
             this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdHelp.Location = new System.Drawing.Point(12, 395);
+            this.cmdHelp.Location = new System.Drawing.Point(12, 445);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
             this.cmdHelp.TabIndex = 6;
@@ -142,7 +151,7 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(384, 395);
+            this.cmdCancel.Location = new System.Drawing.Point(323, 445);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(55, 23);
             this.cmdCancel.TabIndex = 7;
@@ -153,7 +162,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(306, 395);
+            this.cmdOK.Location = new System.Drawing.Point(245, 445);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(72, 23);
             this.cmdOK.TabIndex = 8;
@@ -169,23 +178,47 @@
             this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
             this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.lstMetricSchemas);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(366, 427);
+            this.splitContainer1.SplitterDistance = 213;
+            this.splitContainer1.TabIndex = 9;
+            // 
             // frmMetricDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 430);
+            this.ClientSize = new System.Drawing.Size(390, 480);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdHelp);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lstMetricSchemas);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "frmMetricDownload";
             this.Text = "Metric Download";
             this.Load += new System.EventHandler(this.frmMetricDownload_Load);
             this.cmsSchemas.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -204,5 +237,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsSchemas;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
