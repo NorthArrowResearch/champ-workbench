@@ -364,7 +364,7 @@ namespace CHaMPWorkbench.Data.Metrics
 
         private void DownloadVisitMetrics(ref SQLiteTransaction dbTrans, long batchID, long visitID, CHaMPData.MetricSchema schema, ref GeoOptix.API.Model.MetricInstanceModel[] metricInstances)
         {
-            // The API might erroneously contain duplicates. Find the newest instance for each channel unit
+            // The API might erroneously contain duplicates. Find the newest instance for each visit
             Dictionary<string, Tuple<int, DateTime, string>> newestMetricInstances = GetLatestMetricInstances(ref metricInstances, string.Empty);
 
             if (newestMetricInstances.Count < 1)
