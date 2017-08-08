@@ -1527,7 +1527,7 @@ namespace CHaMPWorkbench
             if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                DBManager db = new DBManager(frm.FileName, Properties.Resources.DBVersionQuery, 
+                DBManager db = new DBManager(frm.FileName, Properties.Resources.DBVersionQuery,
                     Properties.Settings.Default.DBMinSupportedVersion, Properties.Resources.DBFolder, Properties.Resources.DBStructureFile, Properties.Resources.DBUpdatePattern);
 
                 db.CreateDatabase();
@@ -1976,7 +1976,19 @@ namespace CHaMPWorkbench
                 Data.Metrics.CopyMetrics.frmCopyMetrics frm = new Data.Metrics.CopyMetrics.frmCopyMetrics();
                 frm.ShowDialog();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
+
+        private void scrapValidationLogXMLFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Experimental.Philip.ValidationScraper.Run();
+            }
+            catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }

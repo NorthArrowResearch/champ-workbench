@@ -57,10 +57,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D4179E4A054449A906711BE863400E3C1D145E65</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7E21EC4C423D2830AD49B1FAA7CD5B26C13D7F61</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CHaMPWorkbench_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>CHaMPWorkbench_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -415,6 +415,7 @@
     <Compile Include="Experimental\Philip\LambdaInvoker.cs" />
     <Compile Include="Experimental\Philip\TestXPath.cs" />
     <Compile Include="Experimental\Philip\TopoMetricScavenger.cs" />
+    <Compile Include="Experimental\Philip\ValidationScraper.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -763,6 +764,7 @@
       <DependentUpon>frmVisitDataGrid.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="CHaMPWorkbench_1_TemporaryKey.pfx" />
     <None Include="CHaMPWorkbench_TemporaryKey.pfx" />
     <None Include="Experimental\Kelly\Scripts\CHaMP.pyc" />
     <None Include="Habitat\dsHabitat.xsc">
