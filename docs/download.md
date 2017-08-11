@@ -7,10 +7,10 @@ The CHaMP Workbench is a standalone, desktop software application that supports 
 ## Prerequisites
 
 1. [64 bit version](technical_reference/guides/windows_version.html) of Windows (XP or newer).
-2. [Microsoft .Net Framework 4](http://www.microsoft.com/en-us/download/details.aspx?id=17851) or newer. ***(Only for windows 7 or earlier)***
-4. 150Mb free disk space for the software, plus enough space to store input and out datasets.
-6. [64-bit Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-ca/download/details.aspx?id=48145). *NOTE: You must install the **64-bit** version ( 
-vc_redist.x64.exe). If you have previously installed the 32-bit version you still need to install the 64-bit version.*
+2. [Microsoft .Net Framework 4.6.2](https://www.microsoft.com/en-us/download/details.aspx?id=53344) or newer.
+3. 150Mb free disk space for the software, plus enough space to store input and out datasets.
+4. [64-bit Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-ca/download/details.aspx?id=48145). *NOTE: You must install the **64-bit** version ( 
+  vc_redist.x64.exe). If you have previously installed the 32-bit version you still need to install the 64-bit version.*
 
 ## Download CHaMP Workbench Software
 
