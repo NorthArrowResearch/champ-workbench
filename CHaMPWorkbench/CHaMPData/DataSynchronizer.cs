@@ -224,7 +224,21 @@ namespace CHaMPWorkbench.CHaMPData
                     if (dSites.ContainsKey((long)apiSite.Id))
                     {
                         dSites[(long)apiSite.Id].Name = apiSite.Name;
-                        dSites[(long)apiSite.Id].StreamName = GetStreamName(apiSite.Url);
+
+                        ApiHelper api2 = new ApiHelper(apiSite.Url, null);
+                        ApiResponse<GeoOptix.API.Model.SiteModel> apiSiteResponse = api2.Get<GeoOptix.API.Model.SiteModel>();
+                        GeoOptix.API.Model.SiteModel apiSiteDetails = apiSiteResponse.Payload;
+                        if (apiSiteDetails != null)
+                        {
+                            dSites[(long)apiSite.Id].StreamName = apiSiteDetails.Locale;
+                            dSites[(long)apiSite.Id].UTMZone = apiSiteDetails.UtmZone;
+
+                            if (!string.IsNullOrEmpty(apiSiteDetails.Latitude))
+                                dSites[(long)apiSite.Id].Latitude = double.Parse(apiSiteDetails.Latitude);
+
+                            if (!string.IsNullOrEmpty(apiSiteDetails.Longitude))
+                                dSites[(long)apiSite.Id].Longitude = double.Parse(apiSiteDetails.Longitude);
+                        }
                     }
                     else
                     {
@@ -269,21 +283,6 @@ namespace CHaMPWorkbench.CHaMPData
             return nVisits;
         }
 
-        private string GetStreamName(string sSiteDetailsURL)
-        {
-            if (string.IsNullOrEmpty(sSiteDetailsURL))
-                return string.Empty;
-
-            string sStreamName = string.Empty;
-            ApiHelper api2 = new ApiHelper(sSiteDetailsURL, null);
-            ApiResponse<GeoOptix.API.Model.SiteModel> apiSiteResponse = api2.Get<GeoOptix.API.Model.SiteModel>();
-            GeoOptix.API.Model.SiteModel apiSiteDetails = apiSiteResponse.Payload;
-            if (apiSiteDetails != null)
-                sStreamName = apiSiteDetails.Locale;
-
-            return sStreamName;
-        }
-
         private void SyncVisits(ref SQLiteTransaction dbTrans, ref Dictionary<long, Visit> dvisits, string sVisitURL, long nProgramID, ref TokenResponse AuthToken)
         {
             ApiHelper api2 = new ApiHelper(sVisitURL, AuthToken);
@@ -315,7 +314,7 @@ namespace CHaMPWorkbench.CHaMPData
 
             theVisit.Panel = apiVisitDetails.Panel;
             theVisit.VisitStatus = apiVisitDetails.Status;
-            
+
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Visit Information Attributes (this requires authentication)
 

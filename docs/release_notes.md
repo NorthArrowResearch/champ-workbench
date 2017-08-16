@@ -5,6 +5,9 @@ title: Release Notes
 ### 7.0.19 - ????
 
 * Fixed int/long data type bug in user queries
+* CHaMP Data Sync
+    * Reports when the API URL is incorrect
+    * Retrieves Site UTM, latitude and longitude
 
 ### 7.0.18 - 28 Jul 2017
 
