@@ -180,6 +180,15 @@ namespace CHaMPWorkbench.CHaMPData
 
             ApiHelper api = new ApiHelper(string.Format("{0}/watersheds", theProgrm.API), AuthToken);
             ApiResponse<GeoOptix.API.Model.WatershedSummaryModel[]> response = api.Get<GeoOptix.API.Model.WatershedSummaryModel[]>();
+
+            if (api.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                Exception ex = new Exception(string.Format("API Error with Status Code: {0}", api.StatusCode.ToString()));
+                ex.Data["Status Code"] = api.StatusCode.ToString();
+                ex.Data["API Address"] = theProgrm.API;
+                throw ex;
+            }
+
             foreach (GeoOptix.API.Model.WatershedSummaryModel apiWatershed in response.Payload)
             {
                 if (WatershedsToProcess.Count == 0 || WatershedsToProcess.ContainsKey(apiWatershed.Id))

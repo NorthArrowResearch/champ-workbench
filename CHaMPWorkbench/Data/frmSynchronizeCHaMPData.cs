@@ -137,10 +137,19 @@ namespace CHaMPWorkbench.Data
                 {
                     MessageBox.Show("Failed to authenticate user. Incorrect username or password.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                else if (ex.Message.ToLower().Contains("notfound"))
+                {
+                    string sAddress = ".";
+                    if (ex.Data.Contains("API Address"))
+                        sAddress = string.Format(": {0}", ex.Data["API Address"]);
+
+                    string sMessage = string.Format("Invalid API Address{0}", sAddress);
+                    MessageBox.Show(sMessage, CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 else
                 {
                     Classes.ExceptionHandling.NARException.HandleException(ex);
-                }
+                }               
             }
         }
 
