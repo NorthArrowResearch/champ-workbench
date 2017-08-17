@@ -1,5 +1,5 @@
 ---
-title: Database Structure
+title: CHaMP Tables
 ---
 
 ## CHaMP Tables
