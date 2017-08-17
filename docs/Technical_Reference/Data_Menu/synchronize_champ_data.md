@@ -2,21 +2,50 @@
 title: Synchronize CHaMP Data
 ---
 
-The CHaMP Workbench maintains lists of watersheds, sites, visits and channel units that it uses to then perform various operations. This local copy of these items can get out of date and require updating from time to time. This is especially true during the summar field season when visit information changes as crews return from the field and upload data onto [CHaMP Monitoring](https://www.champmonitoring.org).
+The CHaMP Workbench maintains lists of watersheds, sites, visits and channel units that it uses to then perform various operations. This local copy of these items can get out of date and require updating from time to time. This is especially true during the summer field season when visit information changes as crews return from the field and upload data onto [CHaMP Monitoring](https://www.champmonitoring.org).
 
 New for 2017, the Workbench contains a feature that updates the lists stored in the Workbench database by connecting directly to [CHaMP Monitoring](https://www.champmonitoring.org) and retrieving the relevant information over the internet. This feature currently **only** synchronizes the lists of watersheds, sites, visits and channel units. It does **not** retrieve auxilliary measurements or metrics!
 
 ## Synchronizing CHaMP Data
 
 1. Open the CHaMP Workbench.
-1. Make sure that you are connected to the correct local Workbench database.
-1. click the `Data` main menu item and choose `Synchronize CHaMP Data...`.
-1. Select the relevant program(s) and watersheds and then click `Synchronize`.
-1. Enter your credentials for [CHaMP Monitoring](https://www.champmonitoring.org) and click `OK`.
+2. Make sure that you are connected to the correct local Workbench database.
+3. click the `Data` main menu item and choose `Synchronize CHaMP Data...`.
+4. Select the relevant program(s) and watersheds and then click `Synchronize`.
+5. Enter your credentials for [CHaMP Monitoring](https://www.champmonitoring.org) and click `OK`.
 
 Contact Carol Volk (carol@shouthforkresearch.org) if you receive a message stating that you are unable to authenticate.
 
 ![Synchronize CHaMP Data]({{ site.url }}/assets/images/sync/sync.png)
+
+## What Data Are Included?
+
+The following attributes are retrieved when the synchronization is run:
+
+* **Watersheds**
+	* Watershed name
+* **Sites**
+	* Site name
+	* Watershed name
+	* Stream name
+	* UTMzZone
+	* Latitude
+	* Longitude
+* **Visits**
+	* Visit ID
+	* site name
+	* Visit year
+	* Hitch name
+	* Organization
+	* Crew name
+	* Sample date
+	* Protocol
+	* Program
+	* Is primary
+	* Panel
+	* Visit status
+	* Has stream temp logger
+	* Discharge
 
 ## Notes
 
