@@ -16,6 +16,7 @@ $(document).ready(function (){
 			if (pages[i].url.indexOf(".htm") == -1) continue
 
 			urlArr = pages[i].url.split('/');
+			if (urlArr[1] == "changelog") continue
 			currLevel = urlArr.shift();
 			var pointer = t;
 
