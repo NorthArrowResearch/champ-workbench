@@ -2,6 +2,12 @@
 title: Hydro Prep
 ---
 
+
+
+**This feature is now deprecated and should not be used**. In 2017 hydro prep was implemented within the AWS worker engine that runs the Delft 3D hydraulics model. In other words, it should no longer be necessary to run Hydro Prep within the CHaMP Workbench.
+
+----
+
 The Hydro Prep process exports the following three layers from CHaMP survey geodatabases in preparation for running the [Delft 3D hydraulic model](https://oss.deltares.nl/web/delft3d):
 
 * Thalweg
@@ -11,12 +17,12 @@ The Hydro Prep process exports the following three layers from CHaMP survey geod
 The high level steps for running the hydro prep process are:
 
 1. Download and setup the Hydro Prep dotNet software.
-1. Within the workbench:
+2. Within the workbench:
     1. Specify the path to the Hydro Prep dotNet software.
-    1. Select the visits that you want to run.
-    1. Create a batch that specifies the visits that you want to run.
-    1. Run the batch of visits through the hydro prep dotNet software.
-    1. Review the hydro prep results.
+    2. Select the visits that you want to run.
+    3. Create a batch that specifies the visits that you want to run.
+    4. Run the batch of visits through the hydro prep dotNet software.
+    5. Review the hydro prep results.
 
 The remainder of this page describes these steps:
 
