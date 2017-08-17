@@ -58,7 +58,7 @@ weight: 99
 	* Metric Definition XML export fix to include precision.
 * Moved `Upload Topo Data` feature to experimental menu.
 
-### 7.0.08 - 7.0.09
+### 7.0.08 - 26 May 2017
 
 * Internal development releases to desolve missing `System.Net.Html.dll` in deployment.
 
