@@ -1,6 +1,6 @@
 ---
 title: Download
-weight: 0
+weight: 1
 ---
 
 The CHaMP Workbench is a standalone, desktop software application that supports the [Columbia Habitat Monitoring Program](https://www.champmonitoring.org). To install it you download and run the `setup.exe` application linked below. This will install the Workbench in your user profile folder. Read the [release notes](release_notes.html) for information on the latest features and updates.
