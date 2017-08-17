@@ -1,5 +1,6 @@
 ---
 title: Release Notes
+weight: 99
 ---
 
 ### 7.0.19 - ????

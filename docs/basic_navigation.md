@@ -1,5 +1,6 @@
 ---
 title: Basic Navigation
+weight: 3
 ---
 
 <div class="flex-video">

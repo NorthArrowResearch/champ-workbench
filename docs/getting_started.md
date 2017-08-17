@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+weight: 2
 ---
 
 This page describes the steps to get up and running with the CHaMP Workbench software. All new users should perform these steps at least once to ensure that they have the latest reference [CHaMP](https://www.champmonitoring.org) data and that the Workbench database is aware of where the topographic survey data are stored on their system.

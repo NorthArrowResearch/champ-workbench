@@ -1,6 +1,6 @@
 ---
 title: "Home"
-weight: -1
+weight: 0
 ---
 
 <div class="float-right"><img src="{{ site.url }}/assets/images/logos/champ.png"/></div>
