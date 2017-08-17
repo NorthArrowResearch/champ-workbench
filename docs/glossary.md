@@ -1,6 +1,6 @@
 ---
 title: Glossary
-weight: 2
+weight: 100
 ---
 
 **CSV** - Comma separated values. Refers to a partciluar text file format that separates columns of data using comma characters.
