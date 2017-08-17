@@ -1,5 +1,5 @@
 ---
-title: CHaMP Tables
+title: Admin Tables
 ---
 
 [Workbench database](database_structure.html) tables that store administrative information about the Workbench itself are as follows.
