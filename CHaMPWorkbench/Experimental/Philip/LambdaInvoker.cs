@@ -73,7 +73,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                     using (var sr = new StreamReader(response.Payload))
                     {
                         result = sr.ReadToEnd();
-                        if (result.ToLower().Contains("success"))
+                        if (result.ToLower().Contains("success") || result.ToLower().Contains("throttlingexception"))
                         {
                             SuccessVisits.Add(visit);
                         }
