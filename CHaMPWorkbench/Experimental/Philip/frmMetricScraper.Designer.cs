@@ -42,6 +42,8 @@
             this.rdoSpecifiedModelVersion = new System.Windows.Forms.RadioButton();
             this.rdoXMLModelVersion = new System.Windows.Forms.RadioButton();
             this.chkVerify = new System.Windows.Forms.CheckBox();
+            this.cboMetricSchema = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.grpModelVersion.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +82,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 48);
+            this.label2.Location = new System.Drawing.Point(294, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 13);
             this.label2.TabIndex = 3;
@@ -108,7 +110,7 @@
             // 
             // txtFileName
             // 
-            this.txtFileName.Location = new System.Drawing.Point(102, 44);
+            this.txtFileName.Location = new System.Drawing.Point(381, 43);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(172, 20);
             this.txtFileName.TabIndex = 4;
@@ -136,7 +138,7 @@
             this.grpModelVersion.Controls.Add(this.txtModelVersion);
             this.grpModelVersion.Controls.Add(this.rdoSpecifiedModelVersion);
             this.grpModelVersion.Controls.Add(this.rdoXMLModelVersion);
-            this.grpModelVersion.Location = new System.Drawing.Point(18, 130);
+            this.grpModelVersion.Location = new System.Drawing.Point(18, 127);
             this.grpModelVersion.Name = "grpModelVersion";
             this.grpModelVersion.Size = new System.Drawing.Size(555, 100);
             this.grpModelVersion.TabIndex = 7;
@@ -178,13 +180,31 @@
             this.chkVerify.AutoSize = true;
             this.chkVerify.Checked = true;
             this.chkVerify.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVerify.Location = new System.Drawing.Point(102, 107);
+            this.chkVerify.Location = new System.Drawing.Point(102, 104);
             this.chkVerify.Name = "chkVerify";
             this.chkVerify.Size = new System.Drawing.Size(441, 17);
             this.chkVerify.TabIndex = 10;
             this.chkVerify.Text = "Only scrape metrics if all Workbench metrics validate with CHaMP automation defin" +
     "itions";
             this.chkVerify.UseVisualStyleBackColor = true;
+            // 
+            // cboMetricSchema
+            // 
+            this.cboMetricSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMetricSchema.FormattingEnabled = true;
+            this.cboMetricSchema.Location = new System.Drawing.Point(102, 43);
+            this.cboMetricSchema.Name = "cboMetricSchema";
+            this.cboMetricSchema.Size = new System.Drawing.Size(173, 21);
+            this.cboMetricSchema.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 47);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Metric schema";
             // 
             // frmMetricScraper
             // 
@@ -193,6 +213,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(594, 275);
+            this.Controls.Add(this.cboMetricSchema);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.chkVerify);
             this.Controls.Add(this.grpModelVersion);
             this.Controls.Add(this.cboScavengeType);
@@ -231,5 +253,7 @@
         private System.Windows.Forms.RadioButton rdoSpecifiedModelVersion;
         private System.Windows.Forms.RadioButton rdoXMLModelVersion;
         private System.Windows.Forms.CheckBox chkVerify;
+        private System.Windows.Forms.ComboBox cboMetricSchema;
+        private System.Windows.Forms.Label label4;
     }
 }

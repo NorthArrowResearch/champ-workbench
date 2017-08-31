@@ -27,6 +27,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             }
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboScavengeType, naru.db.sqlite.DBCon.ConnectionString, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 1 ORDER BY Title");
+            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboMetricSchema, naru.db.sqlite.DBCon.ConnectionString, "SELECT ItemID, Title FROM Metric_Schemas WHERE (RootXPath IS NOT NULL) AND (DatabaseTable IS NOT NULL) ORDER BY Title");
             rdoXMLModelVersion.Checked = true;
             rdoXMLModelVersion_CheckedChanged(null, null);
         }
@@ -98,6 +99,13 @@ namespace CHaMPWorkbench.Experimental.Philip
             {
                 MessageBox.Show("You must select a scavenge type.", "Missing Scavenge Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cboScavengeType.Select();
+                return false;
+            }
+
+            if (cboMetricSchema.SelectedIndex < 0)
+            {
+                MessageBox.Show("You must select a metric schema.", "Missing Metric Schema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboMetricSchema.Select();
                 return false;
             }
 
