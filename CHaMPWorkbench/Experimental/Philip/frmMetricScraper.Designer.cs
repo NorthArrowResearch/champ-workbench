@@ -196,6 +196,7 @@
             this.cboMetricSchema.Name = "cboMetricSchema";
             this.cboMetricSchema.Size = new System.Drawing.Size(173, 21);
             this.cboMetricSchema.TabIndex = 12;
+            this.cboMetricSchema.SelectedIndexChanged += new System.EventHandler(this.cboMetricSchema_SelectedIndexChanged);
             // 
             // label4
             // 

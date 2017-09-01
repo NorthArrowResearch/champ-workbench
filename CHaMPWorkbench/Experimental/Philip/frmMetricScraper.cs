@@ -27,7 +27,11 @@ namespace CHaMPWorkbench.Experimental.Philip
             }
 
             naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboScavengeType, naru.db.sqlite.DBCon.ConnectionString, "SELECT ItemID, Title FROM LookupListItems WHERE ListID = 1 ORDER BY Title");
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboMetricSchema, naru.db.sqlite.DBCon.ConnectionString, "SELECT ItemID, Title FROM Metric_Schemas WHERE (RootXPath IS NOT NULL) AND (DatabaseTable IS NOT NULL) ORDER BY Title");
+
+            cboMetricSchema.DataSource = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString).Values.Where<CHaMPData.MetricSchema>(x => x.HasDatabaseTable && x.HasMetricSchemaXMLFile).ToList<CHaMPData.MetricSchema>();
+            cboMetricSchema.DisplayMember = "Name";
+            cboMetricSchema.ValueMember = "ID";
+
             rdoXMLModelVersion.Checked = true;
             rdoXMLModelVersion_CheckedChanged(null, null);
         }
@@ -156,6 +160,15 @@ namespace CHaMPWorkbench.Experimental.Philip
         private void rdoXMLModelVersion_CheckedChanged(object sender, EventArgs e)
         {
             txtModelVersion.Enabled = rdoSpecifiedModelVersion.Checked;
+        }
+
+        private void cboMetricSchema_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboMetricSchema.SelectedItem is CHaMPData.MetricSchema)
+            {
+                if (((CHaMPData.MetricSchema)cboMetricSchema.SelectedItem).HasMetricResultXMLFile)
+                    txtFileName.Text = ((CHaMPData.MetricSchema)cboMetricSchema.SelectedItem).MetricResultXMLFile;
+            }
         }
     }
 }
