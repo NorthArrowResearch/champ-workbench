@@ -1993,5 +1993,18 @@ namespace CHaMPWorkbench
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
         }
+
+        private void exportMetricValuesForSelectedVisitsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Experimental.Philip.frmExportMetricValues frm = new Experimental.Philip.frmExportMetricValues(GetSelectedVisitsList());
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

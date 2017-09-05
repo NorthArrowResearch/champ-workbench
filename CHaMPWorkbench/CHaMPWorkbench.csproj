@@ -394,6 +394,12 @@
     </Compile>
     <Compile Include="Experimental\James\NumericExtensions.cs" />
     <Compile Include="Experimental\James\USGS_StreamData.cs" />
+    <Compile Include="Experimental\Philip\frmExportMetricValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Experimental\Philip\frmExportMetricValues.Designer.cs">
+      <DependentUpon>frmExportMetricValues.cs</DependentUpon>
+    </Compile>
     <Compile Include="Experimental\Philip\frmLambdaInvoke.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -503,6 +509,7 @@
     <Compile Include="naru\ui\DataGridViewHelpers.cs" />
     <Compile Include="naru\ui\ProgressBar.cs" />
     <Compile Include="naru\ui\SortableBindingList.cs" />
+    <Compile Include="naru\ui\Textbox.cs" />
     <Compile Include="naru\web\web.cs" />
     <Compile Include="naru\xml\XMLHelpers.cs" />
     <Compile Include="RasterMan\Rasterman.cs" />
@@ -671,6 +678,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\James\frmUSGS_StreamDataViewer.resx">
       <DependentUpon>frmUSGS_StreamDataViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Experimental\Philip\frmExportMetricValues.resx">
+      <DependentUpon>frmExportMetricValues.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Experimental\Philip\frmLambdaInvoke.resx">
       <DependentUpon>frmLambdaInvoke.cs</DependentUpon>

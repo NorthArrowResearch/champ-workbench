@@ -190,6 +190,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -802,6 +803,7 @@
             this.exportAWSLookupToolStripMenuItem,
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem,
             this.exportSelectedVisitInformationToolStripMenuItem,
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem,
             this.scavengeTopoMetricsToolStripMenuItem,
             this.toolStripSeparator4,
             this.uploadTopoSurveyProjectToolStripMenuItem,
@@ -1589,6 +1591,13 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // exportMetricValuesForSelectedVisitsToolStripMenuItem
+            // 
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Name = "exportMetricValuesForSelectedVisitsToolStripMenuItem";
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Text = "Export Metric Values For Selected Visits...";
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Click += new System.EventHandler(this.exportMetricValuesForSelectedVisitsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1788,6 +1797,7 @@
         private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMetricValuesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scrapValidationLogXMLFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportMetricValuesForSelectedVisitsToolStripMenuItem;
     }
 }
 

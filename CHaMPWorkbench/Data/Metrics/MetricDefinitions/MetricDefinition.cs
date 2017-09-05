@@ -231,6 +231,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
         {
             int nExportedMetrics = 0;
 
+
             XmlDocument xmlDoc = new XmlDocument();
 
             XmlNode nodSchema = xmlDoc.CreateElement("MetricSchema");
@@ -240,8 +241,8 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             attNameSpace.InnerText = "http://www.w3.org/2001/XMLSchema-instance";
             nodSchema.Attributes.Append(attNameSpace);
 
-            XmlAttribute attSchema = xmlDoc.CreateAttribute("xsi:noNamespaceSchemaLocation");
-            attSchema.InnerText = "XSD/schema.xsd";
+            XmlAttribute attSchema = xmlDoc.CreateAttribute("noNamespaceSchemaLocation", attNameSpace.InnerText);
+            attSchema.InnerText = "https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/XSD/schema.xsd";
             nodSchema.Attributes.Append(attSchema);
 
             //Create an XML declaration. 
@@ -290,11 +291,13 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
                     attXPath.InnerText = sFullXPath.Replace(sXPathRoot, "").TrimStart('/');
                     nodMetric.Attributes.Append(attXPath);
 
-                    XmlAttribute attPrecision = xmlDoc.CreateAttribute("precision");
-                    nodMetric.Attributes.Append(attPrecision);
                     long? nPrecision = naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision");
                     if (nPrecision.HasValue)
+                    {
+                        XmlAttribute attPrecision = xmlDoc.CreateAttribute("precision");
+                        nodMetric.Attributes.Append(attPrecision);
                         attPrecision.InnerText = nPrecision.ToString();
+                    }
 
                     XmlAttribute attType = xmlDoc.CreateAttribute("type");
                     attType.InnerText = dbRead.GetString(dbRead.GetOrdinal("DataTypeName")).ToLower();
