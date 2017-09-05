@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Classes
             DBCon = sDBCon;
         }
 
-        public List<string> Run(ref Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchema> MetricSchemas)
+        public List<string> Run(ref Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchemaWithDefs> MetricSchemas)
         {
             List<string> messages = new List<string>();
             XmlDocument xmlDoc = new XmlDocument();
@@ -32,8 +32,8 @@ namespace CHaMPWorkbench.Classes
 
                 foreach (string sMetricTypeName in MetricSchemas.Keys)
                 {
-                    xmlDoc.Load(MetricSchemas[sMetricTypeName].XMLDefinition);
-                    string sMetricXMLFileName = System.IO.Path.GetFileName(MetricSchemas[sMetricTypeName].XMLDefinition);
+                    xmlDoc.Load(MetricSchemas[sMetricTypeName].MetricSchemaXMLFile);
+                    string sMetricXMLFileName = System.IO.Path.GetFileName(MetricSchemas[sMetricTypeName].MetricSchemaXMLFile);
 
                     XmlNode nodRoot = xmlDoc.SelectSingleNode("/MetricSchema/RootXPath");
                     if (nodRoot == null)
@@ -87,7 +87,7 @@ namespace CHaMPWorkbench.Classes
                 }
             }
 
-            foreach (Experimental.Philip.frmMetricScraper.MetricSchema schema in MetricSchemas.Values)
+            foreach (Experimental.Philip.frmMetricScraper.MetricSchemaWithDefs schema in MetricSchemas.Values)
             {
                 List<string> uniqueMetricIDs = new List<string>();
 

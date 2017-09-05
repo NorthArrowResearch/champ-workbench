@@ -115,6 +115,7 @@
             this.uploadTopoSurveyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runAWSAutomationWorkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyMetricValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scrapValidationLogXMLFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -189,7 +190,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scrapValidationLogXMLFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -845,7 +845,7 @@
             // 
             this.scavengeTopoMetricsToolStripMenuItem.Name = "scavengeTopoMetricsToolStripMenuItem";
             this.scavengeTopoMetricsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.scavengeTopoMetricsToolStripMenuItem.Text = "Scavenge Topo Metrics...";
+            this.scavengeTopoMetricsToolStripMenuItem.Text = "Scrape Metric XML Files...";
             this.scavengeTopoMetricsToolStripMenuItem.Click += new System.EventHandler(this.scavengeTopoMetricsToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
@@ -875,6 +875,13 @@
             this.copyMetricValuesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.copyMetricValuesToolStripMenuItem.Text = "Copy Metric Values...";
             this.copyMetricValuesToolStripMenuItem.Click += new System.EventHandler(this.copyMetricValuesToolStripMenuItem_Click);
+            // 
+            // scrapValidationLogXMLFilesToolStripMenuItem
+            // 
+            this.scrapValidationLogXMLFilesToolStripMenuItem.Name = "scrapValidationLogXMLFilesToolStripMenuItem";
+            this.scrapValidationLogXMLFilesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.scrapValidationLogXMLFilesToolStripMenuItem.Text = "Scrape Validation Log XML Files...";
+            this.scrapValidationLogXMLFilesToolStripMenuItem.Click += new System.EventHandler(this.scrapValidationLogXMLFilesToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
@@ -1581,13 +1588,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(355, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
-            // 
-            // scrapValidationLogXMLFilesToolStripMenuItem
-            // 
-            this.scrapValidationLogXMLFilesToolStripMenuItem.Name = "scrapValidationLogXMLFilesToolStripMenuItem";
-            this.scrapValidationLogXMLFilesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.scrapValidationLogXMLFilesToolStripMenuItem.Text = "Scrape Validation Log XML Files...";
-            this.scrapValidationLogXMLFilesToolStripMenuItem.Click += new System.EventHandler(this.scrapValidationLogXMLFilesToolStripMenuItem_Click);
             // 
             // MainForm
             // 

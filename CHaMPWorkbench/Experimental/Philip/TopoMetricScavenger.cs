@@ -17,7 +17,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         }
 
-        public int Run(string sFolder, string sFileName, Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchema> MetricSchemas, bool bUseXMLModelVersion, string sModelVersion, long nScavengeTypeID)
+        public int Run(string sFolder, string sFileName, Dictionary<string, Experimental.Philip.frmMetricScraper.MetricSchemaWithDefs> MetricSchemas, bool bUseXMLModelVersion, string sModelVersion, long nScavengeTypeID)
         {
             int nFilesProcessed = 0;
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
@@ -27,8 +27,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                 // Load the tier 1 and tier 2 types. The keys in the dict below are Look-up list ID 2 and the 
                 // arguments to the method are corresponding ListIDs for each set of tier types (5 = Tier 1, 11 = Tier 2)
                 Dictionary<long, Dictionary<string, long>> dTierTypes = new Dictionary<long, Dictionary<string, long>>();
-                dTierTypes[4] = LoadTierTypes(5);
-                dTierTypes[5] = LoadTierTypes(11);
+                dTierTypes[5] = LoadTierTypes(5);
+                dTierTypes[11] = LoadTierTypes(11);
 
                 List<long> lVisitIDs = LoadVisitIDs();
 
@@ -36,64 +36,63 @@ namespace CHaMPWorkbench.Experimental.Philip
 
                 try
                 {
-                    SQLiteCommand comResult = new SQLiteCommand("INSERT INTO Metric_Results (ResultFile, ModelVersion, VisitID, RunDateTime, ScavengeTypeID) VALUES (@ResultFile, @ModelVersion, @VisitID, @RunDateTime, 1)", dbTrans.Connection, dbTrans);
-                    SQLiteParameter pResultFile = comResult.Parameters.Add("ResultFile", System.Data.DbType.String);
-                    SQLiteParameter pModelVersion = comResult.Parameters.Add("ModelVersion", System.Data.DbType.String);
-                    SQLiteParameter pVisitID = comResult.Parameters.Add("VisitID", System.Data.DbType.Int64);
-                    SQLiteParameter pRunDateTime = comResult.Parameters.Add("RunDateTime", System.Data.DbType.DateTime);
-                    comResult.Parameters.AddWithValue("ScavengeTypeID", nScavengeTypeID);
-
-                    SQLiteCommand comResultID = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-
-                    XmlDocument xmlDoc = new XmlDocument();
-                    foreach (string xmlFile in System.IO.Directory.GetFiles(sFolder, sFileName, System.IO.SearchOption.AllDirectories))
+                    foreach (string sMetricSchemaName in MetricSchemas.Keys)
                     {
-                        xmlDoc.Load(xmlFile);
+                        long batchID = GetBatchID(ref dbTrans, MetricSchemas[sMetricSchemaName].ID, nScavengeTypeID);
 
-                        XmlNode nodVisitID = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/VisitID");
-                        XmlNode nodRunDate = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/DateCreated");
-
-                        if (bUseXMLModelVersion)
+                        XmlDocument xmlDoc = new XmlDocument();
+                        foreach (string xmlFile in System.IO.Directory.GetFiles(sFolder, sFileName, System.IO.SearchOption.AllDirectories))
                         {
-                            XmlNode nodVersion = xmlDoc.SelectSingleNode("/TopoMetrics/Meta/Version");
-                            sModelVersion = nodVersion.InnerText;
-                        }
-                    
-                        if (nodVisitID is XmlNode && nodRunDate is XmlNode && !string.IsNullOrEmpty(sModelVersion))
-                        {
-                            long nVisitID = long.Parse(nodVisitID.InnerText);
 
-                            // Can only scrape metrics if the visit already exists in the database
-                            if (!lVisitIDs.Contains<long>(nVisitID))
-                                continue;
+                            xmlDoc.Load(xmlFile);
 
-                            pResultFile.Value = xmlFile;
-                            pModelVersion.Value = sModelVersion;
-                            pVisitID.Value = nVisitID;
-                            pRunDateTime.Value = DateTime.Parse(nodRunDate.InnerText);
-                            comResult.ExecuteNonQuery();
-                            long nResultID = (long)comResultID.ExecuteScalar();
+                            XmlNode nodVisitID = xmlDoc.SelectSingleNode("/*/Meta/VisitID");
+                            XmlNode nodRunDate = xmlDoc.SelectSingleNode("/*/Meta/DateCreated");
 
-
-                            foreach (string sMetricSchemaName in MetricSchemas.Keys)
+                            if (bUseXMLModelVersion)
                             {
-                                switch (MetricSchemas[sMetricSchemaName].MetricTypeID)
+                                XmlNode nodVersion = xmlDoc.SelectSingleNode("/*/Meta/Version");
+                                sModelVersion = nodVersion.InnerText;
+                            }
+
+                            if (nodVisitID is XmlNode && nodRunDate is XmlNode && !string.IsNullOrEmpty(sModelVersion))
+                            {
+                                long nVisitID = long.Parse(nodVisitID.InnerText);
+
+                                // Can only scrape metrics if the visit already exists in the database
+                                if (!lVisitIDs.Contains<long>(nVisitID))
+                                    continue;
+
+                                long nInstanceID = InsertMetricInstance(ref dbTrans, batchID, nVisitID, DateTime.Parse(nodRunDate.InnerText), sModelVersion);
+
+                                switch (MetricSchemas[sMetricSchemaName].DatabaseTable.ToLower())
                                 {
-                                    case 3:
-                                        ScrapeVisitMetrics(nResultID, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
+                                    case "metric_visitmetrics":
+                                        ScrapeVisitMetrics(nInstanceID, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
                                         break;
 
-                                    case 6:
-                                        ScrapeChannelUnitMetrics(nResultID, nVisitID, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
+                                    case "metric_channelunitmetrics":
+                                        ScrapeChannelUnitMetrics(nInstanceID, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
+                                        break;
+
+                                    case "metric_tiermetrics":
+                                        long nTierListID = 5;
+                                        string sTierXMLTag = "Tier1";
+                                        if (MetricSchemas[sMetricSchemaName].Name.Contains("2"))
+                                        {
+                                            sTierXMLTag = "Tier2";
+                                            nTierListID = 11;
+                                        }
+
+                                        ScrapeTierMetrics(nInstanceID, dTierTypes[nTierListID], sTierXMLTag, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
                                         break;
 
                                     default:
-                                        ScrapeTierMetrics(nResultID, dTierTypes[MetricSchemas[sMetricSchemaName].MetricTypeID], MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
-                                        break;
+                                        throw new Exception(string.Format("Unhandled metric database type '{0}'", MetricSchemas[sMetricSchemaName].DatabaseTable));
                                 }
-                            }
 
-                            nFilesProcessed++;
+                                nFilesProcessed++;
+                            }
                         }
                     }
 
@@ -109,10 +108,77 @@ namespace CHaMPWorkbench.Experimental.Philip
             return nFilesProcessed;
         }
 
-        private void ScrapeVisitMetrics(long nResultID, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
+        private long GetBatchID(ref SQLiteTransaction dbTrans, long schemaID, long scavengeTypeID)
         {
-            SQLiteCommand comVisitMetrics = new SQLiteCommand("INSERT INTO Metric_VisitMetrics (ResultID, MetricID, MetricValue) VALUES (@ResultID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
-            comVisitMetrics.Parameters.AddWithValue("ResultID", nResultID);
+            long nBatchID = 0;
+
+            if (scavengeTypeID == 1)
+            {
+                // AWS automation run. See if there is an existing batch ID to reuse
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT BatchID FROM Metric_Batches WHERE (SchemaID = @SchemaID) AND (ScavengeTypeID = @ScavengeTypeID)", dbTrans.Connection, dbTrans);
+                dbCom.Parameters.AddWithValue("SchemaID", schemaID);
+                dbCom.Parameters.AddWithValue("ScavengeTypeID", scavengeTypeID);
+                nBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);
+            }
+
+            if (nBatchID < 1)
+            {
+                try
+                {
+                    SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Batches (SchemaID, ScavengeTypeID, Title) VALUES (@SchemaID, @ScavengeTypeID, 'API Download')", dbTrans.Connection, dbTrans);
+                    dbCom.Parameters.AddWithValue("SchemaID", schemaID);
+                    dbCom.Parameters.AddWithValue("ScavengeTypeID", scavengeTypeID);
+                    dbCom.ExecuteNonQuery();
+
+                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+                    nBatchID = (long)dbCom.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error inserting new metric batch.", ex);
+                }
+            }
+            return nBatchID;
+        }
+
+        /// <summary>
+        /// Delete existing metrics for this schema THAT HAVE DOWNLOAD SCAVENGE TYPE
+        /// </summary>
+        /// <param name="dbTrans">Database transaction</param>
+        /// <param name="nBatchID">Batch that represents this schema and scavenge type</param>
+        /// <param name="visitID">The visit that is being downloaded and needs to have its metrics cleared</param>
+        private void DeleteExistingMetrics(ref SQLiteTransaction dbTrans, long nBatchID, long visitID)
+        {
+            SQLiteCommand dbCom = new SQLiteCommand("DELETE FROM Metric_Instances WHERE (BatchID = @BatchID) AND (VisitID = @VisitID)", dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("BatchID", nBatchID);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
+            dbCom.ExecuteNonQuery();
+        }
+
+        private long InsertMetricInstance(ref SQLiteTransaction dbTrans, long batchID, long visitID, DateTime? dbMetricsCreatedOn, string sModelVersion)
+        {
+            string sMetricsCalculatedOn = string.Empty;
+
+            // Delete existing metric instance and associated values.
+            DeleteExistingMetrics(ref dbTrans, batchID, visitID);
+
+            SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Instances (BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn)" +
+                " VALUES (@BatchID, @VisitID, @ModelVersion, @MetricsCalculatedOn, NULL)", dbTrans.Connection, dbTrans);
+            dbCom.Parameters.AddWithValue("BatchID", batchID);
+            dbCom.Parameters.AddWithValue("VisitID", visitID);
+            naru.db.sqlite.SQLiteHelpers.AddDateTimeParameterN(ref dbCom, dbMetricsCreatedOn, "MetricsCalculatedOn");
+            naru.db.sqlite.SQLiteHelpers.AddStringParameterN(ref dbCom, sModelVersion, "ModelVersion");
+            dbCom.ExecuteNonQuery();
+
+            dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
+            long instanceID = (long)dbCom.ExecuteScalar();
+            return instanceID;
+        }
+
+        private void ScrapeVisitMetrics(long nInstanceID, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
+        {
+            SQLiteCommand comVisitMetrics = new SQLiteCommand("INSERT INTO Metric_VisitMetrics (InstanceID, MetricID, MetricValue) VALUES (@InstanceID, @MetricID, @MetricValue)", dbTrans.Connection, dbTrans);
+            comVisitMetrics.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = comVisitMetrics.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = comVisitMetrics.Parameters.Add("MetricValue", System.Data.DbType.Double);
 
@@ -135,23 +201,13 @@ namespace CHaMPWorkbench.Experimental.Philip
             }
         }
 
-        private void ScrapeChannelUnitMetrics(long nResultID, long nVisitID, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
+        private void ScrapeChannelUnitMetrics(long nInstanceID, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
         {
-            SQLiteCommand comInsert = new SQLiteCommand("INSERT INTO Metric_ChannelUnitMetrics (ResultID, MetricID, ChannelUnitID, ChannelUnitNumber, MetricValue) VALUES (@ResultID, @MetricID, @ChannelUnitID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);
-            comInsert.Parameters.AddWithValue("ResultID", nResultID);
+            SQLiteCommand comInsert = new SQLiteCommand("INSERT INTO Metric_ChannelUnitMetrics (InstanceID, MetricID, ChannelUnitNumber, MetricValue) VALUES (@InstanceID, @MetricID, @ChannelUnitNumber, @MetricValue)", dbTrans.Connection, dbTrans);
+            comInsert.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = comInsert.Parameters.Add("MetricID", System.Data.DbType.Int64);
-            SQLiteParameter pChannelUnitID = comInsert.Parameters.Add("ChannelUnitID", System.Data.DbType.Int64);
             SQLiteParameter pMetricChannelUnitNumber = comInsert.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
-
             SQLiteParameter pMetricValue = comInsert.Parameters.Add("MetricValue", System.Data.DbType.Double);
-
-            //using (SQLiteConnection dbCon = new SQLiteConnection(dbTrans.Connection.ConnectionString))
-            //{
-            //    dbCon.Open();
-
-            SQLiteCommand comCUID = new SQLiteCommand("SELECT ID AS ChannelUnitID FROM CHaMP_ChannelUnits WHERE (VisitID = @VisitID) AND (ChannelUnitNumber = @ChannelUnitNumber)", dbTrans.Connection, dbTrans);
-            comCUID.Parameters.AddWithValue("VisitID", nVisitID);
-            SQLiteParameter pChannelUnitNumber = comCUID.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
 
             // Loop over each of the metrics defined in metric schema XML document
             foreach (MetricDef metric in MetricDefs.Values)
@@ -168,31 +224,24 @@ namespace CHaMPWorkbench.Experimental.Philip
                     XmlNode nodCU = nodMetric.ParentNode.SelectSingleNode("ChannelUnitNumber");
                     if (nodCU is XmlNode && !string.IsNullOrEmpty(nodCU.InnerText) && long.TryParse(nodCU.InnerText, out nChannelUnitNumber))
                     {
-                        // Retrieve the channel unit number from the CHaMP_ChannelUnits table
-                        pChannelUnitNumber.Value = nChannelUnitNumber;
-                        object objCUID = comCUID.ExecuteScalar();
-                        if (objCUID != null && objCUID != DBNull.Value)
-                        {
-                            double fMetricValue;
-                            if (!string.IsNullOrEmpty(nodMetric.InnerText) && double.TryParse(nodMetric.InnerText, out fMetricValue))
-                                pMetricValue.Value = fMetricValue;
-                            else
-                                pMetricValue.Value = DBNull.Value;
+                        double fMetricValue;
+                        if (!string.IsNullOrEmpty(nodMetric.InnerText) && double.TryParse(nodMetric.InnerText, out fMetricValue))
+                            pMetricValue.Value = fMetricValue;
+                        else
+                            pMetricValue.Value = DBNull.Value;
 
-                            pChannelUnitID.Value = (long)objCUID;
-                            pMetricChannelUnitNumber.Value = nChannelUnitNumber;
-                            pMetricID.Value = metric.ID;
-                            comInsert.ExecuteNonQuery();
-                        }
+                        pMetricChannelUnitNumber.Value = nChannelUnitNumber;
+                        pMetricID.Value = metric.ID;
+                        comInsert.ExecuteNonQuery();
                     }
                 }
             }
         }
 
-        private void ScrapeTierMetrics(long nResultID, Dictionary<string, long> dTierTypes, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
+        private void ScrapeTierMetrics(long nInstanceID, Dictionary<string, long> dTierTypes, string sTierXMLTag, Dictionary<string, MetricDef> MetricDefs, ref XmlDocument xmlDoc, ref SQLiteTransaction dbTrans)
         {
-            SQLiteCommand comInsert = new SQLiteCommand("INSERT INTO Metric_TierMetrics (ResultID, MetricID, TierID, MetricValue) VALUES (@ResultID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
-            comInsert.Parameters.AddWithValue("ResultID", nResultID);
+            SQLiteCommand comInsert = new SQLiteCommand("INSERT INTO Metric_TierMetrics (InstanceID, MetricID, TierID, MetricValue) VALUES (@InstanceID, @MetricID, @TierID, @MetricValue)", dbTrans.Connection, dbTrans);
+            comInsert.Parameters.AddWithValue("InstanceID", nInstanceID);
             SQLiteParameter pMetricID = comInsert.Parameters.Add("MetricID", System.Data.DbType.Int64);
             SQLiteParameter pTierID = comInsert.Parameters.Add("TierID", System.Data.DbType.Int64);
             SQLiteParameter pMetricValue = comInsert.Parameters.Add("MetricValue", System.Data.DbType.Double);
@@ -204,7 +253,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                 foreach (XmlNode nodMetric in xmlDoc.SelectNodes(metric.XPath))
                 {
                     // Get the tier type name from the sibling node to the metric
-                    XmlNode nodTier = nodMetric.ParentNode.SelectSingleNode("Name");
+                    XmlNode nodTier = nodMetric.ParentNode.SelectSingleNode(sTierXMLTag);
                     if (nodTier is XmlNode && !string.IsNullOrEmpty(nodTier.InnerText))
                     {
                         if (dTierTypes.ContainsKey(nodTier.InnerText))

@@ -52,11 +52,11 @@ namespace CHaMPWorkbench.Experimental.Philip
                 CHaMPWorkbench.Properties.Settings.Default.Save();
 
                 Classes.MetricXPathValidator x = new Classes.MetricXPathValidator(naru.db.sqlite.DBCon.ConnectionString);
-                Dictionary<string, MetricSchema> MetricSchemas = new Dictionary<string, MetricSchema>();
-                MetricSchemas["Visit Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoVisitMetrics.xml", 3);
-                MetricSchemas["Channel Unit Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoChannelUnitMetrics.xml", 6);
-                MetricSchemas["Tier 1 Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier1Metrics.xml", 4);
-                MetricSchemas["Tier 2 Metrics"] = new MetricSchema(@"https://raw.githubusercontent.com/Riverscapes/CHaMPAutomation/master/templates/XML/TopoTier2Metrics.xml", 5);
+
+                // Get the metric schema from the dropdown and then build one of the local schema objects that's used to verify metrics
+                CHaMPData.MetricSchema schema = (CHaMPData.MetricSchema)cboMetricSchema.SelectedItem;
+                Dictionary<string, MetricSchemaWithDefs> MetricSchemas = new Dictionary<string, MetricSchemaWithDefs>();
+                MetricSchemas[schema.Name] = new MetricSchemaWithDefs(schema);
 
                 List<string> lErros = x.Run(ref MetricSchemas);
                 if (chkVerify.Checked && lErros.Count > 0)
@@ -70,7 +70,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                 }
 
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
-                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas, rdoXMLModelVersion.Checked, txtModelVersion.Text, ((naru.db.NamedObject) cboScavengeType.SelectedItem).ID);
+                int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas, rdoXMLModelVersion.Checked, txtModelVersion.Text, ((naru.db.NamedObject)cboScavengeType.SelectedItem).ID);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
                 MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -92,14 +92,38 @@ namespace CHaMPWorkbench.Experimental.Philip
                 return false;
             }
 
+            if (!(cboMetricSchema.SelectedItem is CHaMPData.MetricSchema))
+            {
+                MessageBox.Show("You must select the metric schema for the types of XML files that you want to scrape.", "Invalid Metric Schema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboMetricSchema.Select();
+                return false;
+            }
+
             if (string.IsNullOrEmpty(txtFileName.Text))
             {
                 MessageBox.Show("You must specify the name of the metric XML files to scrape. Wildcards (* and ?) are allowed.", "Invalid Metric XML File Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtFileName.Select();
                 return false;
             }
+            else
+            {
+                CHaMPData.MetricSchema schema = (CHaMPData.MetricSchema)cboMetricSchema.SelectedItem;
+                if (schema.HasMetricResultXMLFile)
+                {
+                    if (string.Compare(txtFileName.Text, schema.MetricResultXMLFile, false) != 0)
+                    {
+                        if (MessageBox.Show(string.Format("The result file name '{0}' does not match the default file name {1} for the {2} metric schema. Do you want to proceed?",
+                            txtFileName.Text, schema.MetricResultXMLFile, schema.Name), "Verify Result File Name",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                        {
+                            txtFileName.Select();
+                            return false;
+                        }
+                    }
+                }
+            }
 
-            if (cboScavengeType.SelectedIndex<0)
+            if (cboScavengeType.SelectedIndex < 0)
             {
                 MessageBox.Show("You must select a scavenge type.", "Missing Scavenge Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cboScavengeType.Select();
@@ -131,18 +155,13 @@ namespace CHaMPWorkbench.Experimental.Philip
             naru.os.Folder.BrowseFolder(ref txtFolder, "Top Level Metric Folder", txtFolder.Text);
         }
 
-        public class MetricSchema
+        public class MetricSchemaWithDefs : CHaMPData.MetricSchema
         {
-            public string XMLDefinition { get; internal set; }
-            public long MetricTypeID { get; internal set; } // Matches LookupListID = 2 in Workbench DB
-
             public Dictionary<string, MetricDef> MetricDefs { get; internal set; }
 
-            public MetricSchema(string sXMLDefinition, long nMetricTypeID)
+            public MetricSchemaWithDefs(CHaMPData.MetricSchema schema)
+                : base(schema.ID, schema.Name, schema.MetricResultXMLFile, schema.MetricSchemaXMLFile, schema.ProgramID, schema.ProgramName, schema.RootXPath, schema.DatabaseTable)
             {
-                XMLDefinition = sXMLDefinition;
-                MetricTypeID = nMetricTypeID;
-
                 MetricDefs = new Dictionary<string, MetricDef>();
             }
         }
