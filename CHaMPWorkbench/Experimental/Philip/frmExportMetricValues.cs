@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Data.SQLite;
 
 namespace CHaMPWorkbench.Experimental.Philip
 {
     public partial class frmExportMetricValues : Form
     {
         List<CHaMPData.VisitBasic> Visits { get; set; }
+
+        private const string NODATAVALUE = "-9999";
 
         public frmExportMetricValues(List<CHaMPData.VisitBasic> lVisits)
         {
@@ -23,7 +27,7 @@ namespace CHaMPWorkbench.Experimental.Philip
         private void frmExportMetricValues_Load(object sender, EventArgs e)
         {
             txtVisits.Text = Visits.Count.ToString("#,##0");
-            naru.ui.Textbox.SetTextBoxToFolder(ref txtOutputFolder, Properties.Settings.Default.MonitoringDataFolder);
+            naru.ui.Textbox.SetTextBoxToFolder(ref txtOutputFolder, Properties.Settings.Default.InputOutputFolder);
             cboMetricSchema.DataSource = Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch.Load();
             cboMetricSchema.DisplayMember = "Name";
             cboMetricSchema.ValueMember = "ID";
@@ -33,7 +37,7 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         private bool ValidateForm()
         {
-            if (cboMetricSchema.SelectedIndex<0)
+            if (cboMetricSchema.SelectedIndex < 0)
             {
                 MessageBox.Show("You must select a metric schema to continue.", "Missing Metric Schema", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cboMetricSchema.Select();
@@ -57,12 +61,120 @@ namespace CHaMPWorkbench.Experimental.Philip
                 return;
             }
 
+            try
+            {
+                Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch batch = (Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch)cboMetricSchema.SelectedItem;
+                CHaMPData.MetricSchema schema = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString)[batch.SchemaID];
+
+                foreach (CHaMPData.VisitBasic visit in Visits)
+                {
+                    string sVisitFolder = visit.VisitFolderAbsolute(txtOutputFolder.Text);
+                    string smetricFile = schema.MetricResultXMLFile;
+
+                    XmlDocument xmlDoc = new XmlDocument();
+
+
+                    switch (schema.DatabaseTable.ToLower())
+                    {
+                        case "metric_visitmetrics":
+                            BuildVisitMetricXML(ref xmlDoc, batch.ID, visit.ID);
+                            break;
+
+
+                        case "metric_tiermetrics":
+                            BuildTierMetricXML(ref xmlDoc, batch.ID, visit.ID);
+                            break;
+
+
+                        case "metric_channelunitmetrics":
+                            BuildChannelUnitMetricXML(ref xmlDoc, batch.ID, visit.ID);
+                            break;
+
+                        default:
+                            throw new Exception(string.Format("Unhandled metric schema database table '{0}'", schema.DatabaseTable));
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
 
         }
 
         private void cmdBrowseOutput_Click(object sender, EventArgs e)
         {
             naru.ui.Textbox.BrowseFolder(ref txtOutputFolder);
+        }
+
+        private void BuildVisitMetricXML(ref XmlDocument xmlDoc, long batchID, long visitID)
+        {
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                SQLiteCommand dbCom = new SQLiteCommand("SELECT XPath, MetricValue, DataTypeID, Precision" +
+                    " FROM Metric_VisitMetrics M" +
+                        " INNER JOIN Metric_Instances I ON M.InstanceID = I.InstanceID" +
+                        " INNER JOIN Metric_Batches B ON I.BatchID = B.BatchID" +
+                        " INNER JOIN Metric_Definitions D ON M.MetricID = D.MetricID" +
+                    " WHERE (B.BatchID = @BatchID) AND (I.VisitID = @VisitID)", dbCon);
+                dbCom.Parameters.AddWithValue("BatchID", batchID);
+                dbCom.Parameters.AddWithValue("VisitID", visitID);
+
+                SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                while (dbRead.Read())
+                {
+                    long? precision = naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision");
+                    long metricDataTypeID = dbRead.GetInt64(dbRead.GetOrdinal("DataTypeID"));
+                    double? metricValue = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
+                    string xpath = dbRead.GetString(dbRead.GetOrdinal("XPath"));
+                    string[] xpathParts = xpath.Split(',');
+
+                    int partIndex = 0;
+                    XmlNode nod = null;
+                    while (partIndex < xpathParts.Length)
+                        nod = InsertXMLNode(ref xmlDoc, ref nod, xpathParts[partIndex]);
+
+                    if (metricValue.HasValue)
+                    {
+                        if (metricDataTypeID == 10023 && precision.HasValue) // numeric
+                            nod.InnerText = metricValue.Value.ToString(string.Format("0.{0}", precision));
+                        else
+                            nod.InnerText = metricValue.ToString();
+                    }
+                    else
+                        nod.InnerText = NODATAVALUE;
+
+                }
+
+
+            }
+
+        }
+        
+        private void BuildTierMetricXML(ref XmlDocument xmlDoc, long batchID, long visitID)
+        {
+
+        }
+        
+        private void BuildChannelUnitMetricXML(ref XmlDocument xmlDoc, long batchID, long visitID)
+        {
+
+        }
+
+        private XmlNode InsertXMLNode(ref XmlDocument xmlDoc, ref XmlNode nodParent, string sNewNodeName)
+        {
+            XmlNode nodResult = nodParent.SelectSingleNode(sNewNodeName);
+            if (nodResult == null)
+            {
+                nodResult = xmlDoc.CreateElement(sNewNodeName);
+                nodParent.AppendChild(nodResult);
+            }
+            return nodResult;
         }
     }
 }
