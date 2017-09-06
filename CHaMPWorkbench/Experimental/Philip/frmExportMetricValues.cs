@@ -71,8 +71,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                     string sVisitFolder = visit.VisitFolderAbsolute(txtOutputFolder.Text);
                     string smetricFile = schema.MetricResultXMLFile;
 
+                    // Create the XML document but don't add the metadata information until after the nodes are inserted.
                     XmlDocument xmlDoc = new XmlDocument();
-
 
                     switch (schema.DatabaseTable.ToLower())
                     {
@@ -94,8 +94,25 @@ namespace CHaMPWorkbench.Experimental.Philip
                             throw new Exception(string.Format("Unhandled metric schema database table '{0}'", schema.DatabaseTable));
                     }
 
-                }
+                    // Create an XML declaration. 
+                    XmlDeclaration xmldecl;
+                    xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
+                    xmlDoc.InsertBefore(xmldecl, xmlDoc.DocumentElement);
 
+                    XmlNode nodMeta = xmlDoc.CreateElement("Meta");
+                    xmlDoc.DocumentElement.InsertBefore(nodMeta, xmlDoc.DocumentElement.SelectSingleNode("Metrics"));
+
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "DateCreated", DateTime.Now.ToString("o"));
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "Version", string.Empty);
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "VisitID", visit.ID.ToString());
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "NoData", NODATAVALUE);
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "Tool", "Exported from CHaMP Workbench");
+
+                    System.IO.Directory.CreateDirectory(sVisitFolder);
+                    string xmlPath = System.IO.Path.Combine(sVisitFolder, smetricFile);
+                    xmlPath = System.IO.Path.ChangeExtension(xmlPath, "xml");
+                    xmlDoc.Save(xmlPath);
+                }
             }
             catch (Exception ex)
             {
@@ -132,35 +149,38 @@ namespace CHaMPWorkbench.Experimental.Philip
                     long metricDataTypeID = dbRead.GetInt64(dbRead.GetOrdinal("DataTypeID"));
                     double? metricValue = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
                     string xpath = dbRead.GetString(dbRead.GetOrdinal("XPath"));
-                    string[] xpathParts = xpath.Split(',');
+                    string[] xpathParts = xpath.Split('/');
 
                     int partIndex = 0;
                     XmlNode nod = null;
                     while (partIndex < xpathParts.Length)
-                        nod = InsertXMLNode(ref xmlDoc, ref nod, xpathParts[partIndex]);
+                    {
+                        if (!string.IsNullOrEmpty(xpathParts[partIndex]))
+                            nod = InsertXMLNode(ref xmlDoc, ref nod, xpathParts[partIndex]);
+                        partIndex++;
+                    }
 
                     if (metricValue.HasValue)
                     {
                         if (metricDataTypeID == 10023 && precision.HasValue) // numeric
-                            nod.InnerText = metricValue.Value.ToString(string.Format("0.{0}", precision));
+                            if (precision > 0)
+                                nod.InnerText = metricValue.Value.ToString(string.Format("0.{0}", new string('0', (int)precision)));
+                            else
+                                nod.InnerText = metricValue.Value.ToString("0");
                         else
                             nod.InnerText = metricValue.ToString();
                     }
                     else
                         nod.InnerText = NODATAVALUE;
-
                 }
-
-
             }
-
         }
-        
+
         private void BuildTierMetricXML(ref XmlDocument xmlDoc, long batchID, long visitID)
         {
 
         }
-        
+
         private void BuildChannelUnitMetricXML(ref XmlDocument xmlDoc, long batchID, long visitID)
         {
 
@@ -168,12 +188,26 @@ namespace CHaMPWorkbench.Experimental.Philip
 
         private XmlNode InsertXMLNode(ref XmlDocument xmlDoc, ref XmlNode nodParent, string sNewNodeName)
         {
-            XmlNode nodResult = nodParent.SelectSingleNode(sNewNodeName);
+            XmlNode nodResult = null;
+            if (nodParent == null)
+            {
+                if (xmlDoc.DocumentElement == null)
+                {
+                    nodResult = xmlDoc.CreateElement(sNewNodeName);
+                    xmlDoc.AppendChild(nodResult);
+                    return nodResult;
+                }
+                else
+                    return xmlDoc.DocumentElement;
+            }
+
+            nodResult = nodParent.SelectSingleNode(sNewNodeName);
             if (nodResult == null)
             {
                 nodResult = xmlDoc.CreateElement(sNewNodeName);
                 nodParent.AppendChild(nodResult);
             }
+            
             return nodResult;
         }
     }
