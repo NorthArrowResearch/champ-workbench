@@ -125,7 +125,7 @@ namespace CHaMPWorkbench.Experimental.Philip
             {
                 try
                 {
-                    SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Batches (SchemaID, ScavengeTypeID, Title) VALUES (@SchemaID, @ScavengeTypeID, 'API Download')", dbTrans.Connection, dbTrans);
+                    SQLiteCommand dbCom = new SQLiteCommand("INSERT INTO Metric_Batches (SchemaID, ScavengeTypeID, Title) VALUES (@SchemaID, @ScavengeTypeID, 'Metric XML Scraper')", dbTrans.Connection, dbTrans);
                     dbCom.Parameters.AddWithValue("SchemaID", schemaID);
                     dbCom.Parameters.AddWithValue("ScavengeTypeID", scavengeTypeID);
                     dbCom.ExecuteNonQuery();
