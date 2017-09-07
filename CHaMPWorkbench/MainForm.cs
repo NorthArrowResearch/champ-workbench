@@ -80,9 +80,20 @@ namespace CHaMPWorkbench
 
                     if (MessageBox.Show(sMessage, "Database Upgrade Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
-                        db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired);
-                        MessageBox.Show(string.Format("Database upgraded to version {0}.", CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired), "Database Upgrade Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        bSuccess = true;
+                        try
+                        {
+                            db.Upgrade(CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired);
+                            MessageBox.Show(string.Format("Database upgraded to version {0}.", CHaMPWorkbench.Properties.Settings.Default.DBVersionRequired), "Database Upgrade Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            bSuccess = true;
+                        }
+                        catch (SQLiteException ex)
+                        {
+                            MessageBox.Show("The database update failed. This is likely because you have changed data in read only lookup tables that conflicts with the latest version." +
+                                " Your database has been reverted to its original state." +
+                                " You should create a new Workbench database and then manually compare the lookup table data to migrate your changes to the latest version.", "Database Update Failed",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            bSuccess = false;
+                        }
                     }
                     break;
 
@@ -216,8 +227,6 @@ namespace CHaMPWorkbench
                 {
                     if (string.Compare(dlg.FileName, DBCon.DatabasePath, true) == 0)
                         return;
-                    else
-                        DBCon.ConnectionString = string.Empty;
                 }
 
                 OpenDatabase(dlg.FileName);
