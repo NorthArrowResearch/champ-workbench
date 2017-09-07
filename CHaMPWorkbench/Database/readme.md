@@ -48,6 +48,32 @@ INSERT INTO table VALUES(1,1,'Model Run',0);
 
 
 
+# Creating a Database Update
+
+Follow these steps to generate a new software update.
+
+1. Identify the last used database version number. This will be the **base** version number.
+2. Generate a clean version of the **base** database:
+   1. Open a DOS prompt
+   2. Run the SQLite command line software.
+   3. Create an empty database with the command `.open base.db`
+   4. Generate the database structure with the command `.read latest.sql`
+3. Increment  the base version number by one to identify the **latest** version number.
+4. Identify the database that contains all the **latest** features.
+5. Confirm that the `VersionInfo` table in the **latest** database contains the latest version number and also todays date.
+6. Edit the batch file called `workbench_export.bat` and ensure that the database path correctly points to the latest database. 
+7. Run the `workbench_export.bat` file to generate a new file called `latest.sql`. This file now contains the DDL to generate a clean version of the latest database.
+8. Generate a new, clean copy of the latest database. Note that this database is subtly different than you're actual latest database. This *clean* copy should only contain the essential structural elements and lookup data, whereas your working copy might have CHaMP data and metrics in it.
+   1. Open a DOS prompt
+   2. Run the SQLite command line software.
+   3. Create an empty database with the command `.open latest.db`
+   4. Generate the database structure with the command `.read latest.sql`
+9. Generate the update DDL that will upgrade databases from the previous, base version to the latest version. Run the command `workbench_export_update.bat` at the DOS prompt.
+10. Rename the SQL script that's generated `update_XXX.sql` where XXX **must** be the 3 digit, zero padded, latest version number.
+11. Open and review the update script. Eyeball every command, but pay special attention to:
+    1. The last SQL command should be an UPDATE statement to `VersionInfo` that sets the database version to the latest version number and date.
+12. Delete the `base.db` and `latest.db` database files. They aren't needed any more and shouldn't go in git.
+
 ## Resources
 
 * [SQLite export features using .dump](http://www.sqlitetutorial.net/sqlite-dump/)
