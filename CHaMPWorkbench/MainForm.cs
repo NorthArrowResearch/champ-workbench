@@ -2017,6 +2017,11 @@ namespace CHaMPWorkbench
             }
         }
 
+        private void metricUploadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void selectProtocolsWithTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<long> protocolsWithTopoData = new List<long>() { 416, 806, 1880, 1955, 1966, 2020, 2030, 9999, 10036 };

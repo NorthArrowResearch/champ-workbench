@@ -355,6 +355,13 @@
     <Compile Include="Data\Metrics\Review\ucMetricReviewPlot.Designer.cs">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Metrics\Upload\frmMetricUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data\Metrics\Upload\frmMetricUpload.Designer.cs">
+      <DependentUpon>frmMetricUpload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Metrics\Upload\MetricUploader.cs" />
     <Compile Include="Data\ucPrograms.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -661,6 +668,9 @@
     <EmbeddedResource Include="Data\Metrics\Review\ucMetricReviewPlot.resx">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\Metrics\Upload\frmMetricUpload.resx">
+      <DependentUpon>frmMetricUpload.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\ucPrograms.resx">
       <DependentUpon>ucPrograms.cs</DependentUpon>
     </EmbeddedResource>
@@ -903,6 +913,7 @@
     <Content Include="Database\update_046.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\metric_upload.png" />
     <Content Include="Validation\ReportTransforms\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

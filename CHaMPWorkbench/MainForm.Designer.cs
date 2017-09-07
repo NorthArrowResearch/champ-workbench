@@ -54,6 +54,7 @@
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.metricDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metricUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -335,6 +336,7 @@
             this.toolStripSeparator7,
             this.metricDefinitionsToolStripMenuItem,
             this.metricDownloadToolStripMenuItem,
+            this.metricUploadToolStripMenuItem,
             this.toolStripSeparator18,
             this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
@@ -392,6 +394,14 @@
             this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
             this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
+            // 
+            // metricUploadToolStripMenuItem
+            // 
+            this.metricUploadToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.metric_upload;
+            this.metricUploadToolStripMenuItem.Name = "metricUploadToolStripMenuItem";
+            this.metricUploadToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricUploadToolStripMenuItem.Text = "Metric Upload...";
+            this.metricUploadToolStripMenuItem.Click += new System.EventHandler(this.metricUploadToolStripMenuItem_Click);
             // 
             // toolStripSeparator18
             // 
@@ -1833,6 +1843,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
+        private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtOrganization;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem metricDefinitionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tileVerticalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyMetricValuesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scrapValidationLogXMLFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportMetricValuesForSelectedVisitsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricUploadToolStripMenuItem;
     }
 }
 
