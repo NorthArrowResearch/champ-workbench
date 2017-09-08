@@ -1,0 +1,1 @@
+C:\ManualInstalls\SQLite_x86_3140200\sqlite3.exe base.db < base.sql
