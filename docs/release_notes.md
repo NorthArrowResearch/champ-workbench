@@ -3,8 +3,14 @@ title: Release Notes
 weight: 99
 ---
 
-### 7.0.19 - ????
+### 7.0.19 - 8 Sep 2017
 
+* Database Update 46
+	* Comprehensive clean-up of metric definitions
+	* Complete list of AWS worker processes
+	* Log file tables refactored to support validation log scraping
+* Metric schema export XML fixed
+* Scraping Validation XML logs into Workbench
 * Fixed int/long data type bug in user queries
 * CHaMP Data Sync
     * Reports when the API URL is incorrect
