@@ -99,7 +99,7 @@ namespace CHaMPWorkbench.Data.Metrics
                                 DeleteExistingMetrics(ref dbTrans, nBatchID, visit.ID);
 
                                 string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
-                                GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null);
+                                GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null, null, null);
                                 GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
 
                                 if (theMetrics.StatusCode == System.Net.HttpStatusCode.Unauthorized)
