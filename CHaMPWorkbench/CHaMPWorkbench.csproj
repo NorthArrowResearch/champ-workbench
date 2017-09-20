@@ -182,6 +182,7 @@
   <ItemGroup>
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
     <Compile Include="CHaMPData\DataSynchronizer.cs" />
+    <Compile Include="CHaMPData\MetricBatch.cs" />
     <Compile Include="CHaMPData\MetricSchema.cs" />
     <Compile Include="CHaMPData\Program.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
@@ -355,6 +356,12 @@
     <Compile Include="Data\Metrics\Review\ucMetricReviewPlot.Designer.cs">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Metrics\ucBatchPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\Metrics\ucBatchPicker.Designer.cs">
+      <DependentUpon>ucBatchPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Metrics\Upload\frmMetricUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -362,6 +369,7 @@
       <DependentUpon>frmMetricUpload.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Metrics\Upload\MetricUploader.cs" />
+    <Compile Include="Data\Metrics\Upload\SchemaDefinition.cs" />
     <Compile Include="Data\ucPrograms.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -667,6 +675,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\Metrics\Review\ucMetricReviewPlot.resx">
       <DependentUpon>ucMetricReviewPlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Metrics\ucBatchPicker.resx">
+      <DependentUpon>ucBatchPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\Metrics\Upload\frmMetricUpload.resx">
       <DependentUpon>frmMetricUpload.cs</DependentUpon>

@@ -28,7 +28,7 @@ namespace CHaMPWorkbench.Experimental.Philip
         {
             txtVisits.Text = Visits.Count.ToString("#,##0");
             naru.ui.Textbox.SetTextBoxToFolder(ref txtOutputFolder, Properties.Settings.Default.InputOutputFolder);
-            cboMetricSchema.DataSource = Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch.Load();
+            cboMetricSchema.DataSource = CHaMPData.MetricBatch.Load();
             cboMetricSchema.DisplayMember = "Name";
             cboMetricSchema.ValueMember = "ID";
 
@@ -63,8 +63,8 @@ namespace CHaMPWorkbench.Experimental.Philip
 
             try
             {
-                Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch batch = (Data.Metrics.CopyMetrics.frmCopyMetrics.MetricBatch)cboMetricSchema.SelectedItem;
-                CHaMPData.MetricSchema schema = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString)[batch.SchemaID];
+                CHaMPData.MetricBatch batch = (CHaMPData.MetricBatch)cboMetricSchema.SelectedItem;
+                CHaMPData.MetricSchema schema = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString)[batch.Schema.ID];
 
                 foreach (CHaMPData.VisitBasic visit in Visits)
                 {

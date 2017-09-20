@@ -30,7 +30,7 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
 
         private void frmMetricDefinitions_Load(object sender, EventArgs e)
         {
-            MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
+            MetricDefs = MetricDefinitions.MetricDefinition.LoadBindingList(naru.db.sqlite.DBCon.ConnectionString);
             grdData.AutoGenerateColumns = false;
             grdData.DataSource = MetricDefs;
             grdData.Dock = DockStyle.Fill;

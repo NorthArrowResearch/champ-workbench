@@ -66,10 +66,15 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             MetricSchemas = new List<long>();
         }
 
-        public static naru.ui.SortableBindingList<MetricDefinition> Load(string sDBCon)
+        public static naru.ui.SortableBindingList<MetricDefinition> LoadBindingList(string sDBCon)
         {
             List<MetricDefinition> lValues = Load(sDBCon, "SELECT * FROM vwMetricDefinitions ORDER BY Title").Values.ToList<MetricDefinition>();
             return new naru.ui.SortableBindingList<MetricDefinition>(lValues);
+        }
+
+        public static Dictionary<long, MetricDefinition> Load(string sDBCon)
+        {
+            return Load(sDBCon, "SELECT * FROM vwMetricDefinitions ORDER BY Title");
         }
 
         public static Dictionary<long, MetricDefinition> LoadBySchema(string sDBCon, long schemaID)

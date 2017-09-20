@@ -2019,7 +2019,15 @@ namespace CHaMPWorkbench
 
         private void metricUploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                Data.Metrics.Upload.frmMetricUpload frm = new Data.Metrics.Upload.frmMetricUpload();
+                frm.ShowDialog();
+            }
+            catch(Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
         }
 
         private void selectProtocolsWithTopoDataToolStripMenuItem_Click(object sender, EventArgs e)

@@ -16,5 +16,31 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             InitializeComponent();
         }
+
+        private void frmMetricUpload_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool ValidateForm()
+        {
+            if (!ucBatch.Validate())
+                return false;
+
+            return true;
+        }
+
+        private void cboOK_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MetricUploader uploader = new MetricUploader();
+                uploader.Run(ucBatch.SelectedBatches);
+            }
+            catch (Exception ex)
+            {
+                Classes.ExceptionHandling.NARException.HandleException(ex);
+            }
+        }
     }
 }

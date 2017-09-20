@@ -13,6 +13,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 {
     public partial class frmCopyMetrics : Form
     {
+        naru.ui.SortableBindingList<CHaMPData.MetricSchema> MetricSchemas { get; set; }
+
         public frmCopyMetrics()
         {
             InitializeComponent();
@@ -20,15 +22,11 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
         private void frmCopyMetrics_Load(object sender, EventArgs e)
         {
-            cboSource.DataSource = MetricBatch.Load();
-            cboSource.DisplayMember = "Name";
-            cboSource.ValueMember = "ID";
+            MetricSchemas = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.MetricSchema>());
+            cboDestination.DisplayMember = "Name";
+            cboDestination.ValueMember = "ID";
 
-            grdInfo.AutoGenerateColumns = false;
-            grdInfo.AllowUserToAddRows = false;
-            grdInfo.AllowUserToDeleteRows = false;
-            grdInfo.AllowUserToResizeRows = false;
-            grdInfo.RowHeadersVisible = false;
+            ucBatch.ProgramChanged += cboProgram_SelectedIndexChanged;
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -61,21 +59,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                     dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
                     long nDestinationBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);
 
-                    // Insert the metric instances
-                    dbCom = new SQLiteCommand("INSERT INTO Metric_Instances(BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn)" +
-                        "SELECT @DestBatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn FROM Metric_Instances WHERE BatchID = @SourceBatchID", dbCon, dbTrans);
-                    dbCom.Parameters.AddWithValue("SourceBatchID", sourceBatch.ID);
-                    dbCom.Parameters.AddWithValue("DestBatchID", nDestinationBatchID);
-                    dbCom.ExecuteNonQuery();
-
-                    // insert the metric values
-                    string sqlInsert = string.Empty;
-                    switch (sourceBatch.DatabaseTable.ToLower())
+                    foreach (CHaMPData.MetricBatch batch in ucBatch.SelectedBatches.Values)
                     {
-                        MetricBatch batch = (MetricBatch)aRow.DataBoundItem;
-                        if (!batch.Copy)
-                            continue;
-
                         // Insert the metric instances
                         dbCom = new SQLiteCommand("INSERT INTO Metric_Instances (BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn)" +
                         "SELECT @DestBatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn FROM Metric_Instances WHERE (BatchID = @SourceBatchID)" +
@@ -143,42 +128,26 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
         private bool ValidateForm()
         {
-            if (cboSource.SelectedIndex < 0)
-            {
-                MessageBox.Show("You must select a source metric schema.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cboSource.Select();
+            // Validate the user control of selected batches
+            if (!ucBatch.Validate())
                 return false;
-            }
 
             string sourceDBTable = string.Empty;
-            foreach (DataGridViewRow aRow in grdInfo.Rows)
+            foreach (CHaMPData.MetricBatch batch in ucBatch.SelectedBatches.Values)
             {
-                MetricBatch batch = (MetricBatch)aRow.DataBoundItem;
-                if (batch.Copy)
-                {
-                    if (string.IsNullOrEmpty(sourceDBTable))
-                        sourceDBTable = batch.DatabaseTable;
-                    else if (string.Compare(sourceDBTable, batch.DatabaseTable, true) != 0)
-                    {
-                        MessageBox.Show("You can only select multiple metric schemas that have the same dimensionality. i.e. either all Visit level metric schemas" +
-                            " or all tier 1 etc.", "Invalid Source Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        grdInfo.Select();
-                        return false;
-                    }
+                if (string.IsNullOrEmpty(sourceDBTable))
+                    sourceDBTable = batch.DatabaseTable;
 
-                    // Check that none of the source metric schemas are selected as the destination schema
-                    if (cboDestination.SelectedItem is CHaMPData.MetricSchema)
+                // Check that none of the source metric schemas are selected as the destination schema
+                if (cboDestination.SelectedItem is CHaMPData.MetricSchema)
+                {
+                    if (batch.Schema.ID == ((CHaMPData.MetricSchema)cboDestination.SelectedItem).ID)
                     {
-                        if (batch.Schema.ID == ((CHaMPData.MetricSchema)cboDestination.SelectedItem).ID)
-                        {
-                            MessageBox.Show("You cannot select one of the source metric schemas as the destination metric schema.", "Invalid Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return false;
-                        }
+                        MessageBox.Show("You cannot select one of the source metric schemas as the destination metric schema.", "Invalid Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
                     }
                 }
             }
-
-            //naru.db.NamedObject destSchema = (naru.db.NamedObject)cboDestination.SelectedItem;
 
             if (cboDestination.SelectedIndex < 0)
             {
@@ -204,73 +173,9 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
             CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboProgram_SelectedIndexChanged(object sender, EventArgs e)
         {
-            grdInfo.Rows.Clear();
-
-            if (!(cboSource.SelectedItem is MetricBatch))
-                return;
-
-            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
-            {
-                dbCon.Open();
-
-                naru.db.NamedObject batch = (naru.db.NamedObject)cboSource.SelectedItem;
-                long nVisits = naru.db.sqlite.SQLiteHelpers.GetScalarID(dbCon, string.Format("SELECT COUNT(*) AS VisitCount FROM Metric_Instances WHERE BatchID = {0}", batch.ID));
-
-                int i = grdInfo.Rows.Add();
-                grdInfo.Rows[i].Cells[0].Value = "Number of visits";
-                grdInfo.Rows[i].Cells[1].Value = nVisits;
-
-                long nMetrics = naru.db.sqlite.SQLiteHelpers.GetScalarID(dbCon, string.Format("SELECT COUNT(S.SchemaID) FROM Metric_Batches B INNER JOIN Metric_Schemas S ON B.SchemaID = S.SchemaID INNER JOIN Metric_Schema_Definitions D ON S.SchemaID = D.SchemaID WHERE BatchID = {0}", batch.ID));
-                i = grdInfo.Rows.Add();
-                grdInfo.Rows[i].Cells[0].Value = "Number of Metrics";
-                grdInfo.Rows[i].Cells[1].Value = nMetrics;
-            }
-
-            MetricBatch selectedBatch = (MetricBatch)cboSource.SelectedItem;
-            naru.db.sqlite.NamedObject.LoadComboWithListItems(ref cboDestination, naru.db.sqlite.DBCon.ConnectionString,
-                string.Format("SELECT SchemaID, Title FROM Metric_Schemas WHERE DatabaseTable = '{0}' ORDER BY Title", selectedBatch.DatabaseTable));
-        }
-
-        public class MetricBatch : naru.db.NamedObject
-        {
-            public long SchemaID { get; internal set; }
-            public string DatabaseTable { get; internal set; }
-
-            public MetricBatch(long nID, string sName, long nSchemaID, string sDatabaseTable)
-                : base(nID, sName)
-            {
-                SchemaID = nSchemaID;
-                DatabaseTable = sDatabaseTable;
-            }
-
-            public static naru.ui.SortableBindingList<MetricBatch> Load()
-            {
-                naru.ui.SortableBindingList<MetricBatch> result = new naru.ui.SortableBindingList<MetricBatch>();
-
-                using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
-                {
-                    dbCon.Open();
-
-                    SQLiteCommand dbCom = new SQLiteCommand("SELECT B.BatchID AS BatchID," +
-                        " CASE WHEN B.Title IS NULL THEN '' ELSE B.Title || ' - ' END || S.title || ' - ' || L.Title AS Title," +
-                        " S.SchemaID AS SchemaID," +
-                        " DatabaseTable " +
-                        " FROM Metric_Batches B INNER JOIN Metric_Schemas S ON B.SchemaID = S.SchemaID INNER JOIN LookupListItems L ON B.ScavengeTypeID = L.ItemID ORDER BY Title", dbCon);
-                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                    while (dbRead.Read())
-                    {
-                        result.Add(new MetricBatch(dbRead.GetInt64(dbRead.GetOrdinal("BatchID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("Title"))
-                            , dbRead.GetInt64(dbRead.GetOrdinal("SchemaID"))
-                            , dbRead.GetString(dbRead.GetOrdinal("DatabaseTable"))
-                            ));
-                    }
-                }
-
-                return result;
-            }
+            cboDestination.DataSource = MetricSchemas.Where<CHaMPData.MetricSchema>(x => x.ProgramID == ucBatch.SelectedProgram).ToList<CHaMPData.MetricSchema>();
         }
     }
 }
