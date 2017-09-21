@@ -14,8 +14,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
     {
         frmKeystoneCredentials frmCredentials = null;
         MetricUploader uploader;
-        string Message { get; set; }
-
+ 
         public frmMetricUpload()
         {
             InitializeComponent();
@@ -50,11 +49,6 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             }
         }
 
-        public void UploaderMessage(object sender, EventArgs e)
-        {
-
-        }
-
         private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -65,8 +59,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 if (frmCredentials.ShowDialog() != DialogResult.OK)
                     return;
 
-                uploader = new MetricUploader(frmCredentials.UserName, frmCredentials.Password);
-                uploader.OnProgressUpdate += uploader_OnProgressUpdate;
+                uploader = new MetricUploader(bgWorker, frmCredentials.UserName, frmCredentials.Password);
 
                 uploader.Run(ucBatch.SelectedBatches, bgWorker);
             }
@@ -76,15 +69,11 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             }
         }
 
-        private void uploader_OnProgressUpdate(int value, string sMessage)
-        {
-            txtMessages.AppendText(Message + Environment.NewLine);
-            bgWorker.ReportProgress(value);
-        }
-
         private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            txtMessages.AppendText(Message + Environment.NewLine);
+            txtMessages.Text = uploader.Messages.ToString();
+            txtMessages.SelectionStart = txtMessages.Text.Length;
+            txtMessages.ScrollToCaret();
             pgrProgress.Value = e.ProgressPercentage;
         }
 

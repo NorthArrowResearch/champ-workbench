@@ -17,22 +17,22 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         IdentityModel.Client.TokenResponse authToken;
 
-
         #region ProgressTracking
-        
-        public delegate void ProgressUpdate(int value, string sMessage);
-        public event ProgressUpdate OnProgressUpdate;
+
+        private System.ComponentModel.BackgroundWorker bgWorker;
+        public StringBuilder Messages { get; internal set; }
 
         private void ReportProgress(int value, string sMessage)
         {
-            System.Diagnostics.Debug.Print(sMessage);
-            OnProgressUpdate(value, sMessage);
+            Messages.AppendLine(sMessage);
+            bgWorker.ReportProgress(value);
         }
 
         #endregion
 
-        public MetricUploader(string sUsername, string sPassword)
+        public MetricUploader(System.ComponentModel.BackgroundWorker bgw, string sUsername, string sPassword)
         {
+            bgWorker = bgw;
             UserName = sUsername;
             Password = sPassword;
 
@@ -42,6 +42,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         public void Run(Dictionary<long, MetricBatch> selectedBatches, System.ComponentModel.BackgroundWorker bgw)
         {
+            Messages = new StringBuilder();
+
             if (!VerifyMetricSchemasMatch(selectedBatches))
             {
                 ReportProgress(0, "Aborting due to mismatching metric schemas. No metric uploaded.");
@@ -64,6 +66,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
                 }
             }
+
+            ReportProgress(100, "Metric upload complete.");
         }
 
         private bool VerifyMetricSchemasMatch(Dictionary<long, MetricBatch> selectedBatches)
