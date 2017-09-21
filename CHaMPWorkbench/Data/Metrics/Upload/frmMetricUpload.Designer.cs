@@ -28,35 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cboCancel = new System.Windows.Forms.Button();
-            this.cboOK = new System.Windows.Forms.Button();
+            this.cmdCancel = new System.Windows.Forms.Button();
+            this.cmdOK = new System.Windows.Forms.Button();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.pgrProgress = new System.Windows.Forms.ProgressBar();
             this.txtMessages = new System.Windows.Forms.TextBox();
             this.ucBatch = new CHaMPWorkbench.Data.Metrics.ucBatchPicker();
+            this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
-            // cboCancel
+            // cmdCancel
             // 
-            this.cboCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cboCancel.Location = new System.Drawing.Point(779, 446);
-            this.cboCancel.Name = "cboCancel";
-            this.cboCancel.Size = new System.Drawing.Size(75, 23);
-            this.cboCancel.TabIndex = 0;
-            this.cboCancel.Text = "Cancel";
-            this.cboCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdCancel.Location = new System.Drawing.Point(779, 446);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 0;
+            this.cmdCancel.Text = "Cancel";
+            this.cmdCancel.UseVisualStyleBackColor = true;
             // 
-            // cboOK
+            // cmdOK
             // 
-            this.cboOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboOK.Location = new System.Drawing.Point(698, 446);
-            this.cboOK.Name = "cboOK";
-            this.cboOK.Size = new System.Drawing.Size(75, 23);
-            this.cboOK.TabIndex = 1;
-            this.cboOK.Text = "Run";
-            this.cboOK.UseVisualStyleBackColor = true;
-            this.cboOK.Click += new System.EventHandler(this.cboOK_Click);
+            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdOK.Location = new System.Drawing.Point(698, 446);
+            this.cmdOK.Name = "cmdOK";
+            this.cmdOK.Size = new System.Drawing.Size(75, 23);
+            this.cmdOK.TabIndex = 1;
+            this.cmdOK.Text = "Run";
+            this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cboOK_Click);
             // 
             // cmdHelp
             // 
@@ -83,6 +84,7 @@
             this.txtMessages.Location = new System.Drawing.Point(12, 228);
             this.txtMessages.Multiline = true;
             this.txtMessages.Name = "txtMessages";
+            this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessages.Size = new System.Drawing.Size(842, 209);
             this.txtMessages.TabIndex = 8;
             // 
@@ -95,6 +97,14 @@
             this.ucBatch.Size = new System.Drawing.Size(842, 189);
             this.ucBatch.TabIndex = 9;
             // 
+            // bgWorker
+            // 
+            this.bgWorker.WorkerReportsProgress = true;
+            this.bgWorker.WorkerSupportsCancellation = true;
+            this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
+            this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgressChanged);
+            this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_RunWorkerCompleted);
+            // 
             // frmMetricUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -104,8 +114,8 @@
             this.Controls.Add(this.txtMessages);
             this.Controls.Add(this.pgrProgress);
             this.Controls.Add(this.cmdHelp);
-            this.Controls.Add(this.cboOK);
-            this.Controls.Add(this.cboCancel);
+            this.Controls.Add(this.cmdOK);
+            this.Controls.Add(this.cmdCancel);
             this.Name = "frmMetricUpload";
             this.Text = "Metric Upload";
             this.Load += new System.EventHandler(this.frmMetricUpload_Load);
@@ -116,11 +126,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Button cboCancel;
-        private System.Windows.Forms.Button cboOK;
+        private System.Windows.Forms.Button cmdCancel;
+        private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Button cmdHelp;
         private System.Windows.Forms.ProgressBar pgrProgress;
         private System.Windows.Forms.TextBox txtMessages;
         private ucBatchPicker ucBatch;
+        private System.ComponentModel.BackgroundWorker bgWorker;
     }
 }

@@ -17,15 +17,19 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         IdentityModel.Client.TokenResponse authToken;
 
-        public event EventHandler MessagesUpdated;
 
-        private void SetMessage(string sMessage)
+        #region ProgressTracking
+        
+        public delegate void ProgressUpdate(int value, string sMessage);
+        public event ProgressUpdate OnProgressUpdate;
+
+        private void ReportProgress(int value, string sMessage)
         {
             System.Diagnostics.Debug.Print(sMessage);
-
-            if (MessagesUpdated != null)
-                MessagesUpdated(null, null);
+            OnProgressUpdate(value, sMessage);
         }
+
+        #endregion
 
         public MetricUploader(string sUsername, string sPassword)
         {
@@ -36,22 +40,28 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
         }
 
-        public void Run(Dictionary<long, MetricBatch> selectedBatches)
+        public void Run(Dictionary<long, MetricBatch> selectedBatches, System.ComponentModel.BackgroundWorker bgw)
         {
             if (!VerifyMetricSchemasMatch(selectedBatches))
             {
-                SetMessage("Aborting due to mismatching metric schemas. No metric uploaded.");
+                ReportProgress(0, "Aborting due to mismatching metric schemas. No metric uploaded.");
                 return;
             }
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
                 List<MetricInstance> instances = MetricInstance.Load(batch);
-                SetMessage(string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
+                ReportProgress(0, string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
 
                 foreach (MetricInstance inst in instances)
                 {
-                    SetMessage(string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
+                    if (bgw.CancellationPending)
+                    {
+                        ReportProgress(0, "User cancelled process. Aborting metric upload.");
+                        return;
+                    }
+
+                    ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
                 }
             }
         }
@@ -73,9 +83,14 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 SchemaDefinition xmlDef = new SchemaDefinition(MetricSchemas[schemaID].MetricSchemaXMLFile);
                 List<string> Messages = null;
                 if (!dbDef.Equals(ref xmlDef, out Messages))
+                {
+                    ReportProgress(0, string.Format("The {0} metric schema differs between the Workbench databaes and the online XML definition.", uniqueSchemas[schemaID]));
                     bStatus = false;
-
+                }
             }
+
+            if (bStatus)
+                ReportProgress(0, "Metric schemas match between Workbench database and online XML definitions.");
 
             //    GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper()
 
