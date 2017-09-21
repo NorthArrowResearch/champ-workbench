@@ -64,9 +64,10 @@ namespace CHaMPWorkbench.Data.Metrics
 
             MetricBatches = MetricBatch.Load();
 
-            cboProgram.DataSource = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>();
             cboProgram.DisplayMember = "Name";
-            cboProgram.ValueMember = "ID";
+            cboProgram.ValueMember = "Name";
+            cboProgram.DataSource = new naru.ui.SortableBindingList<CHaMPData.Program>(CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>());
+            cboProgram.SelectedValue = "CHaMP";
         }
 
         private void cboProgram_SelectedIndexChanged(object sender, EventArgs e)
