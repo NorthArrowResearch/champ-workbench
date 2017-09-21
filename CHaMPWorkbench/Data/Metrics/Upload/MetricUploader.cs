@@ -46,7 +46,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             if (!VerifyMetricSchemasMatch(selectedBatches))
             {
-                ReportProgress(0, "Aborting due to mismatching metric schemas. No metric uploaded.");
+                ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
                 return;
             }
 
@@ -88,7 +88,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 List<string> Messages = null;
                 if (!dbDef.Equals(ref xmlDef, out Messages))
                 {
-                    ReportProgress(0, string.Format("The {0} metric schema differs between the Workbench databaes and the online XML definition.", uniqueSchemas[schemaID]));
+                    ReportProgress(0, string.Format("The {0} schema differs between the Workbench database and the online XML definition.", uniqueSchemas[schemaID]));
                     bStatus = false;
                 }
             }
