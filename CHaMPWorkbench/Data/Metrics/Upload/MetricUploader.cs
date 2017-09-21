@@ -10,11 +10,25 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 {
     public class MetricUploader
     {
+        private string UserName { get; set; }
+        private string Password { get; set; }
         Dictionary<long, MetricSchema> MetricSchemas;
         Dictionary<long, MetricDefinitions.MetricDefinition> MetricDefs;
 
-        public MetricUploader()
+        public event EventHandler MessagesUpdated;
+
+        private SetMessage(string sMessage)
         {
+
+            if (MessagesUpdated != null)
+                MessagesUpdated(null, null);
+        }
+
+        public MetricUploader(string sUsername, string sPassword)
+        {
+            UserName = sUsername;
+            sPassword = Password;
+
             MetricSchemas = MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
             MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
         }
@@ -24,11 +38,6 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
-                SchemaDefinition dbDef = new SchemaDefinition(batch.Schema.ID, batch.Schema.Name);
-                SchemaDefinition xmlDef = new SchemaDefinition(MetricSchemas[batch.Schema.ID].MetricSchemaXMLFile);
-                List<string> Messages = null;
-                if (!dbDef.Equals(ref xmlDef, out Messages))
-                    return;
 
                 //List<MetricInstance> instances = MetricInstance.Load(batch);
 
@@ -37,6 +46,30 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 //    System.Diagnostics.Debug.Print(inst.ToString());
                 //}
             }
+        }
+
+        private bool VerifyMetricSchemasMatch(Dictionary<long, MetricBatch> selectedBatches)
+        {
+            // Build a list of distinct metric schemas
+            Dictionary<long, string> uniqueSchemas = new Dictionary<long, string>();
+            foreach (MetricBatch batch in selectedBatches.Values)
+            {
+                if (!uniqueSchemas.ContainsKey(batch.Schema.ID))
+                    uniqueSchemas[batch.Schema.ID] = batch.Schema.Name;
+            }
+
+            bool bStatus = true;
+            foreach (long schemaID in uniqueSchemas.Keys)
+            {
+                SchemaDefinition dbDef = new SchemaDefinition(schemaID, uniqueSchemas[schemaID]);
+                SchemaDefinition xmlDef = new SchemaDefinition(MetricSchemas[schemaID].MetricSchemaXMLFile);
+                List<string> Messages = null;
+                if (!dbDef.Equals(ref xmlDef, out Messages))
+                    bStatus = false;
+
+            }
+
+            GeoOptix.API.Model.MetricSchemaModel.
         }
 
         private class BatchMetrics

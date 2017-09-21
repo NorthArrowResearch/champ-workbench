@@ -12,6 +12,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 {
     public partial class frmMetricUpload : Form
     {
+        frmKeystoneCredentials frmCredentials = null;
+
         public frmMetricUpload()
         {
             InitializeComponent();
@@ -34,6 +36,13 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             try
             {
+                if (frmCredentials == null)
+                    frmCredentials = new frmKeystoneCredentials();
+
+                if (frmCredentials.ShowDialog() != DialogResult.OK)
+                    return;
+
+
                 MetricUploader uploader = new MetricUploader();
                 uploader.Run(ucBatch.SelectedBatches);
             }
