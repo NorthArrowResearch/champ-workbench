@@ -15,10 +15,13 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         Dictionary<long, MetricSchema> MetricSchemas;
         Dictionary<long, MetricDefinitions.MetricDefinition> MetricDefs;
 
+        IdentityModel.Client.TokenResponse authToken;
+
         public event EventHandler MessagesUpdated;
 
-        private SetMessage(string sMessage)
+        private void SetMessage(string sMessage)
         {
+            System.Diagnostics.Debug.Print(sMessage);
 
             if (MessagesUpdated != null)
                 MessagesUpdated(null, null);
@@ -27,7 +30,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         public MetricUploader(string sUsername, string sPassword)
         {
             UserName = sUsername;
-            sPassword = Password;
+            Password = sPassword;
 
             MetricSchemas = MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
             MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
@@ -35,16 +38,21 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         public void Run(Dictionary<long, MetricBatch> selectedBatches)
         {
+            if (!VerifyMetricSchemasMatch(selectedBatches))
+            {
+                SetMessage("Aborting due to mismatching metric schemas. No metric uploaded.");
+                return;
+            }
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
+                List<MetricInstance> instances = MetricInstance.Load(batch);
+                SetMessage(string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
 
-                //List<MetricInstance> instances = MetricInstance.Load(batch);
-
-                //foreach(MetricInstance inst in instances)
-                //{
-                //    System.Diagnostics.Debug.Print(inst.ToString());
-                //}
+                foreach (MetricInstance inst in instances)
+                {
+                    SetMessage(string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
+                }
             }
         }
 
@@ -69,7 +77,15 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             }
 
-            GeoOptix.API.Model.MetricSchemaModel.
+            //    GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper()
+
+            //    GeoOptix.API.Model.P.MetricSchemaModel aschema = new GeoOptix.API.Model.MetricSchemaModel("test",
+
+            //        ((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null, null, null);
+
+            //
+
+            return bStatus;
         }
 
         private class BatchMetrics
@@ -157,7 +173,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         {
                             switch (batch.DatabaseTable.ToLower())
                             {
-                                case "metrics_visitmetrics":
+                                case "metric_visitmetrics":
                                     instance.Metrics.Add(new MetricValueBase(dbRead.GetInt64(dbRead.GetOrdinal("MetricID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))));
                                     break;
 

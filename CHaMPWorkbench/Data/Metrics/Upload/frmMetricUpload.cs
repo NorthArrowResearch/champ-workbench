@@ -42,8 +42,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 if (frmCredentials.ShowDialog() != DialogResult.OK)
                     return;
 
-
-                MetricUploader uploader = new MetricUploader();
+                MetricUploader uploader = new MetricUploader(frmCredentials.UserName, frmCredentials.Password);
                 uploader.Run(ucBatch.SelectedBatches);
             }
             catch (Exception ex)
