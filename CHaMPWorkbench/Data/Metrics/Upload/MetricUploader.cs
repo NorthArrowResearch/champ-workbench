@@ -67,86 +67,87 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
 
 
-            //foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
-            //{
-            //    List<MetricInstance> instances = null;
-            //    switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
-            //    {
-            //        case "metric_visitMetrics":
-            //            instances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
-            //            break;
+            foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
+            {
+                List<MetricInstance> instances = null;
+                switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
+                {
+                    case "metric_visitMetrics":
+                        instances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
+                        break;
 
-            //        case "metric_channelunitmetrics":
-            //            instances = CHaMPData.MetricChannelUnitInstance.LoadChannelUnitMetricsMetrics(batch);
-            //            break;
+                    case "metric_channelunitmetrics":
+                        instances = CHaMPData.MetricChannelUnitInstance.LoadChannelUnitMetricsMetrics(batch);
+                        break;
 
-            //        case "metric_tiermetrics":
-            //            instances = CHaMPData.MetricTierInstance.LoadTierMetrics(batch);
-            //            break;
+                    case "metric_tiermetrics":
+                        instances = CHaMPData.MetricTierInstance.LoadTierMetrics(batch);
+                        break;
 
-            //        default:
-            //            throw new Exception("Unhandled database table");
-            //    }
-                
-
-
-            //    = MetricInstance.Load(batch);
-            //    ReportProgress(0, string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
-
-            //    SchemaDefinition schemaDef = new SchemaDefinition(batch.Schema.ID, batch.Schema.Name);
-            //    ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
-            //    if (apiSchema.Payload == null)
-            //    {
-            //        // Visit metric schema does not exist... create it
-            //        apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
-            //    }
-
-            //    foreach (MetricInstance inst in instances)
-            //    {
-            //        if (bgWorker.CancellationPending)
-            //        {
-            //            ReportProgress(0, "User cancelled process. Aborting metric upload.");
-            //            return;
-            //        }
-
-            //        apiVisit visit = new apiVisit(inst.VisitID, Program.API);
-            //        ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
-            //        if (apiInstances.Payload != null)
-            //        {
-            //            ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, inst.VisitID));
-            //        }
-
-            //        GeoOptix.API.Model.MetricInstanceModel newInstance = new GeoOptix.API.Model.MetricInstanceModel();
-
-            //        List<GeoOptix.API.Model.MetricValueModel> vals;
-            //        switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
-            //        {
-            //            case "metric_visitMetrics":
-            //                vals = schemaDef.GetVisitMetricValues(inst);
-            //                break;
-
-            //            //case "metric_channelunitmetrics":
-
-            //            //    break;
+                    default:
+                        throw new Exception("Unhandled database table");
+                }
 
 
-            //            //case "metric_tiermetrics":
-
-            //            //    break;
 
 
-            //            default:
-            //                throw new Exception("Unhandled database table");
-            //        }
+                = MetricInstance.Load(batch);
+                ReportProgress(0, string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
 
-            //        apiHelper.CreateMetricInstance(visit, batch.Schema.Name, vals);
+                SchemaDefinition schemaDef = new SchemaDefinition(batch.Schema.ID, batch.Schema.Name);
+                ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
+                if (apiSchema.Payload == null)
+                {
+                    // Visit metric schema does not exist... create it
+                    apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
+                }
 
-            //        // Now delete the existing metric instances that were on the visit before this process.
-            //        foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
-            //            apiHelper.DeleteInstance(oldInstance);
+                foreach (MetricInstance inst in instances)
+                {
+                    if (bgWorker.CancellationPending)
+                    {
+                        ReportProgress(0, "User cancelled process. Aborting metric upload.");
+                        return;
+                    }
 
-            //        ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
-            //    }
+                    apiVisit visit = new apiVisit(inst.VisitID, Program.API);
+                    ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
+                    if (apiInstances.Payload != null)
+                    {
+                        ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, inst.VisitID));
+                    }
+
+                    GeoOptix.API.Model.MetricInstanceModel newInstance = new GeoOptix.API.Model.MetricInstanceModel();
+
+                    List<GeoOptix.API.Model.MetricValueModel> vals;
+                    switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
+                    {
+                        case "metric_visitMetrics":
+                            vals = schemaDef.GetVisitMetricValues(inst);
+                            break;
+
+                        //case "metric_channelunitmetrics":
+
+                        //    break;
+
+
+                        //case "metric_tiermetrics":
+
+                        //    break;
+
+
+                        default:
+                            throw new Exception("Unhandled database table");
+                    }
+
+                    apiHelper.CreateMetricInstance(visit, batch.Schema.Name, vals);
+
+                    // Now delete the existing metric instances that were on the visit before this process.
+                    foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
+                        apiHelper.DeleteInstance(oldInstance);
+
+                    ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
+                }
             }
 
             ReportProgress(100, "Metric upload complete.");
