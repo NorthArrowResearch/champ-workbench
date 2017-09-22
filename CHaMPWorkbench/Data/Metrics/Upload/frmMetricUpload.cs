@@ -14,7 +14,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
     {
         frmKeystoneCredentials frmCredentials = null;
         MetricUploader uploader;
- 
+
         public frmMetricUpload()
         {
             InitializeComponent();
@@ -41,6 +41,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 txtMessages.Text = string.Empty;
                 cmdOK.Enabled = false;
                 cmdCancel.Text = "Cancel";
+                uploader = new MetricUploader(bgWorker, ucBatch.SelectedProgram);
+
                 bgWorker.RunWorkerAsync();
             }
             catch (Exception ex)
@@ -59,9 +61,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 if (frmCredentials.ShowDialog() != DialogResult.OK)
                     return;
 
-                uploader = new MetricUploader(bgWorker, frmCredentials.UserName, frmCredentials.Password);
-
-                uploader.Run(ucBatch.SelectedBatches, bgWorker);
+                uploader.Run(ucBatch.SelectedBatches, frmCredentials.UserName, frmCredentials.Password);
             }
             catch (Exception ex)
             {

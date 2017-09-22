@@ -18,7 +18,14 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         public string Name { get; internal set; }
         public Dictionary<string, string> Metrics { get; internal set; }
 
+        private void Init(string sName)
+        {
+            Name = sName;
+            Metrics = new Dictionary<string, string>();
 
+            Metrics.Add("ModelVersion", "string");
+            Metrics.Add("GenerationDate", "string");
+        }
 
         /// <summary>
         /// Constructor for loading schema from database
@@ -27,8 +34,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         /// <param name="sName"></param>
         public SchemaDefinition(long SchemaID, string sName)
         {
-            Name = sName;
-            Metrics = new Dictionary<string, string>();
+            Init(sName);
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -53,11 +59,18 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(schemaDefinitionURL);
 
-            Name = xmlDoc.SelectSingleNode("/MetricSchema/Name").InnerText;
-            Metrics = new Dictionary<string, string>();
+            Init(xmlDoc.SelectSingleNode("/MetricSchema/Name").InnerText);
 
             foreach (XmlNode nodMetric in xmlDoc.SelectNodes("MetricSchema/Metrics/Metric"))
                 Metrics[nodMetric.Attributes["name"].InnerText] = nodMetric.Attributes["type"].InnerText;
+        }
+
+        public SchemaDefinition(ref GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema)
+        {
+            Init(apiSchema.Payload.Name);
+
+            foreach (GeoOptix.API.Model.MetricAttributeModel apiMetric in apiSchema.Payload.Attributes)
+                Metrics.Add(apiMetric.Name, apiMetric.Type);
         }
 
         public bool Equals(ref SchemaDefinition otherSchema, out List<string> Messages)
@@ -97,6 +110,39 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 }
             }
             return bStatus;
+        }
+
+        public List<GeoOptix.API.Model.MetricValueModel> GetVisitMetricValues(long InstanceID)
+        {
+            List<GeoOptix.API.Model.MetricValueModel> metricValues = new List<GeoOptix.API.Model.MetricValueModel>();
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+
+                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT D.DisplayNameShort AS MetricName, DataTypeID, Precision, MetricValue FROM Metric_VisitMetrics M INNER JOIN Metric_Definitions D ON M.MetricID = D.MetricID WHERE InstanceID = @InstanceID", dbCon))
+                {
+                    dbCom.Parameters.AddWithValue("InstanceID", InstanceID);
+                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                    while (dbRead.Read())
+                    {
+                        string metricStringValue = string.Empty;
+                        if (!dbRead.IsDBNull(dbRead.GetOrdinal("MetricValue")))
+                        {
+                            double metricRawValue = dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"));
+                            long? precision = naru.db.sqlite.SQLiteHelpers.GetSafeValueNInt(ref dbRead, "Precision");
+                            if (dbRead.GetInt64(dbRead.GetOrdinal("DataTypeID")) == 10023 && precision.HasValue)
+                                metricStringValue = metricRawValue.ToString(string.Format("#.{0}", new string('0',Convert.ToInt32(precision.Value))));
+                            else
+                                metricStringValue.ToString();
+                        }
+
+                        metricValues.Add(new GeoOptix.API.Model.MetricValueModel(dbRead.GetString(dbRead.GetOrdinal("MetricName")), metricStringValue));
+                    }
+                }
+            }
+
+            return metricValues;
         }
     }
 }

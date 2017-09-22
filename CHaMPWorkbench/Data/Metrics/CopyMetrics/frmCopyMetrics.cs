@@ -175,7 +175,7 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
         private void cboProgram_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cboDestination.DataSource = MetricSchemas.Where<CHaMPData.MetricSchema>(x => x.ProgramID == ucBatch.SelectedProgram).ToList<CHaMPData.MetricSchema>();
+            cboDestination.DataSource = MetricSchemas.Where<CHaMPData.MetricSchema>(x => x.ProgramID == ucBatch.SelectedProgram.ID).ToList<CHaMPData.MetricSchema>();
         }
     }
 }

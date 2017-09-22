@@ -34,14 +34,14 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
-        public long SelectedProgram
+        public CHaMPData.Program SelectedProgram
         {
             get
             {
                 if (cboProgram.SelectedItem is CHaMPData.Program)
-                    return ((CHaMPData.Program)cboProgram.SelectedItem).ID;
+                    return ((CHaMPData.Program)cboProgram.SelectedItem);
                 else
-                    return 0;
+                    return null;
             }
         }
 

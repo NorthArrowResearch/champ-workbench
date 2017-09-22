@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using CHaMPWorkbench.CHaMPData;
 using System.Data.SQLite;
+using GeoOptix.API;
 
 namespace CHaMPWorkbench.Data.Metrics.Upload
 {
     public class MetricUploader
     {
-        private string UserName { get; set; }
-        private string Password { get; set; }
+        public CHaMPData.Program Program { get; internal set; }
         Dictionary<long, MetricSchema> MetricSchemas;
         Dictionary<long, MetricDefinitions.MetricDefinition> MetricDefs;
 
-        IdentityModel.Client.TokenResponse authToken;
+        GeoOptix.API.ApiHelper apiHelper;
 
         #region ProgressTracking
 
@@ -30,44 +30,112 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         #endregion
 
-        public MetricUploader(System.ComponentModel.BackgroundWorker bgw, string sUsername, string sPassword)
+        public MetricUploader(System.ComponentModel.BackgroundWorker bgw, CHaMPData.Program theProgram)
         {
             bgWorker = bgw;
-            UserName = sUsername;
-            Password = sPassword;
+            Program = theProgram;
 
             MetricSchemas = MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
             MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
         }
 
-        public void Run(Dictionary<long, MetricBatch> selectedBatches, System.ComponentModel.BackgroundWorker bgw)
+        public void Run(Dictionary<long, MetricBatch> selectedBatches, string UserName, string Password)
         {
             Messages = new StringBuilder();
 
-            if (!VerifyMetricSchemasMatch(selectedBatches))
+
+            try
             {
-                ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
-                return;
+                AuthenticateAPI(UserName, Password);
+
+                if (VerifyMetricSchemasMatch(selectedBatches))
+                {
+                    UploadMetrics(selectedBatches);
+                }
+                else
+                    ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
             }
+            catch (Exception ex)
+            {
+                ReportProgress(100, string.Format("ERROR: {0}", ex.Message));
+                ReportProgress(100, "Process aborted.");
+            }
+        }
+
+        private void UploadMetrics(Dictionary<long, MetricBatch> selectedBatches)
+        {
+
+
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
                 List<MetricInstance> instances = MetricInstance.Load(batch);
                 ReportProgress(0, string.Format("Processing the {0} schema with {1} visits", batch.Schema, instances.Count));
 
+                SchemaDefinition schemaDef = new SchemaDefinition(batch.Schema.ID, batch.Schema.Name);
+                ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
+                if (apiSchema.Payload == null)
+                {
+                    // Visit metric schema does not exist... create it
+                    apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
+                }
+
                 foreach (MetricInstance inst in instances)
                 {
-                    if (bgw.CancellationPending)
+                    if (bgWorker.CancellationPending)
                     {
                         ReportProgress(0, "User cancelled process. Aborting metric upload.");
                         return;
                     }
+
+                    apiVisit visit = new apiVisit(inst.VisitID, Program.API);
+                    ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
+                    if (apiInstances.Payload != null)
+                    {
+                        ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count< GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, inst.VisitID));
+                    }
+
+                    GeoOptix.API.Model.MetricInstanceModel newInstance = new GeoOptix.API.Model.MetricInstanceModel();
+
+                    List<GeoOptix.API.Model.MetricValueModel> vals;
+                    switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
+                    {
+                        case "metric_visitMetrics":
+                            vals = schemaDef.GetVisitMetricValues(inst.InstanceID);
+                            break;
+                            
+                        //case "metric_channelunitmetrics":
+
+                        //    break;
+
+
+                        //case "metric_tiermetrics":
+
+                        //    break;
+
+
+                        default:
+                            throw new Exception("Unhandled database table");
+                    }
+
+                    apiHelper.CreateMetricInstance(visit, batch.Schema.Name, vals);
+
+                    // Now delete the existing metric instances that were on the visit before this process.
+                    foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
+                        apiHelper.DeleteInstance(oldInstance);
 
                     ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
                 }
             }
 
             ReportProgress(100, "Metric upload complete.");
+        }
+
+        private void AuthenticateAPI(string UserName, string Password)
+        {
+            apiHelper = new GeoOptix.API.ApiHelper(Program.API, Program.Keystone,
+                        CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
+                        Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
         }
 
         private bool VerifyMetricSchemasMatch(Dictionary<long, MetricBatch> selectedBatches)
@@ -91,20 +159,39 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     ReportProgress(0, string.Format("The {0} schema differs between the Workbench database and the online XML definition.", uniqueSchemas[schemaID]));
                     bStatus = false;
                 }
+
+                // If the metric schema has been defined online already then verify that it matches
+                API.ApiResponse<API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(API.Model.ObjectType.Visit, uniqueSchemas[schemaID]);
+                if (apiSchema.Payload != null)
+                {
+                    SchemaDefinition apiDef = new SchemaDefinition(ref apiSchema);
+                    if (!dbDef.Equals(ref xmlDef, out Messages))
+                    {
+                        ReportProgress(0, string.Format("The {0} schema differs between the definition in the API and the online XML definition.", uniqueSchemas[schemaID]));
+                        bStatus = false;
+                    }
+                }
             }
 
             if (bStatus)
                 ReportProgress(0, "Metric schemas match between Workbench database and online XML definitions.");
 
-            //    GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper()
-
-            //    GeoOptix.API.Model.P.MetricSchemaModel aschema = new GeoOptix.API.Model.MetricSchemaModel("test",
-
-            //        ((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null, null, null);
-
-            //
-
             return bStatus;
+        }
+
+        private class apiVisit : GeoOptix.API.Interface.IHasUrl
+        {
+            public long VisitID { get; internal set; }
+            public string RootAPIURL { get; internal set; }
+
+            public string Url { get { return string.Format("{0}/visits/{1}", RootAPIURL, VisitID); } }
+            public GeoOptix.API.Model.ObjectType ObjectType { get { return GeoOptix.API.Model.ObjectType.Visit; } }
+
+            public apiVisit(long visitID, string rootAPIURL)
+            {
+                VisitID = visitID;
+                RootAPIURL = rootAPIURL;
+            }
         }
 
         private class BatchMetrics
@@ -190,24 +277,24 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         dbRead = dbCom.ExecuteReader();
                         while (dbRead.Read())
                         {
+                            long metricID = dbRead.GetInt64(dbRead.GetOrdinal("MetricID"));
+                            double? metricValue = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
+
                             switch (batch.DatabaseTable.ToLower())
                             {
                                 case "metric_visitmetrics":
-                                    instance.Metrics.Add(new MetricValueBase(dbRead.GetInt64(dbRead.GetOrdinal("MetricID")), dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))));
+                                    instance.Metrics.Add(new MetricValueBase(metricID, metricValue));
                                     break;
 
                                 case "metric_channelunitmetrics":
-                                    instance.Metrics.Add(new ChannelUnitMetricValue(dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))
-                                        , dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))
+                                    instance.Metrics.Add(new ChannelUnitMetricValue(metricID, metricValue
                                         , dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnityNumber"))
                                         , dbRead.GetString(dbRead.GetOrdinal("Tier1"))
                                         , dbRead.GetString(dbRead.GetOrdinal("Tier2"))));
                                     break;
 
                                 case "metric_tiermetrics":
-                                    instance.Metrics.Add(new TierMetricValue(dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))
-                                        , dbRead.GetDouble(dbRead.GetOrdinal("MetricValue"))
-                                        , dbRead.GetString(dbRead.GetOrdinal("Tier"))));
+                                    instance.Metrics.Add(new TierMetricValue(metricID, metricValue, dbRead.GetString(dbRead.GetOrdinal("Tier"))));
                                     break;
 
                                 default:
@@ -225,9 +312,9 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         private class MetricValueBase
         {
             public long MetricID { get; internal set; }
-            public double MetricValue { get; internal set; }
+            public double? MetricValue { get; internal set; }
 
-            public MetricValueBase(long nMetricID, double fMetricValue)
+            public MetricValueBase(long nMetricID, double? fMetricValue)
             {
                 MetricID = nMetricID;
                 MetricValue = fMetricValue;
@@ -238,7 +325,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             public string Tier { get; internal set; }
 
-            public TierMetricValue(long nMetricID, double fMetricValue, string sTier)
+            public TierMetricValue(long nMetricID, double? fMetricValue, string sTier)
                 : base(nMetricID, fMetricValue)
             {
                 Tier = sTier;
@@ -251,7 +338,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             public string Tier1 { get; internal set; }
             public string Tier2 { get; internal set; }
 
-            public ChannelUnitMetricValue(long nMetricID, double fMetricValue, long nChannelUnitNumber, string sTier1, string sTier2)
+            public ChannelUnitMetricValue(long nMetricID, double? fMetricValue, long nChannelUnitNumber, string sTier1, string sTier2)
                 : base(nMetricID, fMetricValue)
             {
                 ChannelUnitNumber = nChannelUnitNumber;
