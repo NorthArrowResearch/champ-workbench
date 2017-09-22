@@ -183,6 +183,7 @@
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
     <Compile Include="CHaMPData\DataSynchronizer.cs" />
     <Compile Include="CHaMPData\MetricBatch.cs" />
+    <Compile Include="CHaMPData\MetricInstance.cs" />
     <Compile Include="CHaMPData\MetricSchema.cs" />
     <Compile Include="CHaMPData\Program.cs" />
     <Compile Include="CHaMPData\SiteBasic.cs" />
