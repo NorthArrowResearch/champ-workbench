@@ -41,35 +41,27 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         public void Run(Dictionary<long, MetricBatch> selectedBatches, string UserName, string Password)
         {
+            // Reset the messages for each run.
             Messages = new StringBuilder();
-
 
             try
             {
-                AuthenticateAPI(UserName, Password);
-
-                if (VerifyMetricSchemasMatch(selectedBatches))
-                {
-                    UploadMetrics(selectedBatches);
-                }
-                else
-                    ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
+                if (AuthenticateAPI(UserName, Password))
+                    if (VerifyMetricSchemasMatch(selectedBatches))
+                        UploadMetrics(selectedBatches);
             }
             catch (Exception ex)
             {
                 ReportProgress(100, string.Format("ERROR: {0}", ex.Message));
-                ReportProgress(100, "Process aborted.");
+                ReportProgress(100, "Process aborted due to unhandled error.");
             }
         }
 
         private void UploadMetrics(Dictionary<long, MetricBatch> selectedBatches)
         {
-
-
-
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
-               Dictionary<long, List<MetricInstance>> instances = null;
+                Dictionary<long, List<MetricInstance>> instances = null;
                 switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
                 {
                     case "metric_visitMetrics":
@@ -133,11 +125,21 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             ReportProgress(100, "Metric upload complete.");
         }
 
-        private void AuthenticateAPI(string UserName, string Password)
+        private bool AuthenticateAPI(string UserName, string Password)
         {
             apiHelper = new GeoOptix.API.ApiHelper(Program.API, Program.Keystone,
                         CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
                         Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+
+            if (apiHelper.AuthToken.IsError)
+            {
+                ReportProgress(0, "ERROR: Unable to authenticate on API.");
+                ReportProgress(0, string.Format("\t{0}", apiHelper.AuthToken.Error));
+            }
+            else
+                ReportProgress(0, "API authentication successful.");
+
+            return !apiHelper.AuthToken.IsError;
         }
 
         private bool VerifyMetricSchemasMatch(Dictionary<long, MetricBatch> selectedBatches)
@@ -177,6 +179,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             if (bStatus)
                 ReportProgress(0, "Metric schemas match between Workbench database and online XML definitions.");
+            else
+                ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
 
             return bStatus;
         }
