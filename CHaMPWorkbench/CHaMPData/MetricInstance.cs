@@ -26,7 +26,7 @@ namespace CHaMPWorkbench.CHaMPData
             Metrics = new Dictionary<long, double?>();
         }
 
-        public List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance()
+        public virtual List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance()
         {
             List<GeoOptix.API.Model.MetricValueModel> metricValues = new List<GeoOptix.API.Model.MetricValueModel>();
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel(MODEL_VERSION_METRIC_NAME, ModelVersion));
@@ -46,9 +46,14 @@ namespace CHaMPWorkbench.CHaMPData
             Metrics = new Dictionary<long, double?>();
         }
 
-        public static List<MetricInstance> LoadVisitMetrics(CHaMPData.MetricBatch batch)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batch"></param>
+        /// <returns>Dictionary keyed by VisitID to a list of metric instances within this batch</returns>
+        public static Dictionary<long, List<MetricInstance>> LoadVisitMetrics(CHaMPData.MetricBatch batch)
         {
-            List<MetricInstance> instances = new List<MetricInstance>();
+            Dictionary<long, List<MetricInstance>> instances = new Dictionary<long, List<MetricInstance>>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -59,7 +64,9 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        instances.Add(new MetricVisitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")));
+                        instances[dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))] = new List<MetricInstance>() {
+                            new MetricVisitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion"))
+                        };
                     }
                     dbRead.Close();
                 }
@@ -69,13 +76,16 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteParameter pInstanceID = dbCom.Parameters.Add("@InstanceID", System.Data.DbType.Int64);
 
                     // Now load all the metric values for this instance.
-                    foreach (MetricInstance instance in instances)
+                    foreach (List<MetricInstance> instanceList in instances.Values)
                     {
-                        pInstanceID.Value = instance.InstanceID;
-                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                        while (dbRead.Read())
-                            instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
-                        dbRead.Close();
+                        foreach (MetricInstance instance in instanceList)
+                        {
+                            pInstanceID.Value = instance.InstanceID;
+                            SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                            while (dbRead.Read())
+                                instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
+                            dbRead.Close();
+                        }
                     }
                 }
             }
@@ -97,9 +107,9 @@ namespace CHaMPWorkbench.CHaMPData
             TierName = sTierName;
         }
 
-        public static List<MetricInstance> LoadTierMetrics(ushort TierLevel, CHaMPData.MetricBatch batch)
+        public static Dictionary<long, List<MetricInstance>> LoadTierMetrics(ushort TierLevel, CHaMPData.MetricBatch batch)
         {
-            List<MetricInstance> instances = new List<MetricInstance>();
+            Dictionary<long, List<MetricInstance>> instances = new Dictionary<long, List<MetricInstance>>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -115,8 +125,12 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        instances.Add(new MetricTierInstance(TierLevel, dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
-                            , dbRead.GetInt64(dbRead.GetOrdinal("TierID")), dbRead.GetString(dbRead.GetOrdinal("TierName")));
+                        long visitID = dbRead.GetInt64(dbRead.GetOrdinal("VisitID"));
+                        if (!instances.ContainsKey(visitID))
+                            instances[visitID] = new List<MetricInstance>();
+
+                        instances[visitID].Add(new MetricTierInstance(TierLevel, dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                            , dbRead.GetInt64(dbRead.GetOrdinal("TierID")), dbRead.GetString(dbRead.GetOrdinal("TierName"))));
                     }
                     dbRead.Close();
                 }
@@ -128,14 +142,17 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteParameter pTierID = dbCom.Parameters.Add("TierID", System.Data.DbType.Int64);
 
                     // Now load all the metric values for this instance.
-                    foreach (MetricInstance instance in instances)
+                    foreach (List<MetricInstance> instanceList in instances.Values)
                     {
-                        pInstanceID.Value = instance.InstanceID;
-                        pTierID.Value = ((MetricTierInstance)instance).TierID;
-                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                        while (dbRead.Read())
-                            instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
-                        dbRead.Close();
+                        foreach (MetricInstance instance in instanceList)
+                        {
+                            pInstanceID.Value = instance.InstanceID;
+                            pTierID.Value = ((MetricTierInstance)instance).TierID;
+                            SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                            while (dbRead.Read())
+                                instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
+                            dbRead.Close();
+                        }
                     }
                 }
             }
@@ -165,9 +182,9 @@ namespace CHaMPWorkbench.CHaMPData
             Tier2Name = sTier2Name;
         }
 
-        public static List<MetricInstance> LoadChannelUnitMetricsMetrics(CHaMPData.MetricBatch batch)
+        public static Dictionary<long, List<MetricInstance>> LoadChannelUnitMetricsMetrics(CHaMPData.MetricBatch batch)
         {
-            List<MetricInstance> instances = new List<MetricInstance>();
+            Dictionary<long, List<MetricInstance>> instances = new Dictionary<long, List<MetricInstance>>();
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
@@ -183,7 +200,11 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteDataReader dbRead = dbCom.ExecuteReader();
                     while (dbRead.Read())
                     {
-                        instances.Add(new MetricChannelUnitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                        long visitID = dbRead.GetInt64(dbRead.GetOrdinal("VisitID"));
+                        if (!instances.ContainsKey(visitID))
+                            instances[visitID] = new List<MetricInstance>();
+
+                        instances[visitID].Add(new MetricChannelUnitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
                             , dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetString(dbRead.GetOrdinal("Tier1")), dbRead.GetString(dbRead.GetOrdinal("Tier1"))));
                     }
                     dbRead.Close();
@@ -195,14 +216,17 @@ namespace CHaMPWorkbench.CHaMPData
                     SQLiteParameter pChannelUnitNumber = dbCom.Parameters.Add("ChannelUnitNumber", System.Data.DbType.Int64);
 
                     // Now load all the metric values for this instance.
-                    foreach (MetricInstance instance in instances)
+                    foreach (List<MetricInstance> instanceList in instances.Values)
                     {
-                        pInstanceID.Value = instance.InstanceID;
-                        pChannelUnitNumber.Value = ((MetricChannelUnitInstance)instance).ChannelUnitNumber;
-                        SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                        while (dbRead.Read())
-                            instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
-                        dbRead.Close();
+                        foreach (MetricInstance instance in instanceList)
+                        {
+                            pInstanceID.Value = instance.InstanceID;
+                            pChannelUnitNumber.Value = ((MetricChannelUnitInstance)instance).ChannelUnitNumber;
+                            SQLiteDataReader dbRead = dbCom.ExecuteReader();
+                            while (dbRead.Read())
+                                instance.Metrics[dbRead.GetInt64(dbRead.GetOrdinal("MetricID"))] = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
+                            dbRead.Close();
+                        }
                     }
                 }
             }

@@ -69,7 +69,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
-                List<MetricInstance> instances = null;
+               Dictionary<long, List<MetricInstance>> instances = null;
                 switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
                 {
                     case "metric_visitMetrics":
@@ -103,28 +103,30 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
                 }
 
-                // Build a visit object
-                apiVisit visit = new apiVisit(inst.VisitID, Program.API);
-                ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
-                if (apiInstances.Payload != null)
-                    ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, inst.VisitID));
-
-
-                foreach (MetricInstance inst in instances)
+                foreach (KeyValuePair<long, List<MetricInstance>> kvp in instances)
                 {
-                    if (bgWorker.CancellationPending)
+                    // Build a visit object
+                    apiVisit visit = new apiVisit(kvp.Key, Program.API);
+                    ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
+                    if (apiInstances.Payload != null)
+                        ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, kvp.Key));
+
+                    foreach (MetricInstance inst in kvp.Value)
                     {
-                        ReportProgress(0, "User cancelled process. Aborting metric upload.");
-                        return;
+                        if (bgWorker.CancellationPending)
+                        {
+                            ReportProgress(0, "User cancelled process. Aborting metric upload.");
+                            return;
+                        }
+
+                        // Create each new metric instance                    
+                        ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
+                        apiHelper.CreateMetricInstance(visit, batch.Schema.Name, inst.GetAPIMetricInstance());
+
+                        // Now delete the existing metric instances that were on the API before this process.
+                        foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
+                            apiHelper.DeleteInstance(oldInstance);
                     }
-
-                    // Create each new metric instance                    
-                    ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
-                    apiHelper.CreateMetricInstance(visit, batch.Schema.Name, inst.GetAPIMetricInstance());
-
-                    // Now delete the existing metric instances that were on the API before this process.
-                    foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
-                        apiHelper.DeleteInstance(oldInstance);
                 }
             }
 
