@@ -24,6 +24,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         private void ReportProgress(int value, string sMessage)
         {
+            System.Diagnostics.Debug.Print(sMessage);
             Messages.AppendLine(sMessage);
             bgWorker.ReportProgress(value);
         }

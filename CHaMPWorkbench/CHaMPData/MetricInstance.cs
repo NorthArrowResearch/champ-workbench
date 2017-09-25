@@ -40,7 +40,7 @@ namespace CHaMPWorkbench.CHaMPData
                     {
                         string sFormat = "0";
                         if (metricDef.Precision.HasValue)
-                            sFormat = string.Format("0:0.{0}", new string('0', Convert.ToInt32(metricDef.Precision.Value)));
+                            sFormat = string.Format("0.{0}", new string('0', Convert.ToInt32(metricDef.Precision.Value)));
 
                         string sMetricValue = Metrics[metricDef.ID].Value.ToString(sFormat);
                         metricValues.Add(new GeoOptix.API.Model.MetricValueModel(metricDef.Name, sMetricValue));
