@@ -16,36 +16,45 @@ namespace CHaMPWorkbench.CHaMPData
         public long VisitID { get; internal set; }
         public string ModelVersion { get; internal set; }
         public Dictionary<long, double?> Metrics { get; internal set; }
-        public DateTime GenerationDate { get; internal set; }
+        public DateTime? GenerationDate { get; internal set; }
 
-        public MetricInstance(long nInstanceID, long nVisitID, string sModelVersion)
+        public MetricInstance(long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate)
         {
             InstanceID = nInstanceID;
             VisitID = nVisitID;
             ModelVersion = sModelVersion;
+            GenerationDate = dtGenerationDate;
             Metrics = new Dictionary<long, double?>();
         }
 
         public virtual List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
         {
             List<GeoOptix.API.Model.MetricValueModel> metricValues = new List<GeoOptix.API.Model.MetricValueModel>();
-            metricValues.Add(new GeoOptix.API.Model.MetricValueModel(MODEL_VERSION_METRIC_NAME, ModelVersion));
-            metricValues.Add(new GeoOptix.API.Model.MetricValueModel(GENERATION_DATE_METRIC_NAME, GenerationDate.ToString("o")));
 
-            foreach (Data.MetricDefinitions.MetricDefinitionBase metricDef in schemaDef.MetricsByID.Values)
+            if (string.IsNullOrEmpty(ModelVersion))
+                metricValues.Add(new GeoOptix.API.Model.MetricValueModel(MODEL_VERSION_METRIC_NAME, null));
+            else
+                metricValues.Add(new GeoOptix.API.Model.MetricValueModel(MODEL_VERSION_METRIC_NAME, ModelVersion));
+
+            if (GenerationDate.HasValue)
+                metricValues.Add(new GeoOptix.API.Model.MetricValueModel(GENERATION_DATE_METRIC_NAME, GenerationDate.Value.ToString("o")));
+            else
+                metricValues.Add(new GeoOptix.API.Model.MetricValueModel(GENERATION_DATE_METRIC_NAME, null));
+
+            // Note that this loop is only over numeric metrics from the database. String metrics are handled in the code above.
+            foreach (Data.MetricDefinitions.MetricDefinitionBase metricDef in schemaDef.MetricsByID.Values.Where<Data.MetricDefinitions.MetricDefinitionBase>(x => x.DataTypeID == 10023))
             {
                 if (Metrics.ContainsKey(metricDef.ID) && Metrics[metricDef.ID].HasValue)
                 {
-                    if (metricDef.DataTypeID == 10023)
-                    {
-                        string sFormat = "0";
-                        if (metricDef.Precision.HasValue)
-                            sFormat = string.Format("0.{0}", new string('0', Convert.ToInt32(metricDef.Precision.Value)));
+                    string sFormat = "0";
+                    if (metricDef.Precision.HasValue)
+                        sFormat = string.Format("0.{0}", new string('0', Convert.ToInt32(metricDef.Precision.Value)));
 
-                        string sMetricValue = Metrics[metricDef.ID].Value.ToString(sFormat);
-                        metricValues.Add(new GeoOptix.API.Model.MetricValueModel(metricDef.Name, sMetricValue));
-                    }
+                    string sMetricValue = Metrics[metricDef.ID].Value.ToString(sFormat);
+                    metricValues.Add(new GeoOptix.API.Model.MetricValueModel(metricDef.Name, sMetricValue));
                 }
+                else
+                    metricValues.Add(new GeoOptix.API.Model.MetricValueModel(metricDef.Name, null));
             }
 
             return metricValues;
@@ -65,8 +74,8 @@ namespace CHaMPWorkbench.CHaMPData
 
     public class MetricVisitInstance : MetricInstance
     {
-        public MetricVisitInstance(long nInstanceID, long nVisitID, string sModelVersion)
-            : base(nInstanceID, nVisitID, sModelVersion)
+        public MetricVisitInstance(long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate)
+            : base(nInstanceID, nVisitID, sModelVersion, dtGenerationDate)
         {
 
         }
@@ -90,7 +99,11 @@ namespace CHaMPWorkbench.CHaMPData
                     while (dbRead.Read())
                     {
                         instances[dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))] = new List<MetricInstance>() {
-                            new MetricVisitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion"))
+                            new MetricVisitInstance(
+                                dbRead.GetInt64(dbRead.GetOrdinal("InstanceID"))
+                                , dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))
+                                , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                                ,naru.db.sqlite.SQLiteHelpers.GetSafeValueNDT(ref dbRead, "MetricsCalculatedOn"))
                         };
                     }
                     dbRead.Close();
@@ -125,8 +138,8 @@ namespace CHaMPWorkbench.CHaMPData
         public string TierName { get; internal set; }
         public ushort TierLevel { get; internal set; }
 
-        public MetricTierInstance(ushort TierLevel, long nInstanceID, long nVisitID, string sModelVersion, long nTierID, string sTierName)
-        : base(nInstanceID, nVisitID, sModelVersion)
+        public MetricTierInstance(ushort TierLevel, long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate, long nTierID, string sTierName)
+        : base(nInstanceID, nVisitID, sModelVersion, dtGenerationDate)
         {
             TierID = nTierID;
             TierName = sTierName;
@@ -154,8 +167,14 @@ namespace CHaMPWorkbench.CHaMPData
                         if (!instances.ContainsKey(visitID))
                             instances[visitID] = new List<MetricInstance>();
 
-                        instances[visitID].Add(new MetricTierInstance(TierLevel, dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
-                            , dbRead.GetInt64(dbRead.GetOrdinal("TierID")), dbRead.GetString(dbRead.GetOrdinal("TierName"))));
+                        instances[visitID].Add(new MetricTierInstance(
+                            TierLevel
+                            , dbRead.GetInt64(dbRead.GetOrdinal("InstanceID"))
+                            , dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))
+                            , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                                                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDT(ref dbRead, "MetricsCalculatedOn")
+                            , dbRead.GetInt64(dbRead.GetOrdinal("TierID"))
+                            , dbRead.GetString(dbRead.GetOrdinal("TierName"))));
                     }
                     dbRead.Close();
                 }
@@ -199,8 +218,8 @@ namespace CHaMPWorkbench.CHaMPData
         public string Tier1Name { get; internal set; }
         public string Tier2Name { get; internal set; }
 
-        public MetricChannelUnitInstance(long nInstanceID, long nVisitID, string sModelVersion, long nChannelUnitNumber, string sTier1Name, string sTier2Name)
-        : base(nInstanceID, nVisitID, sModelVersion)
+        public MetricChannelUnitInstance(long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate, long nChannelUnitNumber, string sTier1Name, string sTier2Name)
+        : base(nInstanceID, nVisitID, sModelVersion, dtGenerationDate)
         {
             ChannelUnitNumber = nChannelUnitNumber;
             Tier1Name = sTier1Name;
@@ -229,7 +248,11 @@ namespace CHaMPWorkbench.CHaMPData
                         if (!instances.ContainsKey(visitID))
                             instances[visitID] = new List<MetricInstance>();
 
-                        instances[visitID].Add(new MetricChannelUnitInstance(dbRead.GetInt64(dbRead.GetOrdinal("InstanceID")), dbRead.GetInt64(dbRead.GetOrdinal("VisitID")), naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                        instances[visitID].Add(new MetricChannelUnitInstance(
+                            dbRead.GetInt64(dbRead.GetOrdinal("InstanceID"))
+                            , dbRead.GetInt64(dbRead.GetOrdinal("VisitID"))
+                            , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "ModelVersion")
+                            , naru.db.sqlite.SQLiteHelpers.GetSafeValueNDT(ref dbRead, "MetricsCalculatedOn")
                             , dbRead.GetInt64(dbRead.GetOrdinal("ChannelUnitNumber")), dbRead.GetString(dbRead.GetOrdinal("Tier1")), dbRead.GetString(dbRead.GetOrdinal("Tier1"))));
                     }
                     dbRead.Close();

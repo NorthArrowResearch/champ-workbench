@@ -60,17 +60,20 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         private void UploadMetrics(Dictionary<long, MetricBatch> selectedBatches)
         {
+            long nTotalInstances = GetTotalVisitCount(ref selectedBatches);
+            long nInstancesProcessed = 0;
+
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
-                Dictionary<long, List<MetricInstance>> instances = null;
+                Dictionary<long, List<MetricInstance>> dVisitsToInstances = null;
                 switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
                 {
                     case "metric_visitmetrics":
-                        instances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
+                        dVisitsToInstances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
                         break;
 
                     case "metric_channelunitmetrics":
-                        instances = CHaMPData.MetricChannelUnitInstance.LoadChannelUnitMetricsMetrics(batch);
+                        dVisitsToInstances = CHaMPData.MetricChannelUnitInstance.LoadChannelUnitMetricsMetrics(batch);
                         break;
 
                     case "metric_tiermetrics":
@@ -78,52 +81,78 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         if (batch.Schema.Name.Contains("ier2"))
                             tierLevel = 2;
 
-                        instances = CHaMPData.MetricTierInstance.LoadTierMetrics(tierLevel, batch);
+                        dVisitsToInstances = CHaMPData.MetricTierInstance.LoadTierMetrics(tierLevel, batch);
                         break;
 
                     default:
                         throw new Exception("Unhandled database table");
                 }
 
-                ReportProgress(0, string.Format("Processing the {0} schema with {1} instances", batch.Schema, instances.Count));
+
+                ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("Processing the {0} schema with metrics for {1} visits", batch.Schema, dVisitsToInstances.Count));
 
                 SchemaDefinitionWorkbench schemaDef = new SchemaDefinitionWorkbench(batch.Schema.ID, batch.Schema.Name);
                 ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
                 if (apiSchema.Payload == null)
                 {
                     // Visit metric schema does not exist... create it
-                    ReportProgress(0, string.Format("The {0} schema does not exist on the API and is being created.", batch.Schema, instances.Count));
+                    ReportProgress(0, string.Format("The {0} schema does not exist on the API and is being created.", batch.Schema, dVisitsToInstances.Count));
                     apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
                 }
 
-                foreach (KeyValuePair<long, List<MetricInstance>> kvp in instances)
+                foreach (KeyValuePair<long, List<MetricInstance>> kvp in dVisitsToInstances)
                 {
                     // Build a visit object
                     apiVisit visit = new apiVisit(kvp.Key, Program.API);
                     ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
                     if (apiInstances.Payload != null)
-                        ReportProgress(0, string.Format("{0} {1} existing metric instances retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, kvp.Key));
+                        ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("\t{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, kvp.Key));
 
                     foreach (MetricInstance inst in kvp.Value)
                     {
                         if (bgWorker.CancellationPending)
                         {
-                            ReportProgress(0, "User cancelled process. Aborting metric upload.");
+                            ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), "User cancelled process. Aborting metric upload.");
                             return;
                         }
 
                         // Create each new metric instance                    
-                        ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
-                        apiHelper.CreateMetricInstance(visit, batch.Schema.Name, inst.GetAPIMetricInstance(ref schemaDef));
-
+                        ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("\tCreating metric instance for visit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
+                        List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
+                        ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, batch.Schema.Name, metricValues);
+                        
                         // Now delete the existing metric instances that were on the API before this process.
                         foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
                             apiHelper.DeleteInstance(oldInstance);
                     }
+
+                    nInstancesProcessed += 1;
                 }
+
             }
 
             ReportProgress(100, "Metric upload complete.");
+        }
+
+        private long GetTotalVisitCount(ref Dictionary<long, MetricBatch> selectedBatches)
+        {
+            long nTotalVisitCount = 0;
+            string batchIDs = string.Join(",", selectedBatches.Keys.Select<long, string>(x => x.ToString()));
+
+            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
+            {
+                dbCon.Open();
+                nTotalVisitCount = naru.db.sqlite.SQLiteHelpers.GetScalarID(dbCon, string.Format("SELECT Count(*) FROM Metric_Instances WHERE BatchID IN ({0})", batchIDs));
+            }
+            return nTotalVisitCount;
+        }
+
+        private int GetProgressPercent(long nProcessed, long nTotal)
+        {
+            if (nProcessed == 0 || nTotal == 0)
+                return 0;
+            else
+                return Convert.ToInt32(100.0 * ((double)nProcessed / (double)nTotal));
         }
 
         private bool AuthenticateAPI(string UserName, string Password)

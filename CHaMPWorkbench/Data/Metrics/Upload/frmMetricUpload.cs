@@ -22,7 +22,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         private void frmMetricUpload_Load(object sender, EventArgs e)
         {
-
+            chkLog_CheckedChanged(null, null);
+            txtLog.Text = System.IO.Path.Combine(Environment.GetEnvironmentVariable("TEMP"), string.Format("{0:yyyMMdd_HHmmss}_metricupload.log", DateTime.Now));
         }
 
         private bool ValidateForm()
@@ -82,6 +83,17 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             cmdOK.Enabled = true;
             cmdCancel.Text = "Close";
             uploader = null;
+        }
+
+        private void chkLog_CheckedChanged(object sender, EventArgs e)
+        {
+            txtLog.Enabled = chkLog.Checked;
+            cmdBrowseLog.Enabled = chkLog.Checked;
+        }
+
+        private void cmdBrowseLog_Click(object sender, EventArgs e)
+        {
+            naru.ui.Textbox.BrowseSaveFile(ref txtLog, "Metric Upload Log File", "Comma Separated Value files (*.csv)|*.csv");
         }
     }
 }
