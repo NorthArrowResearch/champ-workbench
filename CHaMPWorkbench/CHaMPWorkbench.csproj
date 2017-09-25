@@ -277,6 +277,7 @@
     <Compile Include="Data\Metrics\CopyMetrics\frmCopyMetrics.Designer.cs">
       <DependentUpon>frmCopyMetrics.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Metrics\MetricDefinitions\MetricDefinitionBase.cs" />
     <Compile Include="Data\Metrics\Review\frmMetricGrid.cs">
       <SubType>Form</SubType>
     </Compile>

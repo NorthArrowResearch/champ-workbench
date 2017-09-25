@@ -8,16 +8,12 @@ using System.Xml;
 
 namespace CHaMPWorkbench.Data.MetricDefinitions
 {
-    public class MetricDefinition : naru.db.NamedObject
+    public class MetricDefinition : MetricDefinitionBase
     {
-        public string DisplayNameShort { get; internal set; }
         public long ModelID { get; internal set; }
         public string ModelName { get; internal set; }
         public string XPath { get; internal set; }
         public bool IsActive { get; internal set; }
-        public long DataTypeID { get; internal set; }
-        public string DataTypeName { get; internal set; }
-        public long? Precision { get; internal set; }
         public double? Threshold { get; internal set; }
         public double? MinValue { get; internal set; }
         public double? MaxValue { get; internal set; }
@@ -40,16 +36,13 @@ namespace CHaMPWorkbench.Data.MetricDefinitions
             , long? nPrecision, double? fThreshold, double? fMinValue, double? fMaxValue
             , string sMMLink, string sAltLink
             , DateTime dtUpdatedOn, DateTime dtAddedOn)
-            : base(nID, sTitle)
+
+            : base(nID, sTitle, sDisplayNameShort, nDataTypeID, sDataTypeName, nPrecision)
         {
-            DisplayNameShort = sDisplayNameShort;
             ModelID = nModelID;
             ModelName = sModelName;
             XPath = sXPath;
             IsActive = bIsActive;
-            DataTypeID = nDataTypeID;
-            DataTypeName = sDataTypeName;
-            Precision = nPrecision;
             Threshold = fThreshold;
             MinValue = fMinValue;
             MaxValue = fMaxValue;
