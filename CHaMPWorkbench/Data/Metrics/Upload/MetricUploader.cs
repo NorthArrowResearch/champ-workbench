@@ -86,7 +86,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
                 ReportProgress(0, string.Format("Processing the {0} schema with {1} instances", batch.Schema, instances.Count));
 
-                SchemaDefinition schemaDef = new SchemaDefinition(batch.Schema.ID, batch.Schema.Name);
+                SchemaDefinitionWorkbench schemaDef = new SchemaDefinitionWorkbench(batch.Schema.ID, batch.Schema.Name);
                 ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
                 if (apiSchema.Payload == null)
                 {
@@ -113,7 +113,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
                         // Create each new metric instance                    
                         ReportProgress(0, string.Format("\tVisit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
-                        apiHelper.CreateMetricInstance(visit, batch.Schema.Name, inst.GetAPIMetricInstance());
+                        apiHelper.CreateMetricInstance(visit, batch.Schema.Name, inst.GetAPIMetricInstance(ref schemaDef));
 
                         // Now delete the existing metric instances that were on the API before this process.
                         foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
@@ -155,7 +155,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             bool bStatus = true;
             foreach (long schemaID in uniqueSchemas.Keys)
             {
-                SchemaDefinition dbDef = new SchemaDefinition(schemaID, uniqueSchemas[schemaID]);
+                SchemaDefinition dbDef = new SchemaDefinitionWorkbench(schemaID, uniqueSchemas[schemaID]);
                 SchemaDefinition xmlDef = new SchemaDefinition(MetricSchemas[schemaID].MetricSchemaXMLFile);
                 List<string> Messages = null;
                 if (!dbDef.Equals(ref xmlDef, out Messages))

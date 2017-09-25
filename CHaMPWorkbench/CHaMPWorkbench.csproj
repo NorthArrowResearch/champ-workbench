@@ -372,6 +372,7 @@
     </Compile>
     <Compile Include="Data\Metrics\Upload\MetricUploader.cs" />
     <Compile Include="Data\Metrics\Upload\SchemaDefinition.cs" />
+    <Compile Include="Data\Metrics\Upload\SchemaDefinitionWorkbench.cs" />
     <Compile Include="Data\ucPrograms.cs">
       <SubType>UserControl</SubType>
     </Compile>

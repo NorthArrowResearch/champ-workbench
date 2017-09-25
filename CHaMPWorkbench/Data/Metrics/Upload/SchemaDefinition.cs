@@ -15,12 +15,10 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
     /// </summary>
     public class SchemaDefinition
     {
-
-
         public string Name { get; internal set; }
         public Dictionary<string, string> Metrics { get; internal set; }
 
-        private void Init(string sName)
+        protected void Init(string sName)
         {
             Name = sName;
             Metrics = new Dictionary<string, string>();
@@ -29,31 +27,10 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             Metrics.Add(CHaMPData.MetricInstance.GENERATION_DATE_METRIC_NAME, "string");
         }
 
-        /// <summary>
-        /// Constructor for loading schema from database
-        /// </summary>
-        /// <param name="SchemaID"></param>
-        /// <param name="sName"></param>
-        public SchemaDefinition(long SchemaID, string sName)
+        protected SchemaDefinition(long nSchemaID, string sSchemaName)
         {
-            Init(sName);
-
-            using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
-            {
-                dbCon.Open();
-
-                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT D.DisplayNameShort as Title, L.Title AS DataType" +
-                    " FROM Metric_Definitions D" +
-                    " INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID" +
-                    " INNER JOIN LookupListItems L ON D.DataTypeID = L.ItemID" +
-                    " WHERE (SchemaID = @SchemaID) AND (IsActive <> 0)", dbCon))
-                {
-                    dbCom.Parameters.AddWithValue("SchemaID", SchemaID);
-                    SQLiteDataReader dbRead = dbCom.ExecuteReader();
-                    while (dbRead.Read())
-                        Metrics[dbRead.GetString(dbRead.GetOrdinal("Title"))] = dbRead.GetString(dbRead.GetOrdinal("DataType"));
-                }
-            }
+            Name = sSchemaName;
+            Init(sSchemaName);
         }
 
         public SchemaDefinition(string schemaDefinitionURL)

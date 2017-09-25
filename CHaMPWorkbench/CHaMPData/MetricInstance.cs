@@ -26,12 +26,40 @@ namespace CHaMPWorkbench.CHaMPData
             Metrics = new Dictionary<long, double?>();
         }
 
-        public virtual List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance()
+        public virtual List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
         {
             List<GeoOptix.API.Model.MetricValueModel> metricValues = new List<GeoOptix.API.Model.MetricValueModel>();
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel(MODEL_VERSION_METRIC_NAME, ModelVersion));
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel(GENERATION_DATE_METRIC_NAME, GenerationDate.ToString("o")));
+
+            foreach (Data.MetricDefinitions.MetricDefinitionBase metricDef in schemaDef.MetricsByID.Values)
+            {
+                if (Metrics.ContainsKey(metricDef.ID) && Metrics[metricDef.ID].HasValue)
+                {
+                    if (metricDef.DataTypeID == 10023)
+                    {
+                        string sFormat = "0";
+                        if (metricDef.Precision.HasValue)
+                            sFormat = string.Format("0:0.{0}", new string('0', Convert.ToInt32(metricDef.Precision.Value)));
+
+                        string sMetricValue = Metrics[metricDef.ID].Value.ToString(sFormat);
+                        metricValues.Add(new GeoOptix.API.Model.MetricValueModel(metricDef.Name, sMetricValue));
+                    }
+                }
+            }
+
             return metricValues;
+        }
+
+        public class MetricInstanceValue : naru.db.NamedObject
+        {
+            public double? MetricValue { get; internal set; }
+
+            public MetricInstanceValue(long nID, string sName, double? fMetricValue)
+                : base(nID, sName)
+            {
+                MetricValue = fMetricValue;
+            }
         }
     }
 
@@ -40,10 +68,7 @@ namespace CHaMPWorkbench.CHaMPData
         public MetricVisitInstance(long nInstanceID, long nVisitID, string sModelVersion)
             : base(nInstanceID, nVisitID, sModelVersion)
         {
-            InstanceID = nInstanceID;
-            VisitID = nVisitID;
-            ModelVersion = sModelVersion;
-            Metrics = new Dictionary<long, double?>();
+
         }
 
         /// <summary>
@@ -159,9 +184,9 @@ namespace CHaMPWorkbench.CHaMPData
             return instances;
         }
 
-        public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance()
+        public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
         {
-            List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance();
+            List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance(ref schemaDef);
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel(string.Format("Tier{0}", TierLevel), TierName));
             return metricValues;
         }
@@ -233,9 +258,9 @@ namespace CHaMPWorkbench.CHaMPData
             return instances;
         }
 
-        public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance()
+        public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
         {
-            List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance();
+            List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance(ref schemaDef);
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("ChannelUnitNumber", ChannelUnitNumber.ToString()));
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier1", Tier1Name));
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier1", Tier2Name));
