@@ -48,8 +48,10 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             Init(apiSchema.Payload.Name);
 
+            // Remember that Generation Date and ModelVersion will already be in the dictionary by virtue of Init()
             foreach (GeoOptix.API.Model.MetricAttributeModel apiMetric in apiSchema.Payload.Attributes)
-                Metrics.Add(apiMetric.Name, apiMetric.Type);
+                if (!Metrics.ContainsKey(apiMetric.Name))
+                    Metrics.Add(apiMetric.Name, apiMetric.Type);
         }
 
         public bool Equals(ref SchemaDefinition otherSchema, out List<string> Messages)

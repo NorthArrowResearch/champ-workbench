@@ -20,11 +20,14 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         public SchemaDefinitionWorkbench(long nSchemaID, string sSchemaName)
                  : base(nSchemaID, sSchemaName)
         {
+            SchemaID = nSchemaID;
+            MetricsByID = new Dictionary<long, MetricDefinitions.MetricDefinitionBase>();
+
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
 
-                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID AS MetricID, D.DisplayNameShort as Title, L.ItemID AS DataTypeID, L.Title AS DataType, D.Precision" +
+                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT D.MetricID AS MetricID, D.DisplayNameShort as Title, L.ItemID AS DataTypeID, L.Title AS DataType, Precision" +
                     " FROM Metric_Definitions D" +
                     " INNER JOIN Metric_Schema_Definitions S ON D.MetricID = S.MetricID" +
                     " INNER JOIN LookupListItems L ON D.DataTypeID = L.ItemID" +

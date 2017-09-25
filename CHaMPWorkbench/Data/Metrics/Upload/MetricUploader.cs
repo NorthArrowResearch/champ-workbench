@@ -64,7 +64,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 Dictionary<long, List<MetricInstance>> instances = null;
                 switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
                 {
-                    case "metric_visitMetrics":
+                    case "metric_visitmetrics":
                         instances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
                         break;
 
