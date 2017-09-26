@@ -1843,23 +1843,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
-        private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
         private System.Windows.Forms.TextBox txtOrganization;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripMenuItem metricDefinitionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileVerticalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyMetricValuesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scrapValidationLogXMLFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportMetricValuesForSelectedVisitsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem metricUploadToolStripMenuItem;
     }
 }

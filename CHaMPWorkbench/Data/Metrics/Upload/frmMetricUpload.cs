@@ -24,6 +24,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             chkLog_CheckedChanged(null, null);
             txtLog.Text = System.IO.Path.Combine(Environment.GetEnvironmentVariable("TEMP"), string.Format("{0:yyyMMdd_HHmmss}_metricupload.log", DateTime.Now));
+            chkLog.Checked = true;
         }
 
         private bool ValidateForm()

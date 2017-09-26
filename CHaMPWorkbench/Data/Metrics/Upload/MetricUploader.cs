@@ -12,10 +12,20 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 {
     public class MetricUploader
     {
+        private enum StatusTypes
+        {
+            Info
+            , Warning
+            , Error
+        }
+
         public CHaMPData.Program Program { get; internal set; }
         Dictionary<long, MetricSchema> MetricSchemas;
         Dictionary<long, MetricDefinitions.MetricDefinition> MetricDefs;
         public System.IO.FileInfo fiLog { get; internal set; }
+
+        private int InstanceTotal { get; set; }
+        private int InstancesProcessed { get; set; }
 
         GeoOptix.API.ApiHelper apiHelper;
 
@@ -24,17 +34,34 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         private System.ComponentModel.BackgroundWorker bgWorker;
         public StringBuilder Messages { get; internal set; }
 
-        private void ReportProgress(int value, string sMessage)
+        private void ReportProgress(string sMessage, StatusTypes eStatus = StatusTypes.Info)
         {
-            bgWorker.ReportProgress(value);
             System.Diagnostics.Debug.Print(sMessage);
             Messages.AppendLine(sMessage);
+            LogMessage(sMessage, eStatus);
 
+            int progressPercent = 0;
+            if (InstancesProcessed != 0 && InstanceTotal != 0)
+                progressPercent = Convert.ToInt32(100.0 * ((double)InstancesProcessed / (double)InstanceTotal));
+
+            bgWorker.ReportProgress(progressPercent);
+        }
+
+        private void LogMessage(string sMessage, StatusTypes eStatus = StatusTypes.Info)
+        {
             if (fiLog != null)
             {
-                using (StreamWriter sw = File.Exists(fiLog.FullName) ? File.AppendText(fiLog.FullName) : File.CreateText(fiLog.FullName))
+                if (!File.Exists(fiLog.FullName))
                 {
-                    sw.WriteLine(sMessage);
+                    using (StreamWriter sw = File.CreateText(fiLog.FullName))
+                    {
+                        sw.WriteLine("status,message");
+                    }
+                }
+
+                using (StreamWriter sw = File.AppendText(fiLog.FullName))
+                {
+                    sw.WriteLine(string.Format("{0},{1}", eStatus.ToString().PadRight("Warning".Length, ' '), sMessage.Replace(",", "")));
                 }
             }
         }
@@ -59,112 +86,116 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             try
             {
+                ReportProgress(string.Format("Metric uploader initialize with {0} metric batches", selectedBatches.Count));
+
                 if (AuthenticateAPI(UserName, Password))
                     if (VerifyMetricSchemasMatch(selectedBatches))
                         UploadMetrics(selectedBatches);
+
+                ReportProgress("Metric upload complete");
             }
             catch (Exception ex)
             {
-                ReportProgress(100, string.Format("ERROR: {0}", ex.Message));
-                ReportProgress(100, "Process aborted due to unhandled error.");
+                ReportProgress(ex.Message, StatusTypes.Error);
+                ReportProgress("Process aborted due to unhandled error", StatusTypes.Error);
             }
         }
 
         private void UploadMetrics(Dictionary<long, MetricBatch> selectedBatches)
         {
-            long nTotalInstances = GetTotalVisitCount(ref selectedBatches);
-            long nInstancesProcessed = 0;
+            InstanceTotal = GetTotalVisitCount(ref selectedBatches);
+
+            // Speed up processing by only checking that each metric schema exists on the API once and then put it in this dict.
+            List<string> CheckedSchemas = new List<string>();
 
             foreach (CHaMPData.MetricBatch batch in selectedBatches.Values)
             {
-                Dictionary<long, List<MetricInstance>> dVisitsToInstances = null;
-                switch (MetricSchemas[batch.Schema.ID].DatabaseTable.ToLower())
-                {
-                    case "metric_visitmetrics":
-                        dVisitsToInstances = CHaMPData.MetricVisitInstance.LoadVisitMetrics(batch);
-                        break;
-
-                    case "metric_channelunitmetrics":
-                        dVisitsToInstances = CHaMPData.MetricChannelUnitInstance.LoadChannelUnitMetricsMetrics(batch);
-                        break;
-
-                    case "metric_tiermetrics":
-                        ushort tierLevel = 1;
-                        if (batch.Schema.Name.Contains("ier2"))
-                            tierLevel = 2;
-
-                        dVisitsToInstances = CHaMPData.MetricTierInstance.LoadTierMetrics(tierLevel, batch);
-                        break;
-
-                    default:
-                        throw new Exception("Unhandled database table");
-                }
-
-
-                ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("Processing the {0} schema with metrics for {1} visits", batch.Schema, dVisitsToInstances.Count));
-
                 SchemaDefinitionWorkbench schemaDef = new SchemaDefinitionWorkbench(batch.Schema.ID, batch.Schema.Name);
-                ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
-                if (apiSchema.Payload == null)
-                {
-                    // Visit metric schema does not exist... create it
-                    ReportProgress(0, string.Format("The {0} schema does not exist on the API and is being created.", batch.Schema, dVisitsToInstances.Count));
-                    apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
-                }
 
+                // Load metric instance(s) from Workbench database for this batch. Dictionary of VisitID to instance list
+                Dictionary<long, List<MetricInstance>> dVisitsToInstances = batch.LoadMetricInstances();
+                ReportProgress(string.Format("Processing the {0} schema with {1} defined metrics and {2} visits", batch.Schema, schemaDef.Metrics.Count, dVisitsToInstances.Count));
+
+                // Only bother checking that the schema exists on API if we haven't already processed this schema
+                if (CheckedSchemas.Contains(schemaDef.Name))
+                {
+                    // Check if the visit level metric schema for this batch is defined on the API. Create it if doesn't
+                    ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
+                    if (apiSchema.Payload == null)
+                    {
+                        // Visit metric schema does not exist... create it
+                        ReportProgress(string.Format("The {0} schema does not exist on the API and is being created.", batch.Schema, dVisitsToInstances.Count));
+                        apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
+                    }
+                    CheckedSchemas.Add(schemaDef.Name);
+                }
+                else
+                    ReportProgress(string.Format("The {0} schema does already exists on the API with {1} defined metrics.", batch.Schema, schemaDef.Metrics.Count));
+
+                // Loop over each visit within the batch. The visit may have 1 or more metric instances
                 foreach (KeyValuePair<long, List<MetricInstance>> kvp in dVisitsToInstances)
                 {
-                    // Build a visit object
                     apiVisit visit = new apiVisit(kvp.Key, Program.API);
-                    ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, batch.Schema.Name);
-                    if (apiInstances.Payload != null)
-                        ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("\t{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), batch.Schema.Name, kvp.Key));
 
-                    foreach (MetricInstance inst in kvp.Value)
+                    try
                     {
-                        if (bgWorker.CancellationPending)
-                        {
-                            ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), "User cancelled process. Aborting metric upload.");
-                            return;
-                        }
+                        // Get all existing metric instances for this visit
+                        ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = GetExistingInstancesFromAPI(visit, schemaDef.Name);
 
-                        // Create each new metric instance                    
-                        ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("\tCreating metric instance for visit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
-                        List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
-                        ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, batch.Schema.Name, metricValues);
+                        // Loop over each metric instance
+                        foreach (MetricInstance inst in kvp.Value)
+                        {
+                            if (bgWorker.CancellationPending)
+                            {
+                                ReportProgress("User cancelled process. Aborting metric upload.");
+                                return;
+                            }
+
+                            // Create each new metric instance                    
+                            ReportProgress(string.Format("Creating metric instance for visit {0} with {1} metric values", inst.VisitID, schemaDef.Metrics.Count));
+                            List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
+                            ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, batch.Schema.Name, metricValues);
+                        }
 
                         // Now delete the existing metric instances that were on the API before this process.
                         foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
+                        {
                             apiHelper.DeleteInstance(oldInstance);
+                            LogMessage(string.Format("Deleted existing instance for visit {0}", visit.VisitID));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ReportProgress(string.Format("Error processing visit {0}", visit.VisitID), StatusTypes.Error);
+                        LogMessage(ex.Message, StatusTypes.Error);
                     }
 
-                    nInstancesProcessed += 1;
+                    InstancesProcessed += 1;
                 }
-
             }
-
-            ReportProgress(100, "Metric upload complete.");
         }
 
-        private long GetTotalVisitCount(ref Dictionary<long, MetricBatch> selectedBatches)
+        private ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> GetExistingInstancesFromAPI(apiVisit visit, string schemaName)
         {
-            long nTotalVisitCount = 0;
+            // Get all existing metric instances for this visit
+            ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, schemaName);
+            if (apiInstances.Payload != null)
+                ReportProgress(string.Format("{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), schemaName, visit.VisitID));
+
+            return apiInstances;
+        }
+
+        private int GetTotalVisitCount(ref Dictionary<long, MetricBatch> selectedBatches)
+        {
+            int nTotalVisitCount = 0;
             string batchIDs = string.Join(",", selectedBatches.Keys.Select<long, string>(x => x.ToString()));
 
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
-                nTotalVisitCount = naru.db.sqlite.SQLiteHelpers.GetScalarID(dbCon, string.Format("SELECT Count(*) FROM Metric_Instances WHERE BatchID IN ({0})", batchIDs));
+                nTotalVisitCount = Convert.ToInt32(naru.db.sqlite.SQLiteHelpers.GetScalarID(dbCon, string.Format("SELECT Count(*) FROM Metric_Instances WHERE BatchID IN ({0})", batchIDs)));
             }
             return nTotalVisitCount;
-        }
-
-        private int GetProgressPercent(long nProcessed, long nTotal)
-        {
-            if (nProcessed == 0 || nTotal == 0)
-                return 0;
-            else
-                return Convert.ToInt32(100.0 * ((double)nProcessed / (double)nTotal));
         }
 
         private bool AuthenticateAPI(string UserName, string Password)
@@ -175,11 +206,11 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             if (apiHelper.AuthToken.IsError)
             {
-                ReportProgress(0, "ERROR: Unable to authenticate on API.");
-                ReportProgress(0, string.Format("\t{0}", apiHelper.AuthToken.Error));
+                ReportProgress(string.Format("Unable to authenticate on API at {0} as user {1}", Program.Keystone, UserName), StatusTypes.Error);
+                ReportProgress(string.Format("Auth Error: {0}", apiHelper.AuthToken.Error), StatusTypes.Error);
             }
             else
-                ReportProgress(0, "API authentication successful.");
+                ReportProgress(string.Format("API authentication successful for {0}", Program.API));
 
             return !apiHelper.AuthToken.IsError;
         }
@@ -202,7 +233,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 List<string> Messages = null;
                 if (!dbDef.Equals(ref xmlDef, out Messages))
                 {
-                    ReportProgress(0, string.Format("The {0} schema differs between the Workbench database and the online XML definition.", uniqueSchemas[schemaID]));
+                    ReportProgress(string.Format("The {0} schema differs between the Workbench database and the online XML definition", uniqueSchemas[schemaID]));
                     bStatus = false;
                 }
 
@@ -213,16 +244,16 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     SchemaDefinition apiDef = new SchemaDefinition(ref apiSchema);
                     if (!dbDef.Equals(ref xmlDef, out Messages))
                     {
-                        ReportProgress(0, string.Format("The {0} schema differs between the definition in the API and the online XML definition.", uniqueSchemas[schemaID]));
+                        ReportProgress(string.Format("The {0} schema differs between the definition in the API and the online XML definition", uniqueSchemas[schemaID]));
                         bStatus = false;
                     }
                 }
             }
 
             if (bStatus)
-                ReportProgress(0, "Metric schemas match between Workbench database and online XML definitions.");
+                ReportProgress("Metric schemas match between Workbench database and online XML definitions");
             else
-                ReportProgress(0, "Aborting due to mismatching metric schemas. No metrics uploaded.");
+                ReportProgress("Aborting due to mismatching metric schemas. No metrics uploaded", StatusTypes.Warning);
 
             return bStatus;
         }
