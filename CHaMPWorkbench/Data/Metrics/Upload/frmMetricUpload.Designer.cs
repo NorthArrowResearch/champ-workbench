@@ -35,9 +35,9 @@
             this.txtMessages = new System.Windows.Forms.TextBox();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.chkLog = new System.Windows.Forms.CheckBox();
-            this.txtLog = new System.Windows.Forms.TextBox();
             this.cmdBrowseLog = new System.Windows.Forms.Button();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.chkLog = new System.Windows.Forms.CheckBox();
             this.ucBatch = new CHaMPWorkbench.Data.Metrics.ucBatchPicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -48,13 +48,13 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(596, 220);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 0;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdOK
             // 
@@ -131,6 +131,27 @@
             this.splitContainer1.SplitterDistance = 259;
             this.splitContainer1.TabIndex = 10;
             // 
+            // cmdBrowseLog
+            // 
+            this.cmdBrowseLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdBrowseLog.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
+            this.cmdBrowseLog.Location = new System.Drawing.Point(648, 188);
+            this.cmdBrowseLog.Name = "cmdBrowseLog";
+            this.cmdBrowseLog.Size = new System.Drawing.Size(23, 23);
+            this.cmdBrowseLog.TabIndex = 11;
+            this.cmdBrowseLog.UseVisualStyleBackColor = true;
+            this.cmdBrowseLog.Click += new System.EventHandler(this.cmdBrowseLog_Click);
+            // 
+            // txtLog
+            // 
+            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLog.Location = new System.Drawing.Point(81, 189);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.Size = new System.Drawing.Size(561, 20);
+            this.txtLog.TabIndex = 10;
+            // 
             // chkLog
             // 
             this.chkLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -143,30 +164,10 @@
             this.chkLog.UseVisualStyleBackColor = true;
             this.chkLog.CheckedChanged += new System.EventHandler(this.chkLog_CheckedChanged);
             // 
-            // txtLog
-            // 
-            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(81, 189);
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.Size = new System.Drawing.Size(561, 20);
-            this.txtLog.TabIndex = 10;
-            // 
-            // cmdBrowseLog
-            // 
-            this.cmdBrowseLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdBrowseLog.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseLog.Location = new System.Drawing.Point(648, 188);
-            this.cmdBrowseLog.Name = "cmdBrowseLog";
-            this.cmdBrowseLog.Size = new System.Drawing.Size(23, 23);
-            this.cmdBrowseLog.TabIndex = 11;
-            this.cmdBrowseLog.UseVisualStyleBackColor = true;
-            this.cmdBrowseLog.Click += new System.EventHandler(this.cmdBrowseLog_Click);
-            // 
             // ucBatch
             // 
             this.ucBatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucBatch.EnableControls = true;
             this.ucBatch.Location = new System.Drawing.Point(0, 0);
             this.ucBatch.Name = "ucBatch";
             this.ucBatch.Size = new System.Drawing.Size(683, 259);

@@ -123,13 +123,9 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     ReportProgress(string.Format("The {0} schema already exists on the API with {1} defined metrics.", batch.Schema, schemaDef.Metrics.Count));
                 else
                 {
-                    // Check if the visit level metric schema for this batch is defined on the API. Create it if doesn't
-                    ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
-                    if (apiSchema.Payload == null)
+                    if (!MetricSchemaExists(ref apiHelper, batch.Schema.Name))
                     {
-                        // Visit metric schema does not exist... create it
-                        ReportProgress(string.Format("The {0} schema does not exist on the API and is being created.", batch.Schema, dVisitsToInstances.Count));
-                        apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
+                        CreateMetricSchema(ref apiHelper, ref schemaDef);
                     }
                     CheckedSchemas.Add(schemaDef.Name);
                 }
@@ -153,22 +149,18 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                                 return;
                             }
 
-                            // Create each new metric instance                    
-                            ReportProgress(string.Format("Creating metric instance for visit {0} with {1} metric values", inst.VisitID, schemaDef.Metrics.Count));
-                            List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
-                            ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, batch.Schema.Name, metricValues);
+                            CreateMetricInstance(visit, inst, ref schemaDef);
                         }
 
                         // Now delete the existing metric instances that were on the API before this process.
                         foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances)
                         {
-                            apiHelper.DeleteInstance(oldInstance);
-                            LogMessage(string.Format("Deleted existing instance for visit {0}", visit.VisitID));
+                            DeleteExistingMetricInstance(ref apiHelper, oldInstance, visit.VisitID);
                         }
                     }
                     catch (Exception ex)
                     {
-                        ReportProgress(string.Format("Error processing visit {0}", visit.VisitID), StatusTypes.Error);
+                        ReportProgress(string.Format("Error processing visit {0}: {1}", visit.VisitID, ex.Message), StatusTypes.Error);
                         LogMessage(ex.Message, StatusTypes.Error);
                     }
 
@@ -177,14 +169,104 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             }
         }
 
+        private void DeleteExistingMetricInstance(ref GeoOptix.API.ApiHelper api, GeoOptix.API.Model.MetricInstanceModel instance, long visitID)
+        {
+            int nAttempt = 1;
+            bool bSuccess = false;
+
+            do
+            {
+                GeoOptix.API.ApiResponse<string> apiResponse = api.DeleteInstance(instance);
+                switch (apiResponse.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.OK:
+                        bSuccess = true;
+                        LogMessage(string.Format("Deleted existing instance for visit {0}", visitID));
+                        break;
+
+                    case System.Net.HttpStatusCode.InternalServerError:
+                        LogMessage(string.Format("Internal server error deleting existing metric instance on attempt {0}", nAttempt), StatusTypes.Warning);
+                        System.Threading.Thread.Sleep(2000);
+                        break;
+
+                    default:
+                        throw new Exception(string.Format("{0} error attempting to delete existing metric instance", apiResponse.StatusCode.ToString()));
+                }
+
+                nAttempt += 1;
+
+            } while (!bSuccess && nAttempt < 11);
+
+            if (!bSuccess)
+                throw new Exception(string.Format("Failed to delete existing metric instance after {0} attempts. URL: {1}", nAttempt, instance.Url));
+        }
+
+        private void CreateMetricSchema(ref GeoOptix.API.ApiHelper api, ref SchemaDefinitionWorkbench schemaDef)
+        {
+            int nAttempt = 1;
+            bool bSuccess = false;
+
+            do
+            {
+                GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiResponse = apiHelper.CreateSchema(schemaDef.Name, GeoOptix.API.Model.ObjectType.Visit, schemaDef.Metrics.ToList<KeyValuePair<string, string>>());
+
+                switch (apiResponse.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.OK:
+                        bSuccess = true;
+                        LogMessage(string.Format("Created visit level metric schema {0}", schemaDef.Name));
+                        break;
+
+                    case System.Net.HttpStatusCode.InternalServerError:
+                        LogMessage(string.Format("Internal server error while creating {0} visit level metric schema on attempt {1]", schemaDef.Name, nAttempt), StatusTypes.Warning);
+                        System.Threading.Thread.Sleep(2000);
+                        break;
+
+                    default:
+                        throw new Exception(string.Format("{0} error attempting to create {0} visit level metric schema", apiResponse.StatusCode.ToString(), schemaDef.Name));
+                }
+
+                nAttempt += 1;
+
+            } while (!bSuccess && nAttempt < 11);
+
+            if (!bSuccess)
+                throw new Exception(string.Format("Failed to create new visit level metric schema {0} after {0} attempts", schemaDef.Name, nAttempt));
+        }
+
         private GeoOptix.API.Model.MetricInstanceModel[] GetExistingInstancesFromAPI(apiVisit visit, string schemaName)
         {
             // Get all existing metric instances for this visit
             ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, schemaName);
+
+            if (apiInstances.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(string.Format("Error while attempting to retrieve existing metric instances for visit {0}: {1}", visit.VisitID, apiInstances.StatusCode));
+
             if (apiInstances.Payload != null)
                 ReportProgress(string.Format("{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), schemaName, visit.VisitID));
 
             return apiInstances.Payload;
+        }
+
+        private void CreateMetricInstance(apiVisit visit, MetricInstance inst, ref SchemaDefinitionWorkbench schemaDef)
+        {
+            ReportProgress(string.Format("Creating metric instance for visit {0} with {1} metric values", inst.VisitID, schemaDef.Metrics.Count));
+            List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
+            ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, schemaDef.Name, metricValues);
+            if (apiResult.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(string.Format("Error creating {0} metric instance for visit {1}: {2}", schemaDef.Name, visit.VisitID, apiResult.StatusCode));
+        }
+
+        private bool MetricSchemaExists(ref GeoOptix.API.ApiHelper apiHelper, string schemaName)
+        {
+            // Check if the visit level metric schema for this batch is defined on the API. Create it if doesn't
+            ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, schemaName);
+            if (apiSchema.StatusCode == System.Net.HttpStatusCode.OK || apiSchema.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return (apiSchema.Payload != null);
+            }
+            else
+                throw new Exception(string.Format("Error attempting to retrieve existing visit level metric schema {0}", schemaName));
         }
 
         private int GetTotalVisitCount(ref Dictionary<long, MetricBatch> selectedBatches)

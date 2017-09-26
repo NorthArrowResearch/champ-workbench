@@ -86,7 +86,7 @@ namespace CHaMPWorkbench.CHaMPData
 
                 case "metric_tiermetrics":
                     ushort tierLevel = 1;
-                    if (Schema.Name.Contains("ier2"))
+                    if (Schema.Name.ToLower().Contains("tier 2"))
                         tierLevel = 2;
 
                     dVisitsToInstances = LoadTierMetrics(tierLevel);

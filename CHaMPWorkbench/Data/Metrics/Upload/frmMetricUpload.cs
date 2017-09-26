@@ -53,6 +53,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 txtMessages.Text = string.Empty;
                 cmdOK.Enabled = false;
                 cmdCancel.Text = "Cancel";
+                cmdCancel.DialogResult = DialogResult.None;
                 ucBatch.EnableControls = false;
                 uploader = new MetricUploader(bgWorker, ucBatch.SelectedProgram, chkLog.Checked ? txtLog.Text : string.Empty);
 
@@ -94,6 +95,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             cmdOK.Enabled = true;
             cmdCancel.Text = "Close";
+            cmdCancel.DialogResult = DialogResult.Cancel;
             uploader = null;
             ucBatch.EnableControls = true;
         }
@@ -107,6 +109,11 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         private void cmdBrowseLog_Click(object sender, EventArgs e)
         {
             naru.ui.Textbox.BrowseSaveFile(ref txtLog, "Metric Upload Log File", "Comma Separated Value files (*.csv)|*.csv");
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            bgWorker.CancelAsync();
         }
     }
 }
