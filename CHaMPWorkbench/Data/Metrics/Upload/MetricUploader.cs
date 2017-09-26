@@ -157,6 +157,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         {
                             DeleteExistingMetricInstance(ref apiHelper, oldInstance, visit.VisitID);
                         }
+
+                        ReportProgress(string.Format("{0} metric schema complete for visit {1}", schemaDef.Name, visit.VisitID));
                     }
                     catch (Exception ex)
                     {
@@ -243,14 +245,15 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 throw new Exception(string.Format("Error while attempting to retrieve existing metric instances for visit {0}: {1}", visit.VisitID, apiInstances.StatusCode));
 
             if (apiInstances.Payload != null)
-                ReportProgress(string.Format("{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), schemaName, visit.VisitID));
+                LogMessage(string.Format("{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), schemaName, visit.VisitID));
 
             return apiInstances.Payload;
         }
 
         private void CreateMetricInstance(apiVisit visit, MetricInstance inst, ref SchemaDefinitionWorkbench schemaDef)
         {
-            ReportProgress(string.Format("Creating metric instance for visit {0} with {1} metric values", inst.VisitID, schemaDef.Metrics.Count));
+            LogMessage(string.Format("Creating metric instance for visit {0} with {1} metric values", inst.VisitID, schemaDef.Metrics.Count));
+
             List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
             ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, schemaDef.Name, metricValues);
             if (apiResult.StatusCode != System.Net.HttpStatusCode.OK)
