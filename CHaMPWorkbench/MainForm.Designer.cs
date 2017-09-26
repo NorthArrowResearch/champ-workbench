@@ -110,6 +110,7 @@
             this.exportAWSLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeMetricsFromCmorgDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSelectedVisitInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeTopoMetricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.uploadTopoSurveyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,16 +128,18 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssDatabasePath = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.txtOrganization = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.grpProtocols = new System.Windows.Forms.GroupBox();
+            this.lstProtocols = new System.Windows.Forms.CheckedListBox();
+            this.cmsProtocol = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectProtocolsWithTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstPrograms = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.rdoPrimary = new System.Windows.Forms.RadioButton();
-            this.txtStreamName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtSiteName = new System.Windows.Forms.TextBox();
+            this.txtNameFilter = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstWatershed = new System.Windows.Forms.CheckedListBox();
@@ -167,6 +170,7 @@
             this.colHasFishData = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colCategoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSiteID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProtocolID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -190,13 +194,14 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportMetricValuesForSelectedVisitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.grpProtocols.SuspendLayout();
+            this.cmsProtocol.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -843,6 +848,13 @@
             this.exportSelectedVisitInformationToolStripMenuItem.Text = "Export Selected Visit Information...";
             this.exportSelectedVisitInformationToolStripMenuItem.Click += new System.EventHandler(this.exportSelectedVisitInformationToolStripMenuItem_Click);
             // 
+            // exportMetricValuesForSelectedVisitsToolStripMenuItem
+            // 
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Name = "exportMetricValuesForSelectedVisitsToolStripMenuItem";
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Text = "Export Metric Values For Selected Visits...";
+            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Click += new System.EventHandler(this.exportMetricValuesForSelectedVisitsToolStripMenuItem_Click);
+            // 
             // scavengeTopoMetricsToolStripMenuItem
             // 
             this.scavengeTopoMetricsToolStripMenuItem.Name = "scavengeTopoMetricsToolStripMenuItem";
@@ -980,13 +992,10 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.txtOrganization);
-            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            this.splitContainer1.Panel1.Controls.Add(this.grpProtocols);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer1.Panel1.Controls.Add(this.txtStreamName);
-            this.splitContainer1.Panel1.Controls.Add(this.label2);
-            this.splitContainer1.Panel1.Controls.Add(this.txtSiteName);
+            this.splitContainer1.Panel1.Controls.Add(this.txtNameFilter);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.grpFieldSeason);
@@ -1000,22 +1009,58 @@
             this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 0;
             // 
-            // txtOrganization
+            // grpProtocols
             // 
-            this.txtOrganization.Location = new System.Drawing.Point(12, 527);
-            this.txtOrganization.Name = "txtOrganization";
-            this.txtOrganization.Size = new System.Drawing.Size(161, 20);
-            this.txtOrganization.TabIndex = 10;
-            this.txtOrganization.TextChanged += new System.EventHandler(this.FilterVisits);
+            this.grpProtocols.Controls.Add(this.lstProtocols);
+            this.grpProtocols.Location = new System.Drawing.Point(12, 460);
+            this.grpProtocols.Name = "grpProtocols";
+            this.grpProtocols.Size = new System.Drawing.Size(161, 87);
+            this.grpProtocols.TabIndex = 4;
+            this.grpProtocols.TabStop = false;
+            this.grpProtocols.Text = "Protocols";
             // 
-            // label3
+            // lstProtocols
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 509);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Organization";
+            this.lstProtocols.CheckOnClick = true;
+            this.lstProtocols.ContextMenuStrip = this.cmsProtocol;
+            this.lstProtocols.FormattingEnabled = true;
+            this.lstProtocols.Location = new System.Drawing.Point(7, 20);
+            this.lstProtocols.Name = "lstProtocols";
+            this.lstProtocols.Size = new System.Drawing.Size(148, 64);
+            this.lstProtocols.TabIndex = 0;
+            // 
+            // cmsProtocol
+            // 
+            this.cmsProtocol.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.selectProtocolsWithTopoDataToolStripMenuItem,
+            this.toolStripMenuItem2});
+            this.cmsProtocol.Name = "cmsWatershed";
+            this.cmsProtocol.Size = new System.Drawing.Size(244, 92);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(243, 22);
+            this.toolStripMenuItem1.Text = "Select All";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.AllNoneProtocolsClick);
+            // 
+            // selectProtocolsWithTopoDataToolStripMenuItem
+            // 
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Name = "selectProtocolsWithTopoDataToolStripMenuItem";
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Text = "Select Protocols With Topo Data";
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(243, 22);
+            this.toolStripMenuItem2.Text = "Select None";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.AllNoneProtocolsClick);
             // 
             // groupBox3
             // 
@@ -1070,39 +1115,22 @@
             this.rdoPrimary.UseVisualStyleBackColor = true;
             this.rdoPrimary.CheckedChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
-            // txtStreamName
+            // txtNameFilter
             // 
-            this.txtStreamName.Location = new System.Drawing.Point(13, 480);
-            this.txtStreamName.Name = "txtStreamName";
-            this.txtStreamName.Size = new System.Drawing.Size(161, 20);
-            this.txtStreamName.TabIndex = 8;
-            this.txtStreamName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 462);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Stream name";
-            // 
-            // txtSiteName
-            // 
-            this.txtSiteName.Location = new System.Drawing.Point(13, 434);
-            this.txtSiteName.Name = "txtSiteName";
-            this.txtSiteName.Size = new System.Drawing.Size(161, 20);
-            this.txtSiteName.TabIndex = 6;
-            this.txtSiteName.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
+            this.txtNameFilter.Location = new System.Drawing.Point(13, 434);
+            this.txtNameFilter.Name = "txtNameFilter";
+            this.txtNameFilter.Size = new System.Drawing.Size(161, 20);
+            this.txtNameFilter.TabIndex = 6;
+            this.txtNameFilter.TextChanged += new System.EventHandler(this.ControlChange_FilterVisits);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 416);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(163, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Site name";
+            this.label1.Text = "Site, stream or organization name";
             // 
             // groupBox1
             // 
@@ -1238,6 +1266,7 @@
             this.colHasFishData,
             this.colCategoryName,
             this.colSiteID,
+            this.colProtocolID,
             this.colSampleDate,
             this.colPanel,
             this.colCahnnelUnits});
@@ -1409,6 +1438,14 @@
             this.colSiteID.Name = "colSiteID";
             this.colSiteID.ReadOnly = true;
             this.colSiteID.Visible = false;
+            // 
+            // colProtocolID
+            // 
+            this.colProtocolID.DataPropertyName = "ProtocolID";
+            this.colProtocolID.HeaderText = "ProtocolID";
+            this.colProtocolID.Name = "colProtocolID";
+            this.colProtocolID.ReadOnly = true;
+            this.colProtocolID.Visible = false;
             // 
             // colSampleDate
             // 
@@ -1591,13 +1628,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // exportMetricValuesForSelectedVisitsToolStripMenuItem
-            // 
-            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Name = "exportMetricValuesForSelectedVisitsToolStripMenuItem";
-            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Text = "Export Metric Values For Selected Visits...";
-            this.exportMetricValuesForSelectedVisitsToolStripMenuItem.Click += new System.EventHandler(this.exportMetricValuesForSelectedVisitsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1621,6 +1651,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.grpProtocols.ResumeLayout(false);
+            this.cmsProtocol.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1739,9 +1771,7 @@
         private System.Windows.Forms.ToolStripMenuItem createNewWorkbenchDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scavengeMetricsFromCmorgDownloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createCustomVisitToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtStreamName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtSiteName;
+        private System.Windows.Forms.TextBox txtNameFilter;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rdoAll;
@@ -1759,6 +1789,27 @@
         private System.Windows.Forms.ToolStripMenuItem exportSelectedVisitInformationToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckedListBox lstPrograms;
+        private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem metricDefinitionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tileVerticalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyMetricValuesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scrapValidationLogXMLFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportMetricValuesForSelectedVisitsToolStripMenuItem;
+        private System.Windows.Forms.GroupBox grpProtocols;
+        private System.Windows.Forms.CheckedListBox lstProtocols;
+        private System.Windows.Forms.ContextMenuStrip cmsProtocol;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem selectProtocolsWithTopoDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;
@@ -1778,26 +1829,10 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn colHasFishData;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategoryName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSiteID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProtocolID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSampleDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCahnnelUnits;
-        private System.Windows.Forms.ToolStripMenuItem downloadTopoDataAndHydraulicModelFilesToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtOrganization;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ToolStripMenuItem scavengeTopoMetricsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uploadTopoSurveyProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripMenuItem metricDefinitionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileVerticalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem metricDownloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripMenuItem runAWSAutomationWorkerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyMetricValuesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scrapValidationLogXMLFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportMetricValuesForSelectedVisitsToolStripMenuItem;
     }
 }
 
