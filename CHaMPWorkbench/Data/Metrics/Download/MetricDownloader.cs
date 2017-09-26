@@ -390,7 +390,12 @@ namespace CHaMPWorkbench.Data.Metrics
                         if (schemaMetrics[schema.ID][aValue.Name].DataTypeID == 10023)
                         {
                             // Numeric Metrics
-                            pMetricValue.Value = aValue.Value;
+                            pMetricValue.Value = DBNull.Value;
+                            double fValue = 0;
+                            if (!string.IsNullOrEmpty(aValue.Value) && double.TryParse(aValue.Value, out fValue))
+                            {
+                                pMetricValue.Value = fValue;
+                            }
                             dbCom.ExecuteNonQuery();
                         }
                         else
@@ -442,8 +447,13 @@ namespace CHaMPWorkbench.Data.Metrics
                 {
                     if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
                     {
-                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                        pMetricValue.Value = aValue.Value;
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name].ID;
+                        pMetricValue.Value = DBNull.Value;
+                        double fValue;
+                        if (string.Compare(aValue.Type, "numeric", true) == 0 && !string.IsNullOrEmpty(aValue.Value) && double.TryParse(aValue.Value, out fValue))
+                        {
+                            pMetricValue.Value = fValue;
+                        }
                         dbCom.ExecuteNonQuery();
                     }
                 }
@@ -482,8 +492,13 @@ namespace CHaMPWorkbench.Data.Metrics
 
                     if (schemaMetrics[schema.ID].ContainsKey(aValue.Name))
                     {
-                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name];
-                        pMetricValue.Value = aValue.Value;
+                        pMetricID.Value = schemaMetrics[schema.ID][aValue.Name].ID;
+                        pMetricValue.Value = DBNull.Value;
+                        double fValue;
+                        if (string.Compare(aValue.Type, "numeric", true) == 0 && !string.IsNullOrEmpty(aValue.Value) && double.TryParse(aValue.Value, out fValue))
+                        {
+                            pMetricValue.Value = fValue;
+                        }
                         dbCom.ExecuteNonQuery();
                     }
                 }

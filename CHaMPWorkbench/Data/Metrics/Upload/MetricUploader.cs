@@ -70,6 +70,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         public MetricUploader(System.ComponentModel.BackgroundWorker bgw, CHaMPData.Program theProgram, string sLogFile)
         {
+            throw new Exception("Are you working in production?");
+
             bgWorker = bgw;
             Program = theProgram;
             if (!string.IsNullOrEmpty(sLogFile))
