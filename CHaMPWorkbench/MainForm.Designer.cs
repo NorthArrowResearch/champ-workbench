@@ -357,6 +357,7 @@
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Visible = false;
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
             // unpackMonitoringData7ZipArchiveToolStripMenuItem
@@ -365,6 +366,7 @@
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Visible = false;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
             // createCustomVisitToolStripMenuItem
@@ -407,6 +409,7 @@
             // 
             this.toolStripSeparator18.Name = "toolStripSeparator18";
             this.toolStripSeparator18.Size = new System.Drawing.Size(331, 6);
+            this.toolStripSeparator18.Visible = false;
             // 
             // prepareDatabaseForDeploymentToolStripMenuItem
             // 
@@ -414,6 +417,7 @@
             this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Visible = false;
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
             // 
             // rBTToolStripMenuItem
@@ -780,6 +784,7 @@
             this.jamesHensleighToolStripMenuItem.Name = "jamesHensleighToolStripMenuItem";
             this.jamesHensleighToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.jamesHensleighToolStripMenuItem.Text = "James Hensleigh";
+            this.jamesHensleighToolStripMenuItem.Visible = false;
             // 
             // gCDAnalysisWatershedLevelToolStripMenuItem
             // 
@@ -802,6 +807,7 @@
             this.kellyWhiteheadToolStripMenuItem.Name = "kellyWhiteheadToolStripMenuItem";
             this.kellyWhiteheadToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.kellyWhiteheadToolStripMenuItem.Text = "Kelly Whitehead";
+            this.kellyWhiteheadToolStripMenuItem.Visible = false;
             // 
             // extractRBTErrorsToolStripMenuItem
             // 
@@ -1046,7 +1052,7 @@
             this.selectProtocolsWithTopoDataToolStripMenuItem,
             this.toolStripMenuItem2});
             this.cmsProtocol.Name = "cmsWatershed";
-            this.cmsProtocol.Size = new System.Drawing.Size(244, 92);
+            this.cmsProtocol.Size = new System.Drawing.Size(244, 70);
             // 
             // toolStripMenuItem1
             // 
