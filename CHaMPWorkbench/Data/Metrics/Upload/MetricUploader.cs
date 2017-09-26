@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CHaMPWorkbench.CHaMPData;
 using System.Data.SQLite;
 using GeoOptix.API;
+using System.IO;
 
 namespace CHaMPWorkbench.Data.Metrics.Upload
 {
@@ -14,6 +15,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         public CHaMPData.Program Program { get; internal set; }
         Dictionary<long, MetricSchema> MetricSchemas;
         Dictionary<long, MetricDefinitions.MetricDefinition> MetricDefs;
+        public System.IO.FileInfo fiLog { get; internal set; }
 
         GeoOptix.API.ApiHelper apiHelper;
 
@@ -24,17 +26,27 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         private void ReportProgress(int value, string sMessage)
         {
+            bgWorker.ReportProgress(value);
             System.Diagnostics.Debug.Print(sMessage);
             Messages.AppendLine(sMessage);
-            bgWorker.ReportProgress(value);
+
+            if (fiLog != null)
+            {
+                using (StreamWriter sw = File.Exists(fiLog.FullName) ? File.AppendText(fiLog.FullName) : File.CreateText(fiLog.FullName))
+                {
+                    sw.WriteLine(sMessage);
+                }
+            }
         }
 
         #endregion
 
-        public MetricUploader(System.ComponentModel.BackgroundWorker bgw, CHaMPData.Program theProgram)
+        public MetricUploader(System.ComponentModel.BackgroundWorker bgw, CHaMPData.Program theProgram, string sLogFile)
         {
             bgWorker = bgw;
             Program = theProgram;
+            if (!string.IsNullOrEmpty(sLogFile))
+                fiLog = new System.IO.FileInfo(sLogFile);
 
             MetricSchemas = MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString);
             MetricDefs = MetricDefinitions.MetricDefinition.Load(naru.db.sqlite.DBCon.ConnectionString);
@@ -120,7 +132,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         ReportProgress(GetProgressPercent(nInstancesProcessed, nTotalInstances), string.Format("\tCreating metric instance for visit {0} with {1} metric values", inst.VisitID, inst.Metrics.Count));
                         List<GeoOptix.API.Model.MetricValueModel> metricValues = inst.GetAPIMetricInstance(ref schemaDef);
                         ApiResponse<GeoOptix.API.Model.MetricInstanceModel> apiResult = apiHelper.CreateMetricInstance(visit, batch.Schema.Name, metricValues);
-                        
+
                         // Now delete the existing metric instances that were on the API before this process.
                         foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
                             apiHelper.DeleteInstance(oldInstance);

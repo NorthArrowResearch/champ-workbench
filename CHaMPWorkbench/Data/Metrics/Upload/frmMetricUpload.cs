@@ -31,6 +31,16 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             if (!ucBatch.Validate())
                 return false;
 
+            if (chkLog.Checked)
+            {
+                if (string.IsNullOrEmpty(txtLog.Text))
+                {
+                    MessageBox.Show("You must specify a log file path or uncheck the option to generate a log file.", "Invalid Log File Path", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cmdBrowseLog.Select();
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -42,7 +52,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 txtMessages.Text = string.Empty;
                 cmdOK.Enabled = false;
                 cmdCancel.Text = "Cancel";
-                uploader = new MetricUploader(bgWorker, ucBatch.SelectedProgram);
+                uploader = new MetricUploader(bgWorker, ucBatch.SelectedProgram, chkLog.Checked ? txtLog.Text : string.Empty);
 
                 bgWorker.RunWorkerAsync();
             }
