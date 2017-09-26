@@ -53,6 +53,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                 txtMessages.Text = string.Empty;
                 cmdOK.Enabled = false;
                 cmdCancel.Text = "Cancel";
+                ucBatch.EnableControls = false;
                 uploader = new MetricUploader(bgWorker, ucBatch.SelectedProgram, chkLog.Checked ? txtLog.Text : string.Empty);
 
                 bgWorker.RunWorkerAsync();
@@ -94,6 +95,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             cmdOK.Enabled = true;
             cmdCancel.Text = "Close";
             uploader = null;
+            ucBatch.EnableControls = true;
         }
 
         private void chkLog_CheckedChanged(object sender, EventArgs e)

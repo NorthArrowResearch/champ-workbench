@@ -70,7 +70,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         public MetricUploader(System.ComponentModel.BackgroundWorker bgw, CHaMPData.Program theProgram, string sLogFile)
         {
-            throw new Exception("Are you working in production?");
+            //throw new Exception("Are you working in production?");
 
             bgWorker = bgw;
             Program = theProgram;
@@ -120,6 +120,8 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
                 // Only bother checking that the schema exists on API if we haven't already processed this schema
                 if (CheckedSchemas.Contains(schemaDef.Name))
+                    ReportProgress(string.Format("The {0} schema already exists on the API with {1} defined metrics.", batch.Schema, schemaDef.Metrics.Count));
+                else
                 {
                     // Check if the visit level metric schema for this batch is defined on the API. Create it if doesn't
                     ApiResponse<GeoOptix.API.Model.MetricSchemaModel> apiSchema = apiHelper.GetMetricSchema(GeoOptix.API.Model.ObjectType.Visit, batch.Schema.Name);
@@ -131,8 +133,6 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     }
                     CheckedSchemas.Add(schemaDef.Name);
                 }
-                else
-                    ReportProgress(string.Format("The {0} schema does already exists on the API with {1} defined metrics.", batch.Schema, schemaDef.Metrics.Count));
 
                 // Loop over each visit within the batch. The visit may have 1 or more metric instances
                 foreach (KeyValuePair<long, List<MetricInstance>> kvp in dVisitsToInstances)
@@ -142,7 +142,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                     try
                     {
                         // Get all existing metric instances for this visit
-                        ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = GetExistingInstancesFromAPI(visit, schemaDef.Name);
+                        GeoOptix.API.Model.MetricInstanceModel[] apiInstances = GetExistingInstancesFromAPI(visit, schemaDef.Name);
 
                         // Loop over each metric instance
                         foreach (MetricInstance inst in kvp.Value)
@@ -160,7 +160,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
                         }
 
                         // Now delete the existing metric instances that were on the API before this process.
-                        foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances.Payload)
+                        foreach (GeoOptix.API.Model.MetricInstanceModel oldInstance in apiInstances)
                         {
                             apiHelper.DeleteInstance(oldInstance);
                             LogMessage(string.Format("Deleted existing instance for visit {0}", visit.VisitID));
@@ -177,14 +177,14 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
             }
         }
 
-        private ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> GetExistingInstancesFromAPI(apiVisit visit, string schemaName)
+        private GeoOptix.API.Model.MetricInstanceModel[] GetExistingInstancesFromAPI(apiVisit visit, string schemaName)
         {
             // Get all existing metric instances for this visit
             ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> apiInstances = apiHelper.GetMetricInstances(visit, schemaName);
             if (apiInstances.Payload != null)
                 ReportProgress(string.Format("{0} {1} existing metric instance(s) retrieved for visit {2}", apiInstances.Payload.Count<GeoOptix.API.Model.MetricInstanceModel>(), schemaName, visit.VisitID));
 
-            return apiInstances;
+            return apiInstances.Payload;
         }
 
         private int GetTotalVisitCount(ref Dictionary<long, MetricBatch> selectedBatches)

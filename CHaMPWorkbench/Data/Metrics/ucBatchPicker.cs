@@ -45,6 +45,16 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
+        public bool EnableControls
+        {
+            get { return grdInfo.Enabled; }
+            set
+            {
+                grdInfo.Enabled = value;
+                cboProgram.Enabled = value;
+            }
+        }
+
         public ucBatchPicker()
         {
             InitializeComponent();

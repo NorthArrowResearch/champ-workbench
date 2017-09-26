@@ -87,11 +87,12 @@ namespace CHaMPWorkbench.CHaMPData
         public string TierName { get; internal set; }
         public ushort TierLevel { get; internal set; }
 
-        public MetricTierInstance(ushort TierLevel, long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate, long nTierID, string sTierName)
+        public MetricTierInstance(ushort nTierLevel, long nInstanceID, long nVisitID, string sModelVersion, DateTime? dtGenerationDate, long nTierID, string sTierName)
         : base(nInstanceID, nVisitID, sModelVersion, dtGenerationDate)
         {
             TierID = nTierID;
             TierName = sTierName;
+            TierLevel = nTierLevel;
         }
 
         public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
@@ -122,7 +123,7 @@ namespace CHaMPWorkbench.CHaMPData
             List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance(ref schemaDef);
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("ChannelUnitNumber", ChannelUnitNumber.ToString()));
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier1", Tier1Name));
-            metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier1", Tier2Name));
+            metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier2", Tier2Name));
             return metricValues;
         }
     }
