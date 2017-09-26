@@ -68,16 +68,10 @@ namespace CHaMPWorkbench.CHaMPData
                         try
                         {
                             CurrentProcess = "Authenticating user with Keystone API";
-
-                            // Determine if the program is pointing at QA or Production and use the corresponding keystone
-                            string keystoneURL = "https://keystone.sitkatech.com/core/connect/token";
-                            if (aProgram.API.Contains("https://qa."))
-                                keystoneURL = keystoneURL.Replace("https://", "https://qa.");
-
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}", aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper()));
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}", UserName, Password));
 
-                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID,
+                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, aProgram.Keystone, Properties.Settings.Default.GeoOptixClientID,
                                 Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
 
                             if (keystoneApiHelper.AuthToken.IsError)
@@ -86,6 +80,8 @@ namespace CHaMPWorkbench.CHaMPData
                                 ex.Data["JSON"] = keystoneApiHelper.AuthToken.Json.ToString();
                                 throw ex;
                             }
+
+                            AuthToken = keystoneApiHelper.AuthToken;
 
                         }
                         catch (Exception ex)
