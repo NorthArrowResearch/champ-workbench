@@ -86,7 +86,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
             try
             {
-                ReportProgress(string.Format("Metric uploader initialize with {0} metric batches", selectedBatches.Count));
+                ReportProgress(string.Format("Metric uploader initialized with {0} metric batches", selectedBatches.Count));
 
                 if (AuthenticateAPI(UserName, Password))
                     if (VerifyMetricSchemasMatch(selectedBatches))
