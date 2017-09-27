@@ -13,32 +13,19 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 {
     public partial class frmCopyMetrics : Form
     {
-        naru.ui.SortableBindingList<MetricBatch> MetricBatches { get; set; }
         naru.ui.SortableBindingList<CHaMPData.MetricSchema> MetricSchemas { get; set; }
 
         public frmCopyMetrics()
         {
             InitializeComponent();
+            MetricSchemas = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.MetricSchema>());
+            ucBatch.ProgramChanged += cboProgram_SelectedIndexChanged;
         }
 
         private void frmCopyMetrics_Load(object sender, EventArgs e)
         {
-            grdInfo.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            grdInfo.AutoGenerateColumns = false;
-            grdInfo.AllowUserToAddRows = false;
-            grdInfo.AllowUserToDeleteRows = false;
-            grdInfo.AllowUserToResizeRows = false;
-            grdInfo.RowHeadersVisible = false;
-
-            MetricBatches = MetricBatch.Load();
-            MetricSchemas = new naru.ui.SortableBindingList<CHaMPData.MetricSchema>(CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.MetricSchema>());
-
             cboDestination.DisplayMember = "Name";
             cboDestination.ValueMember = "ID";
-
-            cboProgram.DataSource = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString).Values.ToList<CHaMPData.Program>();
-            cboProgram.DisplayMember = "Name";
-            cboProgram.ValueMember = "ID";
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
@@ -69,12 +56,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                     long nDestinationBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);
 
 
-                    foreach (DataGridViewRow aRow in grdInfo.Rows)
+                    foreach (CHaMPData.MetricBatch batch in ucBatch.SelectedBatches.Values)
                     {
-                        MetricBatch batch = (MetricBatch)aRow.DataBoundItem;
-                        if (!batch.Copy)
-                            continue;
-
                         // Insert the metric instances
                         dbCom = new SQLiteCommand("INSERT INTO Metric_Instances (BatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn)" +
                         "SELECT @DestBatchID, VisitID, ModelVersion, MetricsCalculatedOn, APIInsertionOn, WorkbenchInsertionOn FROM Metric_Instances WHERE (BatchID = @SourceBatchID)" +
@@ -136,37 +119,28 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
         private bool ValidateForm()
         {
-            if (!(cboProgram.SelectedItem is CHaMPData.Program))
-            {
-                MessageBox.Show("You must choose a program.", "Missing Program", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cboProgram.Select();
+            if (!ucBatch.ValidateForm())
                 return false;
-            }
 
             string sourceDBTable = string.Empty;
-            foreach (DataGridViewRow aRow in grdInfo.Rows)
+            foreach (CHaMPData.MetricBatch batch in ucBatch.SelectedBatches.Values)
             {
-                MetricBatch batch = (MetricBatch)aRow.DataBoundItem;
-                if (batch.Copy)
+                if (string.IsNullOrEmpty(sourceDBTable))
+                    sourceDBTable = batch.DatabaseTable;
+                else if (string.Compare(sourceDBTable, batch.DatabaseTable, true) != 0)
                 {
-                    if (string.IsNullOrEmpty(sourceDBTable))
-                        sourceDBTable = batch.DatabaseTable;
-                    else if (string.Compare(sourceDBTable, batch.DatabaseTable, true) != 0)
-                    {
-                        MessageBox.Show("You can only select multiple metric schemas that have the same dimensionality. i.e. either all Visit level metric schemas" +
-                            " or all tier 1 etc.", "Invalid Source Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        grdInfo.Select();
-                        return false;
-                    }
+                    MessageBox.Show("You can only select multiple metric schemas that have the same dimensionality. i.e. either all Visit level metric schemas" +
+                        " or all tier 1 etc.", "Invalid Source Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
 
-                    // Check that none of the source metric schemas are selected as the destination schema
-                    if (cboDestination.SelectedItem is CHaMPData.MetricSchema)
+                // Check that none of the source metric schemas are selected as the destination schema
+                if (cboDestination.SelectedItem is CHaMPData.MetricSchema)
+                {
+                    if (batch.Schema.ID == ((CHaMPData.MetricSchema)cboDestination.SelectedItem).ID)
                     {
-                        if (batch.Schema.ID == ((CHaMPData.MetricSchema)cboDestination.SelectedItem).ID)
-                        {
-                            MessageBox.Show("You cannot select one of the source metric schemas as the destination metric schema.", "Invalid Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return false;
-                        }
+                        MessageBox.Show("You cannot select one of the source metric schemas as the destination metric schema.", "Invalid Metric Schemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
                     }
                 }
             }
@@ -174,7 +148,6 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
             if (string.IsNullOrEmpty(sourceDBTable))
             {
                 MessageBox.Show("You must select at least one source metric schema.", "Invalid Source Metric Schema", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                grdInfo.Select();
                 return false;
             }
 
@@ -270,14 +243,11 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
         private void cboProgram_SelectedIndexChanged(object sender, EventArgs e)
         {
-            grdInfo.DataSource = null;
             cboDestination.DataSource = null;
-
-            if (!(cboProgram.SelectedItem is CHaMPData.Program))
+            if (ucBatch.SelectedProgram == null)
                 return;
 
-            grdInfo.DataSource = new naru.ui.SortableBindingList<MetricBatch>(MetricBatches.Where<MetricBatch>(x => x.Program.ID == ((CHaMPData.Program)cboProgram.SelectedItem).ID).ToList<MetricBatch>());
-            cboDestination.DataSource = MetricSchemas.Where<CHaMPData.MetricSchema>(x => x.ProgramID == ((CHaMPData.Program)cboProgram.SelectedItem).ID).ToList<CHaMPData.MetricSchema>();
+            cboDestination.DataSource = MetricSchemas.Where<CHaMPData.MetricSchema>(x => x.ProgramID == ucBatch.SelectedProgram.ID).ToList<CHaMPData.MetricSchema>();
         }
     }
 }
