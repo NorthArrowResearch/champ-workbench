@@ -307,6 +307,15 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/copy_metrics.html.
+        /// </summary>
+        internal static string Help_frmCopyMetrics {
+            get {
+                return ResourceManager.GetString("Help_frmCopyMetrics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Technical_Reference/Data_Menu/custom_visits.html.
         /// </summary>
         internal static string Help_frmCustomVisit {
@@ -330,6 +339,24 @@ namespace CHaMPWorkbench.Properties {
         internal static string Help_frmLambdaInvoke {
             get {
                 return ResourceManager.GetString("Help_frmLambdaInvoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/download_metrics.html.
+        /// </summary>
+        internal static string Help_frmMetricDownload {
+            get {
+                return ResourceManager.GetString("Help_frmMetricDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Technical_Reference/Data_Menu/upload_metrics.html.
+        /// </summary>
+        internal static string Help_frmMetricUpload {
+            get {
+                return ResourceManager.GetString("Help_frmMetricUpload", resourceCulture);
             }
         }
         

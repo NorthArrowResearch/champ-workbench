@@ -115,5 +115,10 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
         {
             bgWorker.CancelAsync();
         }
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            OnlineHelp.FormHelp(this.Name);
+        }
     }
 }
