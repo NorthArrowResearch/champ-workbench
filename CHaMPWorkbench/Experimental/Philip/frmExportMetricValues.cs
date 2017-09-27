@@ -102,8 +102,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                     XmlNode nodMeta = xmlDoc.CreateElement("Meta");
                     xmlDoc.DocumentElement.InsertBefore(nodMeta, xmlDoc.DocumentElement.SelectSingleNode("Metrics"));
 
-                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "DateCreated", DateTime.Now.ToString("o"));
-                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "Version", string.Empty);
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, CHaMPData.MetricInstance.GENERATION_DATE_METRIC_NAME, DateTime.Now.ToString("o"));
+                    naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, CHaMPData.MetricInstance.MODEL_VERSION_METRIC_NAME, string.Empty);
                     naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "VisitID", visit.ID.ToString());
                     naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "NoData", NODATAVALUE);
                     naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, "Tool", "Exported from CHaMP Workbench");

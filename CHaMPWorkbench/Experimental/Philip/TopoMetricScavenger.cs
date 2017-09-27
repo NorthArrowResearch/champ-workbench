@@ -47,11 +47,11 @@ namespace CHaMPWorkbench.Experimental.Philip
                             xmlDoc.Load(xmlFile);
 
                             XmlNode nodVisitID = xmlDoc.SelectSingleNode("/*/Meta/VisitID");
-                            XmlNode nodRunDate = xmlDoc.SelectSingleNode("/*/Meta/DateCreated");
+                            XmlNode nodRunDate = xmlDoc.SelectSingleNode("/*/Meta/" + CHaMPData.MetricInstance.GENERATION_DATE_METRIC_NAME);
 
                             if (bUseXMLModelVersion)
                             {
-                                XmlNode nodVersion = xmlDoc.SelectSingleNode("/*/Meta/Version");
+                                XmlNode nodVersion = xmlDoc.SelectSingleNode("/*/Meta/" + CHaMPData.MetricInstance.MODEL_VERSION_METRIC_NAME);
                                 sModelVersion = nodVersion.InnerText;
                             }
 

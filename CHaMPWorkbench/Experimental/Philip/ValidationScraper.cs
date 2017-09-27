@@ -75,8 +75,8 @@ namespace CHaMPWorkbench.Experimental.Philip
                         dbCom.Parameters.AddWithValue("Status", xmlLog.SelectSingleNode("/TopoValidation/Status/Overall").InnerText);
                         dbCom.Parameters.AddWithValue("LogFilePath", logPath);
                         dbCom.Parameters.AddWithValue("VisitID", nVisitID);
-                        dbCom.Parameters.AddWithValue("DateRun", xmlLog.SelectSingleNode("TopoValidation/Meta/DateCreated").InnerText);
-                        dbCom.Parameters.AddWithValue("ModelVersion", xmlLog.SelectSingleNode("TopoValidation/Meta/Version").InnerText);
+                        dbCom.Parameters.AddWithValue("DateRun", xmlLog.SelectSingleNode("TopoValidation/Meta/" + CHaMPData.MetricInstance.GENERATION_DATE_METRIC_NAME).InnerText);
+                        dbCom.Parameters.AddWithValue("ModelVersion", xmlLog.SelectSingleNode("TopoValidation/Meta/" + CHaMPData.MetricInstance.MODEL_VERSION_METRIC_NAME).InnerText);
                         dbCom.ExecuteNonQuery();
 
                         long nLogID = naru.db.sqlite.SQLiteHelpers.GetLastInsertID(ref dbTrans);
