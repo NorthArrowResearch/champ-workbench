@@ -132,9 +132,9 @@
             this.grpProtocols = new System.Windows.Forms.GroupBox();
             this.lstProtocols = new System.Windows.Forms.CheckedListBox();
             this.cmsProtocol = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSelectAllProtocols = new System.Windows.Forms.ToolStripMenuItem();
             this.selectProtocolsWithTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSelectNoneProtocols = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstPrograms = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -1048,19 +1048,19 @@
             // cmsProtocol
             // 
             this.cmsProtocol.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
+            this.tsmiSelectAllProtocols,
             this.selectProtocolsWithTopoDataToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.tsmSelectNoneProtocols});
             this.cmsProtocol.Name = "cmsWatershed";
-            this.cmsProtocol.Size = new System.Drawing.Size(244, 70);
+            this.cmsProtocol.Size = new System.Drawing.Size(244, 92);
             // 
-            // toolStripMenuItem1
+            // tsmiSelectAllProtocols
             // 
-            this.toolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(243, 22);
-            this.toolStripMenuItem1.Text = "Select All";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.AllNoneProtocolsClick);
+            this.tsmiSelectAllProtocols.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.tsmiSelectAllProtocols.Name = "tsmiSelectAllProtocols";
+            this.tsmiSelectAllProtocols.Size = new System.Drawing.Size(243, 22);
+            this.tsmiSelectAllProtocols.Text = "Select All";
+            this.tsmiSelectAllProtocols.Click += new System.EventHandler(this.AllNoneProtocolsClick);
             // 
             // selectProtocolsWithTopoDataToolStripMenuItem
             // 
@@ -1070,13 +1070,13 @@
             this.selectProtocolsWithTopoDataToolStripMenuItem.Text = "Select Protocols With Topo Data";
             this.selectProtocolsWithTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // tsmSelectNoneProtocols
             // 
-            this.toolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(243, 22);
-            this.toolStripMenuItem2.Text = "Select None";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.AllNoneProtocolsClick);
+            this.tsmSelectNoneProtocols.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.tsmSelectNoneProtocols.Name = "tsmSelectNoneProtocols";
+            this.tsmSelectNoneProtocols.Size = new System.Drawing.Size(243, 22);
+            this.tsmSelectNoneProtocols.Text = "Select None";
+            this.tsmSelectNoneProtocols.Click += new System.EventHandler(this.AllNoneProtocolsClick);
             // 
             // groupBox3
             // 
@@ -1823,9 +1823,9 @@
         private System.Windows.Forms.GroupBox grpProtocols;
         private System.Windows.Forms.CheckedListBox lstProtocols;
         private System.Windows.Forms.ContextMenuStrip cmsProtocol;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSelectAllProtocols;
         private System.Windows.Forms.ToolStripMenuItem selectProtocolsWithTopoDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem tsmSelectNoneProtocols;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colWatershedName;

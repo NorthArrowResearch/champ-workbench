@@ -275,7 +275,7 @@ namespace CHaMPWorkbench
                 lstFieldSeason.Items.Clear();
                 lstWatershed.Items.Clear();
                 txtNameFilter.Text = string.Empty;
-                
+
                 DataView dv = (System.Data.DataView)grdVisits.DataSource;
                 dv.Table.Clear();
 
@@ -392,7 +392,7 @@ namespace CHaMPWorkbench
             this.lstFieldSeason.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstWatershed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
             this.lstPrograms.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
-            this.lstPrograms.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
+            this.lstProtocols.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.FilterListBoxCheckChanged);
 
             grdVisits.AutoGenerateColumns = false;
         }
@@ -702,7 +702,7 @@ namespace CHaMPWorkbench
 
                     sFilter += string.Format(" ( (SiteName LIKE '*{0}*') OR (StreamName LIKE '*{0}*') OR (Organization LIKE '*{0}*') )", CleanFilterString(txtNameFilter.Text));
                 }
-                
+
                 if (rdoPrimary.Checked)
                 {
                     if (!string.IsNullOrWhiteSpace(sFilter))
@@ -906,11 +906,11 @@ namespace CHaMPWorkbench
                     valVisitID.ValueChanged -= valVisitID_ValueChanged;
                     lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
                     txtNameFilter.TextChanged -= ControlChange_FilterVisits;
-                    
+
                     long nSiteID = (long)r["SiteID"];
                     txtNameFilter.Text = (string)r["SiteName"];
                     long nWatershedID = (long)r["WatershedID"];
-                    
+
                     for (int i = 0; i < lstFieldSeason.Items.Count; i++)
                         lstFieldSeason.SetItemChecked(i, true);
 
@@ -1203,7 +1203,7 @@ namespace CHaMPWorkbench
                         ClearCheckedItems(ref lstWatershed);
                         ClearCheckedItems(ref lstFieldSeason);
                         txtNameFilter.Text = string.Empty;
-                        
+
                         string sFilter = string.Format("VisitID IN ({0})", string.Join(",", lValidVisitIDs));
                         DataView dv = (DataView)grdVisits.DataSource;
                         System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
@@ -1453,7 +1453,7 @@ namespace CHaMPWorkbench
                         ClearCheckedItems(ref lstWatershed);
                         ClearCheckedItems(ref lstFieldSeason);
                         txtNameFilter.Text = string.Empty;
-                        
+
                         string sFilter = string.Format("VisitID IN ({0})", string.Join(",", lValidVisitIDs));
                         DataView dv = (DataView)grdVisits.DataSource;
                         System.Diagnostics.Debug.Print(String.Format("Filtering Visits: {0}", sFilter));
@@ -2024,7 +2024,7 @@ namespace CHaMPWorkbench
                 Data.Metrics.Upload.frmMetricUpload frm = new Data.Metrics.Upload.frmMetricUpload();
                 frm.ShowDialog();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
@@ -2033,10 +2033,10 @@ namespace CHaMPWorkbench
         private void selectProtocolsWithTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<long> protocolsWithTopoData = new List<long>() { 416, 806, 1880, 1955, 1966, 2020, 2030, 9999, 10036 };
-                
-            for (int i =0; i < lstProtocols.Items.Count; i++)
+
+            for (int i = 0; i < lstProtocols.Items.Count; i++)
             {
-                lstProtocols.SetItemChecked(i, protocolsWithTopoData.Contains(((naru.db.NamedObject) lstProtocols.Items[i]).ID));
+                lstProtocols.SetItemChecked(i, protocolsWithTopoData.Contains(((naru.db.NamedObject)lstProtocols.Items[i]).ID));
             }
 
             FilterVisits(sender, e);
