@@ -3,6 +3,19 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.20 - 27 Sep 2017
+
+* New features
+    * Copy metric schemas
+    * Upload metric scheams
+* Database Update 47
+	* Added ProtocolID to vwMainVisitList
+	* Misc metric definition changes
+	* Final metric schema XML GitHub URLs
+* CHaMP Data Sync using API authentication token correctly
+* Minor metric downloader fixes
+* Disabling legacy features that are no longer relevant
+
 ### 7.0.19 - 8 Sep 2017
 
 * Database Update 46
