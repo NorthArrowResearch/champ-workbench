@@ -46,7 +46,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(633, 326);
+            this.cmdCancel.Location = new System.Drawing.Point(555, 326);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -57,7 +57,7 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(552, 326);
+            this.cmdOK.Location = new System.Drawing.Point(474, 326);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 2;
@@ -88,7 +88,7 @@
             this.groupBox1.Controls.Add(this.txtTitle);
             this.groupBox1.Location = new System.Drawing.Point(12, 181);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(696, 136);
+            this.groupBox1.Size = new System.Drawing.Size(618, 136);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Destination";
@@ -101,7 +101,7 @@
             this.txtRemarks.Location = new System.Drawing.Point(91, 84);
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(599, 46);
+            this.txtRemarks.Size = new System.Drawing.Size(521, 46);
             this.txtRemarks.TabIndex = 5;
             // 
             // label5
@@ -155,7 +155,7 @@
             this.ucBatch.EnableControls = true;
             this.ucBatch.Location = new System.Drawing.Point(12, 12);
             this.ucBatch.Name = "ucBatch";
-            this.ucBatch.Size = new System.Drawing.Size(696, 163);
+            this.ucBatch.Size = new System.Drawing.Size(618, 163);
             this.ucBatch.TabIndex = 5;
             // 
             // frmCopyMetrics
@@ -164,7 +164,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(720, 361);
+            this.ClientSize = new System.Drawing.Size(642, 361);
             this.Controls.Add(this.ucBatch);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdHelp);

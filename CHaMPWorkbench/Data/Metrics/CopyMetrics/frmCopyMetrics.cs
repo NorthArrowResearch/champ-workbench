@@ -51,10 +51,7 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                     dbCom.Parameters.AddWithValue("SchemaID", ((naru.db.NamedObject)cboDestination.SelectedItem).ID);
                     dbCom.Parameters.AddWithValue("ScavengeTypeID", 10022);
                     dbCom.ExecuteNonQuery();
-
-                    dbCom = new SQLiteCommand("SELECT last_insert_rowid()", dbTrans.Connection, dbTrans);
-                    long nDestinationBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(ref dbCom);
-
+                    long nDestinationBatchID = naru.db.sqlite.SQLiteHelpers.GetScalarID(dbTrans, "SELECT last_insert_rowid()");
 
                     foreach (CHaMPData.MetricBatch batch in ucBatch.SelectedBatches.Values)
                     {

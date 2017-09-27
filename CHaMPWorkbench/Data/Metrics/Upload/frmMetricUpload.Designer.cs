@@ -35,10 +35,10 @@
             this.txtMessages = new System.Windows.Forms.TextBox();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ucBatch = new CHaMPWorkbench.Data.Metrics.ucBatchPicker();
             this.cmdBrowseLog = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.chkLog = new System.Windows.Forms.CheckBox();
-            this.ucBatch = new CHaMPWorkbench.Data.Metrics.ucBatchPicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -48,7 +48,7 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(596, 220);
+            this.cmdCancel.Location = new System.Drawing.Point(534, 220);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 0;
@@ -59,7 +59,7 @@
             // cmdOK
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(514, 220);
+            this.cmdOK.Location = new System.Drawing.Point(452, 220);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 1;
@@ -83,7 +83,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pgrProgress.Location = new System.Drawing.Point(12, 3);
             this.pgrProgress.Name = "pgrProgress";
-            this.pgrProgress.Size = new System.Drawing.Size(659, 13);
+            this.pgrProgress.Size = new System.Drawing.Size(597, 13);
             this.pgrProgress.TabIndex = 7;
             // 
             // txtMessages
@@ -95,7 +95,7 @@
             this.txtMessages.Multiline = true;
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMessages.Size = new System.Drawing.Size(659, 160);
+            this.txtMessages.Size = new System.Drawing.Size(597, 160);
             this.txtMessages.TabIndex = 8;
             // 
             // bgWorker
@@ -127,15 +127,24 @@
             this.splitContainer1.Panel2.Controls.Add(this.txtMessages);
             this.splitContainer1.Panel2.Controls.Add(this.cmdCancel);
             this.splitContainer1.Panel2.Controls.Add(this.cmdOK);
-            this.splitContainer1.Size = new System.Drawing.Size(683, 518);
+            this.splitContainer1.Size = new System.Drawing.Size(621, 518);
             this.splitContainer1.SplitterDistance = 259;
             this.splitContainer1.TabIndex = 10;
+            // 
+            // ucBatch
+            // 
+            this.ucBatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucBatch.EnableControls = true;
+            this.ucBatch.Location = new System.Drawing.Point(0, 0);
+            this.ucBatch.Name = "ucBatch";
+            this.ucBatch.Size = new System.Drawing.Size(621, 259);
+            this.ucBatch.TabIndex = 9;
             // 
             // cmdBrowseLog
             // 
             this.cmdBrowseLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdBrowseLog.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseLog.Location = new System.Drawing.Point(648, 188);
+            this.cmdBrowseLog.Location = new System.Drawing.Point(586, 188);
             this.cmdBrowseLog.Name = "cmdBrowseLog";
             this.cmdBrowseLog.Size = new System.Drawing.Size(23, 23);
             this.cmdBrowseLog.TabIndex = 11;
@@ -149,7 +158,7 @@
             this.txtLog.Location = new System.Drawing.Point(81, 189);
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
-            this.txtLog.Size = new System.Drawing.Size(561, 20);
+            this.txtLog.Size = new System.Drawing.Size(499, 20);
             this.txtLog.TabIndex = 10;
             // 
             // chkLog
@@ -164,20 +173,11 @@
             this.chkLog.UseVisualStyleBackColor = true;
             this.chkLog.CheckedChanged += new System.EventHandler(this.chkLog_CheckedChanged);
             // 
-            // ucBatch
-            // 
-            this.ucBatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucBatch.EnableControls = true;
-            this.ucBatch.Location = new System.Drawing.Point(0, 0);
-            this.ucBatch.Name = "ucBatch";
-            this.ucBatch.Size = new System.Drawing.Size(683, 259);
-            this.ucBatch.TabIndex = 9;
-            // 
             // frmMetricUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 518);
+            this.ClientSize = new System.Drawing.Size(621, 518);
             this.Controls.Add(this.splitContainer1);
             this.Name = "frmMetricUpload";
             this.Text = "Metric Upload";

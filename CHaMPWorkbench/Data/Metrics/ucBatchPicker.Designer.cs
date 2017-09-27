@@ -69,7 +69,7 @@
             this.grpSource.Controls.Add(this.grdInfo);
             this.grpSource.Location = new System.Drawing.Point(1, 32);
             this.grpSource.Name = "grpSource";
-            this.grpSource.Size = new System.Drawing.Size(788, 257);
+            this.grpSource.Size = new System.Drawing.Size(666, 257);
             this.grpSource.TabIndex = 7;
             this.grpSource.TabStop = false;
             this.grpSource.Text = "Source Metrics";
@@ -89,13 +89,13 @@
             this.colInstances});
             this.grdInfo.Location = new System.Drawing.Point(6, 19);
             this.grdInfo.Name = "grdInfo";
-            this.grdInfo.Size = new System.Drawing.Size(776, 232);
+            this.grdInfo.Size = new System.Drawing.Size(654, 232);
             this.grdInfo.TabIndex = 3;
             // 
             // colCopy
             // 
             this.colCopy.DataPropertyName = "Copy";
-            this.colCopy.HeaderText = "Copy";
+            this.colCopy.HeaderText = "";
             this.colCopy.Name = "colCopy";
             this.colCopy.Width = 40;
             // 
@@ -136,6 +136,7 @@
             this.colInstances.HeaderText = "Instances";
             this.colInstances.Name = "colInstances";
             this.colInstances.ReadOnly = true;
+            this.colInstances.Visible = false;
             this.colInstances.Width = 60;
             // 
             // ucBatchPicker
@@ -146,7 +147,7 @@
             this.Controls.Add(this.cboProgram);
             this.Controls.Add(this.grpSource);
             this.Name = "ucBatchPicker";
-            this.Size = new System.Drawing.Size(789, 289);
+            this.Size = new System.Drawing.Size(667, 289);
             this.Load += new System.EventHandler(this.ucBatchPicker_Load);
             this.grpSource.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdInfo)).EndInit();
