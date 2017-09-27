@@ -61,7 +61,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             nodVisit.AppendChild(nodCrewName);
 
             XmlNode nodManualResult = xmlDoc.CreateElement("manual_result");
-            if (ManualResult is MetricValueBase)
+            if (ManualResult is MetricValueBase && ManualResult.MetricValue.HasValue)
                 nodManualResult.InnerText = ManualResult.MetricValue.ToString();
             nodVisit.AppendChild(nodManualResult);
 
@@ -80,13 +80,14 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                 nodResult.AppendChild(nodVersion);
 
                 XmlNode nodValue = xmlDoc.CreateElement("value");
-                nodValue.InnerText = aResult.MetricValue.ToString();
+                if (aResult.MetricValue.HasValue)
+                    nodValue.InnerText = aResult.MetricValue.ToString();
                 nodResult.AppendChild(nodValue);
 
                 XmlNode nodStatus = xmlDoc.CreateElement("status");
                 if (ManualResult is MetricValueBase)
                 {
-                    if (ManualResult.MetricValue == 0)
+                    if (!ManualResult.MetricValue.HasValue)
                     {
                         nodStatus.InnerText = "N/A";
                     }
@@ -98,16 +99,19 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                             nodStatus.InnerText = "OUTOFRANGE_ABOVE";
                         else
                         {
-                            float fDelta = ManualResult.MetricValue - aResult.MetricValue;
-                            float fDiff = fDelta / ManualResult.MetricValue;
-                            if ((float)Math.Abs(fDiff) <= theMetric.Threshold)
-                                nodStatus.InnerText = "PASS";
-                            else
+                            if (ManualResult.MetricValue.HasValue && aResult.MetricValue.HasValue)
                             {
-                                if (fDiff < 0)
-                                    nodStatus.InnerText = "FAIL_BELOW";
+                                double fDelta = ManualResult.MetricValue.Value - aResult.MetricValue.Value;
+                                double fDiff = fDelta / ManualResult.MetricValue.Value;
+                                if ((float)Math.Abs(fDiff) <= theMetric.Threshold)
+                                    nodStatus.InnerText = "PASS";
                                 else
-                                    nodStatus.InnerText = "FAIL_ABOVE";
+                                {
+                                    if (fDiff < 0)
+                                        nodStatus.InnerText = "FAIL_BELOW";
+                                    else
+                                        nodStatus.InnerText = "FAIL_ABOVE";
+                                }
                             }
                         }
                     }

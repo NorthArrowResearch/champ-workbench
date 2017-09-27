@@ -9,7 +9,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
     {
         public string Version { get; internal set; }
 
-        public MetricValueModel(string sVersion, float fMetricValue) : base(fMetricValue)
+        public MetricValueModel(string sVersion, double? fMetricValue) : base(fMetricValue)
         {
             Version = sVersion;
         }

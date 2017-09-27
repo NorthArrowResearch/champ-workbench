@@ -108,7 +108,9 @@
                         </xsl:attribute>
                         <xsl:if test="$results/result/version/text()=$version">
                           <span class="value">
-                            <xsl:value-of select="format-number($results/result[version=$version]/value,'0.##')"/>
+                            <xsl:if test="string(number($results/result[version=$version]/value)) != 'NaN'">
+                              <xsl:value-of select="format-number($results/result[version=$version]/value,'0.##')"/>
+                            </xsl:if>
                           </span>
                           <span class="tolerance">
                             ±<xsl:value-of select="$tolerance * 100"/>%

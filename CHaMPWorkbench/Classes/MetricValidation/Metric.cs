@@ -80,7 +80,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                         
                         if (bManualMetricValues)
                         {
-                            Visits[aVisit.VisitID].ManualResult = new MetricValueBase((float)(double)dbRead[0]);
+                            Visits[aVisit.VisitID].ManualResult = new MetricValueBase( naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue"));
                         }
                         else
                         {
@@ -89,7 +89,7 @@ namespace CHaMPWorkbench.Classes.MetricValidation
                             {
 
                                 string sModelVersion = GetFormattedRBTVersion(sRBTVersion);
-                                float fMetricValue = GetMetricValue(ref dbRead, dbRead.GetOrdinal("MetricValue"));
+                                double? fMetricValue = naru.db.sqlite.SQLiteHelpers.GetSafeValueNDbl(ref dbRead, "MetricValue");
                                 Visits[aVisit.VisitID].ModelResults[sModelVersion] = new MetricValueModel(sModelVersion, fMetricValue);
                             }
                         }
@@ -122,23 +122,6 @@ namespace CHaMPWorkbench.Classes.MetricValidation
             }
 
             return string.Join(".", lVersionParts.ToArray<string>());
-        }
-
-        private float GetMetricValue(ref SQLiteDataReader dbRead, int nOrdinal)
-        {
-            float fResult = 0;
-            object objValue = dbRead[0];
-            float fTheValue;
-            if (!float.TryParse(objValue.ToString(), out fTheValue))
-            {
-                double ffValue;
-                if (double.TryParse(objValue.ToString(), out ffValue))
-                {
-                    fTheValue = (float)ffValue;
-                }
-            }
-            fResult = fTheValue;
-            return fResult;
         }
 
         private string MetricResultSQLStatement(bool bManualMetricValues)

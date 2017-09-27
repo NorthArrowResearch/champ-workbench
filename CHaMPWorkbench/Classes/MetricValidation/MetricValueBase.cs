@@ -7,9 +7,9 @@ namespace CHaMPWorkbench.Classes.MetricValidation
 {
     public class MetricValueBase
     {
-        public float MetricValue { get; internal set; }
+        public double? MetricValue { get; internal set; }
 
-        public MetricValueBase(float fMetricValue)
+        public MetricValueBase(double? fMetricValue)
         {
             MetricValue = fMetricValue;
         }
