@@ -385,7 +385,7 @@ namespace CHaMPWorkbench.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("46")]
+        [global::System.Configuration.DefaultSettingValueAttribute("47")]
         public int DBVersionRequired {
             get {
                 return ((int)(this["DBVersionRequired"]));
