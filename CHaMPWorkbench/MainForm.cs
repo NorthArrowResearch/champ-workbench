@@ -1811,7 +1811,7 @@ namespace CHaMPWorkbench
                 if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     var csv = new StringBuilder();
-                    csv.AppendLine("year,watershed,site,visitid,relativepath");
+                    csv.AppendLine("year,watershed,site,visitid,relativepath,s3");
                     foreach (DataGridViewRow aRow in grdVisits.SelectedRows)
                     {
                         DataRowView drv = (DataRowView)aRow.DataBoundItem;
@@ -1820,7 +1820,9 @@ namespace CHaMPWorkbench
 
                         CHaMPData.VisitBasic visit = new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"], naru.db.DBState.Unchanged);
                         Classes.DataFolders.Visit(new System.IO.DirectoryInfo(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder), (long)r["VisitID"], out dirVisit);
-                        csv.AppendLine(string.Format("{0},{1},{2},{3},{4}", visit.VisitYear, visit.Site.Watershed, visit.Site, visit.ID, visit.VisitFolderRelative));
+
+                        string s3 = string.Format("QA/{0}", visit.VisitFolderRelative.Replace(" ", "").Replace(System.IO.Path.DirectorySeparatorChar, '/'));
+                        csv.AppendLine(string.Format("{0},{1},{2},{3},{4},{5}", visit.VisitYear, visit.Site.Watershed, visit.Site, visit.ID, visit.VisitFolderRelative, s3));
 
                     }
                     File.WriteAllText(frm.FileName, csv.ToString());
