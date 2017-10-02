@@ -3,6 +3,10 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.21 - 2 Oct 2017
+
+* Handling null values in metric review user interface
+
 ### 7.0.20 - 27 Sep 2017
 
 * New features
