@@ -3,6 +3,15 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.22 - ??? 
+
+* Null and zero Thresholds updated to 0.008 for all active metrics with an XPath.
+* Metric definition changes:
+  * Aux `RipCovUstoryNone` XPath change
+  * `DpthThlwgMax_Avg` renamed to `DpthMax_Avg` for topo tier 1 and 2
+  * `WetSCS_Area` renamed to `SCSm_Area` for topo
+
+
 ### 7.0.21 - 2 Oct 2017
 
 * Handling null values in metric review user interface
@@ -13,9 +22,9 @@ weight: 99
     * Copy metric schemas
     * Upload metric scheams
 * Database Update 47
-	* Added ProtocolID to vwMainVisitList
-	* Misc metric definition changes
-	* Final metric schema XML GitHub URLs
+  * Added ProtocolID to vwMainVisitList
+  * Misc metric definition changes
+  * Final metric schema XML GitHub URLs
 * CHaMP Data Sync using API authentication token correctly
 * Minor metric downloader fixes
 * Disabling legacy features that are no longer relevant
@@ -23,9 +32,9 @@ weight: 99
 ### 7.0.19 - 8 Sep 2017
 
 * Database Update 46
-	* Comprehensive clean-up of metric definitions
-	* Complete list of AWS worker processes
-	* Log file tables refactored to support validation log scraping
+  * Comprehensive clean-up of metric definitions
+  * Complete list of AWS worker processes
+  * Log file tables refactored to support validation log scraping
 * Metric schema export XML fixed
 * Scraping Validation XML logs into Workbench
 * Fixed int/long data type bug in user queries
@@ -36,16 +45,16 @@ weight: 99
 ### 7.0.18 - 28 Jul 2017
 
 * Metric download now reporting on errors
-	* Insufficient permissions
-	* Visits without the specified metric schema defined
-	* generic `BadRequest`
+  * Insufficient permissions
+  * Visits without the specified metric schema defined
+  * generic `BadRequest`
 * Experimental copy of metrics between schemas
 
 ### 7.0.17 - 19 Jul 2017
 
 * AWS Automation user interface enhancements
-	* Buttons to AWS services
-	* Tooltips
+  * Buttons to AWS services
+  * Tooltips
 * Fixing some broken online help URLs
 
 ### 7.0.16 - 18 Jul 2017
@@ -76,9 +85,9 @@ weight: 99
 
 * Confirmation message when checking for updates and the software is already up to date.
 * Metric Defintions:
-	* Reordered Metric Definitions grid columns
-	* Help links available in grid.
-	* Metric Definition XML export fix to include precision.
+  * Reordered Metric Definitions grid columns
+  * Help links available in grid.
+  * Metric Definition XML export fix to include precision.
 * Moved `Upload Topo Data` feature to experimental menu.
 
 ### 7.0.08 - 26 May 2017
