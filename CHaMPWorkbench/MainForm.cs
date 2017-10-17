@@ -2034,11 +2034,20 @@ namespace CHaMPWorkbench
 
         private void selectProtocolsWithTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool bTopoData = string.Compare(((ToolStripItem)sender).Name, "selectProtocolsWithTopoDataToolStripMenuItem", true) == 0;
+            
             List<long> protocolsWithTopoData = new List<long>() { 416, 806, 1880, 1955, 1966, 2020, 2030, 9999, 10036 };
 
             for (int i = 0; i < lstProtocols.Items.Count; i++)
             {
-                lstProtocols.SetItemChecked(i, protocolsWithTopoData.Contains(((naru.db.NamedObject)lstProtocols.Items[i]).ID));
+                if (bTopoData)
+                {
+                    lstProtocols.SetItemChecked(i, protocolsWithTopoData.Contains(((naru.db.NamedObject)lstProtocols.Items[i]).ID));
+                }
+                else
+                {
+                    lstProtocols.SetItemChecked(i, !protocolsWithTopoData.Contains(((naru.db.NamedObject)lstProtocols.Items[i]).ID));
+                }
             }
 
             FilterVisits(sender, e);

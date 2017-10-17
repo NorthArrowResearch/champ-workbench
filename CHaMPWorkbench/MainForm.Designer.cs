@@ -195,6 +195,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1050,15 +1051,16 @@
             this.cmsProtocol.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSelectAllProtocols,
             this.selectProtocolsWithTopoDataToolStripMenuItem,
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem,
             this.tsmSelectNoneProtocols});
             this.cmsProtocol.Name = "cmsWatershed";
-            this.cmsProtocol.Size = new System.Drawing.Size(244, 92);
+            this.cmsProtocol.Size = new System.Drawing.Size(262, 114);
             // 
             // tsmiSelectAllProtocols
             // 
             this.tsmiSelectAllProtocols.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
             this.tsmiSelectAllProtocols.Name = "tsmiSelectAllProtocols";
-            this.tsmiSelectAllProtocols.Size = new System.Drawing.Size(243, 22);
+            this.tsmiSelectAllProtocols.Size = new System.Drawing.Size(261, 22);
             this.tsmiSelectAllProtocols.Text = "Select All";
             this.tsmiSelectAllProtocols.Click += new System.EventHandler(this.AllNoneProtocolsClick);
             // 
@@ -1066,7 +1068,7 @@
             // 
             this.selectProtocolsWithTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
             this.selectProtocolsWithTopoDataToolStripMenuItem.Name = "selectProtocolsWithTopoDataToolStripMenuItem";
-            this.selectProtocolsWithTopoDataToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.selectProtocolsWithTopoDataToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.selectProtocolsWithTopoDataToolStripMenuItem.Text = "Select Protocols With Topo Data";
             this.selectProtocolsWithTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
             // 
@@ -1074,7 +1076,7 @@
             // 
             this.tsmSelectNoneProtocols.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
             this.tsmSelectNoneProtocols.Name = "tsmSelectNoneProtocols";
-            this.tsmSelectNoneProtocols.Size = new System.Drawing.Size(243, 22);
+            this.tsmSelectNoneProtocols.Size = new System.Drawing.Size(261, 22);
             this.tsmSelectNoneProtocols.Text = "Select None";
             this.tsmSelectNoneProtocols.Click += new System.EventHandler(this.AllNoneProtocolsClick);
             // 
@@ -1644,6 +1646,14 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
+            // selectProtocolsWithoutTopoDataToolStripMenuItem
+            // 
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Name = "selectProtocolsWithoutTopoDataToolStripMenuItem";
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Text = "Select Protocols Without Topo Data";
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1852,6 +1862,7 @@
         private System.Windows.Forms.TextBox txtOrganization;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem metricUploadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectProtocolsWithoutTopoDataToolStripMenuItem;
     }
 }
 
