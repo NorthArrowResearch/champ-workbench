@@ -524,6 +524,7 @@
     <Compile Include="naru\db\sqlite\DBManager.cs" />
     <Compile Include="naru\db\sqlite\NamedObject.cs" />
     <Compile Include="naru\db\sqlite\SQLiteHelpers.cs" />
+    <Compile Include="naru\math\NumberFormatting.cs" />
     <Compile Include="naru\os\Folder.cs" />
     <Compile Include="naru\ui\DataGridViewHelpers.cs" />
     <Compile Include="naru\ui\ProgressBar.cs" />
