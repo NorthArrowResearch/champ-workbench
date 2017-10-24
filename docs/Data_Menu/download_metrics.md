@@ -14,7 +14,7 @@ Click the Data main menu item and choose Download Metrics
 
 Select the metric datasets (aka 'schemas') to download from the list. Note that downloading large batches of metrics from multiple watersheds, years and schemas may trigger a timeout error on access to the API.  If this occurs, download smaller batches of metrics. 
 
-![Download Metrics]({{ site.url }}/assets/images/MetricDownload_SchemaList.png
+![Download Metrics]({{ site.url }}/assets/images/MetricDownload_SchemaList.png)
 
 Active copies of Draft Metrics are available in the QA schemas (below).  Note that ONLY ONE copy of metrics from these schemas is available in the Workbench at any time.  Any Metric Download will replace existing data in these schemas.
 
