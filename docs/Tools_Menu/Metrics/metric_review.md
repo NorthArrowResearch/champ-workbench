@@ -3,22 +3,24 @@ title: Metric Review
 ---
 
  There are 3 panels to the Metric Review Window, the (a) Metric Grid, (b) Plot and (c) User Notes.
+ 
+ ![Metric Review]({{ site.url }}/assets/images/MetricReviewWindow.png)
+ 
 a)	Metric Grid: This grid lists all program metrics from all metric engines.  
 •	The Visit selected in the grid will appear as a red dot on the graph.
 •	Metrics can be sorted by clicking on the metric name in the grid.
 
-
 b)	Metric Plots: The metric plot allows graphing of available metrics in the database. 
-
 •	The Plot Type dropdown includes a list of preset metric graphs (44 plots).  The down arrow can be used to scroll through these without using the dropdown.
 •	The X axis and Y axis dropdowns can be adjusted for free-form graphing of any metric.
 
-![Metric Review]({{ site.url }}/assets/images/MetricReviewWindow.png)
+
+![Metric Review]({{ site.url }}/assets/images/MetricReviewPlot.png)
 
 A square can be dragged and dropped over the graph to zoom in.
 The small bullseye dot on each axis will zoom out (circled in red).
 
-![Metric Review]({{ site.url }}/assets/images/MetricReviewPlot.png)
+![Metric Review]({{ site.url }}/assets/images/MetricReviewPlotBullsEyes.png)
 
 c)	User Notes.  The workbench allows entry of notes and assignment of a data quality rating of a plot.  These notes are NOT currently compiled into champmonitoring.org but might be in the future.    
 
