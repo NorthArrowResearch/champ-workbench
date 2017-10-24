@@ -4,7 +4,7 @@ title: Download Metrics
 
 The CHaMP Workbench downloads metrics from champmonitoring.org directly into the Workbench database via the API.
 
-Process:
+## Process:  
 Open the CHaMP Workbench.
 Make sure that you are connected to the correct local Workbench database.
 Select/Highlight the Visits for metric download
