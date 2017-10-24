@@ -18,25 +18,24 @@ Select the metric datasets (aka 'schemas') to download from the list. Note that 
 
 Active copies of Draft Metrics are available in the QA schemas (below).  Note that ONLY ONE copy of metrics from these schemas is available in the Workbench at any time.  Any Metric Download will replace existing data in these schemas.
 
-QA - Aux Channel Metrics (CHaMP)
-QA - Aux Tier 1 Metrics (CHaMP)
-QA - Aux Visit Metrics (CHaMP)
-QA - Topo Channel Metrics (CHaMP)
-QA - Topo Tier 1 Metrics (CHaMP)
-QA - Topo Tier 2 Metrics (CHaMP)
-QA - Topo Visit Metrics (CHaMP)
-QA - TopoAux Tier 1 Metrics (CHaMP)
-QA - TopoAux Visit Metrics (CHaMP)
+QA - Aux Channel Metrics (CHaMP)  
+QA - Aux Tier 1 Metrics (CHaMP)  
+QA - Aux Visit Metrics (CHaMP)  
+QA - Topo Channel Metrics (CHaMP)  
+QA - Topo Tier 1 Metrics (CHaMP)  
+QA - Topo Tier 2 Metrics (CHaMP)  
+QA - Topo Visit Metrics (CHaMP)  
+QA - TopoAux Tier 1 Metrics (CHaMP)  
+QA - TopoAux Visit Metrics (CHaMP)  
 
 Once metrics have been reviewed by crews after each field season, a snapshot of the metrics are moved to the Final schemas. These schemas are updated periodically and are tracked by date.
 
-Final - Visit Metrics
-Final - Tier 1 Metrics
-Final - Tier 2 Metrics
-Final - Channel Metrics
+Final - Visit Metrics  
+Final - Tier 1 Metrics  
+Final - Tier 2 Metrics  
+Final - Channel Metrics  
 
 After Schemas have been selected for download, enter your credentials for CHaMP Monitoring and click OK.
-Contact Carol Volk (carol@shouthforkresearch.org) if you receive a message stating that you are unable to authenticate.
+Contact Carol Volk (carol@southforkresearch.org) if you receive a message stating that you are unable to authenticate.
 
 
-Note that the Action and Effective Montiroing (AEM) program does not use distinguish visits by watershed. You can leave all watersheds unchecked or select the Basinwide item when synchronizing AEM data.
