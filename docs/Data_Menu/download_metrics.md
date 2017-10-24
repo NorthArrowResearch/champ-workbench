@@ -10,6 +10,7 @@ Make sure that you are connected to the correct local Workbench database.
 Select/Highlight the Visits for metric download
 Click the Data main menu item and choose Download Metrics
 
+![Download Metrics]({{ site.url }}/assets/images/sync/DownloadMetricMenu.png)
 
 Select the metric datasets (aka 'schemas') to download from the list. Note that downloading large batches of metrics from multiple watersheds, years and schemas may trigger a timeout error on access to the API.  If this occurs, download smaller batches of metrics. 
 
