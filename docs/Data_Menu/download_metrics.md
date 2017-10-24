@@ -14,6 +14,7 @@ Click the Data main menu item and choose Download Metrics
 
 Select the metric datasets (aka 'schemas') to download from the list. Note that downloading large batches of metrics from multiple watersheds, years and schemas may trigger a timeout error on access to the API.  If this occurs, download smaller batches of metrics. 
 
+![Download Metrics]({{ site.url }}/assets/images/MetricDownload_SchemaList.png)
 
 
 Enter your credentials for CHaMP Monitoring and click OK.
