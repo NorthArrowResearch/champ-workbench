@@ -134,6 +134,7 @@
             this.txtProgress.Location = new System.Drawing.Point(6, 71);
             this.txtProgress.Multiline = true;
             this.txtProgress.Name = "txtProgress";
+            this.txtProgress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtProgress.Size = new System.Drawing.Size(354, 133);
             this.txtProgress.TabIndex = 0;
             // 
