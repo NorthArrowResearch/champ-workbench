@@ -125,7 +125,10 @@ namespace CHaMPWorkbench.Data.Metrics
                                 }
 
                                 if (theMetrics.Payload == null || theMetrics.Payload.Length < 1)
+                                {
+                                    ErrorMessages.AppendLine(string.Format("No metrics for visit {0} and schema {1}", aVisit.Id, schema.Name));
                                     continue;
+                                }
 
                                 GeoOptix.API.Model.MetricInstanceModel[] metricInstances = theMetrics.Payload;
                                 if (metricInstances.Length == 0)
