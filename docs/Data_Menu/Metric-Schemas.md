@@ -20,4 +20,4 @@ Metrics can be added and removed from schemas from Metric Definitions (Data menu
 
 Navigate to the Data Menu, Select Metric Definitions, and click on the Schema tab.
 
-![Add metrics to schema window]({{ site.url }}/assets/images/MetricDefinitions_schemas.png)
+![Add metrics to schema window]({{ site.url }}/assets/images/MetricDefinition_schemas.png)
