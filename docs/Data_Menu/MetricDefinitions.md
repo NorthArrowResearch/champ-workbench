@@ -16,15 +16,15 @@ Double click on an individual metric to open additional details.  Changes to met
 
 ### Tabs:
 
-**Data storage:** Provides property details of individual metrics ![Data storage]({{ site.url }}/assets/images/MetricDef_DataStorage.png)
+**Data storage:** Provides property details of individual metrics  ![Data storage]({{ site.url }}/assets/images/MetricDef_DataStorage.png)
 
-**Schemas:** Allows assignment of metrics to schemas ![Schema List]({{ site.url }}/assets/images/MetricDef_Schemas.png)
+**Schemas:** Allows assignment of metrics to schemas  ![Schema List]({{ site.url }}/assets/images/MetricDef_Schemas.png)
 
-**Metadata:**  Provides links to metric definitions ![Metadata]({{ site.url }}/assets/images/MetricDef_Metadata.png)
+**Metadata:**  Provides links to metric definitions  ![Metadata]({{ site.url }}/assets/images/MetricDef_Metadata.png)
 
 **Validation:**  Allows update of thresholds used for validation  ![Validation]({{ site.url }}/assets/images/MetricDef_Validation.png)
 
-<u>*Metric Attributes*</u>
+**<u>Metric Attributes</u>**
 
 - ID: (MetricID) Unique identifier of metrics within the Workbench db.  
 - Title: Common metric name  
