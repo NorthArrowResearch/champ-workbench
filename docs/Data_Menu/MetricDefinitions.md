@@ -14,7 +14,7 @@ Metrics can be filtered using the Model, Schema, and search box to the left of t
 
 Double click on an individual metric to open additional details.  Changes to metric details may be lost or create conflicts when updates to the workbench database occur. 
 
-### Tabs:
+There are 4 tabs to navigate metric metadata:
 
 **Data storage:** Provides property details of individual metrics  ![Data storage]({{ site.url }}/assets/images/MetricDef_DataStorage.png)
 
