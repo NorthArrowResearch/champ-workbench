@@ -3,14 +3,22 @@ title: Release Notes
 weight: 99
 ---
 
-### 7.0.22 - ??? 
+### 7.0.23 - 3 Nov 2017
+
+* Database update 49
+  * Hydro prep reintroduced as AWS engine.
+  * LWVol_BfSlow (MetricID 4504) XPath updated.
+  * Metric review plots updated.
+* Main visit grid filter for visits without topo data.
+* Metric download now displays a message when there are no metrics.
+
+### 7.0.22 - 17 Oct 2017
 
 * Null and zero Thresholds updated to 0.008 for all active metrics with an XPath.
 * Metric definition changes:
-  * Aux `RipCovUstoryNone` XPath change
-  * `DpthThlwgMax_Avg` renamed to `DpthMax_Avg` for topo tier 1 and 2
-  * `WetSCS_Area` renamed to `SCSm_Area` for topo
-
+    * Aux `RipCovUstoryNone` XPath change
+    * `DpthThlwgMax_Avg` renamed to `DpthMax_Avg` for topo tier 1 and 2
+    * `WetSCS_Area` renamed to `SCSm_Area` for topo
 
 ### 7.0.21 - 2 Oct 2017
 
