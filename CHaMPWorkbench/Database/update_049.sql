@@ -56,4 +56,4 @@ INSERT INTO Metric_Plots (PlotTitle, XMetrixID, YMetricID, PlotTypeID) VALUES ("
 INSERT INTO Metric_Plots (PlotTitle, XMetrixID, YMetricID, PlotTypeID) VALUES ("52 Boulders to Sand and Fines", 4588, 4573, 10001);
 INSERT INTO Metric_Plots (PlotTitle, XMetrixID, YMetricID, PlotTypeID) VALUES ("53 Pct Undercut (length) to Pct Undercut (area)", 4594, 4595, 10001);
 UPDATE VersionInfo SET ValueInfo='49' WHERE rowid=3;
-UPDATE VersionInfo SET ValueInfo='1 Nov 2017' WHERE rowid=4;
+UPDATE VersionInfo SET ValueInfo='3 Nov 2017' WHERE rowid=4;
