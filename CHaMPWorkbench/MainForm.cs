@@ -1423,17 +1423,20 @@ namespace CHaMPWorkbench
                     if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         List<string> lValidVisitIDs = new List<string>();
-                        string[] sVisitIDs = File.ReadAllText(frm.FileName).Split(',');
-                        foreach (string sVisitID in sVisitIDs)
+                        string[] sVisitIDs = File.ReadAllText(frm.FileName).Split('\n');
+                        foreach (string sLine in sVisitIDs)
                         {
-                            int nVisitID = 0;
-                            if (!string.IsNullOrEmpty(sVisitID))
+                            foreach (string sVisitID in sLine.Split(','))
                             {
-                                if (int.TryParse(sVisitID, out nVisitID))
+                                int nVisitID = 0;
+                                if (!string.IsNullOrEmpty(sVisitID))
                                 {
-                                    if (nVisitID > 0)
+                                    if (int.TryParse(sVisitID, out nVisitID))
                                     {
-                                        lValidVisitIDs.Add(nVisitID.ToString());
+                                        if (nVisitID > 0)
+                                        {
+                                            lValidVisitIDs.Add(nVisitID.ToString());
+                                        }
                                     }
                                 }
                             }
@@ -1499,7 +1502,7 @@ namespace CHaMPWorkbench
                     lVisitIDs.Add(((long)r["VisitID"]).ToString());
                 }
 
-                File.WriteAllText(frm.FileName, string.Join(",", lVisitIDs.ToArray<string>()));
+                File.WriteAllText(frm.FileName, string.Join("\n", lVisitIDs.ToArray<string>()));
             }
         }
 
