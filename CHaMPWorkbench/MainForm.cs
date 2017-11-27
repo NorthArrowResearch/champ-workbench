@@ -880,9 +880,7 @@ namespace CHaMPWorkbench
                 DataRow r = RetrieveVisitInfo();
                 if (r is DataRow)
                 {
-                    List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
-                    lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"], naru.db.DBState.Unchanged));
-                    Data.frmAPIDownloadVisits frm = new Data.frmAPIDownloadVisits(lVisits);
+                    Data.frmAPIDownloadVisitFiles frm = new Data.frmAPIDownloadVisitFiles(GetSelectedVisitsList());
                     frm.ShowDialog();
                 }
             }
@@ -1845,7 +1843,7 @@ namespace CHaMPWorkbench
             List<CHaMPData.VisitBasic> lVisits = GetSelectedVisitsList();
             try
             {
-                Data.frmAPIDownloadVisits frm = new Data.frmAPIDownloadVisits(lVisits);
+                Data.frmAPIDownloadVisitFiles frm = new Data.frmAPIDownloadVisitFiles(lVisits);
                 frm.ShowDialog();
             }
             catch (Exception ex)

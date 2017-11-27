@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CHaMPWorkbench.Data
 {
-    public partial class frmAPIDownloadVisits : Form
+    public partial class frmAPIDownloadVisitFiles : Form
     {
         private BindingList<VisitWithFiles> Visits;
         private Dictionary<long, CHaMPData.Program> Programs;
@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        public frmAPIDownloadVisits(List<CHaMPData.VisitBasic> lVisits)
+        public frmAPIDownloadVisitFiles(List<CHaMPData.VisitBasic> lVisits)
         {
             InitializeComponent();
 
@@ -73,8 +73,6 @@ namespace CHaMPWorkbench.Data
 
             grpProgress.Visible = false;
             treFiles.Height = treFiles.Height + grpProgress.Height;
-            lstVisits.Height = lstVisits.Height + grpProgress.Height;
-            //this.Height = this.Height - grpProgress.Height;
 
             backgroundWorker1.WorkerReportsProgress = true;
             chkCreateDir.Checked = m_bCreateFolders;
@@ -83,9 +81,6 @@ namespace CHaMPWorkbench.Data
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder) &&
                 System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
                 txtLocalFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
-
-            lstVisits.DataSource = Visits;
-            lstVisits.DisplayMember = "Name";
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -243,7 +238,6 @@ namespace CHaMPWorkbench.Data
         {
             grpProgress.Visible = true;
             treFiles.Height -= grpProgress.Height;
-            lstVisits.Height -= grpProgress.Height;
             m_bOverwrite = chkOverwrite.Checked;
             m_bCreateFolders = chkCreateDir.Checked;
 
@@ -287,6 +281,17 @@ namespace CHaMPWorkbench.Data
             }
         }
 
+
+        /// <summary>
+        /// Get the field files from the API and return them as a tree control
+        /// </summary>
+        public static void GetAPIFieldFiles()
+        {
+
+        }
+
+
+
         private void cmdBrowseLocal_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
@@ -315,5 +320,6 @@ namespace CHaMPWorkbench.Data
         {
             CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
         }
+
     }
 }

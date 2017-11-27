@@ -176,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
+    <Compile Include="CHaMPData\APIFileFolder.cs" />
     <Compile Include="CHaMPData\DataSynchronizer.cs" />
     <Compile Include="CHaMPData\MetricBatch.cs" />
     <Compile Include="CHaMPData\MetricInstance.cs" />
@@ -254,11 +255,11 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmAPIDownloadVisits.cs">
+    <Compile Include="Data\frmAPIDownloadVisitFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmAPIDownloadVisits.Designer.cs">
-      <DependentUpon>frmAPIDownloadVisits.cs</DependentUpon>
+    <Compile Include="Data\frmAPIDownloadVisitFiles.Designer.cs">
+      <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmKeystoneCredentials.cs">
       <SubType>Form</SubType>
@@ -627,8 +628,8 @@
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmAPIDownloadVisits.resx">
-      <DependentUpon>frmAPIDownloadVisits.cs</DependentUpon>
+    <EmbeddedResource Include="Data\frmAPIDownloadVisitFiles.resx">
+      <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>

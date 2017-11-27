@@ -27,6 +27,11 @@ namespace CHaMPWorkbench.CHaMPData
         public string CategoryName { get; internal set; }
         public string VisitPhase { get; internal set; }
 
+        // Either files sitting in the root, root folders or field folders. 
+        // We choose these because they are the ones that are available directly
+        // at the /visit/## call
+        public List<APIFileFolder> FileFolders;
+
         // Available but not implemented
         private bool m_bHasStreamTempLogger;
         private bool m_bHasFishData;
@@ -217,6 +222,7 @@ namespace CHaMPWorkbench.CHaMPData
         private void Init(long nID)
         {
             ChannelUnits = ChannelUnit.Load(DBCon.ConnectionString, nID);
+            FileFolders = APIFileFolder.Load(DBCon.ConnectionString, nID);
         }
 
         public static Visit Load(string sDBCon, long nVisitID)
@@ -336,6 +342,9 @@ namespace CHaMPWorkbench.CHaMPData
                         aVisit.ID = (long)dbCom.ExecuteScalar();
                     }
                 }
+
+                // Now write the file/folder data
+                APIFileFolder.Save(aVisit.ID, dbTrans, aVisit.FileFolders.Where(x => x.State != naru.db.DBState.Unchanged).ToList<APIFileFolder>());
 
                 // Now save any channel units that have changed
                 ChannelUnit.Save(ref dbTrans, aVisit.ChannelUnits.Values.ToList<ChannelUnit>().Where<ChannelUnit>(x => x.State != naru.db.DBState.Unchanged));

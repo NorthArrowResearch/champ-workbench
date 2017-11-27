@@ -1,6 +1,6 @@
 ﻿namespace CHaMPWorkbench.Data
 {
-    partial class frmAPIDownloadVisits
+    partial class frmAPIDownloadVisitFiles
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAPIDownloadVisits));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAPIDownloadVisitFiles));
             this.label1 = new System.Windows.Forms.Label();
             this.txtLocalFolder = new System.Windows.Forms.TextBox();
             this.cmdCancel = new System.Windows.Forms.Button();
@@ -43,15 +43,14 @@
             this.txtProgress = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lstVisits = new System.Windows.Forms.ListBox();
+            this.lblSelectedVisits = new System.Windows.Forms.Label();
             this.grpProgress.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 15);
+            this.label1.Location = new System.Drawing.Point(27, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 0;
@@ -61,7 +60,7 @@
             // 
             this.txtLocalFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLocalFolder.Location = new System.Drawing.Point(95, 11);
+            this.txtLocalFolder.Location = new System.Drawing.Point(95, 43);
             this.txtLocalFolder.Name = "txtLocalFolder";
             this.txtLocalFolder.Size = new System.Drawing.Size(409, 20);
             this.txtLocalFolder.TabIndex = 1;
@@ -92,9 +91,9 @@
             // 
             this.treFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.treFiles.Location = new System.Drawing.Point(12, 104);
+            this.treFiles.Location = new System.Drawing.Point(12, 130);
             this.treFiles.Name = "treFiles";
-            this.treFiles.Size = new System.Drawing.Size(254, 291);
+            this.treFiles.Size = new System.Drawing.Size(521, 265);
             this.treFiles.TabIndex = 6;
             this.treFiles.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treFiles_AfterCheck);
             // 
@@ -103,7 +102,7 @@
             this.chkCreateDir.AutoSize = true;
             this.chkCreateDir.Checked = true;
             this.chkCreateDir.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCreateDir.Location = new System.Drawing.Point(95, 37);
+            this.chkCreateDir.Location = new System.Drawing.Point(95, 69);
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
             this.chkCreateDir.TabIndex = 3;
@@ -113,7 +112,7 @@
             // chkOverwrite
             // 
             this.chkOverwrite.AutoSize = true;
-            this.chkOverwrite.Location = new System.Drawing.Point(95, 62);
+            this.chkOverwrite.Location = new System.Drawing.Point(95, 94);
             this.chkOverwrite.Name = "chkOverwrite";
             this.chkOverwrite.Size = new System.Drawing.Size(130, 17);
             this.chkOverwrite.TabIndex = 4;
@@ -135,7 +134,7 @@
             // 
             this.cmdBrowseLocal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdBrowseLocal.Image = global::CHaMPWorkbench.Properties.Resources.BrowseFolder;
-            this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 10);
+            this.cmdBrowseLocal.Location = new System.Drawing.Point(510, 42);
             this.cmdBrowseLocal.Name = "cmdBrowseLocal";
             this.cmdBrowseLocal.Size = new System.Drawing.Size(23, 23);
             this.cmdBrowseLocal.TabIndex = 2;
@@ -185,39 +184,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 88);
+            this.label2.Location = new System.Drawing.Point(12, 114);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Files to download";
             // 
-            // label3
+            // lblSelectedVisits
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(279, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Visits";
+            this.lblSelectedVisits.AutoSize = true;
+            this.lblSelectedVisits.Location = new System.Drawing.Point(12, 24);
+            this.lblSelectedVisits.Name = "lblSelectedVisits";
+            this.lblSelectedVisits.Size = new System.Drawing.Size(125, 13);
+            this.lblSelectedVisits.TabIndex = 13;
+            this.lblSelectedVisits.Text = "With XX selected Visits...";
             // 
-            // lstVisits
-            // 
-            this.lstVisits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstVisits.FormattingEnabled = true;
-            this.lstVisits.Location = new System.Drawing.Point(279, 104);
-            this.lstVisits.Name = "lstVisits";
-            this.lstVisits.Size = new System.Drawing.Size(254, 290);
-            this.lstVisits.TabIndex = 8;
-            // 
-            // frmFTPVisit
+            // frmAPIDownloadVisits
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(545, 618);
-            this.Controls.Add(this.lstVisits);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblSelectedVisits);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.grpProgress);
             this.Controls.Add(this.cmdBrowseLocal);
@@ -231,7 +218,7 @@
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(561, 220);
-            this.Name = "frmFTPVisit";
+            this.Name = "frmAPIDownloadVisits";
             this.Text = "Download Visit Data";
             this.Load += new System.EventHandler(this.frmFTPVisit_Load);
             this.grpProgress.ResumeLayout(false);
@@ -257,7 +244,6 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox txtProgress;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListBox lstVisits;
+        private System.Windows.Forms.Label lblSelectedVisits;
     }
 }

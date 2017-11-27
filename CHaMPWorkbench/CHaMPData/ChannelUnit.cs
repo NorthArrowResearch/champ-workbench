@@ -262,7 +262,8 @@ namespace CHaMPWorkbench.CHaMPData
             string[] sFields = { "VisitID", "SegmentNumber", "ChannelUnitNumber", "Tier1", "Tier2", "BouldersGT256", "Cobbles65255", "CoarseGravel1764", "FineGravel316", "Sand0062", "FinesLT006", "SumSubstrateCover", "Bedrock", "LargeWoodCount" };
 
             // Note that this insert query is slightly unique and doesn't include the in-memory ID.
-            SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_ChannelUnits ({0}) VALUES (@{1})", string.Join(",", sFields), string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
+            SQLiteCommand comInsert = new SQLiteCommand(string.Format("INSERT INTO CHaMP_ChannelUnits ({0}) VALUES (@{1})", string.Join(",", sFields), 
+                string.Join(", @", sFields)), dbTrans.Connection, dbTrans);
             comInsert.Parameters.Add("ID", System.Data.DbType.Int64);
 
             SQLiteCommand comUpdate = new SQLiteCommand(string.Format("UPDATE CHaMP_ChannelUnits SET {0} WHERE (VisitID = @VisitID) AND (ChannelUnitNumber = @ChannelUnitNumber)", string.Join(", ", sFields.Select(x => x + " = @" + x))), dbTrans.Connection, dbTrans);

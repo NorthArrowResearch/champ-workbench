@@ -8,6 +8,7 @@ using System.Data.SQLite;
 using System.Net.Http;
 using IdentityModel.Client;
 using Keystone.API;
+using System.Collections;
 
 namespace CHaMPWorkbench.CHaMPData
 {
@@ -299,6 +300,16 @@ namespace CHaMPWorkbench.CHaMPData
                 theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, SiteURLs[apiVisitDetails.SiteUrl], string.Empty, apiVisitDetails.SampleYear.Value, nProgramID, string.Empty, naru.db.DBState.New);
                 dvisits[(long)apiVisitDetails.Id] = theVisit;
             }
+
+            // Capture the superficial file and folder visiti info
+            foreach (GeoOptix.API.Model.FileSummaryModel file in apiVisitDetails.Files)
+                theVisit.FileFolders.Add(new APIFileFolder(file.Name, file.Url, file.Description, true, false, naru.db.DBState.New));
+
+            foreach (GeoOptix.API.Model.FolderSummaryModel folder in apiVisitDetails.Folders)
+                theVisit.FileFolders.Add(new APIFileFolder(folder.Name, folder.Url, "", false, false, naru.db.DBState.New));
+
+            foreach (GeoOptix.API.Model.FieldFolderSummaryModel ffolder in apiVisitDetails.FieldFolders)
+                theVisit.FileFolders.Add(new APIFileFolder(ffolder.Name, ffolder.Url, "", false, true, naru.db.DBState.New));
 
             theVisit.Hitch = apiVisitDetails.HitchName;
             theVisit.Organization = apiVisitDetails.OrganizationName;
