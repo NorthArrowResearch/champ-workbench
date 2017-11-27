@@ -254,11 +254,11 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmFTPVisit.cs">
+    <Compile Include="Data\frmAPIDownloadVisits.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmFTPVisit.Designer.cs">
-      <DependentUpon>frmFTPVisit.cs</DependentUpon>
+    <Compile Include="Data\frmAPIDownloadVisits.Designer.cs">
+      <DependentUpon>frmAPIDownloadVisits.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmKeystoneCredentials.cs">
       <SubType>Form</SubType>
@@ -627,8 +627,8 @@
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmFTPVisit.resx">
-      <DependentUpon>frmFTPVisit.cs</DependentUpon>
+    <EmbeddedResource Include="Data\frmAPIDownloadVisits.resx">
+      <DependentUpon>frmAPIDownloadVisits.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">
       <DependentUpon>frmKeystoneCredentials.cs</DependentUpon>

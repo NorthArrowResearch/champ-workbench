@@ -134,6 +134,7 @@
             this.cmsProtocol = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiSelectAllProtocols = new System.Windows.Forms.ToolStripMenuItem();
             this.selectProtocolsWithTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSelectNoneProtocols = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstPrograms = new System.Windows.Forms.CheckedListBox();
@@ -195,7 +196,7 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -331,13 +332,14 @@
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem,
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem,
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.createCustomVisitToolStripMenuItem,
             this.toolStripSeparator7,
             this.metricDefinitionsToolStripMenuItem,
             this.metricDownloadToolStripMenuItem,
             this.metricUploadToolStripMenuItem,
+            this.toolStripSeparator19,
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem,
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem,
             this.toolStripSeparator18,
             this.prepareDatabaseForDeploymentToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
@@ -348,7 +350,7 @@
             // 
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.import;
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Name = "scavengeVisitDataFromCHaMPExportToolStripMenuItem";
-            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Synchronize CHaMP Data...";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
@@ -356,37 +358,35 @@
             // 
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download Topo Data and Hydraulic Model Files...";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Visible = false;
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download API Files";
             this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
             // 
             // unpackMonitoringData7ZipArchiveToolStripMenuItem
             // 
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack Monitoring Data Zip Archives...";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Visible = false;
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack API Zip Files";
             this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
             // createCustomVisitToolStripMenuItem
             // 
             this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
-            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.createCustomVisitToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.createCustomVisitToolStripMenuItem.Text = "Create Custom Visit...";
             this.createCustomVisitToolStripMenuItem.Click += new System.EventHandler(this.createCustomVisitToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(331, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(289, 6);
             // 
             // metricDefinitionsToolStripMenuItem
             // 
             this.metricDefinitionsToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.measure;
             this.metricDefinitionsToolStripMenuItem.Name = "metricDefinitionsToolStripMenuItem";
-            this.metricDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.metricDefinitionsToolStripMenuItem.Text = "Metric Definitions";
             this.metricDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.metricDefinitionsToolStripMenuItem_Click);
             // 
@@ -394,7 +394,7 @@
             // 
             this.metricDownloadToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.metric_download;
             this.metricDownloadToolStripMenuItem.Name = "metricDownloadToolStripMenuItem";
-            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricDownloadToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.metricDownloadToolStripMenuItem.Text = "Metric Download...";
             this.metricDownloadToolStripMenuItem.Click += new System.EventHandler(this.metricDownloadToolStripMenuItem_Click);
             // 
@@ -402,21 +402,22 @@
             // 
             this.metricUploadToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.metric_upload;
             this.metricUploadToolStripMenuItem.Name = "metricUploadToolStripMenuItem";
-            this.metricUploadToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.metricUploadToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.metricUploadToolStripMenuItem.Text = "Metric Upload...";
             this.metricUploadToolStripMenuItem.Click += new System.EventHandler(this.metricUploadToolStripMenuItem_Click);
             // 
             // toolStripSeparator18
             // 
             this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(331, 6);
+            this.toolStripSeparator18.Size = new System.Drawing.Size(289, 6);
             this.toolStripSeparator18.Visible = false;
+            this.toolStripSeparator18.Click += new System.EventHandler(this.toolStripSeparator18_Click);
             // 
             // prepareDatabaseForDeploymentToolStripMenuItem
             // 
             this.prepareDatabaseForDeploymentToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.database;
             this.prepareDatabaseForDeploymentToolStripMenuItem.Name = "prepareDatabaseForDeploymentToolStripMenuItem";
-            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.prepareDatabaseForDeploymentToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.prepareDatabaseForDeploymentToolStripMenuItem.Text = "Manage Workbench Database Contents...";
             this.prepareDatabaseForDeploymentToolStripMenuItem.Visible = false;
             this.prepareDatabaseForDeploymentToolStripMenuItem.Click += new System.EventHandler(this.prepareDatabaseForDeploymentToolStripMenuItem_Click);
@@ -1054,7 +1055,7 @@
             this.selectProtocolsWithoutTopoDataToolStripMenuItem,
             this.tsmSelectNoneProtocols});
             this.cmsProtocol.Name = "cmsWatershed";
-            this.cmsProtocol.Size = new System.Drawing.Size(262, 114);
+            this.cmsProtocol.Size = new System.Drawing.Size(262, 92);
             // 
             // tsmiSelectAllProtocols
             // 
@@ -1071,6 +1072,14 @@
             this.selectProtocolsWithTopoDataToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
             this.selectProtocolsWithTopoDataToolStripMenuItem.Text = "Select Protocols With Topo Data";
             this.selectProtocolsWithTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
+            // 
+            // selectProtocolsWithoutTopoDataToolStripMenuItem
+            // 
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Name = "selectProtocolsWithoutTopoDataToolStripMenuItem";
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Text = "Select Protocols Without Topo Data";
+            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
             // 
             // tsmSelectNoneProtocols
             // 
@@ -1646,13 +1655,10 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
             // 
-            // selectProtocolsWithoutTopoDataToolStripMenuItem
+            // toolStripSeparator19
             // 
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Name = "selectProtocolsWithoutTopoDataToolStripMenuItem";
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Size = new System.Drawing.Size(261, 22);
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Text = "Select Protocols Without Topo Data";
-            this.selectProtocolsWithoutTopoDataToolStripMenuItem.Click += new System.EventHandler(this.selectProtocolsWithTopoDataToolStripMenuItem_Click);
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(289, 6);
             // 
             // MainForm
             // 
@@ -1863,6 +1869,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem metricUploadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectProtocolsWithoutTopoDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
     }
 }
 

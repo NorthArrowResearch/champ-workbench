@@ -1,6 +1,6 @@
 ﻿namespace CHaMPWorkbench.Data
 {
-    partial class frmFTPVisit
+    partial class frmAPIDownloadVisits
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFTPVisit));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAPIDownloadVisits));
             this.label1 = new System.Windows.Forms.Label();
             this.txtLocalFolder = new System.Windows.Forms.TextBox();
             this.cmdCancel = new System.Windows.Forms.Button();

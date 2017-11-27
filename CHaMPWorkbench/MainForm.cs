@@ -882,7 +882,7 @@ namespace CHaMPWorkbench
                 {
                     List<CHaMPData.VisitBasic> lVisits = new List<CHaMPData.VisitBasic>();
                     lVisits.Add(new CHaMPData.VisitBasic((long)r["VisitID"], (long)r["WatershedID"], (string)r["WatershedName"], (long)r["SiteID"], (string)r["SiteName"], (long)r["VisitYear"], string.Empty, (long)r["ProgramID"], naru.db.DBState.Unchanged));
-                    Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
+                    Data.frmAPIDownloadVisits frm = new Data.frmAPIDownloadVisits(lVisits);
                     frm.ShowDialog();
                 }
             }
@@ -1845,7 +1845,7 @@ namespace CHaMPWorkbench
             List<CHaMPData.VisitBasic> lVisits = GetSelectedVisitsList();
             try
             {
-                Data.frmFTPVisit frm = new Data.frmFTPVisit(lVisits);
+                Data.frmAPIDownloadVisits frm = new Data.frmAPIDownloadVisits(lVisits);
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -2054,6 +2054,12 @@ namespace CHaMPWorkbench
             }
 
             FilterVisits(sender, e);
+        }
+
+        private void toolStripSeparator18_Click(object sender, EventArgs e)
+        {
+
+
         }
     }
 }

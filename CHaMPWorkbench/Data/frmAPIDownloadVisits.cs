@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CHaMPWorkbench.Data
 {
-    public partial class frmFTPVisit : Form
+    public partial class frmAPIDownloadVisits : Form
     {
         private BindingList<VisitWithFiles> Visits;
         private Dictionary<long, CHaMPData.Program> Programs;
@@ -33,7 +33,7 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        public frmFTPVisit(List<CHaMPData.VisitBasic> lVisits)
+        public frmAPIDownloadVisits(List<CHaMPData.VisitBasic> lVisits)
         {
             InitializeComponent();
 

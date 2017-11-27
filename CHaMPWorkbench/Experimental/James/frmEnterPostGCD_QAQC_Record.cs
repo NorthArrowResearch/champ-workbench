@@ -333,7 +333,7 @@ namespace CHaMPWorkbench.Experimental.James
                 long oldVisitID = (long)dr[m_sFieldName_OldVisitID];
                 CHaMPData.VisitBasic oldVisit = CHaMPData.VisitBasic.Load(newVisitID);
                 visits.Add(oldVisit);
-                Data.frmFTPVisit frmOldVisitData = new Data.frmFTPVisit(visits);
+                Data.frmAPIDownloadVisits frmOldVisitData = new Data.frmAPIDownloadVisits(visits);
                 frmOldVisitData.ShowDialog();
             }
         }
