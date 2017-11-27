@@ -132,11 +132,12 @@ namespace CHaMPWorkbench.Data
         {
             try
             {
-                using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(inFile))
-                {
-                    System.IO.Directory.CreateDirectory(outDir);
-                    zip.ExtractAll(outDir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
-                }
+                throw new NotImplementedException("Rewrite using windows unzip");
+                //using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(inFile))
+                //{
+                //    System.IO.Directory.CreateDirectory(outDir);
+                //    zip.ExtractAll(outDir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+                //}
             }
             catch (Exception ex)
             {

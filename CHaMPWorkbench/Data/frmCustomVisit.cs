@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
-using Esri.FileGDB;
 
 namespace CHaMPWorkbench.Data
 {
@@ -361,125 +360,6 @@ namespace CHaMPWorkbench.Data
             return true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (bsChannelUnits.Count > 0)
-            {
-                switch (MessageBox.Show("Do you want to clear the existing list of channel units and reload them from the selected survey geodatabase?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
-                {
-                    case System.Windows.Forms.DialogResult.No:
-                        return;
-
-                    case System.Windows.Forms.DialogResult.Cancel:
-                        this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-                        return;
-                }
-            }
-
-            // Clear any existing channel units
-            bsChannelUnits.Clear();
-
-            FolderBrowserDialog frm = new FolderBrowserDialog();
-            frm.Description = "Select Survey Geodatabase";
-            frm.ShowNewFolderButton = false;
-
-            if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder) && System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder))
-                frm.SelectedPath = CHaMPWorkbench.Properties.Settings.Default.MonitoringDataFolder;
-
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                if (frm.SelectedPath.ToLower().EndsWith(".gdb"))
-                {
-                    Geodatabase surveyGDB = Geodatabase.Open(frm.SelectedPath);
-                    Table chTable = surveyGDB.OpenTable(SurveyGDB_ChannelUnitsTableName);
-                    if (chTable is Table)
-                    {
-                        if (chTable.RowCount < 1)
-                        {
-                            MessageBox.Show("The channel unit feature class is empty.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-
-                        FieldInfo fInfo = chTable.FieldInformation;
-                        List<string> sFields = new List<string>();
-                        for (int i = 0; i < fInfo.Count; i++)
-                        {
-                            if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_Tier1Field, true) == 0)
-                                sFields.Add(SurveyGDB_Tier1Field);
-                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_Tier2Field, true) == 0)
-                                sFields.Add(SurveyGDB_Tier2Field);
-                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_UnitNumberField, true) == 0)
-                                sFields.Add(SurveyGDB_UnitNumberField);
-                            else if (string.Compare(fInfo.GetFieldName(i), SurveyGDB_SegmentField, true) == 0)
-                                sFields.Add(SurveyGDB_SegmentField);
-                        }
-
-                        if (!sFields.Contains(SurveyGDB_UnitNumberField))
-                        {
-                            MessageBox.Show(string.Format("Unable to find the channel unit number field called '{0}' in the {1} feature class inside the file geodatabase.", SurveyGDB_UnitNumberField, SurveyGDB_ChannelUnitsTableName), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-
-                        if (!sFields.Contains(SurveyGDB_SegmentField))
-                        {
-                            if (MessageBox.Show(string.Format("Unable to find the segment number field called '{0}' in the feature class. Do you want to proceed and assign all channel units to segment 1?", SurveyGDB_SegmentField), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                                == System.Windows.Forms.DialogResult.No)
-                                return;
-                        }
-
-                        if (!sFields.Contains(SurveyGDB_Tier1Field))
-                        {
-                            if (MessageBox.Show("The channel units feature class is missing tier 1 classifications. Do you want to assign random tier 1 classifications instead?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                                == System.Windows.Forms.DialogResult.No)
-                                return;
-                        }
-
-                        if (!sFields.Contains(SurveyGDB_Tier2Field))
-                        {
-                            if (MessageBox.Show("The channel units feature class is missing tier 2 classifications. Do you want to assign random tier 2 classifications instead?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                                == System.Windows.Forms.DialogResult.No)
-                                return;
-                        }
-
-                        RowCollection attrQueryRows = chTable.Search(string.Join(",", sFields), string.Empty, RowInstance.Recycle);
-                        foreach (Row attrQueryRow in attrQueryRows)
-                        {
-                            if (attrQueryRow.IsNull(SurveyGDB_UnitNumberField))
-                            {
-                                MessageBox.Show("One or more rows in the channel unit feature class possess null channel unit numbers. All features must possess a positive integer channel unit number. Unable to proceed and import channel unit information from this feature class.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return;
-                            }
-
-                            int nSegment = 1;
-                            if (sFields.Contains(SurveyGDB_SegmentField) && !attrQueryRow.IsNull(SurveyGDB_SegmentField))
-                                nSegment = attrQueryRow.GetInteger(SurveyGDB_SegmentField);
-
-                            string sTier1 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier1Field, 1);
-                            string sTier2 = GetTierName(ref sFields, attrQueryRow, SurveyGDB_Tier2Field, 2);
-
-                            ChannelUnit ch = new ChannelUnit(attrQueryRow.GetShort(SurveyGDB_UnitNumberField), nSegment, sTier1, sTier2);
-                            bsChannelUnits.Add(ch);
-                        }
-                    }
-                    else
-                        MessageBox.Show(string.Format("Unable to find the channel units table called '{0}' in the file geodatabase.", SurveyGDB_ChannelUnitsTableName), CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                    MessageBox.Show("The selected folder does not appear to be a file geodatabase.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private string GetTierName(ref List<string> theFields, Row theRow, string sFeatureClassFieldName, int nTier)
-        {
-            if (theFields.Contains(sFeatureClassFieldName) && !theRow.IsNull(sFeatureClassFieldName))
-                return theRow.GetString(sFeatureClassFieldName);
-            else
-            {
-                DataGridViewComboBoxColumn theCol = (DataGridViewComboBoxColumn)grdChannelUnits.Columns[string.Format("colTier{0}", nTier)];
-                int nItem = (int)Math.Round((RandomNumber.NextDouble() * ((double)theCol.Items.Count - 1)));
-                return theCol.Items[nItem].ToString();
-            }
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {

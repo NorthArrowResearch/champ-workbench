@@ -43,7 +43,6 @@
             this.cboProtocol = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtOrganization = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.grdChannelUnits = new System.Windows.Forms.DataGridView();
             this.colUnitNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSegmentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -206,17 +205,6 @@
             this.txtOrganization.Size = new System.Drawing.Size(252, 20);
             this.txtOrganization.TabIndex = 13;
             // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(226, 6);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(136, 23);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "Load From Survey GDB";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // grdChannelUnits
             // 
             this.grdChannelUnits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -346,7 +334,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.grdChannelUnits);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.button2);
@@ -468,7 +455,6 @@
         private System.Windows.Forms.DataGridView grdChannelUnits;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnitNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSegmentNumber;
         private System.Windows.Forms.DataGridViewComboBoxColumn colTier1;
