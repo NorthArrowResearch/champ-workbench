@@ -77,10 +77,11 @@ namespace CHaMPWorkbench.Experimental.Philip
 
                                     case "metric_tiermetrics":
                                         long nTierListID = 5;
-                                        string sTierXMLTag = "Name";
+                                        string sTierXMLTag = "Tier1";
                                         if (MetricSchemas[sMetricSchemaName].Name.Contains("2"))
                                         {
                                             nTierListID = 11;
+                                            sTierXMLTag = "Tier2";
                                         }
 
                                         ScrapeTierMetrics(nInstanceID, dTierTypes[nTierListID], sTierXMLTag, MetricSchemas[sMetricSchemaName].MetricDefs, ref xmlDoc, ref dbTrans);
@@ -252,7 +253,12 @@ namespace CHaMPWorkbench.Experimental.Philip
                 foreach (XmlNode nodMetric in xmlDoc.SelectNodes(metric.XPath))
                 {
                     // Get the tier type name from the sibling node to the metric
+                    // In TopoMetrics this sibling tier identification node is called "Name"
+                    // but in Aux it is still called "Tier1" or "Tier2". look for both.
                     XmlNode nodTier = nodMetric.ParentNode.SelectSingleNode(sTierXMLTag);
+                    if (nodTier == null)
+                        nodTier = nodMetric.ParentNode.SelectSingleNode("Name");
+
                     if (nodTier is XmlNode && !string.IsNullOrEmpty(nodTier.InnerText))
                     {
                         if (dTierTypes.ContainsKey(nodTier.InnerText))
