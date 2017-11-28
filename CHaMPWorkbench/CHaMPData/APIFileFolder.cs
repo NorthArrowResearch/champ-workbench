@@ -11,6 +11,12 @@ using naru.db;
 
 namespace CHaMPWorkbench.CHaMPData
 {
+    /// <summary>
+    /// CREATE TABLE CHaMP_VisitFileFolders (FolderID INTEGER PRIMARY KEY NOT NULL, VisitID INTEGER NOT NULL REFERENCES CHaMP_Visits (VisitID) ON DELETE CASCADE, Name TEXT NOT NULL, URL TEXT NOT NULL, Description TEXT, IsField INTEGER NOT NULL DEFAULT (0), IsFile INTEGER NOT NULL DEFAULT (0));
+    /// </summary>
+
+
+
     public class APIFileFolder : naru.db.EditableNamedObject
     {
         public long VisitID { get; internal set; }
