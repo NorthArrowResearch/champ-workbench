@@ -20,6 +20,8 @@ namespace CHaMPWorkbench.Data
         private bool m_bCreateFolders;
         private StringBuilder m_sProgress;
 
+        Dictionary<long, List<CHaMPData.APIFileFolder>> APIfilefolders;
+
         private System.IO.DirectoryInfo TopLevelLocalFolder { get; set; }
 
         public int FileCount
@@ -37,9 +39,14 @@ namespace CHaMPWorkbench.Data
         {
             InitializeComponent();
 
+            lblSelectedVisits.Text = String.Format("With {0} selected visits", lVisits.Count);
+
             Visits = new BindingList<VisitWithFiles>();
+
+            APIfilefolders = new Dictionary<long, List<CHaMPData.APIFileFolder>>();
+
             foreach (CHaMPData.VisitBasic aVisit in lVisits)
-                Visits.Add(new VisitWithFiles(aVisit));
+                APIfilefolders[aVisit.ID] = CHaMPData.APIFileFolder.Load(naru.db.sqlite.DBCon.ConnectionString, aVisit.ID);
 
             Programs = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString);
 
@@ -50,25 +57,27 @@ namespace CHaMPWorkbench.Data
 
         private void frmFTPVisit_Load(object sender, EventArgs e)
         {
-            TreeNode nodParent = treFiles.Nodes.Add("Visit Files");
-            TreeNode nodHydro = nodParent.Nodes.Add("Hydro");
-            nodHydro.Nodes.Add("HydroModelInputs.zip");
-            nodHydro.Nodes.Add("HydroModelResults.zip");
+            TreeNode treParent = treFiles.Nodes.Add("File / Folder Types");
+            TreeNode nodFiles = treParent.Nodes.Add("Files");
+            TreeNode nodFolders = treParent.Nodes.Add("Visit Folders");
+            TreeNode nodFieldFolders = treParent.Nodes.Add("Field Folders");
 
-            TreeNode nodTopo = nodParent.Nodes.Add("Topo");
-            nodTopo.Nodes.Add("CrewUploadedSurveyGDB.zip");
-            nodTopo.Nodes.Add("MapImages.zip");
-            nodTopo.Nodes.Add("SurveyGDB.zip");
-            nodTopo.Nodes.Add("TIN.zip");
-            nodTopo.Nodes.Add("TopoToolbarResults.xml");
-            nodTopo.Nodes.Add("WettedSurfaceTIN.zip");
+            // Now we need to untangle the unique values
+            List<string> uniqueFiles = APIfilefolders.SelectMany(k => k.Value.Where(g => !g.IsField && g.IsFile)).Select(j => j.Name).Distinct().ToList();
+            List<string> uniqueFolders = APIfilefolders.SelectMany(k => k.Value.Where(g => !g.IsField && !g.IsFile)).Select(j => j.Name).Distinct().ToList();
+            List<string> uniqueFieldFolders = APIfilefolders.SelectMany(k => k.Value.Where(g => g.IsField && !g.IsFile)).Select(j => j.Name).Distinct().ToList();
 
-            TreeNode nodRBT = nodParent.Nodes.Add("RBTOutputs");
-            nodRBT.Nodes.Add("LogFile.xml");
-            nodRBT.Nodes.Add("RBTOutput.zip");
-            nodRBT.Nodes.Add("Results.xml");
+            foreach (string name in uniqueFiles)
+                nodFiles.Nodes.Add(name);
 
-            nodParent.ExpandAll();
+            foreach (string name in uniqueFolders)
+                nodFolders.Nodes.Add(name);
+
+            foreach (string name in uniqueFieldFolders)
+                nodFieldFolders.Nodes.Add(name);
+
+            treParent.ExpandAll();
+
             treFiles.CheckBoxes = true;
 
             grpProgress.Visible = false;

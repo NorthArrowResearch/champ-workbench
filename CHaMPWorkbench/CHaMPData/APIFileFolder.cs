@@ -41,8 +41,8 @@ namespace CHaMPWorkbench.CHaMPData
                 {
                     APIFileFolders.Add(new APIFileFolder(
                         naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Name")
-                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Description")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "URL")
+                        , naru.db.sqlite.SQLiteHelpers.GetSafeValueStr(ref dbRead, "Description")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "IsFile")
                         , naru.db.sqlite.SQLiteHelpers.GetSafeValueBool(ref dbRead, "IsField")
                         , DBState.Unchanged));
