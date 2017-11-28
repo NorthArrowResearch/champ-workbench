@@ -177,6 +177,7 @@
   <ItemGroup>
     <Compile Include="CHaMPData\AllCHaMPData.cs" />
     <Compile Include="CHaMPData\APIFileFolder.cs" />
+    <Compile Include="CHaMPData\CHaMPAPI.cs" />
     <Compile Include="CHaMPData\DataSynchronizer.cs" />
     <Compile Include="CHaMPData\MetricBatch.cs" />
     <Compile Include="CHaMPData\MetricInstance.cs" />

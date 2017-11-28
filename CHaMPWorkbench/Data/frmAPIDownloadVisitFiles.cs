@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using CHaMPWorkbench.CHaMPData;
 
 namespace CHaMPWorkbench.Data
 {
     public partial class frmAPIDownloadVisitFiles : Form
     {
-        private BindingList<VisitWithFiles> Visits;
+        private Dictionary<long, BindingList<VisitWithFiles>> Visits;
         private Dictionary<long, CHaMPData.Program> Programs;
 
         private string m_sCurrentFile;
@@ -20,35 +21,67 @@ namespace CHaMPWorkbench.Data
         private bool m_bCreateFolders;
         private StringBuilder m_sProgress;
 
-        Dictionary<long, List<CHaMPData.APIFileFolder>> APIfilefolders;
+        public string UserName { get; internal set; }
+        public string Password { get; internal set; }
 
-        private System.IO.DirectoryInfo TopLevelLocalFolder { get; set; }
+        private DirectoryInfo TopLevelLocalFolder { get; set; }
+
+        private Dictionary<string, string> _checkedNamesPaths;
+
+        // One api helper for each program 
+        private Dictionary<long, CHaMPAPI> _apiHelpers;
+        public Dictionary<long, CHaMPAPI> APIHelpers
+        {
+            get
+            {
+                if (_apiHelpers == null)
+                {
+                    _apiHelpers = new Dictionary<long, CHaMPAPI>();
+                    foreach (KeyValuePair<long, CHaMPData.Program> kvp in Programs)
+                        _apiHelpers[kvp.Key] = new CHaMPAPI(kvp.Value, UserName, Password);
+                }
+                return _apiHelpers;
+            }
+        }
 
         public int FileCount
         {
             get
             {
                 int nFiles = 0;
-                foreach (VisitWithFiles aVisit in Visits)
-                    nFiles += aVisit.RelativesPaths.Count;
+                foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
+                    foreach (VisitWithFiles aVisit in kvp.Value)
+                        nFiles += aVisit.FilesAndFolders.Count;
+
                 return nFiles;
             }
         }
 
-        public frmAPIDownloadVisitFiles(List<CHaMPData.VisitBasic> lVisits)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="lVisits"></param>
+        public frmAPIDownloadVisitFiles(List<VisitBasic> lVisits)
         {
             InitializeComponent();
 
             lblSelectedVisits.Text = String.Format("With {0} selected visits", lVisits.Count);
 
-            Visits = new BindingList<VisitWithFiles>();
-
-            APIfilefolders = new Dictionary<long, List<CHaMPData.APIFileFolder>>();
-
-            foreach (CHaMPData.VisitBasic aVisit in lVisits)
-                APIfilefolders[aVisit.ID] = CHaMPData.APIFileFolder.Load(naru.db.sqlite.DBCon.ConnectionString, aVisit.ID);
+            Visits = new Dictionary<long, BindingList<VisitWithFiles>>();
 
             Programs = CHaMPData.Program.Load(naru.db.sqlite.DBCon.ConnectionString);
+
+            foreach (KeyValuePair<long, CHaMPData.Program> kvp in Programs)
+                Visits[kvp.Key] = new BindingList<VisitWithFiles>();
+
+            foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
+                foreach (VisitBasic aVisit in lVisits)
+                {
+                    List<APIFileFolder> visitfilefolders = APIFileFolder.Load(naru.db.sqlite.DBCon.ConnectionString, aVisit.ID);
+                    Visits[kvp.Key].Add(new VisitWithFiles(aVisit, visitfilefolders, Programs[aVisit.ProgramID]));
+                }
+
+
 
             m_sCurrentFile = string.Empty;
             m_bOverwrite = false;
@@ -63,18 +96,19 @@ namespace CHaMPWorkbench.Data
             TreeNode nodFieldFolders = treParent.Nodes.Add("Field Folders");
 
             // Now we need to untangle the unique values
-            List<string> uniqueFiles = APIfilefolders.SelectMany(k => k.Value.Where(g => !g.IsField && g.IsFile)).Select(j => j.Name).Distinct().ToList();
-            List<string> uniqueFolders = APIfilefolders.SelectMany(k => k.Value.Where(g => !g.IsField && !g.IsFile)).Select(j => j.Name).Distinct().ToList();
-            List<string> uniqueFieldFolders = APIfilefolders.SelectMany(k => k.Value.Where(g => g.IsField && !g.IsFile)).Select(j => j.Name).Distinct().ToList();
-
-            foreach (string name in uniqueFiles)
-                nodFiles.Nodes.Add(name);
-
-            foreach (string name in uniqueFolders)
-                nodFolders.Nodes.Add(name);
-
-            foreach (string name in uniqueFieldFolders)
-                nodFieldFolders.Nodes.Add(name);
+            foreach (APIFileFolder ff in Visits.SelectMany(k => k.Value).SelectMany(k => k.FilesAndFolders))
+                switch (ff.GetAPIFileFolderType)
+                {
+                    case APIFileFolder.APIFileFolderType.FILE:
+                        nodFiles.Nodes.Add(ff.Name).Tag = APIFileFolder.APIFileFolderType.FILE;
+                        break;
+                    case APIFileFolder.APIFileFolderType.FIELDFOLDER:
+                        nodFieldFolders.Nodes.Add(ff.Name).Tag = APIFileFolder.APIFileFolderType.FIELDFOLDER;
+                        break;
+                    case APIFileFolder.APIFileFolderType.FOLDER:
+                        nodFolders.Nodes.Add(ff.Name).Tag = APIFileFolder.APIFileFolderType.FOLDER;
+                        break;
+                }
 
             treParent.ExpandAll();
 
@@ -92,30 +126,36 @@ namespace CHaMPWorkbench.Data
                 txtLocalFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
         }
 
+        /// <summary>
+        /// Do the actual work
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             int nFileCounter = 0;
             int nTotalFiles = FileCount;
 
-            foreach (VisitWithFiles aVisit in Visits)
-            {
-                foreach (string sFile in aVisit.RelativesPaths)
+            foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
+                foreach (VisitWithFiles aVisit in kvp.Value)
                 {
-                    nFileCounter += 1;
-                    try
+                    foreach (APIFileFolder ff in aVisit.FilesAndFolders.Where(ff => _checkedNamesPaths.ContainsKey(ff.Name)).ToList())
                     {
-                        string sRelativePath = System.IO.Path.Combine(aVisit.VisitFolderRelative, sFile);
-                        FTPFile(Programs[aVisit.ProgramID].FTPURL, TopLevelLocalFolder.FullName, sRelativePath, nFileCounter, nTotalFiles);
-                    }
-                    catch (Exception ex)
-                    {
-                        m_sProgress.AppendFormat("{2}{0}, {1}", sFile, ex.Message, Environment.NewLine);
-                    }
+                        nFileCounter += 1;
+                        try
+                        {
+                            string sRelativePath = System.IO.Path.Combine(aVisit.VisitFolderRelative, _checkedNamesPaths[ff.Name]);
+                            APIDownload(ff, APIHelpers[aVisit.ProgramID], TopLevelLocalFolder.FullName, sRelativePath, nFileCounter, nTotalFiles);
+                        }
+                        catch (Exception ex)
+                        {
+                            m_sProgress.AppendFormat("{2}{0}, {1}", ff.Name, ex.Message, Environment.NewLine);
+                        }
 
-                    double fRatio = Math.Min(100.0 * (double)nFileCounter / (double)nTotalFiles, 100);
-                    backgroundWorker1.ReportProgress(Convert.ToInt32(fRatio));
+                        double fRatio = Math.Min(100.0 * (double)nFileCounter / (double)nTotalFiles, 100);
+                        backgroundWorker1.ReportProgress(Convert.ToInt32(fRatio));
+                    }
                 }
-            }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -143,62 +183,51 @@ namespace CHaMPWorkbench.Data
             cmdOK.Enabled = true;
         }
 
-        private void GetCheckedFiles(ref VisitWithFiles aVisit, ref string sPathSoFar, ref TreeNode aNode)
+        /// <summary>
+        /// Sort through all the visit files and download what we need
+        /// </summary>
+        /// <param name="aVisit"></param>
+        /// <param name="sPathSoFar"></param>
+        /// <param name="aNode"></param>
+        private void GetCheckedFiles(string sPathSoFar, TreeNode aNode)
         {
             string sRelativePath = string.Empty;
 
             if (aNode.Parent is TreeNode)
-                sRelativePath = System.IO.Path.Combine(sPathSoFar, aNode.Text);
+                sRelativePath = Path.Combine(sPathSoFar, aNode.Text);
 
-            if (sRelativePath.Contains("."))
-            {
-                if (aNode.Checked)
-                {
-                    aVisit.RelativesPaths.Add(sRelativePath);
-                }
-            }
+            // This is a node leaf (meaning it's a file or folder we have to do somethign with
+            if (aNode.GetNodeCount(false) == 0)
+                _checkedNamesPaths[aNode.Text] = sRelativePath;
+
+            // This is a node branch so we need to recurse
             else
-            {
-                // folder. Process children.
-                TreeNode aChildNode;
-                foreach (TreeNode aChild in aNode.Nodes)
-                {
-                    aChildNode = aChild;
-                    GetCheckedFiles(ref aVisit, ref sRelativePath, ref aChildNode);
-                }
-            }
+                foreach (TreeNode aChild in aNode.Nodes) GetCheckedFiles(sRelativePath, aChild);
         }
+
 
         /// <summary>
         /// https://msdn.microsoft.com/en-us/library/ms229711%28v=vs.110%29.aspx
         /// </summary>
         /// <param name="sRelativePath"></param>
-        private void FTPFile(string sFTPRoot, string sRootLocalFolder, string sRelativePath, int nFileCounter, int nTotalFiles)
+        private void APIDownload(APIFileFolder ffilefolder, CHaMPAPI api, string sRootLocalFolder, string sRelativePath, int nFileCounter, int nTotalFiles)
         {
-            string sFTPFile = System.IO.Path.Combine(sFTPRoot, "ByYear", sRelativePath).Replace("\\", "/");
             System.IO.FileInfo fiLocalFile = new System.IO.FileInfo(System.IO.Path.Combine(sRootLocalFolder, sRelativePath));
 
-            if (fiLocalFile.Directory.Exists)
+            if (fiLocalFile.Directory.Exists && fiLocalFile.Exists)
             {
-                if (fiLocalFile.Exists)
+                if (m_bOverwrite)
+                    fiLocalFile.Delete();
+                else
                 {
-                    if (m_bOverwrite)
-                    {
-                        fiLocalFile.Delete();
-                    }
-                    else
-                    {
-                        m_sProgress.AppendFormat("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath);
-                        return;
-                    }
+                    m_sProgress.AppendFormat("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath);
+                    return;
                 }
             }
             else
             {
                 if (m_bCreateFolders)
-                {
                     fiLocalFile.Directory.Create();
-                }
                 else
                 {
                     m_sProgress.AppendFormat("{0}No folder {1}...", Environment.NewLine, sRelativePath);
@@ -209,21 +238,8 @@ namespace CHaMPWorkbench.Data
             m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sRelativePath);
 
             // Get the object used to communicate with the server.
-            System.Net.FtpWebRequest request = (System.Net.FtpWebRequest)System.Net.WebRequest.Create(sFTPFile);
-            request.Method = System.Net.WebRequestMethods.Ftp.DownloadFile;
-
-            // This example assumes the FTP site uses anonymous logon.
-            request.Credentials = new System.Net.NetworkCredential("anonymous", CHaMPWorkbench.Properties.Settings.Default.UserEmail);
-            System.Net.FtpWebResponse response = (System.Net.FtpWebResponse)request.GetResponse();
-            Stream responseStream = response.GetResponseStream();
-
-            using (var fileStream = File.Create(fiLocalFile.FullName))
-            {
-                responseStream.CopyTo(fileStream);
-            }
-
+            api.Downloadfile(ffilefolder, fiLocalFile);
             m_sProgress.Append(" success");
-            response.Close();
         }
 
         private void treFiles_AfterCheck(object sender, TreeViewEventArgs e)
@@ -263,19 +279,10 @@ namespace CHaMPWorkbench.Data
                 return;
             }
 
+            // Get alll the checked folders and files to download
             TopLevelLocalFolder = new System.IO.DirectoryInfo(txtLocalFolder.Text);
-
-            for (int i = 0; i < Visits.Count; i++)
-            {
-                VisitWithFiles aVisit = Visits[i];
-
-                foreach (TreeNode aNode in treFiles.Nodes)
-                {
-                    TreeNode aChildNode = aNode;
-                    string sPath = aVisit.VisitFolderRelative;
-                    GetCheckedFiles(ref aVisit, ref sPath, ref aChildNode);
-                }
-            }
+            foreach (TreeNode aNode in treFiles.Nodes)
+                GetCheckedFiles("", aNode);
 
             try
             {
@@ -291,16 +298,6 @@ namespace CHaMPWorkbench.Data
         }
 
 
-        /// <summary>
-        /// Get the field files from the API and return them as a tree control
-        /// </summary>
-        public static void GetAPIFieldFiles()
-        {
-
-        }
-
-
-
         private void cmdBrowseLocal_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog frm = new FolderBrowserDialog();
@@ -310,18 +307,59 @@ namespace CHaMPWorkbench.Data
             }
         }
 
-        private class VisitWithFiles : CHaMPData.VisitBasic
+
+        private class VisitWithFiles : VisitBasic
         {
-            public BindingList<CHaMPData.VisitBasic> visits { get; internal set; }
+            public BindingList<VisitBasic> visits { get; internal set; }
+            CHaMPData.Program theProg;
 
-            public List<string> RelativesPaths { get; internal set; }
+            public List<APIFileFolder> FilesAndFolders;
 
-            public string Source { get; internal set; }
-            public System.IO.FileInfo Destination { get; internal set; }
+            public FileInfo Destination { get; internal set; }
 
-            public VisitWithFiles(CHaMPData.VisitBasic aVisit) : base(aVisit, naru.db.DBState.Unchanged)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="aVisit"></param>
+            public VisitWithFiles(VisitBasic aVisit, List<APIFileFolder> allfilefolders, CHaMPData.Program program) : base(aVisit, naru.db.DBState.Unchanged)
             {
-                RelativesPaths = new List<string>();
+                FilesAndFolders = allfilefolders;
+
+                theProg = program;
+            }
+
+            public List<string> GetNames { get { return FilesAndFolders.Select(ff => ff.Name).Distinct().ToList(); } }
+
+            /// <summary>
+            /// Get the list of files inside the folder using GeoOptix
+            /// </summary>
+            /// <param name="ff">APIFileFolder FOLDER to look into</param>
+            /// <param name="api">Api helper to use for this operation</param>
+            /// <returns></returns>
+            public static List<APIFileFolder> GetFolderFiles(APIFileFolder ff, CHaMPAPI api)
+            {
+                List<APIFileFolder> retVal = new List<APIFileFolder>();
+                GeoOptix.API.ApiResponse<GeoOptix.API.Model.FileSummaryModel[]> filelist = api.APIHelper.GetFiles(ff.Name);
+                foreach (GeoOptix.API.Model.FileSummaryModel file in filelist.Payload)
+                    retVal.Add(new APIFileFolder(file.Name, file.Url, ff.Name, true, false, naru.db.DBState.New));
+
+                return retVal;
+            }
+
+            /// <summary>
+            /// Get the list of field files inside the field folders
+            /// </summary>
+            /// <param name="ff">APIFileFolder FIELD FOLDER to look into</param>
+            /// <param name="api">Api helper to use for this operation</param>
+            /// <returns></returns>
+            public static List<APIFileFolder> GetFieldFolderFiles(APIFileFolder ff, CHaMPAPI api)
+            {
+                List<APIFileFolder> retVal = new List<APIFileFolder>();
+                GeoOptix.API.ApiResponse<GeoOptix.API.Model.FileSummaryModel[]> filelist = api.APIHelper.GetFieldFiles(ff.Name);
+                foreach (GeoOptix.API.Model.FileSummaryModel file in filelist.Payload)
+                    retVal.Add(new APIFileFolder(file.Name, file.Url, ff.Name, true, true, naru.db.DBState.New));
+
+                return retVal;
             }
         }
 

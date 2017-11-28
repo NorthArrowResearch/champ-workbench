@@ -19,11 +19,52 @@ namespace CHaMPWorkbench.CHaMPData
 
     public class APIFileFolder : naru.db.EditableNamedObject
     {
+        public enum APIFileFolderType { FILE, FOLDER, FIELDFILE, FIELDFOLDER }
+
         public long VisitID { get; internal set; }
         public string URL { get; internal set; }
         public string Description { get; internal set; }
+
         public bool IsFile { get; internal set; }
         public bool IsField { get; internal set; }
+
+        public APIFileFolderType GetAPIFileFolderType
+        {
+            get
+            {
+                if (IsField && IsFile)
+                    return APIFileFolderType.FIELDFILE;
+                else if (IsField && !IsFile)
+                    return APIFileFolderType.FIELDFOLDER;
+                else if (!IsField && IsFile)
+                    return APIFileFolderType.FILE;
+                else
+                    return APIFileFolderType.FOLDER;
+            }
+        }
+
+        /// <summary>
+        /// For XML writing we might need strings
+        /// </summary>
+        public string GetAPIFileFolderString
+        {
+            get
+            {
+                switch (GetAPIFileFolderType)
+                {
+                    case APIFileFolderType.FILE:
+                        return "File";
+                    case APIFileFolderType.FOLDER:
+                        return "Folder";
+                    case APIFileFolderType.FIELDFILE:
+                        return "FieldFile";
+                    case APIFileFolderType.FIELDFOLDER:
+                        return "FieldFolder";
+                    default:
+                        return "NOTFOUND";
+                }
+            }
+        }
 
         public APIFileFolder(string name, string url, string desc, bool isfile, bool isfield, DBState eState)
             : base(0, name, eState)
@@ -106,15 +147,11 @@ namespace CHaMPWorkbench.CHaMPData
         public XmlNode CreateXMLNode(ref XmlDocument xmlDoc)
         {
             XmlNode nodUnit;
-            if (IsField && IsFile) nodUnit = xmlDoc.CreateElement("FieldFile");
-            else if (IsField && !IsFile) nodUnit = xmlDoc.CreateElement("FieldFolder");
-            else if (!IsField && IsFile) nodUnit = xmlDoc.CreateElement("File");
-            else nodUnit = xmlDoc.CreateElement("Folder");
+            nodUnit = xmlDoc.CreateElement(GetAPIFileFolderString);
 
             XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "Name", Name);
             XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "Description", Description);
             XMLHelpers.AddNode(ref xmlDoc, ref nodUnit, "URL", URL);
-
 
             return nodUnit;
         }
