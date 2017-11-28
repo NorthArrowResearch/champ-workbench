@@ -3,6 +3,11 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.24 - 28 Nov 2017
+
+* Fixing bug scraping tier 1 and 2 metrics when looking for sibling `Tier1` or `Name` node.
+* Fixing exporting and loading list of visit IDs from CSV file.
+
 ### 7.0.23 - 3 Nov 2017
 
 * Database update 49
