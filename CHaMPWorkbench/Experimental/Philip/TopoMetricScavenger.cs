@@ -77,10 +77,9 @@ namespace CHaMPWorkbench.Experimental.Philip
 
                                     case "metric_tiermetrics":
                                         long nTierListID = 5;
-                                        string sTierXMLTag = "Tier1";
+                                        string sTierXMLTag = "Name";
                                         if (MetricSchemas[sMetricSchemaName].Name.Contains("2"))
                                         {
-                                            sTierXMLTag = "Tier2";
                                             nTierListID = 11;
                                         }
 
