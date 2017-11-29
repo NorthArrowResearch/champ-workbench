@@ -21,7 +21,9 @@ namespace CHaMPWorkbench.Data
         private string m_sCurrentFile;
         private bool m_bOverwrite;
         private bool m_bCreateFolders;
-        private StringBuilder m_sProgress;
+
+        private int _jobprogress;
+        private int _totaljobs;
 
         private frmKeystoneCredentials CredentialsForm;
 
@@ -84,6 +86,10 @@ namespace CHaMPWorkbench.Data
             TreeNode nodFolders = treParent.Nodes.Add("Visit Folders");
             TreeNode nodFieldFolders = treParent.Nodes.Add("Field Folders");
 
+            // reset the overall status
+            _totaljobs = 0;
+            _jobprogress = 0;
+
             // Now we need to untangle the unique values
             List<Tuple<string, APIFileFolder.APIFileFolderType>> ffCombinations = Visits.SelectMany(v => v.Value).SelectMany(k => k.FilesAndFolders)
                 .Select(r => new Tuple<string, APIFileFolder.APIFileFolderType>(r.Name, r.GetAPIFileFolderType)).Distinct().ToList();
@@ -109,7 +115,6 @@ namespace CHaMPWorkbench.Data
             grpProgress.Visible = false;
             treFiles.Height = treFiles.Height + grpProgress.Height;
 
-            backgroundWorker1.WorkerReportsProgress = true;
             chkCreateDir.Checked = m_bCreateFolders;
             chkOverwrite.Checked = m_bOverwrite;
 
@@ -118,49 +123,7 @@ namespace CHaMPWorkbench.Data
                 txtLocalFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
         }
 
-        /// <summary>
-        /// Do the actual work
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            int nFileCounter = 0;
-            int nTotalFiles = FileCount;
-
-            foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
-                foreach (VisitWithFiles aVisit in kvp.Value)
-                {
-                    string visitURL = string.Format(@"{0}/visits/{1}", Programs[kvp.Key].API, aVisit.ID);
-                    GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper(visitURL, APIHelpers[aVisit.ProgramID].AuthToken);
-
-                    foreach (APIFileFolder ff in aVisit.FilesAndFolders.Where(ff => _checkedNamesPaths.ContainsKey(ff.Name)).ToList())
-                    {
-                        try
-                        {
-                            string sRelativePath = System.IO.Path.Combine(aVisit.VisitFolderRelative, _checkedNamesPaths[ff.Name]);
-                            APIDownload(ff, api, TopLevelLocalFolder.FullName, sRelativePath, nFileCounter, nTotalFiles);
-                        }
-                        catch (Exception ex)
-                        {
-                            m_sProgress.AppendFormat("{2}{0}, {1}", ff.Name, ex.Message, Environment.NewLine);
-                        }
-
-                        nFileCounter += 1;
-                        double fRatio = Math.Min(100.0 * (double)nFileCounter / (double)nTotalFiles, 100);
-                        backgroundWorker1.ReportProgress(Convert.ToInt32(fRatio));
-
-                    }
-                }
-        }
-
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-            txtProgress.Text = m_sProgress.ToString();
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void DownloadCompleted()
         {
             switch (MessageBox.Show("Process complete. Do you want to explore the local, download folder?", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
             {
@@ -211,7 +174,7 @@ namespace CHaMPWorkbench.Data
         /// https://msdn.microsoft.com/en-us/library/ms229711%28v=vs.110%29.aspx
         /// </summary>
         /// <param name="sRelativePath"></param>
-        private void APIDownload(APIFileFolder ffilefolder, GeoOptix.API.ApiHelper api, string sRootLocalFolder, string sRelativePath, int nFileCounter, int nTotalFiles)
+        private void APIDownload(APIFileFolder ffilefolder, GeoOptix.API.ApiHelper api, string sRootLocalFolder, string sRelativePath)
         {
             FileInfo filefolderpath = new FileInfo(Path.Combine(sRootLocalFolder, sRelativePath));
             // Get the object used to communicate with the server.
@@ -222,20 +185,18 @@ namespace CHaMPWorkbench.Data
                     break;
 
                 case APIFileFolder.APIFileFolderType.FOLDER:
-                    m_sProgress.AppendFormat("{0}Downloading Folder {1}...", Environment.NewLine, sRelativePath);
+                    txtProgress.Text += String.Format("{0}Downloading Folder {1}...", Environment.NewLine, sRelativePath);
                     foreach (APIFileFolder ff in VisitWithFiles.GetFolderFiles(ffilefolder, api))
                         APIDownloadfile(ff, new FileInfo(Path.Combine(filefolderpath.FullName, ff.Name)), api, sRelativePath);
                     break;
 
                 case APIFileFolder.APIFileFolderType.FIELDFOLDER:
-                    m_sProgress.AppendFormat("{0}Downloading Field Folder {1}...", Environment.NewLine, sRelativePath);
+                    txtProgress.Text += String.Format("{0}Downloading Field Folder {1}...", Environment.NewLine, sRelativePath);
                     foreach (APIFileFolder ff in VisitWithFiles.GetFieldFolderFiles(ffilefolder, api))
                         APIDownloadfile(ff, new FileInfo(Path.Combine(filefolderpath.FullName, ff.Name)), api, sRelativePath);
                     break;
 
             }
-
-            m_sProgress.Append(" success");
         }
 
 
@@ -245,15 +206,17 @@ namespace CHaMPWorkbench.Data
         /// <param name="url"></param>
         public void APIDownloadfile(APIFileFolder ff, FileInfo fiLocalFile, GeoOptix.API.ApiHelper api, string sRelativePath)
         {
-            m_sProgress.AppendFormat("{0}Downloading {1}...", Environment.NewLine, sRelativePath);
+            txtProgress.Text += String.Format("{0}Downloading {1}...", Environment.NewLine, sRelativePath);
 
+            // Add this to the jobs needing doing
+            _totaljobs++;
             if (fiLocalFile.Directory.Exists && fiLocalFile.Exists)
             {
                 if (m_bOverwrite)
                     fiLocalFile.Delete();
                 else
                 {
-                    m_sProgress.AppendFormat("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath);
+                    txtProgress.Text += String.Format("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath);
                     return;
                 }
             }
@@ -263,7 +226,7 @@ namespace CHaMPWorkbench.Data
                     fiLocalFile.Directory.Create();
                 else
                 {
-                    m_sProgress.AppendFormat("{0}No folder {1}...", Environment.NewLine, sRelativePath);
+                    txtProgress.Text += String.Format("{0}No folder {1}...", Environment.NewLine, sRelativePath);
                     return;
                 }
             }
@@ -271,8 +234,9 @@ namespace CHaMPWorkbench.Data
             using (WebClient wc = new WebClient())
             {
                 wc.Headers["Authorization"] = "Bearer " + api.AuthToken.AccessToken;
-                wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                wc.DownloadFileAsync(new Uri(string.Format("{0}?Download", ff.URL)), fiLocalFile.FullName);
+                wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                wc.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadFileCompleted);
+                wc.DownloadFileAsync(new Uri(string.Format("{0}?Download", ff.URL)), fiLocalFile.FullName, Path.Combine(sRelativePath, fiLocalFile.Name));
             }
 
         }
@@ -284,7 +248,20 @@ namespace CHaMPWorkbench.Data
         /// <param name="e"></param>
         void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            //progressBar.Value = e.ProgressPercentage;
+            if (e.UserState != null) lblProgress2.Text = e.UserState.ToString();
+            progressFile.Value = e.ProgressPercentage;
+        }
+
+        void wc_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            _jobprogress++;
+            int totalProg = (int)(100 * _jobprogress / (double)_totaljobs);
+            if (totalProg > 100) totalProg = 100;
+
+            txtProgress.Text += String.Format("{0}Completed {1}...", Environment.NewLine, e.UserState.ToString());
+            progressOverall.Value = totalProg;
+
+            if (_jobprogress == _totaljobs) DownloadCompleted();
         }
 
 
@@ -352,10 +329,30 @@ namespace CHaMPWorkbench.Data
 
             try
             {
-                m_sProgress = new StringBuilder(string.Format("Attempting to download {0} files...", FileCount));
-                txtProgress.Text = m_sProgress.ToString();
+                txtProgress.Text = String.Format("Attempting to download {0} files...", FileCount);
                 cmdOK.Enabled = false;
-                backgroundWorker1.RunWorkerAsync();
+                _totaljobs = 0;
+                _jobprogress = 0;
+                //backgroundWorker1.RunWorkerAsync();
+                foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
+                    foreach (VisitWithFiles aVisit in kvp.Value)
+                    {
+                        string visitURL = string.Format(@"{0}/visits/{1}", Programs[kvp.Key].API, aVisit.ID);
+                        GeoOptix.API.ApiHelper api = new GeoOptix.API.ApiHelper(visitURL, APIHelpers[aVisit.ProgramID].AuthToken);
+
+                        foreach (APIFileFolder ff in aVisit.FilesAndFolders.Where(ff => _checkedNamesPaths.ContainsKey(ff.Name)).ToList())
+                        {
+                            try
+                            {
+                                string sRelativePath = System.IO.Path.Combine(aVisit.VisitFolderRelative, _checkedNamesPaths[ff.Name]);
+                                APIDownload(ff, api, TopLevelLocalFolder.FullName, sRelativePath);
+                            }
+                            catch (Exception ex)
+                            {
+                                txtProgress.Text += String.Format("{2}{0}, {1}", ff.Name, ex.Message, Environment.NewLine);
+                            }
+                        }
+                    }
             }
             catch (Exception ex)
             {
@@ -433,11 +430,6 @@ namespace CHaMPWorkbench.Data
 
                 return retVal;
             }
-        }
-
-        private void cmdHelp_Click(object sender, EventArgs e)
-        {
-            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
         }
 
     }
