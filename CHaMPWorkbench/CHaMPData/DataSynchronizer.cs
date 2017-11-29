@@ -299,7 +299,7 @@ namespace CHaMPWorkbench.CHaMPData
             {
                 theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, SiteURLs[apiVisitDetails.SiteUrl], string.Empty, apiVisitDetails.SampleYear.Value, nProgramID, string.Empty, naru.db.DBState.New);
                 dvisits[(long)apiVisitDetails.Id] = theVisit;
-            }
+            } 
 
             // Capture the superficial file and folder visiti info
             foreach (GeoOptix.API.Model.FileSummaryModel file in apiVisitDetails.Files)
