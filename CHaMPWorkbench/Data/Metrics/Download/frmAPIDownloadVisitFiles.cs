@@ -80,6 +80,11 @@ namespace CHaMPWorkbench.Data
             m_bCreateFolders = true;
         }
 
+        /// <summary>
+        /// Form load method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmFTPVisit_Load(object sender, EventArgs e)
         {
             TreeNode treParent = treFiles.Nodes.Add("File / Folder Types");
@@ -90,10 +95,11 @@ namespace CHaMPWorkbench.Data
             // reset the overall status
             _totalJobs = 0;
 
-            // Now we need to untangle the unique values
+            // Now we need to untangle the unique values to build the tree
             List<Tuple<string, APIFileFolder.APIFileFolderType>> ffCombinations = Visits.SelectMany(v => v.Value).SelectMany(k => k.FilesAndFolders)
                 .Select(r => new Tuple<string, APIFileFolder.APIFileFolderType>(r.Name, r.GetAPIFileFolderType)).Distinct().ToList();
 
+            // For each unique value in each of the 3 types build us a nice looking tree
             foreach (Tuple<string, APIFileFolder.APIFileFolderType> tupComb in ffCombinations)
                 switch (tupComb.Item2)
                 {
@@ -109,7 +115,6 @@ namespace CHaMPWorkbench.Data
                 }
 
             treParent.ExpandAll();
-
             treFiles.CheckBoxes = true;
 
             grpProgress.Visible = false;
@@ -168,6 +173,11 @@ namespace CHaMPWorkbench.Data
             }
         }
 
+        /// <summary>
+        /// The "Ok" button does a lot of the work of this form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdOK_Click(object sender, EventArgs e)
         {
             grpProgress.Visible = true;
@@ -294,7 +304,7 @@ namespace CHaMPWorkbench.Data
         private void jobWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             int jobsleft = _totalJobs - cq.Count();
-            SetText(label3, String.Format("{0}/{1} Queue: {2}", jobsleft, _totalJobs, cq.Count()));
+            SetText(lblOverallProgress, String.Format("{0}/{1}", jobsleft, _totalJobs));
             int totalProg = (int)(100 * jobsleft / (double)_totalJobs);
             SetValue(progressOverall, totalProg);
         }
@@ -561,5 +571,17 @@ namespace CHaMPWorkbench.Data
         }
         #endregion
 
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            // clear the queue
+            jobWorker.CancelAsync();
+            jobWorker.Dispose();
+            cq = new ConcurrentQueue<Job>();
+        }
     }
 }
