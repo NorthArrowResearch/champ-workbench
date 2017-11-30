@@ -255,10 +255,10 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\frmAPIDownloadVisitFiles.cs">
+    <Compile Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\frmAPIDownloadVisitFiles.Designer.cs">
+    <Compile Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.Designer.cs">
       <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmKeystoneCredentials.cs">
@@ -628,7 +628,7 @@
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\frmAPIDownloadVisitFiles.resx">
+    <EmbeddedResource Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.resx">
       <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">

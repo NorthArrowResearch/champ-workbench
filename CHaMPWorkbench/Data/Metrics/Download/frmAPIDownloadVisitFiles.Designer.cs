@@ -45,6 +45,8 @@
             this.txtProgress = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblSelectedVisits = new System.Windows.Forms.Label();
+            this.jobWorker = new System.ComponentModel.BackgroundWorker();
+            this.label3 = new System.Windows.Forms.Label();
             this.grpProgress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,6 +157,7 @@
             // 
             this.grpProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpProgress.Controls.Add(this.label3);
             this.grpProgress.Controls.Add(this.lblProgress2);
             this.grpProgress.Controls.Add(this.progressFile);
             this.grpProgress.Controls.Add(this.txtProgress);
@@ -214,6 +217,23 @@
             this.lblSelectedVisits.TabIndex = 13;
             this.lblSelectedVisits.Text = "With XX selected Visits...";
             // 
+            // jobWorker
+            // 
+            this.jobWorker.WorkerReportsProgress = true;
+            this.jobWorker.WorkerSupportsCancellation = true;
+            this.jobWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.jobWorker_DoWork);
+            this.jobWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.jobWorker_ProgressChanged);
+            this.jobWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.jobWorker_DownloadCompleted);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(97, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "label3";
+            // 
             // frmAPIDownloadVisitFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,5 +281,7 @@
         private System.Windows.Forms.Label lblSelectedVisits;
         private System.Windows.Forms.Label lblProgress2;
         private System.Windows.Forms.ProgressBar progressFile;
+        private System.ComponentModel.BackgroundWorker jobWorker;
+        private System.Windows.Forms.Label label3;
     }
 }
