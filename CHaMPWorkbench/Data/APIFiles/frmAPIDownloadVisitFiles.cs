@@ -21,10 +21,6 @@ namespace CHaMPWorkbench.Data.APIFiles
 
         private BackgroundWorker jobWorker;
 
-        private string m_sCurrentFile;
-        private bool m_bOverwrite;
-        private bool m_bCreateFolders;
-
         private ConcurrentQueue<Job> cq = new ConcurrentQueue<Job>();
         private int _totalJobs;
 
@@ -66,9 +62,7 @@ namespace CHaMPWorkbench.Data.APIFiles
             APIHelpers = new Dictionary<long, GeoOptix.API.ApiHelper>();
 
             foreach (KeyValuePair<long, CHaMPData.Program> kvp in Programs)
-            {
                 Visits[kvp.Key] = new BindingList<VisitWithFiles>();
-            }
 
             foreach (VisitBasic aVisit in lVisits)
             {
@@ -76,27 +70,36 @@ namespace CHaMPWorkbench.Data.APIFiles
                 Visits[aVisit.ProgramID].Add(new VisitWithFiles(aVisit, visitfilefolders, Programs[aVisit.ProgramID]));
             }
 
-            m_sCurrentFile = string.Empty;
-            m_bOverwrite = false;
-            m_bCreateFolders = true;
-
             // Now hook up asynchronous job eventhandlers to the right connectors
-            Job.Logger += delegate (object somesender, string msg) { AppendText(txtProgress, msg); };
-            Job.AddNewJob += delegate (object somesender, Job job) { cq.Enqueue(job); };
-            Job.IncrementJobs += delegate () { _totalJobs++; };
-            Job.BootWorker += delegate () { if (jobWorker != null && !jobWorker.IsBusy) jobWorker.RunWorkerAsync(); };
+            // We do the unassign first to make sure we don't get two handles 
+            // -= can safely be called even when it doesn't exist
+            Job.Logger -= loggerhandler;
+            Job.AddNewJob -= jobhandler;
+            Job.IncrementJobs -= jobincrement;
+            Job.BootWorker -= workerbooter;
+
+            Job.Logger += loggerhandler;
+            Job.AddNewJob += jobhandler;
+            Job.IncrementJobs += jobincrement;
+            Job.BootWorker += workerbooter;
+
+            jobWorker = new BackgroundWorker();
+
+            jobWorker.WorkerReportsProgress = true;
+            jobWorker.WorkerSupportsCancellation = true;
+
+            jobWorker.DoWork += new DoWorkEventHandler(jobWorker_DoWork);
+            jobWorker.ProgressChanged += new ProgressChangedEventHandler(jobWorker_ProgressChanged);
+            jobWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(jobWorker_DownloadCompleted);
 
         }
 
-        private void chkCreateDir_CheckStateChanged(object sender, EventArgs e)
-        {
-            Job.bCreateFolders = ((CheckBox)sender).Checked;
-        }
+        // here are the handlers corresponding tot he events for Job above
+        private void loggerhandler(object somesender, string msg) { AppendText(txtProgress, msg); }
+        private void jobhandler(object somesender, Job job) { cq.Enqueue(job); }
+        private void jobincrement() { _totalJobs++; }
+        private void workerbooter() { if (jobWorker != null && !jobWorker.IsBusy) jobWorker.RunWorkerAsync(); }
 
-        private void chkOverwrite_CheckedChanged(object sender, EventArgs e)
-        {
-            Job.bOverwrite = ((CheckBox)sender).Checked;
-        }
 
         /// <summary>
         /// Form load method
@@ -136,9 +139,6 @@ namespace CHaMPWorkbench.Data.APIFiles
             treFiles.CheckBoxes = true;
 
             grpProgress.Visible = false;
-
-            chkCreateDir.Checked = m_bCreateFolders;
-            chkOverwrite.Checked = m_bOverwrite;
 
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder) &&
                 Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
@@ -190,6 +190,14 @@ namespace CHaMPWorkbench.Data.APIFiles
             }
         }
 
+        private void setControlsEnabled(bool val)
+        {
+            // Add this to the jobs needing doing
+            SetEnabled(cmdOK, val);
+            SetEnabled(chkCreateDir, val);
+            SetEnabled(chkOverwrite, val);
+        }
+
         /// <summary>
         /// The "Ok" button does a lot of the work of this form
         /// </summary>
@@ -198,19 +206,23 @@ namespace CHaMPWorkbench.Data.APIFiles
         private void cmdOK_Click(object sender, EventArgs e)
         {
             grpProgress.Visible = true;
-            m_bOverwrite = chkOverwrite.Checked;
-            m_bCreateFolders = chkCreateDir.Checked;
+            _totalJobs = 0;
+            txtProgress.Text = "";
+
+            setControlsEnabled(false);
 
             if (string.IsNullOrEmpty(txtLocalFolder.Text) || !System.IO.Directory.Exists(txtLocalFolder.Text))
             {
                 MessageBox.Show("You must specify the top level local folder where you want to download data.", "Missing Top Level Folder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.None;
+                setControlsEnabled(true);
                 return;
             }
 
             if (!naru.web.CheckForInternetConnection())
             {
                 MessageBox.Show("Check that you are currently connected to the Internet and try again.", "No Internet Connection.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                setControlsEnabled(true);
                 return;
             }
 
@@ -222,7 +234,8 @@ namespace CHaMPWorkbench.Data.APIFiles
             switch (eCredentialsResult)
             {
                 case DialogResult.Cancel:
-                    this.DialogResult = DialogResult.Cancel;
+                    //this.DialogResult = DialogResult.Cancel;
+                    setControlsEnabled(true);
                     return;
             }
 
@@ -243,17 +256,8 @@ namespace CHaMPWorkbench.Data.APIFiles
 
             txtProgress.Text = String.Format("Attempting to download {0} files...", FileCount);
 
-            _totalJobs = 0;
-            txtProgress.Text = "";
             // Clear the Queue
             cq = new ConcurrentQueue<Job>();
-            jobWorker = new BackgroundWorker();
-            jobWorker.DoWork += jobWorker_DoWork;
-            jobWorker.ProgressChanged += jobWorker_ProgressChanged;
-            jobWorker.RunWorkerCompleted += jobWorker_DownloadCompleted;
-            jobWorker.WorkerReportsProgress = true;
-            jobWorker.WorkerSupportsCancellation = true;
-
 
             // Loop over all visit lists, one per program
             foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
@@ -275,15 +279,15 @@ namespace CHaMPWorkbench.Data.APIFiles
                         switch (ff.GetAPIFileFolderType)
                         {
                             case APIFileFolder.APIFileFolderType.FILE:
-                                cq.Enqueue(new DownloadJob(ff, filefolderpath, api, sRelativePath));
+                                cq.Enqueue(new DownloadJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FOLDER:
-                                cq.Enqueue(new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath));
+                                cq.Enqueue(new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FIELDFOLDER:
-                                cq.Enqueue(new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath));
+                                cq.Enqueue(new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
                         }
                     }
@@ -300,12 +304,8 @@ namespace CHaMPWorkbench.Data.APIFiles
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             // clear the queue
-            if (jobWorker != null)
-            {
-                jobWorker.CancelAsync();
-                jobWorker.Dispose();
-            }
-            cq = new ConcurrentQueue<Job>();
+            //if (jobWorker != null && jobWorker.IsBusy)  jobWorker.CancelAsync();
+            //cq = new ConcurrentQueue<Job>();
         }
 
         /// <summary>
@@ -327,17 +327,19 @@ namespace CHaMPWorkbench.Data.APIFiles
         /// <param name="e"></param>
         private void jobWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Add this to the jobs needing doing
-            SetEnabled(cmdOK, false);
-            SetEnabled(chkCreateDir, false);
-            SetEnabled(chkOverwrite, false);
-
             Job localJob;
             List<Task> workerlist = new List<Task>();
             while (cq.TryDequeue(out localJob))
             {
                 localJob.ProgressChanged += wc_DownloadProgressChanged;
-                Task.WaitAll(localJob.Run());
+                try
+                {
+                    Task.WaitAll(localJob.Run());
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("EXCEPTION");
+                }
                 // Report something having changed.
                 jobWorker.ReportProgress(0);
             }
@@ -379,9 +381,7 @@ namespace CHaMPWorkbench.Data.APIFiles
             progressFile.Value = 100;
             lblProgress2.Text = "File";
             lblOverallProgress.Text = "...";
-            SetEnabled(cmdOK, true);
-            SetEnabled(chkCreateDir, true);
-            SetEnabled(chkOverwrite, true);
+            setControlsEnabled(true);
         }
 
 
@@ -454,8 +454,7 @@ namespace CHaMPWorkbench.Data.APIFiles
                 ctl.Value = value;
         }
 
+
         #endregion
-
-
     }
 }

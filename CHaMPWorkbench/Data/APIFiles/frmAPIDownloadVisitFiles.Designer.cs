@@ -69,7 +69,7 @@
             // 
             this.txtLocalFolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtLocalFolder.Location = new System.Drawing.Point(74, 3);
-            this.txtLocalFolder.MinimumSize = new System.Drawing.Size(50, 0);
+            this.txtLocalFolder.MinimumSize = new System.Drawing.Size(50, 4);
             this.txtLocalFolder.Name = "txtLocalFolder";
             this.txtLocalFolder.Size = new System.Drawing.Size(420, 20);
             this.txtLocalFolder.TabIndex = 1;
@@ -109,24 +109,22 @@
             this.chkCreateDir.AutoSize = true;
             this.chkCreateDir.Checked = true;
             this.chkCreateDir.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCreateDir.Location = new System.Drawing.Point(8, 79);
+            this.chkCreateDir.Location = new System.Drawing.Point(8, 56);
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
             this.chkCreateDir.TabIndex = 3;
             this.chkCreateDir.Text = "Create directories that don\'t already exist";
             this.chkCreateDir.UseVisualStyleBackColor = true;
-            this.chkCreateDir.CheckStateChanged += new System.EventHandler(this.chkCreateDir_CheckStateChanged);
             // 
             // chkOverwrite
             // 
             this.chkOverwrite.AutoSize = true;
-            this.chkOverwrite.Location = new System.Drawing.Point(8, 56);
+            this.chkOverwrite.Location = new System.Drawing.Point(8, 79);
             this.chkOverwrite.Name = "chkOverwrite";
             this.chkOverwrite.Size = new System.Drawing.Size(130, 17);
             this.chkOverwrite.TabIndex = 4;
             this.chkOverwrite.Text = "Overwrite existing files";
             this.chkOverwrite.UseVisualStyleBackColor = true;
-            this.chkOverwrite.CheckedChanged += new System.EventHandler(this.chkOverwrite_CheckedChanged);
             // 
             // cmdHelp
             // 
@@ -259,8 +257,8 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.lblSelectedVisits, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.chkCreateDir, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.chkOverwrite, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.chkOverwrite, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.chkCreateDir, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";

@@ -22,22 +22,24 @@ namespace CHaMPWorkbench.Data.APIFiles
         protected GeoOptix.API.ApiHelper api;
         protected string sRelativePath;
 
+        public bool bOverwrite;
+        public bool bCreateDir;
+
         public DownloadProgressChangedEventHandler ProgressChanged;
 
         public static event EventHandler<string> Logger;
         public static event EventHandler<Job> AddNewJob;
-        public static bool bOverwrite;
-        public static bool bCreateFolders;
         public static event Action IncrementJobs;
         public static event Action BootWorker;
 
-        public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath)
+        public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, bool bCreateDir, bool bOverwrite)
         {
             ff = iff;
             fiLocalfile = ifiLocalFile;
             api = iapi;
             sRelativePath = isRelativePath;
-
+            this.bOverwrite = bOverwrite;
+            this.bCreateDir = bCreateDir;
             IncrementJobs();
             BootWorker();
         }
@@ -55,54 +57,57 @@ namespace CHaMPWorkbench.Data.APIFiles
     }
     class GetFolderFilesJob : Job
     {
-        public GetFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath)
-            : base(iff, ifiLocalFile, iapi, isRelativePath) { }
+        public GetFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, bool bCreateDir, bool bOverwrite)
+            : base(iff, ifiLocalFile, iapi, isRelativePath, bCreateDir, bOverwrite) { }
 
         public override Task Run()
         {
             SendLogMessage(String.Format("{0}Collecting files for: {1}...", Environment.NewLine, sRelativePath));
             foreach (APIFileFolder ffile in VisitWithFiles.GetFolderFiles(ff, api))
-                SendJobToQueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath));
+                SendJobToQueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath, bCreateDir, bOverwrite));
 
             return Task.CompletedTask;
         }
     }
     class GetFieldFolderFilesJob : Job
     {
-        public GetFieldFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath)
-            : base(iff, ifiLocalFile, iapi, isRelativePath) { }
+        public GetFieldFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, bool bCreateDir, bool bOverwrite)
+            : base(iff, ifiLocalFile, iapi, isRelativePath, bCreateDir, bOverwrite) { }
         public override Task Run()
         {
             SendLogMessage(String.Format("{0}Collecting field files for: {1}...", Environment.NewLine, sRelativePath));
             foreach (APIFileFolder ffile in VisitWithFiles.GetFieldFolderFiles(ff, api))
-                SendJobToQueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath));
+                SendJobToQueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath, bCreateDir, bOverwrite));
             return Task.CompletedTask;
         }
     }
     class DownloadJob : Job
     {
-        public DownloadJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath)
-         : base(iff, ifiLocalFile, iapi, isRelativePath) { }
+        public DownloadJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, bool bCreateDir, bool bOverwrite)
+         : base(iff, ifiLocalFile, iapi, isRelativePath, bCreateDir, bOverwrite) { }
 
         public override async Task Run()
         {
             SendLogMessage(String.Format("{0}Downloading {1}...", Environment.NewLine, sRelativePath));
 
-            if (fiLocalfile.Directory.Exists && fiLocalfile.Exists)
+            // Create a folder if we need to 
+            if (!fiLocalfile.Directory.Exists)
+            {
+                if (bCreateDir) fiLocalfile.Directory.Create();
+                else
+                {
+                    SendLogMessage(String.Format("{0}No folder {1}...", Environment.NewLine, sRelativePath));
+                    return;
+                }
+            }
+
+            // Delete an existing file if we need to
+            if (fiLocalfile.Exists)
             {
                 if (bOverwrite) fiLocalfile.Delete();
                 else
                 {
                     SendLogMessage(String.Format("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath));
-                    return;
-                }
-            }
-            else
-            {
-                if (bCreateFolders) fiLocalfile.Directory.Create();
-                else
-                {
-                    SendLogMessage(String.Format("{0}No folder {1}...", Environment.NewLine, sRelativePath));
                     return;
                 }
             }
