@@ -880,7 +880,7 @@ namespace CHaMPWorkbench
                 DataRow r = RetrieveVisitInfo();
                 if (r is DataRow)
                 {
-                    Data.frmAPIDownloadVisitFiles frm = new Data.frmAPIDownloadVisitFiles(GetSelectedVisitsList());
+                    Data.APIFiles.frmAPIDownloadVisitFiles frm = new Data.APIFiles.frmAPIDownloadVisitFiles(GetSelectedVisitsList());
                     frm.ShowDialog();
                 }
             }
@@ -1843,7 +1843,7 @@ namespace CHaMPWorkbench
             List<CHaMPData.VisitBasic> lVisits = GetSelectedVisitsList();
             try
             {
-                Data.frmAPIDownloadVisitFiles frm = new Data.frmAPIDownloadVisitFiles(lVisits);
+                Data.APIFiles.frmAPIDownloadVisitFiles frm = new Data.APIFiles.frmAPIDownloadVisitFiles(lVisits);
                 frm.ShowDialog();
             }
             catch (Exception ex)

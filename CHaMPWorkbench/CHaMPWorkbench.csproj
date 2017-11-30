@@ -231,6 +231,7 @@
     <Compile Include="CHaMPData\Visit.cs" />
     <Compile Include="CHaMPData\Watershed.cs" />
     <Compile Include="Classes\CSVGenerators\WoodCSVGenerator.cs" />
+    <Compile Include="Data\APIFiles\VisitWithFiles.cs" />
     <Compile Include="Data\frmAPIUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,10 +256,11 @@
     <Compile Include="Data\frmDataUnPacker.Designer.cs">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.cs">
+    <Compile Include="Data\APIFiles\DownloadJobs.cs" />
+    <Compile Include="Data\APIFiles\frmAPIDownloadVisitFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.Designer.cs">
+    <Compile Include="Data\APIFiles\frmAPIDownloadVisitFiles.Designer.cs">
       <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\frmKeystoneCredentials.cs">
@@ -628,7 +630,7 @@
     <EmbeddedResource Include="Data\frmDataUnPacker.resx">
       <DependentUpon>frmDataUnPacker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\Metrics\Download\frmAPIDownloadVisitFiles.resx">
+    <EmbeddedResource Include="Data\APIFiles\frmAPIDownloadVisitFiles.resx">
       <DependentUpon>frmAPIDownloadVisitFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\frmKeystoneCredentials.resx">

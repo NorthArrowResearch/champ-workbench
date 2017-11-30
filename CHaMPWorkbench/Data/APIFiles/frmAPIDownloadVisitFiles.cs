@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace CHaMPWorkbench.Data
+namespace CHaMPWorkbench.Data.APIFiles
 {
     public partial class frmAPIDownloadVisitFiles : Form
     {
@@ -70,7 +70,6 @@ namespace CHaMPWorkbench.Data
                 Visits[kvp.Key] = new BindingList<VisitWithFiles>();
             }
 
-
             foreach (VisitBasic aVisit in lVisits)
             {
                 List<APIFileFolder> visitfilefolders = APIFileFolder.Load(naru.db.sqlite.DBCon.ConnectionString, aVisit.ID);
@@ -80,6 +79,23 @@ namespace CHaMPWorkbench.Data
             m_sCurrentFile = string.Empty;
             m_bOverwrite = false;
             m_bCreateFolders = true;
+
+            // Now hook up asynchronous job eventhandlers to the right connectors
+            Job.Logger += delegate (object somesender, string msg) { AppendText(txtProgress, msg); };
+            Job.AddNewJob += delegate (object somesender, Job job) { cq.Enqueue(job); };
+            Job.IncrementJobs += delegate () { _totalJobs++; };
+            Job.BootWorker += delegate () { if (jobWorker != null && !jobWorker.IsBusy) jobWorker.RunWorkerAsync(); };
+
+        }
+
+        private void chkCreateDir_CheckStateChanged(object sender, EventArgs e)
+        {
+            Job.bCreateFolders = ((CheckBox)sender).Checked;
+        }
+
+        private void chkOverwrite_CheckedChanged(object sender, EventArgs e)
+        {
+            Job.bOverwrite = ((CheckBox)sender).Checked;
         }
 
         /// <summary>
@@ -125,7 +141,7 @@ namespace CHaMPWorkbench.Data
             chkOverwrite.Checked = m_bOverwrite;
 
             if (!string.IsNullOrEmpty(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder) &&
-                System.IO.Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
+                Directory.Exists(CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder))
                 txtLocalFolder.Text = CHaMPWorkbench.Properties.Settings.Default.ZippedMonitoringDataFolder;
         }
 
@@ -228,6 +244,7 @@ namespace CHaMPWorkbench.Data
             txtProgress.Text = String.Format("Attempting to download {0} files...", FileCount);
 
             _totalJobs = 0;
+            txtProgress.Text = "";
             // Clear the Queue
             cq = new ConcurrentQueue<Job>();
             jobWorker = new BackgroundWorker();
@@ -236,7 +253,7 @@ namespace CHaMPWorkbench.Data
             jobWorker.RunWorkerCompleted += jobWorker_DownloadCompleted;
             jobWorker.WorkerReportsProgress = true;
             jobWorker.WorkerSupportsCancellation = true;
-            
+
 
             // Loop over all visit lists, one per program
             foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
@@ -258,15 +275,15 @@ namespace CHaMPWorkbench.Data
                         switch (ff.GetAPIFileFolderType)
                         {
                             case APIFileFolder.APIFileFolderType.FILE:
-                                cq.Enqueue(new DownloadJob(ff, filefolderpath, api, sRelativePath, this));
+                                cq.Enqueue(new DownloadJob(ff, filefolderpath, api, sRelativePath));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FOLDER:
-                                cq.Enqueue(new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, this));
+                                cq.Enqueue(new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FIELDFOLDER:
-                                cq.Enqueue(new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, this));
+                                cq.Enqueue(new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath));
                                 break;
                         }
                     }
@@ -283,8 +300,11 @@ namespace CHaMPWorkbench.Data
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             // clear the queue
-            jobWorker.CancelAsync();
-            jobWorker.Dispose();
+            if (jobWorker != null)
+            {
+                jobWorker.CancelAsync();
+                jobWorker.Dispose();
+            }
             cq = new ConcurrentQueue<Job>();
         }
 
@@ -307,10 +327,16 @@ namespace CHaMPWorkbench.Data
         /// <param name="e"></param>
         private void jobWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            // Add this to the jobs needing doing
+            SetEnabled(cmdOK, false);
+            SetEnabled(chkCreateDir, false);
+            SetEnabled(chkOverwrite, false);
+
             Job localJob;
             List<Task> workerlist = new List<Task>();
             while (cq.TryDequeue(out localJob))
             {
+                localJob.ProgressChanged += wc_DownloadProgressChanged;
                 Task.WaitAll(localJob.Run());
                 // Report something having changed.
                 jobWorker.ReportProgress(0);
@@ -350,7 +376,12 @@ namespace CHaMPWorkbench.Data
                     // No. Do nothing
                     break;
             }
-            cmdOK.Enabled = true;
+            progressFile.Value = 100;
+            lblProgress2.Text = "File";
+            lblOverallProgress.Text = "...";
+            SetEnabled(cmdOK, true);
+            SetEnabled(chkCreateDir, true);
+            SetEnabled(chkOverwrite, true);
         }
 
 
@@ -372,181 +403,7 @@ namespace CHaMPWorkbench.Data
             SetText(lblProgress2, downloadProgress);
         }
 
-        #region VisitWithFiles Class
-
-        private class VisitWithFiles : VisitBasic
-        {
-            public BindingList<VisitBasic> visits { get; internal set; }
-            CHaMPData.Program theProg;
-
-            public List<APIFileFolder> FilesAndFolders;
-
-            public FileInfo Destination { get; internal set; }
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="aVisit"></param>
-            public VisitWithFiles(VisitBasic aVisit, List<APIFileFolder> allfilefolders, CHaMPData.Program program) : base(aVisit, naru.db.DBState.Unchanged)
-            {
-                FilesAndFolders = allfilefolders;
-
-                theProg = program;
-            }
-
-            public List<string> GetNames { get { return FilesAndFolders.Select(ff => ff.Name).ToList(); } }
-
-            /// <summary>
-            /// Get the list of files inside the folder using GeoOptix
-            /// </summary>
-            /// <param name="ff">APIFileFolder FOLDER to look into</param>
-            /// <param name="api">Api helper to use for this operation</param>
-            /// <returns></returns>
-            public static List<APIFileFolder> GetFolderFiles(APIFileFolder ff, GeoOptix.API.ApiHelper api)
-            {
-                List<APIFileFolder> retVal = new List<APIFileFolder>();
-                GeoOptix.API.ApiResponse<GeoOptix.API.Model.FileSummaryModel[]> filelist = api.GetFiles(ff.Name);
-
-                if (filelist.Payload == null) return retVal;
-
-                foreach (GeoOptix.API.Model.FileSummaryModel file in filelist.Payload)
-                    if (file.Name != null && file.Url != null)
-                        retVal.Add(new APIFileFolder(file.Name, file.Url, ff.Name, true, false, naru.db.DBState.New));
-
-                return retVal;
-            }
-
-            /// <summary>
-            /// Get the list of field files inside the field folders
-            /// </summary>
-            /// <param name="ff">APIFileFolder FIELD FOLDER to look into</param>
-            /// <param name="api">Api helper to use for this operation</param>
-            /// <returns></returns>
-            public static List<APIFileFolder> GetFieldFolderFiles(APIFileFolder ff, GeoOptix.API.ApiHelper api)
-            {
-                List<APIFileFolder> retVal = new List<APIFileFolder>();
-                GeoOptix.API.ApiResponse<GeoOptix.API.Model.FileSummaryModel[]> filelist = api.GetFieldFiles(ff.Name);
-
-                if (filelist.Payload == null) return retVal;
-
-                foreach (GeoOptix.API.Model.FileSummaryModel file in filelist.Payload)
-                    if (file.Name != null && file.Url != null)
-                        retVal.Add(new APIFileFolder(file.Name, file.Url, ff.Name, true, true, naru.db.DBState.New));
-
-                return retVal;
-            }
-        }
-
-        #endregion
-
-        #region Job Classes
-
-        /// <summary>
-        /// These helper classs come in super useful
-        /// 
-        /// There are 4 types:
-        ///    - Job : The base class. All others are derivatives of it
-        ///    - GetFolderFilesJob: Get files from API folders and throw them on the queue
-        ///    - GetFieldFolderFilesJob:  Get field files from API folders and throw them on the queue
-        ///    - DownloadJob: Download the actual file
-        /// </summary>
-        abstract class Job
-        {
-            protected frmAPIDownloadVisitFiles instance;
-            protected APIFileFolder ff;
-            protected FileInfo fiLocalfile;
-            protected GeoOptix.API.ApiHelper api;
-            protected string sRelativePath;
-
-            public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, ref frmAPIDownloadVisitFiles instance)
-            {
-                ff = iff;
-                fiLocalfile = ifiLocalFile;
-                api = iapi;
-                sRelativePath = isRelativePath;
-                this.instance = instance;
-                instance._totalJobs++;
-                Debug.WriteLine(String.Format("NEW JOB: {0}", instance._totalJobs));
-                if (!instance.jobWorker.IsBusy) instance.jobWorker.RunWorkerAsync();
-
-            }
-            public abstract Task Run();
-        }
-        class GetFolderFilesJob : Job
-        {
-            public GetFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-                : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
-
-            public override Task Run()
-            {
-                Debug.WriteLine("RUN:GetFolderFilesJob");
-                instance.AppendText(instance.txtProgress, String.Format("{0}Collecting files for: {1}...", Environment.NewLine, sRelativePath));
-                foreach (APIFileFolder ffile in VisitWithFiles.GetFolderFiles(ff, api))
-                    instance.cq.Enqueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath, instance));
-
-                return Task.CompletedTask;
-            }
-        }
-        class GetFieldFolderFilesJob : Job
-        {
-            public GetFieldFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-                : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
-            public override Task Run()
-            {
-                Debug.WriteLine("RUN:GetFolderFilesJob");
-                instance.AppendText(instance.txtProgress, String.Format("{0}Collecting field files for: {1}...", Environment.NewLine, sRelativePath));
-                foreach (APIFileFolder ffile in VisitWithFiles.GetFieldFolderFiles(ff, api))
-                    instance.cq.Enqueue(new DownloadJob(ffile, new FileInfo(Path.Combine(fiLocalfile.FullName, ffile.Name)), api, sRelativePath, instance));
-                return Task.CompletedTask;
-            }
-        }
-        class DownloadJob : Job
-        {
-            public DownloadJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-             : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
-
-            public override async Task Run()
-            {
-                instance.AppendText(instance.txtProgress, String.Format("{0}Downloading {1}...", Environment.NewLine, sRelativePath));
-
-                // Add this to the jobs needing doing
-                instance.SetEnabled(instance.cmdOK, false);
-
-                if (fiLocalfile.Directory.Exists && fiLocalfile.Exists)
-                {
-                    if (instance.m_bOverwrite)
-                        fiLocalfile.Delete();
-                    else
-                    {
-                        instance.AppendText(instance.txtProgress, String.Format("{0}Skipping existing {1}...", Environment.NewLine, sRelativePath));
-                        return;
-                    }
-                }
-                else
-                {
-                    if (instance.m_bCreateFolders)
-                        fiLocalfile.Directory.Create();
-                    else
-                    {
-                        instance.AppendText(instance.txtProgress, String.Format("{0}No folder {1}...", Environment.NewLine, sRelativePath));
-                        return;
-                    }
-                }
-
-                WebClient wc = new WebClient();
-                wc.Headers["Authorization"] = "Bearer " + api.AuthToken.AccessToken;
-                wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(instance.wc_DownloadProgressChanged);
-                await wc.DownloadFileTaskAsync(new Uri(string.Format("{0}?Download", ff.URL)), fiLocalfile.FullName);
-                instance.AppendText(instance.txtProgress, String.Format("{0}Complete {1}", Environment.NewLine, Path.Combine(sRelativePath, ff.Name)));
-
-            }
-        }
-
-        #endregion
-
-
         #region Asynchronous UI helper functions
-
 
         delegate void SetEnabledCallback(Control ctl, bool val);
         private void SetEnabled(Control ctl, bool val)
@@ -573,8 +430,8 @@ namespace CHaMPWorkbench.Data
         }
 
 
-        delegate void AppendTextCallback(Control ctl, string text);
-        private void AppendText(Control ctl, string text)
+        delegate void AppendTextCallback(TextBox ctl, string text);
+        private void AppendText(TextBox ctl, string text)
         {
             if (ctl.InvokeRequired)
             {
@@ -582,7 +439,7 @@ namespace CHaMPWorkbench.Data
                 Invoke(d, new object[] { ctl, text });
             }
             else
-                ctl.Text += text;
+                ctl.AppendText(text);
         }
 
         delegate void SetValueCallback(ProgressBar ctl, int value);
@@ -596,7 +453,9 @@ namespace CHaMPWorkbench.Data
             else
                 ctl.Value = value;
         }
+
         #endregion
+
 
     }
 }
