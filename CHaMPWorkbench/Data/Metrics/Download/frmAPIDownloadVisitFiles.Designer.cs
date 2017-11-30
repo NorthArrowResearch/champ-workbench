@@ -38,15 +38,14 @@
             this.chkOverwrite = new System.Windows.Forms.CheckBox();
             this.cmdHelp = new System.Windows.Forms.Button();
             this.cmdBrowseLocal = new System.Windows.Forms.Button();
-            this.progressOverall = new System.Windows.Forms.ProgressBar();
-            this.grpProgress = new System.Windows.Forms.GroupBox();
-            this.lblOverallProgress = new System.Windows.Forms.Label();
-            this.lblProgress2 = new System.Windows.Forms.Label();
-            this.progressFile = new System.Windows.Forms.ProgressBar();
-            this.txtProgress = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblSelectedVisits = new System.Windows.Forms.Label();
-            this.jobWorker = new System.ComponentModel.BackgroundWorker();
+            this.progressOverall = new System.Windows.Forms.ProgressBar();
+            this.txtProgress = new System.Windows.Forms.TextBox();
+            this.progressFile = new System.Windows.Forms.ProgressBar();
+            this.lblProgress2 = new System.Windows.Forms.Label();
+            this.lblOverallProgress = new System.Windows.Forms.Label();
+            this.grpProgress = new System.Windows.Forms.GroupBox();
             this.grpProgress.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +69,6 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(458, 583);
             this.cmdCancel.Name = "cmdCancel";
@@ -82,7 +80,6 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.Location = new System.Drawing.Point(352, 583);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(100, 23);
@@ -125,7 +122,6 @@
             // 
             // cmdHelp
             // 
-            this.cmdHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdHelp.Location = new System.Drawing.Point(12, 583);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
@@ -143,73 +139,6 @@
             this.cmdBrowseLocal.TabIndex = 2;
             this.cmdBrowseLocal.UseVisualStyleBackColor = true;
             this.cmdBrowseLocal.Click += new System.EventHandler(this.cmdBrowseLocal_Click);
-            // 
-            // progressOverall
-            // 
-            this.progressOverall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressOverall.Location = new System.Drawing.Point(10, 24);
-            this.progressOverall.Name = "progressOverall";
-            this.progressOverall.Size = new System.Drawing.Size(499, 13);
-            this.progressOverall.Step = 1;
-            this.progressOverall.TabIndex = 11;
-            // 
-            // grpProgress
-            // 
-            this.grpProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpProgress.Controls.Add(this.lblOverallProgress);
-            this.grpProgress.Controls.Add(this.lblProgress2);
-            this.grpProgress.Controls.Add(this.progressFile);
-            this.grpProgress.Controls.Add(this.txtProgress);
-            this.grpProgress.Controls.Add(this.progressOverall);
-            this.grpProgress.Location = new System.Drawing.Point(12, 364);
-            this.grpProgress.Name = "grpProgress";
-            this.grpProgress.Size = new System.Drawing.Size(521, 213);
-            this.grpProgress.TabIndex = 9;
-            this.grpProgress.TabStop = false;
-            this.grpProgress.Text = "Progress";
-            // 
-            // lblOverallProgress
-            // 
-            this.lblOverallProgress.AutoSize = true;
-            this.lblOverallProgress.Location = new System.Drawing.Point(486, 0);
-            this.lblOverallProgress.Name = "lblOverallProgress";
-            this.lblOverallProgress.Size = new System.Drawing.Size(16, 13);
-            this.lblOverallProgress.TabIndex = 15;
-            this.lblOverallProgress.Text = "...";
-            this.lblOverallProgress.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.lblOverallProgress.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // lblProgress2
-            // 
-            this.lblProgress2.AutoSize = true;
-            this.lblProgress2.Location = new System.Drawing.Point(10, 44);
-            this.lblProgress2.Name = "lblProgress2";
-            this.lblProgress2.Size = new System.Drawing.Size(23, 13);
-            this.lblProgress2.TabIndex = 14;
-            this.lblProgress2.Text = "File";
-            // 
-            // progressFile
-            // 
-            this.progressFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressFile.Location = new System.Drawing.Point(10, 60);
-            this.progressFile.Name = "progressFile";
-            this.progressFile.Size = new System.Drawing.Size(499, 14);
-            this.progressFile.Step = 1;
-            this.progressFile.TabIndex = 13;
-            // 
-            // txtProgress
-            // 
-            this.txtProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProgress.Location = new System.Drawing.Point(10, 80);
-            this.txtProgress.Multiline = true;
-            this.txtProgress.Name = "txtProgress";
-            this.txtProgress.ReadOnly = true;
-            this.txtProgress.Size = new System.Drawing.Size(499, 127);
-            this.txtProgress.TabIndex = 12;
             // 
             // label2
             // 
@@ -229,13 +158,68 @@
             this.lblSelectedVisits.TabIndex = 13;
             this.lblSelectedVisits.Text = "With XX selected Visits...";
             // 
-            // jobWorker
+            // progressOverall
             // 
-            this.jobWorker.WorkerReportsProgress = true;
-            this.jobWorker.WorkerSupportsCancellation = true;
-            this.jobWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.jobWorker_DoWork);
-            this.jobWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.jobWorker_ProgressChanged);
-            this.jobWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.jobWorker_DownloadCompleted);
+            this.progressOverall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressOverall.Location = new System.Drawing.Point(10, 24);
+            this.progressOverall.Name = "progressOverall";
+            this.progressOverall.Size = new System.Drawing.Size(499, 13);
+            this.progressOverall.Step = 1;
+            this.progressOverall.TabIndex = 11;
+            // 
+            // txtProgress
+            // 
+            this.txtProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProgress.Location = new System.Drawing.Point(10, 80);
+            this.txtProgress.Multiline = true;
+            this.txtProgress.Name = "txtProgress";
+            this.txtProgress.ReadOnly = true;
+            this.txtProgress.Size = new System.Drawing.Size(499, 127);
+            this.txtProgress.TabIndex = 12;
+            // 
+            // progressFile
+            // 
+            this.progressFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressFile.Location = new System.Drawing.Point(10, 60);
+            this.progressFile.Name = "progressFile";
+            this.progressFile.Size = new System.Drawing.Size(499, 14);
+            this.progressFile.Step = 1;
+            this.progressFile.TabIndex = 13;
+            // 
+            // lblProgress2
+            // 
+            this.lblProgress2.AutoSize = true;
+            this.lblProgress2.Location = new System.Drawing.Point(10, 44);
+            this.lblProgress2.Name = "lblProgress2";
+            this.lblProgress2.Size = new System.Drawing.Size(23, 13);
+            this.lblProgress2.TabIndex = 14;
+            this.lblProgress2.Text = "File";
+            // 
+            // lblOverallProgress
+            // 
+            this.lblOverallProgress.Location = new System.Drawing.Point(416, 1);
+            this.lblOverallProgress.Name = "lblOverallProgress";
+            this.lblOverallProgress.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblOverallProgress.Size = new System.Drawing.Size(103, 13);
+            this.lblOverallProgress.TabIndex = 15;
+            this.lblOverallProgress.Text = "...";
+            // 
+            // grpProgress
+            // 
+            this.grpProgress.Controls.Add(this.lblOverallProgress);
+            this.grpProgress.Controls.Add(this.lblProgress2);
+            this.grpProgress.Controls.Add(this.progressFile);
+            this.grpProgress.Controls.Add(this.txtProgress);
+            this.grpProgress.Controls.Add(this.progressOverall);
+            this.grpProgress.Location = new System.Drawing.Point(12, 364);
+            this.grpProgress.Name = "grpProgress";
+            this.grpProgress.Size = new System.Drawing.Size(521, 213);
+            this.grpProgress.TabIndex = 9;
+            this.grpProgress.TabStop = false;
+            this.grpProgress.Text = "Progress";
             // 
             // frmAPIDownloadVisitFiles
             // 
@@ -277,14 +261,13 @@
         private System.Windows.Forms.CheckBox chkOverwrite;
         private System.Windows.Forms.Button cmdHelp;
         private System.Windows.Forms.Button cmdBrowseLocal;
-        private System.Windows.Forms.ProgressBar progressOverall;
-        private System.Windows.Forms.GroupBox grpProgress;
-        private System.Windows.Forms.TextBox txtProgress;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblSelectedVisits;
-        private System.Windows.Forms.Label lblProgress2;
+        private System.Windows.Forms.ProgressBar progressOverall;
+        private System.Windows.Forms.TextBox txtProgress;
         private System.Windows.Forms.ProgressBar progressFile;
-        private System.ComponentModel.BackgroundWorker jobWorker;
+        private System.Windows.Forms.Label lblProgress2;
         private System.Windows.Forms.Label lblOverallProgress;
+        private System.Windows.Forms.GroupBox grpProgress;
     }
 }

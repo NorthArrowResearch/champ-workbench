@@ -19,6 +19,8 @@ namespace CHaMPWorkbench.Data
         private Dictionary<long, CHaMPData.Program> Programs;
         private Dictionary<long, GeoOptix.API.ApiHelper> APIHelpers;
 
+        private BackgroundWorker jobWorker;
+
         private string m_sCurrentFile;
         private bool m_bOverwrite;
         private bool m_bCreateFolders;
@@ -118,7 +120,6 @@ namespace CHaMPWorkbench.Data
             treFiles.CheckBoxes = true;
 
             grpProgress.Visible = false;
-            treFiles.Height = treFiles.Height + grpProgress.Height;
 
             chkCreateDir.Checked = m_bCreateFolders;
             chkOverwrite.Checked = m_bOverwrite;
@@ -181,7 +182,6 @@ namespace CHaMPWorkbench.Data
         private void cmdOK_Click(object sender, EventArgs e)
         {
             grpProgress.Visible = true;
-            treFiles.Height -= grpProgress.Height;
             m_bOverwrite = chkOverwrite.Checked;
             m_bCreateFolders = chkCreateDir.Checked;
 
@@ -226,9 +226,17 @@ namespace CHaMPWorkbench.Data
                 GetCheckedFiles("", aNode);
 
             txtProgress.Text = String.Format("Attempting to download {0} files...", FileCount);
+
             _totalJobs = 0;
             // Clear the Queue
             cq = new ConcurrentQueue<Job>();
+            jobWorker = new BackgroundWorker();
+            jobWorker.DoWork += jobWorker_DoWork;
+            jobWorker.ProgressChanged += jobWorker_ProgressChanged;
+            jobWorker.RunWorkerCompleted += jobWorker_DownloadCompleted;
+            jobWorker.WorkerReportsProgress = true;
+            jobWorker.WorkerSupportsCancellation = true;
+            
 
             // Loop over all visit lists, one per program
             foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
@@ -265,6 +273,19 @@ namespace CHaMPWorkbench.Data
 
                 }
             }
+        }
+
+        /// <summary>
+        /// Cancel all the queues when we drop out of this form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            // clear the queue
+            jobWorker.CancelAsync();
+            jobWorker.Dispose();
+            cq = new ConcurrentQueue<Job>();
         }
 
         /// <summary>
@@ -422,6 +443,12 @@ namespace CHaMPWorkbench.Data
 
         /// <summary>
         /// These helper classs come in super useful
+        /// 
+        /// There are 4 types:
+        ///    - Job : The base class. All others are derivatives of it
+        ///    - GetFolderFilesJob: Get files from API folders and throw them on the queue
+        ///    - GetFieldFolderFilesJob:  Get field files from API folders and throw them on the queue
+        ///    - DownloadJob: Download the actual file
         /// </summary>
         abstract class Job
         {
@@ -431,7 +458,7 @@ namespace CHaMPWorkbench.Data
             protected GeoOptix.API.ApiHelper api;
             protected string sRelativePath;
 
-            public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
+            public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, ref frmAPIDownloadVisitFiles instance)
             {
                 ff = iff;
                 fiLocalfile = ifiLocalFile;
@@ -448,7 +475,7 @@ namespace CHaMPWorkbench.Data
         class GetFolderFilesJob : Job
         {
             public GetFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-                : base(iff, ifiLocalFile, iapi, isRelativePath, instance) { }
+                : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
 
             public override Task Run()
             {
@@ -463,7 +490,7 @@ namespace CHaMPWorkbench.Data
         class GetFieldFolderFilesJob : Job
         {
             public GetFieldFolderFilesJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-                : base(iff, ifiLocalFile, iapi, isRelativePath, instance) { }
+                : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
             public override Task Run()
             {
                 Debug.WriteLine("RUN:GetFolderFilesJob");
@@ -476,7 +503,7 @@ namespace CHaMPWorkbench.Data
         class DownloadJob : Job
         {
             public DownloadJob(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, frmAPIDownloadVisitFiles instance)
-             : base(iff, ifiLocalFile, iapi, isRelativePath, instance) { }
+             : base(iff, ifiLocalFile, iapi, isRelativePath, ref instance) { }
 
             public override async Task Run()
             {
@@ -518,7 +545,7 @@ namespace CHaMPWorkbench.Data
         #endregion
 
 
-        #region Asynchronous helper functions
+        #region Asynchronous UI helper functions
 
 
         delegate void SetEnabledCallback(Control ctl, bool val);
@@ -571,17 +598,5 @@ namespace CHaMPWorkbench.Data
         }
         #endregion
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-            // clear the queue
-            jobWorker.CancelAsync();
-            jobWorker.Dispose();
-            cq = new ConcurrentQueue<Job>();
-        }
     }
 }
