@@ -3,6 +3,11 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.25 - 1 Dec 2017
+
+* New API File download feature
+* Database version 50.
+
 ### 7.0.24 - 28 Nov 2017
 
 * Fixing bug scraping tier 1 and 2 metrics when looking for sibling `Tier1` or `Name` node.

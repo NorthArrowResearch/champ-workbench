@@ -80,7 +80,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(467, 3);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 11;
+            this.cmdCancel.TabIndex = 1;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -90,7 +90,7 @@
             this.cmdOK.Location = new System.Drawing.Point(361, 3);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(100, 23);
-            this.cmdOK.TabIndex = 10;
+            this.cmdOK.TabIndex = 0;
             this.cmdOK.Text = "Start Download";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -101,7 +101,7 @@
             this.treFiles.Location = new System.Drawing.Point(8, 21);
             this.treFiles.Name = "treFiles";
             this.treFiles.Size = new System.Drawing.Size(529, 265);
-            this.treFiles.TabIndex = 6;
+            this.treFiles.TabIndex = 1;
             this.treFiles.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treFiles_AfterCheck);
             // 
             // chkCreateDir
@@ -112,7 +112,7 @@
             this.chkCreateDir.Location = new System.Drawing.Point(8, 56);
             this.chkCreateDir.Name = "chkCreateDir";
             this.chkCreateDir.Size = new System.Drawing.Size(216, 17);
-            this.chkCreateDir.TabIndex = 3;
+            this.chkCreateDir.TabIndex = 1;
             this.chkCreateDir.Text = "Create directories that don\'t already exist";
             this.chkCreateDir.UseVisualStyleBackColor = true;
             // 
@@ -122,7 +122,7 @@
             this.chkOverwrite.Location = new System.Drawing.Point(8, 79);
             this.chkOverwrite.Name = "chkOverwrite";
             this.chkOverwrite.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwrite.TabIndex = 4;
+            this.chkOverwrite.TabIndex = 2;
             this.chkOverwrite.Text = "Overwrite existing files";
             this.chkOverwrite.UseVisualStyleBackColor = true;
             // 
@@ -131,7 +131,7 @@
             this.cmdHelp.Location = new System.Drawing.Point(3, 3);
             this.cmdHelp.Name = "cmdHelp";
             this.cmdHelp.Size = new System.Drawing.Size(75, 23);
-            this.cmdHelp.TabIndex = 12;
+            this.cmdHelp.TabIndex = 2;
             this.cmdHelp.Text = "Help";
             this.cmdHelp.UseVisualStyleBackColor = true;
             // 
@@ -152,7 +152,7 @@
             this.label2.Location = new System.Drawing.Point(8, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
-            this.label2.TabIndex = 5;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Files to download";
             // 
             // lblSelectedVisits
@@ -161,7 +161,7 @@
             this.lblSelectedVisits.Location = new System.Drawing.Point(8, 5);
             this.lblSelectedVisits.Name = "lblSelectedVisits";
             this.lblSelectedVisits.Size = new System.Drawing.Size(125, 13);
-            this.lblSelectedVisits.TabIndex = 13;
+            this.lblSelectedVisits.TabIndex = 0;
             this.lblSelectedVisits.Text = "With XX selected Visits...";
             // 
             // progressOverall
@@ -172,7 +172,7 @@
             this.progressOverall.Name = "progressOverall";
             this.progressOverall.Size = new System.Drawing.Size(507, 13);
             this.progressOverall.Step = 1;
-            this.progressOverall.TabIndex = 11;
+            this.progressOverall.TabIndex = 1;
             // 
             // txtProgress
             // 
@@ -183,7 +183,7 @@
             this.txtProgress.Name = "txtProgress";
             this.txtProgress.ReadOnly = true;
             this.txtProgress.Size = new System.Drawing.Size(507, 127);
-            this.txtProgress.TabIndex = 12;
+            this.txtProgress.TabIndex = 0;
             // 
             // progressFile
             // 
@@ -193,7 +193,7 @@
             this.progressFile.Name = "progressFile";
             this.progressFile.Size = new System.Drawing.Size(507, 14);
             this.progressFile.Step = 1;
-            this.progressFile.TabIndex = 13;
+            this.progressFile.TabIndex = 3;
             // 
             // lblProgress2
             // 
@@ -201,7 +201,7 @@
             this.lblProgress2.Location = new System.Drawing.Point(10, 44);
             this.lblProgress2.Name = "lblProgress2";
             this.lblProgress2.Size = new System.Drawing.Size(23, 13);
-            this.lblProgress2.TabIndex = 14;
+            this.lblProgress2.TabIndex = 2;
             this.lblProgress2.Text = "File";
             // 
             // lblOverallProgress
@@ -211,7 +211,7 @@
             this.lblOverallProgress.Name = "lblOverallProgress";
             this.lblOverallProgress.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblOverallProgress.Size = new System.Drawing.Size(103, 13);
-            this.lblOverallProgress.TabIndex = 15;
+            this.lblOverallProgress.TabIndex = 0;
             this.lblOverallProgress.Text = "...";
             // 
             // grpProgress
@@ -227,7 +227,7 @@
             this.grpProgress.Location = new System.Drawing.Point(8, 292);
             this.grpProgress.Name = "grpProgress";
             this.grpProgress.Size = new System.Drawing.Size(529, 226);
-            this.grpProgress.TabIndex = 9;
+            this.grpProgress.TabIndex = 2;
             this.grpProgress.TabStop = false;
             this.grpProgress.Text = "Progress";
             // 
@@ -269,7 +269,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(545, 104);
-            this.tableLayoutPanel2.TabIndex = 17;
+            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
             // 
