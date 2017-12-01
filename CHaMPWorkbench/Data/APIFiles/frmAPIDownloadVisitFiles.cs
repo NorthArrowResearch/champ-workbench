@@ -10,6 +10,7 @@ using System.Net;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading;
 
 namespace CHaMPWorkbench.Data.APIFiles
 {
@@ -20,6 +21,9 @@ namespace CHaMPWorkbench.Data.APIFiles
         private Dictionary<long, GeoOptix.API.ApiHelper> APIHelpers;
 
         private BackgroundWorker jobWorker;
+
+        private CancellationTokenSource CancelTokenSource;
+        CancellationToken token;
 
         private ConcurrentQueue<Job> cq;
         private int _totalJobs;
@@ -76,6 +80,9 @@ namespace CHaMPWorkbench.Data.APIFiles
 
             jobWorker.WorkerReportsProgress = true;
             jobWorker.WorkerSupportsCancellation = true;
+
+            CancelTokenSource = new CancellationTokenSource();
+            token = CancelTokenSource.Token;
 
             jobWorker.DoWork += new DoWorkEventHandler(jobWorker_DoWork);
             jobWorker.ProgressChanged += new ProgressChangedEventHandler(jobWorker_ProgressChanged);
@@ -262,15 +269,15 @@ namespace CHaMPWorkbench.Data.APIFiles
                         switch (ff.GetAPIFileFolderType)
                         {
                             case APIFileFolder.APIFileFolderType.FILE:
-                                jobEnqueifier(null, new DownloadJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new DownloadJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked, token));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FOLDER:
-                                jobEnqueifier(null, new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked, token));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FIELDFOLDER:
-                                jobEnqueifier(null, new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked, token));
                                 break;
                         }
                     }
@@ -288,6 +295,7 @@ namespace CHaMPWorkbench.Data.APIFiles
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             // clear the queue
+            CancelTokenSource.Cancel();
             if (jobWorker != null && jobWorker.IsBusy) jobWorker.CancelAsync();
             clearQueue();
         }
