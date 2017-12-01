@@ -21,7 +21,7 @@ namespace CHaMPWorkbench.Data.APIFiles
 
         private BackgroundWorker jobWorker;
 
-        private ConcurrentQueue<Job> cq = new ConcurrentQueue<Job>();
+        private ConcurrentQueue<Job> cq;
         private int _totalJobs;
 
         private frmKeystoneCredentials CredentialsForm;
@@ -70,18 +70,7 @@ namespace CHaMPWorkbench.Data.APIFiles
                 Visits[aVisit.ProgramID].Add(new VisitWithFiles(aVisit, visitfilefolders, Programs[aVisit.ProgramID]));
             }
 
-            // Now hook up asynchronous job eventhandlers to the right connectors
-            // We do the unassign first to make sure we don't get two handles 
-            // -= can safely be called even when it doesn't exist
-            Job.Logger -= loggerhandler;
-            Job.AddNewJob -= jobhandler;
-            Job.IncrementJobs -= jobincrement;
-            Job.BootWorker -= workerbooter;
-
-            Job.Logger += loggerhandler;
-            Job.AddNewJob += jobhandler;
-            Job.IncrementJobs += jobincrement;
-            Job.BootWorker += workerbooter;
+            cq = new ConcurrentQueue<Job>();
 
             jobWorker = new BackgroundWorker();
 
@@ -93,12 +82,6 @@ namespace CHaMPWorkbench.Data.APIFiles
             jobWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(jobWorker_DownloadCompleted);
 
         }
-
-        // here are the handlers corresponding tot he events for Job above
-        private void loggerhandler(object somesender, string msg) { AppendText(txtProgress, msg); }
-        private void jobhandler(object somesender, Job job) { cq.Enqueue(job); }
-        private void jobincrement() { _totalJobs++; }
-        private void workerbooter() { if (jobWorker != null && !jobWorker.IsBusy) jobWorker.RunWorkerAsync(); }
 
 
         /// <summary>
@@ -257,7 +240,7 @@ namespace CHaMPWorkbench.Data.APIFiles
             txtProgress.Text = String.Format("Attempting to download {0} files...", FileCount);
 
             // Clear the Queue
-            cq = new ConcurrentQueue<Job>();
+            clearQueue();
 
             // Loop over all visit lists, one per program
             foreach (KeyValuePair<long, BindingList<VisitWithFiles>> kvp in Visits)
@@ -279,21 +262,22 @@ namespace CHaMPWorkbench.Data.APIFiles
                         switch (ff.GetAPIFileFolderType)
                         {
                             case APIFileFolder.APIFileFolderType.FILE:
-                                cq.Enqueue(new DownloadJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new DownloadJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FOLDER:
-                                cq.Enqueue(new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new GetFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
 
                             case APIFileFolder.APIFileFolderType.FIELDFOLDER:
-                                cq.Enqueue(new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
+                                jobEnqueifier(null, new GetFieldFolderFilesJob(ff, filefolderpath, api, sRelativePath, chkCreateDir.Checked, chkOverwrite.Checked));
                                 break;
                         }
                     }
 
                 }
             }
+            jobWorker.RunWorkerAsync();
         }
 
         /// <summary>
@@ -304,8 +288,8 @@ namespace CHaMPWorkbench.Data.APIFiles
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             // clear the queue
-            //if (jobWorker != null && jobWorker.IsBusy)  jobWorker.CancelAsync();
-            //cq = new ConcurrentQueue<Job>();
+            if (jobWorker != null && jobWorker.IsBusy) jobWorker.CancelAsync();
+            clearQueue();
         }
 
         /// <summary>
@@ -328,10 +312,15 @@ namespace CHaMPWorkbench.Data.APIFiles
         private void jobWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Job localJob;
-            List<Task> workerlist = new List<Task>();
             while (cq.TryDequeue(out localJob))
             {
-                localJob.ProgressChanged += wc_DownloadProgressChanged;
+                // Now hook up asynchronous job eventhandlers to the right connectors
+                // We do the unassign first to make sure we don't get two handles 
+                // -= can safely be called even when it doesn't exist
+                localJob.LoggerHandler += new EventHandler<string>(loggerhandler);
+                localJob.ProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                localJob.AddNewJobHandler += new EventHandler<Job>(jobEnqueifier);
+
                 try
                 {
                     Task.WaitAll(localJob.Run());
@@ -345,6 +334,21 @@ namespace CHaMPWorkbench.Data.APIFiles
             }
         }
 
+        // here are the handlers corresponding tot he events for Job above
+        private void loggerhandler(object somesender, string msg) { AppendText(txtProgress, msg); }
+        private void jobEnqueifier(object somesender, Job job)
+        {
+            cq.Enqueue(job);
+            _totalJobs++;
+        }
+
+        private void clearQueue()
+        {
+            Job localJob;
+            List<Task> workerlist = new List<Task>();
+            while (cq.TryDequeue(out localJob))
+            { }
+        }
         /// <summary>
         /// Handle the event of something being changed.
         /// </summary>

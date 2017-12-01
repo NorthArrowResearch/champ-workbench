@@ -27,10 +27,8 @@ namespace CHaMPWorkbench.Data.APIFiles
 
         public DownloadProgressChangedEventHandler ProgressChanged;
 
-        public static event EventHandler<string> Logger;
-        public static event EventHandler<Job> AddNewJob;
-        public static event Action IncrementJobs;
-        public static event Action BootWorker;
+        public event EventHandler<string> LoggerHandler;
+        public event EventHandler<Job> AddNewJobHandler;
 
         public Job(APIFileFolder iff, FileInfo ifiLocalFile, GeoOptix.API.ApiHelper iapi, string isRelativePath, bool bCreateDir, bool bOverwrite)
         {
@@ -40,15 +38,14 @@ namespace CHaMPWorkbench.Data.APIFiles
             sRelativePath = isRelativePath;
             this.bOverwrite = bOverwrite;
             this.bCreateDir = bCreateDir;
-            IncrementJobs();
-            BootWorker();
         }
         /// <summary>
         /// This helper only invokes the event if there is something attached to it
         /// </summary>
         /// <param name="msg"></param>
-        protected static void SendLogMessage(string msg) { Logger?.Invoke(null, msg); }
-        protected static void SendJobToQueue(Job job) { AddNewJob?.Invoke(null, job); }
+        protected void SendLogMessage(string msg) { LoggerHandler?.Invoke(this, msg); }
+        protected void SendJobToQueue(Job job) { AddNewJobHandler?.Invoke(this, job); }
+
         /// <summary>
         /// All following classes must implement this method
         /// </summary>
