@@ -468,5 +468,10 @@ namespace CHaMPWorkbench.Data.APIFiles
 
 
         #endregion
+
+        private void cmdHelp_Click(object sender, EventArgs e)
+        {
+            CHaMPWorkbench.OnlineHelp.FormHelp(this.Name);
+        }
     }
 }

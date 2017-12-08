@@ -328,4 +328,7 @@
   <data name="Help_frmMetricUpload" xml:space="preserve">
     <value>Technical_Reference/Data_Menu/upload_metrics.html</value>
   </data>
+  <data name="Help_frmAPIDownloadVisitFiles" xml:space="preserve">
+    <value>Data_Menu/download_champ_data.html</value>
+  </data>
 </root>

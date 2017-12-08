@@ -307,6 +307,15 @@ namespace CHaMPWorkbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data_Menu/download_champ_data.html.
+        /// </summary>
+        internal static string Help_frmAPIDownloadVisitFiles {
+            get {
+                return ResourceManager.GetString("Help_frmAPIDownloadVisitFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Technical_Reference/Data_Menu/copy_metrics.html.
         /// </summary>
         internal static string Help_frmCopyMetrics {
