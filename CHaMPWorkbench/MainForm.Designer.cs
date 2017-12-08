@@ -48,13 +48,14 @@
             this.clearSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createCustomVisitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.metricDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metricUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.prepareDatabaseForDeploymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rBTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -196,7 +197,6 @@
             this.downloadTopoAndHydroDataFromCmorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewSiteLocationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -354,22 +354,6 @@
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Text = "Synchronize CHaMP Data...";
             this.scavengeVisitDataFromCHaMPExportToolStripMenuItem.Click += new System.EventHandler(this.scavengeVisitDataFromCHaMPExportToolStripMenuItem_Click);
             // 
-            // downloadTopoDataAndHydraulicModelFilesToolStripMenuItem
-            // 
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download API Files";
-            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
-            // 
-            // unpackMonitoringData7ZipArchiveToolStripMenuItem
-            // 
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack API Zip Files";
-            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
-            // 
             // createCustomVisitToolStripMenuItem
             // 
             this.createCustomVisitToolStripMenuItem.Name = "createCustomVisitToolStripMenuItem";
@@ -405,6 +389,28 @@
             this.metricUploadToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
             this.metricUploadToolStripMenuItem.Text = "Metric Upload...";
             this.metricUploadToolStripMenuItem.Click += new System.EventHandler(this.metricUploadToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(289, 6);
+            // 
+            // downloadTopoDataAndHydraulicModelFilesToolStripMenuItem
+            // 
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.download;
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Name = "downloadTopoDataAndHydraulicModelFilesToolStripMenuItem";
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Text = "Download API Files";
+            this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem.Click += new System.EventHandler(this.downloadTopoDataAndHydraulicModelFilesToolStripMenuItem_Click);
+            // 
+            // unpackMonitoringData7ZipArchiveToolStripMenuItem
+            // 
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.zip;
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Name = "unpackMonitoringData7ZipArchiveToolStripMenuItem";
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Size = new System.Drawing.Size(292, 22);
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Text = "Unpack API Zip Files";
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Visible = false;
+            this.unpackMonitoringData7ZipArchiveToolStripMenuItem.Click += new System.EventHandler(this.unpackMonitoringData7ZipArchiveToolStripMenuItem_Click);
             // 
             // toolStripSeparator18
             // 
@@ -1654,11 +1660,6 @@
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Size = new System.Drawing.Size(355, 22);
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Text = "Explore Site Level USGS Stream Gage Data";
             this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem.Click += new System.EventHandler(this.exploreSiteLevelUSGSStreamGageDataToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator19
-            // 
-            this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(289, 6);
             // 
             // MainForm
             // 
