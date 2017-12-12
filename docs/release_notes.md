@@ -3,6 +3,11 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.26 - 12 Dec 2017
+
+* Synchronizing CHaMP Data now handles users that don't have permissions to retrieve file and folder info.
+* Naming consistency for the `Download API Files` feature.
+
 ### 7.0.25 - 1 Dec 2017
 
 * New API File download feature
