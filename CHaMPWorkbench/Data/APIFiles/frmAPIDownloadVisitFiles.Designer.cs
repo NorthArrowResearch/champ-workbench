@@ -319,7 +319,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(561, 220);
             this.Name = "frmAPIDownloadVisitFiles";
-            this.Text = "Download Visit Data";
+            this.Text = "Download API Files";
             this.Load += new System.EventHandler(this.frmFTPVisit_Load);
             this.grpProgress.ResumeLayout(false);
             this.grpProgress.PerformLayout();
