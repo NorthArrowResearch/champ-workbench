@@ -9,6 +9,8 @@ using System.Net.Http;
 using IdentityModel.Client;
 using Keystone.API;
 using System.Collections;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace CHaMPWorkbench.CHaMPData
 {
@@ -97,6 +99,28 @@ namespace CHaMPWorkbench.CHaMPData
                         ReportProgress(0, "Synchonizing sites");
                         SyncSites(ref dbTrans, aProgram, ref AuthToken);
                         TotalNumberVisits += GetListOfVisitURLs(aProgram, ref AuthToken);
+
+                        // Verify that files can be retrieved
+                        try
+                        {
+                            string visitURL = VisitURLs.Values.First<List<string>>().First<string>();
+                            WebClient wc = new WebClient();
+                            wc.Headers["Authorization"] = "Bearer " + AuthToken.AccessToken;
+                            wc.DownloadString(visitURL + "/folders");
+                        }
+                        catch (System.Net.WebException ex)
+                        {
+                            if (System.Windows.Forms.MessageBox.Show("Your user account allows you to retrieve basic visit information," +
+                                                                " but you do not have permission to download visit file and folder information.\n\n" +
+                                                                " Contact the QA Lead for your program regarding permissions.\n\nDo you want to continue synchronizing basic visit information without folder and file information?",
+                                                                "Insufficient Permissions", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Information, System.Windows.Forms.MessageBoxDefaultButton.Button1)
+                                                                == System.Windows.Forms.DialogResult.No)
+                            {
+                                dbTrans.Rollback();
+                                ReportProgress(100, "Process aborted by user.");
+                                return;
+                            }
+                        }
                     }
 
                     // Load all existing visits
@@ -127,7 +151,14 @@ namespace CHaMPWorkbench.CHaMPData
                     dbTrans.Rollback();
                     throw;
                 }
+
+                dbCon.Dispose();
             }
+
+            // Database can sometimes remain locked after an error
+            // https://stackoverflow.com/questions/12532729/sqlite-keeps-the-database-locked-even-after-the-connection-is-closed
+            System.Data.SQLite.SQLiteConnection.ClearAllPools();
+            GC.Collect();
         }
 
         private void ReportProgress(int value, string sMessage)
@@ -299,17 +330,26 @@ namespace CHaMPWorkbench.CHaMPData
             {
                 theVisit = new Visit((long)apiVisitDetails.Id, 0, string.Empty, SiteURLs[apiVisitDetails.SiteUrl], string.Empty, apiVisitDetails.SampleYear.Value, nProgramID, string.Empty, naru.db.DBState.New);
                 dvisits[(long)apiVisitDetails.Id] = theVisit;
-            } 
+            }
 
             // Capture the superficial file and folder visiti info
-            foreach (GeoOptix.API.Model.FileSummaryModel file in apiVisitDetails.Files)
-                theVisit.FileFolders.Add(new APIFileFolder(file.Name, file.Url, file.Description, true, false, naru.db.DBState.New));
+            if (apiVisitDetails.Files != null)
+            {
+                foreach (GeoOptix.API.Model.FileSummaryModel file in apiVisitDetails.Files)
+                    theVisit.FileFolders.Add(new APIFileFolder(file.Name, file.Url, file.Description, true, false, naru.db.DBState.New));
+            }
 
-            foreach (GeoOptix.API.Model.FolderSummaryModel folder in apiVisitDetails.Folders)
-                theVisit.FileFolders.Add(new APIFileFolder(folder.Name, folder.Url, "", false, false, naru.db.DBState.New));
+            if (apiVisitDetails.Folders != null)
+            {
+                foreach (GeoOptix.API.Model.FolderSummaryModel folder in apiVisitDetails.Folders)
+                    theVisit.FileFolders.Add(new APIFileFolder(folder.Name, folder.Url, "", false, false, naru.db.DBState.New));
+            }
 
-            foreach (GeoOptix.API.Model.FieldFolderSummaryModel ffolder in apiVisitDetails.FieldFolders)
-                theVisit.FileFolders.Add(new APIFileFolder(ffolder.Name, ffolder.Url, "", false, true, naru.db.DBState.New));
+            if (apiVisitDetails.FieldFolders != null)
+            {
+                foreach (GeoOptix.API.Model.FieldFolderSummaryModel ffolder in apiVisitDetails.FieldFolders)
+                    theVisit.FileFolders.Add(new APIFileFolder(ffolder.Name, ffolder.Url, "", false, true, naru.db.DBState.New));
+            }
 
             theVisit.Hitch = apiVisitDetails.HitchName;
             theVisit.Organization = apiVisitDetails.OrganizationName;
