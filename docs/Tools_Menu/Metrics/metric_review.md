@@ -9,6 +9,7 @@ title: Metric Review
 a)	Metric Grid: This grid lists all program metrics from all metric engines.  
 •	The Visit selected in the grid will appear as a red dot on the graph.
 •	Metrics can be sorted by clicking on the metric name in the grid.
+• a .csv file of the any grid values can be downloaded by right clicking anywhere in the grid. 
 
 b)	Metric Plots: The metric plot allows graphing of available metrics in the database. 
 •	The Plot Type dropdown includes a list of preset metric graphs (44 plots).  The down arrow can be used to scroll through these without using the dropdown.
