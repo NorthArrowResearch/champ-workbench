@@ -3,6 +3,10 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.26 - 27 Feb 2018
+
+* Fixed [bug with metric copy tool](https://github.com/NorthArrowResearch/champ-workbench/issues/56) that was failing to copy actual metric values into output metric batch.
+
 ### 7.0.26 - 12 Dec 2017
 
 * Synchronizing CHaMP Data changes:
