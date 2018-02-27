@@ -68,7 +68,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                         switch (batch.DatabaseTable.ToLower())
                         {
                             case "metric_visitmetrics":
-                                sqlInsert = "SELECT T.InstanceID, M.MetricID, M.MetricValue" +
+                                sqlInsert = "INSERT INTO Metric_VisitMetrics (InstanceID, MetricID, MetricValue)" +
+                                    " SELECT T.InstanceID, M.MetricID, M.MetricValue" +
                                     " FROM Metric_VisitMetrics M" +
                                     " INNER JOIN Metric_Instances I ON M.InstanceID = I.InstanceID" +
                                     " INNER JOIN Metric_Instances T ON I.VisitID = T.VisitID" +
@@ -77,7 +78,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
 
                             case "metric_tiermetrics":
 
-                                sqlInsert = "SELECT T.InstanceID, M.MetricID, M.TierID, M.MetricValue" +
+                                sqlInsert = "INSERT INTO Metric_TierMetrics (InstanceID, MetricID, TierID, MetricValue)" +
+                                  " SELECT T.InstanceID, M.MetricID, M.TierID, M.MetricValue" +
                                   " FROM Metric_TierMetrics M" +
                                   " INNER JOIN Metric_Instances I ON M.InstanceID = I.InstanceID" +
                                   " INNER JOIN Metric_Instances T ON I.VisitID = T.VisitID" +
@@ -85,7 +87,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                                 break;
 
                             case "metric_channelunitmetrics":
-                                sqlInsert = "SELECT T.InstanceID, M.MetricID, M.channelUnitNumber, M.MetricValue" +
+                                sqlInsert = "INSERT INTO Metric_ChannelUnitMetrics (InstanceID, MetricID, ChannelUnitNumber, MetricValue)" +
+                                    " SELECT T.InstanceID, M.MetricID, M.channelUnitNumber, M.MetricValue" +
                                     " FROM Metric_ChannelUnitMetrics M" +
                                     " INNER JOIN Metric_Instances I ON M.InstanceID = I.InstanceID" +
                                     " INNER JOIN Metric_Instances T ON I.VisitID = T.VisitID" +
@@ -103,6 +106,7 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                         dbCom.ExecuteNonQuery();
                     }
 
+                    //dbTrans.Rollback();
                     dbTrans.Commit();
                     MessageBox.Show("Metric copy to new schema successful.", CHaMPWorkbench.Properties.Resources.MyApplicationNameLong, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
