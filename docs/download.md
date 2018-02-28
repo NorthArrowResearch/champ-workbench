@@ -19,7 +19,7 @@ The CHaMP Workbench is a standalone, desktop software application that supports 
 
 ## Workbench Database
 
-In 2017 the Workbench has been migrated to [SQLite](https://www.sqlite.org/) instead of Microsoft Access. This simplifies deployment and improves performance. There are no special requirements associated with SQLite. The Workbench comes with everything that is needed to interact with SQLite database. See the section on [Working with SQLite databases](Technical_Reference/working_with_sqlite_databases.html) if you want to interact with the Workbench database directly.
+In 2017 the Workbench has been migrated to [SQLite](https://www.sqlite.org/) instead of Microsoft Access. This simplifies deployment and improves performance. There are no special requirements associated with SQLite. The Workbench comes with everything that is needed to interact with SQLite database. See the section on [Working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) if you want to interact with the Workbench database directly.
 
 The Workbench software now comes with the latest version of the database. You no longer have to download the database separately. Once the latest version of the Workbench software is installed and open, click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
 
