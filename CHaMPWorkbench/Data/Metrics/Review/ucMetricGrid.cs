@@ -96,7 +96,7 @@ namespace CHaMPWorkbench.Data
                         tierKeys.Add(new Tuple<string, string>("TierID", "Tier Name"));
 
                         long nListID = 5;
-                        if (schema.Name.Contains("2"))
+                        if (schema.Name.ToLower().Contains("tier 2"))
                             nListID = 11;
 
                         sqlContent = sqlContent = string.Format("SELECT VisitID, TierID, MetricID, MetricValue" +
