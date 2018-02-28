@@ -50,7 +50,7 @@ C:\CHaMP\Temp
 3. Select your workbench workspace folder that you created in the step above. This will create a new workbench database and save it inside your workbench workspace. Note that the path of the current database is shown in the status bar at the bottom of the Workbench.
 
 
-This database stores information about CHaMP watersheds, sites, visits and channel units. In 2017, this database was converted from Access to SQLite to simplify deployment and improve performance. If you're comfortable working with databases directly then you can open the workbench database directly using your preferred database software (e.g. [SQLite Studio](https://sqlitestudio.pl)). Read the section on [working with SQLite databases](Technical_Reference/Guides/working_with_sqlite_databases.html) for more information.
+This database stores information about CHaMP watersheds, sites, visits and channel units. In 2017, this database was converted from Access to SQLite to simplify deployment and improve performance. If you're comfortable working with databases directly then you can open the workbench database directly using your preferred database software (e.g. [SQLite Studio](https://sqlitestudio.pl)). Read the section on [working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) for more information.
 
 ### Refresh CHaMP Data
 
@@ -58,15 +58,15 @@ The Workbench maintains a record of all CHaMP watersheds, sites, visits and chan
 
 In 2017, the Workbench was enhanced to refresh the workbench database contents by directly connecting to CHaMP Monitoring directly. (Previous versions required users to download several Access database exports from CHaMP Monitoring. This is no longer required.)
 
-Follow the steps on the [Synchronize CHaMP Data](Technical_Reference/Data_Menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
+Follow the steps on the [Synchronize CHaMP Data](Data_Menu/synchronize_champ_data.html) page to refresh the contents of your Workbench database.
 
 ### Download CHaMP Data Option 1 - Many/All Visits
 
-If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](https://winscp.net/eng/index.php/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](Technical_Reference/Guides/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
+If you plan on working with lots of CHaMP visits (e.g. an entire watershed) then it's recommended that you use an FTP software client such as [WinSCP](https://winscp.net/eng/index.php/) or [FileZilla](https://filezilla-project.org) to retrieve the data. There are [CHaMP-specific instructions for using WinSCP](Technical_Reference/WinSCP_Quick_How_To_Guide.pdf). You **MUST** download the **ByYear** version of the data and place the files inside the workspace `MonitoringDataZipped` folder created in the workspace step above.
 
 ### Download CHaMP Data Option 2 - Selected Visits
 
-If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](Technical_Reference/download_champ_data.html) feature of the workbench to obtain the relevant files.
+If you intend to only work with a small number of visits, or if you already have a copy of all the data and you just want to refresh your files for one or more visits then use the [Download CHaMP Data](Data_Menu/synchronize_champ_data.html) feature of the workbench to obtain the relevant files.
 
 ### Unpack the CHaMP Data
 
