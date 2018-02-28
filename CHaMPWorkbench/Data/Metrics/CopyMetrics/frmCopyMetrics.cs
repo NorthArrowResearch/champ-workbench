@@ -103,7 +103,8 @@ namespace CHaMPWorkbench.Data.Metrics.CopyMetrics
                         dbCom.Parameters.AddWithValue("SourceBatchID", batch.ID);
                         dbCom.Parameters.AddWithValue("DestinationBatchID", nDestinationBatchID);
                         dbCom.Parameters.AddWithValue("DestinationSchemaID", ((naru.db.NamedObject)cboDestination.SelectedItem).ID);
-                        dbCom.ExecuteNonQuery();
+                        int nAffected = dbCom.ExecuteNonQuery();
+                        Console.WriteLine(nAffected);
                     }
 
                     //dbTrans.Rollback();
