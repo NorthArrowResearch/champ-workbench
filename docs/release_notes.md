@@ -3,6 +3,10 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.28 - 28 Feb 2018
+
+* Fixed metric review bug where attempting to match schema names was confusing any schema with character "2" as tier 2.
+
 ### 7.0.27 - 27 Feb 2018
 
 * Fixed [bug with metric copy tool](https://github.com/NorthArrowResearch/champ-workbench/issues/56) that was failing to copy actual metric values into output metric batch.
