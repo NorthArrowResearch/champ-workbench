@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace CHaMPWorkbench.CHaMPData
 {
-    class DataSynchronizer
+    class DataSynchronizer : Classes.GeoOptixFeature
     {
         // private Dictionary<long, Watershed> Watersheds;
         private Dictionary<long, Site> Sites;
@@ -74,8 +74,8 @@ namespace CHaMPWorkbench.CHaMPData
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}", aProgram.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID, Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper()));
                             //System.Windows.Forms.MessageBox.Show(string.Format("{0}\n{1}", UserName, Password));
 
-                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, aProgram.Keystone, Properties.Settings.Default.GeoOptixClientID,
-                                Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+                            ApiHelper keystoneApiHelper = new ApiHelper(aProgram.API, aProgram.Keystone, GeoOptixClientID,
+                                GeoOptixClientSecret.ToUpper(), UserName, Password);
 
                             if (keystoneApiHelper.AuthToken.IsError)
                             {

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CHaMPWorkbench.Data.Metrics.Upload
 {
-    public class MetricUploader
+    public class MetricUploader : Classes.GeoOptixFeature
     {
         private enum StatusTypes
         {
@@ -287,9 +287,7 @@ namespace CHaMPWorkbench.Data.Metrics.Upload
 
         private bool AuthenticateAPI(string UserName, string Password)
         {
-            apiHelper = new GeoOptix.API.ApiHelper(Program.API, Program.Keystone,
-                        CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
-                        Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+            apiHelper = new ApiHelper(Program.API, Program.Keystone, GeoOptixClientID, GeoOptixClientSecret.ToUpper(), UserName, Password);
 
             if (apiHelper.AuthToken.IsError)
             {

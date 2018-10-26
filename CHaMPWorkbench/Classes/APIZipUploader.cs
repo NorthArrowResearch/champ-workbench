@@ -9,7 +9,7 @@ using GeoOptix.API;
 
 namespace CHaMPWorkbench.Classes
 {
-    public class APIZipUploader
+    public class APIZipUploader : GeoOptixFeature
     {
         private enum DataSetTypes : int
         {
@@ -111,7 +111,7 @@ namespace CHaMPWorkbench.Classes
 
             try
             {
-                ApiHelper helper = new ApiHelper(program.API, keystoneURL, Properties.Settings.Default.GeoOptixClientID,  Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+                ApiHelper helper = new ApiHelper(program.API, keystoneURL, GeoOptixClientID, GeoOptixClientSecret.ToUpper(), UserName, Password);
 
                 // First we go see if there is a file there already. with GET/visits/1/fieldFolders/Topo/files/Filename.zip
                 var hashcode = ApiHelper.GetFileHashCode(fiZipFile.FullName);

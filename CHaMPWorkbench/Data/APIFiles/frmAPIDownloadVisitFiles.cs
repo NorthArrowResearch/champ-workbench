@@ -37,6 +37,8 @@ namespace CHaMPWorkbench.Data.APIFiles
 
         private Dictionary<string, string> _checkedNamesPaths;
 
+        private readonly Classes.GeoOptixFeature GeoOptixConfig;
+
         public int FileCount
         {
             get
@@ -88,6 +90,7 @@ namespace CHaMPWorkbench.Data.APIFiles
             jobWorker.ProgressChanged += new ProgressChangedEventHandler(jobWorker_ProgressChanged);
             jobWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(jobWorker_DownloadCompleted);
 
+            GeoOptixConfig = new Classes.GeoOptixFeature();
         }
 
 
@@ -235,8 +238,8 @@ namespace CHaMPWorkbench.Data.APIFiles
             // Now go create some low-level API helpers: one for each program
             foreach (KeyValuePair<long, CHaMPData.Program> kvp in Programs)
                 APIHelpers[kvp.Key] = new GeoOptix.API.ApiHelper(kvp.Value.API, Programs[kvp.Key].Keystone,
-                    Properties.Settings.Default.GeoOptixClientID,
-                    Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(),
+                    GeoOptixConfig.GeoOptixClientID,
+                    GeoOptixConfig.GeoOptixClientSecret.ToUpper(),
                     UserName, Password);
 
             // Get alll the checked folders and files to download

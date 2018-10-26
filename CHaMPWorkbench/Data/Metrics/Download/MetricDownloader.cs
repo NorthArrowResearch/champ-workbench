@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace CHaMPWorkbench.Data.Metrics
 {
-    public class MetricDownloader
+    public class MetricDownloader : Classes.GeoOptixFeature
     {
         private const long ScavengeTypeID = 1;
 
@@ -69,8 +69,8 @@ namespace CHaMPWorkbench.Data.Metrics
                     {
                         ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Authenticating against {0} API", Programs[programID]));
                         GeoOptix.API.ApiHelper apiHelper = new GeoOptix.API.ApiHelper(Programs[programID].API, Programs[programID].Keystone,
-                            CHaMPWorkbench.Properties.Settings.Default.GeoOptixClientID,
-                           Properties.Settings.Default.GeoOptixClientSecret.ToString().ToUpper(), UserName, Password);
+                            GeoOptixClientID,
+                            GeoOptixClientSecret.ToUpper(), UserName, Password);
 
                         bool bAuthorizedToViewMetrics = true;
 
@@ -100,7 +100,7 @@ namespace CHaMPWorkbench.Data.Metrics
 
                                 string visitURL = string.Format(@"{0}/visits/{1}", Programs[schema.ProgramID].API, visit.ID);
                                 GeoOptix.API.Model.VisitSummaryModel aVisit = new GeoOptix.API.Model.VisitSummaryModel((int)visit.ID, visit.ID.ToString(), visitURL, string.Empty, string.Empty, null, null, null, null, null, null);
-                                
+
                                 GeoOptix.API.ApiResponse<GeoOptix.API.Model.MetricInstanceModel[]> theMetrics = apiHelper.GetMetricInstances(aVisit, schema.Name);
 
                                 if (theMetrics.StatusCode == System.Net.HttpStatusCode.Unauthorized)
