@@ -3,6 +3,10 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.29 - 29 Oct 2018
+
+* Moving AWS and GeoOptix credentials out of software settings and into separate XML file.
+
 ### 7.0.28 - 28 Feb 2018
 
 * Fixed metric review bug where attempting to match schema names was confusing any schema with character "2" as tier 2.
