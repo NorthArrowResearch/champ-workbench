@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace CHaMPWorkbench.CHaMPData
 {
-    class DataSynchronizer : Classes.GeoOptixFeature
+    class DataSynchronizer : Classes.Secrets
     {
         // private Dictionary<long, Watershed> Watersheds;
         private Dictionary<long, Site> Sites;

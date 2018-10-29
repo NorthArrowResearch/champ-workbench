@@ -186,7 +186,7 @@
     <Compile Include="CHaMPData\VisitBasic.cs" />
     <Compile Include="Classes\APIZipUploader.cs" />
     <Compile Include="Classes\AWSExporter.cs" />
-    <Compile Include="Classes\GeoOptixFeature.cs" />
+    <Compile Include="Classes\Secrets.cs" />
     <Compile Include="Classes\MetricPlotType.cs" />
     <Compile Include="Classes\Metrics\MetricInstance.cs" />
     <Compile Include="Classes\Metrics\MetricValueBase.cs" />
@@ -932,7 +932,7 @@
     <Content Include="Database\update_050.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="geooptix_config.xml">
+    <Content Include="secrets.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Validation\ReportTransforms\**">

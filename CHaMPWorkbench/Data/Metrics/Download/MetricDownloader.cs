@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace CHaMPWorkbench.Data.Metrics
 {
-    public class MetricDownloader : Classes.GeoOptixFeature
+    public class MetricDownloader : Classes.Secrets
     {
         private const long ScavengeTypeID = 1;
 

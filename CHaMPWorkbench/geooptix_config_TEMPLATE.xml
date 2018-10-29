@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<GeoOptixConfig>
-	<ClientSecret>PUT SECRET HERE</ClientSecret>
-	<ClientID>PUT CLIENT ID HERE</ClientID>
-</GeoOptixConfig>

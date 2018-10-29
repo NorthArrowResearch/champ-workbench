@@ -20,7 +20,7 @@ WorkbenchMaster.zip
 *.pfx
 
 workbench_config.xml
-geooptix_config.xml
+secrets.xml
 lib/*
 
 packages/*

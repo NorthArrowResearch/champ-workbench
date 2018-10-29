@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CHaMPWorkbench.Classes.AWSCloudWatch
 {
@@ -14,11 +11,11 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
     /// defined. If it is, then the constructor uses the GUID to construct a listener. If a GUID has not been asigned
     /// by the parent product then the singleton is created but no listener instantiated.
     /// </summary>
-    public class AWSCloudWatchSingleton
+    public class AWSCloudWatchSingleton : Secrets
     {
         private static AWSCloudWatchSingleton instance;
         private static CloudWatchLogsTraceListener m_listener;
-        private static System.Guid m_InstallationGUID;
+        private static Guid m_InstallationGUID;
 
         public CloudWatchLogsTraceListener Listener { get { return m_listener; } }
 
@@ -34,7 +31,7 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
             }
         }
 
-        public System.Guid InstallationGUID
+        public Guid InstallationGUID
         {
             get
             {
@@ -51,7 +48,7 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
         {
             get
             {
-                return !CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID.Equals(new System.Guid("00000000-0000-0000-0000-000000000000"));
+                return !Properties.Settings.Default.AWSCloudWatchGUID.Equals(new Guid("00000000-0000-0000-0000-000000000000"));
             }
         }
 
@@ -59,21 +56,21 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
         {
             if (!AWSCloudWatchSingleton.HasInstallationGUID)
             {
-                InstallationGUID = System.Guid.NewGuid();
-                CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID = InstallationGUID;
-                CHaMPWorkbench.Properties.Settings.Default.Save();
+                InstallationGUID = Guid.NewGuid();
+                Properties.Settings.Default.AWSCloudWatchGUID = InstallationGUID;
+                Properties.Settings.Default.Save();
             }
             else
                 m_InstallationGUID = CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID;
 
-            string sStreamName = string.Format("{0}", CHaMPWorkbench.Properties.Settings.Default.AWSCloudWatchGUID);
+            string sStreamName = string.Format("{0}", Properties.Settings.Default.AWSCloudWatchGUID);
 
             // Fail silently in release modes
             bool explicitfail = false;
 #if DEBUG
             explicitfail = true;
 #endif
-            m_listener = new CloudWatchLogsTraceListener(CHaMPWorkbench.Properties.Settings.Default.AWSGroupName,
+            m_listener = new CloudWatchLogsTraceListener(AWSGroupName,
                 sStreamName, explicitfail);
 
         }

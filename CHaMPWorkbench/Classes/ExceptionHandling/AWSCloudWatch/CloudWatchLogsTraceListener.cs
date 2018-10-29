@@ -67,6 +67,8 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
         //Bufers calls to write until you call WriteLine() 
         private StringBuilder _Buffer = new StringBuilder();
 
+        private readonly Secrets Secrets;
+
         #region Properties
 
         /// <summary>
@@ -99,7 +101,8 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
         public CloudWatchLogsTraceListener()
             : this(null, null, false)
         {
-            //Assumes that all configuration will be read from the config file.
+            // Assumes that all configuration will be read from the config file.
+            Secrets = new Secrets();
         }
 
         /// <summary>
@@ -111,7 +114,8 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
         public CloudWatchLogsTraceListener(string groupName, string streamName)
             : this(groupName, streamName, false)
         {
-            //Assumes the region, access and secret key will be read from the config file.
+            // Assumes the region, access and secret key will be read from the config file.
+            Secrets = new Secrets();
         }
 
         /// <summary>
@@ -129,12 +133,13 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
             StreamName = streamName;
             FailOnError = failOnError;
 
+            Secrets = new Secrets();
+
             //Start the publisher thread that will occasional flush the buffer
             (new Thread(PublisherThread) { IsBackground = true }).Start();
         }
 
         #endregion
-
 
         private void Connect()
         {
@@ -142,9 +147,9 @@ namespace CHaMPWorkbench.Classes.AWSCloudWatch
             try
             {
                 _Client = new AmazonCloudWatchLogsClient(
-                    CHaMPWorkbench.Properties.Settings.Default.AWSKey,
-                    CHaMPWorkbench.Properties.Settings.Default.AWSSecret,
-                    Amazon.RegionEndpoint.GetBySystemName(CHaMPWorkbench.Properties.Settings.Default.AWSRegion));
+                    Secrets.AWSKey,
+                    Secrets.AWSSecret,
+                    Amazon.RegionEndpoint.GetBySystemName(Secrets.AWSRegion));
 
                 //Let's try to connect to the AWS Cloud with Group and Steam provided
                 var response = _Client.DescribeLogStreams(new DescribeLogStreamsRequest()

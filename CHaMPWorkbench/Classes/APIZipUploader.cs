@@ -9,7 +9,7 @@ using GeoOptix.API;
 
 namespace CHaMPWorkbench.Classes
 {
-    public class APIZipUploader : GeoOptixFeature
+    public class APIZipUploader : Secrets
     {
         private enum DataSetTypes : int
         {

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CHaMPWorkbench.Data.Metrics.Upload
 {
-    public class MetricUploader : Classes.GeoOptixFeature
+    public class MetricUploader : Classes.Secrets
     {
         private enum StatusTypes
         {

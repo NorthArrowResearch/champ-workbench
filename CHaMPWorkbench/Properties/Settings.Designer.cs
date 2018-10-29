@@ -215,42 +215,6 @@ namespace CHaMPWorkbench.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("us-west-2")]
-        public string AWSRegion {
-            get {
-                return ((string)(this["AWSRegion"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NARApps-Workbench")]
-        public string AWSGroupName {
-            get {
-                return ((string)(this["AWSGroupName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("AKIAIM7D6NQSGCW37YDQ")]
-        public string AWSKey {
-            get {
-                return ((string)(this["AWSKey"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("hSd6jwqQUs8Bk2AxC+hXV/CNhY3J2KP2gmIesC5/")]
-        public string AWSSecret {
-            get {
-                return ((string)(this["AWSSecret"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]

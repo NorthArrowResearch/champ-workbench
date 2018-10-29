@@ -37,7 +37,7 @@ namespace CHaMPWorkbench.Data.APIFiles
 
         private Dictionary<string, string> _checkedNamesPaths;
 
-        private readonly Classes.GeoOptixFeature GeoOptixConfig;
+        private readonly Classes.Secrets GeoOptixConfig;
 
         public int FileCount
         {
@@ -90,7 +90,7 @@ namespace CHaMPWorkbench.Data.APIFiles
             jobWorker.ProgressChanged += new ProgressChangedEventHandler(jobWorker_ProgressChanged);
             jobWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(jobWorker_DownloadCompleted);
 
-            GeoOptixConfig = new Classes.GeoOptixFeature();
+            GeoOptixConfig = new Classes.Secrets();
         }
 
 
