@@ -405,19 +405,27 @@ namespace CHaMPWorkbench.CHaMPData
         {
             foreach (GeoOptix.API.Model.MeasValueModel<Dictionary<string, string>> mvCU in lUnits)
             {
-                long nChannelUnitNumber = long.Parse(mvCU.Measurement["ChannelUnitNumber"]);
-                long nChannelUnitID = long.Parse(mvCU.Measurement["ChannelUnitID"]);
-                long nSegmentNumber = long.Parse(mvCU.Measurement["ChannelSegmentID"]);
-                string sTier1 = mvCU.Measurement["Tier1"];
-                string sTier2 = mvCU.Measurement["Tier2"];
-
-                if (!theVisit.ChannelUnits.ContainsKey(nChannelUnitNumber))
-                    theVisit.ChannelUnits[nChannelUnitNumber] = new ChannelUnit(nChannelUnitID, theVisit.ID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2, naru.db.DBState.New);
-                else
+                try
                 {
-                    theVisit.ChannelUnits[nChannelUnitNumber].Tier1 = mvCU.Measurement["Tier1"];
-                    theVisit.ChannelUnits[nChannelUnitNumber].Tier2 = mvCU.Measurement["Tier2"];
-                    theVisit.ChannelUnits[nChannelUnitNumber].SegmentNumber = nSegmentNumber;
+                    long nChannelUnitNumber = long.Parse(mvCU.Measurement["ChannelUnitNumber"]);
+                    long nChannelUnitID = long.Parse(mvCU.Measurement["ChannelUnitID"]);
+                    long nSegmentNumber = long.Parse(mvCU.Measurement["ChannelSegmentID"]);
+                    string sTier1 = mvCU.Measurement["Tier1"];
+                    string sTier2 = mvCU.Measurement["Tier2"];
+
+
+                    if (!theVisit.ChannelUnits.ContainsKey(nChannelUnitNumber))
+                        theVisit.ChannelUnits[nChannelUnitNumber] = new ChannelUnit(nChannelUnitID, theVisit.ID, nChannelUnitNumber, nSegmentNumber, sTier1, sTier2, naru.db.DBState.New);
+                    else
+                    {
+                        theVisit.ChannelUnits[nChannelUnitNumber].Tier1 = mvCU.Measurement["Tier1"];
+                        theVisit.ChannelUnits[nChannelUnitNumber].Tier2 = mvCU.Measurement["Tier2"];
+                        theVisit.ChannelUnits[nChannelUnitNumber].SegmentNumber = nSegmentNumber;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("Error downloading channel unit information");
                 }
             }
         }
@@ -442,7 +450,7 @@ namespace CHaMPWorkbench.CHaMPData
                     theVisit.ChannelUnits[nChannelUnitID].SumSubstrateCover = GetSubstrateValue(ref dValues, "SumSubstrateCover");
                 }
                 else
-                    Console.Write("stop");
+                    //Console.Write("stop");
             }
         }
 
@@ -459,7 +467,7 @@ namespace CHaMPWorkbench.CHaMPData
                     }
                     catch (Exception ex)
                     {
-                        Console.Write("stop");
+                        //Console.Write("stop");
                     }
                 }
             }
