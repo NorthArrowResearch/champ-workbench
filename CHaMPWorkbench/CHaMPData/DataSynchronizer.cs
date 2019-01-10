@@ -449,7 +449,7 @@ namespace CHaMPWorkbench.CHaMPData
                     theVisit.ChannelUnits[nChannelUnitID].FinesLT006 = GetSubstrateValue(ref dValues, "Fines");
                     theVisit.ChannelUnits[nChannelUnitID].SumSubstrateCover = GetSubstrateValue(ref dValues, "SumSubstrateCover");
                 }
-                else
+                //else
                     //Console.Write("stop");
             }
         }
