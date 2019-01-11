@@ -3,6 +3,11 @@ title: Release Notes
 weight: 99
 ---
 
+### 7.0.30 - 11 Jan 2019
+
+* Select all/none context menu for field seasons list in main visit grid.
+* Fixed metric download database locking issue ([#42](https://github.com/NorthArrowResearch/champ-workbench/issues/42))
+
 ### 7.0.29 - 29 Oct 2018
 
 * Moving AWS and GeoOptix credentials out of software settings and into separate XML file.
