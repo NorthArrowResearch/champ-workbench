@@ -146,11 +146,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstWatershed = new System.Windows.Forms.CheckedListBox();
-            this.cmsWatershed = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAllToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectNoneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.grpFieldSeason = new System.Windows.Forms.GroupBox();
             this.lstFieldSeason = new System.Windows.Forms.CheckedListBox();
+            this.cmsSelectAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectAllToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectNoneToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.valVisitID = new System.Windows.Forms.NumericUpDown();
             this.chkVisitID = new System.Windows.Forms.CheckBox();
             this.grdVisits = new System.Windows.Forms.DataGridView();
@@ -177,9 +177,6 @@
             this.colSampleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPanel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCahnnelUnits = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmsSiteAllNone = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsVisit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.visitPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browseMonitoringDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -208,11 +205,10 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.cmsWatershed.SuspendLayout();
             this.grpFieldSeason.SuspendLayout();
+            this.cmsSelectAllNone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).BeginInit();
-            this.cmsSiteAllNone.SuspendLayout();
             this.cmsVisit.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1178,36 +1174,12 @@
             // lstWatershed
             // 
             this.lstWatershed.CheckOnClick = true;
-            this.lstWatershed.ContextMenuStrip = this.cmsWatershed;
+            this.lstWatershed.ContextMenuStrip = this.cmsSelectAllNone;
             this.lstWatershed.FormattingEnabled = true;
             this.lstWatershed.Location = new System.Drawing.Point(7, 20);
             this.lstWatershed.Name = "lstWatershed";
             this.lstWatershed.Size = new System.Drawing.Size(148, 139);
             this.lstWatershed.TabIndex = 0;
-            // 
-            // cmsWatershed
-            // 
-            this.cmsWatershed.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectAllToolStripMenuItem1,
-            this.selectNoneToolStripMenuItem1});
-            this.cmsWatershed.Name = "cmsWatershed";
-            this.cmsWatershed.Size = new System.Drawing.Size(138, 48);
-            // 
-            // selectAllToolStripMenuItem1
-            // 
-            this.selectAllToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
-            this.selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
-            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem1.Text = "Select All";
-            this.selectAllToolStripMenuItem1.Click += new System.EventHandler(this.AllNoneWatershedsClick);
-            // 
-            // selectNoneToolStripMenuItem1
-            // 
-            this.selectNoneToolStripMenuItem1.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
-            this.selectNoneToolStripMenuItem1.Name = "selectNoneToolStripMenuItem1";
-            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem1.Text = "Select None";
-            this.selectNoneToolStripMenuItem1.Click += new System.EventHandler(this.AllNoneWatershedsClick);
             // 
             // grpFieldSeason
             // 
@@ -1225,11 +1197,36 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFieldSeason.CheckOnClick = true;
+            this.lstFieldSeason.ContextMenuStrip = this.cmsSelectAllNone;
             this.lstFieldSeason.FormattingEnabled = true;
             this.lstFieldSeason.Location = new System.Drawing.Point(7, 20);
             this.lstFieldSeason.Name = "lstFieldSeason";
             this.lstFieldSeason.Size = new System.Drawing.Size(148, 79);
             this.lstFieldSeason.TabIndex = 0;
+            // 
+            // cmsSelectAllNone
+            // 
+            this.cmsSelectAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectAllToolStripMenuItem2,
+            this.selectNoneToolStripMenuItem2});
+            this.cmsSelectAllNone.Name = "cmsSelectAllNone";
+            this.cmsSelectAllNone.Size = new System.Drawing.Size(138, 48);
+            // 
+            // selectAllToolStripMenuItem2
+            // 
+            this.selectAllToolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
+            this.selectAllToolStripMenuItem2.Name = "selectAllToolStripMenuItem2";
+            this.selectAllToolStripMenuItem2.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem2.Text = "Select All";
+            this.selectAllToolStripMenuItem2.Click += new System.EventHandler(this.CheckedListBoxSelectAllNone);
+            // 
+            // selectNoneToolStripMenuItem2
+            // 
+            this.selectNoneToolStripMenuItem2.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
+            this.selectNoneToolStripMenuItem2.Name = "selectNoneToolStripMenuItem2";
+            this.selectNoneToolStripMenuItem2.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem2.Text = "Select None";
+            this.selectNoneToolStripMenuItem2.Click += new System.EventHandler(this.CheckedListBoxSelectAllNone);
             // 
             // valVisitID
             // 
@@ -1501,28 +1498,6 @@
             this.colCahnnelUnits.Name = "colCahnnelUnits";
             this.colCahnnelUnits.ReadOnly = true;
             // 
-            // cmsSiteAllNone
-            // 
-            this.cmsSiteAllNone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
-            this.cmsSiteAllNone.Name = "cmsAllNone";
-            this.cmsSiteAllNone.Size = new System.Drawing.Size(138, 48);
-            // 
-            // selectAllToolStripMenuItem
-            // 
-            this.selectAllToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectAll;
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem.Text = "Select All";
-            // 
-            // selectNoneToolStripMenuItem
-            // 
-            this.selectNoneToolStripMenuItem.Image = global::CHaMPWorkbench.Properties.Resources.SelectNone;
-            this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
-            this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem.Text = "Select None";
-            // 
             // cmsVisit
             // 
             this.cmsVisit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1690,11 +1665,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.cmsWatershed.ResumeLayout(false);
             this.grpFieldSeason.ResumeLayout(false);
+            this.cmsSelectAllNone.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.valVisitID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdVisits)).EndInit();
-            this.cmsSiteAllNone.ResumeLayout(false);
             this.cmsVisit.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1766,12 +1740,6 @@
         private System.Windows.Forms.ToolStripMenuItem generateRBTRunForThisVisitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem downloadTopoAndHydroDataFromCmorgToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip cmsSiteAllNone;
-        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip cmsWatershed;
-        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem viewSiteLocationMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeSimulationResultsToCSVFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportAWSLookupToolStripMenuItem;
@@ -1871,6 +1839,9 @@
         private System.Windows.Forms.ToolStripMenuItem metricUploadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectProtocolsWithoutTopoDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+        private System.Windows.Forms.ContextMenuStrip cmsSelectAllNone;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem2;
     }
 }
 

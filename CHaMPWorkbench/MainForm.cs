@@ -932,28 +932,7 @@ namespace CHaMPWorkbench
             {
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
-        }
-
-        private void AllNoneWatershedsClick(object sender, EventArgs e)
-        {
-            // turn off event handling
-            lstWatershed.ItemCheck -= FilterListBoxCheckChanged;
-
-            try
-            {
-                for (int i = 0; i < lstWatershed.Items.Count; i++)
-                    lstWatershed.SetItemChecked(i, ((System.Windows.Forms.ToolStripMenuItem)sender).Name.ToLower().Contains("all"));
-
-                // Turn on event handling
-                lstWatershed.ItemCheck += FilterListBoxCheckChanged;
-
-                FilterVisits(sender, e);
-            }
-            catch (Exception ex)
-            {
-                Classes.ExceptionHandling.NARException.HandleException(ex);
-            }
-        }
+        }      
 
         private void AllNoneProtocolsClick(object sender, EventArgs e)
         {
@@ -2036,7 +2015,7 @@ namespace CHaMPWorkbench
         private void selectProtocolsWithTopoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool bTopoData = string.Compare(((ToolStripItem)sender).Name, "selectProtocolsWithTopoDataToolStripMenuItem", true) == 0;
-            
+
             List<long> protocolsWithTopoData = new List<long>() { 416, 806, 1880, 1955, 1966, 2020, 2030, 9999, 10036 };
 
             for (int i = 0; i < lstProtocols.Items.Count; i++)
@@ -2058,6 +2037,26 @@ namespace CHaMPWorkbench
         {
 
 
+        }
+
+        private void CheckedListBoxSelectAllNone(object sender, EventArgs e)
+        {
+            ToolStripItem menuItem = sender as ToolStripItem;
+            ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+            CheckedListBox lstBox = owner.SourceControl as CheckedListBox;
+
+            // turn off event handling
+            lstBox.ItemCheck -= FilterListBoxCheckChanged;
+
+            // Update all items to reflect their current checked status
+            bool newState = menuItem.Name.ToLower().Contains("all");
+            for (int i = 0; i < lstBox.Items.Count; i++)
+                lstBox.SetItemChecked(i, newState);
+
+            // Turn on event handling
+            lstBox.ItemCheck += FilterListBoxCheckChanged;
+
+            FilterVisits(sender, e);
         }
     }
 }
