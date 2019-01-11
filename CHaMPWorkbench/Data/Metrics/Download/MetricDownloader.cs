@@ -57,6 +57,11 @@ namespace CHaMPWorkbench.Data.Metrics
             // Organize the metric schemas by their program ID so that authenication is only performed once per program
             Dictionary<long, List<CHaMPData.MetricSchema>> programSchemaIDs = OrganizeSchemasByProgram(schemas);
 
+            // Load the metric definitions for this schema. This will populate member dictionary keyed by schema ID
+            foreach (long programID in programSchemaIDs.Keys)
+                foreach (CHaMPData.MetricSchema schema in programSchemaIDs[programID])
+                    LoadMetricDefinitionsForSchema(schema.ID);
+
             using (SQLiteConnection dbCon = new SQLiteConnection(DBCon))
             {
                 dbCon.Open();
@@ -79,10 +84,7 @@ namespace CHaMPWorkbench.Data.Metrics
                             ReportProgress(ProgressPercent(nVisitCounter, nTotalCalculations), string.Format("Downloading {0} metrics...", schema.Name));
 
                             long nBatchID = GetBatchID(ref dbTrans, schema);
-
-                            // Load the metric definitions for this schema. This will populate member dictionary keyed by schema ID
-                            LoadMetricDefinitionsForSchema(ref dbTrans, schema.ID);
-
+                            
                             foreach (CHaMPData.VisitBasic visit in visits.Where<CHaMPData.VisitBasic>(x => x.ProgramID == programID))
                             {
                                 if (bgw.CancellationPending)
@@ -234,7 +236,7 @@ namespace CHaMPWorkbench.Data.Metrics
             }
         }
 
-        private void LoadMetricDefinitionsForSchema(ref SQLiteTransaction dbTrans, long schemaID)
+        private void LoadMetricDefinitionsForSchema(long schemaID)
         {
             if (schemaMetrics == null)
                 schemaMetrics = new Dictionary<long, Dictionary<string, MetricDefinitions.MetricDefinition>>();
