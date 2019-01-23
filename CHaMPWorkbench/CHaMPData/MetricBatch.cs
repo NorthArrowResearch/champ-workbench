@@ -157,7 +157,7 @@ namespace CHaMPWorkbench.CHaMPData
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
-                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT I.InstanceID AS InstanceID, VisitID, ModelVersion, TierID, L.Title AS TierName" +
+                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT I.InstanceID AS InstanceID, VisitID, ModelVersion, TierID, L.Title AS TierName, MetricsCalculatedOn" +
                     " FROM Metric_Instances I" +
                         " INNER JOIN Metric_TierMetrics T ON I.InstanceID = T.InstanceID" +
                         " INNER JOIN LookupListItems L ON T.TierID = L.ItemID" +
@@ -215,7 +215,7 @@ namespace CHaMPWorkbench.CHaMPData
             using (SQLiteConnection dbCon = new SQLiteConnection(naru.db.sqlite.DBCon.ConnectionString))
             {
                 dbCon.Open();
-                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT I.InstanceID AS InstanceID, I.VisitID, ModelVersion, M.ChannelUnitNumber AS ChannelUnitNumber, C.Tier1, C.Tier2" +
+                using (SQLiteCommand dbCom = new SQLiteCommand("SELECT I.InstanceID AS InstanceID, I.VisitID, ModelVersion, M.ChannelUnitNumber AS ChannelUnitNumber, C.Tier1, C.Tier2, MetricsCalculatedOn" +
                     " FROM Metric_Instances I" +
                     " INNER JOIN Metric_ChannelUnitMetrics M ON I.InstanceID = M.InstanceID" +
                     " INNER JOIN CHaMP_ChannelUnits C ON I.VisitID = C.VisitID AND C.ChannelUnitNumber = M.ChannelUnitNumber" +
