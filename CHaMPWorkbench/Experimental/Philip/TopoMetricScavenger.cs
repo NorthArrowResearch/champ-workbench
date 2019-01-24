@@ -259,6 +259,10 @@ namespace CHaMPWorkbench.Experimental.Philip
                     if (nodTier == null)
                         nodTier = nodMetric.ParentNode.SelectSingleNode("Name");
 
+                    // Topo Aux this is higher still
+                    if (nodTier == null)
+                        nodTier = nodMetric.ParentNode.ParentNode.SelectSingleNode("Name");
+
                     if (nodTier is XmlNode && !string.IsNullOrEmpty(nodTier.InnerText))
                     {
                         if (dTierTypes.ContainsKey(nodTier.InnerText))
