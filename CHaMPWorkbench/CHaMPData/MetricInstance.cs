@@ -121,7 +121,7 @@ namespace CHaMPWorkbench.CHaMPData
         public override List<GeoOptix.API.Model.MetricValueModel> GetAPIMetricInstance(ref Data.Metrics.Upload.SchemaDefinitionWorkbench schemaDef)
         {
             List<GeoOptix.API.Model.MetricValueModel> metricValues = base.GetAPIMetricInstance(ref schemaDef);
-            metricValues.Add(new GeoOptix.API.Model.MetricValueModel("ChannelUnitNumber", ChannelUnitNumber.ToString()));
+            metricValues.First(x => string.Compare(x.Name, "ChUnitNumber", true) == 0).Value = ChannelUnitNumber.ToString();
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier1", Tier1Name));
             metricValues.Add(new GeoOptix.API.Model.MetricValueModel("Tier2", Tier2Name));
             return metricValues;
