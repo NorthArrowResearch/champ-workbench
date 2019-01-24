@@ -72,8 +72,11 @@ namespace CHaMPWorkbench.Experimental.Philip
                 Experimental.Philip.TopoMetricScavenger scraper = new Experimental.Philip.TopoMetricScavenger();
                 int nFilesProcessed = scraper.Run(txtFolder.Text, txtFileName.Text, MetricSchemas, rdoXMLModelVersion.Checked, txtModelVersion.Text, ((naru.db.NamedObject)cboScavengeType.SelectedItem).ID);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
-                MessageBox.Show(string.Format("{0} result XML files processed.", nFilesProcessed), "Process Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                if (MessageBox.Show(string.Format("{0} result XML files processed. Do you want to scrape more metric XML files?", nFilesProcessed), "Process Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    cboMetricSchema.Select();
+                    DialogResult = DialogResult.None;
+                }
             }
             catch (Exception ex)
             {
