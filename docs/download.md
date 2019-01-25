@@ -9,7 +9,7 @@ The CHaMP Workbench is a standalone, desktop software application that supports 
 
 1. [64 bit version](technical_reference/guides/windows_version.html) of Windows (XP or newer).
 2. [Microsoft .Net Framework 4.6.2](https://www.microsoft.com/en-us/download/details.aspx?id=53344) or newer.
-3. 150Mb free disk space for the software, plus enough space to store input and out datasets.
+3. 150Mb free disk space for the software, plus enough space to store input and out datasets. These can amount to several gigabytes per watershed.
 4. [64-bit Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-ca/download/details.aspx?id=48145). *NOTE: You must install the **64-bit** version ( 
   vc_redist.x64.exe). If you have previously installed the 32-bit version you still need to install the 64-bit version.*
 
@@ -19,9 +19,9 @@ The CHaMP Workbench is a standalone, desktop software application that supports 
 
 ## Workbench Database
 
-In 2017 the Workbench has been migrated to [SQLite](https://www.sqlite.org/) instead of Microsoft Access. This simplifies deployment and improves performance. There are no special requirements associated with SQLite. The Workbench comes with everything that is needed to interact with SQLite database. See the section on [Working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) if you want to interact with the Workbench database directly.
+In 2017 the Workbench was migrated to [SQLite](https://www.sqlite.org/) instead of Microsoft Access. This simplifies deployment and improves performance. There are no special requirements associated with SQLite. The Workbench comes with everything that is needed to interact with SQLite database. See the section on [Working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) if you want to interact with the Workbench database directly.
 
-The Workbench software now comes with the latest version of the database. You no longer have to download the database separately. Once the latest version of the Workbench software is installed and open, click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
+Once the latest version of the Workbench software is installed and open, click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
 
 ![create new database](/assets/images/create_database.png)
 

@@ -1,20 +1,20 @@
 ---
-title: Synchronize CHaMP Data
+title: Synchronize CHaMP Visit Info
 ---
 
 The CHaMP Workbench maintains lists of watersheds, sites, visits and channel units that it uses to then perform various operations. This local copy of these items can get out of date and require updating from time to time. This is especially true during the summer field season when visit information changes as crews return from the field and upload data onto [CHaMP Monitoring](https://www.champmonitoring.org).
 
-New for 2017, the Workbench contains a feature that updates the lists stored in the Workbench database by connecting directly to [CHaMP Monitoring](https://www.champmonitoring.org) and retrieving the relevant information over the internet. This feature currently **only** synchronizes the lists of watersheds, sites, visits and channel units. It does **not** retrieve auxilliary measurements or metrics!
+The Workbench contains a feature that updates the lists stored in the Workbench database by connecting directly to [CHaMP Monitoring](https://www.champmonitoring.org) and retrieving the relevant information over the internet. This feature currently **only** synchronizes the lists of watersheds, sites, visits and channel units. It does **not** retrieve auxilliary measurements or metrics!
 
 ## Synchronizing CHaMP Data
 
 1. Open the CHaMP Workbench.
 2. Make sure that you are connected to the correct local Workbench database.
 3. click the `Data` main menu item and choose `Synchronize CHaMP Data...`.
-4. Select the relevant program(s) and watersheds and then click `Synchronize`.
+4. Select the relevant program(s) and watersheds and then click `Synchronize`. Note that the first time you run this tool with a new Workbench database you will only have programs. There will be no watersheds to choose from and all watersheds will be synchronized for the selected program(s).
 5. Enter your credentials for [CHaMP Monitoring](https://www.champmonitoring.org) and click `OK`.
 
-Contact Carol Volk (carol@shouthforkresearch.org) if you receive a message stating that you are unable to authenticate.
+Contact Sitka Technologies, the organization that maintains CHaMP Monitoring, if you receive a message stating that you are unable to authenticate.
 
 ![Synchronize CHaMP Data]({{ site.url }}/assets/images/sync/sync.png)
 
