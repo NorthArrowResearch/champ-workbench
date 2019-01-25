@@ -49,7 +49,7 @@ C:\CHaMP\Temp
 2. Click on the File menu and choose **Create New Workbench Database...** 
 3. Select your workbench workspace folder that you created in the step above. This will create a new workbench database and save it inside your workbench workspace. Note that the path of the current database is shown in the status bar at the bottom of the main window.
 
-![database path](../assets/images/database_path.png)
+![database path](../assets/images/status_bar.png)
 
 
 This database stores information about CHaMP watersheds, sites, visits and channel units. If you're comfortable working with databases directly then you can open the workbench database directly using your preferred database software (e.g. [SQLite Studio](https://sqlitestudio.pl)). Read the section on [working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) for more information.

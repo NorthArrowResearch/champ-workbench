@@ -4,7 +4,7 @@ title: Download CHaMP Data
 
 The CHaMP Workbench is capable of downloading files associated with CHaMP visits. You can download multiple files for multiple visits in a single operation. See the [video demonstration](#video-demonstration) at the bottom of this page.
 
-All field files, as well as other miscellaneous files that have been attached to a visit (such as the fish habitat or hydraulic model results) can be downloaded. The files that are downloaded are always the most up to date copies, and are retrieved directly from [CHaMP Monitoring](http://champmonitoring.org). These are the same files that are available to you on various web pages when you log in do CHaMP Monitoring itself.
+All field files (both topo surveys and auxilliary measurements), as well as other miscellaneous files that have been attached to a visit (such as the fish habitat or hydraulic model results) can be downloaded. The files that are downloaded are always the most up to date copies, and are retrieved directly from [CHaMP Monitoring](http://champmonitoring.org). These are the same files that are available to you on various web pages when you log in do CHaMP Monitoring itself.
 
 ## Steps to Download Files
 
