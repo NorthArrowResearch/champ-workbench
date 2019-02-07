@@ -94,13 +94,21 @@ namespace CHaMPWorkbench.Experimental.Philip
                             throw new Exception(string.Format("Unhandled metric schema database table '{0}'", schema.DatabaseTable));
                     }
 
+
                     // Create an XML declaration. 
-                    XmlDeclaration xmldecl;
-                    xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
-                    xmlDoc.InsertBefore(xmldecl, xmlDoc.DocumentElement);
+                    XmlDeclaration xmldecl = xmlDoc.CreateXmlDeclaration("1.0", null, null);
 
                     XmlNode nodMeta = xmlDoc.CreateElement("Meta");
-                    xmlDoc.DocumentElement.InsertBefore(nodMeta, xmlDoc.DocumentElement.SelectSingleNode("Metrics"));
+                    if (xmlDoc.DocumentElement == null)
+                    {
+                        xmlDoc.AppendChild(nodMeta);
+                        xmlDoc.InsertBefore(xmldecl, nodMeta);
+                    }
+                    else
+                    {
+                        xmlDoc.DocumentElement.InsertBefore(nodMeta, xmlDoc.DocumentElement.SelectSingleNode("Metrics"));
+                        xmlDoc.InsertBefore(xmldecl, xmlDoc.DocumentElement);
+                    }
 
                     naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, CHaMPData.MetricInstance.GENERATION_DATE_METRIC_NAME, DateTime.Now.ToString("o"));
                     naru.xml.XMLHelpers.AddNode(ref xmlDoc, ref nodMeta, CHaMPData.MetricInstance.MODEL_VERSION_METRIC_NAME, string.Empty);
@@ -207,7 +215,7 @@ namespace CHaMPWorkbench.Experimental.Philip
                 nodResult = xmlDoc.CreateElement(sNewNodeName);
                 nodParent.AppendChild(nodResult);
             }
-            
+
             return nodResult;
         }
     }
