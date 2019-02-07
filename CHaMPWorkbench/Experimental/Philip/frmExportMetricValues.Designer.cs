@@ -53,6 +53,7 @@
             // 
             this.txtVisits.Location = new System.Drawing.Point(144, 16);
             this.txtVisits.Name = "txtVisits";
+            this.txtVisits.ReadOnly = true;
             this.txtVisits.Size = new System.Drawing.Size(100, 20);
             this.txtVisits.TabIndex = 1;
             // 

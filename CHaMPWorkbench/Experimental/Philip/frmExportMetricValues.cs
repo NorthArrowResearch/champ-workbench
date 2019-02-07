@@ -63,6 +63,8 @@ namespace CHaMPWorkbench.Experimental.Philip
 
             try
             {
+                UseWaitCursor = true;
+
                 CHaMPData.MetricBatch batch = (CHaMPData.MetricBatch)cboMetricSchema.SelectedItem;
                 CHaMPData.MetricSchema schema = CHaMPData.MetricSchema.Load(naru.db.sqlite.DBCon.ConnectionString)[batch.Schema.ID];
 
@@ -121,12 +123,15 @@ namespace CHaMPWorkbench.Experimental.Philip
                     xmlPath = System.IO.Path.ChangeExtension(xmlPath, "xml");
                     xmlDoc.Save(xmlPath);
                 }
+
+                UseWaitCursor = false;
+                MessageBox.Show(string.Format("Metric values exported to {0} files.", Visits.Count), "Process successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                UseWaitCursor = false;
                 Classes.ExceptionHandling.NARException.HandleException(ex);
             }
-
         }
 
         private void cmdBrowseOutput_Click(object sender, EventArgs e)
