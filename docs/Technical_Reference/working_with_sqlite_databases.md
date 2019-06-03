@@ -71,7 +71,7 @@ import sqlite3
 conn = sqlite3.connect('C:\CHaMP\workbench.db')
 curs = conn.cursor()
 curs.execute('SELECT * FROM CHaMP_Visits')
-for row in cur.fetchall():
+for row in curs.fetchall():
     print(row)
 
 conn.close()
