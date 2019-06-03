@@ -2,19 +2,20 @@
 title: Working With SQLite Databases
 ---
 
-In 2017 the CHaMP Workbench was updated to use [SQLite](https://www.sqlite.org/) as the database underlying the software, instead of Microsoft Access. Should you want to interact directly with the Workbench database (writing custom SQL queries etc) then you essentially have two options:
+In 2017 the CHaMP Workbench was updated to use [SQLite](https://www.sqlite.org/) as the underlying database instead of Microsoft Access. There are several options available should you want to interact directly with the Workbench database directly (writing custom SQL queries etc):
 
 ## SQLite
 
-SQLite is natively a command line application with no user interface. However there are several extremely useful user interfaces available that provide rich user interfaces that sit on top of SQLite. [SQLite Studio](https://sqlitestudio.pl) is a free user interface that possesses an excellent databae browser and query functionality.
-
+<div class="float-right">
 <a href="https://sqlitestudio.pl/ss/full_49.png"><img src="https://sqlitestudio.pl/ss/mini_49.png" alt="sqlite"></a>
+</div>
+Although SQLite is natively a command line application with no user interface there are several user-friendly products available that provide rich user interfaces. [SQLite Studio](https://sqlitestudio.pl) is one such free user interface that possesses an excellent database browser and query functionality.
 
-SQLite Studio does not need to be installed. You simply download the software, extract the zip archive onto your system and then run it. 
+SQLite Studio does not need to be installed. You simply download the software, extract the zip archive onto your system and then run it. It works on both MacOS and Windows.
 
 ## Microsoft Access
 
-You can use Microsoft Access as the user interface to view and edit data in a SQLite database. To do this you have to set up an ODBC file source to the SQLite Workbench database and then add linked tablesin an Access database  to the SQLite  workbench database. Essentially Access becomes the user interface through which you interact with your data, but the actual data itself are stored in SQLite.
+With a little effort, you can use Microsoft Access as the user interface to view and edit data in a SQLite database. To do this you have to set up an ODBC file source to the SQLite Workbench database and then add linked tablesin an Access database  to the SQLite  workbench database. Essentially Access becomes the user interface through which you interact with your data, but the actual data itself are stored in SQLite.
 
 The following instructions describe the steps:
 
@@ -59,3 +60,23 @@ The following instructions describe the steps:
 The end result of all these steps is a very small Access database that links to the relevant tables in the SQLite database. You can query, add, edit, delete data in Access and the changes will actually occur back in the SQLite database. You can also use all of Accesses features to filter records, create new queries etc. Note that the Access database is extremely small. It doesn't contain any actual data, but simply the links back to the SQLite database. (This is relevant if you want to email or share the Access database between colleagues or computers.)
 
 ![Access Result](/assets/images/sqlite/access_result.png)
+
+## SQLite Programming with Python
+
+SQLite is natively supported by the Python programming language ([documentation](https://docs.python.org/2/library/sqlite3.html)). Here's a simple script to select all CHaMP Visits:
+
+```
+import sqlite3
+
+conn = sqlite3.connect('C:\CHaMP\workbench.db')
+curs = conn.cursor()
+curs.execute('SELECT * FROM CHaMP_Visits')
+for row in cur.fetchall():
+    print(row)
+
+conn.close()
+```
+
+## SQLite Programming with R
+
+The R programming language can also [connect to SQLite databases](https://db.rstudio.com/databases/sqlite/).
