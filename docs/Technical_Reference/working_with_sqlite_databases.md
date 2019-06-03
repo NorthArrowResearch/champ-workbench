@@ -63,12 +63,12 @@ The end result of all these steps is a very small Access database that links to 
 
 ## SQLite Programming with Python
 
-SQLite is natively supported by the Python programming language ([documentation](https://docs.python.org/2/library/sqlite3.html)). Here's a simple script to select all CHaMP Visits:
+SQLite is natively supported by the Python programming language ([documentation](https://docs.python.org/2/library/sqlite3.html)). Here's a simple script to select all CHaMP Visits. Refer to the [database schema]({{ site.url }}/Database_Structure/database_structure.html) documentation for a description of the tables within the database.
 
 ```python
 import sqlite3
 
-conn = sqlite3.connect('C:\CHaMP\workbench.db')
+conn = sqlite3.connect('C:/CHaMP/workbench.db')
 curs = conn.cursor()
 curs.execute('SELECT * FROM CHaMP_Visits')
 for row in curs.fetchall():
