@@ -77,6 +77,19 @@ for row in curs.fetchall():
 conn.close()
 ```
 
+Here's a more complex example that joins several tables together to retrieve the Thalweg Depth Coefficient of Variation (MetricID 40):
+
+```sql
+SELECT WatershedName, SiteName, VisitYear, V.VisitID, DisplayNameShort, MetricValue
+FROM Metric_Definitions D
+INNER JOIN Metric_VisitMetrics VM ON VM.MetricID = D.MetricID
+INNER JOIN Metric_Instances I ON I.InstanceID = VM.InstanceID
+INNER JOIN CHaMP_Visits V ON I.VisitID = V.VisitID
+INNER JOIN CHaMP_Sites S ON V.SiteID = S.SiteID
+INNER JOIN CHaMP_Watersheds W ON S.WatershedID = W.WatershedID
+WHERE D.MetricID = 40
+ ```
+
 ## SQLite Programming with R
 
 The R programming language can also [connect to SQLite databases](https://db.rstudio.com/databases/sqlite/).
