@@ -21,7 +21,11 @@ The CHaMP Workbench is a standalone, desktop software application that supports 
 
 In 2017 the Workbench was migrated to [SQLite](https://www.sqlite.org/) instead of Microsoft Access. This simplifies deployment and improves performance. There are no special requirements associated with SQLite. The Workbench comes with everything that is needed to interact with SQLite database. See the section on [Working with SQLite databases](/Technical_Reference/working_with_sqlite_databases.html) if you want to interact with the Workbench database directly.
 
-Once the latest version of the Workbench software is installed and open, click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
+Once the latest version of the Workbench software is installed and open you can either create a new, empty workbench database or download the following version that includes a list of all CHaMP visits as well as the final metrics from Feb 2018.
+
+<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/2019_06_05_workbench_database.zip">&nbsp;&nbsp;5 Jun 2019 Workbench Database</a>
+
+To create a new, empty databaes click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
 
 ![create new database](/assets/images/create_database.png)
 
