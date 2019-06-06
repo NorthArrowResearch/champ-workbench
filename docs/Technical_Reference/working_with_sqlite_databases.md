@@ -93,3 +93,9 @@ WHERE D.MetricID = 40
 ## SQLite Programming with R
 
 The R programming language can also [connect to SQLite databases](https://db.rstudio.com/databases/sqlite/).
+
+## Video Demonstration
+
+<div class="flex-video">
+<iframe src="https://www.youtube.com/embed/JUVpFpGn3AI" frameborder="0" allowfullscreen></iframe>
+</div>
