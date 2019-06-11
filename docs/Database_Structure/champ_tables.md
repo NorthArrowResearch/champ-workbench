@@ -31,3 +31,8 @@ title: CHaMP Tables
     * Tier 1 - channel unit tier 1 designation    
     * Tier 2 - channel unit tier 2 designation
     * *Grain Size fields*
+* `CHaMP_Measurements` - field measurements collected by crews during visits
+    * MeasurementID (*this is a workbench ID and unrelated to CHaMP*)
+    * VisitID - the visit to which the measurement pertains.
+    * MeasurementTypeID - the type of measurement. This is a lookup to the `LookupListItems` table (ListID 19).
+    * Value - the measurement data stored in JSON format.

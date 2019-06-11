@@ -23,7 +23,9 @@ In 2017 the Workbench was migrated to [SQLite](https://www.sqlite.org/) instead 
 
 Once the latest version of the Workbench software is installed and open you can either create a new, empty workbench database or download the following version that includes a list of all CHaMP visits as well as the final metrics from Feb 2018.
 
-<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/2019_06_05_workbench_database.zip">&nbsp;&nbsp;5 Jun 2019 Workbench Database</a>
+<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/2019_06_05_workbench_database.zip">&nbsp;&nbsp;5 Jun 2019 Workbench Database (No measurements. ~ 8Mb)</a>
+
+<a class="button large fa fa-cloud-download" href="http://releases.northarrowresearch.com/CHaMPWorkbench/2019_06_11_workbench_database_measurements.zip">&nbsp;&nbsp;5 Jun 2019 Workbench Database (with measurements ~ 3Gb)</a>
 
 To create a new, empty databaes click the File menu and choose "Create New Workbench Database..." Choose a location to save the database file and then start working with the Workbench software.
 
